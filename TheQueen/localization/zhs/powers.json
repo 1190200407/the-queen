@@ -1,0 +1,18 @@
+{
+    "COMICCHESS-SOUL_LAMP_POWER.title":"魂灯",
+    "COMICCHESS-SOUL_LAMP_POWER.description":"可以消耗[blue]1[/blue]层[gold]无视限制[/gold]免费打出[blue]1[/blue]张带[purple]魂缚[/purple]的牌。",
+    "COMICCHESS-BINDING_OATH_POWER.title":"魂缚誓约",
+    "COMICCHESS-BINDING_OATH_POWER.description":"每回合只能打出[blue]1[/blue]张[purple]魂缚[/purple]卡牌。回合结束时不再失去[purple]魂缚[/purple]。",
+    "COMICCHESS-CHAINS_PRISON_POWER.title":"锁链之狱",
+    "COMICCHESS-CHAINS_PRISON_POWER.description":"你获得[gold]魂灯[/gold]时，目标受到{Amount}点伤害。",
+    "COMICCHESS-SOUL_MOLD_POWER.title":"魂塑",
+    "COMICCHESS-SOUL_MOLD_POWER.description":"每回合第一次使用技能牌时，将其1张[gold]消逝[/gold]复制品放入手牌并侵蚀为[purple]魂缚[/purple]。",
+    "COMICCHESS-ASHEN_WALL_POWER.title":"灰烬之壁",
+    "COMICCHESS-ASHEN_WALL_POWER.description":"你每消耗一张带有[gold]消逝[/gold]的牌，获得{Amount}点[gold]格挡[/gold]。",
+    "COMICCHESS-HANDS_NEXT_TURN_POWER.title":"双手回响",
+    "COMICCHESS-HANDS_NEXT_TURN_POWER.description":"下回合开始时，生成1张[gold]夺取之手+[/gold]和1张[gold]拒绝之手+[/gold]。",
+    "COMICCHESS-STRONG_ADAPTABILITY_POWER.title":"强适应性",
+    "COMICCHESS-STRONG_ADAPTABILITY_POWER.description":"回合开始时，选择一张手牌升级。",
+    "COMICCHESS-WILLFUL_POWER.title":"任性",
+    "COMICCHESS-WILLFUL_POWER.description":"回合开始时，[aqua]获得[blue]{Amount}[/blue]点魂灯[/aqua]。"
+}

@@ -1,0 +1,12 @@
+{
+    "id": "TheQueen", 
+    "name": "TheQueen",
+    "author": "ComicChess",
+    "description": "添加可操控角色女王",
+    "version": "1.0",
+    "has_pck": true,
+    "has_dll": true,
+    "dependencies": ["BaseLib"],
+    "affects_gameplay": true
+  }
+  

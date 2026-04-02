@@ -1,0 +1,6 @@
+{
+  "soul_lamp.title": "Soul Lamp",
+  "soul_lamp.description": "As long as you have [aqua]Soul Lamp[/aqua], all [gold]Bound[/gold] cards ignore the [gold]Binding Oath[/gold] limit and can be played for free. Each time you manually play a [gold]Bound[/gold] card, consume [blue]1[/blue] stack of [aqua]Soul Lamp[/aqua].",
+  "binding_oath.title": "Binding Oath",
+  "binding_oath.description": "Each turn you can only play [blue]1[/blue] [gold]Bound[/gold] card."
+}

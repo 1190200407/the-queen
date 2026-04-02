@@ -1,0 +1,6 @@
+{
+  "soul_lamp.title": "魂灯",
+  "soul_lamp.description": "你可以消耗[blue]1[/blue]层[gold]无视限制[/gold]免费打出[blue]1[/blue]张带[purple]魂缚[/purple]的牌。",
+  "binding_oath.title": "魂缚誓约",
+  "binding_oath.description": "每回合只能打出[blue]1[/blue]张[purple]魂缚[/purple]卡牌。回合结束时不再失去[purple]魂缚[/purple]。"
+}

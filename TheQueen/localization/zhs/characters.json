@@ -1,0 +1,17 @@
+{
+    "COMICCHESS-QUEEN_CHARACTER.aromaPrinciple": "[sine][blue]……等待……[/blue][/sine]",
+    "COMICCHESS-QUEEN_CHARACTER.banter.alive.endTurnPing": "趁我还没发火……",
+    "COMICCHESS-QUEEN_CHARACTER.banter.dead.endTurnPing": "快点下来陪我……",
+    "COMICCHESS-QUEEN_CHARACTER.cardsModifierDescription": "女王的卡牌现在会出现在奖励和商店中。",
+    "COMICCHESS-QUEEN_CHARACTER.cardsModifierTitle": "女王卡牌",
+    "COMICCHESS-QUEEN_CHARACTER.description": "对[gold]女王[/gold]而言，游历一次尖塔，不过是无聊的消遣。",
+    "COMICCHESS-QUEEN_CHARACTER.eventDeathPrevention": "这次算你们赢了……",
+    "COMICCHESS-QUEEN_CHARACTER.goldMonologue": "[sine]用来点缀我的收藏展还不错……[/sine]",
+    "COMICCHESS-QUEEN_CHARACTER.possessiveAdjective": "她的",
+    "COMICCHESS-QUEEN_CHARACTER.pronounObject": "她",
+    "COMICCHESS-QUEEN_CHARACTER.pronounPossessive": "她的",
+    "COMICCHESS-QUEEN_CHARACTER.pronounSubject": "她",
+    "COMICCHESS-QUEEN_CHARACTER.title": "女王",
+    "COMICCHESS-QUEEN_CHARACTER.titleObject": "女王",
+    "COMICCHESS-QUEEN_CHARACTER.unlockText": "用[pink]{Prerequisite}[/pink]进行一局游戏来解锁这个角色。"
+}
