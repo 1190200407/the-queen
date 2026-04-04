@@ -32,6 +32,7 @@ public sealed class SoulMold : QueenCardModel
 	protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
 	{
 		await PowerCmd.Apply<SoulMoldPower>(base.Owner.Creature, 1m, base.Owner.Creature, this);
+		await CreatureCmd.TriggerAnim(base.Owner.Creature, "Cast", base.Owner.Character.CastAnimDelay);
 	}
 
 	protected override void OnUpgrade()

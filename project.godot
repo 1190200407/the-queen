@@ -22,6 +22,10 @@ settings/gdscript/always_track_call_stacks=true
 
 project/assembly_name="TheQueen"
 
+[editor]
+
+export/convert_text_resources_to_binary=false
+
 [rendering]
 
 renderer/rendering_method="mobile"

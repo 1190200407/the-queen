@@ -68,6 +68,8 @@ public class QueenCharacter : PlaceholderCharacterModel
 
     public override float AttackAnimDelay => 0.25f;
 
+    public override float CastAnimDelay => 0.2f;
+
     // 初始卡组
     public override IEnumerable<CardModel> StartingDeck => [
         ModelDb.Card<StrikeQueen>(),
