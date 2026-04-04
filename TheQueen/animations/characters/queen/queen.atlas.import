@@ -3,12 +3,12 @@
 importer="spine.atlas"
 type="SpineAtlasResource"
 uid="uid://b1bsr0piprsw0"
-path="res://.godot/imported/queen.atlas-9a5d0abe5b1411f67c001405b24f602b.spatlas"
+path="res://TheQueen/animations/characters/queen/imported/queen.atlas-9a5d0abe5b1411f67c001405b24f602b.spatlas"
 
 [deps]
 
-source_file="res://animations/monsters/queen/queen.atlas"
-dest_files=["res://.godot/imported/queen.atlas-9a5d0abe5b1411f67c001405b24f602b.spatlas"]
+source_file="res://TheQueen/animations/characters/queen/queen.atlas"
+dest_files=["res://TheQueen/animations/characters/queen/imported/queen.atlas-9a5d0abe5b1411f67c001405b24f602b.spatlas"]
 
 [params]
 

@@ -19,7 +19,7 @@ public class QueenCharacter : PlaceholderCharacterModel
     public override int StartingHp => 66;
 
     // 人物模型tscn路径。要自定义见下。
-    public override string CustomVisualPath => "res://TheQueen/scenes/queen_character.tscn";
+    public override string CustomVisualPath => "res://TheQueen/scenes/creature_visuals/queen_character.tscn";
     // 卡牌拖尾场景。
     // public override string CustomTrailPath => "res://scenes/vfx/card_trail_ironclad.tscn";
     // 人物头像路径。
