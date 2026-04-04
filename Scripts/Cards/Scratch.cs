@@ -58,11 +58,10 @@ public sealed class Scratch : QueenCardModel
 			.WithHitCount(base.DynamicVars["Repeat"].IntValue)
 			.FromCard(this)
 			.Targeting(cardPlay.Target)
-			.WithHitFx("vfx/vfx_attack_slash")
+			.WithHitFx("vfx/vfx_attack_blunt")
 			.Execute(choiceContext);
 
-		// 下次打出时攻击次数 +1。
-		base.DynamicVars["Repeat"].BaseValue += 1m;
+		// 下次打出时攻击次�?+1�?		base.DynamicVars["Repeat"].BaseValue += 1m;
 	}
 
 	protected override void OnUpgrade()

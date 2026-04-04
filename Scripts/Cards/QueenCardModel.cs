@@ -1,10 +1,24 @@
+using System.Linq;
+using System.Threading.Tasks;
 using BaseLib.Abstracts;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.Entities.Players;
+using MegaCrit.Sts2.Core.Models;
 
 namespace ComicChess.TheQueen;
 
 public abstract class QueenCardModel : CustomCardModel
 {
+	private static readonly PileType[] PilesForSoulLampBroadcast =
+	[
+		PileType.Hand,
+		PileType.Draw,
+		PileType.Discard,
+		PileType.Exhaust,
+		PileType.Play
+	];
+
     //public override string PortraitPath => $"res://TheQueen/images/cards/{Id.Entry.ToLowerInvariant()}.png";
     public override string PortraitPath => $"res://TheQueen/images/card_portraits/card.png";
 
@@ -15,6 +29,36 @@ public abstract class QueenCardModel : CustomCardModel
     /// 此类牌<strong>勿在</strong> <c>cards.json</c> 的 description 里再写魂缚行，以免与补丁或 affliction 重复。
     /// </summary>
     internal virtual bool UseBoundAfflictionOverlayForPreview => false;
+
+    /// <summary>
+    /// 拥有此牌的玩家的 <see cref="SoulLampPower"/> 层数变化时由引擎路径广播（见 <see cref="BroadcastSoulLampAmountChange"/>）。
+    /// <paramref name="delta"/> &gt; 0 为获得魂灯，&lt; 0 为失去（如打出魂缚牌消耗）。
+    /// </summary>
+    public virtual Task OnSoulLampAmountChange(Player player, decimal delta, Creature? applier, CardModel? cardSource) =>
+        Task.CompletedTask;
+
+    /// <summary>
+    /// <see cref="SoulLampPower"/> 在层数变化时调用：对该玩家各牌堆中的 <see cref="QueenCardModel"/> 逐个派发。
+    /// </summary>
+    internal static async Task BroadcastSoulLampAmountChange(Player player, decimal delta, Creature? applier, CardModel? cardSource)
+    {
+        foreach (PileType pileType in PilesForSoulLampBroadcast)
+        {
+            CardPile pile = pileType.GetPile(player);
+            foreach (CardModel card in pile.Cards.ToList())
+            {
+                if (card.Owner != player)
+                {
+                    continue;
+                }
+
+                if (card is QueenCardModel queen)
+                {
+                    await queen.OnSoulLampAmountChange(player, delta, applier, cardSource);
+                }
+            }
+        }
+    }
 
     public override bool HasBuiltInOverlay => UseBoundAfflictionOverlayForPreview;
 

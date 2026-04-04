@@ -47,7 +47,7 @@ public sealed class AllSoulSlash : QueenCardModel
 		await DamageCmd.Attack(base.DynamicVars.CalculatedDamage)
 			.FromCard(this)
 			.Targeting(cardPlay.Target)
-			.WithHitFx("vfx/vfx_attack_slash")
+			.WithHitFx("vfx/vfx_attack_blunt")
 			.Execute(choiceContext);
 	}
 

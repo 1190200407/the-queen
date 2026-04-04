@@ -1,4 +1,3 @@
-using BaseLib.Abstracts;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -43,10 +42,10 @@ public static class QueenCardCmd
             return;
         }
 
-        // SoulLampPower uses -1 as the hidden "display 0" sentinel.
-        // When gaining Soul Lamp from this state, jump directly to gained amount.
         if (existing.Amount <= 0)
         {
+            // SoulLampPower uses -1 as the hidden "display 0" sentinel.
+            // When gaining Soul Lamp from this state, jump directly to gained amount.
             await PowerCmd.SetAmount<SoulLampPower>(owner.Creature, amount, owner.Creature, null);
             return;
         }

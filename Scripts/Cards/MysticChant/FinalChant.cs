@@ -52,7 +52,7 @@ public sealed class FinalChant : QueenCardModel
 			.WithHitCount(base.DynamicVars["Repeat"].IntValue)
 			.FromCard(this)
 			.TargetingAllOpponents(base.CombatState)
-			.WithHitFx("vfx/vfx_attack_slash")
+			.WithHitFx("vfx/vfx_attack_blunt")
 			.Execute(choiceContext);
 	}
 

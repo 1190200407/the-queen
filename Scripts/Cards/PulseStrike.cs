@@ -39,7 +39,7 @@ public sealed class PulseStrike : QueenCardModel
 		await DamageCmd.Attack(base.DynamicVars.Damage.BaseValue)
 			.FromCard(this)
 			.Targeting(cardPlay.Target)
-			.WithHitFx("vfx/vfx_attack_slash")
+			.WithHitFx("vfx/vfx_attack_blunt")
 			.Execute(choiceContext);
 
 		await QueenCardCmd.AddSoulLamp(base.Owner);

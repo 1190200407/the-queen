@@ -1,6 +1,18 @@
 {
-  "COMICCHESS-SOUL_LAMP_POWER.title":"Soul Lamp",
-  "COMICCHESS-SOUL_LAMP_POWER.description":"As long as you have [aqua]Soul Lamp[/aqua], all [gold]Bound[/gold] cards ignore the [gold]Binding Oath[/gold] limit and can be played for free. Each time you manually play a [gold]Bound[/gold] card, consume [blue]1[/blue] stack of [aqua]Soul Lamp[/aqua].",
-  "COMICCHESS-BINDING_OATH_POWER.title":"Binding Oath",
-  "COMICCHESS-BINDING_OATH_POWER.description":"Each turn you can only play [blue]1[/blue] [gold]Bound[/gold] card."
+    "COMICCHESS-SOUL_LAMP_POWER.title": "Soul Lamp",
+    "COMICCHESS-SOUL_LAMP_POWER.description": "You may spend [blue]1[/blue] stack of [gold]Ignore Limits[/gold] to play [blue]1[/blue] [purple]Bound[/purple] card for free.",
+    "COMICCHESS-BINDING_OATH_POWER.title": "Binding Oath",
+    "COMICCHESS-BINDING_OATH_POWER.description": "You may only play [blue]1[/blue] [purple]Bound[/purple] card per turn. [purple]Bound[/purple] is not removed at end of turn.",
+    "COMICCHESS-CHAINS_PRISON_POWER.title": "Chains Prison",
+    "COMICCHESS-CHAINS_PRISON_POWER.description": "When you gain [gold]Soul Lamp[/gold], the target takes {Amount} damage.",
+    "COMICCHESS-SOUL_MOLD_POWER.title": "Soul Mold",
+    "COMICCHESS-SOUL_MOLD_POWER.description": "The first time you play a Skill each turn, add 1 [gold]Fade[/gold] copy of it to your hand and inflict [purple]Bound[/purple] on it.",
+    "COMICCHESS-ASHEN_WALL_POWER.title": "Ashen Wall",
+    "COMICCHESS-ASHEN_WALL_POWER.description": "Whenever you [gold]Exhaust[/gold] a card with [gold]Fade[/gold], gain {Amount} [gold]Block[/gold].",
+    "COMICCHESS-HANDS_NEXT_TURN_POWER.title": "Twin Hands Echo",
+    "COMICCHESS-HANDS_NEXT_TURN_POWER.description": "At the start of your next turn, add 1 [gold]Hand of Seizure+[/gold] and 1 [gold]Hand of Refusal+[/gold] to your hand.",
+    "COMICCHESS-STRONG_ADAPTABILITY_POWER.title": "Strong Adaptability",
+    "COMICCHESS-STRONG_ADAPTABILITY_POWER.description": "At the start of your turn, choose a card in your hand to upgrade.",
+    "COMICCHESS-WILLFUL_POWER.title": "Willful",
+    "COMICCHESS-WILLFUL_POWER.description": "At the start of your turn, [aqua]gain [blue]{Amount}[/blue] Soul Lamp[/aqua]."
 }

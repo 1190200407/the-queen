@@ -66,6 +66,8 @@ public class QueenCharacter : PlaceholderCharacterModel
     public override RelicPoolModel RelicPool => ModelDb.RelicPool<QueenRelicPool>();
     public override PotionPoolModel PotionPool => ModelDb.PotionPool<QueenPotionPool>();
 
+    public override float AttackAnimDelay => 0.25f;
+
     // 初始卡组
     public override IEnumerable<CardModel> StartingDeck => [
         ModelDb.Card<StrikeQueen>(),

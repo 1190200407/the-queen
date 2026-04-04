@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 using BaseLib.Abstracts;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Afflictions;
@@ -51,6 +53,22 @@ public sealed class SoulLampPower : QueenPowerModel
 
 		modifiedCost = default(decimal);
 		return true;
+	}
+
+	public override async Task AfterPowerAmountChanged(PowerModel power, decimal amount, Creature? applier, CardModel? cardSource)
+	{
+		if (power != this || amount == 0m)
+		{
+			return;
+		}
+
+		Player? player = base.Owner?.Player;
+		if (player == null)
+		{
+			return;
+		}
+
+		await QueenCardModel.BroadcastSoulLampAmountChange(player, amount, applier, cardSource);
 	}
 
 	public override async Task BeforeCardPlayed(CardPlay cardPlay)
