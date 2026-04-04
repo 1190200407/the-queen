@@ -51,4 +51,9 @@ public sealed class BindCard : QueenCardModel
 			await CardCmd.Afflict<Bound>(card, 1m);
 		}
 	}
+
+    protected override void OnUpgrade()
+    {
+		base.EnergyCost.UpgradeBy(-1);
+    }
 }
