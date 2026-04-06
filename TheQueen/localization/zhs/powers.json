@@ -1,8 +1,6 @@
 {
     "COMICCHESS-SOUL_LAMP_POWER.title":"魂灯",
     "COMICCHESS-SOUL_LAMP_POWER.description":"可以消耗[blue]1[/blue]层[gold]无视限制[/gold]免费打出[blue]1[/blue]张带[purple]魂缚[/purple]的牌。",
-    "COMICCHESS-BINDING_OATH_POWER.title":"魂缚誓约",
-    "COMICCHESS-BINDING_OATH_POWER.description":"每回合只能打出[blue]1[/blue]张[purple]魂缚[/purple]卡牌。回合结束时不再失去[purple]魂缚[/purple]。",
     "COMICCHESS-CHAINS_PRISON_POWER.title":"锁链之狱",
     "COMICCHESS-CHAINS_PRISON_POWER.description":"你获得[gold]魂灯[/gold]时，目标受到{Amount}点伤害。",
     "COMICCHESS-SOUL_MOLD_POWER.title":"魂塑",
@@ -14,5 +12,11 @@
     "COMICCHESS-STRONG_ADAPTABILITY_POWER.title":"强适应性",
     "COMICCHESS-STRONG_ADAPTABILITY_POWER.description":"回合开始时，选择一张手牌升级。",
     "COMICCHESS-WILLFUL_POWER.title":"任性",
-    "COMICCHESS-WILLFUL_POWER.description":"回合开始时，[aqua]获得[blue]{Amount}[/blue]点魂灯[/aqua]。"
+    "COMICCHESS-WILLFUL_POWER.description":"回合开始时，[aqua]获得[blue]{Amount}[/blue]点魂灯[/aqua]。",
+    "COMICCHESS-HUNGER_POWER.title":"饥饿",
+    "COMICCHESS-HUNGER_POWER.description":"每当你使用[gold]吞噬[/gold]，[aqua]获得1点魂灯[/aqua]。",
+    "COMICCHESS-PRISMATIC_ART_POWER.title":"棱彩艺术",
+    "COMICCHESS-PRISMATIC_ART_POWER.description":"战斗结束时，获得[blue]{Amount}[/blue]份包含其他颜色卡牌的额外[gold]卡牌[/gold]奖励。",
+    "COMICCHESS-MAGIC_TIME_POWER.title":"魔法时间",
+    "COMICCHESS-MAGIC_TIME_POWER.description":"回合开始时，每层各触发一次：若魂灯为[blue]0[/blue]且至少有[gold]1[/gold]点[gold]能量[/gold]，失去[gold]1[/gold]点[gold]能量[/gold]并[aqua]获得[blue]1[/blue]点魂灯[/aqua]。"
 }

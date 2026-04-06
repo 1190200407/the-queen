@@ -80,7 +80,6 @@ public class QueenCharacter : PlaceholderCharacterModel
         ModelDb.Card<DefendQueen>(),
         ModelDb.Card<DefendQueen>(),
         ModelDb.Card<DefendQueen>(),
-        ModelDb.Card<BindingOathCurse>(),
         ModelDb.Card<SummonSoul>(),
     ];
 

@@ -5,7 +5,9 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
+using MegaCrit.Sts2.Core.Models.Afflictions;
 using MegaCrit.Sts2.Core.Models.CardPools;
+using MegaCrit.Sts2.Core.ValueProps;
 
 namespace ComicChess.TheQueen;
 
@@ -21,7 +23,8 @@ public sealed class HundredHandsBanquet : QueenCardModel
 	protected override bool HasEnergyCostX => true;
 
 	protected override IEnumerable<IHoverTip> ExtraHoverTips => [
-		HoverTipFactory.FromCard<YourShare>(upgrade: base.IsUpgraded)
+		HoverTipFactory.FromCard<BloodthirstScratch>(upgrade: base.IsUpgraded),
+		.. HoverTipFactory.FromAffliction<Bound>()
 	];
 
 	public HundredHandsBanquet()
@@ -29,9 +32,21 @@ public sealed class HundredHandsBanquet : QueenCardModel
 	{
 	}
 
+	public override async Task BeforeCombatStart()
+	{
+		if (base.Owner?.Creature?.CombatState == null)
+		{
+			return;
+		}
+		if (Affliction is not Bound)
+		{
+			await CardCmd.Afflict<Bound>(this, 1m);
+		}
+	}
+
 	protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
 	{
-		if (base.CombatState == null)
+		if (base.CombatState == null || base.Owner?.Creature == null)
 		{
 			return;
 		}
@@ -42,9 +57,16 @@ public sealed class HundredHandsBanquet : QueenCardModel
 			return;
 		}
 
+		await CreatureCmd.Damage(
+			choiceContext,
+			base.Owner.Creature,
+			x,
+			ValueProp.Unblockable | ValueProp.Unpowered | ValueProp.Move,
+			this);
+
 		for (int i = 0; i < x; i++)
 		{
-			await QueenCardCmd.CreateInHand<YourShare>(base.Owner, base.CombatState, base.IsUpgraded, isBounded: true);
+			await QueenCardCmd.CreateInHand<BloodthirstScratch>(base.Owner, base.CombatState, base.IsUpgraded, isBounded: true);
 		}
 
 		await QueenCardCmd.AddSoulLamp(base.Owner, x);

@@ -1,0 +1,83 @@
+using System.Collections.Generic;
+using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
+
+namespace ComicChess.TheQueen;
+
+/// <summary>
+/// 带「抓挠」标签、且本场战斗中可被 <see cref="Scratch"/> 强化伤害的攻击牌基类（机制同原版 <c>Claw</c>）。
+/// </summary>
+public abstract class ScratchTaggedCard : QueenCardModel
+{
+	private int _scratchExtraHitCountFromEndlessScratch;
+
+	private decimal _extraDamageFromScratchPlays;
+
+	private decimal ExtraDamageFromScratchPlays
+	{
+		get => _extraDamageFromScratchPlays;
+		set
+		{
+			AssertMutable();
+			_extraDamageFromScratchPlays = value;
+		}
+	}
+
+	/// <summary>除 <see cref="QueenCardTags.Scratch"/> 外附加的 tag（如 <see cref="CardTag.Strike"/>）。</summary>
+	protected virtual IEnumerable<CardTag> TagsBesideScratch => [];
+
+	protected override HashSet<CardTag> CanonicalTags
+	{
+		get
+		{
+			HashSet<CardTag> h = new();
+			foreach (CardTag t in TagsBesideScratch)
+			{
+				h.Add(t);
+			}
+			h.Add(QueenCardTags.Scratch);
+			return h;
+		}
+	}
+
+	protected ScratchTaggedCard(int energyCost, CardType type, CardRarity rarity, TargetType targetType, bool shouldShowInCardLibrary)
+		: base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
+	{
+	}
+
+	internal void BuffFromScratchPlay(decimal extraDamage)
+	{
+		base.DynamicVars.Damage.BaseValue += extraDamage;
+		ExtraDamageFromScratchPlays += extraDamage;
+	}
+
+	/// <summary>自身攻击段数（不含无尽抓挠本场加成）。多段攻击的派生牌可重写。</summary>
+	protected virtual int ScratchBaseHitCount => 1;
+
+	/// <summary>与 <see cref="MegaCrit.Sts2.Core.Localization.DynamicVars.RepeatVar"/> 同步，供卡面显示攻击次数（同 Sovereign Blade）。</summary>
+	private void SyncRepeatVarToCombatHits()
+	{
+		base.DynamicVars.Repeat.BaseValue = ScratchBaseHitCount + _scratchExtraHitCountFromEndlessScratch;
+	}
+
+	/// <summary>本场战斗中由 <see cref="EndlessScratch"/> 叠加的额外攻击段数（每张牌独立计数）。</summary>
+	internal void BuffHitCountFromEndlessScratch(int delta = 1)
+	{
+		AssertMutable();
+		_scratchExtraHitCountFromEndlessScratch += delta;
+		SyncRepeatVarToCombatHits();
+	}
+
+	protected override void AfterDowngraded()
+	{
+		base.AfterDowngraded();
+		base.DynamicVars.Damage.BaseValue += ExtraDamageFromScratchPlays;
+		SyncRepeatVarToCombatHits();
+	}
+
+	protected override void AfterCloned()
+	{
+		base.AfterCloned();
+		SyncRepeatVarToCombatHits();
+	}
+}

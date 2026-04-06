@@ -1,8 +1,6 @@
 {
     "COMICCHESS-SOUL_LAMP_POWER.title": "Soul Lamp",
     "COMICCHESS-SOUL_LAMP_POWER.description": "You may spend [blue]1[/blue] stack of [gold]Ignore Limits[/gold] to play [blue]1[/blue] [purple]Bound[/purple] card for free.",
-    "COMICCHESS-BINDING_OATH_POWER.title": "Binding Oath",
-    "COMICCHESS-BINDING_OATH_POWER.description": "You may only play [blue]1[/blue] [purple]Bound[/purple] card per turn. [purple]Bound[/purple] is not removed at end of turn.",
     "COMICCHESS-CHAINS_PRISON_POWER.title": "Chains Prison",
     "COMICCHESS-CHAINS_PRISON_POWER.description": "When you gain [gold]Soul Lamp[/gold], the target takes {Amount} damage.",
     "COMICCHESS-SOUL_MOLD_POWER.title": "Soul Mold",
@@ -14,5 +12,11 @@
     "COMICCHESS-STRONG_ADAPTABILITY_POWER.title": "Strong Adaptability",
     "COMICCHESS-STRONG_ADAPTABILITY_POWER.description": "At the start of your turn, choose a card in your hand to upgrade.",
     "COMICCHESS-WILLFUL_POWER.title": "Willful",
-    "COMICCHESS-WILLFUL_POWER.description": "At the start of your turn, [aqua]gain [blue]{Amount}[/blue] Soul Lamp[/aqua]."
+    "COMICCHESS-WILLFUL_POWER.description": "At the start of your turn, [aqua]gain [blue]{Amount}[/blue] Soul Lamp[/aqua].",
+    "COMICCHESS-HUNGER_POWER.title": "Hunger",
+    "COMICCHESS-HUNGER_POWER.description": "Whenever you play [gold]Devour[/gold], [aqua]gain 1 Soul Lamp[/aqua].",
+    "COMICCHESS-PRISMATIC_ART_POWER.title": "Prismatic Art",
+    "COMICCHESS-PRISMATIC_ART_POWER.description": "At the end of combat, gain [blue]{Amount}[/blue] additional [gold]Card[/gold] rewards drafted from all unlocked characters' pools.",
+    "COMICCHESS-MAGIC_TIME_POWER.title": "Magic Time",
+    "COMICCHESS-MAGIC_TIME_POWER.description": "At the start of your turn, for each stack: if you have [blue]0[/blue] Soul Lamp and at least [gold]1[/gold] [gold]Energy[/gold], lose [gold]1[/gold] [gold]Energy[/gold] and [aqua]gain [blue]1[/blue] Soul Lamp[/aqua]."
 }

@@ -1,4 +1,6 @@
 {
   "COMICCHESS-FIRST_GIFT_RELIC.title": "First Gift",
-  "COMICCHESS-FIRST_GIFT_RELIC.description": "At the start of combat, gain {Cards} stacks of [aqua]Soul Lamp[/aqua]."
+  "COMICCHESS-FIRST_GIFT_RELIC.description": "At the start of combat, gain {Cards} stacks of [aqua]Soul Lamp[/aqua].",
+  "COMICCHESS-QUEENS_GRACE_RELIC.title": "Queen's Grace",
+  "COMICCHESS-QUEENS_GRACE_RELIC.description": "At the start of combat, gain {Cards} stacks of [aqua]Soul Lamp[/aqua]."
 }

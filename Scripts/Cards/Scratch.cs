@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Commands;
@@ -14,7 +15,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 namespace ComicChess.TheQueen;
 
 [Pool(typeof(QueenCardPool))]
-public sealed class Scratch : QueenCardModel
+public sealed class Scratch : ScratchTaggedCard
 {
 	private const int energyCost = 2;
 	private const CardType type = CardType.Attack;
@@ -23,8 +24,9 @@ public sealed class Scratch : QueenCardModel
 	private const bool shouldShowInCardLibrary = true;
 
 	protected override IEnumerable<DynamicVar> CanonicalVars => [
-		new DamageVar(9m, ValueProp.Move),
-		new IntVar("Repeat", 1m)
+		new DamageVar(6m, ValueProp.Move),
+		new RepeatVar(1),
+		new IntVar("IncreaseDamage", 1m)
 	];
 
 	protected override IEnumerable<IHoverTip> ExtraHoverTips => [
@@ -55,17 +57,24 @@ public sealed class Scratch : QueenCardModel
 		ArgumentNullException.ThrowIfNull(cardPlay.Target, nameof(cardPlay.Target));
 
 		await DamageCmd.Attack(base.DynamicVars.Damage.BaseValue)
-			.WithHitCount(base.DynamicVars["Repeat"].IntValue)
+			.WithHitCount(base.DynamicVars.Repeat.IntValue)
 			.FromCard(this)
 			.Targeting(cardPlay.Target)
 			.WithHitFx("vfx/vfx_attack_blunt")
 			.Execute(choiceContext);
 
-		// 下次打出时攻击次�?+1�?		base.DynamicVars["Repeat"].BaseValue += 1m;
+		ArgumentNullException.ThrowIfNull(base.Owner);
+		ArgumentNullException.ThrowIfNull(base.Owner.PlayerCombatState);
+		decimal increase = base.DynamicVars["IncreaseDamage"].BaseValue;
+		foreach (ScratchTaggedCard card in base.Owner.PlayerCombatState.AllCards.OfType<ScratchTaggedCard>())
+		{
+			card.BuffFromScratchPlay(increase);
+		}
 	}
 
 	protected override void OnUpgrade()
 	{
-		base.DynamicVars.Damage.UpgradeValueBy(2m);
+		base.DynamicVars.Damage.UpgradeValueBy(3m);
+		base.DynamicVars["IncreaseDamage"].BaseValue += 1m;
 	}
 }

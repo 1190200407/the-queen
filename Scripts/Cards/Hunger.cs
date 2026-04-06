@@ -1,33 +1,31 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using BaseLib.Utils;
-using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
-using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.CardPools;
-using MegaCrit.Sts2.Core.Nodes.CommonUi;
 
 namespace ComicChess.TheQueen;
 
 [Pool(typeof(QueenCardPool))]
-public sealed class Taste : QueenCardModel
+public sealed class Hunger : QueenCardModel
 {
-	private const int energyCost = 2;
-	private const CardType type = CardType.Skill;
+	private const int energyCost = 1;
+	private const CardType type = CardType.Power;
 	private const CardRarity rarity = CardRarity.Uncommon;
 	private const TargetType targetType = TargetType.Self;
 	private const bool shouldShowInCardLibrary = true;
 
 	protected override IEnumerable<IHoverTip> ExtraHoverTips => [
-		HoverTipFactory.FromCard<Devour>(base.IsUpgraded),
+		HoverTipFactory.FromCard<Devour>(upgrade: base.IsUpgraded),
+		HoverTipFactory.FromPower<HungerPower>(),
 		QueenHoverTips.SoulLamp
 	];
 
-	public Taste()
+	public Hunger()
 		: base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
 	{
 	}
@@ -39,22 +37,8 @@ public sealed class Taste : QueenCardModel
 			return;
 		}
 
-		IEnumerable<CardModel> selected = await CardSelectCmd.FromHand(
-			choiceContext,
-			base.Owner,
-			new CardSelectorPrefs(new LocString("cards", "COMICCHESS-TASTE.selectionPrompt"), 2),
-			c => c != this,
-			this);
-
-		foreach (CardModel card in selected)
-		{
-			CardPileAddResult? result = await CardCmd.TransformTo<Devour>(card, CardPreviewStyle.None);
-			if (base.IsUpgraded && result != null && result.Value.cardAdded != null)
-			{
-				CardCmd.Upgrade(result.Value.cardAdded);
-			}
-		}
-
-		await QueenCardCmd.AddSoulLamp(base.Owner, 2);
+		await QueenCardCmd.CreateInHand<Devour>(base.Owner, base.CombatState, base.IsUpgraded);
+		await PowerCmd.Apply<HungerPower>(base.Owner.Creature, 1m, base.Owner.Creature, this);
+		await CreatureCmd.TriggerAnim(base.Owner.Creature, "Cast", base.Owner.Character.CastAnimDelay);
 	}
 }
