@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using BaseLib.Utils;
 using MegaCrit.Sts2.Core.CardSelection;
@@ -25,7 +26,7 @@ public sealed class PulseStrike : QueenCardModel
 
 	protected override HashSet<CardTag> CanonicalTags => [CardTag.Strike];
 
-	protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(8m, ValueProp.Move)];
+	protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(9m, ValueProp.Move)];
 
 	public PulseStrike()
 		: base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
@@ -42,14 +43,17 @@ public sealed class PulseStrike : QueenCardModel
 			.WithHitFx("vfx/vfx_attack_blunt")
 			.Execute(choiceContext);
 
-		IEnumerable<CardModel> toDiscard = await CardSelectCmd.FromHandForDiscard(
+		CardModel? toDiscard = (await CardSelectCmd.FromHandForDiscard(
 			choiceContext,
 			base.Owner,
 			new CardSelectorPrefs(CardSelectorPrefs.DiscardSelectionPrompt, 1),
 			null,
-			this);
+			this)).FirstOrDefault();
 
-		await CardCmd.Discard(choiceContext, toDiscard);
+		if (toDiscard != null)
+		{
+			await CardCmd.Discard(choiceContext, toDiscard);
+		}
 	}
 
 	protected override void OnUpgrade()

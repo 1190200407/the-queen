@@ -70,6 +70,8 @@ public sealed class Scratch : ScratchTaggedCard
 		{
 			card.BuffFromScratchPlay(increase);
 		}
+
+		QueenScratchBonusTracker.RecordScratchPlay(base.Owner, increase);
 	}
 
 	protected override void OnUpgrade()

@@ -24,8 +24,6 @@ public sealed class AllSoulSlash : QueenCardModel
 	private const TargetType targetType = TargetType.AnyEnemy;
 	private const bool shouldShowInCardLibrary = true;
 
-	public override IEnumerable<CardKeyword> CanonicalKeywords => [QueenKeyword.fade];
-
 	protected override IEnumerable<DynamicVar> CanonicalVars => [
 		new CalculationBaseVar(6m),
 		new ExtraDamageVar(2m),

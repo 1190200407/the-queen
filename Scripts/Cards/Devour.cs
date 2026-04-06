@@ -7,6 +7,7 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models.Afflictions;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Models.Powers;
 
@@ -21,15 +22,34 @@ public sealed class Devour : QueenCardModel
 	private const TargetType constructorTargetType = TargetType.Self;
 	private const bool shouldShowInCardLibrary = true;
 
+	public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
+
 	protected override IEnumerable<DynamicVar> CanonicalVars => [new PowerVar<StrengthPower>(1m)];
 
-	protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromPower<StrengthPower>()];
+	protected override IEnumerable<IHoverTip> ExtraHoverTips => [
+		HoverTipFactory.FromPower<StrengthPower>(),
+		.. HoverTipFactory.FromAffliction<Bound>()
+	];
+
+	internal override bool UseBoundAfflictionOverlayForPreview => true;
 
 	public override TargetType TargetType => base.IsUpgraded ? TargetType.AnyEnemy : TargetType.Self;
 
 	public Devour()
 		: base(energyCost, type, rarity, constructorTargetType, shouldShowInCardLibrary)
 	{
+	}
+
+	public override async Task BeforeCombatStart()
+	{
+		if (base.Owner?.Creature?.CombatState == null)
+		{
+			return;
+		}
+		if (Affliction is not Bound)
+		{
+			await CardCmd.Afflict<Bound>(this, 1m);
+		}
 	}
 
 	protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)

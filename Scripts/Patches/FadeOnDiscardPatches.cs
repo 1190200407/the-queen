@@ -1,6 +1,7 @@
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Combat.History;
+using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -18,6 +19,45 @@ namespace ComicChess.TheQueen;
 internal static class FadeOnDiscardPatches
 {
 	private static bool HasFade(CardModel card) => card.Keywords.Contains(QueenKeyword.fade);
+
+	/// <summary>
+	/// 单卡 <see cref="CardPileCmd.Add(CardModel, CardPile, CardPilePosition, AbstractModel?, bool)"/>（含 <c>Add(card, PileType.Discard)</c>、<see cref="CardCmd.Discard"/> 的逐张弃牌）
+	/// 在入口把目标堆改为消耗堆，使 <see cref="CardPileCmd"/> 内动画与 <see cref="CardModel.Pile"/> 解析一致。
+	/// 批量 <c>Add(IEnumerable, discardPile)</c> 仍走下方 <see cref="CardPile.AddInternal"/> 前缀兜底。
+	/// </summary>
+	[HarmonyPrefix]
+	[HarmonyPatch(
+		typeof(CardPileCmd),
+		nameof(CardPileCmd.Add),
+		[
+			typeof(CardModel),
+			typeof(CardPile),
+			typeof(CardPilePosition),
+			typeof(AbstractModel),
+			typeof(bool),
+		])]
+	private static void AddSingleToDiscard_RedirectFadeToExhaust(CardModel card, ref CardPile newPile)
+	{
+		if (newPile.Type != PileType.Discard || !HasFade(card))
+		{
+			return;
+		}
+
+		Player? owner = card.Owner;
+		if (owner == null)
+		{
+			return;
+		}
+
+		CardPile? exhaust = CardPile.Get(PileType.Exhaust, owner);
+		if (exhaust == null)
+		{
+			return;
+		}
+
+		FadeOnDiscardTracker.MarkPendingExhaustNotify(card);
+		newPile = exhaust;
+	}
 
 	[HarmonyPrefix]
 	[HarmonyPatch(typeof(CardPile), nameof(CardPile.AddInternal))]

@@ -8,6 +8,7 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Models.Afflictions;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Nodes.CommonUi;
 
@@ -49,6 +50,10 @@ public sealed class Taste : QueenCardModel
 		foreach (CardModel card in selected)
 		{
 			CardPileAddResult? result = await CardCmd.TransformTo<Devour>(card, CardPreviewStyle.None);
+			if (result != null && result.Value.cardAdded is CardModel added && added.Affliction is not Bound)
+			{
+				await CardCmd.Afflict<Bound>(added, 1m);
+			}
 			if (base.IsUpgraded && result != null && result.Value.cardAdded != null)
 			{
 				CardCmd.Upgrade(result.Value.cardAdded);

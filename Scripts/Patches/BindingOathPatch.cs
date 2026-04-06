@@ -94,6 +94,7 @@ internal static class BindingOathPatchState
 	internal static void ClearForNewCombat()
 	{
 		BoundCardPlayedThisTurn.Clear();
+		QueenScratchBonusTracker.Reset();
 	}
 }
 

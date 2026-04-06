@@ -26,7 +26,7 @@ public sealed class OppressivePresence : QueenCardModel
 
 	protected override IEnumerable<DynamicVar> CanonicalVars => [
 		new DamageVar(3m, ValueProp.Move),
-		new IntVar("Hits", 5m)
+		new IntVar("Hits", 4m)
 	];
 
 	protected override IEnumerable<IHoverTip> ExtraHoverTips => [
@@ -109,4 +109,9 @@ public sealed class OppressivePresence : QueenCardModel
 			await CardCmd.Afflict<Bound>(this, 1m);
 		}
 	}
+
+    protected override void OnUpgrade()
+    {
+		base.DynamicVars["Hits"].UpgradeValueBy(1m);
+    }
 }

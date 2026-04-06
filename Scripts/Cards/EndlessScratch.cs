@@ -68,6 +68,8 @@ public sealed class EndlessScratch : ScratchTaggedCard
 		{
 			card.BuffHitCountFromEndlessScratch(1);
 		}
+
+		QueenScratchBonusTracker.RecordEndlessScratchPlay(base.Owner);
 	}
 
 	protected override void OnUpgrade()

@@ -18,6 +18,13 @@ public sealed class WillfulPower : QueenPowerModel
 			return;
 		}
 
-		await QueenCardCmd.AddSoulLamp(base.Owner.Player, (int)base.Amount);
+		SoulLampPower? lamp = base.Owner.GetPower<SoulLampPower>();
+		int current = lamp != null ? lamp.DisplayAmount : 0;
+		if (current > (int)base.Amount)
+		{
+			return;
+		}
+
+		await QueenCardCmd.AddSoulLamp(base.Owner.Player, 1);
 	}
 }

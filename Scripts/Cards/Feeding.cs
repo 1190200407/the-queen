@@ -47,7 +47,7 @@ public sealed class Feeding : QueenCardModel
 
 		for (int i = 0; i < 2; i++)
 		{
-			await QueenCardCmd.CreateInHand<Devour>(base.Owner, base.CombatState, base.IsUpgraded);
+			await QueenCardCmd.CreateInHand<Devour>(base.Owner, base.CombatState, base.IsUpgraded, isBounded: true);
 		}
 	}
 

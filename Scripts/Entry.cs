@@ -14,7 +14,6 @@ public class Entry
     {
         // 打patch（即修改游戏代码的功能）用
         // 传入参数随意，只要不和其他人撞车即可
-        DiscardBeforeGeneratedHandPatch.CacheOriginalDelegateIfAvailable();
         var harmony = new Harmony("sts2.comicchess.thequeen");
         harmony.PatchAll();
         ScriptManagerBridge.LookupScriptsInAssembly(typeof(Entry).Assembly);

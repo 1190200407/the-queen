@@ -16,7 +16,7 @@ public class QueenCharacter : PlaceholderCharacterModel
     public override CharacterGender Gender => CharacterGender.Feminine;
 
     // 初始血量
-    public override int StartingHp => 66;
+    public override int StartingHp => 76;
 
     // 人物模型tscn路径。要自定义见下。
     public override string CustomVisualPath => "res://TheQueen/scenes/creature_visuals/queen_character.tscn";
