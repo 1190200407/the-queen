@@ -100,7 +100,7 @@
     "COMICCHESS-RUINOUS_ART.title":"毁灭艺术",
     "COMICCHESS-RUINOUS_ART.description":"造成{Damage:diff()}点伤害。若此牌消耗了{energyPrefix:energyIcons(1)}，则伤害变为[blue]3[/blue]倍。",
     "COMICCHESS-OPPRESSIVE_PRESENCE.title":"压迫感",
-    "COMICCHESS-OPPRESSIVE_PRESENCE.description":"自动打出手牌中所有[gold]吞噬[/gold]。对随机敌人造成{Damage:diff()}点伤害[blue]{Hits}[/blue]次。\n[purple]魂缚[/purple]。",
+    "COMICCHESS-OPPRESSIVE_PRESENCE.description":"自动打出手牌中所有[gold]吞噬[/gold]。对随机敌人造成{Damage:diff()}点伤害[blue]{Hits}[/blue]次。",
     "COMICCHESS-PRISMATIC_ART.title":"棱彩艺术",
     "COMICCHESS-PRISMATIC_ART.description":"战斗结束时，获得额外[blue]1[/blue]组包含其他颜色的[gold]卡牌[/gold]奖励",
     "COMICCHESS-MAGIC_TIME.title":"魔法时间",

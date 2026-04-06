@@ -16,6 +16,7 @@ namespace ComicChess.TheQueen;
 /// <summary>
 /// 女王「魂缚誓约」：每回合最多打出 1 张 <see cref="Bound"/> 牌；有魂灯层数时可无视该限制。
 /// 原实现为 <c>BindingOathPower</c>，此处改为 Hook Patch，不在状态栏占用能力位。
+/// 与 Boss「魂缚锁链」：<see cref="ChainsOfBindingPatch"/> 对 <see cref="QueenCharacter"/> 关闭锁链出牌限制，由本 Patch 判断；锁链魂缚每回合仅清 <see cref="ChainsOfBindingBoundTracker"/> 登记的牌。
 /// </summary>
 internal static class BindingOathPatchState
 {

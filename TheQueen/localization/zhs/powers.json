@@ -22,5 +22,7 @@
     "COMICCHESS-PRISMATIC_ART_POWER.description":"战斗结束时，获得[blue]1[/blue]份包含其他颜色卡牌的额外[gold]卡牌[/gold]奖励。",
     "COMICCHESS-PRISMATIC_ART_POWER.smartDescription":"战斗结束时，获得[blue]{Amount}[/blue]份包含其他颜色卡牌的额外[gold]卡牌[/gold]奖励。",
     "COMICCHESS-MAGIC_TIME_POWER.title":"魔法时间",
-    "COMICCHESS-MAGIC_TIME_POWER.description":"回合开始时，每层各触发一次：若魂灯为[blue]0[/blue]且至少有[gold]1[/gold]点{energyPrefix:energyIcons(1)}，失去[gold]1[/gold]点{energyPrefix:energyIcons(1)}并[aqua]获得[blue]1[/blue]点魂灯[/aqua]。"
+    "COMICCHESS-MAGIC_TIME_POWER.description":"回合开始时，每层各触发一次：若魂灯为[blue]0[/blue]且至少有[gold]1[/gold]点{energyPrefix:energyIcons(1)}，失去[gold]1[/gold]点{energyPrefix:energyIcons(1)}并[aqua]获得[blue]1[/blue]点魂灯[/aqua]。",
+    "CHAINS_OF_BINDING_POWER.description": "每回合抽到的前[blue]3[/blue]张牌将会被侵蚀为[gold]魂缚[/gold]。回合结束时，清除本效果施加的[gold]魂缚[/gold]。",
+    "CHAINS_OF_BINDING_POWER.smartDescription": "每回合抽到的前[blue]{Amount}[/blue]张牌将会被侵蚀为[gold]魂缚[/gold]。回合结束时，清除本效果施加的[gold]魂缚[/gold]。"
 }
