@@ -15,20 +15,20 @@ namespace ComicChess.TheQueen;
 [Pool(typeof(QueenCardPool))]
 public sealed class HandOfRefusal : QueenCardModel
 {
-	private const int energyCost = 1;
+	private const int energyCost = 0;
 	private const CardType type = CardType.Skill;
 	private const CardRarity rarity = CardRarity.Rare;
 	private const TargetType targetType = TargetType.Self;
 	private const bool shouldShowInCardLibrary = true;
 
-	public override IEnumerable<CardKeyword> CanonicalKeywords => [QueenKeyword.fade];
+	public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Retain];
 
 	public override bool GainsBlock => true;
 
-	protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(5m, ValueProp.Move)];
+	protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(6m, ValueProp.Move)];
 
 	protected override IEnumerable<IHoverTip> ExtraHoverTips => [
-		HoverTipFactory.FromKeyword(QueenKeyword.fade),
+		HoverTipFactory.FromKeyword(CardKeyword.Retain),
 		HoverTipFactory.FromCard<HandOfSeizure>(upgrade: base.IsUpgraded),
 		.. HoverTipFactory.FromAffliction<Bound>(),
 		QueenHoverTips.SoulLamp
@@ -56,7 +56,11 @@ public sealed class HandOfRefusal : QueenCardModel
 	protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
 	{
 		await CreatureCmd.GainBlock(base.Owner.Creature, base.DynamicVars.Block, cardPlay);
-		await PowerCmd.Apply<HandsNextTurnPower>(base.Owner.Creature, 1m, base.Owner.Creature, this);
+		HandOfSeizureNextTurnPower? handsNextTurn = await PowerCmd.Apply<HandOfSeizureNextTurnPower>(base.Owner.Creature, 1m, base.Owner.Creature, this);
+		if (handsNextTurn != null)
+		{
+			handsNextTurn.isUpgraded = base.IsUpgraded;
+		}
 		await QueenCardCmd.AddSoulLamp(base.Owner);
 	}
 

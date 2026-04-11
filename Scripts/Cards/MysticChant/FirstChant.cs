@@ -1,7 +1,7 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using BaseLib.Utils;
-using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
@@ -36,20 +36,21 @@ public sealed class FirstChant : QueenCardModel
 	{
 	}
 
-	protected override Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+	protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
 	{
-		if (base.Owner.PlayerCombatState != null)
+		if (base.Owner.PlayerCombatState == null)
 		{
-			foreach (CardModel card in base.Owner.PlayerCombatState.Hand.Cards)
-			{
-				if (card is SecondChant)
-				{
-					card.BaseReplayCount += 1;
-				}
-			}
+			return;
 		}
 
-		return Task.CompletedTask;
+		foreach (CardModel card in base.Owner.PlayerCombatState.Hand.Cards.ToList())
+		{
+			if (card is SecondChant second)
+			{
+				second.BaseReplayCount += 1;
+				await MysticChantStrengthenVfx.PlayAfterStrengthen(second);
+			}
+		}
 	}
 
 	protected override PileType GetResultPileType() => PileType.Hand;

@@ -73,7 +73,7 @@
     "COMICCHESS-TASTE.description":"选择[blue]2[/blue]张手牌，将其变为[gold]{IfUpgraded:show:吞噬+|吞噬}[/gold]。\n[aqua]获得2点魂灯。[/aqua]",
     "COMICCHESS-TASTE.selectionPrompt":"选择2张手牌将其变为吞噬。",
     "COMICCHESS-WILLFUL.title":"任性",
-    "COMICCHESS-WILLFUL.description":"回合开始时，若魂灯层数{IfUpgraded:show:不高于[blue]3[/blue]|层数为[blue]0[/blue]}，则[aqua]获得1点魂灯[/aqua]。",
+    "COMICCHESS-WILLFUL.description":"回合开始时，若魂灯层数{IfUpgraded:show:不高于[blue]3[/blue]|为[blue]0[/blue]}，则[aqua]获得1点魂灯[/aqua]。",
     "COMICCHESS-YOU_ARE_MINE.title":"你是我的了！",
     "COMICCHESS-YOU_ARE_MINE.description":"连续{Hits:diff()}次对随机敌人施加[blue]1[/blue]层[gold]易伤[/gold]或[blue]1[/blue]层[gold]虚弱[/gold]。",
     "COMICCHESS-PURIFICATION_RITE.title":"祓礼",
@@ -85,13 +85,13 @@
     "COMICCHESS-BLOODTHIRST_SCRATCH.title":"渴血抓挠",
     "COMICCHESS-BLOODTHIRST_SCRATCH.description":"造成{Damage:diff()}点伤害{Repeat:choose(1):|{}次}。回复[blue]1[/blue]点生命。",
     "COMICCHESS-HAND_OF_SEIZURE.title":"夺取之手",
-    "COMICCHESS-HAND_OF_SEIZURE.description":"造成{Damage:diff()}点伤害。下回合生成一张[gold]{IfUpgraded:show:夺取之手+|夺取之手}[/gold]和一张[gold]{IfUpgraded:show:拒绝之手+|拒绝之手}[/gold]。\n[aqua]获得1点魂灯。[/aqua]",
+    "COMICCHESS-HAND_OF_SEIZURE.description":"造成{Damage:diff()}点伤害。下回合生成一张[gold]{IfUpgraded:show:拒绝之手+|拒绝之手}[/gold]。\n[aqua]获得1点魂灯。[/aqua]",
     "COMICCHESS-HAND_OF_REFUSAL.title":"拒绝之手",
-    "COMICCHESS-HAND_OF_REFUSAL.description":"获得{Block:diff()}点[gold]格挡[/gold]。下回合生成一张[gold]{IfUpgraded:show:夺取之手+|夺取之手}[/gold]和一张[gold]{IfUpgraded:show:拒绝之手+|拒绝之手}[/gold]。\n[aqua]获得1点魂灯。[/aqua]",
+    "COMICCHESS-HAND_OF_REFUSAL.description":"获得{Block:diff()}点[gold]格挡[/gold]。下回合生成一张[gold]{IfUpgraded:show:夺取之手+|夺取之手}[/gold]。\n[aqua]获得1点魂灯。[/aqua]",
     "COMICCHESS-HUNGER.title":"饥饿",
     "COMICCHESS-HUNGER.description":"生成[gold]{IfUpgraded:show:吞噬+|吞噬}[/gold]。\n[aqua]获得1点魂灯。[/aqua]\n每当你使用[gold]吞噬[/gold]，[aqua]获得1点魂灯[/aqua]。",
     "COMICCHESS-FEEDING.title":"进食",
-    "COMICCHESS-FEEDING.description":"造成{Damage:diff()}点伤害。生成[blue]2[/blue]张[gold]{IfUpgraded:show:吞噬+|吞噬}[/gold]。",
+    "COMICCHESS-FEEDING.description":"造成{Damage:diff()}点伤害。生成[blue]2[/blue]张[gold]{IfUpgraded:show:吞噬+|吞噬}[/gold]。\n[aqua]获得1点魂灯。[/aqua]",
     "COMICCHESS-JOYLESS.title":"……无趣",
     "COMICCHESS-JOYLESS.description":"造成{Damage:diff()}点伤害{Repeat:choose(1):|{}次}。\n丢弃任意张手牌。\n每丢弃[blue]1[/blue]张，本回合获得[blue]1[/blue]点[gold]力量[/gold]。",
     "COMICCHESS-JOYLESS.selectionPrompt":"选择任意张手牌丢弃。",
@@ -104,5 +104,5 @@
     "COMICCHESS-PRISMATIC_ART.title":"棱彩艺术",
     "COMICCHESS-PRISMATIC_ART.description":"战斗结束时，获得额外[blue]1[/blue]组包含其他颜色的[gold]卡牌[/gold]奖励",
     "COMICCHESS-MAGIC_TIME.title":"魔法时间",
-    "COMICCHESS-MAGIC_TIME.description":"将你的所有牌侵蚀为[purple]魂缚[/purple]。\n回合开始时，若魂灯为[blue]0[/blue]，失去[gold]1[/gold]点{energyPrefix:energyIcons(1)}并[aqua]获得[blue]1[/blue]点魂灯[/aqua]。"
+    "COMICCHESS-MAGIC_TIME.description":"将你的所有牌侵蚀为[purple]魂缚[/purple]。\n每当你的魂灯为[blue]0[/blue]时，失去{energyPrefix:energyIcons(1)}并[aqua]获得[blue]1[/blue]点魂灯[/aqua]。"
 }

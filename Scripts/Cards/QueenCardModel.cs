@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using BaseLib.Abstracts;
+using Godot;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
@@ -19,8 +20,19 @@ public abstract class QueenCardModel : CustomCardModel
 		PileType.Play
 	];
 
-    //public override string PortraitPath => $"res://TheQueen/images/cards/{Id.Entry.ToLowerInvariant()}.png";
-    public override string PortraitPath => $"res://TheQueen/images/card_portraits/card.png";
+    public override string PortraitPath
+    {
+        get
+        {
+            string portraitPath = $"res://TheQueen/images/card_portraits/{Id.Entry.ToLowerInvariant().Replace("comicchess-", "")}.png";
+            if (ResourceLoader.Exists(portraitPath))
+            {
+                return portraitPath;
+            }
+
+            return "res://TheQueen/images/card_portraits/card.png";
+        }
+    }
 
     /// <summary>
     /// 图鉴、抽牌预览等使用不可变原型，没有 <see cref="CardModel.Affliction"/>。

@@ -18,7 +18,7 @@ namespace ComicChess.TheQueen;
 [Pool(typeof(QueenCardPool))]
 public sealed class OppressivePresence : QueenCardModel
 {
-	private const int energyCost = 3;
+	private const int energyCost = 2;
 	private const CardType type = CardType.Attack;
 	private const CardRarity rarity = CardRarity.Uncommon;
 	private const TargetType targetType = TargetType.Self;
@@ -60,8 +60,10 @@ public sealed class OppressivePresence : QueenCardModel
 			return;
 		}
 
+		// 嵌套 AutoPlay 时若对后续牌 skipCardPileVisuals=true，牌堆与节点同步可能异常，导致
+		// CardModel.Pile（Hand 优先于 Play 解析）仍落在手牌，OnPlayWrapper 末尾不会走 Exhaust，
+		// 出现「效果触发但牌未进消耗堆」。因此每张吞噬都完整走打出区流程。
 		List<CardModel> devoursInHand = base.Owner.PlayerCombatState.Hand.Cards.Where(static c => c is Devour).ToList();
-		bool skipPlayPileVfx = false;
 		foreach (CardModel card in devoursInHand)
 		{
 			if (card.Pile?.Type != PileType.Hand)
@@ -69,14 +71,36 @@ public sealed class OppressivePresence : QueenCardModel
 				continue;
 			}
 
+			Creature? devourTarget = null;
+			if (card is Devour devour)
+			{
+				if (devour.IsUpgraded)
+				{
+					List<Creature> enemies = base.CombatState.HittableEnemies.ToList();
+					if (enemies.Count == 0)
+					{
+						continue;
+					}
+
+					devourTarget = base.Owner.RunState.Rng.CombatCardSelection.NextItem(enemies);
+				}
+				else
+				{
+					devourTarget = base.Owner.Creature;
+				}
+			}
+			else
+			{
+				devourTarget = base.Owner.Creature;
+			}
+
 			await CardCmd.AutoPlay(
 				choiceContext,
 				card,
-				target: null,
+				target: devourTarget,
 				AutoPlayType.Default,
 				skipXCapture: false,
-				skipCardPileVisuals: skipPlayPileVfx);
-			skipPlayPileVfx = true;
+				skipCardPileVisuals: false);
 		}
 
 		decimal hitDamage = base.DynamicVars.Damage.BaseValue;

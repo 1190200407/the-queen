@@ -1,0 +1,5 @@
+{
+    "COMICCHESS-SOUL_LIGHT.title": "Soul Light",
+    "COMICCHESS-SOUL_LIGHT.description": "When you play this card, gain [aqua]{Amount}[/aqua] [gold]Soul Lamp[/gold].",
+    "COMICCHESS-SOUL_LIGHT.extraCardText": "[aqua]Gain {Amount} Soul Lamp[/aqua]"
+}

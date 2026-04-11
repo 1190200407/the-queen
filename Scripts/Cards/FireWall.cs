@@ -17,7 +17,7 @@ namespace ComicChess.TheQueen;
 [Pool(typeof(QueenCardPool))]
 public sealed class FireWall : QueenCardModel
 {
-	private const int energyCost = 3;
+	private const int energyCost = 2;
 	private const CardType type = CardType.Skill;
 	private const CardRarity rarity = CardRarity.Uncommon;
 	private const TargetType targetType = TargetType.Self;

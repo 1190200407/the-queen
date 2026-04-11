@@ -47,7 +47,7 @@ internal static class BoundDescriptionPreviewPatch
 			return;
 		}
 
-		if (card.Affliction is Bound)
+		if (card.Affliction != null)
 		{
 			return;
 		}

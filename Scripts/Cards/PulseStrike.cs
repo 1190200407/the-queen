@@ -18,7 +18,7 @@ namespace ComicChess.TheQueen;
 [Pool(typeof(QueenCardPool))]
 public sealed class PulseStrike : QueenCardModel
 {
-	private const int energyCost = 1;
+	private const int energyCost = 0;
 	private const CardType type = CardType.Attack;
 	private const CardRarity rarity = CardRarity.Common;
 	private const TargetType targetType = TargetType.AnyEnemy;
@@ -26,7 +26,7 @@ public sealed class PulseStrike : QueenCardModel
 
 	protected override HashSet<CardTag> CanonicalTags => [CardTag.Strike];
 
-	protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(9m, ValueProp.Move)];
+	protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(7m, ValueProp.Move)];
 
 	public PulseStrike()
 		: base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)

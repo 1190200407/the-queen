@@ -19,7 +19,7 @@ public sealed class AshenWall : QueenCardModel
 	private const TargetType targetType = TargetType.Self;
 	private const bool shouldShowInCardLibrary = true;
 
-	protected override IEnumerable<DynamicVar> CanonicalVars => [new IntVar("BlockOnFadeExhaust", 3m)];
+	protected override IEnumerable<DynamicVar> CanonicalVars => [new IntVar("BlockOnFadeExhaust", 2m)];
 
 	protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromKeyword(QueenKeyword.fade)];
 

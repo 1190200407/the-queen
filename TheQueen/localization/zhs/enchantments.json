@@ -1,0 +1,5 @@
+{
+    "SOUL_LIGHT.title": "灯火",
+    "SOUL_LIGHT.description": "打出这张牌时，[aqua]获得{Amount}点魂灯[/aqua]。",
+    "SOUL_LIGHT.extraCardText": "[aqua]获得{Amount}点魂灯[/aqua]"
+}

@@ -66,8 +66,6 @@ public sealed class BloodthirstScratch : ScratchTaggedCard
 			.Targeting(cardPlay.Target)
 			.WithHitFx("vfx/vfx_attack_blunt")
 			.Execute(choiceContext);
-
-		await CreatureCmd.Heal(base.Owner.Creature, 1m);
 	}
 
 	protected override void OnUpgrade()

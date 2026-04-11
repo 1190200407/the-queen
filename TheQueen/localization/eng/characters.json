@@ -1,17 +1,17 @@
-{
-    "COMICCHESS-QUEEN_CHARACTER.aromaPrinciple": "[sine][blue]...Waiting...[/blue][/sine]",
+﻿{
+    "COMICCHESS-QUEEN_CHARACTER.aromaPrinciple": "[sine][purple]...Such an enticing fragrance...[/purple][/sine]",
     "COMICCHESS-QUEEN_CHARACTER.banter.alive.endTurnPing": "Before I lose my temper...",
-    "COMICCHESS-QUEEN_CHARACTER.banter.dead.endTurnPing": "Hurry down and keep me company...",
+    "COMICCHESS-QUEEN_CHARACTER.banter.dead.endTurnPing": "Come down and keep me company...",
     "COMICCHESS-QUEEN_CHARACTER.cardsModifierDescription": "The Queen's cards can now appear in rewards and shops.",
     "COMICCHESS-QUEEN_CHARACTER.cardsModifierTitle": "Queen Cards",
-    "COMICCHESS-QUEEN_CHARACTER.description": "For the [gold]Queen[/gold], a climb through the Spire is merely a dull diversion.",
-    "COMICCHESS-QUEEN_CHARACTER.eventDeathPrevention": "I'll call this one your win...",
-    "COMICCHESS-QUEEN_CHARACTER.goldMonologue": "[sine]Enough to decorate my collection...[/sine]",
+    "COMICCHESS-QUEEN_CHARACTER.description": "For the [gold]Queen[/gold], climbing the Spire is merely a dull diversion.\nShe excels at creating miracles with [gold]Soul Lamps[/gold].",
+    "COMICCHESS-QUEEN_CHARACTER.eventDeathPrevention": "Tch...",
+    "COMICCHESS-QUEEN_CHARACTER.goldMonologue": "[sine]These will decorate my collection nicely...[/sine]",
     "COMICCHESS-QUEEN_CHARACTER.possessiveAdjective": "her",
     "COMICCHESS-QUEEN_CHARACTER.pronounObject": "her",
     "COMICCHESS-QUEEN_CHARACTER.pronounPossessive": "her",
     "COMICCHESS-QUEEN_CHARACTER.pronounSubject": "she",
     "COMICCHESS-QUEEN_CHARACTER.title": "The Queen",
     "COMICCHESS-QUEEN_CHARACTER.titleObject": "The Queen",
-    "COMICCHESS-QUEEN_CHARACTER.unlockText": "Complete a run as [pink]{Prerequisite}[/pink] to unlock this character."
+    "COMICCHESS-QUEEN_CHARACTER.unlockText": "Complete a run as [blue]{Prerequisite}[/blue] to unlock this character."
 }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Commands;
@@ -35,18 +36,19 @@ public sealed class SecondChant : QueenCardModel
 
 	protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
 	{
-		if (base.Owner.PlayerCombatState != null)
+		if (base.Owner.PlayerCombatState == null)
 		{
-			foreach (CardModel card in base.Owner.PlayerCombatState.Hand.Cards)
-			{
-				if (card is FinalChant)
-				{
-					card.DynamicVars["Repeat"].BaseValue += 1m;
-				}
-			}
+			return;
 		}
 
-		await Cmd.CustomScaledWait(0.5f, 1f);
+		foreach (CardModel card in base.Owner.PlayerCombatState.Hand.Cards.ToList())
+		{
+			if (card is FinalChant)
+			{
+				card.DynamicVars["Repeat"].BaseValue += 1m;
+				await MysticChantStrengthenVfx.PlayAfterStrengthen(card);
+			}
+		}
 	}
 
 	protected override PileType GetResultPileType() => PileType.Hand;

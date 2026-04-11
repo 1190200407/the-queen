@@ -1,4 +1,4 @@
-{
-    "COMICCHESS-FADE.description": "When this card would enter your [gold]Discard pile[/gold], [gold]Exhaust[/gold] it instead.",
+﻿{
+    "COMICCHESS-FADE.description": "When this card enters your [gold]Discard pile[/gold], it is [gold]Exhausted[/gold].",
     "COMICCHESS-FADE.title": "Fade"
 }

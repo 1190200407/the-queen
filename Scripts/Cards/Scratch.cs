@@ -17,16 +17,16 @@ namespace ComicChess.TheQueen;
 [Pool(typeof(QueenCardPool))]
 public sealed class Scratch : ScratchTaggedCard
 {
-	private const int energyCost = 2;
+	private const int energyCost = 1;
 	private const CardType type = CardType.Attack;
 	private const CardRarity rarity = CardRarity.Common;
 	private const TargetType targetType = TargetType.AnyEnemy;
 	private const bool shouldShowInCardLibrary = true;
 
 	protected override IEnumerable<DynamicVar> CanonicalVars => [
-		new DamageVar(6m, ValueProp.Move),
+		new DamageVar(5m, ValueProp.Move),
 		new RepeatVar(1),
-		new IntVar("IncreaseDamage", 1m)
+		new IntVar("IncreaseDamage", 2m)
 	];
 
 	protected override IEnumerable<IHoverTip> ExtraHoverTips => [
@@ -76,7 +76,7 @@ public sealed class Scratch : ScratchTaggedCard
 
 	protected override void OnUpgrade()
 	{
-		base.DynamicVars.Damage.UpgradeValueBy(3m);
+		base.DynamicVars.Damage.UpgradeValueBy(2m);
 		base.DynamicVars["IncreaseDamage"].BaseValue += 1m;
 	}
 }

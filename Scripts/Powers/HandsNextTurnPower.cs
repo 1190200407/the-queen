@@ -9,7 +9,9 @@ public sealed class HandsNextTurnPower : QueenPowerModel
 {
 	public override PowerType Type => PowerType.Buff;
 
-	public override PowerStackType StackType => PowerStackType.Counter;
+	public override PowerStackType StackType => PowerStackType.Single;
+
+	public bool isUpgraded = false;
 
 	protected override bool IsVisibleInternal => false;
 
@@ -23,8 +25,8 @@ public sealed class HandsNextTurnPower : QueenPowerModel
 		{
 			for (int i = 0; i < base.Amount; i++)
 			{
-				await QueenCardCmd.CreateInHand<HandOfSeizure>(player, base.CombatState, isUpgraded: true, isBounded: true);
-				await QueenCardCmd.CreateInHand<HandOfRefusal>(player, base.CombatState, isUpgraded: true, isBounded: true);
+				await QueenCardCmd.CreateInHand<HandOfSeizure>(player, base.CombatState, isUpgraded: isUpgraded, isBounded: true);
+				await QueenCardCmd.CreateInHand<HandOfRefusal>(player, base.CombatState, isUpgraded: isUpgraded, isBounded: true);
 			}
 		}
 		await PowerCmd.Remove(this);

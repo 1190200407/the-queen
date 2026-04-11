@@ -27,6 +27,7 @@ public sealed class MagicTime : QueenCardModel
 
 	protected override IEnumerable<IHoverTip> ExtraHoverTips =>
 	[
+		base.EnergyHoverTip,
 		HoverTipFactory.FromKeyword(CardKeyword.Ethereal),
 		.. HoverTipFactory.FromAffliction<Bound>()
 	];

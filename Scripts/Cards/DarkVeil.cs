@@ -22,6 +22,21 @@ public sealed class DarkVeil : QueenCardModel
 
 	public override bool GainsBlock => true;
 
+	// BaseLib/引擎在「无魂灯、额外格挡生效」时仍给 ShouldGlowGoldInternal=true，与 OnPlay 判定相反；0 魂灯时强制不要金闪。
+	protected override bool ShouldGlowGoldInternal
+	{
+		get
+		{
+			SoulLampPower? lamp = base.Owner?.Creature?.GetPower<SoulLampPower>();
+			if (lamp == null || lamp.Amount <= 0)
+			{
+				return true;
+			}
+
+			return base.ShouldGlowGoldInternal;
+		}
+	}
+
 	protected override IEnumerable<IHoverTip> ExtraHoverTips => [QueenHoverTips.SoulLamp];
 
 	protected override IEnumerable<DynamicVar> CanonicalVars => [

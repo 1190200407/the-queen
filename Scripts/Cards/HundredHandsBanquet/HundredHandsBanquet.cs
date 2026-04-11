@@ -57,13 +57,6 @@ public sealed class HundredHandsBanquet : QueenCardModel
 			return;
 		}
 
-		await CreatureCmd.Damage(
-			choiceContext,
-			base.Owner.Creature,
-			x,
-			ValueProp.Unblockable | ValueProp.Unpowered | ValueProp.Move,
-			this);
-
 		for (int i = 0; i < x; i++)
 		{
 			await QueenCardCmd.CreateInHand<BloodthirstScratch>(base.Owner, base.CombatState, base.IsUpgraded, isBounded: true);

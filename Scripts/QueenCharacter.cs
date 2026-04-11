@@ -2,6 +2,7 @@ using BaseLib.Abstracts;
 using Godot;
 using MegaCrit.Sts2.Core.Entities.Characters;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Models.Characters;
 
 namespace ComicChess.TheQueen;
 
@@ -16,7 +17,7 @@ public class QueenCharacter : PlaceholderCharacterModel
     public override CharacterGender Gender => CharacterGender.Feminine;
 
     // 初始血量
-    public override int StartingHp => 76;
+    public override int StartingHp => 70;
 
     // 人物模型tscn路径。要自定义见下。
     public override string CustomVisualPath => "res://TheQueen/scenes/creature_visuals/queen_character.tscn";
@@ -69,6 +70,8 @@ public class QueenCharacter : PlaceholderCharacterModel
     public override float AttackAnimDelay => 0.25f;
 
     public override float CastAnimDelay => 0.2f;
+
+    protected override CharacterModel? UnlocksAfterRunAs => ModelDb.Character<Defect>();
 
     // 初始卡组
     public override IEnumerable<CardModel> StartingDeck => [

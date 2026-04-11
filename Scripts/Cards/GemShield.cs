@@ -23,14 +23,14 @@ public sealed class GemShield : QueenCardModel
 	public override bool GainsBlock => true;
 
 	protected override IEnumerable<DynamicVar> CanonicalVars => [
-		new BlockVar(5m, ValueProp.Move),
+		new BlockVar(7m, ValueProp.Move),
 		new EnergyVar(1),
 		new DynamicVar("SoulLampNextTurn", 0m)
 	];
 
 	protected override IEnumerable<IHoverTip> ExtraHoverTips => IsUpgraded
-		? [HoverTipFactory.FromPower<EnergyNextTurnPower>(), QueenHoverTips.SoulLamp]
-		: [HoverTipFactory.FromPower<EnergyNextTurnPower>()];
+		? [base.EnergyHoverTip, QueenHoverTips.SoulLamp]
+		: [base.EnergyHoverTip];
 
 	public GemShield()
 		: base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)

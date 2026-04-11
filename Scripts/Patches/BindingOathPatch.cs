@@ -14,7 +14,8 @@ using MegaCrit.Sts2.Core.Runs;
 namespace ComicChess.TheQueen;
 
 /// <summary>
-/// 女王「魂缚誓约」：每回合最多打出 1 张 <see cref="Bound"/> 牌；有魂灯层数时可无视该限制。
+/// 女王「魂缚誓约」：每回合最多<strong>手动</strong>打出 1 张 <see cref="Bound"/> 牌；有魂灯层数时可无视该限制。
+/// <see cref="CardCmd.AutoPlay"/> 传入的 <see cref="AutoPlayType"/> 非 <see cref="AutoPlayType.None"/> 时不应用本限制。
 /// 原实现为 <c>BindingOathPower</c>，此处改为 Hook Patch，不在状态栏占用能力位。
 /// 与 Boss「魂缚锁链」：<see cref="ChainsOfBindingPatch"/> 对 <see cref="QueenCharacter"/> 关闭锁链出牌限制，由本 Patch 判断；锁链魂缚每回合仅清 <see cref="ChainsOfBindingBoundTracker"/> 登记的牌。
 /// </summary>
@@ -28,9 +29,18 @@ internal static class BindingOathPatchState
 	internal static AbstractModel BindingOathPreventer =>
 		_bindingOathPreventer ??= ModelDb.Power<BindingOathPreventerPower>();
 
-	internal static void ApplyShouldPlayBlock(CardModel card, ref bool __result, ref AbstractModel? preventer)
+	internal static void ApplyShouldPlayBlock(
+		CardModel card,
+		AutoPlayType autoPlayType,
+		ref bool __result,
+		ref AbstractModel? preventer)
 	{
 		if (!__result)
+		{
+			return;
+		}
+
+		if (autoPlayType != AutoPlayType.None)
 		{
 			return;
 		}
@@ -112,8 +122,7 @@ internal static class BindingOathPatch
 		ref bool __result)
 	{
 		_ = combatState;
-		_ = autoPlayType;
-		BindingOathPatchState.ApplyShouldPlayBlock(card, ref __result, ref preventer);
+		BindingOathPatchState.ApplyShouldPlayBlock(card, autoPlayType, ref __result, ref preventer);
 	}
 
 	[HarmonyPostfix]

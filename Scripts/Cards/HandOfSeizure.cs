@@ -15,15 +15,15 @@ namespace ComicChess.TheQueen;
 [Pool(typeof(QueenCardPool))]
 public sealed class HandOfSeizure : QueenCardModel
 {
-	private const int energyCost = 1;
+	private const int energyCost = 0;
 	private const CardType type = CardType.Attack;
 	private const CardRarity rarity = CardRarity.Rare;
 	private const TargetType targetType = TargetType.AnyEnemy;
 	private const bool shouldShowInCardLibrary = true;
 
-	public override IEnumerable<CardKeyword> CanonicalKeywords => [QueenKeyword.fade];
+	public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Retain];
 
-	protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(6m, ValueProp.Move)];
+	protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(7m, ValueProp.Move)];
 
 	protected override IEnumerable<IHoverTip> ExtraHoverTips => [
 		HoverTipFactory.FromKeyword(QueenKeyword.fade),
@@ -62,7 +62,11 @@ public sealed class HandOfSeizure : QueenCardModel
 				.Execute(choiceContext);
 		}
 
-		await PowerCmd.Apply<HandsNextTurnPower>(base.Owner.Creature, 1m, base.Owner.Creature, this);
+		HandOfRefusalNextTurnPower? handsNextTurn = await PowerCmd.Apply<HandOfRefusalNextTurnPower>(base.Owner.Creature, 1m, base.Owner.Creature, this);
+		if (handsNextTurn != null)
+		{
+			handsNextTurn.isUpgraded = base.IsUpgraded;
+		}
 		await QueenCardCmd.AddSoulLamp(base.Owner);
 	}
 

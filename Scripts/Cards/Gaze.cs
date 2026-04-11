@@ -26,23 +26,9 @@ public sealed class Gaze : QueenCardModel
 
 	protected override IEnumerable<IHoverTip> ExtraHoverTips => [.. HoverTipFactory.FromAffliction<Bound>()];
 
-	internal override bool UseBoundAfflictionOverlayForPreview => true;
-
 	public Gaze()
 		: base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
 	{
-	}
-
-	public override async Task BeforeCombatStart()
-	{
-		if (base.Owner?.Creature?.CombatState == null)
-		{
-			return;
-		}
-		if (Affliction is not Bound)
-		{
-			await CardCmd.Afflict<Bound>(this, 1m);
-		}
 	}
 
 	protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
@@ -59,14 +45,6 @@ public sealed class Gaze : QueenCardModel
 			.Execute(choiceContext);
 
 		if (Affliction is not Bound)
-		{
-			await CardCmd.Afflict<Bound>(this, 1m);
-		}
-	}
-
-	public override async Task AfterCardEnteredCombat(CardModel card)
-	{
-		if (card == this && Affliction is not Bound)
 		{
 			await CardCmd.Afflict<Bound>(this, 1m);
 		}

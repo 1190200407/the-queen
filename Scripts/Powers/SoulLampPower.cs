@@ -13,14 +13,46 @@ namespace ComicChess.TheQueen;
 
 public sealed class SoulLampPower : QueenPowerModel
 {
+	internal static bool IsCardFreeBySoulLamp(CardModel? card)
+	{
+		if (card == null || card.EnergyCost.CostsX)
+		{
+			return false;
+		}
+		if (card.Owner?.Creature == null || card.Affliction is not Bound)
+		{
+			return false;
+		}
+
+		SoulLampPower? lamp = card.Owner.Creature.GetPower<SoulLampPower>();
+		if (lamp == null || lamp.Amount <= 0)
+		{
+			return false;
+		}
+
+		switch (card.Pile?.Type)
+		{
+			case PileType.Hand:
+			case PileType.Play:
+				break;
+			default:
+				return false;
+		}
+
+		return card.EnergyCost.GetWithModifiers(CostModifiers.All) == 0;
+	}
+
 	public override PowerType Type => PowerType.Buff;
 
 	public override PowerStackType StackType => PowerStackType.Counter;
 
-	// 引擎默认 Amount == 0 时会移除 Power。
-	// 我们为了让状态栏还能显示“0层”，在最后一层被消耗时把数值跳到 -1，
-	// 并重写 DisplayAmount 让它显示为 0，同时效果在 Amount <= 0 时失效。
-	public override bool AllowNegative => true;
+    public override string? CustomBigIconPath => "res://TheQueen/images/powers/big/soul_lamp.png";
+	public override string? CustomPackedIconPath => "res://TheQueen/images/powers/soul_lamp.png";
+
+    // 引擎默认 Amount == 0 时会移除 Power。
+    // 我们为了让状态栏还能显示“0层”，在最后一层被消耗时把数值跳到 -1，
+    // 并重写 DisplayAmount 让它显示为 0，同时效果在 Amount <= 0 时失效。
+    public override bool AllowNegative => true;
 
 	public override int DisplayAmount => Math.Max(0, Amount);
 
@@ -69,6 +101,10 @@ public sealed class SoulLampPower : QueenPowerModel
 		}
 
 		await QueenCardModel.BroadcastSoulLampAmountChange(player, amount, applier, cardSource);
+		if (amount < 0m)
+		{
+			await MagicTimePower.TryAutoRefillSoulLamp(player);
+		}
 	}
 
 	public override async Task BeforeCardPlayed(CardPlay cardPlay)

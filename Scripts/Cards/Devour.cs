@@ -22,7 +22,7 @@ public sealed class Devour : QueenCardModel
 	private const TargetType constructorTargetType = TargetType.Self;
 	private const bool shouldShowInCardLibrary = true;
 
-	public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
+	public override IEnumerable<CardKeyword> CanonicalKeywords => [QueenKeyword.fade];
 
 	protected override IEnumerable<DynamicVar> CanonicalVars => [new PowerVar<StrengthPower>(1m)];
 

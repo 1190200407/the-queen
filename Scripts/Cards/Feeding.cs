@@ -15,15 +15,18 @@ namespace ComicChess.TheQueen;
 [Pool(typeof(QueenCardPool))]
 public sealed class Feeding : QueenCardModel
 {
-	private const int energyCost = 2;
+	private const int energyCost = 1;
 	private const CardType type = CardType.Attack;
 	private const CardRarity rarity = CardRarity.Common;
 	private const TargetType targetType = TargetType.AnyEnemy;
 	private const bool shouldShowInCardLibrary = true;
 
-	protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(10m, ValueProp.Move)];
+	protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(8m, ValueProp.Move)];
 
-	protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromCard<Devour>(base.IsUpgraded)];
+	protected override IEnumerable<IHoverTip> ExtraHoverTips => [
+		HoverTipFactory.FromCard<Devour>(base.IsUpgraded),
+		QueenHoverTips.SoulLamp
+	];
 
 	public Feeding()
 		: base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
@@ -44,6 +47,8 @@ public sealed class Feeding : QueenCardModel
 			.Targeting(cardPlay.Target)
 			.WithHitFx("vfx/vfx_attack_blunt")
 			.Execute(choiceContext);
+
+		await QueenCardCmd.AddSoulLamp(base.Owner, 1);
 
 		for (int i = 0; i < 2; i++)
 		{

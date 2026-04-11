@@ -11,4 +11,6 @@ public class QueenCardPool : CustomCardPoolModel
     public override bool IsColorless => false;
     // 紫色rgb(112, 42, 112)
     public override Color DeckEntryCardColor => new(112f/255f, 42f/255f, 112f/255f);
+
+    public override Color ShaderColor => new(112f/255f, 42f/255f, 112f/255f);
 }
