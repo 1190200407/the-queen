@@ -31,7 +31,7 @@ public sealed class SoulDefend : QueenCardModel
 
 	protected override IEnumerable<DynamicVar> CanonicalVars => new List<DynamicVar> { new BlockVar(12m, ValueProp.Move) };
 
-	internal override bool UseBoundAfflictionOverlayForPreview => true;
+	internal override bool HasSelfBound => true;
 
 	public SoulDefend()
 		: base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)

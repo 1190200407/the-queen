@@ -34,23 +34,11 @@ public sealed class BloodthirstScratch : ScratchTaggedCard
 		.. HoverTipFactory.FromAffliction<Bound>()
 	];
 
-	internal override bool UseBoundAfflictionOverlayForPreview => true;
+	internal override bool HasSelfBound => true;
 
 	public BloodthirstScratch()
 		: base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
 	{
-	}
-
-	public override async Task BeforeCombatStart()
-	{
-		if (base.Owner?.Creature?.CombatState == null)
-		{
-			return;
-		}
-		if (Affliction is not Bound)
-		{
-			await CardCmd.Afflict<Bound>(this, 1m);
-		}
 	}
 
 	protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)

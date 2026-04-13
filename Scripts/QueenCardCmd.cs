@@ -3,19 +3,18 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Models;
-using MegaCrit.Sts2.Core.Models.Afflictions;
 
 namespace ComicChess.TheQueen;
 
 public static class QueenCardCmd
 {
-    public static async Task CreateInHand<T>(Player owner, CombatState combatState, bool isUpgraded = false, bool isBounded = false) where T : CardModel
+    public static async Task CreateInHand<T>(Player owner, CombatState combatState, bool isUpgraded = false) where T : CardModel
 	{
         CardModel card = combatState.CreateCard<T>(owner);
-        await CreateInHand(card, isUpgraded, isBounded);
+        await CreateInHand(card, isUpgraded);
 	}
 
-	public static async Task CreateInHand(CardModel card, bool isUpgraded = false, bool isBounded = false)
+	public static async Task CreateInHand(CardModel card, bool isUpgraded = false)
 	{
         if (isUpgraded)
         {
@@ -32,10 +31,6 @@ public static class QueenCardCmd
 		}
 
 		await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Hand, addedByPlayer: true);
-        if (isBounded)
-        {
-            await CardCmd.Afflict<Bound>(card, 1m);
-        }
 	}
 
     public static async Task AddSoulLamp(Player owner, int amount = 1)

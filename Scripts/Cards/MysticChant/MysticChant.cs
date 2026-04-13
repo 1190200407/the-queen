@@ -39,9 +39,9 @@ public sealed class MysticChant : QueenCardModel
 			return;
 		}
 
-		await QueenCardCmd.CreateInHand<FirstChant>(base.Owner, base.CombatState, isUpgraded: false, isBounded: true);
-		await QueenCardCmd.CreateInHand<SecondChant>(base.Owner, base.CombatState, isUpgraded: false, isBounded: true);
-		await QueenCardCmd.CreateInHand<FinalChant>(base.Owner, base.CombatState, isUpgraded: false, isBounded: true);
+		await QueenCardCmd.CreateInHand<FirstChant>(base.Owner, base.CombatState, isUpgraded: false);
+		await QueenCardCmd.CreateInHand<SecondChant>(base.Owner, base.CombatState, isUpgraded: false);
+		await QueenCardCmd.CreateInHand<FinalChant>(base.Owner, base.CombatState, isUpgraded: false);
 
 		if (base.IsUpgraded)
 		{

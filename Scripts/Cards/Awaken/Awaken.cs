@@ -39,8 +39,8 @@ public sealed class Awaken : QueenCardModel
 		}
 
 		// 只有本体升级后，才生成升级版衍生牌。
-		await QueenCardCmd.CreateInHand<AwakenFear>(base.Owner, base.CombatState, isUpgraded: base.IsUpgraded, isBounded: true);
-		await QueenCardCmd.CreateInHand<AwakenPain>(base.Owner, base.CombatState, isUpgraded: base.IsUpgraded, isBounded: true);
+		await QueenCardCmd.CreateInHand<AwakenFear>(base.Owner, base.CombatState, isUpgraded: base.IsUpgraded);
+		await QueenCardCmd.CreateInHand<AwakenPain>(base.Owner, base.CombatState, isUpgraded: base.IsUpgraded);
 		await QueenCardCmd.AddSoulLamp(base.Owner);
 	}
 }

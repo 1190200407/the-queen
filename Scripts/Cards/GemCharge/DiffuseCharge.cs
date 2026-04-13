@@ -20,7 +20,7 @@ public sealed class DiffuseCharge : QueenCardModel
 	private const TargetType targetType = TargetType.Self;
 	private const bool shouldShowInCardLibrary = false;
 
-	internal override bool UseBoundAfflictionOverlayForPreview => true;
+	internal override bool HasSelfBound => true;
 	public override IEnumerable<CardKeyword> CanonicalKeywords => [QueenKeyword.fade];
 	protected override IEnumerable<DynamicVar> CanonicalVars => [new PowerVar<DexterityPower>(1m)];
 

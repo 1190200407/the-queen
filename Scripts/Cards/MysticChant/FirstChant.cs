@@ -29,7 +29,7 @@ public sealed class FirstChant : QueenCardModel
 		.. HoverTipFactory.FromAffliction<Bound>()
 	];
 
-	internal override bool UseBoundAfflictionOverlayForPreview => true;
+	internal override bool HasSelfBound => true;
 
 	public FirstChant()
 		: base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)

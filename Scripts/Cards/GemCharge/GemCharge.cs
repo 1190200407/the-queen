@@ -38,8 +38,8 @@ public sealed class GemCharge : QueenCardModel
 		}
 
 		// 只有本体升级后，才生成升级版衍生牌。
-		await QueenCardCmd.CreateInHand<PiercingCharge>(base.Owner, base.CombatState, isUpgraded: base.IsUpgraded, isBounded: true);
-		await QueenCardCmd.CreateInHand<DiffuseCharge>(base.Owner, base.CombatState, isUpgraded: base.IsUpgraded, isBounded: true);
+		await QueenCardCmd.CreateInHand<PiercingCharge>(base.Owner, base.CombatState, isUpgraded: base.IsUpgraded);
+		await QueenCardCmd.CreateInHand<DiffuseCharge>(base.Owner, base.CombatState, isUpgraded: base.IsUpgraded);
 		await QueenCardCmd.AddSoulLamp(base.Owner);
 	}
 }

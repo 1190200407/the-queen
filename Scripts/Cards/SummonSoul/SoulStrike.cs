@@ -23,7 +23,7 @@ public class SoulStrike : QueenCardModel
 
 	protected override IEnumerable<DynamicVar> CanonicalVars => new List<DynamicVar> { new DamageVar(14m, ValueProp.Move) };
 
-	internal override bool UseBoundAfflictionOverlayForPreview => true;
+	internal override bool HasSelfBound => true;
 
     public SoulStrike()
         : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)

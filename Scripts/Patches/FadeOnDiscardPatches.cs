@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Combat.History;
@@ -5,7 +6,6 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.Helpers;
 using MegaCrit.Sts2.Core.Hooks;
 using MegaCrit.Sts2.Core.Models;
 
@@ -18,7 +18,27 @@ namespace ComicChess.TheQueen;
 [HarmonyPatch]
 internal static class FadeOnDiscardPatches
 {
+	private static readonly object ExhaustNotifyQueueLock = new object();
+	private static Task ExhaustNotifyQueue = Task.CompletedTask;
+
 	private static bool HasFade(CardModel card) => card.Keywords.Contains(QueenKeyword.fade);
+
+	private static void EnqueueFadeExhaustNotify(CombatState combatState, CardModel card)
+	{
+		lock (ExhaustNotifyQueueLock)
+		{
+			// 串行化消逝触发，避免多张牌同帧并发导致依赖计数的遗物（如 JozzPaper）重复结算。
+			ExhaustNotifyQueue = ExhaustNotifyQueue.ContinueWith(
+				_ => NotifyFadeExhausted(combatState, card),
+				TaskScheduler.Default).Unwrap();
+		}
+	}
+
+	private static async Task NotifyFadeExhausted(CombatState combatState, CardModel card)
+	{
+		CombatManager.Instance.History.CardExhausted(combatState, card);
+		await Hook.AfterCardExhausted(combatState, new BlockingPlayerChoiceContext(), card, causedByEthereal: false);
+	}
 
 	/// <summary>
 	/// 单卡 <see cref="CardPileCmd.Add(CardModel, CardPile, CardPilePosition, AbstractModel?, bool)"/>（含 <c>Add(card, PileType.Discard)</c>、<see cref="CardCmd.Discard"/> 的逐张弃牌）
@@ -100,8 +120,7 @@ internal static class FadeOnDiscardPatches
 			return;
 		}
 
-		CombatManager.Instance.History.CardExhausted(combatState, card);
-		TaskHelper.RunSafely(Hook.AfterCardExhausted(combatState, new BlockingPlayerChoiceContext(), card, causedByEthereal: false));
+		EnqueueFadeExhaustNotify(combatState, card);
 	}
 
 	[HarmonyPrefix]

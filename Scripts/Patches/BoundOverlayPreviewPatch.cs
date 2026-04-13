@@ -19,7 +19,7 @@ internal static class BoundOverlayPreviewPatch
 	[HarmonyPatch(typeof(CardModel), nameof(CardModel.CreateOverlay))]
 	private static bool CreateOverlay_Prefix(CardModel __instance, ref Control __result)
 	{
-		if (__instance is QueenCardModel queen && queen.UseBoundAfflictionOverlayForPreview)
+		if (__instance is QueenCardModel queen && queen.HasSelfBound)
 		{
 			__result = PreloadManager.Cache.GetScene(SceneHelper.GetScenePath(BoundAfflictionOverlayInnerPath))
 				.Instantiate<Control>(PackedScene.GenEditState.Disabled);

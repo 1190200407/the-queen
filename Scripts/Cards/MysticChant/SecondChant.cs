@@ -27,7 +27,7 @@ public sealed class SecondChant : QueenCardModel
 
 	protected override IEnumerable<IHoverTip> ExtraHoverTips => [.. HoverTipFactory.FromAffliction<Bound>()];
 
-	internal override bool UseBoundAfflictionOverlayForPreview => true;
+	internal override bool HasSelfBound => true;
 
 	public SecondChant()
 		: base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)

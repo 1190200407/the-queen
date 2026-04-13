@@ -34,7 +34,7 @@ public sealed class FinalChant : QueenCardModel
 
 	protected override IEnumerable<IHoverTip> ExtraHoverTips => [.. HoverTipFactory.FromAffliction<Bound>()];
 
-	internal override bool UseBoundAfflictionOverlayForPreview => true;
+	internal override bool HasSelfBound => true;
 
 	public FinalChant()
 		: base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)

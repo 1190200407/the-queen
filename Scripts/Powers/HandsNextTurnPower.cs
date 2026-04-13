@@ -25,8 +25,8 @@ public sealed class HandsNextTurnPower : QueenPowerModel
 		{
 			for (int i = 0; i < base.Amount; i++)
 			{
-				await QueenCardCmd.CreateInHand<HandOfSeizure>(player, base.CombatState, isUpgraded: isUpgraded, isBounded: true);
-				await QueenCardCmd.CreateInHand<HandOfRefusal>(player, base.CombatState, isUpgraded: isUpgraded, isBounded: true);
+				await QueenCardCmd.CreateInHand<HandOfSeizure>(player, base.CombatState, isUpgraded: isUpgraded);
+				await QueenCardCmd.CreateInHand<HandOfRefusal>(player, base.CombatState, isUpgraded: isUpgraded);
 			}
 		}
 		await PowerCmd.Remove(this);

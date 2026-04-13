@@ -29,7 +29,7 @@ public sealed class AwakenFear : QueenCardModel
 
 	protected override IEnumerable<DynamicVar> CanonicalVars => [new PowerVar<WeakPower>(2m)];
 
-	internal override bool UseBoundAfflictionOverlayForPreview => true;
+	internal override bool HasSelfBound => true;
 
 	public AwakenFear()
 		: base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)

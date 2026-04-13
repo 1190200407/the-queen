@@ -41,8 +41,8 @@ internal static class BoundDescriptionPreviewPatch
 
 	private static void TryAppendBoundPreviewText(CardModel card, ref string description)
 	{
-		// 与 UseBoundAfflictionOverlayForPreview 一致：自带魂缚的牌在 cards.json 勿重复写魂缚行。
-		if (card is not QueenCardModel queen || !queen.UseBoundAfflictionOverlayForPreview)
+		// 与 HasSelfBound 一致：自带魂缚的牌在 cards.json 勿重复写魂缚行。
+		if (card is not QueenCardModel queen || !queen.HasSelfBound)
 		{
 			return;
 		}

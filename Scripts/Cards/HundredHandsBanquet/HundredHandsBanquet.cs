@@ -22,7 +22,9 @@ public sealed class HundredHandsBanquet : QueenCardModel
 
 	protected override bool HasEnergyCostX => true;
 
-	protected override IEnumerable<IHoverTip> ExtraHoverTips => [
+    internal override bool HasSelfBound => true;
+
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [
 		HoverTipFactory.FromCard<BloodthirstScratch>(upgrade: base.IsUpgraded),
 		.. HoverTipFactory.FromAffliction<Bound>()
 	];
@@ -30,18 +32,6 @@ public sealed class HundredHandsBanquet : QueenCardModel
 	public HundredHandsBanquet()
 		: base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
 	{
-	}
-
-	public override async Task BeforeCombatStart()
-	{
-		if (base.Owner?.Creature?.CombatState == null)
-		{
-			return;
-		}
-		if (Affliction is not Bound)
-		{
-			await CardCmd.Afflict<Bound>(this, 1m);
-		}
 	}
 
 	protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
@@ -59,7 +49,7 @@ public sealed class HundredHandsBanquet : QueenCardModel
 
 		for (int i = 0; i < x; i++)
 		{
-			await QueenCardCmd.CreateInHand<BloodthirstScratch>(base.Owner, base.CombatState, base.IsUpgraded, isBounded: true);
+			await QueenCardCmd.CreateInHand<BloodthirstScratch>(base.Owner, base.CombatState, base.IsUpgraded);
 		}
 
 		await QueenCardCmd.AddSoulLamp(base.Owner, x);

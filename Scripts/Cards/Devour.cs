@@ -31,25 +31,13 @@ public sealed class Devour : QueenCardModel
 		.. HoverTipFactory.FromAffliction<Bound>()
 	];
 
-	internal override bool UseBoundAfflictionOverlayForPreview => true;
+	internal override bool HasSelfBound => true;
 
 	public override TargetType TargetType => base.IsUpgraded ? TargetType.AnyEnemy : TargetType.Self;
 
 	public Devour()
 		: base(energyCost, type, rarity, constructorTargetType, shouldShowInCardLibrary)
 	{
-	}
-
-	public override async Task BeforeCombatStart()
-	{
-		if (base.Owner?.Creature?.CombatState == null)
-		{
-			return;
-		}
-		if (Affliction is not Bound)
-		{
-			await CardCmd.Afflict<Bound>(this, 1m);
-		}
 	}
 
 	protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
