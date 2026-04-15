@@ -2,6 +2,8 @@ using System.Reflection;
 using Godot;
 using MegaCrit.Sts2.Core.Nodes.Vfx;
 
+namespace ComicChess.TheQueen;
+
 [GlobalClass]
 public partial class NewNQueenVFx : NQueenVfx
 {

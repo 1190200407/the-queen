@@ -3,12 +3,12 @@
 importer="spine.skel"
 type="SpineSkeletonFileResource"
 uid="uid://cjbuuoja6yvpc"
-path="res://TheQueen/animations/characters/queen/imported/queen.skel-4440892e33c027e9b55a12fdd26cc0b7.spskel"
+path="res://.godot/imported/queen.skel-a6d2ff49d349facfa1098b4a10227aed.spskel"
 
 [deps]
 
 source_file="res://TheQueen/animations/characters/queen/queen.skel"
-dest_files=["res://TheQueen/animations/characters/queen/imported/queen.skel-4440892e33c027e9b55a12fdd26cc0b7.spskel"]
+dest_files=["res://.godot/imported/queen.skel-a6d2ff49d349facfa1098b4a10227aed.spskel"]
 
 [params]
 

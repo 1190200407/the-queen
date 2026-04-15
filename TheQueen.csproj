@@ -26,6 +26,11 @@
       <HintPath>$(Sts2Dir)/mods/BaseLib/BaseLib.dll</HintPath>
       <Private>false</Private>
     </Reference>
+
+    <Reference Include="MinionLib">
+      <HintPath>$(Sts2Dir)/mods/MinionLib/MinionLib.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
   </ItemGroup>
 
   <!-- 自动复制 dll、json、res://TheQueen/ 下资源（如人物场景） -->
