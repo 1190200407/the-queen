@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://b3m3d67snv22n" path="res://TheQueen/images/vfx/tileable_noise_2.png" id="6_p444n"]
 [ext_resource type="Texture2D" uid="uid://jvscsy87jgm3" path="res://TheQueen/images/vfx/fire_shape_1.png" id="7_a8kxm"]
 [ext_resource type="Texture2D" uid="uid://c1j4r03q72038" path="res://TheQueen/images/vfx/basic_fire_gradient.png" id="8_crp25"]
-[ext_resource type="Script" uid="uid://6klfojkd50l1" path="res://TheQueen/Scripts/Nodes/NewNQueenVFx.cs" id="8_wfjo0"]
+[ext_resource type="Script" uid="uid://ff7pbpq7qmjn" path="res://Scripts/Nodes/NewNQueenVFx.cs" id="8_wfjo0"]
 [ext_resource type="Texture2D" uid="uid://ctxr8ws5pfgio" path="res://TheQueen/images/vfx/queen_attack_particle.png" id="10_3785r"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_3s4xb"]
@@ -122,7 +122,7 @@ alpha_curve = SubResource("CurveTexture_dqcx0")
 [node name="Visuals" type="SpineSprite" parent="."]
 skeleton_data_res = ExtResource("2_7khea")
 preview_skin = "Default"
-preview_animation = "-- Empty --"
+preview_animation = "tracks/writhe"
 preview_frame = false
 preview_time = 0.0
 unique_name_in_owner = true
@@ -132,7 +132,7 @@ scale = Vector2(-0.14, 0.14)
 [node name="eyeSlot" type="SpineSlotNode" parent="Visuals"]
 slot_name = "eye 1"
 show_behind_parent = true
-position = Vector2(12.019289, -2846.778)
+position = Vector2(-45.40772, -2687.603)
 rotation = -1.5707964
 
 [node name="eye_fire" type="ColorRect" parent="Visuals/eyeSlot"]
@@ -154,7 +154,7 @@ rotation = 1.5708
 [node name="eyeSlot2" type="SpineSlotNode" parent="Visuals"]
 slot_name = "eye 2"
 show_behind_parent = true
-position = Vector2(-41.54589, -2670.02)
+position = Vector2(-3.885024, -2854.1482)
 rotation = -1.5676117
 scale = Vector2(0.99999994, 0.99999994)
 
@@ -202,13 +202,13 @@ position = Vector2(-6.18904, -1336.537)
 [node name="EyeBoneTop" type="SpineBoneNode" parent="Visuals"]
 bone_name = "eye_flame_top"
 show_behind_parent = true
-position = Vector2(12.019289, -2846.778)
+position = Vector2(-45.40772, -2687.603)
 rotation = -1.5707964
 
 [node name="EyeBoneBot" type="SpineBoneNode" parent="Visuals"]
 bone_name = "eye_flame_bottom"
 show_behind_parent = true
-position = Vector2(-41.54589, -2670.02)
+position = Vector2(-3.885024, -2854.1482)
 rotation = -1.5676117
 scale = Vector2(0.99999994, 0.99999994)
 

@@ -104,5 +104,7 @@
     "COMICCHESS-PRISMATIC_ART.title":"Prismatic Art",
     "COMICCHESS-PRISMATIC_ART.description":"At end of combat, gain [blue]1[/blue] extra [gold]card[/gold] reward group containing other colors.",
     "COMICCHESS-MAGIC_TIME.title":"Magic Time",
-    "COMICCHESS-MAGIC_TIME.description":"Corrode all your cards into [purple]Bound[/purple].\nAt the start of your turn, if Soul Lamp is [blue]0[/blue], lose [gold]1[/gold] {energyPrefix:energyIcons(1)} and [aqua]gain [blue]1[/blue] Soul Lamp[/aqua]."
+    "COMICCHESS-MAGIC_TIME.description":"Corrode all your cards into [purple]Bound[/purple].\nAt the start of your turn, if Soul Lamp is [blue]0[/blue], lose [gold]1[/gold] {energyPrefix:energyIcons(1)} and [aqua]gain [blue]1[/blue] Soul Lamp[/aqua].",
+    "COMICCHESS-GRANT_OFFENSE.title":"Grant Offense",
+    "COMICCHESS-GRANT_OFFENSE.description":"Summon {Summon:diff()}."
 }

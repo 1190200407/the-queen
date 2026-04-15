@@ -1,8 +1,12 @@
 using BaseLib.Abstracts;
 using Godot;
+using MegaCrit.Sts2.Core.Animation;
+using MegaCrit.Sts2.Core.Bindings.MegaSpine;
 using MegaCrit.Sts2.Core.Entities.Characters;
+using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Characters;
+using MegaCrit.Sts2.Core.Nodes.Combat;
 
 namespace ComicChess.TheQueen;
 
@@ -72,6 +76,13 @@ public class QueenCharacter : PlaceholderCharacterModel
     public override float CastAnimDelay => 0.2f;
 
     protected override CharacterModel? UnlocksAfterRunAs => ModelDb.Character<Defect>();
+
+    public override CreatureAnimator? SetupCustomAnimationStates(MegaSprite controller)
+    {
+        CreatureAnimator? animator = base.SetupCustomAnimationStates(controller);
+        controller?.GetAnimationState().SetAnimation("tracks/writhe", loop: true, 1);
+        return animator;
+    }
 
     // 初始卡组
     public override IEnumerable<CardModel> StartingDeck => [
