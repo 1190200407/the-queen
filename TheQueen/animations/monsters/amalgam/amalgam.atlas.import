@@ -1,0 +1,16 @@
+[remap]
+
+importer="spine.atlas"
+type="SpineAtlasResource"
+uid="uid://ci5an2urvep84"
+path="res://.godot/imported/amalgam.atlas-6b28ac26a22e857abbaf54b92a4abed7.spatlas"
+
+[deps]
+
+source_file="res://TheQueen/animations/monsters/amalgam/amalgam.atlas"
+dest_files=["res://.godot/imported/amalgam.atlas-6b28ac26a22e857abbaf54b92a4abed7.spatlas"]
+
+[params]
+
+normal_map_prefix="n"
+specular_map_prefix="s"

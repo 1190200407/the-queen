@@ -1,0 +1,14 @@
+[remap]
+
+importer="spine.skel"
+type="SpineSkeletonFileResource"
+uid="uid://34tty84vxbb6"
+path="res://.godot/imported/amalgam.skel-0823c4d9c37d4042c98156db4e077b62.spskel"
+
+[deps]
+
+source_file="res://TheQueen/animations/monsters/amalgam/amalgam.skel"
+dest_files=["res://.godot/imported/amalgam.skel-0823c4d9c37d4042c98156db4e077b62.spskel"]
+
+[params]
+
