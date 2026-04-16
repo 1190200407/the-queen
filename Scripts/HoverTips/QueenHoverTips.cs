@@ -14,4 +14,9 @@ internal static class QueenHoverTips
 		new LocString("static_hover_tips", "binding_oath.title"),
 		new LocString("static_hover_tips", "binding_oath.description")
 	);
+
+	internal static IHoverTip LearnIntent => new HoverTip(
+		new LocString("static_hover_tips", "learn_intent.title"),
+		new LocString("static_hover_tips", "learn_intent.description")
+	);
 }

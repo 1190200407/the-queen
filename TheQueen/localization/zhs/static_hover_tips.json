@@ -2,5 +2,11 @@
   "soul_lamp.title": "魂灯",
   "soul_lamp.description": "你可以消耗[blue]1[/blue]层[gold]无视限制[/gold]免费打出[blue]1[/blue]张带[purple]魂缚[/purple]的牌。",
   "binding_oath.title": "魂缚誓约",
-  "binding_oath.description": "每回合只能打出[blue]1[/blue]张[purple]魂缚[/purple]卡牌。回合结束时不再失去[purple]魂缚[/purple]。"
+  "binding_oath.description": "每回合只能打出[blue]1[/blue]张[purple]魂缚[/purple]卡牌。回合结束时不再失去[purple]魂缚[/purple]。",
+  "QUEEN_SUMMON_DYNAMIC.description": "以[blue]{Summon}[/blue]生命值召唤[gold]聚合体[/gold]。\n如果已经召唤，则在本场战斗中将其最大生命值提升[blue]{Summon}[/blue]点。",
+  "QUEEN_SUMMON_DYNAMIC.title": "召唤{Summon}",
+  "QUEEN_SUMMON_STATIC.description": "召唤[gold]聚合体[/gold]。\n如果已经召唤，则在本场战斗提升其最大生命值。",
+  "QUEEN_SUMMON_STATIC.title": "召唤",
+  "learn_intent.description": "聚合体点亮[blue]1[/blue]盏灯笼，并学会使用对应意图。\n如果聚合体的[blue]3[/blue]盏灯笼都点亮，则效果改为立刻执行对应意图的行动。",
+  "learn_intent.title": "学习"
 }

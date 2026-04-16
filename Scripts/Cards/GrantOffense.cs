@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using BaseLib.Extensions;
 using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -12,16 +13,17 @@ namespace ComicChess.TheQueen;
 [Pool(typeof(QueenCardPool))]
 public sealed class GrantOffense : QueenCardModel
 {
+    private const decimal learnIntentDamage = 4m;
     private const int energyCost = 1;
     private const CardType type = CardType.Skill;
     private const CardRarity rarity = CardRarity.Common;
     private const TargetType targetType = TargetType.Self;
     private const bool shouldShowInCardLibrary = true;
 
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new SummonVar(5m)];
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+        [new SummonVar(5m).WithTooltip("QUEEN_SUMMON_DYNAMIC")];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [HoverTipFactory.Static(StaticHoverTip.SummonDynamic, base.DynamicVars.Summon)];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [QueenHoverTips.LearnIntent];
 
     public GrantOffense()
         : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
@@ -31,6 +33,8 @@ public sealed class GrantOffense : QueenCardModel
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await FriendlyAmalgamCmd.Summon(choiceContext, base.Owner, base.DynamicVars.Summon.BaseValue, this);
+        AmalgamActionModel? intent = AmalgamActionRegistry.CreateOffense(learnIntentDamage);
+        await FriendlyAmalgamCmd.LearnIntent(base.Owner, intent, this);
     }
 
     protected override void OnUpgrade()

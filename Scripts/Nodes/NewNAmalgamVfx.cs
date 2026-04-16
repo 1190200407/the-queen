@@ -66,6 +66,7 @@ public partial class NewNAmalgamVfx : Node
 		_constantSparks1 = _parent.GetNode<GpuParticles2D>("torch1Slot/constantParticles");
 		_constantSparks2 = _parent.GetNode<GpuParticles2D>("torch2Slot/constantParticles");
 		_constantSparks3 = _parent.GetNode<GpuParticles2D>("torch3Slot/constantParticles");
+		_hitFxParticles = _parent.GetParent().GetNode<GpuParticles2D>("laserHitParticles");
 		_hitFxParticles.Visible = false;
 	}
 

@@ -106,5 +106,5 @@
     "COMICCHESS-MAGIC_TIME.title":"魔法时间",
     "COMICCHESS-MAGIC_TIME.description":"将你的所有牌侵蚀为[purple]魂缚[/purple]。\n每当你的魂灯为[blue]0[/blue]时，失去{energyPrefix:energyIcons(1)}并[aqua]获得[blue]1[/blue]点魂灯[/aqua]。",
     "COMICCHESS-GRANT_OFFENSE.title":"赋予进攻",
-    "COMICCHESS-GRANT_OFFENSE.description":"召唤{Summon:diff()}。"
+    "COMICCHESS-GRANT_OFFENSE.description":"[gold]召唤[/gold]{Summon:diff()}。\n[gold]学习意图[/gold]：造成[blue]4[/blue]点伤害。"
 }

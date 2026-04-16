@@ -2,5 +2,11 @@
   "soul_lamp.title": "Soul Lamp",
   "soul_lamp.description": "You may spend [blue]1[/blue] stack of [gold]Ignore Limits[/gold] to play [blue]1[/blue] [purple]Bound[/purple] card for free.",
   "binding_oath.title": "Binding Oath",
-  "binding_oath.description": "You may only play [blue]1[/blue] [purple]Bound[/purple] card each turn. [purple]Bound[/purple] is no longer removed at end of turn."
+  "binding_oath.description": "You may only play [blue]1[/blue] [purple]Bound[/purple] card each turn. [purple]Bound[/purple] is no longer removed at end of turn.",
+  "QUEEN_SUMMON_DYNAMIC.title": "Summon {Summon}",
+  "QUEEN_SUMMON_DYNAMIC.description": "Summon the [gold]Amalgam[/gold] with [blue]{Summon}[/blue] HP.\nIf already summoned, increase its Max HP by [blue]{Summon}[/blue] for this combat.",
+  "QUEEN_SUMMON_STATIC.title": "Summon",
+  "QUEEN_SUMMON_STATIC.description": "Summon the [gold]Amalgam[/gold].\nIf already summoned, increase its Max HP for this combat.",
+  "queen_amalgam_offense_intent.title": "Offense Pattern",
+  "queen_amalgam_offense_intent.description": "At the end of your turn, deal [blue]{Amount}[/blue] damage to a random enemy."
 }

@@ -23,7 +23,6 @@ public sealed class MysticChant : QueenCardModel
 		HoverTipFactory.FromCard<SecondChant>(upgrade: false),
 		HoverTipFactory.FromCard<FinalChant>(upgrade: false),
 		.. HoverTipFactory.FromAffliction<Bound>(),
-		QueenHoverTips.BindingOath,
 		QueenHoverTips.SoulLamp
 	];
 

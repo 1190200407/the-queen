@@ -106,5 +106,5 @@
     "COMICCHESS-MAGIC_TIME.title":"Magic Time",
     "COMICCHESS-MAGIC_TIME.description":"Corrode all your cards into [purple]Bound[/purple].\nAt the start of your turn, if Soul Lamp is [blue]0[/blue], lose [gold]1[/gold] {energyPrefix:energyIcons(1)} and [aqua]gain [blue]1[/blue] Soul Lamp[/aqua].",
     "COMICCHESS-GRANT_OFFENSE.title":"Grant Offense",
-    "COMICCHESS-GRANT_OFFENSE.description":"Summon {Summon:diff()}."
+    "COMICCHESS-GRANT_OFFENSE.description":"Summon {Summon:diff()}.\n[gold]Learn[/gold]: At the end of your turn, the Amalgam deals [blue]4[/blue] damage to a random enemy."
 }

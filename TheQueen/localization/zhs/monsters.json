@@ -1,0 +1,5 @@
+{
+    "FRIENDLY_AMALGAM.name": "火炬头聚合体",
+    "FRIENDLY_AMALGAM.intent_offense.title": "攻击",
+    "FRIENDLY_AMALGAM.intent_offense.description": "在你的回合结束时，随机对1名敌人造成[blue]{Amount}[/blue]点伤害。"
+}
