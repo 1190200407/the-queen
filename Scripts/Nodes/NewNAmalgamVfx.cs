@@ -1,5 +1,6 @@
 using Godot;
 using MegaCrit.Sts2.Core.Bindings.MegaSpine;
+using MegaCrit.Sts2.Core.Logging;
 
 namespace ComicChess.TheQueen;
 
@@ -7,36 +8,39 @@ namespace ComicChess.TheQueen;
 public partial class NewNAmalgamVfx : Node
 {
 	[Export(PropertyHint.None, "")]
-	private GpuParticles2D _hitFxParticles;
+	private GpuParticles2D _hitFxParticles = null!;
 
 	[Export(PropertyHint.None, "")]
-	private Node2D _hitBoneNode;
+	private Node2D _hitBoneNode = null!;
 
-	private CpuParticles2D _deathBodyParticles;
+	private CpuParticles2D _deathBodyParticles = null!;
 
-	private GpuParticles2D _laserBaseParticles;
+	private GpuParticles2D _laserBaseParticles = null!;
 
-	private GpuParticles2D _hitParticles1;
+	private GpuParticles2D _hitParticles1 = null!;
 
-	private GpuParticles2D _hitParticles2;
+	private GpuParticles2D _hitParticles2 = null!;
 
-	private GpuParticles2D _hitParticles3;
+	private GpuParticles2D _hitParticles3 = null!;
 
-	private GpuParticles2D _constantSparks1;
+	private GpuParticles2D _constantSparks1 = null!;
 
-	private GpuParticles2D _constantSparks2;
+	private GpuParticles2D _constantSparks2 = null!;
 
-	private GpuParticles2D _constantSparks3;
+	private GpuParticles2D _constantSparks3 = null!;
 
-	private Node2D _torch1Node;
+	private Node2D _torch1Node = null!;
 
-	private Node2D _torch2Node;
+	private Node2D _torch2Node = null!;
 
-	private Node2D _torch3Node;
+	private Node2D _torch3Node = null!;
 
-	private Node _parent;
+	/// <summary>与 <see cref="FriendlyAmalgam"/> 三灯槽意图是否已学对应；与 Spine 里 torches_on/out 的演出分离，torches_out 后会再套用本状态。</summary>
+	private readonly bool[] _intentTorchSlotFilled = new bool[3];
 
-	private MegaSprite _animController;
+	private Node _parent = null!;
+
+	private MegaSprite _animController = null!;
 
 	public override void _Ready()
 	{
@@ -49,11 +53,11 @@ public partial class NewNAmalgamVfx : Node
 		_laserBaseParticles = _parent.GetNode<GpuParticles2D>("laserBaseBone/laserBaseParticles");
 		_laserBaseParticles.Emitting = false;
 		_torch1Node = _parent.GetNode<Node2D>("torch1Slot/fire1_small_green");
-		_torch1Node.Visible = true;
+		_torch1Node.Visible = false;
 		_torch2Node = _parent.GetNode<Node2D>("torch2Slot/fire2_small_green");
-		_torch2Node.Visible = true;
+		_torch2Node.Visible = false;
 		_torch3Node = _parent.GetNode<Node2D>("torch3Slot/fire3_small_green");
-		_torch3Node.Visible = true;
+		_torch3Node.Visible = false;
 		_hitParticles1 = _parent.GetNode<GpuParticles2D>("torch1UnscaledBone/hitParticles");
 		_hitParticles1.Emitting = false;
 		_hitParticles1.OneShot = true;
@@ -165,12 +169,7 @@ public partial class NewNAmalgamVfx : Node
 
 	private void RestartTorches()
 	{
-		_torch1Node.Visible = true;
-		_torch2Node.Visible = true;
-		_torch3Node.Visible = true;
-		_constantSparks1.Emitting = true;
-		_constantSparks2.Emitting = true;
-		_constantSparks3.Emitting = true;
+		ApplyIntentTorchVisualsFromStoredState();
 	}
 
 	private void KillTorches()
@@ -181,6 +180,32 @@ public partial class NewNAmalgamVfx : Node
 		_constantSparks1.Emitting = false;
 		_constantSparks2.Emitting = false;
 		_constantSparks3.Emitting = false;
+	}
+
+	/// <summary>根据当前战斗模型里已学的意图槽，更新三盏小火与 constant 粒子（未学槽保持暗）。</summary>
+	public void SyncIntentSlotsFromAmalgam(FriendlyAmalgam amalgam)
+	{
+		for (int i = 0; i < 3; i++)
+		{
+			_intentTorchSlotFilled[i] = amalgam.HasIntentInTorchSlot(i);
+			Log.Info($"Intent slot {i} filled: {_intentTorchSlotFilled[i]}");
+		}
+
+		ApplyIntentTorchVisualsFromStoredState();
+	}
+
+	private void ApplyIntentTorchVisualsFromStoredState()
+	{
+		SetIntentTorchSlotVisual(0, _torch1Node, _constantSparks1);
+		SetIntentTorchSlotVisual(1, _torch2Node, _constantSparks2);
+		SetIntentTorchSlotVisual(2, _torch3Node, _constantSparks3);
+	}
+
+	private void SetIntentTorchSlotVisual(int slotIndex, Node2D fireRoot, GpuParticles2D constantSparks)
+	{
+		bool on = _intentTorchSlotFilled[slotIndex];
+		fireRoot.Visible = on;
+		constantSparks.Emitting = on;
 	}
 
 	private void PlayHit1()

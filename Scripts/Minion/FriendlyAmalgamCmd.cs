@@ -1,5 +1,6 @@
 using System.Linq;
 using System.Threading.Tasks;
+using Godot;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -96,8 +97,20 @@ public static class FriendlyAmalgamCmd
             return;
         }
 
-        // 最小实现：先只维护一个当前已学习意图，后续再扩展为 3 槽位与循环。
         await amalgamModel.LearnIntent(intent);
+    }
+
+    /// <summary>将 <see cref="FriendlyAmalgam"/> 三槽意图与 <see cref="NewNAmalgamVfx"/> 小火同步（无节点时静默跳过）。</summary>
+    public static void TryRefreshIntentTorchVisuals(Creature creature)
+    {
+        if (creature.Monster is not FriendlyAmalgam amalgam)
+        {
+            return;
+        }
+
+        // NAmalgamVfx 挂在 Spine 子节点 Visuals 下，不是 NCreatureVisuals 根的直接子节点。
+        NewNAmalgamVfx? vfx = NCombatRoom.Instance?.GetCreatureNode(creature)?.Visuals.GetNodeOrNull<NewNAmalgamVfx>("Visuals/NAmalgamVfx");
+        vfx?.SyncIntentSlotsFromAmalgam(amalgam);
     }
 
     public static async Task ExecuteSingleTargetAttack(

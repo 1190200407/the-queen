@@ -28,9 +28,9 @@ public class QueenCharacter : PlaceholderCharacterModel
     // 卡牌拖尾场景。
     // public override string CustomTrailPath => "res://scenes/vfx/card_trail_ironclad.tscn";
     // 人物头像路径。
-    public override string CustomIconTexturePath => "res://icon.svg";
+    public override string CustomIconTexturePath => "res://TheQueen/images/charui/queen_boss.png";
     // 人物头像2号。
-    // public override string CustomIconPath => "res://scenes/ui/character_icons/ironclad_icon.tscn";
+    public override string CustomIconPath => "res://TheQueen/scenes/ui/queen_icon.tscn";
     // 能量表盘tscn路径。要自定义见下。
     //public override string CustomEnergyCounterPath => "res://test/scenes/test_energy_counter.tscn";
     // 篝火休息场景。
@@ -49,13 +49,13 @@ public class QueenCharacter : PlaceholderCharacterModel
     // 人物选择背景。
     //public override string CustomCharacterSelectBg => "res://test/scenes/test_bg.tscn";
     // 人物选择图标。
-    //public override string CustomCharacterSelectIconPath => "res://TheQueen/images/char_select_test.png";
+    public override string CustomCharacterSelectIconPath => "res://TheQueen/images/charui/char_select_queen.png";
     // 人物选择图标-锁定状态。
-    //public override string CustomCharacterSelectLockedIconPath => "res://test/images/char_select_test_locked.png";
+    public override string CustomCharacterSelectLockedIconPath => "res://TheQueen/images/charui/char_select_queen_locked.png";
     // 人物选择过渡动画。
     // public override string CustomCharacterSelectTransitionPath => "res://materials/transitions/ironclad_transition_mat.tres";
     // 地图上的角色标记图标、表情轮盘上的角色头像
-    // public override string CustomMapMarkerPath => null;
+    public override string CustomMapMarkerPath => "res://TheQueen/images/charui/queen_boss.png";
     // 攻击音效
     // public override string CustomAttackSfx => null;
     // 施法音效
