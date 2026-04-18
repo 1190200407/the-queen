@@ -1,5 +1,7 @@
 {
     "FRIENDLY_AMALGAM.name": "Torch Head Amalgam",
     "FRIENDLY_AMALGAM.intent_offense.title": "Offense Pattern",
-    "FRIENDLY_AMALGAM.intent_offense.description": "At the end of your turn, deal [blue]{Amount}[/blue] damage to a random enemy."
+    "FRIENDLY_AMALGAM.intent_offense.description": "At the end of your turn, deal [blue]{Amount}[/blue] damage to a random enemy.",
+    "FRIENDLY_AMALGAM.intent_slot_empty.title": "Empty slot",
+    "FRIENDLY_AMALGAM.intent_slot_empty.description": "This torch slot has not recorded an intent yet."
 }

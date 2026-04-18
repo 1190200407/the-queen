@@ -1,6 +1,5 @@
 using Godot;
 using MegaCrit.Sts2.Core.Bindings.MegaSpine;
-using MegaCrit.Sts2.Core.Logging;
 
 namespace ComicChess.TheQueen;
 
@@ -192,7 +191,6 @@ public partial class NewNAmalgamVfx : Node
 		for (int i = 0; i < 3; i++)
 		{
 			_intentTorchSlotFilled[i] = amalgam.HasIntentInTorchSlot(i);
-			Log.Info($"Intent slot {i} filled: {_intentTorchSlotFilled[i]}");
 		}
 		_currentTorchSlotIndex = amalgam.CurrentTorchSlotIndex;
 

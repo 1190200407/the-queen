@@ -1,6 +1,6 @@
 [gd_scene load_steps=44 format=3 uid="uid://cfse4ujjetxmq"]
 
-[ext_resource type="Script" uid="uid://de0sova2gmoun" path="res://Scripts/Nodes/NewCreatureVisuals.cs" id="1_i2s3p"]
+[ext_resource type="Script" uid="uid://de0sova2gmoun" path="res://Scripts/Nodes/AmalgamCreatureVisual.cs" id="1_i2s3p"]
 [ext_resource type="SpineSkeletonDataResource" uid="uid://dsdsl8u50sj6r" path="res://TheQueen/animations/monsters/amalgam/amalgam_skel_data.tres" id="2_vi2k6"]
 [ext_resource type="Material" uid="uid://c4ycqv0gdxvmr" path="res://TheQueen/themes/canvas_item_material_additive_shared.tres" id="3_yee2q"]
 [ext_resource type="Texture2D" uid="uid://ct6bc5t36422i" path="res://TheQueen/images/vfx/fire_texture_2.png" id="6_7cfdu"]
@@ -228,9 +228,9 @@ scale = Vector2(-0.1, 0.1)
 [node name="torch3Slot" type="SpineSlotNode" parent="Visuals"]
 slot_name = "torch_2_fire_slot"
 show_behind_parent = true
-position = Vector2(-1049.9471, -1145.2217)
-rotation = 0.5733408
-scale = Vector2(0.9999998, 0.9999999)
+position = Vector2(-1124.4326, -1147.5197)
+rotation = 0.5733407
+scale = Vector2(0.9999999, 0.9999999)
 
 [node name="fire3_small_green" type="Node2D" parent="Visuals/torch3Slot"]
 position = Vector2(-18.6199, 107.972)
@@ -329,8 +329,8 @@ process_material = SubResource("ParticleProcessMaterial_ki5ft")
 [node name="torch2Slot" type="SpineSlotNode" parent="Visuals"]
 slot_name = "torch_3_fire_slot"
 show_behind_parent = true
-position = Vector2(-277.38782, -1583.039)
-rotation = 0.5733407
+position = Vector2(-343.55084, -1509.0056)
+rotation = 0.57334054
 scale = Vector2(0.99999994, 0.99999994)
 
 [node name="fire2_small_green" type="Node2D" parent="Visuals/torch2Slot"]
@@ -431,9 +431,9 @@ process_material = SubResource("ParticleProcessMaterial_ki5ft")
 [node name="torch1Slot" type="SpineSlotNode" parent="Visuals"]
 slot_name = "torch_1_fire_slot"
 show_behind_parent = true
-position = Vector2(145.43306, -976.18616)
-rotation = 0.5733405
-scale = Vector2(0.99999994, 0.99999994)
+position = Vector2(144.26222, -961.1395)
+rotation = 0.57334083
+scale = Vector2(0.9999998, 0.9999998)
 
 [node name="fire1_small_green" type="Node2D" parent="Visuals/torch1Slot"]
 position = Vector2(-4.34019, 107.179)
@@ -586,7 +586,7 @@ scale = Vector2(0.99999994, 0.99999994)
 [node name="torch1UnscaledBone" type="SpineBoneNode" parent="Visuals"]
 bone_name = "torch_1_unscaled"
 show_behind_parent = true
-position = Vector2(145.43306, -976.18616)
+position = Vector2(144.26222, -961.1395)
 scale = Vector2(0.99999994, 0.99999994)
 
 [node name="hitParticles" type="GPUParticles2D" parent="Visuals/torch1UnscaledBone"]
@@ -602,7 +602,7 @@ process_material = SubResource("ParticleProcessMaterial_vh7rt")
 [node name="torch3UnscaledBone" type="SpineBoneNode" parent="Visuals"]
 bone_name = "torch_2_unscaled"
 show_behind_parent = true
-position = Vector2(-1049.9471, -1145.2217)
+position = Vector2(-1124.4326, -1147.5197)
 scale = Vector2(0.99999994, 0.99999994)
 
 [node name="hitParticles" type="GPUParticles2D" parent="Visuals/torch3UnscaledBone"]
@@ -618,7 +618,7 @@ process_material = SubResource("ParticleProcessMaterial_vh7rt")
 [node name="torch2UnscaledBone" type="SpineBoneNode" parent="Visuals"]
 bone_name = "torch_3_unscaled"
 show_behind_parent = true
-position = Vector2(-277.38782, -1583.039)
+position = Vector2(-343.55084, -1509.0056)
 scale = Vector2(0.99999994, 0.99999994)
 
 [node name="hitParticles" type="GPUParticles2D" parent="Visuals/torch2UnscaledBone"]
@@ -655,7 +655,7 @@ position = Vector2(0, -130)
 
 [node name="IntentPos" type="Marker2D" parent="."]
 unique_name_in_owner = true
-position = Vector2(0, -276)
+position = Vector2(0, -295.3)
 
 [node name="laserHitParticles" type="GPUParticles2D" parent="."]
 material = ExtResource("3_yee2q")

@@ -1,0 +1,135 @@
+[gd_scene load_steps=10 format=3 uid="uid://fu8h8elqjql8"]
+
+[ext_resource type="Script" uid="uid://c7oy3xpbjvnr8" path="res://Scripts/Nodes/NIntentSlot.cs" id="1_intent_slot"]
+[ext_resource type="Texture2D" uid="uid://cow0lv37vlj27" path="res://TheQueen/images/ui/empty_orb.png" id="2_dgkbn"]
+[ext_resource type="Script" uid="uid://lvfs6rx60655" path="res://Scripts/Nodes/NewMegaLabel.cs" id="3_pdbv7"]
+[ext_resource type="FontVariation" uid="uid://ux4d708e7mk6" path="res://TheQueen/themes/kreon_bold_glyph_space_one.tres" id="3_rsrg6"]
+[ext_resource type="Shader" uid="uid://b28wpjjnukcnf" path="res://TheQueen/shaders/power_flash_vfx.gdshader" id="5_7gdc3"]
+[ext_resource type="PackedScene" uid="uid://sdok1yfxsmi8" path="res://TheQueen/scenes/ui/selection_reticle.tscn" id="6_aty8u"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fk8os"]
+shader = ExtResource("5_7gdc3")
+shader_parameter/strength = 2.0
+
+[sub_resource type="Curve" id="Curve_to04r"]
+_limits = [0.5, 2.0, 0.0, 1.0]
+_data = [Vector2(0, 0.5), 0.0, 0.216286, 0, 0, Vector2(1, 1.05594), 0.301663, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_1qr80"]
+offsets = PackedFloat32Array(0, 0.0572289, 0.533133, 1)
+colors = PackedColorArray(0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0.947369, 1, 1, 1, 0)
+
+[node name="IntentSlot" type="Control"]
+z_index = 1
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -960.0
+offset_top = -540.0
+offset_right = -960.0
+offset_bottom = -540.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 2
+script = ExtResource("1_intent_slot")
+
+[node name="Outline" type="TextureRect" parent="."]
+unique_name_in_owner = true
+z_index = 1
+layout_mode = 0
+offset_left = -30.0
+offset_top = -30.0
+offset_right = 30.0
+offset_bottom = 30.0
+pivot_offset = Vector2(30, 30)
+texture = ExtResource("2_dgkbn")
+expand_mode = 1
+
+[node name="VisualContainer" type="Control" parent="."]
+unique_name_in_owner = true
+z_index = 1
+anchors_preset = 0
+scale = Vector2(1.5, 1.5)
+
+[node name="LabelContainer" type="VBoxContainer" parent="."]
+unique_name_in_owner = true
+visible = false
+z_index = 1
+layout_mode = 0
+offset_left = 7.0
+offset_top = -26.0
+offset_right = 30.0
+offset_bottom = 32.0
+theme_override_constants/separation = -12
+alignment = 2
+
+[node name="PassiveAmount" type="Label" parent="LabelContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.964706, 0.886275, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.25)
+theme_override_colors/font_outline_color = Color(0.2, 0.2, 0.2, 0.9)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/outline_size = 12
+theme_override_constants/shadow_outline_size = 0
+theme_override_fonts/font = ExtResource("3_rsrg6")
+theme_override_font_sizes/font_size = 24
+text = "12"
+horizontal_alignment = 1
+vertical_alignment = 2
+script = ExtResource("3_pdbv7")
+
+[node name="EvokeAmount" type="Label" parent="LabelContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.368627, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.25)
+theme_override_colors/font_outline_color = Color(0.077, 0.211, 0.32, 0.9)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/outline_size = 12
+theme_override_constants/shadow_outline_size = 0
+theme_override_fonts/font = ExtResource("3_rsrg6")
+theme_override_font_sizes/font_size = 24
+text = "12"
+horizontal_alignment = 1
+script = ExtResource("3_pdbv7")
+
+[node name="Bounds" type="Control" parent="."]
+z_index = 1
+anchors_preset = 0
+offset_left = -29.0
+offset_top = -29.0
+offset_right = 28.083618
+offset_bottom = 28.0
+scale = Vector2(0.95999026, 1)
+pivot_offset = Vector2(30, 30)
+mouse_filter = 1
+
+[node name="Flash" type="CPUParticles2D" parent="."]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0.470588)
+material = SubResource("ShaderMaterial_fk8os")
+emitting = false
+amount = 2
+texture = ExtResource("2_dgkbn")
+lifetime = 0.5
+one_shot = true
+explosiveness = 0.7
+gravity = Vector2(0, 0)
+scale_amount_curve = SubResource("Curve_to04r")
+color_ramp = SubResource("Gradient_1qr80")
+
+[node name="SelectionReticle" parent="." instance=ExtResource("6_aty8u")]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = -30.0
+offset_top = -30.0
+offset_right = 29.0
+offset_bottom = 27.0
+pivot_offset = Vector2(37, 37)

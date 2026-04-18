@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using MegaCrit.Sts2.Core.Animation;
 using MegaCrit.Sts2.Core.Bindings.MegaSpine;
 using MegaCrit.Sts2.Core.Combat;
@@ -5,6 +7,7 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.MonsterMoves.Intents;
 using MegaCrit.Sts2.Core.MonsterMoves.MonsterMoveStateMachine;
 using MinionLib.Minion;
@@ -16,7 +19,7 @@ public class FriendlyAmalgam : MinionModel
     private static readonly MoveState DefaultSleepMoveState = new(
         "AMALGAM_SLEEP",
         _ => Task.CompletedTask,
-        new SleepIntent());
+        new AmalgamSleepIntent());
 
     private const int TorchSlotCount = 3;
 
@@ -34,6 +37,32 @@ public class FriendlyAmalgam : MinionModel
 
     public bool HasIntentInTorchSlot(int slotIndex) =>
         slotIndex >= 0 && slotIndex < TorchSlotCount && _intentByTorchSlot[slotIndex] != null;
+
+    public AmalgamActionModel? GetIntentInTorchSlot(int slotIndex) =>
+        slotIndex >= 0 && slotIndex < TorchSlotCount ? _intentByTorchSlot[slotIndex] : null;
+
+    /// <summary>灯槽悬停：与意图节点悬停同源，按槽取 <see cref="AmalgamActionModel.GetMoveStateForDisplay"/> 再 <see cref="AbstractIntent.GetHoverTip"/>。</summary>
+    public bool TryGetTorchSlotHoverTip(Creature amalgamCreature, int slotIndex, out HoverTip hoverTip)
+    {
+        hoverTip = default;
+        if (slotIndex < 0 || slotIndex >= TorchSlotCount ||
+            _intentByTorchSlot[slotIndex] is not { } action ||
+            amalgamCreature.CombatState is not { } combatState)
+        {
+            return false;
+        }
+
+        MoveState moveState = action.GetMoveStateForDisplay(amalgamCreature);
+        if (moveState.Intents.Count == 0)
+        {
+            return false;
+        }
+
+        AbstractIntent firstIntent = moveState.Intents[0];
+        IEnumerable<Creature> targets = combatState.Players.Select(static p => p.Creature);
+        hoverTip = firstIntent.GetHoverTip(targets, amalgamCreature);
+        return true;
+    }
 
     public override int MaxInitialHp => 1;
     public override int MinInitialHp => 1;
