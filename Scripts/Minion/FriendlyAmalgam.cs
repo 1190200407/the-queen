@@ -20,7 +20,7 @@ public class FriendlyAmalgam : MinionModel
 
     private const int TorchSlotCount = 3;
 
-    /// <summary>每个灯槽一条已学意图；按槽 0→1→2 顺序点亮空槽，意图不随执行而清除。</summary>
+    /// <summary>每个灯槽一条已学意图；按槽 0→1→2 顺序写入空槽，意图不随执行而清除。学习后当前灯立即切到该槽；三槽满时学习不写入，当场执行该意图一次。</summary>
     private readonly AmalgamActionModel?[] _intentByTorchSlot = new AmalgamActionModel?[TorchSlotCount];
 
     /// <summary>当前轮到执行的灯槽下标（仅在已点亮的槽之间轮转）。</summary>
@@ -28,6 +28,9 @@ public class FriendlyAmalgam : MinionModel
 
     /// <summary>当前灯槽对应的意图（用于展示与 <see cref="BeforeTurnEnd"/> 执行）。</summary>
     public AmalgamActionModel? LearnedAction => _intentByTorchSlot[_currentTorchSlotIndex];
+
+    /// <summary>当前即将执行的灯槽。无已学意图时返回 -1。</summary>
+    public int CurrentTorchSlotIndex => LearnedAction == null ? -1 : _currentTorchSlotIndex;
 
     public bool HasIntentInTorchSlot(int slotIndex) =>
         slotIndex >= 0 && slotIndex < TorchSlotCount && _intentByTorchSlot[slotIndex] != null;
@@ -99,29 +102,44 @@ public class FriendlyAmalgam : MinionModel
             return;
         }
 
+        await FriendlyAmalgamCmd.TryPerformIntent(self);
         await action.ExecuteAsync(choiceContext, self);
         RotateCurrentToNextLitTorchSlot();
         RefreshDisplayedIntent();
+        FriendlyAmalgamCmd.TryRefreshIntentTorchVisuals(self);
     }
 
-    public async Task LearnIntent(AmalgamActionModel intent)
+    public async Task LearnIntent(PlayerChoiceContext choiceContext, AmalgamActionModel intent)
     {
         int emptySlot = FirstEmptyTorchSlotIndex();
         if (emptySlot < 0)
         {
-            // 三槽已满时的学习规则待定，暂不写入。
+            // 三槽已满：不写入槽位，当场执行本次要学的意图；不做意图条/小火等意图 UI 同步。
+            await intent.ExecuteAsync(choiceContext, Creature);
             return;
         }
 
-        _intentByTorchSlot[emptySlot] = intent;
-        if (_intentByTorchSlot[_currentTorchSlotIndex] == null)
+        bool hadAnyIntentBefore = false;
+        for (int i = 0; i < TorchSlotCount; i++)
         {
-            _currentTorchSlotIndex = IndexOfFirstLitTorchSlot();
+            if (_intentByTorchSlot[i] != null)
+            {
+                hadAnyIntentBefore = true;
+                break;
+            }
         }
+
+        _intentByTorchSlot[emptySlot] = intent;
+        _currentTorchSlotIndex = emptySlot;
 
         RefreshDisplayedIntent();
         FriendlyAmalgamCmd.TryRefreshIntentTorchVisuals(Creature);
-        await CreatureCmd.TriggerAnim(Creature, "Idle", 0f);
+
+        // 仅 0 意图 → 第 1 条意图（Sleep）时切到 Idle；再学新意图不刷 Idle。
+        if (!hadAnyIntentBefore)
+        {
+            await CreatureCmd.TriggerAnim(Creature, "Idle", 0f);
+        }
     }
 
     private async Task ClearTorchSlots()
@@ -148,19 +166,6 @@ public class FriendlyAmalgam : MinionModel
         }
 
         return -1;
-    }
-
-    private int IndexOfFirstLitTorchSlot()
-    {
-        for (int i = 0; i < TorchSlotCount; i++)
-        {
-            if (_intentByTorchSlot[i] != null)
-            {
-                return i;
-            }
-        }
-
-        return 0;
     }
 
     /// <summary>若当前槽无意图但别处已点亮，把当前指针拉回第一个亮槽（防御性同步）。</summary>
@@ -202,7 +207,10 @@ public class FriendlyAmalgam : MinionModel
 
     private void RefreshDisplayedIntent()
     {
-        MoveState state = LearnedAction?.MoveState ?? DefaultSleepMoveState;
+        Creature self = Creature;
+        MoveState state = LearnedAction != null
+            ? LearnedAction.GetMoveStateForDisplay(self)
+            : DefaultSleepMoveState;
         SetMoveImmediate(state, forceTransition: true);
     }
 }

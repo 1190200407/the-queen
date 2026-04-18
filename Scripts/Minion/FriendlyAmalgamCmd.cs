@@ -72,7 +72,11 @@ public static class FriendlyAmalgamCmd
         await Hook.AfterSummon(combatState, choiceContext, owner, amount);
     }
 
-    public static async Task LearnIntent(Player owner, AmalgamActionModel? intent, AbstractModel? source)
+    public static async Task LearnIntent(
+        PlayerChoiceContext choiceContext,
+        Player owner,
+        AmalgamActionModel? intent,
+        AbstractModel? source)
     {
         _ = source;
         if (intent == null)
@@ -97,7 +101,7 @@ public static class FriendlyAmalgamCmd
             return;
         }
 
-        await amalgamModel.LearnIntent(intent);
+        await amalgamModel.LearnIntent(choiceContext, intent);
     }
 
     /// <summary>将 <see cref="FriendlyAmalgam"/> 三槽意图与 <see cref="NewNAmalgamVfx"/> 小火同步（无节点时静默跳过）。</summary>
@@ -113,6 +117,16 @@ public static class FriendlyAmalgamCmd
         vfx?.SyncIntentSlotsFromAmalgam(amalgam);
     }
 
+    /// <summary>聚合体在回合末执行<strong>灯槽内已记录</strong>的意图之前调用；满槽当场学习执行的路径不要调用。</summary>
+    public static async Task TryPerformIntent(Creature attacker)
+    {
+        var attackerNode = NCombatRoom.Instance?.GetCreatureNode(attacker);
+        if (attackerNode != null)
+        {
+            await attackerNode.PerformIntent();
+        }
+    }
+
     public static async Task ExecuteSingleTargetAttack(
         PlayerChoiceContext choiceContext,
         Creature attacker,
@@ -122,12 +136,6 @@ public static class FriendlyAmalgamCmd
         float attackerAnimDelay,
         string hitVfxPath)
     {
-        var attackerNode = NCombatRoom.Instance?.GetCreatureNode(attacker);
-        if (attackerNode != null)
-        {
-            await attackerNode.PerformIntent();
-        }
-
         await CreatureCmd.TriggerAnim(attacker, attackerAnimName, attackerAnimDelay);
         VfxCmd.PlayOnCreatureCenter(target, hitVfxPath);
         await CreatureCmd.Damage(choiceContext, target, damage, ValueProp.Move, attacker, null);

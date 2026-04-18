@@ -225,117 +225,16 @@ unique_name_in_owner = true
 position = Vector2(-0.72, -18)
 scale = Vector2(-0.1, 0.1)
 
-[node name="torch2Slot" type="SpineSlotNode" parent="Visuals"]
+[node name="torch3Slot" type="SpineSlotNode" parent="Visuals"]
 slot_name = "torch_2_fire_slot"
 show_behind_parent = true
-position = Vector2(-815.41486, -865.75903)
-rotation = 0.5733404
-scale = Vector2(0.9999999, 0.9999999)
-
-[node name="fire2_small_green" type="Node2D" parent="Visuals/torch2Slot"]
-position = Vector2(-18.6199, 107.972)
-rotation = 0.0455226
-scale = Vector2(3, 3)
-
-[node name="fire_vfx_back_small" type="CPUParticles2D" parent="Visuals/torch2Slot/fire2_small_green"]
-material = SubResource("CanvasItemMaterial_68vih")
-position = Vector2(-1.08119, 2.2443)
-amount = 25
-texture = ExtResource("6_7cfdu")
-preprocess = 1.0
-local_coords = true
-emission_shape = 1
-emission_sphere_radius = 1.1
-direction = Vector2(0, -1)
-spread = 15.0
-gravity = Vector2(0, -500)
-initial_velocity_min = 100.0
-initial_velocity_max = 100.0
-angular_velocity_min = 32.0
-angular_velocity_max = 32.0
-linear_accel_min = 100.0
-linear_accel_max = 100.0
-angle_max = 20.0
-angle_curve = SubResource("Curve_hlnqt")
-scale_amount_min = 0.75
-scale_amount_curve = SubResource("Curve_epv7f")
-color_ramp = SubResource("Gradient_8v441")
-anim_offset_max = 1.0
-
-[node name="fire_spark_small" type="CPUParticles2D" parent="Visuals/torch2Slot/fire2_small_green"]
-material = ExtResource("3_yee2q")
-position = Vector2(0, -18)
-emitting = false
-amount = 30
-texture = ExtResource("7_kigt6")
-lifetime = 1.25
-preprocess = 1.25
-local_coords = true
-emission_shape = 1
-emission_sphere_radius = 54.06
-direction = Vector2(0, -1)
-spread = 30.0
-gravity = Vector2(0, -200)
-initial_velocity_min = 100.0
-initial_velocity_max = 100.0
-linear_accel_min = 100.0
-linear_accel_max = 100.0
-angle_min = -10.0
-angle_max = 10.0
-scale_amount_min = 0.1
-scale_amount_max = 0.3
-scale_amount_curve = SubResource("Curve_epv7f")
-color_ramp = SubResource("Gradient_rom07")
-
-[node name="fire_vfx_front_small" type="CPUParticles2D" parent="Visuals/torch2Slot/fire2_small_green"]
-material = SubResource("CanvasItemMaterial_atiss")
-position = Vector2(0.324208, -5.80864)
-amount = 20
-texture = ExtResource("6_7cfdu")
-preprocess = 1.0
-local_coords = true
-emission_shape = 1
-emission_sphere_radius = 1.0
-direction = Vector2(0, -1)
-spread = 15.0
-gravity = Vector2(0, -300)
-initial_velocity_min = 100.0
-initial_velocity_max = 100.0
-angular_velocity_min = 32.0
-angular_velocity_max = 32.0
-linear_accel_min = 100.0
-linear_accel_max = 100.0
-angle_max = 10.0
-angle_curve = SubResource("Curve_hg5ro")
-scale_amount_min = 0.5
-scale_amount_max = 0.7
-scale_amount_curve = SubResource("Curve_hsetl")
-color_ramp = SubResource("Gradient_t10rs")
-anim_offset_max = 1.0
-
-[node name="constantParticles" type="GPUParticles2D" parent="Visuals/torch2Slot"]
-material = ExtResource("3_yee2q")
-position = Vector2(-3.00381, -38.4867)
-amount = 10
-texture = ExtResource("8_fbhvk")
-lifetime = 3.5
-preprocess = 2.0
-fixed_fps = 60
-trail_lifetime = 0.15
-trail_sections = 4
-trail_section_subdivisions = 42
-process_material = SubResource("ParticleProcessMaterial_ki5ft")
-
-[node name="torch3Slot" type="SpineSlotNode" parent="Visuals"]
-slot_name = "torch_3_fire_slot"
-show_behind_parent = true
-position = Vector2(-189.93161, -1470.6647)
-rotation = 0.57334054
-scale = Vector2(0.99999994, 0.99999994)
+position = Vector2(-1049.9471, -1145.2217)
+rotation = 0.5733408
+scale = Vector2(0.9999998, 0.9999999)
 
 [node name="fire3_small_green" type="Node2D" parent="Visuals/torch3Slot"]
-position = Vector2(14.3439, 114.258)
-rotation = -0.0313135
+position = Vector2(-18.6199, 107.972)
+rotation = 0.0455226
 scale = Vector2(3, 3)
 
 [node name="fire_vfx_back_small" type="CPUParticles2D" parent="Visuals/torch3Slot/fire3_small_green"]
@@ -364,9 +263,9 @@ color_ramp = SubResource("Gradient_8v441")
 anim_offset_max = 1.0
 
 [node name="fire_spark_small" type="CPUParticles2D" parent="Visuals/torch3Slot/fire3_small_green"]
-visible = false
 material = ExtResource("3_yee2q")
 position = Vector2(0, -18)
+emitting = false
 amount = 30
 texture = ExtResource("7_kigt6")
 lifetime = 1.25
@@ -374,7 +273,6 @@ preprocess = 1.25
 local_coords = true
 emission_shape = 1
 emission_sphere_radius = 54.06
-particle_flag_align_y = true
 direction = Vector2(0, -1)
 spread = 30.0
 gravity = Vector2(0, -200)
@@ -417,6 +315,108 @@ anim_offset_max = 1.0
 
 [node name="constantParticles" type="GPUParticles2D" parent="Visuals/torch3Slot"]
 material = ExtResource("3_yee2q")
+position = Vector2(-3.00381, -38.4867)
+amount = 10
+texture = ExtResource("8_fbhvk")
+lifetime = 3.5
+preprocess = 2.0
+fixed_fps = 60
+trail_lifetime = 0.15
+trail_sections = 4
+trail_section_subdivisions = 42
+process_material = SubResource("ParticleProcessMaterial_ki5ft")
+
+[node name="torch2Slot" type="SpineSlotNode" parent="Visuals"]
+slot_name = "torch_3_fire_slot"
+show_behind_parent = true
+position = Vector2(-277.38782, -1583.039)
+rotation = 0.5733407
+scale = Vector2(0.99999994, 0.99999994)
+
+[node name="fire2_small_green" type="Node2D" parent="Visuals/torch2Slot"]
+position = Vector2(14.3439, 114.258)
+rotation = -0.0313135
+scale = Vector2(3, 3)
+
+[node name="fire_vfx_back_small" type="CPUParticles2D" parent="Visuals/torch2Slot/fire2_small_green"]
+material = SubResource("CanvasItemMaterial_68vih")
+position = Vector2(-1.08119, 2.2443)
+amount = 25
+texture = ExtResource("6_7cfdu")
+preprocess = 1.0
+local_coords = true
+emission_shape = 1
+emission_sphere_radius = 1.1
+direction = Vector2(0, -1)
+spread = 15.0
+gravity = Vector2(0, -500)
+initial_velocity_min = 100.0
+initial_velocity_max = 100.0
+angular_velocity_min = 32.0
+angular_velocity_max = 32.0
+linear_accel_min = 100.0
+linear_accel_max = 100.0
+angle_max = 20.0
+angle_curve = SubResource("Curve_hlnqt")
+scale_amount_min = 0.75
+scale_amount_curve = SubResource("Curve_epv7f")
+color_ramp = SubResource("Gradient_8v441")
+anim_offset_max = 1.0
+
+[node name="fire_spark_small" type="CPUParticles2D" parent="Visuals/torch2Slot/fire2_small_green"]
+visible = false
+material = ExtResource("3_yee2q")
+position = Vector2(0, -18)
+amount = 30
+texture = ExtResource("7_kigt6")
+lifetime = 1.25
+preprocess = 1.25
+local_coords = true
+emission_shape = 1
+emission_sphere_radius = 54.06
+particle_flag_align_y = true
+direction = Vector2(0, -1)
+spread = 30.0
+gravity = Vector2(0, -200)
+initial_velocity_min = 100.0
+initial_velocity_max = 100.0
+linear_accel_min = 100.0
+linear_accel_max = 100.0
+angle_min = -10.0
+angle_max = 10.0
+scale_amount_min = 0.1
+scale_amount_max = 0.3
+scale_amount_curve = SubResource("Curve_epv7f")
+color_ramp = SubResource("Gradient_rom07")
+
+[node name="fire_vfx_front_small" type="CPUParticles2D" parent="Visuals/torch2Slot/fire2_small_green"]
+material = SubResource("CanvasItemMaterial_atiss")
+position = Vector2(0.324208, -5.80864)
+amount = 20
+texture = ExtResource("6_7cfdu")
+preprocess = 1.0
+local_coords = true
+emission_shape = 1
+emission_sphere_radius = 1.0
+direction = Vector2(0, -1)
+spread = 15.0
+gravity = Vector2(0, -300)
+initial_velocity_min = 100.0
+initial_velocity_max = 100.0
+angular_velocity_min = 32.0
+angular_velocity_max = 32.0
+linear_accel_min = 100.0
+linear_accel_max = 100.0
+angle_max = 10.0
+angle_curve = SubResource("Curve_hg5ro")
+scale_amount_min = 0.5
+scale_amount_max = 0.7
+scale_amount_curve = SubResource("Curve_hsetl")
+color_ramp = SubResource("Gradient_t10rs")
+anim_offset_max = 1.0
+
+[node name="constantParticles" type="GPUParticles2D" parent="Visuals/torch2Slot"]
+material = ExtResource("3_yee2q")
 position = Vector2(4.34387, -25.7417)
 amount = 10
 texture = ExtResource("8_fbhvk")
@@ -431,9 +431,9 @@ process_material = SubResource("ParticleProcessMaterial_ki5ft")
 [node name="torch1Slot" type="SpineSlotNode" parent="Visuals"]
 slot_name = "torch_1_fire_slot"
 show_behind_parent = true
-position = Vector2(132.78539, -731.8644)
-rotation = 0.5733407
-scale = Vector2(0.9999999, 0.9999999)
+position = Vector2(145.43306, -976.18616)
+rotation = 0.5733405
+scale = Vector2(0.99999994, 0.99999994)
 
 [node name="fire1_small_green" type="Node2D" parent="Visuals/torch1Slot"]
 position = Vector2(-4.34019, 107.179)
@@ -586,7 +586,7 @@ scale = Vector2(0.99999994, 0.99999994)
 [node name="torch1UnscaledBone" type="SpineBoneNode" parent="Visuals"]
 bone_name = "torch_1_unscaled"
 show_behind_parent = true
-position = Vector2(132.78539, -731.8644)
+position = Vector2(145.43306, -976.18616)
 scale = Vector2(0.99999994, 0.99999994)
 
 [node name="hitParticles" type="GPUParticles2D" parent="Visuals/torch1UnscaledBone"]
@@ -599,13 +599,13 @@ fixed_fps = 60
 fract_delta = false
 process_material = SubResource("ParticleProcessMaterial_vh7rt")
 
-[node name="torch2UnscaledBone" type="SpineBoneNode" parent="Visuals"]
+[node name="torch3UnscaledBone" type="SpineBoneNode" parent="Visuals"]
 bone_name = "torch_2_unscaled"
 show_behind_parent = true
-position = Vector2(-815.41486, -865.75903)
+position = Vector2(-1049.9471, -1145.2217)
 scale = Vector2(0.99999994, 0.99999994)
 
-[node name="hitParticles" type="GPUParticles2D" parent="Visuals/torch2UnscaledBone"]
+[node name="hitParticles" type="GPUParticles2D" parent="Visuals/torch3UnscaledBone"]
 material = ExtResource("3_yee2q")
 scale = Vector2(1.8, 1.60001)
 amount = 100
@@ -615,13 +615,13 @@ fixed_fps = 60
 fract_delta = false
 process_material = SubResource("ParticleProcessMaterial_vh7rt")
 
-[node name="torch3UnscaledBone" type="SpineBoneNode" parent="Visuals"]
+[node name="torch2UnscaledBone" type="SpineBoneNode" parent="Visuals"]
 bone_name = "torch_3_unscaled"
 show_behind_parent = true
-position = Vector2(-189.93161, -1470.6647)
+position = Vector2(-277.38782, -1583.039)
 scale = Vector2(0.99999994, 0.99999994)
 
-[node name="hitParticles" type="GPUParticles2D" parent="Visuals/torch3UnscaledBone"]
+[node name="hitParticles" type="GPUParticles2D" parent="Visuals/torch2UnscaledBone"]
 material = ExtResource("3_yee2q")
 scale = Vector2(1.8, 1.60001)
 amount = 100

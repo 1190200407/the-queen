@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization;
-using MegaCrit.Sts2.Core.MonsterMoves.Intents;
 using MegaCrit.Sts2.Core.MonsterMoves.MonsterMoveStateMachine;
 
 namespace ComicChess.TheQueen;
@@ -29,13 +28,13 @@ public sealed class AmalgamOffenseIntentAction : AmalgamActionModel
 
     protected override MoveState CreateMoveState()
     {
-        int displayDamage = Math.Max(0, (int)Amount);
         return new MoveState(
             "AMALGAM_INTENT_OFFENSE",
             _ => Task.CompletedTask,
-            new SingleAttackIntent(displayDamage));
+            new AmalgamSingleAttackIntent(Amount));
     }
 
+    /// <remarks>意图条 <c>PerformIntent</c> 仅在回合末执行灯槽记录时由 <see cref="FriendlyAmalgam.BeforeTurnEnd"/> 调用；此处只打出伤害链。</remarks>
     protected override async Task OnExecute(PlayerChoiceContext choiceContext, Creature amalgam)
     {
         var combatState = amalgam.CombatState;

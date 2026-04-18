@@ -28,6 +28,9 @@ public abstract class AmalgamActionModel
 
     public MoveState MoveState => _moveState ??= CreateMoveState();
 
+    /// <summary>意图条等展示用；进攻类可在此把 <see cref="Hook.ModifyDamage"/>（出手方为聚合体）与卡面数字对齐。默认等同 <see cref="MoveState"/>。</summary>
+    public virtual MoveState GetMoveStateForDisplay(Creature amalgam) => MoveState;
+
     public Task ExecuteAsync(PlayerChoiceContext choiceContext, Creature amalgam)
     {
         if (!amalgam.IsAlive || amalgam.CombatState == null)
