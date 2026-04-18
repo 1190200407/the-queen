@@ -16,7 +16,8 @@ namespace ComicChess.TheQueen;
 
 public class FriendlyAmalgam : MinionModel
 {
-    private static readonly MoveState DefaultSleepMoveState = new(
+    /// <summary>与默认沉睡、<see cref="AmalgamEmergencySleepForcedActionModel"/> 共用同一展示状态。</summary>
+    internal static readonly MoveState SleepOverlayMoveState = new(
         "AMALGAM_SLEEP",
         _ => Task.CompletedTask,
         new AmalgamSleepIntent());
@@ -35,8 +36,77 @@ public class FriendlyAmalgam : MinionModel
     /// <summary>当前即将执行的灯槽。无已学意图时返回 -1。</summary>
     public int CurrentTorchSlotIndex => LearnedAction == null ? -1 : _currentTorchSlotIndex;
 
+    private AmalgamForcedActionModel? _forcedAction;
+
     public bool HasIntentInTorchSlot(int slotIndex) =>
         slotIndex >= 0 && slotIndex < TorchSlotCount && _intentByTorchSlot[slotIndex] != null;
+
+    /// <summary>
+    /// 是否视为「沉睡」而不替主人承伤：以<strong>即将执行的 MoveState</strong>为准（首意图为 <see cref="AmalgamSleepIntent"/>），
+    /// 或存在 <see cref="AmalgamForcedActionModel"/> 且 <see cref="AmalgamForcedActionModel.IsSleepingForBodyguard"/> 为真（如 <see cref="AmalgamEmergencySleepForcedActionModel"/>）；不单看灯槽是否学满进攻。
+    /// </summary>
+    public bool IsBodyguardSleeping()
+    {
+        Creature self = Creature;
+        if (!self.IsAlive)
+        {
+            return true;
+        }
+
+        if (_forcedAction?.IsSleepingForBodyguard == true)
+        {
+            return true;
+        }
+
+        return IsSleepPendingMoveState(GetPendingDisplayedMoveState(self));
+    }
+
+    /// <summary>进入强制行动；下回合由 <see cref="EmergencyEvasionPendingPower"/> 等逻辑调用 <see cref="ClearForcedAction"/>。</summary>
+    public async Task BeginForcedAction(AmalgamForcedActionModel? action)
+    {
+        if (action == null)
+        {
+            ClearForcedAction();
+            return;
+        }
+
+        _forcedAction = action;
+        RefreshDisplayedIntent();
+        FriendlyAmalgamCmd.TryRefreshIntentTorchVisuals(Creature);
+        await _forcedAction.OnBeginAsync(Creature);
+    }
+
+    public void ClearForcedAction()
+    {
+        _forcedAction = null;
+        RefreshDisplayedIntent();
+        FriendlyAmalgamCmd.TryRefreshIntentTorchVisuals(Creature);
+    }
+
+    private MoveState GetPendingDisplayedMoveState(Creature self)
+    {
+        if (_forcedAction != null)
+        {
+            return _forcedAction.GetOverlayMoveState(self);
+        }
+
+        if (LearnedAction != null)
+        {
+            return LearnedAction.GetMoveStateForDisplay(self);
+        }
+
+        return SleepOverlayMoveState;
+    }
+
+    private static bool IsSleepPendingMoveState(MoveState state)
+    {
+        if (state.Intents.Count == 0)
+        {
+            return true;
+        }
+
+        return state.Intents[0] is AmalgamSleepIntent;
+    }
 
     public AmalgamActionModel? GetIntentInTorchSlot(int slotIndex) =>
         slotIndex >= 0 && slotIndex < TorchSlotCount ? _intentByTorchSlot[slotIndex] : null;
@@ -72,6 +142,8 @@ public class FriendlyAmalgam : MinionModel
     public static readonly string IdleAnimName = "idle_loop";
     public static readonly string DeathAnimName = "die";
     public static readonly string BuffAnimName = "buff";
+    public static readonly string CastAnimName = "buff";
+    public static readonly string HitAnimName = "hurt";
     public static readonly string DebuffAnimName = "_ignore/hug2";
     public static readonly string AttackAnimName = "attack";
     public static readonly string PowerAttackAnimName = "debuff";
@@ -82,6 +154,8 @@ public class FriendlyAmalgam : MinionModel
         AnimState idle = new(IdleAnimName, isLooping: true);
         AnimState attack = new(AttackAnimName);
         AnimState buff = new(BuffAnimName);
+        AnimState cast = new(CastAnimName);
+        AnimState hurt = new(HitAnimName);
         AnimState debuff = new(DebuffAnimName);
         AnimState powerAttack = new(PowerAttackAnimName);
         AnimState sleep = new(SleepAnimName, isLooping: true);
@@ -89,17 +163,20 @@ public class FriendlyAmalgam : MinionModel
 
         attack.NextState = idle;
         buff.NextState = idle;
+        cast.NextState = idle;
+        hurt.NextState = idle;
         debuff.NextState = idle;
         powerAttack.NextState = idle;
-        death.NextState = idle;
 
         CreatureAnimator animator = new(idle, controller);
 
         // 兼容引擎与常见调用习惯。
         animator.AddAnyState("Idle", idle);
         animator.AddAnyState("Attack", attack);
-        animator.AddAnyState("Cast", buff);
-        animator.AddAnyState("Hit", debuff);
+        animator.AddAnyState("Buff", buff);
+        animator.AddAnyState("Cast", cast);
+        animator.AddAnyState("Hit", hurt);
+        animator.AddAnyState("Debuff", debuff);
         animator.AddAnyState("Dead", death);
         animator.AddAnyState("PowerAttack", powerAttack);
         animator.AddAnyState("Sleep", sleep);
@@ -109,7 +186,6 @@ public class FriendlyAmalgam : MinionModel
 
     public override async Task OnSummon(Player owner, Creature self, MinionSummonOptions options)
     {
-        // TODO 加上为你而死，初始化意图效果
         await ClearTorchSlots();
     }
 
@@ -125,9 +201,23 @@ public class FriendlyAmalgam : MinionModel
 
         SyncCurrentTorchSlotIfNeeded();
 
+        if (_forcedAction?.SkipsPlayerTurnEndTorchExecution == true)
+        {
+            RefreshDisplayedIntent();
+            FriendlyAmalgamCmd.TryRefreshIntentTorchVisuals(self);
+            return;
+        }
+
         AmalgamActionModel? action = LearnedAction;
         if (action == null)
         {
+            return;
+        }
+
+        if (IsSleepPendingMoveState(action.GetMoveStateForDisplay(self)))
+        {
+            RefreshDisplayedIntent();
+            FriendlyAmalgamCmd.TryRefreshIntentTorchVisuals(self);
             return;
         }
 
@@ -173,6 +263,7 @@ public class FriendlyAmalgam : MinionModel
 
     private async Task ClearTorchSlots()
     {
+        _forcedAction = null;
         for (int i = 0; i < TorchSlotCount; i++)
         {
             _intentByTorchSlot[i] = null;
@@ -237,9 +328,7 @@ public class FriendlyAmalgam : MinionModel
     private void RefreshDisplayedIntent()
     {
         Creature self = Creature;
-        MoveState state = LearnedAction != null
-            ? LearnedAction.GetMoveStateForDisplay(self)
-            : DefaultSleepMoveState;
+        MoveState state = GetPendingDisplayedMoveState(self);
         SetMoveImmediate(state, forceTransition: true);
     }
 }

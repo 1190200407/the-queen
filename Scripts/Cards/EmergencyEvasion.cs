@@ -1,0 +1,64 @@
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using BaseLib.Extensions;
+using BaseLib.Utils;
+using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Combat;
+using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models.CardPools;
+
+namespace ComicChess.TheQueen;
+
+[Pool(typeof(QueenCardPool))]
+public sealed class EmergencyEvasion : QueenCardModel
+{
+	private const decimal nextTurnSummon = 7m;
+	private const int energyCost = 1;
+	private const CardType type = CardType.Skill;
+	private const CardRarity rarity = CardRarity.Common;
+	private const TargetType targetType = TargetType.Self;
+	private const bool shouldShowInCardLibrary = true;
+
+	protected override IEnumerable<DynamicVar> CanonicalVars =>
+	[
+		new SummonVar(nextTurnSummon).WithTooltip("QUEEN_SUMMON_DYNAMIC")
+	];
+
+	public EmergencyEvasion()
+		: base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
+	{
+	}
+
+	protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+	{
+		_ = cardPlay;
+		CombatState? combatState = base.Owner.Creature.CombatState;
+		if (combatState == null)
+		{
+			return;
+		}
+
+		Creature? amalgamCreature = FriendlyAmalgamCmd.GetExisting(combatState, base.Owner);
+		if (amalgamCreature is not { IsAlive: true, Monster: FriendlyAmalgam amalgam })
+		{
+			return;
+		}
+
+		await amalgam.BeginForcedAction(new AmalgamEmergencySleepForcedActionModel());
+		await CreatureCmd.TriggerAnim(amalgamCreature, "Sleep", 0f);
+		await PowerCmd.Remove<EmergencyEvasionPendingPower>(base.Owner.Creature);
+		await PowerCmd.Apply<EmergencyEvasionPendingPower>(
+			base.Owner.Creature,
+			base.DynamicVars.Summon.BaseValue,
+			base.Owner.Creature,
+			this);
+	}
+
+	protected override void OnUpgrade()
+	{
+		base.DynamicVars.Summon.UpgradeValueBy(3m);
+	}
+}

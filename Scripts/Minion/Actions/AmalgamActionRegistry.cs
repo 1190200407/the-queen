@@ -3,6 +3,7 @@ namespace ComicChess.TheQueen;
 public static class AmalgamActionRegistry
 {
     public const string Offense = "offense";
+    public const string Block = "block";
 
     public static AmalgamActionModel? Create(string actionId, decimal amount)
     {
@@ -14,10 +15,13 @@ public static class AmalgamActionRegistry
         return actionId switch
         {
             Offense => new AmalgamOffenseIntentAction(amount),
+            Block => new AmalgamGainBlockIntentAction(amount),
             _ => null
         };
     }
 
     public static AmalgamActionModel? CreateOffense(decimal damage) => Create(Offense, damage);
+
+    public static AmalgamActionModel? CreateBlock(decimal block) => Create(Block, block);
 }
 

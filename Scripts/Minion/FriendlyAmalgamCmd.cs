@@ -8,6 +8,8 @@ using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Hooks;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Models.Powers;
+using MegaCrit.Sts2.Core.Nodes.Combat;
 using MegaCrit.Sts2.Core.Nodes.Rooms;
 using MegaCrit.Sts2.Core.ValueProps;
 using MinionLib.Commands;
@@ -44,6 +46,7 @@ public static class FriendlyAmalgamCmd
         {
             await CreatureCmd.GainMaxHp(existing, amount);
             CombatManager.Instance.History.Summoned(combatState, (int)amount, owner);
+            TryTrackOwnerBlockOnAmalgamNode(existing);
             return;
         }
 
@@ -69,7 +72,40 @@ public static class FriendlyAmalgamCmd
             await CreatureCmd.SetCurrentHp(minion, amount);
         }
         CombatManager.Instance.History.Summoned(combatState, (int)amount, owner);
+        await EnsureAmalgamBodyguardPower(minion);
+        TryTrackOwnerBlockOnAmalgamNode(minion);
         await Hook.AfterSummon(combatState, choiceContext, owner, amount);
+    }
+
+    public static async Task AwakeAsync(Creature creature)
+    {
+        if (creature.Monster is not FriendlyAmalgam || !creature.IsAlive)
+        {
+            return;
+        }
+
+        await CreatureCmd.TriggerAnim(creature, "Idle", 0f);
+    }
+
+    /// <summary>与奥斯提一致：随从血条跟随主人的格挡状态（有格挡时血条呈护盾色）。</summary>
+    private static void TryTrackOwnerBlockOnAmalgamNode(Creature amalgam)
+    {
+        if (amalgam.Monster is not FriendlyAmalgam || amalgam.PetOwner is not { Creature: { } owner })
+        {
+            return;
+        }
+
+        NCombatRoom.Instance?.GetCreatureNode(amalgam)?.TrackBlockStatus(owner);
+    }
+
+    private static async Task EnsureAmalgamBodyguardPower(Creature minion)
+    {
+        if (minion.Monster is not FriendlyAmalgam || minion.GetPower<AmalgamDieForYouPower>() != null)
+        {
+            return;
+        }
+
+        await PowerCmd.Apply<AmalgamDieForYouPower>(minion, 1m, null, null);
     }
 
     public static async Task LearnIntent(
