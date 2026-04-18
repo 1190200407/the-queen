@@ -228,6 +228,63 @@ public class FriendlyAmalgam : MinionModel
         FriendlyAmalgamCmd.TryRefreshIntentTorchVisuals(self);
     }
 
+    public async Task ActCurrentIntentOnceThenForgetAsync(PlayerChoiceContext choiceContext)
+    {
+        Creature self = Creature;
+        if (!self.IsAlive)
+        {
+            return;
+        }
+
+        SyncCurrentTorchSlotIfNeeded();
+
+        if (_forcedAction?.SkipsPlayerTurnEndTorchExecution == true)
+        {
+            return;
+        }
+
+        AmalgamActionModel? action = LearnedAction;
+        if (action == null)
+        {
+            return;
+        }
+
+        if (IsSleepPendingMoveState(action.GetMoveStateForDisplay(self)))
+        {
+            return;
+        }
+
+        await FriendlyAmalgamCmd.TryPerformIntent(self);
+        await action.ExecuteAsync(choiceContext, self);
+
+        _intentByTorchSlot[_currentTorchSlotIndex] = null;
+
+        bool foundNext = false;
+        for (int step = 1; step <= TorchSlotCount; step++)
+        {
+            int idx = (_currentTorchSlotIndex + step) % TorchSlotCount;
+            if (_intentByTorchSlot[idx] != null)
+            {
+                _currentTorchSlotIndex = idx;
+                foundNext = true;
+                break;
+            }
+        }
+
+        if (!foundNext)
+        {
+            _currentTorchSlotIndex = 0;
+            await CreatureCmd.TriggerAnim(self, "Sleep", 0f);
+        }
+        else
+        {
+            await FriendlyAmalgamCmd.AwakeAsync(self);
+        }
+
+        RefreshDisplayedIntent();
+        FriendlyAmalgamCmd.TryRefreshIntentTorchVisuals(self);
+    }
+
     public async Task LearnIntent(PlayerChoiceContext choiceContext, AmalgamActionModel intent)
     {
         int emptySlot = FirstEmptyTorchSlotIndex();

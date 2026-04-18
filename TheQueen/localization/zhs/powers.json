@@ -26,7 +26,9 @@
     "CHAINS_OF_BINDING_POWER.description": "每回合抽到的前[blue]3[/blue]张牌将会被侵蚀为[gold]魂缚[/gold]。回合结束时，清除本效果施加的[gold]魂缚[/gold]。",
     "CHAINS_OF_BINDING_POWER.smartDescription": "每回合抽到的前[blue]{Amount}[/blue]张牌将会被侵蚀为[gold]魂缚[/gold]。回合结束时，清除本效果施加的[gold]魂缚[/gold]。",
     "COMICCHESS-AMALGAM_DIE_FOR_YOU_POWER.title":"为你而死",
-    "COMICCHESS-AMALGAM_DIE_FOR_YOU_POWER.description":"[gold]聚合体[/gold]会吸收所有未被格挡的攻击伤害。\n聚合体沉睡时不生效。\n每次最多承伤至自身保留[blue]1[/blue]点生命。",
+    "COMICCHESS-AMALGAM_DIE_FOR_YOU_POWER.description":"[gold]聚合体[/gold]会吸收所有未被格挡的攻击伤害。沉睡时不生效。\n最多承伤至自身保留[blue]1[/blue]点生命。",
     "COMICCHESS-EMERGENCY_EVASION_PENDING_POWER.title":"紧急避险",
-    "COMICCHESS-EMERGENCY_EVASION_PENDING_POWER.description":"下回合开始时[gold]召唤[/gold][blue]{Amount}[/blue]。"
+    "COMICCHESS-EMERGENCY_EVASION_PENDING_POWER.description":"下回合开始时[gold]召唤[/gold][blue]{Amount}[/blue]。",
+    "COMICCHESS-AMALGAM_EVOLUTIONARY_THIRST_POWER.title":"进化渴求",
+    "COMICCHESS-AMALGAM_EVOLUTIONARY_THIRST_POWER.description":"你的回合结束时，聚合体按照学习到的意图从左到右循环行动。\n没有意图时沉睡。"
 }

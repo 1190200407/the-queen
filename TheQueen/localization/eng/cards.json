@@ -108,5 +108,7 @@
     "COMICCHESS-GRANT_OFFENSE.title":"Grant Offense",
     "COMICCHESS-GRANT_OFFENSE.description":"Summon {Summon:diff()}.\n[gold]Learn[/gold]: At the end of your turn, the Amalgam deals {LearnIntentDamage:diff()} damage to a random enemy.",
     "COMICCHESS-BURN_BRIGHT_FOR_ME.title":"Burn Bright For Me",
-    "COMICCHESS-BURN_BRIGHT_FOR_ME.description":"Your [gold]Amalgam[/gold] gains {StrengthPower:diff()} [gold]Strength[/gold].\nGain {Block:diff()} [gold]Block[/gold]."
+    "COMICCHESS-BURN_BRIGHT_FOR_ME.description":"Your [gold]Amalgam[/gold] gains {StrengthPower:diff()} [gold]Strength[/gold].\nGain {Block:diff()} [gold]Block[/gold].",
+    "COMICCHESS-RENOUNCE_INTENT.title":"Renounce",
+    "COMICCHESS-RENOUNCE_INTENT.description":"Your [gold]Amalgam[/gold] immediately acts once, then forgets that intent. {IfUpgraded:show:|\n[gold]Exhaust[/gold].}"
 }

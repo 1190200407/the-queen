@@ -112,5 +112,7 @@
     "COMICCHESS-EMERGENCY_EVASION.title":"紧急避险",
     "COMICCHESS-EMERGENCY_EVASION.description":"[gold]聚合体[/gold]沉睡一回合。\n下回合[gold]召唤[/gold]{Summon:diff()}。",
     "COMICCHESS-BURN_BRIGHT_FOR_ME.title":"为我燃烧",
-    "COMICCHESS-BURN_BRIGHT_FOR_ME.description":"[gold]聚合体[/gold]获得{StrengthPower:diff()}点[gold]力量[/gold]。\n获得{Block:diff()}点[gold]格挡[/gold]。"
+    "COMICCHESS-BURN_BRIGHT_FOR_ME.description":"[gold]聚合体[/gold]获得{StrengthPower:diff()}点[gold]力量[/gold]。\n获得{Block:diff()}点[gold]格挡[/gold]。",
+    "COMICCHESS-RENOUNCE_INTENT.title":"断念",
+    "COMICCHESS-RENOUNCE_INTENT.description":"[gold]聚合体[/gold]立刻行动一次，然后遗忘此意图。"
 }

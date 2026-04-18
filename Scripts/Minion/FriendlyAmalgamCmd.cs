@@ -46,6 +46,7 @@ public static class FriendlyAmalgamCmd
         {
             await CreatureCmd.GainMaxHp(existing, amount);
             CombatManager.Instance.History.Summoned(combatState, (int)amount, owner);
+            await EnsureAmalgamCorePowers(existing);
             TryTrackOwnerBlockOnAmalgamNode(existing);
             return;
         }
@@ -72,7 +73,7 @@ public static class FriendlyAmalgamCmd
             await CreatureCmd.SetCurrentHp(minion, amount);
         }
         CombatManager.Instance.History.Summoned(combatState, (int)amount, owner);
-        await EnsureAmalgamBodyguardPower(minion);
+        await EnsureAmalgamCorePowers(minion);
         TryTrackOwnerBlockOnAmalgamNode(minion);
         await Hook.AfterSummon(combatState, choiceContext, owner, amount);
     }
@@ -98,14 +99,22 @@ public static class FriendlyAmalgamCmd
         NCombatRoom.Instance?.GetCreatureNode(amalgam)?.TrackBlockStatus(owner);
     }
 
-    private static async Task EnsureAmalgamBodyguardPower(Creature minion)
+    private static async Task EnsureAmalgamCorePowers(Creature minion)
     {
-        if (minion.Monster is not FriendlyAmalgam || minion.GetPower<AmalgamDieForYouPower>() != null)
+        if (minion.Monster is not FriendlyAmalgam)
         {
             return;
         }
 
-        await PowerCmd.Apply<AmalgamDieForYouPower>(minion, 1m, null, null);
+        if (minion.GetPower<AmalgamDieForYouPower>() == null)
+        {
+            await PowerCmd.Apply<AmalgamDieForYouPower>(minion, 1m, null, null);
+        }
+
+        if (minion.GetPower<AmalgamEvolutionaryThirstPower>() == null)
+        {
+            await PowerCmd.Apply<AmalgamEvolutionaryThirstPower>(minion, 1m, null, null);
+        }
     }
 
     public static async Task LearnIntent(
