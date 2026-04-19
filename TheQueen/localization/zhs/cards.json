@@ -109,6 +109,8 @@
     "COMICCHESS-GRANT_OFFENSE.description":"[gold]召唤[/gold]{Summon:diff()}。\n[gold]学习意图[/gold]：造成{LearnIntentDamage:diff()}点伤害。",
     "COMICCHESS-GRANT_DEFENSE.title":"赋予防御",
     "COMICCHESS-GRANT_DEFENSE.description":"[gold]召唤[/gold]{Summon:diff()}。\n[gold]学习意图[/gold]：获得{LearnIntentBlock:diff()}点[gold]格挡[/gold]。",
+    "COMICCHESS-SOUL_BEAM.title":"灵魂光束",
+    "COMICCHESS-SOUL_BEAM.description":"[gold]学习意图[/gold]：造成{LearnIntentDamage:diff()}点伤害{IfUpgraded:show:X+1/X}次。",
     "COMICCHESS-EMERGENCY_EVASION.title":"紧急避险",
     "COMICCHESS-EMERGENCY_EVASION.description":"[gold]聚合体[/gold]沉睡一回合。\n下回合[gold]召唤[/gold]{Summon:diff()}。",
     "COMICCHESS-BURN_BRIGHT_FOR_ME.title":"为我燃烧",
@@ -118,5 +120,7 @@
     "COMICCHESS-CAREFUL_PICK.title":"精心挑选",
     "COMICCHESS-CAREFUL_PICK.description":"造成{Damage:diff()}点伤害。将聚合体的攻击目标锁定为此敌人。",
     "COMICCHESS-AMALGAM_ARMY_BREAK.title":"万灵破军",
-    "COMICCHESS-AMALGAM_ARMY_BREAK.description":"聚合体现在攻击所有敌人。"
+    "COMICCHESS-AMALGAM_ARMY_BREAK.description":"聚合体现在攻击所有敌人。",
+    "COMICCHESS-TERMINUS_FORM.title":"终焉形态",
+    "COMICCHESS-TERMINUS_FORM.description":"召唤{Summon:diff()}。\n聚合体可以额外行动[blue]1[/blue]次。"
 }

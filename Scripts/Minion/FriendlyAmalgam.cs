@@ -233,24 +233,50 @@ public class FriendlyAmalgam : QueenMinionModel
             return;
         }
 
-        AmalgamActionModel? action = LearnedAction;
-        if (action == null)
+        int extraEndTurnActs = 0;
+        if (self.PetOwner is Player { Creature: var queenBody })
         {
-            return;
+            TerminusFormPower? terminus = queenBody.GetPower<TerminusFormPower>();
+            if (terminus != null)
+            {
+                extraEndTurnActs = (int)terminus.Amount;
+            }
         }
 
-        if (IsSleepPendingMoveState(action.GetMoveStateForDisplay(self)))
+        int endTurnPasses = 1 + extraEndTurnActs;
+
+        for (int pass = 0; pass < endTurnPasses; pass++)
         {
+            if (!self.IsAlive)
+            {
+                break;
+            }
+
+            SyncCurrentTorchSlotIfNeeded();
+
+            AmalgamActionModel? action = LearnedAction;
+            if (action == null)
+            {
+                break;
+            }
+
+            if (IsSleepPendingMoveState(action.GetMoveStateForDisplay(self)))
+            {
+                if (pass == 0)
+                {
+                    RefreshDisplayedIntent();
+                    FriendlyAmalgamCmd.TryRefreshIntentTorchVisuals(self);
+                }
+
+                break;
+            }
+
+            await FriendlyAmalgamCmd.TryPerformIntent(self);
+            await action.ExecuteAsync(choiceContext, self);
+            RotateCurrentToNextLitTorchSlot();
             RefreshDisplayedIntent();
             FriendlyAmalgamCmd.TryRefreshIntentTorchVisuals(self);
-            return;
         }
-
-        await FriendlyAmalgamCmd.TryPerformIntent(self);
-        await action.ExecuteAsync(choiceContext, self);
-        RotateCurrentToNextLitTorchSlot();
-        RefreshDisplayedIntent();
-        FriendlyAmalgamCmd.TryRefreshIntentTorchVisuals(self);
     }
 
     /// <summary>立刻执行当前灯槽记录的意图（意图条演出 + 结算），<strong>不</strong>清空槽位、不轮转。</summary>

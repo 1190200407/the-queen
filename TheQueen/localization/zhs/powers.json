@@ -35,5 +35,8 @@
     "COMICCHESS-AMALGAM_PICK_LOCK_POWER.title":"精选锁定",
     "COMICCHESS-AMALGAM_PICK_LOCK_POWER.description":"聚合体的攻击目标。",
     "COMICCHESS-AMALGAM_ARMY_BREAK_POWER.title":"万灵破军",
-    "COMICCHESS-AMALGAM_ARMY_BREAK_POWER.description":"聚合体现在攻击所有敌人。"
+    "COMICCHESS-AMALGAM_ARMY_BREAK_POWER.description":"聚合体现在攻击所有敌人。",
+    "COMICCHESS-TERMINUS_FORM_POWER.title":"终焉形态",
+    "COMICCHESS-TERMINUS_FORM_POWER.description":"你的回合结束时，[gold]聚合体[/gold]额外行动[blue]{Amount}[/blue]次。",
+    "COMICCHESS-TERMINUS_FORM_POWER.smartDescription":"你的回合结束时，[gold]聚合体[/gold]额外行动[blue]{Amount}[/blue]次。"
 }

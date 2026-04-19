@@ -22,6 +22,16 @@ public static class AmalgamActionRegistry
 
     public static AmalgamActionModel? CreateOffense(decimal damage) => Create(Offense, damage);
 
+    public static AmalgamActionModel? CreateOffenseMulti(decimal damagePerHit, int hitCount)
+    {
+        if (damagePerHit <= 0m || hitCount <= 0)
+        {
+            return null;
+        }
+
+        return new AmalgamMultiHitOffenseIntentAction(damagePerHit, hitCount);
+    }
+
     public static AmalgamActionModel? CreateBlock(decimal block) => Create(Block, block);
 }
 

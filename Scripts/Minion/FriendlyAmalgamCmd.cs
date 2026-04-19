@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -314,6 +315,103 @@ public static class FriendlyAmalgamCmd
         await CreatureCmd.TriggerAnim(attacker, attackerAnimName, attackerAnimDelay);
         VfxCmd.PlayOnCreatureCenter(target, hitVfxPath);
         await CreatureCmd.Damage(choiceContext, target, damage, ValueProp.Move, attacker, null);
+    }
+
+    /// <summary>
+    /// 多段进攻：单次 <c>PowerAttack</c> 出手动画 + 光束音效；<c>Visuals/LaserControlBone</c> 固定向友方场侧偏移，随后按 <see cref="AmalgamOffenseTargeting"/> 连打 <paramref name="hitCount"/> 次。
+    /// </summary>
+    public static async Task ExecuteMultiHitOffense(
+        PlayerChoiceContext choiceContext,
+        Creature amalgam,
+        decimal damagePerHit,
+        int hitCount)
+    {
+        const string beamAnim = "PowerAttack";
+        const float beamAnimDelay = 0.8f;
+        const float damageDelayAfterBeamAnim = 0.5f;
+        const string beamSfx = "event:/sfx/enemy/enemy_attacks/torch_head_amalgam/torch_head_amalgam_beam";
+        const string hitVfxPath = "vfx/vfx_attack_blunt";
+        const float laserControlBoneFriendlyReach = 10000f;
+
+        if (hitCount <= 0 || damagePerHit <= 0m)
+        {
+            return;
+        }
+
+        CombatState? combatState = amalgam.CombatState;
+        if (combatState == null || amalgam.PetOwner is not Player queen)
+        {
+            return;
+        }
+
+        Creature[] aliveInitial = combatState.Enemies.Where(e => e.IsAlive).ToArray();
+        if (aliveInitial.Length == 0)
+        {
+            return;
+        }
+
+        TryOffsetMultiHitLaserControlBone(amalgam, laserControlBoneFriendlyReach);
+
+        SfxCmd.Play(beamSfx);
+        await CreatureCmd.TriggerAnim(amalgam, beamAnim, beamAnimDelay);
+        await Cmd.CustomScaledWait(damageDelayAfterBeamAnim, damageDelayAfterBeamAnim);
+
+        for (int i = 0; i < hitCount; i++)
+        {
+            Creature[] alive = combatState.Enemies.Where(e => e.IsAlive).ToArray();
+            if (alive.Length == 0)
+            {
+                return;
+            }
+
+            AmalgamOffenseTargetingMode mode = AmalgamOffenseTargeting.ResolveMode(combatState, queen);
+            if (mode == AmalgamOffenseTargetingMode.AllAliveEnemies)
+            {
+                foreach (Creature enemy in alive)
+                {
+                    VfxCmd.PlayOnCreatureCenter(enemy, hitVfxPath);
+                }
+
+                foreach (Creature enemy in alive)
+                {
+                    await CreatureCmd.Damage(choiceContext, enemy, damagePerHit, ValueProp.Move, amalgam, null);
+                }
+
+                continue;
+            }
+
+            if (mode == AmalgamOffenseTargetingMode.LockedMarkedEnemy)
+            {
+                Creature? marked = AmalgamOffenseTargeting.FindMarkedEnemy(combatState);
+                if (marked is { IsAlive: true })
+                {
+                    VfxCmd.PlayOnCreatureCenter(marked, hitVfxPath);
+                    await CreatureCmd.Damage(choiceContext, marked, damagePerHit, ValueProp.Move, amalgam, null);
+                    continue;
+                }
+            }
+
+            Creature randomEnemy = alive[Random.Shared.Next(alive.Length)];
+            VfxCmd.PlayOnCreatureCenter(randomEnemy, hitVfxPath);
+            await CreatureCmd.Damage(choiceContext, randomEnemy, damagePerHit, ValueProp.Move, amalgam, null);
+        }
+    }
+
+    private static void TryOffsetMultiHitLaserControlBone(Creature amalgam, float reachAlongFriendlySide)
+    {
+        NCreature? nCreature = NCombatRoom.Instance?.GetCreatureNode(amalgam);
+        if (nCreature == null)
+        {
+            return;
+        }
+
+        Node2D? laserBone = nCreature.GetSpecialNode<Node2D>("Visuals/LaserControlBone");
+        if (laserBone == null)
+        {
+            return;
+        }
+
+        laserBone.Position += Vector2.Left * reachAlongFriendlySide;
     }
 
     /// <summary>万灵破军等：只播一次出手动画，再对多名敌人依次受击 VFX 与 <see cref="CreatureCmd.Damage"/>（非多次单体连打）。</summary>

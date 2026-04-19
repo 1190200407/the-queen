@@ -7,7 +7,6 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.CardPools;
-using MegaCrit.Sts2.Core.ValueProps;
 
 namespace ComicChess.TheQueen;
 
@@ -24,7 +23,7 @@ public sealed class GrantDefense : QueenCardModel
 	protected override IEnumerable<DynamicVar> CanonicalVars =>
 	[
 		new SummonVar(3m).WithTooltip("QUEEN_SUMMON_DYNAMIC"),
-		new AmalgamLearnIntentBlockVar(learnIntentBlock, ValueProp.Move)
+		new AmalgamLearnIntentBlockVar(learnIntentBlock)
 	];
 
 	protected override IEnumerable<IHoverTip> ExtraHoverTips => [QueenHoverTips.LearnIntent];
