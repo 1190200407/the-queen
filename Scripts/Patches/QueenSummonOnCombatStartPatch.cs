@@ -13,8 +13,7 @@ namespace ComicChess.TheQueen;
 internal static class QueenSummonOnCombatStartPatch
 {
     /// <summary>
-    /// 战斗开始后，如果有女王玩家，则为其召唤 1 点生命值的聚合体。
-    /// 独立于魂缚逻辑，不修改任何原有 Hook 行为。
+    /// 战斗开始后，如果有女王玩家，则生成 0 当前生命、最大生命已按遭遇缩放的聚合体壳（不治疗、不占召唤历史）。
     /// </summary>
     [HarmonyPostfix]
     [HarmonyPatch(typeof(Hook), nameof(Hook.BeforeCombatStart))]
@@ -33,7 +32,7 @@ internal static class QueenSummonOnCombatStartPatch
         {
             if (player.Character is QueenCharacter)
             {
-                await FriendlyAmalgamCmd.Summon(choiceContext, player, 1m, null);
+                await FriendlyAmalgamCmd.EnsureAmalgamCombatStartShellAsync(choiceContext, player);
             }
         }
     }

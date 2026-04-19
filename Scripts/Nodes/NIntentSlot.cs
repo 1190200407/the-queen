@@ -7,7 +7,6 @@ using MegaCrit.Sts2.Core.Nodes.CommonUi;
 using MegaCrit.Sts2.Core.Nodes.GodotExtensions;
 using MegaCrit.Sts2.Core.Nodes.HoverTips;
 using MegaCrit.Sts2.Core.Localization;
-using MinionLib.Minion;
 
 namespace ComicChess.TheQueen;
 

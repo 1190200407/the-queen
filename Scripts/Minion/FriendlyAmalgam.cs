@@ -10,13 +10,11 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.MonsterMoves.Intents;
 using MegaCrit.Sts2.Core.MonsterMoves.MonsterMoveStateMachine;
-using MinionLib.Minion;
-
 namespace ComicChess.TheQueen;
 
-public class FriendlyAmalgam : MinionModel
+public class FriendlyAmalgam : QueenMinionModel
 {
-    /// <summary>与默认沉睡、<see cref="AmalgamEmergencySleepForcedActionModel"/> 共用同一展示状态。</summary>
+    /// <summary>与默认沉睡、紧急避险、承伤击晕等共用同一展示状态。</summary>
     internal static readonly MoveState SleepOverlayMoveState = new(
         "AMALGAM_SLEEP",
         _ => Task.CompletedTask,
@@ -42,8 +40,8 @@ public class FriendlyAmalgam : MinionModel
         slotIndex >= 0 && slotIndex < TorchSlotCount && _intentByTorchSlot[slotIndex] != null;
 
     /// <summary>
-    /// 是否视为「沉睡」而不替主人承伤：以<strong>即将执行的 MoveState</strong>为准（首意图为 <see cref="AmalgamSleepIntent"/>），
-    /// 或存在 <see cref="AmalgamForcedActionModel"/> 且 <see cref="AmalgamForcedActionModel.IsSleepingForBodyguard"/> 为真（如 <see cref="AmalgamEmergencySleepForcedActionModel"/>）；不单看灯槽是否学满进攻。
+    /// 是否视为「沉睡」而不替主人承伤：已死亡、紧急避险等 <see cref="AmalgamForcedActionModel.IsSleepingForBodyguard"/>，
+    /// 或灯槽即将执行的意图为沉睡。
     /// </summary>
     public bool IsBodyguardSleeping()
     {
@@ -58,7 +56,12 @@ public class FriendlyAmalgam : MinionModel
             return true;
         }
 
-        return IsSleepPendingMoveState(GetPendingDisplayedMoveState(self));
+        if (LearnedAction != null)
+        {
+            return IsSleepPendingMoveState(LearnedAction.GetMoveStateForDisplay(self));
+        }
+
+        return true;
     }
 
     /// <summary>进入强制行动；下回合由 <see cref="EmergencyEvasionPendingPower"/> 等逻辑调用 <see cref="ClearForcedAction"/>。</summary>
@@ -134,8 +137,11 @@ public class FriendlyAmalgam : MinionModel
         return true;
     }
 
-    public override int MaxInitialHp => 1;
-    public override int MinInitialHp => 1;
+    public override int MaxInitialHp => 0;
+    public override int MinInitialHp => 0;
+
+    /// <summary>与 <see cref="MegaCrit.Sts2.Core.Models.Monsters.Osty"/> 一致：0 血/尸体时不显示血条；复活后由 <see cref="FriendlyAmalgamCmd.SyncHealthBarVisibility"/> 再打开。</summary>
+    public override bool IsHealthBarVisible => Creature.IsAlive;
 
     protected override string VisualsPath => "res://TheQueen/scenes/creature_visuals/torch_head_amalgam_minion.tscn";
 
@@ -194,7 +200,20 @@ public class FriendlyAmalgam : MinionModel
         await base.BeforeTurnEnd(choiceContext, side);
 
         Creature self = Creature;
-        if (side != CombatSide.Player || !self.IsAlive)
+        if (side != CombatSide.Player)
+        {
+            return;
+        }
+
+        // 击倒沉睡占一回合：先结算沉睡行动（1 血、无治疗演出），本回合末不执行灯槽意图。
+        if (!self.IsAlive && self.GetPower<AmalgamDieForYouPower>() is { } deathSleepPower &&
+            deathSleepPower.IsAwaitingDeathSleepRevive)
+        {
+            await deathSleepPower.ExecuteDeathSleepReviveSilentlyAsync(choiceContext, self);
+            return;
+        }
+
+        if (!self.IsAlive)
         {
             return;
         }

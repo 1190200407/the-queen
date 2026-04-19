@@ -2,7 +2,6 @@ using Godot.Bridge;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Logging;
 using MegaCrit.Sts2.Core.Modding;
-using MinionLib.Layout;
 
 namespace ComicChess.TheQueen;
 
@@ -18,6 +17,5 @@ public class Entry
         var harmony = new Harmony("sts2.comicchess.thequeen");
         harmony.PatchAll();
         ScriptManagerBridge.LookupScriptsInAssembly(typeof(Entry).Assembly);
-        MinionLayoutManager.Register(new FriendlyAmalgamLayoutOffset(), priority: -1);
     }
 }
