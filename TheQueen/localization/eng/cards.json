@@ -112,5 +112,7 @@
     "COMICCHESS-RENOUNCE_INTENT.title":"Renounce",
     "COMICCHESS-RENOUNCE_INTENT.description":"Your [gold]Amalgam[/gold] immediately acts once, then forgets that intent. {IfUpgraded:show:|\n[gold]Exhaust[/gold].}",
     "COMICCHESS-SOUL_LOCK_CASKET.title":"Soul Lock Casket",
-    "COMICCHESS-SOUL_LOCK_CASKET.description":"Deal {Damage:diff()} damage.\n[gold]Fatal[/gold] on non-[gold]Boss[/gold] enemies [gold]Captures[/gold] the target."
+    "COMICCHESS-SOUL_LOCK_CASKET.description":"Deal {Damage:diff()} damage.\n[gold]Fatal[/gold] on non-[gold]Boss[/gold] enemies [gold]Captures[/gold] the target.",
+    "COMICCHESS-FRAIL_SPORES.title":"Frail Spores",
+    "COMICCHESS-FRAIL_SPORES.description":"[gold]Summon[/gold] {Summon:diff()}.\n[gold]Learn Intent[/gold]: Apply {LearnIntentVulnerable:diff()} [gold]Vulnerable[/gold]."
 }

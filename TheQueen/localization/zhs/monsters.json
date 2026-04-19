@@ -7,6 +7,9 @@
     "FRIENDLY_AMALGAM.intent_block.description": "在你的回合结束时，使你获得[blue]{Amount}[/blue]点格挡。",
     "FRIENDLY_AMALGAM.intent_empty_cup.title": "空杯再斟",
     "FRIENDLY_AMALGAM.intent_empty_cup.description": "在你的回合结束时，使你下回合获得{energyPrefix:energyIcons(1)}并抽[blue]1[/blue]张牌。",
+    "FRIENDLY_AMALGAM.intent_vulnerable.title": "易伤",
+    "FRIENDLY_AMALGAM.intent_vulnerable.description": "在你的回合结束时，向随机一名敌人施加[blue]{Amount}[/blue]层易伤。",
+    "FRIENDLY_AMALGAM.intent_vulnerable.description_all": "在你的回合结束时，向每名敌人施加[blue]{Amount}[/blue]层易伤。",
     "FRIENDLY_AMALGAM.intent_slot_empty.title": "空槽",
     "FRIENDLY_AMALGAM.intent_slot_empty.description": "该灯槽尚未记录任何意图。"
 }

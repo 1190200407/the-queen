@@ -27,16 +27,6 @@ public sealed class CaptureSuccessPower : QueenPowerModel
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         RewardCard is null ? [] : [HoverTipFactory.FromCard(RewardCard)];
 
-    public override Task AfterCombatEnd(CombatRoom room)
-    {
-        Player? player = base.Owner.Player;
-        if (player is null || RewardCard is null)
-        {
-            return Task.CompletedTask;
-        }
-        return Task.CompletedTask;
-    }
-
     /// <summary>由带「捕获」效果的卡牌在成功触发时调用。</summary>
     internal static async Task ApplyForCapture(Player owner, CardModel rewardCard, CardModel captureSourceCard)
     {

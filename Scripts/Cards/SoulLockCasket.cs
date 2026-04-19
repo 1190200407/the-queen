@@ -10,6 +10,7 @@ using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Rewards;
 using MegaCrit.Sts2.Core.Rooms;
@@ -17,7 +18,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>锁魂匣：保留；斩杀（<see cref="StaticHoverTip.Fatal"/>）；捕获见 <see cref="QueenHoverTips.Capture"/>；成功时施加 <see cref="CaptureSuccessPower"/>（奖励 <see cref="GrantOffense"/>）。</summary>
+/// <summary>锁魂匣：保留；斩杀（<see cref="StaticHoverTip.Fatal"/>）；捕获见 <see cref="QueenHoverTips.Capture"/>；成功时按 <see cref="MonsterCaptureRewardCatalog"/> 施加 <see cref="CaptureSuccessPower"/>（无配置则无奖励）。</summary>
 [Pool(typeof(QueenCardPool))]
 public sealed class SoulLockCasket : QueenCardModel
 {
@@ -52,21 +53,24 @@ public sealed class SoulLockCasket : QueenCardModel
             .Targeting(target)
             .WithHitFx("vfx/vfx_attack_blunt")
             .Execute(choiceContext);
-        
-        CombatRoom? room = base.CombatState?.RunState.CurrentRoom as CombatRoom;
-        if (room is null)
+
+        CombatRoom? combatRoom = base.CombatState?.RunState.CurrentRoom as CombatRoom;
+        if (combatRoom is null)
         {
             return;
         }
-        
+
         if (shouldTriggerFatal
             && attackCommand.Results.Any(static r => r.WasTargetKilled)
             && target.CombatState?.Encounter?.RoomType != RoomType.Boss
             && base.CombatState?.RunState.CurrentRoom is CombatRoom)
         {
-            GrantOffense grantOffense = base.Owner.RunState.CreateCard<GrantOffense>(base.Owner);
-            room.AddExtraReward(base.Owner, new SpecialCardReward(grantOffense, base.Owner));
-            await CaptureSuccessPower.ApplyForCapture(base.Owner, grantOffense, this);
+            CardModel? reward = MonsterCaptureRewardCatalog.TryCreateCaptureRewardCard(base.Owner, target);
+            if (reward is { } rewardCard)
+            {
+                combatRoom.AddExtraReward(base.Owner, new SpecialCardReward(rewardCard, base.Owner));
+                await CaptureSuccessPower.ApplyForCapture(base.Owner, rewardCard, this);
+            }
         }
     }
 

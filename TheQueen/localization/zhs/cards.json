@@ -126,5 +126,7 @@
     "COMICCHESS-EMPTY_CUP_REFILL.title":"空杯再斟",
     "COMICCHESS-EMPTY_CUP_REFILL.description":"[gold]学习意图[/gold]：下回合使你获得[blue]1[/blue]点{energyPrefix:energyIcons(1)}，抽[blue]1[/blue]张牌。",
     "COMICCHESS-SOUL_LOCK_CASKET.title":"锁魂匣",
-    "COMICCHESS-SOUL_LOCK_CASKET.description":"造成{Damage:diff()}点伤害。\n[gold]斩杀[/gold]非[gold]首领[/gold]敌怪时，[gold]捕获[/gold]目标。"
+    "COMICCHESS-SOUL_LOCK_CASKET.description":"造成{Damage:diff()}点伤害。\n[gold]斩杀[/gold]非[gold]首领[/gold]敌怪时，[gold]捕获[/gold]目标。",
+    "COMICCHESS-FRAIL_SPORES.title":"易伤孢子",
+    "COMICCHESS-FRAIL_SPORES.description":"[gold]召唤[/gold]{Summon:diff()}。\n[gold]学习意图[/gold]：施加{LearnIntentVulnerable:diff()}层[gold]易伤[/gold]。"
 }

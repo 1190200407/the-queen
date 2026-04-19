@@ -1,6 +1,10 @@
 {
     "FORMAT_DAMAGE_MULTI": "{Damage}[font_size=18]×{Repeat}[/font_size]",
     "FORMAT_BLOCK_SINGLE": "{Block}",
+    "FORMAT_VULNERABLE_STACKS": "{Stacks}",
+    "AMALGAM_APPLY_VULNERABLE.title": "易伤",
+    "AMALGAM_APPLY_VULNERABLE.description": "这个聚合体将要向一名敌人施加[blue]{Stacks}[/blue]层易伤。",
+    "AMALGAM_APPLY_VULNERABLE.description_all": "这个聚合体将要向每名敌人施加[blue]{Stacks}[/blue]层易伤。",
     "AMALGAM_SINGLE_ATTACK.title": "攻势",
     "AMALGAM_SINGLE_ATTACK.description": "这个聚合体将要造成[blue]{Damage}[/blue]点伤害。",
     "AMALGAM_SINGLE_ATTACK.description_all": "这个聚合体将要对所有敌人造成[blue]{Damage}[/blue]点伤害。",

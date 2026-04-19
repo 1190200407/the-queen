@@ -1,4 +1,8 @@
 {
+    "FORMAT_VULNERABLE_STACKS": "{Stacks}",
+    "AMALGAM_APPLY_VULNERABLE.title": "Vulnerable",
+    "AMALGAM_APPLY_VULNERABLE.description": "The Amalgam will apply [blue]{Stacks}[/blue] Vulnerable to an enemy.",
+    "AMALGAM_APPLY_VULNERABLE.description_all": "The Amalgam will apply [blue]{Stacks}[/blue] Vulnerable to each enemy.",
     "FORMAT_AMALGAM_ENERGY_LABEL": "{energyPrefix:energyIcons(1)}",
     "FORMAT_AMALGAM_DRAW_LABEL": "1",
     "AMALGAM_ENERGY.title": "Energy",

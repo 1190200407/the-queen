@@ -9,7 +9,7 @@ namespace ComicChess.TheQueen;
 
 /// <summary>
 /// 「捕获」奖励在意图位预览时的统一规则：仅当 <see cref="QueenHoverTips.CardHasCaptureHoverTip"/> 已成立时调用。
-/// 与当前 <see cref="SpecialCardReward"/>（<see cref="GrantOffense"/>）结算条件对齐（预览不要求本次伤害已击杀）。
+/// 与 <see cref="MonsterCaptureRewardCatalog"/> 及 <see cref="CaptureSuccessPower"/> 结算条件对齐（预览不要求本次伤害已击杀）。
 /// </summary>
 internal static class CaptureRewardPreviewRules
 {
@@ -23,6 +23,6 @@ internal static class CaptureRewardPreviewRules
             return null;
         }
 
-        return owner.RunState?.CreateCard<GrantOffense>(owner);
+        return MonsterCaptureRewardCatalog.TryCreateCaptureRewardCard(owner, target);
     }
 }
