@@ -38,7 +38,7 @@ public sealed class GrantDefense : QueenCardModel
 	{
 		_ = cardPlay;
 		await FriendlyAmalgamCmd.Summon(choiceContext, base.Owner, base.DynamicVars.Summon.BaseValue, this);
-		decimal blockBase = ((BlockVar)base.DynamicVars["LearnIntentBlock"]).BaseValue;
+		decimal blockBase = base.DynamicVars["LearnIntentBlock"].BaseValue;
 		AmalgamActionModel? intent = AmalgamActionRegistry.CreateBlock(blockBase);
 		await FriendlyAmalgamCmd.LearnIntent(choiceContext, base.Owner, intent, this);
 	}

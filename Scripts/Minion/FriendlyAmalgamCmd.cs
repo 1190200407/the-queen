@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Godot;
@@ -313,5 +314,32 @@ public static class FriendlyAmalgamCmd
         await CreatureCmd.TriggerAnim(attacker, attackerAnimName, attackerAnimDelay);
         VfxCmd.PlayOnCreatureCenter(target, hitVfxPath);
         await CreatureCmd.Damage(choiceContext, target, damage, ValueProp.Move, attacker, null);
+    }
+
+    /// <summary>万灵破军等：只播一次出手动画，再对多名敌人依次受击 VFX 与 <see cref="CreatureCmd.Damage"/>（非多次单体连打）。</summary>
+    public static async Task ExecuteAllEnemiesSingleSwingAttack(
+        PlayerChoiceContext choiceContext,
+        Creature amalgam,
+        IReadOnlyList<Creature> aliveEnemies,
+        decimal damagePerEnemy,
+        string attackerAnimName,
+        float attackerAnimDelay,
+        string hitVfxPath)
+    {
+        if (aliveEnemies.Count == 0)
+        {
+            return;
+        }
+
+        await CreatureCmd.TriggerAnim(amalgam, attackerAnimName, attackerAnimDelay);
+        foreach (Creature enemy in aliveEnemies)
+        {
+            VfxCmd.PlayOnCreatureCenter(enemy, hitVfxPath);
+        }
+
+        foreach (Creature enemy in aliveEnemies)
+        {
+            await CreatureCmd.Damage(choiceContext, enemy, damagePerEnemy, ValueProp.Move, amalgam, null);
+        }
     }
 }

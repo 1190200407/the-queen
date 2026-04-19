@@ -4,6 +4,7 @@ using System.Linq;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Hooks;
 using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.MonsterMoves.Intents;
@@ -12,7 +13,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 namespace ComicChess.TheQueen;
 
 /// <summary>
-/// 友方聚合体单次进攻意图（随机存活敌人）；展示用伤害在 <see cref="GetTotalDamage"/> 内按敌共识算一次。
+/// 友方聚合体进攻意图；展示用伤害在 <see cref="GetTotalDamage"/> 内按 <see cref="AmalgamOffenseTargeting"/> 与敌共识算一次。
 /// 不可用 <see cref="SingleAttackIntent"/>：<see cref="AttackIntent.GetSingleDamage"/> 把玩家当承伤者，误叠我方易伤，且与预计算数值双算。
 /// </summary>
 public sealed class AmalgamSingleAttackIntent : AttackIntent
@@ -70,14 +71,18 @@ public sealed class AmalgamSingleAttackIntent : AttackIntent
 			return Math.Max(0, (int)_baseDamage);
 		}
 
-		Creature[] pool = cs.Enemies.Where(e => e.IsAlive).ToArray();
-		decimal display = AmalgamIntentDamagePreview.PreviewOutgoingConsensusAmongReceivers(
-			owner,
-			pool,
-			_baseDamage,
-			ValueProp.Move,
-			cardSource: null,
-			CardPreviewMode.None);
+		Creature[] pool = owner.PetOwner is Player queen
+			? AmalgamOffenseTargeting.GetPreviewReceiverPool(cs, queen)
+			: cs.Enemies.Where(e => e.IsAlive).ToArray();
+		decimal display = pool.Length == 0
+			? _baseDamage
+			: AmalgamIntentDamagePreview.PreviewOutgoingConsensusAmongReceivers(
+				owner,
+				pool,
+				_baseDamage,
+				ValueProp.Move,
+				cardSource: null,
+				CardPreviewMode.None);
 		return Math.Max(0, (int)display);
 	}
 
@@ -94,11 +99,23 @@ public sealed class AmalgamSingleAttackIntent : AttackIntent
 
 	protected override LocString GetIntentDescription(IEnumerable<Creature> targets, Creature owner)
 	{
-		LocString intentDescription = new("intents", IntentPrefix + ".description");
+		string descKey = IntentPrefix + ResolveDescriptionSuffix(owner);
+		LocString intentDescription = new("intents", descKey);
 		CombatState? combatState = owner.CombatState;
 		intentDescription.Add("IsMultiplayer", combatState != null && combatState.RunState.Players.Count > 1);
 		intentDescription.Add("Damage", GetTotalDamage(targets, owner));
 		intentDescription.Add("Repeat", Repeats);
 		return intentDescription;
+	}
+
+	private static string ResolveDescriptionSuffix(Creature amalgamOwner)
+	{
+		if (amalgamOwner.CombatState is not { } cs || amalgamOwner.PetOwner is not Player queen)
+		{
+			return ".description";
+		}
+
+		AmalgamOffenseTargetingMode mode = AmalgamOffenseTargeting.ResolveMode(cs, queen);
+		return mode == AmalgamOffenseTargetingMode.AllAliveEnemies ? ".description_all" : ".description";
 	}
 }

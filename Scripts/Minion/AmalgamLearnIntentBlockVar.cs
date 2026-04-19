@@ -11,12 +11,18 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>卡面「学习格挡意图」数字：展示用，走 <see cref="Hook.ModifyBlock"/>（目标为玩家生物）。</summary>
-public sealed class AmalgamLearnIntentBlockVar : BlockVar
+/// <summary>
+/// 卡面「学习格挡意图」数字：仅用于<strong>展示</strong>，走 <see cref="Hook.ModifyBlock"/>（目标为玩家生物）。
+/// 不继承 <see cref="BlockVar"/>，避免 <see cref="BlockVar"/> 预览链路里对<strong>敏捷</strong>的叠算；灯槽内 <see cref="AmalgamGainBlockIntentAction"/> 的 <see cref="AmalgamActionModel.Amount"/> 仍为原始基数，由 <see cref="CreatureCmd.GainBlock"/> 结算时再叠敏捷等。
+/// </summary>
+public sealed class AmalgamLearnIntentBlockVar : DynamicVar
 {
+	private readonly ValueProp _props;
+
 	public AmalgamLearnIntentBlockVar(decimal baseBlock, ValueProp props)
-		: base("LearnIntentBlock", baseBlock, props)
+		: base("LearnIntentBlock", baseBlock)
 	{
+		_props = props;
 	}
 
 	public override void UpdateCardPreview(CardModel card, CardPreviewMode previewMode, Creature? target, bool runGlobalHooks)
@@ -25,8 +31,8 @@ public sealed class AmalgamLearnIntentBlockVar : BlockVar
 		EnchantmentModel? enchantment = card.Enchantment;
 		if (enchantment != null)
 		{
-			num += enchantment.EnchantBlockAdditive(num, Props);
-			num *= enchantment.EnchantBlockMultiplicative(num, Props);
+			num += enchantment.EnchantBlockAdditive(num, _props);
+			num *= enchantment.EnchantBlockMultiplicative(num, _props);
 			if (!card.IsEnchantmentPreview)
 			{
 				EnchantedValue = num;
@@ -45,7 +51,7 @@ public sealed class AmalgamLearnIntentBlockVar : BlockVar
 			return;
 		}
 
-		num = Hook.ModifyBlock(cs2, p.Creature, num, Props, card, null, out IEnumerable<AbstractModel> _);
+		num = Hook.ModifyBlock(cs2, p.Creature, num, _props, card, null, out IEnumerable<AbstractModel> _);
 		PreviewValue = num;
 	}
 

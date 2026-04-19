@@ -2,6 +2,7 @@
     "FORMAT_BLOCK_SINGLE": "{Block}",
     "AMALGAM_SINGLE_ATTACK.title": "攻势",
     "AMALGAM_SINGLE_ATTACK.description": "这个聚合体将要造成[blue]{Damage}[/blue]点伤害。",
+    "AMALGAM_SINGLE_ATTACK.description_all": "这个聚合体将要对所有敌人造成[blue]{Damage}[/blue]点伤害。",
     "AMALGAM_GAIN_BLOCK.title": "格挡",
     "AMALGAM_GAIN_BLOCK.description": "这个聚合体将要使你获得[blue]{Block}[/blue]点格挡。",
     "AMALGAM_SLEEP.title": "沉睡",

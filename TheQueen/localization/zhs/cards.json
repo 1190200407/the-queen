@@ -114,5 +114,9 @@
     "COMICCHESS-BURN_BRIGHT_FOR_ME.title":"为我燃烧",
     "COMICCHESS-BURN_BRIGHT_FOR_ME.description":"[gold]聚合体[/gold]获得{StrengthPower:diff()}点[gold]力量[/gold]。\n获得{Block:diff()}点[gold]格挡[/gold]。",
     "COMICCHESS-RENOUNCE_INTENT.title":"断念",
-    "COMICCHESS-RENOUNCE_INTENT.description":"[gold]聚合体[/gold]立刻行动一次，然后遗忘此意图。"
+    "COMICCHESS-RENOUNCE_INTENT.description":"[gold]聚合体[/gold]立刻行动一次，然后遗忘此意图。",
+    "COMICCHESS-CAREFUL_PICK.title":"精心挑选",
+    "COMICCHESS-CAREFUL_PICK.description":"造成{Damage:diff()}点伤害。将聚合体的攻击目标锁定为此敌人。",
+    "COMICCHESS-AMALGAM_ARMY_BREAK.title":"万灵破军",
+    "COMICCHESS-AMALGAM_ARMY_BREAK.description":"聚合体现在攻击所有敌人。"
 }

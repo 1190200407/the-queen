@@ -52,17 +52,18 @@ public sealed class AmalgamLearnIntentDamageVar : DamageVar
 		Creature? amalgam = FriendlyAmalgamCmd.GetExisting(cs2, p);
 		if (amalgam is { IsAlive: true })
 		{
-			// 与意图条一致：随机打存活敌人 — 仅当各敌预览取整后相同时才显示修正值，否则保持基础值（不自指牌的 target 当承伤者）。
-			Creature[] pool = cs2.Enemies.Where(e => e.IsAlive).ToArray();
-			decimal afterHook = AmalgamIntentDamagePreview.PreviewOutgoingConsensusAmongReceivers(
-				amalgam,
-				pool,
-				BaseValue,
-				Props,
-				cardSource: null,
-				previewMode);
-
-			num = afterHook;
+			// 与意图条一致：承伤者池随 AmalgamOffenseTargetingMode 变化（随机全体 / 全体各打 / 锁定单体）。
+			Creature[] pool = AmalgamOffenseTargeting.GetPreviewReceiverPool(cs2, p);
+			if (pool.Length > 0)
+			{
+				num = AmalgamIntentDamagePreview.PreviewOutgoingConsensusAmongReceivers(
+					amalgam,
+					pool,
+					BaseValue,
+					Props,
+					cardSource: null,
+					previewMode);
+			}
 		}
 
 		PreviewValue = num;

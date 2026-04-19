@@ -1,6 +1,7 @@
 {
     "AMALGAM_SINGLE_ATTACK.title": "Aggressive",
     "AMALGAM_SINGLE_ATTACK.description": "The Amalgam will deal [blue]{Damage}[/blue] damage.",
+    "AMALGAM_SINGLE_ATTACK.description_all": "The Amalgam will deal [blue]{Damage}[/blue] damage to each enemy.",
     "AMALGAM_SLEEP.title": "Sleeping",
     "AMALGAM_SLEEP.description": "The Amalgam will not take any action this turn."
 }
