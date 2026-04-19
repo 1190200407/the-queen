@@ -32,5 +32,7 @@
     "COMICCHESS-AMALGAM_EVOLUTIONARY_THIRST_POWER.description":"At the end of your turn, your [gold]Amalgam[/gold] acts according to its learned intent, then advances to the next intent. With no learned intents, it sleeps.",
     "COMICCHESS-EMPTY_CUP_PENDING_POWER.title":"Empty Cup",
     "COMICCHESS-EMPTY_CUP_PENDING_POWER.description":"Next turn, gain {energyPrefix:energyIcons({Amount})} and draw [blue]{Amount}[/blue] cards.",
-    "COMICCHESS-EMPTY_CUP_PENDING_POWER.smartDescription":"Next turn, gain {energyPrefix:energyIcons({Amount})} and draw [blue]{Amount}[/blue] cards."
+    "COMICCHESS-EMPTY_CUP_PENDING_POWER.smartDescription":"Next turn, gain {energyPrefix:energyIcons({Amount})} and draw [blue]{Amount}[/blue] cards.",
+    "COMICCHESS-CAPTURE_SUCCESS_POWER.title":"Capture Success",
+    "COMICCHESS-CAPTURE_SUCCESS_POWER.description":"At the end of combat, gain [blue]1[/blue] additional [gold]card[/gold] reward."
 }

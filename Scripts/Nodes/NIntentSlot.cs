@@ -25,6 +25,7 @@ public partial class NIntentSlot : NClickableControl
 
 	private IntentSlotManager? _intentLayerManager;
 	private Node2D? _torchSlotFollowSource;
+	private bool _isFocusing = false;
 
 	private static HoverTip EmptyIntentSlotHoverTip => new(
 		new LocString("monsters", "FRIENDLY_AMALGAM.intent_slot_empty.title"),
@@ -37,6 +38,7 @@ public partial class NIntentSlot : NClickableControl
 		_labelContainer = GetNode<Control>("%LabelContainer");
 		_selectionReticle = GetNode<NSelectionReticle>("%SelectionReticle");
 		_labelContainer.Visible = false;
+		_isFocusing = false;
 	}
 
 	/// <summary>挂到 <paramref name="manager"/> 下，每帧对齐 <paramref name="torchSlot"/> 世界原点；世界旋转与缩放保持单位。</summary>
@@ -51,7 +53,8 @@ public partial class NIntentSlot : NClickableControl
 
 	public override void _Process(double delta)
 	{
-		if (_intentLayerManager != null
+		if (!_isFocusing &&
+			_intentLayerManager != null
 			&& GodotObject.IsInstanceValid(_intentLayerManager)
 			&& _torchSlotFollowSource != null
 			&& GodotObject.IsInstanceValid(_torchSlotFollowSource))
@@ -88,6 +91,7 @@ public partial class NIntentSlot : NClickableControl
 
 	protected override void OnFocus()
 	{
+		_isFocusing = true;
 		NCreature? creatureNode = FindCreatureNode();
 		IEnumerable<IHoverTip> hoverTips;
 		if (creatureNode?.Entity?.Monster is FriendlyAmalgam amalgam
@@ -108,6 +112,7 @@ public partial class NIntentSlot : NClickableControl
 
 	protected override void OnUnfocus()
 	{
+		_isFocusing = false;
 		_labelContainer.Visible = false;
 		NHoverTipSet.Remove(_bounds);
 		_selectionReticle.OnDeselect();

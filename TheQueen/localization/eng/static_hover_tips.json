@@ -10,5 +10,7 @@
   "queen_amalgam_offense_intent.title": "Offense Pattern",
   "queen_amalgam_offense_intent.description": "At the end of your turn, deal [blue]{Amount}[/blue] damage to a random enemy.",
   "forget_intent.title": "Forget",
-  "forget_intent.description": "If the Amalgam's current intent is one recorded on a torch, that torch is cleared and the current intent switches to the next recorded intent."
+  "forget_intent.description": "If the Amalgam's current intent is one recorded on a torch, that torch is cleared and the current intent switches to the next recorded intent.",
+  "capture.title": "Capture",
+  "capture.description": "If the target is not a [gold]Minion[/gold], at end of combat gain [blue]1[/blue] extra [gold]card[/gold] reward related to the target."
 }

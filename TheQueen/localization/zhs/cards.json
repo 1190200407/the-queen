@@ -110,7 +110,7 @@
     "COMICCHESS-GRANT_DEFENSE.title":"赋予防御",
     "COMICCHESS-GRANT_DEFENSE.description":"[gold]召唤[/gold]{Summon:diff()}。\n[gold]学习意图[/gold]：获得{LearnIntentBlock:diff()}点[gold]格挡[/gold]。",
     "COMICCHESS-SOUL_BEAM.title":"灵魂光束",
-    "COMICCHESS-SOUL_BEAM.description":"[gold]学习意图[/gold]：造成{LearnIntentDamage:diff()}点伤害{IfUpgraded:show:X+1/X}次。",
+    "COMICCHESS-SOUL_BEAM.description":"[gold]学习意图[/gold]：造成{LearnIntentDamage:diff()}点伤害{IfUpgraded:show:X+1|X}次。",
     "COMICCHESS-EMERGENCY_EVASION.title":"紧急避险",
     "COMICCHESS-EMERGENCY_EVASION.description":"[gold]聚合体[/gold]沉睡一回合。\n下回合[gold]召唤[/gold]{Summon:diff()}。",
     "COMICCHESS-BURN_BRIGHT_FOR_ME.title":"为我燃烧",
@@ -124,5 +124,7 @@
     "COMICCHESS-TERMINUS_FORM.title":"终焉形态",
     "COMICCHESS-TERMINUS_FORM.description":"召唤{Summon:diff()}。\n聚合体可以额外行动[blue]{IfUpgraded:show:2|1}[/blue]次。",
     "COMICCHESS-EMPTY_CUP_REFILL.title":"空杯再斟",
-    "COMICCHESS-EMPTY_CUP_REFILL.description":"[gold]学习意图[/gold]：下回合使你获得[blue]1[/blue]点{energyPrefix:energyIcons(1)}，抽[blue]1[/blue]张牌。\n[gold]消耗[/gold]。"
+    "COMICCHESS-EMPTY_CUP_REFILL.description":"[gold]学习意图[/gold]：下回合使你获得[blue]1[/blue]点{energyPrefix:energyIcons(1)}，抽[blue]1[/blue]张牌。",
+    "COMICCHESS-SOUL_LOCK_CASKET.title":"锁魂匣",
+    "COMICCHESS-SOUL_LOCK_CASKET.description":"造成{Damage:diff()}点伤害。\n[gold]斩杀[/gold]非[gold]首领[/gold]敌怪时，[gold]捕获[/gold]目标。"
 }

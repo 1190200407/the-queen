@@ -110,5 +110,7 @@
     "COMICCHESS-BURN_BRIGHT_FOR_ME.title":"Burn Bright For Me",
     "COMICCHESS-BURN_BRIGHT_FOR_ME.description":"Your [gold]Amalgam[/gold] gains {StrengthPower:diff()} [gold]Strength[/gold].\nGain {Block:diff()} [gold]Block[/gold].",
     "COMICCHESS-RENOUNCE_INTENT.title":"Renounce",
-    "COMICCHESS-RENOUNCE_INTENT.description":"Your [gold]Amalgam[/gold] immediately acts once, then forgets that intent. {IfUpgraded:show:|\n[gold]Exhaust[/gold].}"
+    "COMICCHESS-RENOUNCE_INTENT.description":"Your [gold]Amalgam[/gold] immediately acts once, then forgets that intent. {IfUpgraded:show:|\n[gold]Exhaust[/gold].}",
+    "COMICCHESS-SOUL_LOCK_CASKET.title":"Soul Lock Casket",
+    "COMICCHESS-SOUL_LOCK_CASKET.description":"Deal {Damage:diff()} damage.\n[gold]Fatal[/gold] on non-[gold]Boss[/gold] enemies [gold]Captures[/gold] the target."
 }

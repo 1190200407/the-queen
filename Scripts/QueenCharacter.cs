@@ -95,6 +95,7 @@ public class QueenCharacter : PlaceholderCharacterModel
         ModelDb.Card<DefendQueen>(),
         ModelDb.Card<DefendQueen>(),
         ModelDb.Card<SummonSoul>(),
+        ModelDb.Card<SoulLockCasket>(),
     ];
 
     // 初始遗物

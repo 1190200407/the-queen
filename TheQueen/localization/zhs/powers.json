@@ -41,5 +41,7 @@
     "COMICCHESS-TERMINUS_FORM_POWER.smartDescription":"你的回合结束时，[gold]聚合体[/gold]额外行动[blue]{Amount}[/blue]次。",
     "COMICCHESS-EMPTY_CUP_PENDING_POWER.title":"再斟",
     "COMICCHESS-EMPTY_CUP_PENDING_POWER.description":"下回合获得{energyPrefix:energyIcons({Amount})}并抽[blue]{Amount}[/blue]张牌。",
-    "COMICCHESS-EMPTY_CUP_PENDING_POWER.smartDescription":"下回合获得{energyPrefix:energyIcons({Amount})}并抽[blue]{Amount}[/blue]张牌。"
+    "COMICCHESS-EMPTY_CUP_PENDING_POWER.smartDescription":"下回合获得{energyPrefix:energyIcons({Amount})}并抽[blue]{Amount}[/blue]张牌。",
+    "COMICCHESS-CAPTURE_SUCCESS_POWER.title":"捕获成功",
+    "COMICCHESS-CAPTURE_SUCCESS_POWER.description":"战斗结束时，获得[blue]1[/blue]份额外[gold]卡牌[/gold]奖励。"
 }
