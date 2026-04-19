@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Threading.Tasks;
 using MegaCrit.Sts2.Core.Animation;
 using MegaCrit.Sts2.Core.Bindings.MegaSpine;
 using MegaCrit.Sts2.Core.Combat;
@@ -21,6 +23,15 @@ public class FriendlyAmalgam : QueenMinionModel
         new AmalgamSleepIntent());
 
     private const int TorchSlotCount = 3;
+
+    /// <summary>终焉形态：仅用于意图条 UI 的壳状态；<see cref="MoveState.PerformMove"/> 不会在友方宠路径被调用，委托保持空操作即可。</summary>
+    private MoveState? _terminusDisplayShell;
+
+    private readonly List<AbstractIntent> _terminusDisplayScratch = new();
+
+    private static readonly MethodInfo TerminusMoveStateIntentsSetter =
+        typeof(MoveState).GetProperty(nameof(MoveState.Intents))?.GetSetMethod(nonPublic: true)
+        ?? throw new InvalidOperationException("MoveState.Intents has no non-public setter.");
 
     /// <summary>每个灯槽一条已学意图；按槽 0→1→2 顺序写入空槽，意图不随执行而清除。学习后当前灯立即切到该槽；三槽满时学习不写入，当场执行该意图一次。</summary>
     private readonly AmalgamActionModel?[] _intentByTorchSlot = new AmalgamActionModel?[TorchSlotCount];
@@ -99,12 +110,105 @@ public class FriendlyAmalgam : QueenMinionModel
             return _forcedAction.GetOverlayMoveState(self);
         }
 
+        if (LearnedAction != null &&
+            self.PetOwner is Player { Creature: var queenBody } &&
+            queenBody.GetPower<TerminusFormPower>() is { Amount: > 0 } terminus)
+        {
+            MoveState? combined = TryGetTerminusCombinedDisplayMoveState(self, (int)terminus.Amount);
+            if (combined != null)
+            {
+                return combined;
+            }
+        }
+
         if (LearnedAction != null)
         {
             return LearnedAction.GetMoveStateForDisplay(self);
         }
 
         return SleepOverlayMoveState;
+    }
+
+    /// <summary>
+    /// 按 <see cref="BeforeTurnEnd"/> 相同轮数与灯槽轮转，把每一动要展示的 <see cref="AbstractIntent"/> 拼进 <paramref name="buffer"/>。
+    /// </summary>
+    private void BuildTerminusDisplayIntentScratch(Creature self, List<AbstractIntent> buffer, int totalPasses)
+    {
+        buffer.Clear();
+        int idx = _currentTorchSlotIndex;
+        for (int pass = 0; pass < totalPasses; pass++)
+        {
+            AmalgamActionModel? action = _intentByTorchSlot[idx];
+            if (action == null)
+            {
+                break;
+            }
+
+            MoveState moveState = action.GetMoveStateForDisplay(self);
+            if (IsSleepPendingMoveState(moveState))
+            {
+                break;
+            }
+
+            foreach (AbstractIntent intent in moveState.Intents)
+            {
+                buffer.Add(intent);
+            }
+
+            idx = GetNextLitTorchIndexAfter(idx);
+        }
+    }
+
+    /// <summary>与 <see cref="RotateCurrentToNextLitTorchSlot"/> 相同的「下一盏已学槽」下标，但不改当前灯指针字段。</summary>
+    private int GetNextLitTorchIndexAfter(int fromIndex)
+    {
+        if (_intentByTorchSlot[fromIndex] == null)
+        {
+            return fromIndex;
+        }
+
+        for (int step = 1; step <= TorchSlotCount; step++)
+        {
+            int idx = (fromIndex + step) % TorchSlotCount;
+            if (_intentByTorchSlot[idx] != null)
+            {
+                return idx;
+            }
+        }
+
+        return fromIndex;
+    }
+
+    private MoveState GetOrCreateTerminusDisplayShell()
+    {
+        if (_terminusDisplayShell != null)
+        {
+            return _terminusDisplayShell;
+        }
+
+        _terminusDisplayShell = new MoveState(
+            "AMALGAM_MULTIPLE_END_TURN",
+            static _ => Task.CompletedTask,
+            Array.Empty<AbstractIntent>());
+        return _terminusDisplayShell;
+    }
+
+    private static void AssignTerminusMoveStateIntents(MoveState state, IReadOnlyList<AbstractIntent> intents) =>
+        TerminusMoveStateIntentsSetter.Invoke(state, new object[] { intents });
+
+    /// <summary>终焉形态下合并多动意图条；失败时返回 <c>null</c> 让调用方回退到单槽展示。</summary>
+    private MoveState? TryGetTerminusCombinedDisplayMoveState(Creature self, int extraEndTurnActs)
+    {
+        int totalPasses = 1 + extraEndTurnActs;
+        BuildTerminusDisplayIntentScratch(self, _terminusDisplayScratch, totalPasses);
+        if (_terminusDisplayScratch.Count == 0)
+        {
+            return null;
+        }
+
+        MoveState shell = GetOrCreateTerminusDisplayShell();
+        AssignTerminusMoveStateIntents(shell, _terminusDisplayScratch.ToArray());
+        return shell;
     }
 
     private static bool IsSleepPendingMoveState(MoveState state)
@@ -274,8 +378,12 @@ public class FriendlyAmalgam : QueenMinionModel
             await FriendlyAmalgamCmd.TryPerformIntent(self);
             await action.ExecuteAsync(choiceContext, self);
             RotateCurrentToNextLitTorchSlot();
-            RefreshDisplayedIntent();
             FriendlyAmalgamCmd.TryRefreshIntentTorchVisuals(self);
+            // 最后一动再刷新意图，因为前几动会同时显示所有的意图
+            if (pass == endTurnPasses - 1)
+            {
+                RefreshDisplayedIntent();
+            }
         }
     }
 
@@ -435,23 +543,10 @@ public class FriendlyAmalgam : QueenMinionModel
     /// <summary>执行完当前槽后，切到下一个已点亮的槽（仅在这些槽之间循环）。</summary>
     private void RotateCurrentToNextLitTorchSlot()
     {
-        if (_intentByTorchSlot[_currentTorchSlotIndex] == null)
-        {
-            return;
-        }
-
-        for (int step = 1; step <= TorchSlotCount; step++)
-        {
-            int idx = (_currentTorchSlotIndex + step) % TorchSlotCount;
-            if (_intentByTorchSlot[idx] != null)
-            {
-                _currentTorchSlotIndex = idx;
-                return;
-            }
-        }
+        _currentTorchSlotIndex = GetNextLitTorchIndexAfter(_currentTorchSlotIndex);
     }
 
-    private void RefreshDisplayedIntent()
+    internal void RefreshDisplayedIntent()
     {
         Creature self = Creature;
         MoveState state = GetPendingDisplayedMoveState(self);

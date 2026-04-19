@@ -122,5 +122,5 @@
     "COMICCHESS-AMALGAM_ARMY_BREAK.title":"万灵破军",
     "COMICCHESS-AMALGAM_ARMY_BREAK.description":"聚合体现在攻击所有敌人。",
     "COMICCHESS-TERMINUS_FORM.title":"终焉形态",
-    "COMICCHESS-TERMINUS_FORM.description":"召唤{Summon:diff()}。\n聚合体可以额外行动[blue]1[/blue]次。"
+    "COMICCHESS-TERMINUS_FORM.description":"召唤{Summon:diff()}。\n聚合体可以额外行动[blue]{IfUpgraded:show:2|1}[/blue]次。"
 }

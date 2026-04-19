@@ -40,11 +40,12 @@ public sealed class TerminusForm : QueenCardModel
         _ = cardPlay;
         await CreatureCmd.TriggerAnim(base.Owner.Creature, "Cast", base.Owner.Character.CastAnimDelay);
         await FriendlyAmalgamCmd.Summon(choiceContext, base.Owner, base.DynamicVars.Summon.BaseValue, this);
-        await PowerCmd.Apply<TerminusFormPower>(base.Owner.Creature, 1m, base.Owner.Creature, this);
+        decimal terminusStacks = IsUpgraded ? 2m : 1m;
+        await PowerCmd.Apply<TerminusFormPower>(base.Owner.Creature, terminusStacks, base.Owner.Creature, this);
     }
 
     protected override void OnUpgrade()
     {
-        base.DynamicVars.Summon.UpgradeValueBy(10m);
+        base.DynamicVars.Summon.UpgradeValueBy(5m);
     }
 }
