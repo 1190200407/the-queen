@@ -37,6 +37,9 @@ public partial class NewNAmalgamVfx : Node
 	/// <summary>与 <see cref="FriendlyAmalgam"/> 三灯槽意图是否已学对应；与 Spine 里 torches_on/out 的演出分离，torches_out 后会再套用本状态。</summary>
 	private readonly bool[] _intentTorchSlotFilled = new bool[3];
 	private int _currentTorchSlotIndex = -1;
+	/// <summary>由 <see cref="SyncIntentSlotsFromAmalgam"/> 写入：<c>true</c> = 活着且无强制行动且非沉睡，在用灯记录意图（紫/白）；否则已学槽统一绿。</summary>
+	private bool _isUsingTorchSlot = false;
+
 	//rgb(161, 24, 225)
 	private static readonly Color ActiveTorchColor = new(0.63f, 0.09f, 0.88f, 1f);
 	private static readonly Color InactiveTorchColor = Colors.White;
@@ -193,6 +196,7 @@ public partial class NewNAmalgamVfx : Node
 			_intentTorchSlotFilled[i] = amalgam.HasIntentInTorchSlot(i);
 		}
 		_currentTorchSlotIndex = amalgam.CurrentTorchSlotIndex;
+		_isUsingTorchSlot = amalgam.IsUsingTorchRecordedIntentForVisuals;
 
 		ApplyIntentTorchVisualsFromStoredState();
 	}
@@ -209,7 +213,7 @@ public partial class NewNAmalgamVfx : Node
 		bool on = _intentTorchSlotFilled[slotIndex];
 		fireRoot.Visible = on;
 		constantSparks.Emitting = on;
-		fireRoot.Modulate = on && slotIndex == _currentTorchSlotIndex ? ActiveTorchColor : InactiveTorchColor;
+		fireRoot.Modulate = on && slotIndex == _currentTorchSlotIndex && _isUsingTorchSlot ? ActiveTorchColor : InactiveTorchColor;
 	}
 
 	private void PlayHit1()

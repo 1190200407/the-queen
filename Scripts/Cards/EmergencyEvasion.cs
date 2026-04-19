@@ -42,14 +42,12 @@ public sealed class EmergencyEvasion : QueenCardModel
 		}
 
 		Creature? amalgamCreature = FriendlyAmalgamCmd.GetExisting(combatState, base.Owner);
-		if (amalgamCreature is not { IsAlive: true, Monster: FriendlyAmalgam amalgam })
+		if (amalgamCreature is { IsAlive: true, Monster: FriendlyAmalgam amalgam })
 		{
-			return;
+			await amalgam.BeginForcedAction(new AmalgamEmergencySleepForcedActionModel());
+			await CreatureCmd.TriggerAnim(amalgamCreature, "Sleep", 0f);
 		}
-
-		await amalgam.BeginForcedAction(new AmalgamEmergencySleepForcedActionModel());
-		await CreatureCmd.TriggerAnim(amalgamCreature, "Sleep", 0f);
-		await PowerCmd.Remove<EmergencyEvasionPendingPower>(base.Owner.Creature);
+		
 		await PowerCmd.Apply<EmergencyEvasionPendingPower>(
 			base.Owner.Creature,
 			base.DynamicVars.Summon.BaseValue,

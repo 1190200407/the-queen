@@ -5,6 +5,7 @@ using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models.CardPools;
 
 namespace ComicChess.TheQueen;
@@ -20,6 +21,8 @@ public sealed class RenounceIntent : QueenCardModel
 
 	public override IEnumerable<CardKeyword> CanonicalKeywords =>
 		base.IsUpgraded ? [] : [CardKeyword.Exhaust];
+
+	protected override IEnumerable<IHoverTip> ExtraHoverTips => [QueenHoverTips.ForgetIntent];
 
 	public RenounceIntent()
 		: base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
@@ -41,6 +44,7 @@ public sealed class RenounceIntent : QueenCardModel
 			return;
 		}
 
-		await amalgam.ActCurrentIntentOnceThenForgetAsync(choiceContext);
+		await amalgam.ActCurrentIntentImmediatelyAsync(choiceContext);
+		await amalgam.ForgetCurrentTorchSlotIntentAsync();
 	}
 }

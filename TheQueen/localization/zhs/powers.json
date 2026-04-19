@@ -29,6 +29,7 @@
     "COMICCHESS-AMALGAM_DIE_FOR_YOU_POWER.description":"[gold]聚合体[/gold]会吸收所有未被格挡的伤害。沉睡时不生效。\n被击杀时，进入沉睡，下回合以[blue]1[/blue]点血量苏醒。",
     "COMICCHESS-EMERGENCY_EVASION_PENDING_POWER.title":"紧急避险",
     "COMICCHESS-EMERGENCY_EVASION_PENDING_POWER.description":"下回合开始时[gold]召唤[/gold][blue]{Amount}[/blue]。",
+    "COMICCHESS-EMERGENCY_EVASION_PENDING_POWER.smartDescription":"下回合开始时[gold]召唤[/gold][blue]{Amount}[/blue]。",
     "COMICCHESS-AMALGAM_EVOLUTIONARY_THIRST_POWER.title":"进化渴求",
     "COMICCHESS-AMALGAM_EVOLUTIONARY_THIRST_POWER.description":"你的回合结束时，聚合体执行当前意图，并将意图切换到下一盏点亮的灯所记录的意图。\n没有意图时沉睡。",
     "COMICCHESS-AMALGAM_PICK_LOCK_POWER.title":"精选锁定",

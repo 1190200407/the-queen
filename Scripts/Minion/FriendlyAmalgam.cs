@@ -40,6 +40,12 @@ public class FriendlyAmalgam : QueenMinionModel
         slotIndex >= 0 && slotIndex < TorchSlotCount && _intentByTorchSlot[slotIndex] != null;
 
     /// <summary>
+    /// 小火 UI：存活、无强制行动、且非 <see cref="IsBodyguardSleeping"/> 时，视为在用灯槽记录的意图（当前槽紫）；否则已学槽统一绿。
+    /// </summary>
+    public bool IsUsingTorchRecordedIntentForVisuals =>
+        Creature.IsAlive && _forcedAction == null && !IsBodyguardSleeping();
+
+    /// <summary>
     /// 是否视为「沉睡」而不替主人承伤：已死亡、紧急避险等 <see cref="AmalgamForcedActionModel.IsSleepingForBodyguard"/>，
     /// 或灯槽即将执行的意图为沉睡。
     /// </summary>
@@ -247,7 +253,8 @@ public class FriendlyAmalgam : QueenMinionModel
         FriendlyAmalgamCmd.TryRefreshIntentTorchVisuals(self);
     }
 
-    public async Task ActCurrentIntentOnceThenForgetAsync(PlayerChoiceContext choiceContext)
+    /// <summary>立刻执行当前灯槽记录的意图（意图条演出 + 结算），<strong>不</strong>清空槽位、不轮转。</summary>
+    public async Task ActCurrentIntentImmediatelyAsync(PlayerChoiceContext choiceContext)
     {
         Creature self = Creature;
         if (!self.IsAlive)
@@ -275,6 +282,23 @@ public class FriendlyAmalgam : QueenMinionModel
 
         await FriendlyAmalgamCmd.TryPerformIntent(self);
         await action.ExecuteAsync(choiceContext, self);
+    }
+
+    /// <summary>清空当前灯槽内意图，将「当前灯」切到下一盏有记录的槽（无则沉睡展示）；用于断念等仅遗忘、或已在外部执行过意图后的遗忘。</summary>
+    public async Task ForgetCurrentTorchSlotIntentAsync()
+    {
+        Creature self = Creature;
+        if (!self.IsAlive)
+        {
+            return;
+        }
+
+        SyncCurrentTorchSlotIfNeeded();
+
+        if (_forcedAction?.SkipsPlayerTurnEndTorchExecution == true)
+        {
+            return;
+        }
 
         _intentByTorchSlot[_currentTorchSlotIndex] = null;
 
