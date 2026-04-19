@@ -8,7 +8,5 @@ public sealed class AmalgamEvolutionaryThirstPower : QueenPowerModel
 
 	public override PowerStackType StackType => PowerStackType.Single;
 
-	public override bool ShouldPlayVfx => false;
-
 	public override bool ShouldPowerBeRemovedAfterOwnerDeath() => false;
 }

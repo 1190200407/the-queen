@@ -10,6 +10,7 @@ using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
+using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.MonsterMoves.Intents;
 using MegaCrit.Sts2.Core.MonsterMoves.MonsterMoveStateMachine;
 namespace ComicChess.TheQueen;
@@ -241,8 +242,19 @@ public class FriendlyAmalgam : QueenMinionModel
             return false;
         }
 
-        AbstractIntent firstIntent = moveState.Intents[0];
         IEnumerable<Creature> targets = combatState.Players.Select(static p => p.Creature);
+        if (action is AmalgamEmptyCupIntentAction && moveState.Intents.Count > 1)
+        {
+            LocString title = new("monsters", "FRIENDLY_AMALGAM.intent_empty_cup.title");
+            LocString desc = new("monsters", "FRIENDLY_AMALGAM.intent_empty_cup.description");
+            desc.Add("IsMultiplayer", combatState.RunState.Players.Count > 1);
+            AmalgamIntentEnergyLoc.AddEnergyPrefixFromPetOwner(desc, amalgamCreature);
+            AbstractIntent iconSource = moveState.Intents[0];
+            hoverTip = new HoverTip(title, desc, iconSource.GetTexture(targets, amalgamCreature));
+            return true;
+        }
+
+        AbstractIntent firstIntent = moveState.Intents[0];
         hoverTip = firstIntent.GetHoverTip(targets, amalgamCreature);
         return true;
     }

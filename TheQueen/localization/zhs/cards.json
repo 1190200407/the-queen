@@ -122,5 +122,7 @@
     "COMICCHESS-AMALGAM_ARMY_BREAK.title":"万灵破军",
     "COMICCHESS-AMALGAM_ARMY_BREAK.description":"聚合体现在攻击所有敌人。",
     "COMICCHESS-TERMINUS_FORM.title":"终焉形态",
-    "COMICCHESS-TERMINUS_FORM.description":"召唤{Summon:diff()}。\n聚合体可以额外行动[blue]{IfUpgraded:show:2|1}[/blue]次。"
+    "COMICCHESS-TERMINUS_FORM.description":"召唤{Summon:diff()}。\n聚合体可以额外行动[blue]{IfUpgraded:show:2|1}[/blue]次。",
+    "COMICCHESS-EMPTY_CUP_REFILL.title":"空杯再斟",
+    "COMICCHESS-EMPTY_CUP_REFILL.description":"[gold]学习意图[/gold]：下回合使你获得[blue]1[/blue]点{energyPrefix:energyIcons(1)}，抽[blue]1[/blue]张牌。\n[gold]消耗[/gold]。"
 }

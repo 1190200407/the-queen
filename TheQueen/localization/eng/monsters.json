@@ -3,6 +3,10 @@
     "FRIENDLY_AMALGAM.intent_offense.title": "Offense Pattern",
     "FRIENDLY_AMALGAM.intent_offense.description": "At the end of your turn, deal [blue]{Amount}[/blue] damage to a random enemy.",
     "FRIENDLY_AMALGAM.intent_offense.description_all": "At the end of your turn, deal [blue]{Amount}[/blue] damage to each enemy.",
+    "FRIENDLY_AMALGAM.intent_block.title": "Block",
+    "FRIENDLY_AMALGAM.intent_block.description": "At the end of your turn, gain [blue]{Amount}[/blue] Block.",
+    "FRIENDLY_AMALGAM.intent_empty_cup.title": "Empty Cup Refill",
+    "FRIENDLY_AMALGAM.intent_empty_cup.description": "At the end of your turn, gain [blue]1[/blue] {energyPrefix:energyIcons(1)} and draw [blue]1[/blue] card next turn.",
     "FRIENDLY_AMALGAM.intent_slot_empty.title": "Empty slot",
     "FRIENDLY_AMALGAM.intent_slot_empty.description": "This torch slot has not recorded an intent yet."
 }

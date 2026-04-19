@@ -1,4 +1,10 @@
 {
+    "FORMAT_AMALGAM_ENERGY_LABEL": "{energyPrefix:energyIcons(1)}",
+    "FORMAT_AMALGAM_DRAW_LABEL": "1",
+    "AMALGAM_ENERGY.title": "Energy",
+    "AMALGAM_ENERGY.description": "At the end of your turn, gain [blue]1[/blue] {energyPrefix:energyIcons(1)} next turn.",
+    "AMALGAM_DRAW.title": "Draw",
+    "AMALGAM_DRAW.description": "At the end of your turn, draw [blue]1[/blue] card next turn.",
     "AMALGAM_SINGLE_ATTACK.title": "Aggressive",
     "AMALGAM_SINGLE_ATTACK.description": "The Amalgam will deal [blue]{Damage}[/blue] damage.",
     "AMALGAM_SINGLE_ATTACK.description_all": "The Amalgam will deal [blue]{Damage}[/blue] damage to each enemy.",

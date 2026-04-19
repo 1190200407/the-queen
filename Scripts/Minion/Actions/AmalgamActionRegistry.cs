@@ -4,7 +4,6 @@ public static class AmalgamActionRegistry
 {
     public const string Offense = "offense";
     public const string Block = "block";
-
     public static AmalgamActionModel? Create(string actionId, decimal amount)
     {
         if (amount <= 0m)
@@ -33,5 +32,7 @@ public static class AmalgamActionRegistry
     }
 
     public static AmalgamActionModel? CreateBlock(decimal block) => Create(Block, block);
+
+    public static AmalgamActionModel CreateEmptyCup() => new AmalgamEmptyCupIntentAction();
 }
 

@@ -227,6 +227,10 @@ public static class FriendlyAmalgamCmd
         }
     }
 
+    /// <summary>
+    /// 学习灯槽意图的<strong>唯一入口</strong>：取友方聚合体；若当前生命为 0 则先 <see cref="EnsureOneHpViaSummonHealBeforeIntentAsync"/> 再写入。
+    /// 卡牌/能力侧<strong>不要</strong>先 <see cref="GetExisting"/> 再以 <c>IsAlive</c> 短路，否则 0 血尸体态永远进不来这里。
+    /// </summary>
     public static async Task LearnIntent(
         PlayerChoiceContext choiceContext,
         Player owner,

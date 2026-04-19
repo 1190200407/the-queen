@@ -5,6 +5,8 @@
     "FRIENDLY_AMALGAM.intent_offense.description_all": "在你的回合结束时，对每名敌人各造成[blue]{Amount}[/blue]点伤害。",
     "FRIENDLY_AMALGAM.intent_block.title": "格挡",
     "FRIENDLY_AMALGAM.intent_block.description": "在你的回合结束时，使你获得[blue]{Amount}[/blue]点格挡。",
+    "FRIENDLY_AMALGAM.intent_empty_cup.title": "空杯再斟",
+    "FRIENDLY_AMALGAM.intent_empty_cup.description": "在你的回合结束时，使你下回合获得{energyPrefix:energyIcons(1)}并抽[blue]1[/blue]张牌。",
     "FRIENDLY_AMALGAM.intent_slot_empty.title": "空槽",
     "FRIENDLY_AMALGAM.intent_slot_empty.description": "该灯槽尚未记录任何意图。"
 }

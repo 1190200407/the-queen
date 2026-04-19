@@ -56,8 +56,6 @@ public sealed class AmalgamDieForYouPower : QueenPowerModel
 
 	public override PowerStackType StackType => PowerStackType.Single;
 
-	public override bool ShouldPlayVfx => false;
-
 	public override Creature ModifyUnblockedDamageTarget(Creature target, decimal _, ValueProp props, Creature? __)
 	{
 		if (target != base.Owner.PetOwner?.Creature)

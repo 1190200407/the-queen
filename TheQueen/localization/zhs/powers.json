@@ -32,11 +32,14 @@
     "COMICCHESS-EMERGENCY_EVASION_PENDING_POWER.smartDescription":"下回合开始时[gold]召唤[/gold][blue]{Amount}[/blue]。",
     "COMICCHESS-AMALGAM_EVOLUTIONARY_THIRST_POWER.title":"进化渴求",
     "COMICCHESS-AMALGAM_EVOLUTIONARY_THIRST_POWER.description":"你的回合结束时，聚合体执行当前意图，并将意图切换到下一盏点亮的灯所记录的意图。\n没有意图时沉睡。",
-    "COMICCHESS-AMALGAM_PICK_LOCK_POWER.title":"精选锁定",
+    "COMICCHESS-AMALGAM_PICK_LOCK_POWER.title":"锁定",
     "COMICCHESS-AMALGAM_PICK_LOCK_POWER.description":"聚合体的攻击目标。",
     "COMICCHESS-AMALGAM_ARMY_BREAK_POWER.title":"万灵破军",
     "COMICCHESS-AMALGAM_ARMY_BREAK_POWER.description":"聚合体现在攻击所有敌人。",
     "COMICCHESS-TERMINUS_FORM_POWER.title":"终焉形态",
     "COMICCHESS-TERMINUS_FORM_POWER.description":"你的回合结束时，[gold]聚合体[/gold]额外行动[blue]{Amount}[/blue]次。",
-    "COMICCHESS-TERMINUS_FORM_POWER.smartDescription":"你的回合结束时，[gold]聚合体[/gold]额外行动[blue]{Amount}[/blue]次。"
+    "COMICCHESS-TERMINUS_FORM_POWER.smartDescription":"你的回合结束时，[gold]聚合体[/gold]额外行动[blue]{Amount}[/blue]次。",
+    "COMICCHESS-EMPTY_CUP_PENDING_POWER.title":"再斟",
+    "COMICCHESS-EMPTY_CUP_PENDING_POWER.description":"下回合获得{energyPrefix:energyIcons({Amount})}并抽[blue]{Amount}[/blue]张牌。",
+    "COMICCHESS-EMPTY_CUP_PENDING_POWER.smartDescription":"下回合获得{energyPrefix:energyIcons({Amount})}并抽[blue]{Amount}[/blue]张牌。"
 }

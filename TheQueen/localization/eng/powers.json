@@ -29,5 +29,8 @@
     "COMICCHESS-EMERGENCY_EVASION_PENDING_POWER.description":"At the start of your next turn, [gold]Summon[/gold] [blue]{Amount}[/blue].",
     "COMICCHESS-EMERGENCY_EVASION_PENDING_POWER.smartDescription":"At the start of your next turn, [gold]Summon[/gold] [blue]{Amount}[/blue].",
     "COMICCHESS-AMALGAM_EVOLUTIONARY_THIRST_POWER.title":"Evolutionary Thirst",
-    "COMICCHESS-AMALGAM_EVOLUTIONARY_THIRST_POWER.description":"At the end of your turn, your [gold]Amalgam[/gold] acts according to its learned intent, then advances to the next intent. With no learned intents, it sleeps."
+    "COMICCHESS-AMALGAM_EVOLUTIONARY_THIRST_POWER.description":"At the end of your turn, your [gold]Amalgam[/gold] acts according to its learned intent, then advances to the next intent. With no learned intents, it sleeps.",
+    "COMICCHESS-EMPTY_CUP_PENDING_POWER.title":"Empty Cup",
+    "COMICCHESS-EMPTY_CUP_PENDING_POWER.description":"Next turn, gain {energyPrefix:energyIcons({Amount})} and draw [blue]{Amount}[/blue] cards.",
+    "COMICCHESS-EMPTY_CUP_PENDING_POWER.smartDescription":"Next turn, gain {energyPrefix:energyIcons({Amount})} and draw [blue]{Amount}[/blue] cards."
 }
