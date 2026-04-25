@@ -11,6 +11,7 @@ using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization;
+using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.MonsterMoves.Intents;
 using MegaCrit.Sts2.Core.MonsterMoves.MonsterMoveStateMachine;
 namespace ComicChess.TheQueen;
@@ -41,53 +42,73 @@ public class FriendlyAmalgam : QueenMinionModel
     private int _currentTorchSlotIndex;
 
     /// <summary>当前灯槽对应的意图（用于展示与 <see cref="BeforeTurnEnd"/> 执行）。</summary>
-    public AmalgamActionModel? LearnedAction => _intentByTorchSlot[_currentTorchSlotIndex];
+    public AmalgamActionModel? LearnedAction => _currentTorchSlotIndex >= 0 && _currentTorchSlotIndex < TorchSlotCount ? _intentByTorchSlot[_currentTorchSlotIndex] : null;
 
     /// <summary>当前即将执行的灯槽。无已学意图时返回 -1。</summary>
-    public int CurrentTorchSlotIndex => LearnedAction == null ? -1 : _currentTorchSlotIndex;
+    public int CurrentTorchSlotIndex => _currentTorchSlotIndex;
 
     private AmalgamForcedActionModel? _forcedAction;
 
     public bool HasIntentInTorchSlot(int slotIndex) =>
         slotIndex >= 0 && slotIndex < TorchSlotCount && _intentByTorchSlot[slotIndex] != null;
 
+    #region Sleep
+    [Flags]
+    public enum SleepReason
+    {
+        NoLearnedAction = 1,
+        ForcedAction = 2,
+        Dead = 4,
+        Ravenous = 8,
+    }
+    public SleepReason sleepReason = SleepReason.NoLearnedAction | SleepReason.Dead;
+
     /// <summary>
     /// 小火 UI：存活、无强制行动、且非 <see cref="IsBodyguardSleeping"/> 时，视为在用灯槽记录的意图（当前槽紫）；否则已学槽统一绿。
     /// </summary>
     public bool IsUsingTorchRecordedIntentForVisuals =>
-        Creature.IsAlive && _forcedAction == null && !IsBodyguardSleeping();
+        Creature.IsAlive && _forcedAction == null && !IsSleeping();
 
     /// <summary>
-    /// 是否视为「沉睡」而不替主人承伤：已死亡、紧急避险等 <see cref="AmalgamForcedActionModel.IsSleepingForBodyguard"/>，
+    /// 是否视为「沉睡」而不替主人承伤：已死亡、紧急避险等 <see cref="AmalgamForcedActionModel.IsSleepingd"/>，
     /// 或灯槽即将执行的意图为沉睡。
     /// </summary>
-    public bool IsBodyguardSleeping()
+    public bool IsSleeping()
     {
-        Creature self = Creature;
-        if (!self.IsAlive)
-        {
-            return true;
-        }
-
-        if (_forcedAction?.IsSleepingForBodyguard == true)
-        {
-            return true;
-        }
-
-        if (LearnedAction != null)
-        {
-            return IsSleepPendingMoveState(LearnedAction.GetMoveStateForDisplay(self));
-        }
-
-        return true;
+        return sleepReason != 0;
     }
+
+    public async Task FallAsleep(SleepReason reason)
+    {
+        sleepReason |= reason;
+        if (IsSleeping())
+        {
+            await CreatureCmd.TriggerAnim(Creature, "Sleep", 0f);
+        }
+    }
+
+    public async Task WakeUp(SleepReason reason)
+    {
+        bool wasSleeping = IsSleeping();
+        sleepReason &= ~reason;
+        if (!IsSleeping())
+        {
+            await CreatureCmd.TriggerAnim(Creature, "Idle", 0f);
+        }
+
+        if (wasSleeping && !IsSleeping())
+        {
+            await FriendlyAmalgamHook.AfterAwake(Creature);
+        }
+    }
+    #endregion
 
     /// <summary>进入强制行动；下回合由 <see cref="EmergencyEvasionPendingPower"/> 等逻辑调用 <see cref="ClearForcedAction"/>。</summary>
     public async Task BeginForcedAction(AmalgamForcedActionModel? action)
     {
         if (action == null)
         {
-            ClearForcedAction();
+            await ClearForcedAction();
             return;
         }
 
@@ -95,23 +116,37 @@ public class FriendlyAmalgam : QueenMinionModel
         RefreshDisplayedIntent();
         FriendlyAmalgamCmd.TryRefreshIntentTorchVisuals(Creature);
         await _forcedAction.OnBeginAsync(Creature);
+        if (_forcedAction.IsSleepingAction)
+        {
+            await FallAsleep(SleepReason.ForcedAction);
+        }
     }
 
-    public void ClearForcedAction()
+    public async Task ClearForcedAction()
     {
+        if (_forcedAction?.IsSleepingAction == true)
+        {
+            await WakeUp(SleepReason.ForcedAction);
+        }
         _forcedAction = null;
         RefreshDisplayedIntent();
         FriendlyAmalgamCmd.TryRefreshIntentTorchVisuals(Creature);
     }
 
+    #region 意图
+    /// <summary>
+    /// 获取当前要展示的意图状态
+    /// </summary>
     private MoveState GetPendingDisplayedMoveState(Creature self)
     {
-        if (_forcedAction != null)
+        // 紧急避险等跳过回合末灯槽执行的强制行动，使用强制行动的展示状态
+        if (_forcedAction != null && _forcedAction.SkipsPlayerTurnEndTorchExecution)
         {
-            return _forcedAction.GetOverlayMoveState(self);
+            return _forcedAction.MoveState;
         }
 
-        if (LearnedAction != null &&
+        // 终焉形态：合并多动意图条
+        if (!IsSleeping() &&
             self.PetOwner is Player { Creature: var queenBody } &&
             queenBody.GetPower<TerminusFormPower>() is { Amount: > 0 } terminus)
         {
@@ -130,12 +165,24 @@ public class FriendlyAmalgam : QueenMinionModel
         return SleepOverlayMoveState;
     }
 
+    //TODO 对非ClearAfterExecute的处理要考虑进去
     /// <summary>
     /// 按 <see cref="BeforeTurnEnd"/> 相同轮数与灯槽轮转，把每一动要展示的 <see cref="AbstractIntent"/> 拼进 <paramref name="buffer"/>。
     /// </summary>
     private void BuildTerminusDisplayIntentScratch(Creature self, List<AbstractIntent> buffer, int totalPasses)
     {
         buffer.Clear();
+
+        // 首先执行强制行动
+        if (_forcedAction != null && !_forcedAction.SkipsPlayerTurnEndTorchExecution)
+        {
+            foreach (AbstractIntent intent in _forcedAction.GetMoveStateForDisplay(self).Intents)
+            {
+                buffer.Add(intent);
+            }
+            totalPasses--;
+        }
+
         int idx = _currentTorchSlotIndex;
         for (int pass = 0; pass < totalPasses; pass++)
         {
@@ -146,11 +193,6 @@ public class FriendlyAmalgam : QueenMinionModel
             }
 
             MoveState moveState = action.GetMoveStateForDisplay(self);
-            if (IsSleepPendingMoveState(moveState))
-            {
-                break;
-            }
-
             foreach (AbstractIntent intent in moveState.Intents)
             {
                 buffer.Add(intent);
@@ -211,24 +253,16 @@ public class FriendlyAmalgam : QueenMinionModel
         AssignTerminusMoveStateIntents(shell, _terminusDisplayScratch.ToArray());
         return shell;
     }
-
-    private static bool IsSleepPendingMoveState(MoveState state)
-    {
-        if (state.Intents.Count == 0)
-        {
-            return true;
-        }
-
-        return state.Intents[0] is AmalgamSleepIntent;
-    }
+    #endregion
 
     public AmalgamActionModel? GetIntentInTorchSlot(int slotIndex) =>
         slotIndex >= 0 && slotIndex < TorchSlotCount ? _intentByTorchSlot[slotIndex] : null;
+    private List<IHoverTip> _hoverTips = new();
 
-    /// <summary>灯槽悬停：与意图节点悬停同源，按槽取 <see cref="AmalgamActionModel.GetMoveStateForDisplay"/> 再 <see cref="AbstractIntent.GetHoverTip"/>。</summary>
-    public bool TryGetTorchSlotHoverTip(Creature amalgamCreature, int slotIndex, out HoverTip hoverTip)
+    /// <summary>灯槽悬停：与意图节点悬停同源，按槽取 <see cref="AmalgamActionModel.GetMoveStateForDisplay"/> 并返回全部 <see cref="AbstractIntent.GetHoverTip"/>。</summary>
+    public bool TryGetTorchSlotHoverTip(Creature amalgamCreature, int slotIndex, out IEnumerable<IHoverTip> hoverTips)
     {
-        hoverTip = default;
+        hoverTips = Array.Empty<IHoverTip>();
         if (slotIndex < 0 || slotIndex >= TorchSlotCount ||
             _intentByTorchSlot[slotIndex] is not { } action ||
             amalgamCreature.CombatState is not { } combatState)
@@ -243,19 +277,13 @@ public class FriendlyAmalgam : QueenMinionModel
         }
 
         IEnumerable<Creature> targets = combatState.Players.Select(static p => p.Creature);
-        if (action is AmalgamEmptyCupIntentAction && moveState.Intents.Count > 1)
+        _hoverTips.Clear();
+        foreach (AbstractIntent intent in moveState.Intents)
         {
-            LocString title = new("monsters", "FRIENDLY_AMALGAM.intent_empty_cup.title");
-            LocString desc = new("monsters", "FRIENDLY_AMALGAM.intent_empty_cup.description");
-            desc.Add("IsMultiplayer", combatState.RunState.Players.Count > 1);
-            AmalgamIntentEnergyLoc.AddEnergyPrefixFromPetOwner(desc, amalgamCreature);
-            AbstractIntent iconSource = moveState.Intents[0];
-            hoverTip = new HoverTip(title, desc, iconSource.GetTexture(targets, amalgamCreature));
-            return true;
+            _hoverTips.Add(intent.GetHoverTip(targets, amalgamCreature));
         }
 
-        AbstractIntent firstIntent = moveState.Intents[0];
-        hoverTip = firstIntent.GetHoverTip(targets, amalgamCreature);
+        hoverTips = _hoverTips;
         return true;
     }
 
@@ -266,6 +294,11 @@ public class FriendlyAmalgam : QueenMinionModel
     public override bool IsHealthBarVisible => Creature.IsAlive;
 
     protected override string VisualsPath => "res://TheQueen/scenes/creature_visuals/torch_head_amalgam_minion.tscn";
+
+    public override bool ShouldPowerBeRemovedOnDeath(PowerModel power)
+    {
+        return false;
+    }
 
     public static readonly string IdleAnimName = "idle_loop";
     public static readonly string DeathAnimName = "die";
@@ -317,9 +350,9 @@ public class FriendlyAmalgam : QueenMinionModel
         await ClearTorchSlots();
     }
 
-    public override async Task BeforeTurnEnd(PlayerChoiceContext choiceContext, CombatSide side)
+    public override async Task AfterTurnEnd(PlayerChoiceContext choiceContext, CombatSide side)
     {
-        await base.BeforeTurnEnd(choiceContext, side);
+        await base.AfterTurnEnd(choiceContext, side);
 
         Creature self = Creature;
         if (side != CombatSide.Player)
@@ -331,24 +364,18 @@ public class FriendlyAmalgam : QueenMinionModel
         if (!self.IsAlive && self.GetPower<AmalgamDieForYouPower>() is { } deathSleepPower &&
             deathSleepPower.IsAwaitingDeathSleepRevive)
         {
+            await FriendlyAmalgamCmd.TryPerformIntent(self);
             await deathSleepPower.ExecuteDeathSleepReviveSilentlyAsync(choiceContext, self);
             return;
         }
 
         if (!self.IsAlive)
         {
+            await FriendlyAmalgamCmd.TryPerformIntent(self);
             return;
         }
 
-        SyncCurrentTorchSlotIfNeeded();
-
-        if (_forcedAction?.SkipsPlayerTurnEndTorchExecution == true)
-        {
-            RefreshDisplayedIntent();
-            FriendlyAmalgamCmd.TryRefreshIntentTorchVisuals(self);
-            return;
-        }
-
+        // 计算行动次数
         int extraEndTurnActs = 0;
         if (self.PetOwner is Player { Creature: var queenBody })
         {
@@ -358,32 +385,36 @@ public class FriendlyAmalgam : QueenMinionModel
                 extraEndTurnActs = (int)terminus.Amount;
             }
         }
-
         int endTurnPasses = 1 + extraEndTurnActs;
+
+        // 执行强制行动，占一次行动
+        if (_forcedAction != null)
+        {
+            await FriendlyAmalgamCmd.TryPerformIntent(self);
+            if (!_forcedAction.IsSleepingAction)
+            {
+                await _forcedAction.ExecuteAsync(choiceContext, self);
+                if (_forcedAction.ClearAfterExecute)
+                {
+                    await ClearForcedAction();
+                }
+            }
+            if (_forcedAction.SkipsPlayerTurnEndTorchExecution)
+            {
+                RefreshDisplayedIntent();
+                FriendlyAmalgamCmd.TryRefreshIntentTorchVisuals(self);
+                return;
+            }
+            endTurnPasses--;
+        }
+
 
         for (int pass = 0; pass < endTurnPasses; pass++)
         {
-            if (!self.IsAlive)
-            {
-                break;
-            }
-
             SyncCurrentTorchSlotIfNeeded();
-
             AmalgamActionModel? action = LearnedAction;
             if (action == null)
             {
-                break;
-            }
-
-            if (IsSleepPendingMoveState(action.GetMoveStateForDisplay(self)))
-            {
-                if (pass == 0)
-                {
-                    RefreshDisplayedIntent();
-                    FriendlyAmalgamCmd.TryRefreshIntentTorchVisuals(self);
-                }
-
                 break;
             }
 
@@ -391,12 +422,10 @@ public class FriendlyAmalgam : QueenMinionModel
             await action.ExecuteAsync(choiceContext, self);
             RotateCurrentToNextLitTorchSlot();
             FriendlyAmalgamCmd.TryRefreshIntentTorchVisuals(self);
-            // 最后一动再刷新意图，因为前几动会同时显示所有的意图
-            if (pass == endTurnPasses - 1)
-            {
-                RefreshDisplayedIntent();
-            }
         }
+        
+        // 行动结束，刷新意图展示
+        RefreshDisplayedIntent();
     }
 
     /// <summary>立刻执行当前灯槽记录的意图（意图条演出 + 结算），<strong>不</strong>清空槽位、不轮转。</summary>
@@ -410,24 +439,25 @@ public class FriendlyAmalgam : QueenMinionModel
 
         SyncCurrentTorchSlotIfNeeded();
 
-        if (_forcedAction?.SkipsPlayerTurnEndTorchExecution == true)
-        {
-            return;
-        }
-
-        AmalgamActionModel? action = LearnedAction;
+        AmalgamActionModel? action = _forcedAction != null ? _forcedAction : LearnedAction;
         if (action == null)
         {
             return;
         }
 
-        if (IsSleepPendingMoveState(action.GetMoveStateForDisplay(self)))
+        await FriendlyAmalgamCmd.TryPerformIntent(self);
+
+        if (IsSleeping())
         {
             return;
         }
 
-        await FriendlyAmalgamCmd.TryPerformIntent(self);
         await action.ExecuteAsync(choiceContext, self);
+        if (action == _forcedAction && _forcedAction?.ClearAfterExecute == true)
+        {
+            await ClearForcedAction();
+        }
+        RefreshDisplayedIntent();
     }
 
     /// <summary>清空当前灯槽内意图，将「当前灯」切到下一盏有记录的槽（无则沉睡展示）；用于断念等仅遗忘、或已在外部执行过意图后的遗忘。</summary>
@@ -441,7 +471,7 @@ public class FriendlyAmalgam : QueenMinionModel
 
         SyncCurrentTorchSlotIfNeeded();
 
-        if (_forcedAction?.SkipsPlayerTurnEndTorchExecution == true)
+        if (_forcedAction != null)
         {
             return;
         }
@@ -463,11 +493,7 @@ public class FriendlyAmalgam : QueenMinionModel
         if (!foundNext)
         {
             _currentTorchSlotIndex = 0;
-            await CreatureCmd.TriggerAnim(self, "Sleep", 0f);
-        }
-        else
-        {
-            await FriendlyAmalgamCmd.AwakeAsync(self);
+            await FallAsleep(SleepReason.NoLearnedAction);
         }
 
         RefreshDisplayedIntent();
@@ -498,13 +524,12 @@ public class FriendlyAmalgam : QueenMinionModel
         _currentTorchSlotIndex = emptySlot;
 
         RefreshDisplayedIntent();
-        FriendlyAmalgamCmd.TryRefreshIntentTorchVisuals(Creature);
-
         // 仅 0 意图 → 第 1 条意图（Sleep）时切到 Idle；再学新意图不刷 Idle。
         if (!hadAnyIntentBefore)
         {
-            await CreatureCmd.TriggerAnim(Creature, "Idle", 0f);
+            await WakeUp(SleepReason.NoLearnedAction);
         }
+        FriendlyAmalgamCmd.TryRefreshIntentTorchVisuals(Creature);
     }
 
     private async Task ClearTorchSlots()
@@ -518,7 +543,7 @@ public class FriendlyAmalgam : QueenMinionModel
         _currentTorchSlotIndex = 0;
         RefreshDisplayedIntent();
         FriendlyAmalgamCmd.TryRefreshIntentTorchVisuals(Creature);
-        await CreatureCmd.TriggerAnim(Creature, "Sleep", 0f);
+        await FallAsleep(SleepReason.NoLearnedAction);
     }
 
     private int FirstEmptyTorchSlotIndex()

@@ -1,0 +1,12 @@
+ignore:
+  - node_modules
+  - build
+  - dist
+  - .godot
+  - .import
+  - Library
+  - Temp
+  - Logs
+  - .cache
+  - *.meta
+  - *.lock

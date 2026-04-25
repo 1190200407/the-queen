@@ -13,9 +13,9 @@ namespace ComicChess.TheQueen;
 
 /// <summary>易伤孢子：召唤；学习意图为通用 <see cref="AmalgamApplyVulnerableIntentAction"/>（施加易伤）。</summary>
 [Pool(typeof(EnemyCardPool))]
-public sealed class FrailSpores : QueenCardModel
+public sealed class FrailSpores : LearnIntentCardModel
 {
-    private const decimal learnIntentVulnerable = 2m;
+    private const decimal learnIntentVulnerable = 3m;
     private const int energyCost = 1;
     private const CardType type = CardType.Skill;
     private const CardRarity rarity = CardRarity.Common;
@@ -24,32 +24,30 @@ public sealed class FrailSpores : QueenCardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new SummonVar(3m).WithTooltip("QUEEN_SUMMON_DYNAMIC"),
+        new SummonVar(5m).WithTooltip("QUEEN_SUMMON_DYNAMIC"),
         new AmalgamLearnIntentVulnerableVar(learnIntentVulnerable),
     ];
+    public override int MaxUpgradeLevel => 0;
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
     [
-        QueenHoverTips.LearnIntent,
+        ..base.ExtraHoverTips,
         HoverTipFactory.FromPower<VulnerablePower>(),
     ];
+    protected override bool ShouldSummonBeforeLearnIntent => true;
 
     public FrailSpores()
         : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
     {
     }
 
-    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    protected override Task<IReadOnlyList<AmalgamActionModel?>> CreateLearnIntentsAsync(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await FriendlyAmalgamCmd.Summon(choiceContext, base.Owner, base.DynamicVars.Summon.BaseValue, this);
+        _ = choiceContext;
+        _ = cardPlay;
         decimal stacks = base.DynamicVars["LearnIntentVulnerable"].BaseValue;
         AmalgamActionModel? intent = AmalgamActionRegistry.CreateVulnerable(stacks);
-        await FriendlyAmalgamCmd.LearnIntent(choiceContext, base.Owner, intent, this);
+        return Task.FromResult<IReadOnlyList<AmalgamActionModel?>>([intent]);
     }
 
-    protected override void OnUpgrade()
-    {
-        base.DynamicVars.Summon.UpgradeValueBy(2m);
-        base.DynamicVars["LearnIntentVulnerable"].UpgradeValueBy(1m);
-    }
 }

@@ -95,9 +95,9 @@ public partial class NIntentSlot : NClickableControl
 		NCreature? creatureNode = FindCreatureNode();
 		IEnumerable<IHoverTip> hoverTips;
 		if (creatureNode?.Entity?.Monster is FriendlyAmalgam amalgam
-			&& amalgam.TryGetTorchSlotHoverTip(creatureNode.Entity, SlotIndex, out HoverTip tip))
+			&& amalgam.TryGetTorchSlotHoverTip(creatureNode.Entity, SlotIndex, out IEnumerable<IHoverTip> tips))
 		{
-			hoverTips = new List<IHoverTip> { tip };
+			hoverTips = tips;
 		}
 		else
 		{

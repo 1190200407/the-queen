@@ -21,6 +21,8 @@ public sealed class CaptureSuccessPower : QueenPowerModel
 
     public override PowerStackType StackType => PowerStackType.None;
 
+    public override bool IsInstanced => true;
+
     /// <summary>战斗结束时发放的奖励牌（由捕获牌创建后赋值）。</summary>
     public CardModel? RewardCard { get; set; }
 
@@ -28,7 +30,7 @@ public sealed class CaptureSuccessPower : QueenPowerModel
         RewardCard is null ? [] : [HoverTipFactory.FromCard(RewardCard)];
 
     /// <summary>由带「捕获」效果的卡牌在成功触发时调用。</summary>
-    internal static async Task ApplyForCapture(Player owner, CardModel rewardCard, CardModel captureSourceCard)
+    internal static async Task ApplyForCapture(Player owner, CardModel rewardCard, CardModel? captureSourceCard)
     {
         CaptureSuccessPower? applied =
             await PowerCmd.Apply<CaptureSuccessPower>(owner.Creature, 1m, owner.Creature, captureSourceCard);

@@ -11,10 +11,10 @@ public static class QueenCardCmd
     public static async Task CreateInHand<T>(Player owner, CombatState combatState, bool isUpgraded = false) where T : CardModel
 	{
         CardModel card = combatState.CreateCard<T>(owner);
-        await CreateInHand(card, isUpgraded);
+        await CreateInHandInternal(card, isUpgraded);
 	}
 
-	public static async Task CreateInHand(CardModel card, bool isUpgraded = false)
+	private static async Task CreateInHandInternal(CardModel card, bool isUpgraded = false)
 	{
         if (isUpgraded)
         {

@@ -11,7 +11,7 @@ namespace ComicChess.TheQueen;
 public sealed class AmalgamEmptyCupIntentAction : AmalgamActionModel
 {
     public AmalgamEmptyCupIntentAction()
-        : base(1m)
+        : base()
     {
     }
 

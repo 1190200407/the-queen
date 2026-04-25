@@ -12,7 +12,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 namespace ComicChess.TheQueen;
 
 [Pool(typeof(QueenCardPool))]
-public sealed class GrantOffense : QueenCardModel
+public sealed class GrantOffense : LearnIntentCardModel
 {
     private const decimal learnIntentDamage = 4m;
     private const int energyCost = 1;
@@ -28,18 +28,20 @@ public sealed class GrantOffense : QueenCardModel
     ];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [QueenHoverTips.LearnIntent];
+    protected override bool ShouldSummonBeforeLearnIntent => true;
 
     public GrantOffense()
         : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
     {
     }
 
-    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    protected override Task<IReadOnlyList<AmalgamActionModel?>> CreateLearnIntentsAsync(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await FriendlyAmalgamCmd.Summon(choiceContext, base.Owner, base.DynamicVars.Summon.BaseValue, this);
+        _ = choiceContext;
+        _ = cardPlay;
         // 意图内只存原始基础伤害；力量等在 CreatureCmd.Damage 中由 Hook 叠一次。
         AmalgamActionModel? intent = AmalgamActionRegistry.CreateOffense(learnIntentDamage);
-        await FriendlyAmalgamCmd.LearnIntent(choiceContext, base.Owner, intent, this);
+        return Task.FromResult<IReadOnlyList<AmalgamActionModel?>>([intent]);
     }
 
     protected override void OnUpgrade()

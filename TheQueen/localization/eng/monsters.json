@@ -10,6 +10,16 @@
     "FRIENDLY_AMALGAM.intent_vulnerable.title": "Vulnerable",
     "FRIENDLY_AMALGAM.intent_vulnerable.description": "At the end of your turn, apply [blue]{Amount}[/blue] Vulnerable to a random enemy.",
     "FRIENDLY_AMALGAM.intent_vulnerable.description_all": "At the end of your turn, apply [blue]{Amount}[/blue] Vulnerable to each enemy.",
+    "FRIENDLY_AMALGAM.intent_weak.title": "Weak",
+    "FRIENDLY_AMALGAM.intent_weak.description": "At the end of your turn, apply [blue]{Amount}[/blue] Weak to a random enemy.",
+    "FRIENDLY_AMALGAM.intent_weak.description_all": "At the end of your turn, apply [blue]{Amount}[/blue] Weak to each enemy.",
+    "FRIENDLY_AMALGAM.intent_constrict.title": "Constricted",
+    "FRIENDLY_AMALGAM.intent_constrict.description": "At the end of your turn, apply [blue]{Amount}[/blue] Constricted to a random enemy.",
+    "FRIENDLY_AMALGAM.intent_constrict.description_all": "At the end of your turn, apply [blue]{Amount}[/blue] Constricted to each enemy.",
+    "FRIENDLY_AMALGAM.intent_strength.title": "Strength",
+    "FRIENDLY_AMALGAM.intent_strength.description": "At the end of your turn, gain [blue]{Amount}[/blue] [gold]Strength[/gold].",
+    "FRIENDLY_AMALGAM.intent_stun.title": "Stun",
+    "FRIENDLY_AMALGAM.intent_stun.description": "At the end of your turn, stun an enemy for [blue]1[/blue] turn.",
     "FRIENDLY_AMALGAM.intent_slot_empty.title": "Empty slot",
     "FRIENDLY_AMALGAM.intent_slot_empty.description": "This torch slot has not recorded an intent yet."
 }

@@ -27,6 +27,7 @@ public sealed class SoulLockCasket : QueenCardModel
     private const CardRarity rarity = CardRarity.Basic;
     private const TargetType targetType = TargetType.AnyEnemy;
     private const bool shouldShowInCardLibrary = true;
+    public override bool IsCapture => true;
 
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Retain];
 

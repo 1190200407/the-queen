@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -9,12 +10,17 @@ namespace ComicChess.TheQueen;
 /// <summary>聚合体意图：每击 <see cref="AmalgamActionModel.Amount"/> 点伤害，连续若干次。</summary>
 public sealed class AmalgamMultiHitOffenseIntentAction : AmalgamActionModel
 {
+    private const string RepeatParam = "repeat";
 	private readonly int _hitCount;
 
 	public AmalgamMultiHitOffenseIntentAction(decimal damagePerHit, int hitCount)
-		: base(damagePerHit)
+		: base(new Dictionary<string, decimal>
+		{
+			[AmountParam] = damagePerHit,
+			[RepeatParam] = hitCount
+		})
 	{
-		_hitCount = hitCount;
+		_hitCount = (int)GetParameterOrDefault(RepeatParam, 0m);
 	}
 
 	public override LocString IntentTitle => new("intents", "AMALGAM_MULTI_ATTACK.title");

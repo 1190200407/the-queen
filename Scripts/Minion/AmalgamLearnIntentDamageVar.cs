@@ -21,6 +21,11 @@ public sealed class AmalgamLearnIntentDamageVar : DamageVar
 	{
 	}
 
+	public AmalgamLearnIntentDamageVar(string name, decimal baseDamage, ValueProp props)
+		: base(name, baseDamage, props)
+	{
+	}
+
 	public override void UpdateCardPreview(CardModel card, CardPreviewMode previewMode, Creature? target, bool runGlobalHooks)
 	{
 		decimal num = BaseValue;

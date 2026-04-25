@@ -11,7 +11,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 namespace ComicChess.TheQueen;
 
 [Pool(typeof(QueenCardPool))]
-public sealed class SoulBeam : QueenCardModel
+public sealed class SoulBeam : LearnIntentCardModel
 {
 	private const decimal learnIntentDamagePerHit = 8m;
 	private const CardType type = CardType.Skill;
@@ -33,8 +33,9 @@ public sealed class SoulBeam : QueenCardModel
 	{
 	}
 
-	protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+	protected override Task<IReadOnlyList<AmalgamActionModel?>> CreateLearnIntentsAsync(PlayerChoiceContext choiceContext, CardPlay cardPlay)
 	{
+		_ = choiceContext;
 		_ = cardPlay;
 		int hits = ResolveEnergyXValue();
 		if (base.IsUpgraded)
@@ -44,6 +45,6 @@ public sealed class SoulBeam : QueenCardModel
 
 		decimal dmg = base.DynamicVars["LearnIntentDamage"].BaseValue;
 		AmalgamActionModel? intent = AmalgamActionRegistry.CreateOffenseMulti(dmg, hits);
-		await FriendlyAmalgamCmd.LearnIntent(choiceContext, base.Owner, intent, this);
+		return Task.FromResult<IReadOnlyList<AmalgamActionModel?>>([intent]);
 	}
 }

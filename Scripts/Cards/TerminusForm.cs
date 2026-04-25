@@ -27,9 +27,6 @@ public sealed class TerminusForm : QueenCardModel
         new SummonVar(summonBase).WithTooltip("QUEEN_SUMMON_DYNAMIC")
     ];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [HoverTipFactory.FromPower<TerminusFormPower>()];
-
     public TerminusForm()
         : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
     {

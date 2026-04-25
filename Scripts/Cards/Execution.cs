@@ -1,0 +1,90 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using BaseLib.Utils;
+using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Commands.Builders;
+using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.Entities.Powers;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Models.CardPools;
+using MegaCrit.Sts2.Core.Rewards;
+using MegaCrit.Sts2.Core.Rooms;
+using MegaCrit.Sts2.Core.ValueProps;
+
+namespace ComicChess.TheQueen;
+
+/// <summary>处决：基础伤害 + 目标负面加成；斩杀时捕获目标。</summary>
+[Pool(typeof(QueenCardPool))]
+public sealed class Execution : QueenCardModel
+{
+    private const int energyCost = 1;
+    private const CardType type = CardType.Attack;
+    private const CardRarity rarity = CardRarity.Rare;
+    private const TargetType targetType = TargetType.AnyEnemy;
+    private const bool shouldShowInCardLibrary = true;
+    public override bool IsCapture => true;
+
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+    [
+        new DamageVar(10m, ValueProp.Move),
+        new IntVar("BonusPerDebuff", 4m),
+    ];
+
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+    [
+        HoverTipFactory.Static(StaticHoverTip.Fatal),
+        QueenHoverTips.Capture,
+    ];
+
+    public Execution()
+        : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
+    {
+    }
+
+    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    {
+        ArgumentNullException.ThrowIfNull(cardPlay.Target, nameof(cardPlay.Target));
+        Creature target = cardPlay.Target;
+        bool shouldTriggerFatal = target.Powers.All(static p => p.ShouldOwnerDeathTriggerFatal());
+
+        int debuffCount = target.Powers.Count(static p => p.Type == PowerType.Debuff);
+        decimal bonusPerDebuff = base.DynamicVars["BonusPerDebuff"].BaseValue;
+        decimal totalDamage = base.DynamicVars.Damage.BaseValue + debuffCount * bonusPerDebuff;
+
+        AttackCommand attackCommand = await DamageCmd.Attack(totalDamage)
+            .FromCard(this)
+            .Targeting(target)
+            .WithHitFx("vfx/vfx_attack_blunt")
+            .Execute(choiceContext);
+
+        CombatRoom? combatRoom = base.CombatState?.RunState.CurrentRoom as CombatRoom;
+        if (combatRoom is null)
+        {
+            return;
+        }
+
+        if (shouldTriggerFatal
+            && attackCommand.Results.Any(static r => r.WasTargetKilled)
+            && base.CombatState?.RunState.CurrentRoom is CombatRoom)
+        {
+            CardModel? reward = MonsterCaptureRewardCatalog.TryCreateCaptureRewardCard(base.Owner, target);
+            if (reward is { } rewardCard)
+            {
+                combatRoom.AddExtraReward(base.Owner, new SpecialCardReward(rewardCard, base.Owner));
+                await CaptureSuccessPower.ApplyForCapture(base.Owner, rewardCard, this);
+            }
+        }
+    }
+
+    protected override void OnUpgrade()
+    {
+        base.DynamicVars.Damage.UpgradeValueBy(4m);
+        base.DynamicVars["BonusPerDebuff"].UpgradeValueBy(1m);
+    }
+}

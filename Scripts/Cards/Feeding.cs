@@ -1,30 +1,29 @@
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using BaseLib.Utils;
-using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
-using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.CardPools;
-using MegaCrit.Sts2.Core.ValueProps;
 
 namespace ComicChess.TheQueen;
 
+/// <summary>喂食：生成喂食根骨、喂食血肉，获得魂灯。衍生牌为消逝+魂缚（<see cref="HasSelfBound"/>）。</summary>
 [Pool(typeof(QueenCardPool))]
 public sealed class Feeding : QueenCardModel
 {
 	private const int energyCost = 1;
-	private const CardType type = CardType.Attack;
-	private const CardRarity rarity = CardRarity.Common;
-	private const TargetType targetType = TargetType.AnyEnemy;
+	private const CardType type = CardType.Skill;
+	private const CardRarity rarity = CardRarity.Uncommon;
+	private const TargetType targetType = TargetType.Self;
 	private const bool shouldShowInCardLibrary = true;
 
-	protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(8m, ValueProp.Move)];
+	public override int MaxUpgradeLevel => 1;
 
-	protected override IEnumerable<IHoverTip> ExtraHoverTips => [
-		HoverTipFactory.FromCard<Devour>(base.IsUpgraded),
+	protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+	[
+		HoverTipFactory.FromCard<FeedingBone>(base.IsUpgraded),
+		HoverTipFactory.FromCard<FeedingFlesh>(base.IsUpgraded),
 		QueenHoverTips.SoulLamp
 	];
 
@@ -35,29 +34,20 @@ public sealed class Feeding : QueenCardModel
 
 	protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
 	{
-		ArgumentNullException.ThrowIfNull(cardPlay.Target, nameof(cardPlay.Target));
-
-		if (base.CombatState == null || base.Owner == null)
+		_ = cardPlay;
+		if (base.CombatState == null)
 		{
 			return;
 		}
 
-		await DamageCmd.Attack(base.DynamicVars.Damage.BaseValue)
-			.FromCard(this)
-			.Targeting(cardPlay.Target)
-			.WithHitFx("vfx/vfx_attack_blunt")
-			.Execute(choiceContext);
-
+		bool up = base.IsUpgraded;
+		await QueenCardCmd.CreateInHand<FeedingBone>(base.Owner, base.CombatState, isUpgraded: up);
+		await QueenCardCmd.CreateInHand<FeedingFlesh>(base.Owner, base.CombatState, isUpgraded: up);
 		await QueenCardCmd.AddSoulLamp(base.Owner, 1);
-
-		for (int i = 0; i < 2; i++)
-		{
-			await QueenCardCmd.CreateInHand<Devour>(base.Owner, base.CombatState, base.IsUpgraded);
-		}
 	}
 
+	/// <summary>升级只影响衍生的根骨+ / 血肉+，本体数值不变。</summary>
 	protected override void OnUpgrade()
 	{
-		base.DynamicVars.Damage.UpgradeValueBy(2m);
 	}
 }

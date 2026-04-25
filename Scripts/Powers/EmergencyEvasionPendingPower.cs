@@ -29,18 +29,12 @@ public sealed class EmergencyEvasionPendingPower : QueenPowerModel
 		}
 
 		Creature? amalgamCreature = FriendlyAmalgamCmd.GetExisting(combatState, player);
+
 		if (amalgamCreature?.Monster is FriendlyAmalgam amalgam)
 		{
-			amalgam.ClearForcedAction();
+			await amalgam.ClearForcedAction();
 		}
-
 		await FriendlyAmalgamCmd.Summon(choiceContext, player, base.Amount, this);
-
-		Creature? afterSummon = FriendlyAmalgamCmd.GetExisting(combatState, player);
-		if (afterSummon is { IsAlive: true, Monster: FriendlyAmalgam })
-		{
-			await FriendlyAmalgamCmd.AwakeAsync(afterSummon);
-		}
 
 		await PowerCmd.Remove(this);
 	}

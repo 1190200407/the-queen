@@ -37,7 +37,7 @@ internal static class CaptureSingleTargetPreviewEntry
         }
 
         CardModel? card = Traverse.Create(play).Property("Card").GetValue<CardModel>();
-        if (card is null || !QueenHoverTips.CardHasCaptureHoverTip(card))
+        if (card is null || !(card is QueenCardModel queenCard && queenCard.IsCapture))
         {
             return;
         }
@@ -81,7 +81,7 @@ internal static class EnemyIntentRewardCardPreview_NCard_SetPreviewTarget_Patch
     private static void Postfix(NCard __instance, Creature? creature)
     {
         CardModel? played = __instance.Model;
-        if (played is null || !QueenHoverTips.CardHasCaptureHoverTip(played))
+        if (played is null || !(played is QueenCardModel queenCard && queenCard.IsCapture))
         {
             return;
         }

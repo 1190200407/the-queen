@@ -5,6 +5,7 @@ using Godot;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Assets;
 using MegaCrit.Sts2.Core.Helpers;
+using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Nodes.Combat;
 using MegaCrit.Sts2.Core.Nodes.Screens.CardLibrary;
@@ -18,7 +19,7 @@ namespace ComicChess.TheQueen;
 [HarmonyPriority(500)]
 internal static class CardLibraryEnemyPoolFilterPatch
 {
-    private const string EnemyFilterIconPath = "res://TheQueen/images/card_portraits/frail_spores.png";
+    private const string EnemyFilterIconPath = "res://TheQueen/images/charui/monster_card.png";
     private const string FallbackIconPath = "res://TheQueen/images/powers/power.png";
 
     private static void Postfix(NCardLibrary __instance)
@@ -28,7 +29,7 @@ internal static class CardLibraryEnemyPoolFilterPatch
             .GetValue(__instance)!;
 
         NCardPoolFilter reference = __instance.GetNode<NCardPoolFilter>("%ColorlessPool");
-        NCardPoolFilter enemyFilter = CreatePoolFilterButton();
+        NCardPoolFilter enemyFilter = CreatePoolFilterButton(reference);
         reference.AddSibling(enemyFilter, forceReadableName: true);
 
         poolFilters.Add(enemyFilter, static c => c.Pool is EnemyCardPool);
@@ -71,56 +72,60 @@ internal static class CardLibraryEnemyPoolFilterPatch
         }
     }
 
-    private static NCardPoolFilter CreatePoolFilterButton()
+    private static NCardPoolFilter CreatePoolFilterButton(NCardPoolFilter reference)
     {
         Texture2D? tex = ResourceLoader.Exists(EnemyFilterIconPath)
             ? ResourceLoader.Load<Texture2D>(EnemyFilterIconPath)
             : ResourceLoader.Load<Texture2D>(FallbackIconPath);
 
-        var filter = new NCardPoolFilter
+        NCardPoolFilter filter = reference.Duplicate() as NCardPoolFilter ?? new NCardPoolFilter();
+        filter.Name = "FILTER-EnemyCardPool";
+        filter.Size = new Vector2(64, 64);
+        filter.CustomMinimumSize = new Vector2(64, 64);
+        filter.TooltipText = string.Empty;
+        filter.Loc = new LocString("card_library", "POOL_MONSTER_TIP");
+
+        TextureRect? image = filter.GetNodeOrNull<TextureRect>("Image");
+        if (image == null)
         {
-            Name = "FILTER-EnemyCardPool",
-            Size = new Vector2(64, 64),
-            CustomMinimumSize = new Vector2(64, 64),
-        };
+            image = new TextureRect
+            {
+                Name = "Image",
+                ExpandMode = TextureRect.ExpandModeEnum.IgnoreSize,
+                StretchMode = TextureRect.StretchModeEnum.KeepAspectCentered,
+                Material = ShaderUtils.GenerateHsv(1f, 1f, 1f),
+            };
+            filter.AddChild(image);
+            image.Owner = filter;
+        }
 
-        var image = new TextureRect
+        image.Texture = tex;
+        image.Size = new Vector2(56, 56);
+        image.Position = new Vector2(4, 4);
+        image.Scale = new Vector2(0.9f, 0.9f);
+        image.PivotOffset = new Vector2(28, 28);
+
+        TextureRect? shadow = image.GetNodeOrNull<TextureRect>("Shadow");
+        if (shadow != null)
         {
-            Name = "Image",
-            Texture = tex,
-            ExpandMode = TextureRect.ExpandModeEnum.IgnoreSize,
-            StretchMode = TextureRect.StretchModeEnum.KeepAspectCentered,
-            Size = new Vector2(56, 56),
-            Position = new Vector2(4, 4),
-            Scale = new Vector2(0.9f, 0.9f),
-            PivotOffset = new Vector2(28, 28),
-            Material = ShaderUtils.GenerateHsv(1f, 1f, 1f),
-        };
+            shadow.Texture = tex;
+            shadow.Size = new Vector2(56, 56);
+            shadow.Position = new Vector2(4, 3);
+            shadow.PivotOffset = new Vector2(28, 28);
+            shadow.ShowBehindParent = true;
+            shadow.Modulate = Colors.Black with { A = 0.25f };
+        }
 
-        var shadow = new TextureRect
+        if (filter.GetNodeOrNull<NSelectionReticle>("SelectionReticle") == null)
         {
-            Name = "Shadow",
-            Texture = tex,
-            ExpandMode = TextureRect.ExpandModeEnum.IgnoreSize,
-            StretchMode = TextureRect.StretchModeEnum.KeepAspectCentered,
-            Size = new Vector2(56, 56),
-            Position = new Vector2(4, 3),
-            PivotOffset = new Vector2(28, 28),
-            ShowBehindParent = true,
-            Modulate = Colors.Black with { A = 0.25f },
-        };
-
-        image.AddChild(shadow);
-        NSelectionReticle reticle = PreloadManager.Cache
-            .GetScene(SceneHelper.GetScenePath("ui/selection_reticle"))
-            .Instantiate<NSelectionReticle>();
-        reticle.Name = "SelectionReticle";
-        reticle.UniqueNameInOwner = true;
-
-        filter.AddChild(image);
-        image.Owner = filter;
-        filter.AddChild(reticle);
-        reticle.Owner = filter;
+            NSelectionReticle reticle = PreloadManager.Cache
+                .GetScene(SceneHelper.GetScenePath("ui/selection_reticle"))
+                .Instantiate<NSelectionReticle>();
+            reticle.Name = "SelectionReticle";
+            reticle.UniqueNameInOwner = true;
+            filter.AddChild(reticle);
+            reticle.Owner = filter;
+        }
 
         return filter;
     }

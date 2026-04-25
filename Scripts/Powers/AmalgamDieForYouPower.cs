@@ -25,8 +25,10 @@ public sealed class AmalgamDieForYouPower : QueenPowerModel
 
 	internal bool IsAwaitingDeathSleepRevive => GetInternalData<Data>().AwaitingDeathSleepRevive;
 
-	/// <summary><see cref="FriendlyAmalgamCmd.Summon"/> 复用场上已死聚合体并加血时调用，取消回合末沉睡占位。</summary>
-	internal void WakeImmediatelyAfterSummonRevive()
+    public override bool ShouldPlayVfx => false;
+
+    /// <summary><see cref="FriendlyAmalgamCmd.Summon"/> 复用场上已死聚合体并加血时调用，取消回合末沉睡占位。</summary>
+    internal void WakeImmediatelyAfterSummonRevive()
 	{
 		GetInternalData<Data>().AwaitingDeathSleepRevive = false;
 	}
@@ -45,10 +47,9 @@ public sealed class AmalgamDieForYouPower : QueenPowerModel
 		data.AwaitingDeathSleepRevive = false;
 		if (creature.Monster is FriendlyAmalgam amalgam)
 		{
-			amalgam.ClearForcedAction();
+			await amalgam.ClearForcedAction();
 		}
 
-		await FriendlyAmalgamCmd.AwakeAsync(creature);
 		FriendlyAmalgamCmd.TryRefreshIntentTorchVisuals(creature);
 	}
 
@@ -73,7 +74,7 @@ public sealed class AmalgamDieForYouPower : QueenPowerModel
 			return target;
 		}
 
-		if (base.Owner.Monster is not FriendlyAmalgam amalgam || amalgam.IsBodyguardSleeping())
+		if (base.Owner.Monster is not FriendlyAmalgam amalgam || amalgam.IsSleeping())
 		{
 			return target;
 		}
@@ -83,7 +84,6 @@ public sealed class AmalgamDieForYouPower : QueenPowerModel
 
 	public override async Task AfterDeath(PlayerChoiceContext choiceContext, Creature creature, bool wasRemovalPrevented, float deathAnimLength)
 	{
-		_ = choiceContext;
 		_ = deathAnimLength;
 		if (creature != base.Owner || wasRemovalPrevented || base.Owner.Monster is not FriendlyAmalgam amalgam)
 		{
@@ -92,7 +92,7 @@ public sealed class AmalgamDieForYouPower : QueenPowerModel
 
 		GetInternalData<Data>().AwaitingDeathSleepRevive = true;
 		await CreatureCmd.TriggerAnim(creature, "Sleep", 0f);
-		await amalgam.BeginForcedAction(new AmalgamEmergencySleepForcedActionModel());
+		await amalgam.BeginForcedAction(new AmalgamEmergencySleepForcedActionModel(0m));
 	}
 
 	public override bool ShouldAllowHitting(Creature creature)

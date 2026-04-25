@@ -31,6 +31,14 @@ public abstract class QueenCardModel : CustomCardModel
             {
                 return portraitPath;
             }
+            else
+            {
+                portraitPath = $"res://TheQueen/images/card_portraits/monsters/{Id.Entry.ToLowerInvariant().Replace("comicchess-", "")}.png";
+                if (ResourceLoader.Exists(portraitPath))
+                {
+                    return portraitPath;
+                }
+            }
 
             return "res://TheQueen/images/card_portraits/card.png";
         }
@@ -101,6 +109,8 @@ public abstract class QueenCardModel : CustomCardModel
     }
 
     public override bool HasBuiltInOverlay => HasSelfBound;
+
+    public virtual bool IsCapture => false;
 
     public QueenCardModel(int energyCost, CardType type, CardRarity rarity, TargetType targetType, bool shouldShowInCardLibrary) : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
     {

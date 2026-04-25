@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using System.Collections.Generic;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization;
@@ -11,14 +12,35 @@ namespace ComicChess.TheQueen;
 /// </summary>
 public abstract class AmalgamActionModel
 {
-    private MoveState? _moveState;
+    public const string AmountParam = "amount";
 
-    protected AmalgamActionModel(decimal amount)
+    private MoveState? _moveState;
+    private readonly IReadOnlyDictionary<string, decimal> _parameters;
+
+    protected AmalgamActionModel()
+        : this(new Dictionary<string, decimal>())
     {
-        Amount = amount;
     }
 
+    protected AmalgamActionModel(decimal amount)
+        : this(new Dictionary<string, decimal> { [AmountParam] = amount })
+    {
+    }
+
+    protected AmalgamActionModel(IReadOnlyDictionary<string, decimal> parameters)
+    {
+        _parameters = parameters;
+        Amount = GetParameterOrDefault(AmountParam, 0m);
+    }
+
+    /// <summary>兼容旧逻辑的主数值（等同参数表中的 <c>amount</c>，无则为 0）。</summary>
     public decimal Amount { get; }
+
+    /// <summary>可扩展参数集合（如 <c>amount</c>、<c>repeat</c> 等）。</summary>
+    public IReadOnlyDictionary<string, decimal> Parameters => _parameters;
+
+    public decimal GetParameterOrDefault(string key, decimal defaultValue = 0m) =>
+        _parameters.TryGetValue(key, out decimal value) ? value : defaultValue;
 
     public abstract LocString IntentTitle { get; }
 
@@ -31,14 +53,15 @@ public abstract class AmalgamActionModel
     /// <summary>意图条等展示用；进攻类可在此把 <see cref="Hook.ModifyDamage"/>（出手方为聚合体）与卡面数字对齐。默认等同 <see cref="MoveState"/>。</summary>
     public virtual MoveState GetMoveStateForDisplay(Creature amalgam) => MoveState;
 
-    public Task ExecuteAsync(PlayerChoiceContext choiceContext, Creature amalgam)
+    public async Task ExecuteAsync(PlayerChoiceContext choiceContext, Creature amalgam)
     {
         if (!amalgam.IsAlive || amalgam.CombatState == null)
         {
-            return Task.CompletedTask;
+            return;
         }
 
-        return OnExecute(choiceContext, amalgam);
+        await OnExecute(choiceContext, amalgam);
+        await FriendlyAmalgamHook.AfterAct(choiceContext, amalgam);
     }
 
     protected abstract MoveState CreateMoveState();

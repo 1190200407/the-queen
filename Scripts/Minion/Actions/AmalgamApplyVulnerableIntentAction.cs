@@ -14,9 +14,17 @@ namespace ComicChess.TheQueen;
 /// <summary>聚合体意图：按 <see cref="AmalgamOffenseTargeting"/> 对敌人施加 <see cref="AmalgamActionModel.Amount"/> 层易伤。</summary>
 public sealed class AmalgamApplyVulnerableIntentAction : AmalgamActionModel
 {
+    private readonly Creature? _forcedTarget;
+
     public AmalgamApplyVulnerableIntentAction(decimal vulnerableStacks)
         : base(vulnerableStacks)
     {
+    }
+
+    public AmalgamApplyVulnerableIntentAction(decimal vulnerableStacks, Creature? forcedTarget)
+        : base(vulnerableStacks)
+    {
+        _forcedTarget = forcedTarget;
     }
 
     public static readonly float CastAnimDelay = 1.5f;
@@ -56,6 +64,12 @@ public sealed class AmalgamApplyVulnerableIntentAction : AmalgamActionModel
 
         AmalgamOffenseTargetingMode mode = AmalgamOffenseTargeting.ResolveMode(combatState, queen);
         Creature applier = queen.Creature;
+
+        if (_forcedTarget is { IsAlive: true } forcedTarget && alive.Contains(forcedTarget))
+        {
+            await PowerCmd.Apply<VulnerablePower>(forcedTarget, Amount, applier, null);
+            return;
+        }
 
         if (mode == AmalgamOffenseTargetingMode.AllAliveEnemies)
         {

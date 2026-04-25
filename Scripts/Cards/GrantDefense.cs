@@ -11,7 +11,7 @@ using MegaCrit.Sts2.Core.Models.CardPools;
 namespace ComicChess.TheQueen;
 
 [Pool(typeof(QueenCardPool))]
-public sealed class GrantDefense : QueenCardModel
+public sealed class GrantDefense : LearnIntentCardModel
 {
 	private const decimal learnIntentBlock = 4m;
 	private const int energyCost = 1;
@@ -27,19 +27,20 @@ public sealed class GrantDefense : QueenCardModel
 	];
 
 	protected override IEnumerable<IHoverTip> ExtraHoverTips => [QueenHoverTips.LearnIntent];
+	protected override bool ShouldSummonBeforeLearnIntent => true;
 
 	public GrantDefense()
 		: base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
 	{
 	}
 
-	protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+	protected override Task<IReadOnlyList<AmalgamActionModel?>> CreateLearnIntentsAsync(PlayerChoiceContext choiceContext, CardPlay cardPlay)
 	{
+		_ = choiceContext;
 		_ = cardPlay;
-		await FriendlyAmalgamCmd.Summon(choiceContext, base.Owner, base.DynamicVars.Summon.BaseValue, this);
 		decimal blockBase = base.DynamicVars["LearnIntentBlock"].BaseValue;
 		AmalgamActionModel? intent = AmalgamActionRegistry.CreateBlock(blockBase);
-		await FriendlyAmalgamCmd.LearnIntent(choiceContext, base.Owner, intent, this);
+		return Task.FromResult<IReadOnlyList<AmalgamActionModel?>>([intent]);
 	}
 
 	protected override void OnUpgrade()

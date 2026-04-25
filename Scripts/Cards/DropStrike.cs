@@ -1,0 +1,76 @@
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using BaseLib.Utils;
+using MegaCrit.Sts2.Core.Combat;
+using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.Entities.Players;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Models.CardPools;
+using MegaCrit.Sts2.Core.ValueProps;
+
+namespace ComicChess.TheQueen;
+
+/// <summary>坠击：聚合体对随机敌人造成多段伤害。</summary>
+[Pool(typeof(QueenCardPool))]
+public sealed class DropStrike : QueenCardModel
+{
+    private const int energyCost = 2;
+    private const CardType type = CardType.Attack;
+    private const CardRarity rarity = CardRarity.Common;
+    private const TargetType targetType = TargetType.Self;
+    private const bool shouldShowInCardLibrary = true;
+    private const int hitCount = 3;
+
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+    [
+        new AmalgamLearnIntentDamageVar(5m, ValueProp.Move),
+        new CalculationBaseVar(0m),
+        new CalculationExtraVar(1m),
+        new CalculatedVar("AttackAll").WithMultiplier((CardModel card, Creature? _) => 
+        {
+            CombatState? combatState = card.Owner.Creature.CombatState;
+            if (combatState is null)
+            {
+                return 1m;
+            }
+            Player queen = card.Owner;
+            if (AmalgamOffenseTargeting.ResolveMode(combatState, queen) == AmalgamOffenseTargetingMode.AllAliveEnemies)
+            {
+                return 1m;
+            }
+            return 0m;
+        })
+    ];
+
+    public DropStrike()
+        : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
+    {
+    }
+
+    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    {
+        _ = cardPlay;
+        if (base.Owner.Creature.CombatState is not { } combatState)
+        {
+            return;
+        }
+
+        var amalgam = FriendlyAmalgamCmd.GetExisting(combatState, base.Owner);
+        if (amalgam is not { IsAlive: true })
+        {
+            return;
+        }
+
+        decimal dmg = 5m;
+        await FriendlyAmalgamCmd.ExecuteMultiHitOffense(choiceContext, amalgam, dmg, hitCount);
+    }
+
+    protected override void OnUpgrade()
+    {
+        base.DynamicVars["LearnIntentDamage"].UpgradeValueBy(1m);
+    }
+}
+

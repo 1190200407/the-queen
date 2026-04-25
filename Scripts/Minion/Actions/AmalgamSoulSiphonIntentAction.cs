@@ -1,0 +1,72 @@
+using System.Linq;
+using System.Threading.Tasks;
+using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Combat;
+using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.Entities.Players;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Localization;
+using MegaCrit.Sts2.Core.Models.Powers;
+using MegaCrit.Sts2.Core.MonsterMoves.MonsterMoveStateMachine;
+
+namespace ComicChess.TheQueen;
+
+/// <summary>灵魂虹吸：一个 action，三个 intent（全体敌人失去力量；你获得力量与敏捷）。</summary>
+public sealed class AmalgamSoulSiphonIntentAction : AmalgamActionModel
+{
+    private readonly decimal _stacks;
+
+    public AmalgamSoulSiphonIntentAction(decimal stacks)
+        : base(stacks)
+    {
+        _stacks = stacks;
+    }
+
+    public static readonly float CastAnimDelay = 1.5f;
+
+    public override LocString IntentTitle => new("intents", "AMALGAM_SOUL_SIPHON.title");
+
+    public override LocString GetIntentDescription()
+    {
+        LocString d = new("intents", "AMALGAM_SOUL_SIPHON.description");
+        d.Add("Stacks", _stacks);
+        return d;
+    }
+
+    protected override MoveState CreateMoveState()
+    {
+        return new MoveState(
+            "AMALGAM_INTENT_SOUL_SIPHON",
+            _ => Task.CompletedTask,
+            new AmalgamLoseStrengthAllIntent(_stacks),
+            new AmalgamGrantStrengthIntent(_stacks),
+            new AmalgamGrantDexterityIntent(_stacks));
+    }
+
+    protected override async Task OnExecute(PlayerChoiceContext choiceContext, Creature amalgam)
+    {
+        CombatState? combatState = amalgam.CombatState;
+        if (combatState == null || amalgam.PetOwner is not Player queen || !queen.Creature.IsAlive || _stacks <= 0m)
+        {
+            return;
+        }
+
+        Creature[] alive = combatState.Enemies.Where(e => e.IsAlive).ToArray();
+        if (alive.Length == 0)
+        {
+            return;
+        }
+
+        await CreatureCmd.TriggerAnim(amalgam, "Cast", CastAnimDelay);
+
+        // 永久减力量：直接施加负数 Strength。
+        foreach (Creature enemy in alive)
+        {
+            await PowerCmd.Apply<StrengthPower>(enemy, -_stacks, queen.Creature, null);
+        }
+
+        await PowerCmd.Apply<StrengthPower>(queen.Creature, _stacks, queen.Creature, null);
+        await PowerCmd.Apply<DexterityPower>(queen.Creature, _stacks, queen.Creature, null);
+    }
+}
+
