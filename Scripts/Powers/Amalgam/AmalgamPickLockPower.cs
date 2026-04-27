@@ -9,3 +9,4 @@ public sealed class AmalgamPickLockPower : QueenPowerModel
 
     public override PowerStackType StackType => PowerStackType.Single;
 }
+

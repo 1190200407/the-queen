@@ -31,4 +31,9 @@ public sealed class AmalgamArmyBreak : QueenCardModel
         await PowerCmd.Apply<AmalgamArmyBreakPower>(base.Owner.Creature, 1m, base.Owner.Creature, this);
         await CreatureCmd.TriggerAnim(base.Owner.Creature, "Cast", base.Owner.Character.CastAnimDelay);
     }
+
+    protected override void OnUpgrade()
+    {
+        AddKeyword(CardKeyword.Innate);
+    }
 }

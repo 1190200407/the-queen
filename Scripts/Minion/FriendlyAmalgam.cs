@@ -11,6 +11,7 @@ using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization;
+using MegaCrit.Sts2.Core.Logging;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.MonsterMoves.Intents;
 using MegaCrit.Sts2.Core.MonsterMoves.MonsterMoveStateMachine;
@@ -57,11 +58,13 @@ public class FriendlyAmalgam : QueenMinionModel
     public enum SleepReason
     {
         NoLearnedAction = 1,
-        ForcedAction = 2,
-        Dead = 4,
-        Ravenous = 8,
+        Dead = 2,
+        EmergencyEvasion = 4,
+        YourTourEndsHere = 8,
+        Ravenous = 16,
     }
     public SleepReason sleepReason = SleepReason.NoLearnedAction | SleepReason.Dead;
+    private readonly SleepReason sleepReasonMask = SleepReason.NoLearnedAction | SleepReason.Dead;
 
     /// <summary>
     /// 小火 UI：存活、无强制行动、且非 <see cref="IsBodyguardSleeping"/> 时，视为在用灯槽记录的意图（当前槽紫）；否则已学槽统一绿。
@@ -80,6 +83,11 @@ public class FriendlyAmalgam : QueenMinionModel
 
     public async Task FallAsleep(SleepReason reason)
     {
+        if (_forcedAction == null)
+        {
+            await BeginForcedAction(new AmalgamEmergencySleepForcedActionModel(0m));
+        }
+
         sleepReason |= reason;
         if (IsSleeping())
         {
@@ -91,13 +99,11 @@ public class FriendlyAmalgam : QueenMinionModel
     {
         bool wasSleeping = IsSleeping();
         sleepReason &= ~reason;
-        if (!IsSleeping())
-        {
-            await CreatureCmd.TriggerAnim(Creature, "Idle", 0f);
-        }
-
+        Log.Info($"WakeUp: {wasSleeping} -> {IsSleeping()}, reason: {reason}");
         if (wasSleeping && !IsSleeping())
         {
+            ClearForcedAction();
+            await CreatureCmd.TriggerAnim(Creature, "Idle", 0f);
             await FriendlyAmalgamHook.AfterAwake(Creature);
         }
     }
@@ -108,7 +114,12 @@ public class FriendlyAmalgam : QueenMinionModel
     {
         if (action == null)
         {
-            await ClearForcedAction();
+            return;
+        }
+
+        // 如果当前有沉睡强制行动，则不进入新的强制行动
+        if (_forcedAction != null && _forcedAction.IsSleepingAction)
+        {
             return;
         }
 
@@ -116,18 +127,16 @@ public class FriendlyAmalgam : QueenMinionModel
         RefreshDisplayedIntent();
         FriendlyAmalgamCmd.TryRefreshIntentTorchVisuals(Creature);
         await _forcedAction.OnBeginAsync(Creature);
-        if (_forcedAction.IsSleepingAction)
-        {
-            await FallAsleep(SleepReason.ForcedAction);
-        }
     }
 
-    public async Task ClearForcedAction()
+    public void ClearForcedAction()
     {
-        if (_forcedAction?.IsSleepingAction == true)
+        if (_forcedAction != null && _forcedAction.IsSleepingAction)
         {
-            await WakeUp(SleepReason.ForcedAction);
+            // 清除沉睡强制行动时，清除沉睡原因
+            sleepReason &= sleepReasonMask;
         }
+
         _forcedAction = null;
         RefreshDisplayedIntent();
         FriendlyAmalgamCmd.TryRefreshIntentTorchVisuals(Creature);
@@ -297,7 +306,9 @@ public class FriendlyAmalgam : QueenMinionModel
 
     public override bool ShouldPowerBeRemovedOnDeath(PowerModel power)
     {
-        return false;
+        if (power.Owner == this.Creature)
+            return false;
+        return true;
     }
 
     public static readonly string IdleAnimName = "idle_loop";
@@ -391,13 +402,10 @@ public class FriendlyAmalgam : QueenMinionModel
         if (_forcedAction != null)
         {
             await FriendlyAmalgamCmd.TryPerformIntent(self);
-            if (!_forcedAction.IsSleepingAction)
+            await _forcedAction.ExecuteAsync(choiceContext, self);
+            if (_forcedAction.ClearAfterExecute)
             {
-                await _forcedAction.ExecuteAsync(choiceContext, self);
-                if (_forcedAction.ClearAfterExecute)
-                {
-                    await ClearForcedAction();
-                }
+                ClearForcedAction();
             }
             if (_forcedAction.SkipsPlayerTurnEndTorchExecution)
             {
@@ -455,7 +463,7 @@ public class FriendlyAmalgam : QueenMinionModel
         await action.ExecuteAsync(choiceContext, self);
         if (action == _forcedAction && _forcedAction?.ClearAfterExecute == true)
         {
-            await ClearForcedAction();
+            ClearForcedAction();
         }
         RefreshDisplayedIntent();
     }

@@ -12,3 +12,4 @@ public sealed class AmalgamEvolutionaryThirstPower : QueenPowerModel
 
 	public override bool ShouldPlayVfx => false;
 }
+

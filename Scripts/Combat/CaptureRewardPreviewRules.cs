@@ -16,7 +16,6 @@ internal static class CaptureRewardPreviewRules
     internal static CardModel? TryCreatePreviewCard(Player owner, Creature target)
     {
         if (!target.IsEnemy
-            || target.CombatState?.Encounter?.RoomType == RoomType.Boss
             || owner.RunState?.CurrentRoom is not CombatRoom
             || !target.Powers.All(static p => p.ShouldOwnerDeathTriggerFatal()))
         {

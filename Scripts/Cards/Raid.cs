@@ -17,7 +17,7 @@ public sealed class Raid : QueenCardModel
     private const TargetType targetType = TargetType.Self;
     private const bool shouldShowInCardLibrary = true;
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromCard<Tackle>()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromCard<Tackle>(upgrade: base.IsUpgraded)];
 
     public Raid()
         : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)

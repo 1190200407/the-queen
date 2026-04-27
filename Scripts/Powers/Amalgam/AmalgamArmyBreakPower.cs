@@ -9,3 +9,4 @@ public sealed class AmalgamArmyBreakPower : QueenPowerModel
 
     public override PowerStackType StackType => PowerStackType.Single;
 }
+

@@ -34,7 +34,7 @@ public sealed class Spiken : LearnIntentCardModel
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
     [
         ..base.ExtraHoverTips,
-        HoverTipFactory.FromPower<ThornsPower>(),
+        HoverTipFactory.FromPower<AmalgamThornPower>(),
     ];
 
     public Spiken()
@@ -48,7 +48,7 @@ public sealed class Spiken : LearnIntentCardModel
         _ = cardPlay;
         return Task.FromResult<IReadOnlyList<AmalgamActionModel?>>(
         [
-            AmalgamActionRegistry.CreateGainBuff<ThornsPower>(thorns, buffEntryId: "THORNS_POWER"),
+            AmalgamActionRegistry.CreateGainBuff<AmalgamThornPower>(thorns, buffEntryId: "AMALGAM_THORN_POWER"),
         ]);
     }
 }

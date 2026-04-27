@@ -11,6 +11,7 @@ using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Logging;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Rewards;
@@ -68,12 +69,15 @@ public sealed class Execution : QueenCardModel
         {
             return;
         }
+        Log.Info($"Execution: shouldTriggerFatal: {shouldTriggerFatal}, attackCommand.Results: {attackCommand.Results.Count(static r => r.WasTargetKilled)}");
 
         if (shouldTriggerFatal
             && attackCommand.Results.Any(static r => r.WasTargetKilled)
             && base.CombatState?.RunState.CurrentRoom is CombatRoom)
         {
+            Log.Info($"Execution: Capturing target: {target.Name}");
             CardModel? reward = MonsterCaptureRewardCatalog.TryCreateCaptureRewardCard(base.Owner, target);
+            Log.Info($"Execution: Reward: {reward?.Title}");
             if (reward is { } rewardCard)
             {
                 combatRoom.AddExtraReward(base.Owner, new SpecialCardReward(rewardCard, base.Owner));

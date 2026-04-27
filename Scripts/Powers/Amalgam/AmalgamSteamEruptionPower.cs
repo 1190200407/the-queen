@@ -36,17 +36,10 @@ public sealed class AmalgamSteamEruptionPower : QueenPowerModel
 
     public override async Task AfterDeath(PlayerChoiceContext choiceContext, Creature creature, bool wasRemovalPrevented, float deathAnimLength)
     {
-        _ = wasRemovalPrevented; // 这里刻意不短路：击倒沉睡等“死亡被阻止/不移除”也要爆炸。
-        _ = deathAnimLength;
-
-        Log.Info("AmalgamSteamEruptionPower.AfterDeath: " + creature.Monster.Title.GetFormattedText());
-
         if (creature != base.Owner || Amount <= 0m)
         {
             return;
         }
-
-        Log.Info("Amount: " + Amount);
 
         CombatState? combatState = creature.CombatState;
         if (combatState == null)
@@ -54,21 +47,17 @@ public sealed class AmalgamSteamEruptionPower : QueenPowerModel
             return;
         }
 
-        Log.Info("combatState: " + combatState.Enemies.Count);
-
         Creature[] alive = combatState.Enemies.Where(e => e.IsAlive).ToArray();
         if (alive.Length == 0)
         {
             return;
         }
 
-        Log.Info("alive: " + alive.Length);
-        Flash();
-        foreach (Creature enemy in alive)
+        if (base.Owner.PetOwner?.Creature is { } dealer)
         {
-            var results = await CreatureCmd.Damage(choiceContext, enemy, Amount, ValueProp.Unpowered, creature, null);
-            await FriendlyAmalgamHook.AfterAmalgamDamagedCreature(choiceContext, creature, enemy, results);
+            await CreatureCmd.Damage(choiceContext, alive, Amount, ValueProp.Unpowered, dealer, null);
         }
     }
 }
+
 

@@ -47,21 +47,17 @@ public sealed class YourJoueneyEndsHere : QueenCardModel
         await FriendlyAmalgamCmd.Summon(choiceContext, base.Owner, base.DynamicVars.Summon.BaseValue, this);
 
         CombatState? combatState = base.Owner.Creature.CombatState;
-        if (combatState != null)
+        Creature? amalgamCreature = combatState != null ? FriendlyAmalgamCmd.GetExisting(combatState, base.Owner) : null;
+        if (amalgamCreature is { IsAlive: true, Monster: FriendlyAmalgam amalgam })
         {
-            Creature? amalgamCreature = FriendlyAmalgamCmd.GetExisting(combatState, base.Owner);
-            if (amalgamCreature is { IsAlive: true, Monster: FriendlyAmalgam amalgam })
-            {
-                await amalgam.BeginForcedAction(new AmalgamEmergencySleepForcedActionModel(0m));
-                await CreatureCmd.TriggerAnim(amalgamCreature, "Sleep", 0f);
-            }
-        }
+            await amalgam.FallAsleep(FriendlyAmalgam.SleepReason.YourTourEndsHere);
 
-        YourJoueneyEndsHerePendingPower? pending = await PowerCmd.Apply<YourJoueneyEndsHerePendingPower>(
-            base.Owner.Creature,
-            2m,
-            base.Owner.Creature,
-            this);
-        pending?.ConfigureStrength(base.DynamicVars.Strength.BaseValue);
+            YourJoueneyEndsHerePendingPower? pending = await PowerCmd.Apply<YourJoueneyEndsHerePendingPower>(
+                amalgamCreature,
+                2m,
+                base.Owner.Creature,
+                this);
+            pending?.ConfigureStrength(base.DynamicVars.Strength.BaseValue);
+        }
     }
 }

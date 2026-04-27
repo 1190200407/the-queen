@@ -19,8 +19,7 @@ public sealed class LampDrive : QueenCardModel
     private const TargetType targetType = TargetType.Self;
     private const bool shouldShowInCardLibrary = true;
 
-    public override IEnumerable<CardKeyword> CanonicalKeywords =>
-        base.IsUpgraded ? [] : [CardKeyword.Exhaust];
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
     public LampDrive()
         : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
@@ -64,5 +63,10 @@ public sealed class LampDrive : QueenCardModel
 
             await amalgam.ActCurrentIntentImmediatelyAsync(choiceContext);
         }
+    }
+
+    protected override void OnUpgrade()
+    {
+        RemoveKeyword(CardKeyword.Exhaust);
     }
 }

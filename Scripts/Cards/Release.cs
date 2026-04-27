@@ -16,6 +16,8 @@ public sealed class Release : QueenCardModel
     private const CardRarity rarity = CardRarity.Common;
     private const TargetType targetType = TargetType.Self;
     private const bool shouldShowInCardLibrary = true;
+    public override bool CanBeGeneratedInCombat => false;
+    public override bool CanBeGeneratedByModifiers => false;
 
     public Release()
         : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)

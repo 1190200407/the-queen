@@ -172,7 +172,7 @@ public static class FriendlyAmalgamCmd
         if (minion.Monster is FriendlyAmalgam amalgam)
         {
             await amalgam.WakeUp(FriendlyAmalgam.SleepReason.Dead);
-            await amalgam.ClearForcedAction();
+            amalgam.ClearForcedAction();
         }
 
         TryRefreshIntentTorchVisuals(minion);

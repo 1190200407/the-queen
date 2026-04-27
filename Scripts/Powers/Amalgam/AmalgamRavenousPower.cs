@@ -56,7 +56,6 @@ public sealed class AmalgamRavenousPower : QueenPowerModel
         FriendlyAmalgam? amalgamModel = base.Owner.Monster as FriendlyAmalgam;
         if (amalgamModel != null)
         {
-            await amalgamModel.BeginForcedAction(new AmalgamEmergencySleepForcedActionModel(0m));
             await amalgamModel.FallAsleep(FriendlyAmalgam.SleepReason.Ravenous);
             isAsleep = true;
             await PowerCmd.Apply<StrengthPower>(base.Owner, Amount, base.Owner, null);
@@ -67,27 +66,16 @@ public sealed class AmalgamRavenousPower : QueenPowerModel
     public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
     {
         _ = choiceContext;
-        if (player.Creature != base.Owner || !base.Owner.IsAlive)
-        {
-            return;
-        }
 
         CombatState? combatState = base.Owner.CombatState;
         if (combatState != null && isAsleep)
         {
-            Creature? amalgamCreature = FriendlyAmalgamCmd.GetExisting(combatState, player);
-            if (amalgamCreature?.Monster is FriendlyAmalgam amalgam)
+            if (base.Owner.Monster is FriendlyAmalgam amalgam)
             {
                 await amalgam.WakeUp(FriendlyAmalgam.SleepReason.Ravenous);
-                if (!amalgam.IsSleeping())
-                {
-                    await amalgam.ClearForcedAction();
-                }
                 isAsleep = false;
             }
         }
-
-        await PowerCmd.Remove(this);
     }
 }
 

@@ -19,8 +19,7 @@ public abstract class AmalgamForcedActionModel : AmalgamActionModel
     /// <summary>玩家侧回合结束时是否跳过灯槽 <see cref="AmalgamActionModel"/> 的执行（仍刷新展示）。</summary>
     public abstract bool SkipsPlayerTurnEndTorchExecution { get; }
 
-	/// <summary>是否视为沉睡而不替主人承伤。</summary>
-	public abstract bool IsSleepingAction { get; }
+    public virtual bool IsSleepingAction => false;
 
     public virtual bool ClearAfterExecute { get; } = true;
 
@@ -46,10 +45,10 @@ public sealed class AmalgamEmergencySleepForcedActionModel : AmalgamForcedAction
 
     protected override Task OnExecute(PlayerChoiceContext choiceContext, Creature amalgam)
     {
-        throw new NotImplementedException();
+        return Task.CompletedTask;
     }
 
     public override bool SkipsPlayerTurnEndTorchExecution => true;
 
-	public override bool IsSleepingAction => true;
+    public override bool IsSleepingAction => true;
 }

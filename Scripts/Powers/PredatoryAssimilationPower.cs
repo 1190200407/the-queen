@@ -86,8 +86,6 @@ public sealed class PredatoryAssimilationPower : QueenPowerModel
 			return;
 		}
 
-		Log.Info("reward is not null");
-
 		combatRoom.AddExtraReward(queen, new SpecialCardReward(reward, queen));
 		await CaptureSuccessPower.ApplyForCapture(queen, reward, captureSourceCard: null);
 	}

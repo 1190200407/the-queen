@@ -35,6 +35,7 @@ public static class MonsterCaptureRewardCatalog
     public const string SlitheringStrangler = "SLITHERING_STRANGLER";
     public const string ShrinkerBeetle = "SHRINKER_BEETLE";
     public const string SewerClam = "SEWER_CLAM";
+    public const string TwoTailedRat = "TWO_TAILED_RAT";
     public const string Toadpole = "TOADPOLE";
     public const string CalcifiedCultist = "CALCIFIED_CULTIST";
     public const string FossilStalker = "FOSSIL_STALKER";
@@ -70,7 +71,8 @@ public static class MonsterCaptureRewardCatalog
             { CubexConstruct, static owner => owner.RunState!.CreateCard<DoubleBlast>(owner) },
             { SlitheringStrangler, static owner => owner.RunState!.CreateCard<Constrict>(owner) },
             { ShrinkerBeetle, static owner => owner.RunState!.CreateCard<Shrinker>(owner) },
-            { SewerClam, static owner => owner.RunState!.CreateCard<Screech>(owner) },
+            { SewerClam, static owner => owner.RunState!.CreateCard<Plating>(owner) },
+            { TwoTailedRat, static owner => owner.RunState!.CreateCard<Screech>(owner) },
             { Toadpole, static owner => owner.RunState!.CreateCard<Spiken>(owner) },
             { CalcifiedCultist, static owner => owner.RunState!.CreateCard<Incantation>(owner) },
             { FossilStalker, static owner => owner.RunState!.CreateCard<Suck>(owner) },

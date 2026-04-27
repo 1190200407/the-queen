@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BaseLib.Abstracts;
 using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Commands.Builders;
@@ -20,7 +21,7 @@ namespace ComicChess.TheQueen;
 
 /// <summary>锁魂匣：保留；斩杀（<see cref="StaticHoverTip.Fatal"/>）；捕获见 <see cref="QueenHoverTips.Capture"/>；成功时按 <see cref="MonsterCaptureRewardCatalog"/> 施加 <see cref="CaptureSuccessPower"/>（无配置则无奖励）。</summary>
 [Pool(typeof(QueenCardPool))]
-public sealed class SoulLockCasket : QueenCardModel
+public sealed class SoulLockCasket : QueenCardModel, ITranscendenceCard
 {
     private const int energyCost = 1;
     private const CardType type = CardType.Attack;
@@ -28,8 +29,6 @@ public sealed class SoulLockCasket : QueenCardModel
     private const TargetType targetType = TargetType.AnyEnemy;
     private const bool shouldShowInCardLibrary = true;
     public override bool IsCapture => true;
-
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Retain];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
     [
@@ -42,6 +41,11 @@ public sealed class SoulLockCasket : QueenCardModel
     public SoulLockCasket()
         : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
     {
+    }
+    
+    public CardModel GetTranscendenceTransformedCard()
+    {
+        return ModelDb.Card<SoulCalmCasket>();
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
@@ -77,6 +81,7 @@ public sealed class SoulLockCasket : QueenCardModel
 
     protected override void OnUpgrade()
     {
+        AddKeyword(CardKeyword.Retain);
         base.DynamicVars.Damage.UpgradeValueBy(3m);
     }
 }

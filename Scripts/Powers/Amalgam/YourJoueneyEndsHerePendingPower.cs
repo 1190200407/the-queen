@@ -44,12 +44,6 @@ public sealed class YourJoueneyEndsHerePendingPower : QueenPowerModel
 
     public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
     {
-        _ = choiceContext;
-        if (player.Creature != base.Owner || !base.Owner.IsAlive)
-        {
-            return;
-        }
-
         await PowerCmd.Decrement(this);
         if (Amount > 0m)
         {
@@ -63,7 +57,7 @@ public sealed class YourJoueneyEndsHerePendingPower : QueenPowerModel
             Creature? amalgamCreature = FriendlyAmalgamCmd.GetExisting(combatState, player);
             if (amalgamCreature?.Monster is FriendlyAmalgam amalgam)
             {
-                await amalgam.ClearForcedAction();
+                await amalgam.WakeUp(FriendlyAmalgam.SleepReason.YourTourEndsHere);
             }
 
             if (amalgamCreature is { IsAlive: true } && data.StrengthToGain > 0m)

@@ -47,7 +47,7 @@ public sealed class AmalgamDieForYouPower : QueenPowerModel
 		data.AwaitingDeathSleepRevive = false;
 		if (creature.Monster is FriendlyAmalgam amalgam)
 		{
-			await amalgam.ClearForcedAction();
+			amalgam.ClearForcedAction();
 		}
 
 		FriendlyAmalgamCmd.TryRefreshIntentTorchVisuals(creature);
@@ -57,7 +57,7 @@ public sealed class AmalgamDieForYouPower : QueenPowerModel
 
 	public override PowerStackType StackType => PowerStackType.Single;
 
-	public override Creature ModifyUnblockedDamageTarget(Creature target, decimal _, ValueProp props, Creature? __)
+    public override Creature ModifyUnblockedDamageTarget(Creature target, decimal _, ValueProp props, Creature? __)
 	{
 		if (target != base.Owner.PetOwner?.Creature)
 		{
@@ -69,7 +69,7 @@ public sealed class AmalgamDieForYouPower : QueenPowerModel
 			return target;
 		}
 
-		if (!props.IsPoweredAttack())
+		if (!props.HasFlag(ValueProp.Move) || props.HasFlag(ValueProp.Unpowered))
 		{
 			return target;
 		}
@@ -118,3 +118,4 @@ public sealed class AmalgamDieForYouPower : QueenPowerModel
 
 	public override bool ShouldPowerBeRemovedAfterOwnerDeath() => false;
 }
+
