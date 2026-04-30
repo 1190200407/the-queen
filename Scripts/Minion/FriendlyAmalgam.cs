@@ -104,7 +104,10 @@ public class FriendlyAmalgam : QueenMinionModel
         {
             ClearForcedAction();
             await CreatureCmd.TriggerAnim(Creature, "Idle", 0f);
-            await FriendlyAmalgamHook.AfterAwake(Creature);
+            if (Creature.CombatState is { } combatState)
+            {
+                await FriendlyAmalgamHook.AfterAwake(combatState, Creature);
+            }
         }
     }
     #endregion

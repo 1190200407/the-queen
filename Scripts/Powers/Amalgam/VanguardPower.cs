@@ -5,18 +5,23 @@ using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Combat;
 
 namespace ComicChess.TheQueen;
 
-public sealed class VanguardPower : QueenPowerModel
+public sealed class VanguardPower : QueenPowerModel, IAmalgamEventListener
 {
     public override PowerType Type => PowerType.Buff;
 
     public override PowerStackType StackType => PowerStackType.Counter;
 
-    internal async Task OnAmalgamActAsync(PlayerChoiceContext choiceContext, Player queen)
+    public async Task OnAmalgamActAsync(CombatState combatState, PlayerChoiceContext choiceContext, Creature amalgam)
     {
-        if (queen.Creature != base.Owner || !queen.Creature.IsAlive)
+        if (amalgam.PetOwner is not Player queen)
+        {
+            return;
+        }
+        if (amalgam != base.Owner || !amalgam.IsAlive)
         {
             return;
         }

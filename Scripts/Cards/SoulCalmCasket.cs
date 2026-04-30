@@ -11,6 +11,7 @@ using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Logging;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Rewards;
@@ -48,19 +49,23 @@ public sealed class SoulCalmCasket : QueenCardModel
     {
     }
 
+    public override decimal ModifyDamageMultiplicative(Creature? target, decimal amount, ValueProp props, Creature? dealer, CardModel? cardSource)
+    {
+        if (dealer != base.Owner.Creature)
+            return 1m;
+        if (target == null)
+            return 1m;
+        if (target.CurrentHp <= target.MaxHp * base.DynamicVars["HpThresholdPercent"].BaseValue / 100m)
+            return 2m;
+        return 1m;
+    }
+
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target, nameof(cardPlay.Target));
         Creature target = cardPlay.Target;
-        bool shouldTriggerFatal = target.Powers.All(static p => p.ShouldOwnerDeathTriggerFatal());
-
-        decimal hpThresholdPercent = base.DynamicVars["HpThresholdPercent"].BaseValue;
-        decimal hpThreshold = target.MaxHp * hpThresholdPercent / 100m;
         decimal damage = base.DynamicVars.Damage.BaseValue;
-        if (target.CurrentHp <= hpThreshold)
-        {
-            damage *= 2m;
-        }
+        bool shouldTriggerFatal = target.Powers.All(static p => p.ShouldOwnerDeathTriggerFatal());
 
         AttackCommand attackCommand = await DamageCmd.Attack(damage)
             .FromCard(this)
@@ -74,6 +79,9 @@ public sealed class SoulCalmCasket : QueenCardModel
             return;
         }
 
+        Log.Info($"SoulCalmCasket: shouldTriggerFatal: {shouldTriggerFatal}, attackCommand.Results: {attackCommand.Results.Count(static r => r.WasTargetKilled)}");
+
+        Log.Info($"SoulCalmCasket: combatRoom: {combatRoom}");
         if (shouldTriggerFatal
             && attackCommand.Results.Any(static r => r.WasTargetKilled)
             && base.CombatState?.RunState.CurrentRoom is CombatRoom)

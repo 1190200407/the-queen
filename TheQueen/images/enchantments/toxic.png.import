@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cryhwifrpuokd"
-path="res://.godot/imported/goop.png-61b8f409c43fb32f4cfb5be79a9aa37d.ctex"
+uid="uid://vb4cyaewba0w"
+path="res://.godot/imported/toxic.png-7852deaad5bea3736f69377c53cb70d9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://TheQueen/images/enchantments/goop.png"
-dest_files=["res://.godot/imported/goop.png-61b8f409c43fb32f4cfb5be79a9aa37d.ctex"]
+source_file="res://TheQueen/images/enchantments/toxic.png"
+dest_files=["res://.godot/imported/toxic.png-7852deaad5bea3736f69377c53cb70d9.ctex"]
 
 [params]
 

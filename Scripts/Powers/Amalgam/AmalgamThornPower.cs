@@ -2,6 +2,7 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Logging;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.ValueProps;
 
@@ -24,34 +25,28 @@ public sealed class AmalgamThornPower : QueenPowerModel
     }
 
     // 在女王受伤前，记录PlayerChoiceContext，用于后续反伤害
-    public override Task BeforeDamageReceived(PlayerChoiceContext choiceContext, Creature target, decimal amount, ValueProp props, Creature? dealer, CardModel? cardSource)
+    public override async Task BeforeDamageReceived(PlayerChoiceContext choiceContext, Creature target, decimal amount, ValueProp props, Creature? dealer, CardModel? cardSource)
     {
-        Creature? queen = base.Owner?.PetOwner?.Creature;
-        if (queen == null)
-            return Task.CompletedTask;
-
-        if (target != queen)
-            return Task.CompletedTask;
-
-        _choiceContext = choiceContext;
-        return Task.CompletedTask;
-    }
-
-    public override decimal ModifyHpLostBeforeOstyLate(Creature target, decimal amount, ValueProp props, Creature? dealer, CardModel? cardSource)
-    {
-        _dealer = target == base.Owner ? dealer : null;
-        return amount;
-    }
-
-    public override async Task AfterModifyingHpLostAfterOsty()
-    {
-        if (_dealer == null || _choiceContext == null)
+        if (dealer == null)
             return;
 
-        // 反伤害
-        Flash();
-        await CreatureCmd.Damage(_choiceContext, _dealer, base.Amount, ValueProp.Unpowered | ValueProp.SkipHurtAnim, base.Owner, null);
-        _dealer = null;
-        _choiceContext = null;
+        if (base.Owner == null || !base.Owner.IsAlive)
+            return;
+
+        Creature? queen = base.Owner.PetOwner?.Creature;
+        if (queen == null)
+            return;
+
+        if (target != queen)
+            return;
+
+        if (props.HasFlag(ValueProp.Unpowered) || !props.HasFlag(ValueProp.Move))
+            return;
+
+        FriendlyAmalgam? amalgam = base.Owner.Monster as FriendlyAmalgam;
+        if (amalgam == null || amalgam.IsSleeping())
+            return;
+        
+        await CreatureCmd.Damage(choiceContext, dealer, base.Amount, ValueProp.Unpowered | ValueProp.SkipHurtAnim, base.Owner, null);
     }
 }

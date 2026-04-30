@@ -30,7 +30,7 @@ public sealed class AmalgamGainBuffIntentAction<T> : AmalgamActionModel
         // 灯槽悬停以 MoveState.Intents 为准；这里提供无战斗上下文时的兜底文案。
         LocString desc = new("intents", "AMALGAM_GAIN_BUFF.description");
         desc.Add("Stacks", Amount);
-        desc.Add("BuffName", new LocString("powers", _buffEntryId + ".title"));
+        desc.Add("BuffName", new LocString("powers", "COMICCHESS-" + _buffEntryId + ".title"));
         return desc;
     }
 

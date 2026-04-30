@@ -25,7 +25,7 @@ public sealed class Slippery : QueenCardModel
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
     [
-        HoverTipFactory.FromPower<SlipperyPower>(),
+        HoverTipFactory.FromPower<AmalgamSlipperyPower>(),
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
@@ -53,7 +53,7 @@ public sealed class Slippery : QueenCardModel
         Creature? amalgam = FriendlyAmalgamCmd.GetExisting(combatState, base.Owner);
         if (amalgam is { IsAlive: true } && stacks > 0m)
         {
-            await PowerCmd.Apply<SlipperyPower>(amalgam, stacks, base.Owner.Creature, this);
+            await PowerCmd.Apply<AmalgamSlipperyPower>(amalgam, stacks, base.Owner.Creature, this);
         }
     }
 }

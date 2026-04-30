@@ -20,7 +20,7 @@ public sealed class StrikeQueen : QueenCardModel
     private const CardType type = CardType.Attack;
     // 卡牌稀有度
     private const CardRarity rarity = CardRarity.Basic;
-    // 目标类型（AnyEnemy表示任意敌人�?
+    // 目标类型（AnyEnemy表示任意敌人�?
     private const TargetType targetType = TargetType.AnyEnemy;
     // 是否在卡牌图鉴中显示
     private const bool shouldShowInCardLibrary = true;
@@ -28,6 +28,8 @@ public sealed class StrikeQueen : QueenCardModel
 	protected override HashSet<CardTag> CanonicalTags => new HashSet<CardTag> { CardTag.Strike };
 
 	protected override IEnumerable<DynamicVar> CanonicalVars => new List<DynamicVar> { new DamageVar(6m, ValueProp.Move) };
+
+    public override bool IsBasicStrikeOrDefend => true;
 
     public StrikeQueen()
         : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)

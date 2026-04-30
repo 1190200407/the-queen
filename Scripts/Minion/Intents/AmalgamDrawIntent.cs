@@ -6,14 +6,24 @@ using MegaCrit.Sts2.Core.MonsterMoves.Intents;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>聚合体意图条：下回合抽牌；卡牌减益图标。</summary>
-public sealed class AmalgamDrawIntent : AbstractIntent
+/// <summary>聚合体意图条：抽牌。</summary>
+public sealed class AmalgamDrawIntent : AmalgamDrawAndEnchantIntent
+{
+    public AmalgamDrawIntent(decimal count = 1m)
+        : base(count, enchantmentId: null)
+    {
+    }
+}
+
+/// <summary>聚合体意图条：抽牌并附魔。</summary>
+public class AmalgamDrawAndEnchantIntent : AbstractIntent
 {
     private readonly int _count;
-
-    public AmalgamDrawIntent(decimal count = 1m)
+    private readonly string? _enchantmentId;
+    public AmalgamDrawAndEnchantIntent(decimal count = 1m, string? enchantmentId = null)
     {
         _count = System.Math.Max(0, (int)count);
+        _enchantmentId = enchantmentId;
     }
 
     public override IntentType IntentType => IntentType.StatusCard;
@@ -37,6 +47,7 @@ public sealed class AmalgamDrawIntent : AbstractIntent
         CombatState? combatState = owner.CombatState;
         d.Add("IsMultiplayer", combatState != null && combatState.RunState.Players.Count > 1);
         d.Add("Count", _count);
+        d.Add("Enchantment", new LocString("enchantments", _enchantmentId + ".title"));
         return d;
     }
 }

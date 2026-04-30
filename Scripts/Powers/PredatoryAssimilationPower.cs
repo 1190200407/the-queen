@@ -1,5 +1,6 @@
 using System.Linq;
 using System.Threading.Tasks;
+using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -15,7 +16,7 @@ using MegaCrit.Sts2.Core.Rooms;
 namespace ComicChess.TheQueen;
 
 /// <summary>掠食同化：聚合体以斩杀击杀普通/精英敌怪时，按图鉴给予捕获奖励。</summary>
-public sealed class PredatoryAssimilationPower : QueenPowerModel
+public sealed class PredatoryAssimilationPower : QueenPowerModel, IAmalgamEventListener
 {
 	public override PowerType Type => PowerType.Buff;
 
@@ -42,11 +43,24 @@ public sealed class PredatoryAssimilationPower : QueenPowerModel
 		}
     }
 
+	public async Task OnAmalgamDamagedCreatureAsync(CombatState combatState, PlayerChoiceContext choiceContext, Creature amalgam, Creature damagedEnemy, IEnumerable<DamageResult> damageResults)
+	{
+		if (amalgam.PetOwner is not Player queen)
+		{
+			return;
+		}
+
+		if (damageResults.Any(static r => r.WasTargetKilled))
+		{
+            await TryGrantCaptureAfterAmalgamFatalKillAsync(choiceContext, queen, damagedEnemy);
+		}
+	}
+
 	/// <summary>
 	/// 由 <see cref="FriendlyAmalgamHook.AfterAmalgamDamagedCreature"/> 在聚合体造成伤害且
 	/// <see cref="DamageResult.WasTargetKilled"/> 为真时调用。
 	/// </summary>
-	public async Task TryGrantCaptureAfterAmalgamFatalKillAsync(
+	private async Task TryGrantCaptureAfterAmalgamFatalKillAsync(
 		PlayerChoiceContext choiceContext,
 		Player queen,
 		Creature victim)

@@ -61,7 +61,7 @@ public abstract class AmalgamActionModel
         }
 
         await OnExecute(choiceContext, amalgam);
-        await FriendlyAmalgamHook.AfterAct(choiceContext, amalgam);
+        await FriendlyAmalgamHook.AfterAct(amalgam.CombatState, choiceContext, amalgam);
     }
 
     protected abstract MoveState CreateMoveState();

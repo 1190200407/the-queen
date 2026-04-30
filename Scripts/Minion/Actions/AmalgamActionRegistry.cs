@@ -41,13 +41,22 @@ public static class AmalgamActionRegistry
             ShrinkRay => new AmalgamShrinkRayIntentAction(amount),
             StrengthDown => new AmalgamStrengthDownIntentAction(amount),
             Strength => new AmalgamGainStrengthIntentAction(amount),
-            Distract => new AmalgamDistractIntentAction(amount),
             Stun => new AmalgamApplyStunIntentAction(amount),
             _ => null
         };
     }
 
     public static AmalgamActionModel? CreateOffense(decimal damage) => Create(Offense, damage);
+
+    public static AmalgamActionModel? CreateOffense(decimal damage, Creature? forcedTarget)
+    {
+        if (damage <= 0m)
+        {
+            return null;
+        }
+
+        return new AmalgamOffenseIntentAction(damage, forcedTarget);
+    }
 
     public static AmalgamActionModel? CreateOffenseMulti(decimal damagePerHit, int hitCount)
     {
@@ -115,7 +124,6 @@ public static class AmalgamActionRegistry
     }
 
     public static AmalgamActionModel? CreateStrength(decimal strength) => Create(Strength, strength);
-    public static AmalgamActionModel? CreateDistract(decimal drawCount) => Create(Distract, drawCount);
     public static AmalgamActionModel? CreateGenerateCard<T>(decimal count, bool generateUpgradedCard = false) where T : QueenCardModel
     {
         if (count <= 0m)
@@ -124,6 +132,17 @@ public static class AmalgamActionRegistry
         }
 
         return new AmalgamGenerateCardIntentAction<T>(count, generateUpgradedCard);
+    }
+
+    public static AmalgamActionModel? CreateDrawAndEnchant<TEnchantment>(decimal count)
+        where TEnchantment : EnchantmentModel
+    {
+        if (count <= 0m)
+        {
+            return null;
+        }
+
+        return new AmalgamDrawAndEnchantIntentAction<TEnchantment>(count);
     }
 
     public static AmalgamActionModel? CreateAttackAndStrength(decimal damage, decimal strength)

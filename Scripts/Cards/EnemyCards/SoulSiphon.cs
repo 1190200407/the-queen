@@ -21,17 +21,17 @@ public sealed class SoulSiphon : LearnIntentCardModel
     private const TargetType targetType = TargetType.Self;
     private const bool shouldShowInCardLibrary = true;
 
-    private const decimal stacks = 2m;
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         // 怪物牌不可升级：10(14) 落地为 14。
         new SummonVar(14m).WithTooltip("QUEEN_SUMMON_DYNAMIC"),
+        new IntVar("Stacks", 1m)
     ];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
     [
-        ..base.ExtraHoverTips,
         HoverTipFactory.FromPower<StrengthPower>(),
         HoverTipFactory.FromPower<DexterityPower>(),
     ];
@@ -48,7 +48,7 @@ public sealed class SoulSiphon : LearnIntentCardModel
     {
         _ = choiceContext;
         _ = cardPlay;
-        return Task.FromResult<IReadOnlyList<AmalgamActionModel?>>([new AmalgamSoulSiphonIntentAction(stacks)]);
+        return Task.FromResult<IReadOnlyList<AmalgamActionModel?>>([new AmalgamSoulSiphonIntentAction(base.DynamicVars["Stacks"].BaseValue)]);
     }
 }
 

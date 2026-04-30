@@ -9,7 +9,6 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.CardPools;
-using MegaCrit.Sts2.Core.Models.Powers;
 
 namespace ComicChess.TheQueen;
 
@@ -34,7 +33,7 @@ public sealed class Suck : QueenCardModel
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
     [
-        HoverTipFactory.FromPower<SuckPower>(),
+        HoverTipFactory.FromPower<AmalgamSuckPower>(),
     ];
 
     public override int MaxUpgradeLevel => 0;
@@ -58,7 +57,7 @@ public sealed class Suck : QueenCardModel
         Creature? amalgam = FriendlyAmalgamCmd.GetExisting(combatState, base.Owner);
         if (amalgam is { IsAlive: true })
         {
-            await PowerCmd.Apply<SuckPower>(amalgam, suckStacks, base.Owner.Creature, this);
+            await PowerCmd.Apply<AmalgamSuckPower>(amalgam, suckStacks, base.Owner.Creature, this);
         }
     }
 }

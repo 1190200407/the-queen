@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
+using MegaCrit.Sts2.Core.Logging;
 using MegaCrit.Sts2.Core.Models;
 
 namespace ComicChess.TheQueen;
@@ -23,6 +24,10 @@ public static class MonsterCaptureRewardCatalog
     public const string BygoneEffigy = "BYGONE_EFFIGY";
     public const string Mawler = "MAWLER";
     public const string FuzzyWurmCrawler = "FUZZY_WURM_CRAWLER";
+    public const string LeafSlimeS = "LEAF_SLIME_S";
+    public const string TwigSlimeS = "TWIG_SLIME_S";
+    public const string LeafSlimeM = "LEAF_SLIME_M";
+    public const string TwigSlimeM = "TWIG_SLIME_M";
     public const string Inklet = "INKLET";
     public const string SnappingJaxfruit = "SNAPPING_JAXFRUIT";
     public const string CeremonialBeast = "CEREMONIAL_BEAST";
@@ -47,6 +52,11 @@ public static class MonsterCaptureRewardCatalog
     public const string CorpseSlug = "CORPSE_SLUG";
     public const string LagavulinMatriarch = "LAGAVULIN_MATRIARCH";
     public const string KinPriest = "KIN_PRIEST";
+    public const string GremlinMerc = "gremlin_merc";
+    public const string SneakyGremlin = "SNEAKY_GREMLIN";
+    public const string Wriggler = "WRIGGLER";
+    public const string PhrogParasite = "PHROG_PARASITE";
+    public const string FatGremlin = "FAT_GREMLIN";
 
     private static readonly Dictionary<string, Func<Player, CardModel>> RewardCreators =
         new(StringComparer.OrdinalIgnoreCase)
@@ -60,9 +70,13 @@ public static class MonsterCaptureRewardCatalog
             { BygoneEffigy, static owner => owner.RunState!.CreateCard<YourJoueneyEndsHere>(owner) },
             { Mawler, static owner => owner.RunState!.CreateCard<RoarClaw>(owner) },
             { FuzzyWurmCrawler, static owner => owner.RunState!.CreateCard<AcidGoop>(owner) },
+            { LeafSlimeS, static owner => owner.RunState!.CreateCard<Goop>(owner) },
+            { TwigSlimeS, static owner => owner.RunState!.CreateCard<Goop>(owner) },
+            { LeafSlimeM, static owner => owner.RunState!.CreateCard<StickyShot>(owner) },
+            { TwigSlimeM, static owner => owner.RunState!.CreateCard<StickyShot>(owner) },
             { Inklet, static owner => owner.RunState!.CreateCard<Slippery>(owner) },
             { SnappingJaxfruit, static owner => owner.RunState!.CreateCard<EnergyOrb>(owner) },
-            { CeremonialBeast, static owner => owner.RunState!.CreateCard<BeastCry>(owner) },
+           // { CeremonialBeast, static owner => owner.RunState!.CreateCard<BeastCry>(owner) },
             { Vantom, static owner => owner.RunState!.CreateCard<AllSlippery>(owner) },
             { Seapunk, static owner => owner.RunState!.CreateCard<SpinningKick>(owner) },
             { Fogmog, static owner => owner.RunState!.CreateCard<Illusion>(owner) },
@@ -84,6 +98,11 @@ public static class MonsterCaptureRewardCatalog
             { CorpseSlug, static owner => owner.RunState!.CreateCard<CorpseSlugHunger>(owner) },
             { LagavulinMatriarch, static owner => owner.RunState!.CreateCard<SoulSiphon>(owner) },
             { KinPriest, static owner => owner.RunState!.CreateCard<TheKins>(owner) },
+            { GremlinMerc, static owner => owner.RunState!.CreateCard<Gimme>(owner) },
+            { SneakyGremlin, static owner => owner.RunState!.CreateCard<GremlinStab>(owner) },
+            { FatGremlin, static owner => owner.RunState!.CreateCard<Flee>(owner) },
+            { Wriggler, static owner => owner.RunState!.CreateCard<Wriggle>(owner) },
+            { PhrogParasite, static owner => owner.RunState!.CreateCard<Lash>(owner) },
         };
 
     /// <summary>为捕获预览或 <see cref="CaptureSuccessPower"/> 创建奖励牌实例；无配置时返回 <c>null</c>。</summary>
@@ -98,9 +117,14 @@ public static class MonsterCaptureRewardCatalog
             return null;
         }
 
-        if (CaptureOnceRegistry.TryMarkCaptured(enemy, owner.Creature.CombatState))
+        // 预览模式（敌人仍存活）不可产生副作用：不写入「已捕获」。
+        // 仅在真实捕获（敌人已死亡）时做“每战一次”去重。
+        if (!enemy.IsAlive)
         {
-            return null;
+            if (!CaptureOnceRegistry.TryMarkCaptured(enemy, owner.Creature.CombatState))
+            {
+                return null;
+            }
         }
 
         return TryCreateCaptureRewardCard(owner, monsterId);

@@ -7,11 +7,12 @@ using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.ValueProps;
 using MegaCrit.Sts2.Core.Logging;
+using MegaCrit.Sts2.Core.Entities.Players;
 
 namespace ComicChess.TheQueen;
 
 /// <summary>蒸汽喷发：聚合体每行动一次，获得更多层数。</summary>
-public sealed class AmalgamSteamEruptionPower : QueenPowerModel
+public sealed class AmalgamSteamEruptionPower : QueenPowerModel, IAmalgamEventListener
 {
     public override PowerType Type => PowerType.Buff;
 
@@ -21,10 +22,11 @@ public sealed class AmalgamSteamEruptionPower : QueenPowerModel
     public override string? CustomPackedIconPath => "res://images/atlases/power_atlas.sprites/steam_eruption_power.tres";
     public override string? CustomBigIconPath => "res://images/powers/steam_eruption_power.png";
 
-    internal async Task OnAmalgamActAsync(PlayerChoiceContext choiceContext, Creature amalgam)
+    public async Task OnAmalgamActAsync(CombatState combatState, PlayerChoiceContext choiceContext, Creature amalgam)
     {
         _ = choiceContext;
-        if (base.CombatState == null || amalgam != base.Owner || !amalgam.IsAlive)
+
+        if (amalgam != base.Owner || !amalgam.IsAlive)
         {
             return;
         }

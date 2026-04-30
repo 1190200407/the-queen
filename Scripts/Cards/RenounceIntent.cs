@@ -19,8 +19,7 @@ public sealed class RenounceIntent : QueenCardModel
 	private const TargetType targetType = TargetType.Self;
 	private const bool shouldShowInCardLibrary = true;
 
-	public override IEnumerable<CardKeyword> CanonicalKeywords =>
-		base.IsUpgraded ? [] : [CardKeyword.Exhaust];
+	public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
 	protected override IEnumerable<IHoverTip> ExtraHoverTips => [QueenHoverTips.ForgetIntent];
 
@@ -47,4 +46,9 @@ public sealed class RenounceIntent : QueenCardModel
 		await amalgam.ActCurrentIntentImmediatelyAsync(choiceContext);
 		await amalgam.ForgetCurrentTorchSlotIntentAsync();
 	}
+
+    protected override void OnUpgrade()
+    {
+		RemoveKeyword(CardKeyword.Exhaust);
+    }
 }

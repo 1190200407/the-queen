@@ -15,8 +15,17 @@ namespace ComicChess.TheQueen;
 /// </summary>
 public sealed class AmalgamOffenseIntentAction : AmalgamActionModel
 {
-    public AmalgamOffenseIntentAction(decimal damage) : base(damage)
+    private readonly Creature? _forcedTarget;
+
+    public AmalgamOffenseIntentAction(decimal damage)
+        : base(damage)
     {
+    }
+
+    public AmalgamOffenseIntentAction(decimal damage, Creature? forcedTarget)
+        : this(damage)
+    {
+        _forcedTarget = forcedTarget;
     }
 
     public override LocString IntentTitle => new("monsters", "FRIENDLY_AMALGAM.intent_offense.title");
@@ -49,6 +58,19 @@ public sealed class AmalgamOffenseIntentAction : AmalgamActionModel
         Creature[] alive = combatState.Enemies.Where(e => e.IsAlive).ToArray();
         if (alive.Length == 0)
         {
+            return;
+        }
+
+        if (_forcedTarget is { IsAlive: true } forcedTarget && alive.Contains(forcedTarget))
+        {
+            await FriendlyAmalgamCmd.ExecuteSingleTargetAttack(
+                choiceContext,
+                amalgam,
+                forcedTarget,
+                Amount,
+                "Attack",
+                0.6f,
+                "vfx/vfx_attack_blunt");
             return;
         }
 

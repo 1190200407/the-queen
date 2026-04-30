@@ -43,7 +43,7 @@
     "AMALGAM_ENERGY.title": "能量",
     "AMALGAM_ENERGY.description": "在你的回合结束时，使你下回合获得{energyPrefix:energyIcons(1)}。",
     "AMALGAM_DRAW.title": "抽牌",
-    "AMALGAM_DRAW.description": "这个聚合体将使你抽[blue]{Count}[/blue]张牌。",
+    "AMALGAM_DRAW.description": "这个聚合体将使你抽[blue]{Count}[/blue]张牌并附魔:[purple]{Enchantment}[/purple]。",
     "AMALGAM_GENERATE_CARD.title": "召唤",
     "AMALGAM_GENERATE_CARD.description": "这个聚合体将要在你的手牌中塞入[blue]{Count}[/blue]张[gold]{CardName}[/gold]。",
     "AMALGAM_SOUL_SIPHON.title":"灵魂虹吸",

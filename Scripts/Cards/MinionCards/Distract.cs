@@ -23,7 +23,7 @@ public sealed class Distract : LearnIntentCardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new IntVar("LearnIntentDraw", learnIntentDraw),
+        new CardsVar(2)
     ];
 
     public override int MaxUpgradeLevel => 0;
@@ -37,8 +37,8 @@ public sealed class Distract : LearnIntentCardModel
     {
         _ = choiceContext;
         _ = cardPlay;
-        decimal draw = base.DynamicVars["LearnIntentDraw"].BaseValue;
-        AmalgamActionModel? intent = AmalgamActionRegistry.CreateDistract(draw);
+        decimal draw = base.DynamicVars.Cards.IntValue;
+        AmalgamActionModel? intent = AmalgamActionRegistry.CreateDrawAndEnchant<Dazed>(draw);
         return Task.FromResult<IReadOnlyList<AmalgamActionModel?>>([intent]);
     }
 }

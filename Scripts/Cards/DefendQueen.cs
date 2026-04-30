@@ -29,6 +29,8 @@ public sealed class DefendQueen : QueenCardModel
 
 	protected override IEnumerable<DynamicVar> CanonicalVars => new List<DynamicVar> { new BlockVar(5m, ValueProp.Move) };
 
+	public override bool IsBasicStrikeOrDefend => true;
+
 	public DefendQueen()
 		: base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
 	{

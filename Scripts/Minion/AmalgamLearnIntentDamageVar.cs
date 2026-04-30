@@ -32,8 +32,11 @@ public sealed class AmalgamLearnIntentDamageVar : DamageVar
 		EnchantmentModel? enchantment = card.Enchantment;
 		if (enchantment != null)
 		{
-			num += enchantment.EnchantDamageAdditive(num, Props);
-			num *= enchantment.EnchantDamageMultiplicative(num, Props);
+            // 只对「学习意图伤害」吃特定附魔加成，避免影响普通攻击伤害等其它 DamageVar。
+            if (enchantment is ILearnIntentDamageBonusEnchantment bonus)
+            {
+                num += bonus.GetLearnIntentDamageBonus(card, this);
+            }
 			if (!card.IsEnchantmentPreview)
 			{
 				EnchantedValue = num;

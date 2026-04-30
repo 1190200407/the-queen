@@ -27,12 +27,12 @@ public sealed class HardenedShell : QueenCardModel
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new SummonVar(5m).WithTooltip("QUEEN_SUMMON_DYNAMIC"),
-        new PowerVar<HardenedShellPower>(15m),
+        new PowerVar<AmalgamHardenedShellPower>(20m),
     ];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
     [
-        HoverTipFactory.FromPower<HardenedShellPower>(),
+        HoverTipFactory.FromPower<AmalgamHardenedShellPower>(),
     ];
 
     public override int MaxUpgradeLevel => 0;
@@ -57,10 +57,10 @@ public sealed class HardenedShell : QueenCardModel
         Creature? amalgam = FriendlyAmalgamCmd.GetExisting(combatState, base.Owner);
         if (amalgam is { IsAlive: true })
         {
-            decimal amount = base.DynamicVars.Power<HardenedShellPower>().BaseValue;
+            decimal amount = base.DynamicVars.Power<AmalgamHardenedShellPower>().BaseValue;
             if (amount > 0m)
             {
-                await PowerCmd.Apply<HardenedShellPower>(amalgam, amount, base.Owner.Creature, this);
+                await PowerCmd.Apply<AmalgamHardenedShellPower>(amalgam, amount, base.Owner.Creature, this);
             }
         }
     }
