@@ -107,6 +107,21 @@ public static class FriendlyAmalgamCmd
         SyncHealthBarVisibility(minion);
     }
 
+    /// <summary>击倒沉睡回合末：最大生命设为 1，当前生命置为 1。</summary>
+    internal static async Task ApplyDeathSleepReviveStatsAsync(Creature creature)
+    {
+        CombatState? cs = creature.CombatState;
+        if (cs == null)
+        {
+            return;
+        }
+
+        _ = cs;
+        await CreatureCmd.SetMaxHp(creature, 1m);
+        await CreatureCmd.SetCurrentHp(creature, 1m);
+        SyncHealthBarVisibility(creature);
+    }
+
     /// <summary><see cref="FriendlyAmalgam.IsHealthBarVisible"/> 在节点 <c>_Ready</c> 后若存活状态变化，须调此以同步 <see cref="NCreature.ToggleIsInteractable"/>（否则血条可见性会停留在旧状态）。</summary>
     public static void SyncHealthBarVisibility(Creature amalgamCreature)
     {
@@ -139,21 +154,6 @@ public static class FriendlyAmalgamCmd
         TryTrackOwnerBlockOnAmalgamNode(minion);
         PlaceAmalgamByQueen(owner, minion);
         SyncHealthBarVisibility(minion);
-    }
-
-    /// <summary>击倒沉睡回合末：最大生命设为 1，当前生命置为 1。</summary>
-    internal static async Task ApplyDeathSleepReviveStatsAsync(Creature creature)
-    {
-        CombatState? cs = creature.CombatState;
-        if (cs == null)
-        {
-            return;
-        }
-
-        _ = cs;
-        await CreatureCmd.SetMaxHp(creature, 1m);
-        await CreatureCmd.SetCurrentHp(creature, 1m);
-        SyncHealthBarVisibility(creature);
     }
 
     /// <summary>在已写入的最大生命下用 <see cref="CreatureCmd.Heal"/> 补足当前生命至目标值（含治疗/召唤类音效）。</summary>

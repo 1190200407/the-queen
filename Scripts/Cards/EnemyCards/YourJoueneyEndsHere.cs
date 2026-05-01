@@ -50,11 +50,12 @@ public sealed class YourJoueneyEndsHere : QueenCardModel
         Creature? amalgamCreature = combatState != null ? FriendlyAmalgamCmd.GetExisting(combatState, base.Owner) : null;
         if (amalgamCreature is { IsAlive: true, Monster: FriendlyAmalgam amalgam })
         {
-            await amalgam.FallAsleep(FriendlyAmalgam.SleepReason.YourTourEndsHere);
+            const decimal sleepTurns = 2m;
+            await PowerCmd.Apply<AmalgamSleepPower>(amalgamCreature, sleepTurns, base.Owner.Creature, this);
 
             YourJoueneyEndsHerePendingPower? pending = await PowerCmd.Apply<YourJoueneyEndsHerePendingPower>(
                 amalgamCreature,
-                2m,
+                sleepTurns,
                 base.Owner.Creature,
                 this);
             pending?.ConfigureStrength(base.DynamicVars.Strength.BaseValue);

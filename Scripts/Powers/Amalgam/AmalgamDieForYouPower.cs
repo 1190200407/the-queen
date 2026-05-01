@@ -11,7 +11,7 @@ namespace ComicChess.TheQueen;
 /// <summary>
 /// 与原版 <see cref="MegaCrit.Sts2.Core.Models.Powers.DieForYouPower"/> 一致：吸收对主人的未格挡攻击伤害。
 /// 沉睡（灯槽首意图为沉睡、或 <see cref="AmalgamEmergencySleepForcedActionModel"/>）时不改目标。
-/// 被击杀时不移出战斗：切沉睡动画与沉睡行动；下回合玩家侧 <see cref="FriendlyAmalgam.BeforeTurnEnd"/> 先结算该沉睡（<see cref="FriendlyAmalgamCmd.ApplyDeathSleepReviveStatsAsync"/> 重算 Max 并置当前为 1，无 Heal 音效），本回合末不执行灯槽意图。
+/// 被击杀时不移出战斗：切沉睡动画与沉睡行动；下回合玩家侧 <see cref="FriendlyAmalgam.AfterTurnEnd"/> 先结算该沉睡（<see cref="FriendlyAmalgamCmd.ApplyDeathSleepReviveStatsAsync"/> 重算 Max 并置当前为 1，无 Heal 音效），本回合末不执行灯槽意图。
 /// <see cref="FriendlyAmalgamCmd.Summon"/> 走「已有尸体」复活加血时则立刻结束击倒沉睡（不占回合末沉睡）。
 /// </summary>
 public sealed class AmalgamDieForYouPower : QueenPowerModel
@@ -57,7 +57,7 @@ public sealed class AmalgamDieForYouPower : QueenPowerModel
 
 	public override PowerStackType StackType => PowerStackType.Single;
 
-    public override Creature ModifyUnblockedDamageTarget(Creature target, decimal _, ValueProp props, Creature? __)
+    public override Creature ModifyUnblockedDamageTarget(Creature target, decimal unblockedDamage, ValueProp props, Creature? dealer)
 	{
 		if (target != base.Owner.PetOwner?.Creature)
 		{
@@ -78,6 +78,13 @@ public sealed class AmalgamDieForYouPower : QueenPowerModel
 		{
 			return target;
 		}
+
+        if (base.CombatState is { } combatState && unblockedDamage > 0m)
+        {
+            // 聚合体吸收未格挡伤害时，额外触发“被命中”事件，供胆小等能力使用。
+            // cardSource 在该 hook 阶段不可得（原版 Hook.ModifyUnblockedDamageTarget 不传 cardSource）。
+            _ = FriendlyAmalgamHook.AfterHit(combatState, base.Owner, unblockedDamage, props, dealer, cardSource: null);
+        }
 
 		return base.Owner;
 	}

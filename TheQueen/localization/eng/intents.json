@@ -4,9 +4,6 @@
     "FORMAT_WEAK_STACKS": "{Stacks}",
     "FORMAT_CONSTRICT_STACKS": "{Stacks}",
     "FORMAT_DEBUFF_STACKS": "{Stacks}",
-    "AMALGAM_APPLY_STUN.title": "Stun",
-    "AMALGAM_APPLY_STUN.description": "The Amalgam will stun an enemy for [blue]1[/blue] turn.",
-    "AMALGAM_APPLY_STUN.description_all": "The Amalgam will stun each enemy for [blue]1[/blue] turn.",
     "AMALGAM_APPLY_VULNERABLE.title": "Vulnerable",
     "AMALGAM_APPLY_VULNERABLE.description": "The Amalgam will apply [blue]{Stacks}[/blue] Vulnerable to an enemy.",
     "AMALGAM_APPLY_VULNERABLE.description_all": "The Amalgam will apply [blue]{Stacks}[/blue] Vulnerable to each enemy.",
@@ -49,5 +46,11 @@
     "AMALGAM_GRANT_DEXTERITY.title":"Grant Dexterity",
     "AMALGAM_GRANT_DEXTERITY.description":"You gain [blue]{Stacks}[/blue] Dexterity.",
     "AMALGAM_LOSE_STRENGTH.title":"Strategic",
-    "AMALGAM_LOSE_STRENGTH.description":"The target loses [blue]{Stacks}[/blue] Strength."
+    "AMALGAM_LOSE_STRENGTH.description":"The target loses [blue]{Stacks}[/blue] Strength.",
+    "AMALGAM_RELOAD_FIRE.title":"Reload Fire",
+    "AMALGAM_RELOAD_FIRE.description":"The Amalgam will grant you [blue]{Block}[/blue] Block, and at the start of next turn deal [blue]{Damage}[/blue] damage.",
+    "AMALGAM_SPECIAL.title":"Special",
+    "AMALGAM_SPECIAL_GRASPING_VINES.description":"Next turn, you gain [gold]Tangled[/gold]. Your Skill cards cost -1.",
+    "AMALGAM_SPECIAL_SMOGGY.description":"Next turn, you gain [gold]Smoggy[/gold].",
+    "AMALGAM_SPECIAL_BEAST_CRY.description":"Stun all enemies for [blue]1[/blue] turn. Sleep for [blue]2[/blue] turns."
 }

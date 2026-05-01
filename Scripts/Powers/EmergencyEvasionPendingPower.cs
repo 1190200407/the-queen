@@ -27,13 +27,6 @@ public sealed class EmergencyEvasionPendingPower : QueenPowerModel
 		{
 			return;
 		}
-
-		Creature? amalgamCreature = FriendlyAmalgamCmd.GetExisting(combatState, player);
-
-		if (amalgamCreature?.Monster is FriendlyAmalgam amalgam)
-		{
-			await amalgam.WakeUp(FriendlyAmalgam.SleepReason.EmergencyEvasion);
-		}
 		await FriendlyAmalgamCmd.Summon(choiceContext, player, base.Amount, this);
 
 		await PowerCmd.Remove(this);

@@ -19,11 +19,6 @@ public sealed class AmalgamThornPower : QueenPowerModel
     private PlayerChoiceContext? _choiceContext;
     private Creature? _dealer;
 
-    public override decimal ModifyHpLostAfterOstyLate(Creature target, decimal amount, ValueProp props, Creature? dealer, CardModel? cardSource)
-    {
-        return base.ModifyHpLostAfterOstyLate(target, amount, props, dealer, cardSource);
-    }
-
     // 在女王受伤前，记录PlayerChoiceContext，用于后续反伤害
     public override async Task BeforeDamageReceived(PlayerChoiceContext choiceContext, Creature target, decimal amount, ValueProp props, Creature? dealer, CardModel? cardSource)
     {

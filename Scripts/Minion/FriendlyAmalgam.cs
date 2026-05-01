@@ -59,9 +59,7 @@ public class FriendlyAmalgam : QueenMinionModel
     {
         NoLearnedAction = 1,
         Dead = 2,
-        EmergencyEvasion = 4,
-        YourTourEndsHere = 8,
-        Ravenous = 16,
+        Power = 4,
     }
     public SleepReason sleepReason = SleepReason.NoLearnedAction | SleepReason.Dead;
     private readonly SleepReason sleepReasonMask = SleepReason.NoLearnedAction | SleepReason.Dead;

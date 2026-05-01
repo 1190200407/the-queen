@@ -20,7 +20,6 @@ public static class AmalgamActionRegistry
     public const string ShrinkRay = "shrink_ray";
     public const string StrengthDown = "strength_down";
     public const string Strength = "strength";
-    public const string Stun = "stun";
 
     public static AmalgamActionModel? Create(string actionId, decimal amount)
     {
@@ -41,7 +40,6 @@ public static class AmalgamActionRegistry
             ShrinkRay => new AmalgamShrinkRayIntentAction(amount),
             StrengthDown => new AmalgamStrengthDownIntentAction(amount),
             Strength => new AmalgamGainStrengthIntentAction(amount),
-            Stun => new AmalgamApplyStunIntentAction(amount),
             _ => null
         };
     }
@@ -175,7 +173,7 @@ public static class AmalgamActionRegistry
         return new AmalgamAttackAndBlockIntentAction(damage, block);
     }
 
-    public static AmalgamActionModel? CreateStun(decimal turns) => Create(Stun, turns);
+    // Stun 意图已改为特殊意图（unknown）实现；不再提供 CreateStun。
 
     public static AmalgamActionModel CreateEmptyCup() => new AmalgamEmptyCupIntentAction();
 

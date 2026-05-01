@@ -26,7 +26,7 @@ public abstract class LearnIntentCardModel : QueenCardModel
     /// <summary>返回本次要学习的意图集合；支持数组/列表与多意图写入。</summary>
     protected abstract Task<IReadOnlyList<AmalgamActionModel?>> CreateLearnIntentsAsync(PlayerChoiceContext choiceContext, CardPlay cardPlay);
 
-    protected sealed override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         if (ShouldSummonBeforeLearnIntent)
         {

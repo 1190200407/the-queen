@@ -9,9 +9,6 @@
     "FORMAT_AMALGAM_ENERGY_LABEL": "{energyPrefix:energyIcons(1)}",
     "FORMAT_AMALGAM_DRAW_LABEL": "{Count}",
     "FORMAT_AMALGAM_GENERATE_CARD_LABEL": "{Count}",
-    "AMALGAM_APPLY_STUN.title": "晕眩",
-    "AMALGAM_APPLY_STUN.description": "这个聚合体将要使一名敌人晕眩[blue]1[/blue]回合。",
-    "AMALGAM_APPLY_STUN.description_all": "这个聚合体将要使所有敌人晕眩[blue]1[/blue]回合。",
     "AMALGAM_APPLY_VULNERABLE.title": "策略",
     "AMALGAM_APPLY_VULNERABLE.description": "这个聚合体将要对一个敌人施加[blue]{Stacks}[/blue]层易伤。",
     "AMALGAM_APPLY_VULNERABLE.description_all": "这个聚合体将要对所有敌人施加[blue]{Stacks}[/blue]层易伤。",
@@ -56,5 +53,11 @@
     "AMALGAM_GRANT_DEXTERITY.title":"强化",
     "AMALGAM_GRANT_DEXTERITY.description":"这个聚合体将要使你获得[blue]{Stacks}[/blue]点敏捷。",
     "AMALGAM_LOSE_STRENGTH.title":"策略",
-    "AMALGAM_LOSE_STRENGTH.description":"这个聚合体将要使目标失去[blue]{Stacks}[/blue]点力量。"
+    "AMALGAM_LOSE_STRENGTH.description":"这个聚合体将要使目标失去[blue]{Stacks}[/blue]点力量。",
+    "AMALGAM_RELOAD_FIRE.title":"填装射击",
+    "AMALGAM_RELOAD_FIRE.description":"这个聚合体将要使你获得[blue]{Block}[/blue]点格挡，并在下回合开始时造成[blue]{Damage}[/blue]点伤害。",
+    "AMALGAM_SPECIAL.title":"特殊",
+    "AMALGAM_SPECIAL_GRASPING_VINES.description":"这个聚合体将要使你获得[gold]缠结[/gold]，你的技能牌耗能-1。",
+    "AMALGAM_SPECIAL_SMOGGY.description":"这个聚合体将要使你下回合获得[gold]烟雾弥漫[/gold]。",
+    "AMALGAM_SPECIAL_BEAST_CRY.description":"这个聚合体将要使所有敌人晕眩[blue]1[/blue]回合，并沉睡[blue]2[/blue]回合。"
 }

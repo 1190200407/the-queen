@@ -47,6 +47,7 @@ public static class MonsterCaptureRewardCatalog
     public const string HauntedShip = "HAUNTED_SHIP";
     public const string PunchConstruct = "PUNCH_CONSTRUCT";
     public const string SkulkingColony = "SKULKING_COLONY";
+    public const string Exoskeleton = "EXOSKELETON";
     public const string WaterfallGiant = "WATERFALL_GIANT";
     public const string SoulFysh = "SOUL_FYSH";
     public const string CorpseSlug = "CORPSE_SLUG";
@@ -56,7 +57,19 @@ public static class MonsterCaptureRewardCatalog
     public const string SneakyGremlin = "SNEAKY_GREMLIN";
     public const string Wriggler = "WRIGGLER";
     public const string PhrogParasite = "PHROG_PARASITE";
+    public const string PhantasmalGardener = "PHANTASMAL_GARDENER";
+    public const string CrossbowRubyRaider = "CROSSBOW_RUBY_RAIDER";
+    public const string VineShambler = "VINE_SHAMBLER";
+    public const string LivingFog = "LIVING_FOG";
     public const string FatGremlin = "FAT_GREMLIN";
+    public const string TerrorEel = "TERROR_EEL";
+    public const string Tunneler = "TUNNELER";
+    public const string Chomper = "CHOMPER";
+    public const string HunterKiller = "HUNTER_KILLER";
+    public const string ThievingHopper = "THIEVING_HOPPER";
+    public const string TheObscura = "THE_OBSCURA";
+    public const string SpinyToad = "SPINY_TOAD";
+    public const string Myte = "MYTE";
 
     private static readonly Dictionary<string, Func<Player, CardModel>> RewardCreators =
         new(StringComparer.OrdinalIgnoreCase)
@@ -76,7 +89,7 @@ public static class MonsterCaptureRewardCatalog
             { TwigSlimeM, static owner => owner.RunState!.CreateCard<StickyShot>(owner) },
             { Inklet, static owner => owner.RunState!.CreateCard<Slippery>(owner) },
             { SnappingJaxfruit, static owner => owner.RunState!.CreateCard<EnergyOrb>(owner) },
-           // { CeremonialBeast, static owner => owner.RunState!.CreateCard<BeastCry>(owner) },
+            { CeremonialBeast, static owner => owner.RunState!.CreateCard<BeastCry>(owner) },
             { Vantom, static owner => owner.RunState!.CreateCard<AllSlippery>(owner) },
             { Seapunk, static owner => owner.RunState!.CreateCard<SpinningKick>(owner) },
             { Fogmog, static owner => owner.RunState!.CreateCard<Illusion>(owner) },
@@ -93,6 +106,7 @@ public static class MonsterCaptureRewardCatalog
             { HauntedShip, static owner => owner.RunState!.CreateCard<Haunt>(owner) },
             { PunchConstruct, static owner => owner.RunState!.CreateCard<PunchOff>(owner) },
             { SkulkingColony, static owner => owner.RunState!.CreateCard<HardenedShell>(owner) },
+            { Exoskeleton, static owner => owner.RunState!.CreateCard<HardToKill>(owner) },
             { WaterfallGiant, static owner => owner.RunState!.CreateCard<SteamEruption>(owner) },
             { SoulFysh, static owner => owner.RunState!.CreateCard<Beckon>(owner) },
             { CorpseSlug, static owner => owner.RunState!.CreateCard<CorpseSlugHunger>(owner) },
@@ -103,6 +117,18 @@ public static class MonsterCaptureRewardCatalog
             { FatGremlin, static owner => owner.RunState!.CreateCard<Flee>(owner) },
             { Wriggler, static owner => owner.RunState!.CreateCard<Wriggle>(owner) },
             { PhrogParasite, static owner => owner.RunState!.CreateCard<Lash>(owner) },
+            { PhantasmalGardener, static owner => owner.RunState!.CreateCard<Skittish>(owner) },
+            { CrossbowRubyRaider, static owner => owner.RunState!.CreateCard<ReloadFire>(owner) },
+            { VineShambler, static owner => owner.RunState!.CreateCard<GraspingVines>(owner) },
+            { LivingFog, static owner => owner.RunState!.CreateCard<Smoggy>(owner) },
+            { TerrorEel, static owner => owner.RunState!.CreateCard<Shriek>(owner) },
+            { Tunneler, static owner => owner.RunState!.CreateCard<Burrow>(owner) },
+            { Chomper, static owner => owner.RunState!.CreateCard<Clamp>(owner) },
+            { HunterKiller, static owner => owner.RunState!.CreateCard<Tender>(owner) },
+            { ThievingHopper, static owner => owner.RunState!.CreateCard<Swipe>(owner) },
+            { TheObscura, static owner => owner.RunState!.CreateCard<Illusion2>(owner) },
+            { SpinyToad, static owner => owner.RunState!.CreateCard<ProtrudingSpikes>(owner) },
+            { Myte, static owner => owner.RunState!.CreateCard<ToxicCard>(owner) },
         };
 
     /// <summary>为捕获预览或 <see cref="CaptureSuccessPower"/> 创建奖励牌实例；无配置时返回 <c>null</c>。</summary>

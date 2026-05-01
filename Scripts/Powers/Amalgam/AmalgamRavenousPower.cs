@@ -16,6 +16,16 @@ namespace ComicChess.TheQueen;
 /// </summary>
 public sealed class AmalgamRavenousPower : QueenPowerModel
 {
+    private sealed class Data
+    {
+        public bool ShouldSleep = false;
+    }
+
+    protected override object? InitInternalData()
+    {
+        return new Data();
+    }
+
     public override PowerType Type => PowerType.Buff;
 
     public override PowerStackType StackType => PowerStackType.Counter;
@@ -23,8 +33,6 @@ public sealed class AmalgamRavenousPower : QueenPowerModel
     // 复用原版 Ravenous 的图标资源。
     public override string? CustomPackedIconPath => "res://images/atlases/power_atlas.sprites/ravenous_power.tres";
     public override string? CustomBigIconPath => "res://images/powers/ravenous_power.png";
-
-    private bool isAsleep = false;
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
     [
@@ -50,31 +58,24 @@ public sealed class AmalgamRavenousPower : QueenPowerModel
         }
 
         Flash();
-        SfxCmd.Play("event:/sfx/enemy/enemy_attacks/corpse_slugs/corpse_slugs_ravenous");
+        GetInternalData<Data>().ShouldSleep = true;
+    }
 
+    public override async Task AfterPlayerTurnStartLate(PlayerChoiceContext choiceContext, Player player)
+    {
+        if (!GetInternalData<Data>().ShouldSleep)
+        {
+            return;
+        }
+
+        GetInternalData<Data>().ShouldSleep = false;
+        SfxCmd.Play("event:/sfx/enemy/enemy_attacks/corpse_slugs/corpse_slugs_ravenous");
         // 本回合沉睡：强制沉睡展示并跳过本回合末灯槽执行；下回合开始时清除强制行动。
         FriendlyAmalgam? amalgamModel = base.Owner.Monster as FriendlyAmalgam;
         if (amalgamModel != null)
         {
-            await amalgamModel.FallAsleep(FriendlyAmalgam.SleepReason.Ravenous);
-            isAsleep = true;
+            await PowerCmd.Apply<AmalgamSleepPower>(base.Owner, 1m, applier: base.Owner.PetOwner?.Creature, cardSource: null);
             await PowerCmd.Apply<StrengthPower>(base.Owner, Amount, base.Owner, null);
-        }
-    }
-
-    
-    public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
-    {
-        _ = choiceContext;
-
-        CombatState? combatState = base.Owner.CombatState;
-        if (combatState != null && isAsleep)
-        {
-            if (base.Owner.Monster is FriendlyAmalgam amalgam)
-            {
-                await amalgam.WakeUp(FriendlyAmalgam.SleepReason.Ravenous);
-                isAsleep = false;
-            }
         }
     }
 }

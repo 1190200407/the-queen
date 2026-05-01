@@ -1,0 +1,96 @@
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using BaseLib.Utils;
+using MegaCrit.Sts2.Core.Combat;
+using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models.Afflictions;
+using MegaCrit.Sts2.Core.Models.CardPools;
+using MegaCrit.Sts2.Core.ValueProps;
+
+namespace ComicChess.TheQueen;
+
+/// <summary>偷窃：聚合体造成伤害、顺走目标对应怪物卡（<see cref="AmalgamSwipePower"/>），并启动/刷新逃跑倒计时（<see cref="AmalgamEscapePower"/>）。</summary>
+[Pool(typeof(EnemyCardPool))]
+public sealed class Swipe : QueenCardModel
+{
+    private const int energyCost = 2;
+    private const CardType type = CardType.Attack;
+    private const CardRarity rarity = CardRarity.Common;
+    private const TargetType targetType = TargetType.AnyEnemy;
+    private const bool shouldShowInCardLibrary = true;
+    private const decimal escapeTurns = 3m;
+
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
+
+    public override int MaxUpgradeLevel => 0;
+
+    internal override bool HasSelfBound => true;
+
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+    [
+        new DamageVar(17m, ValueProp.Move),
+        new PowerVar<AmalgamEscapePower>(escapeTurns),
+    ];
+
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+    [
+        ..HoverTipFactory.FromAffliction<Bound>(),
+        HoverTipFactory.FromPower<AmalgamSwipePower>(),
+        HoverTipFactory.FromPower<AmalgamEscapePower>(),
+    ];
+
+    public Swipe()
+        : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
+    {
+    }
+
+    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    {
+        ArgumentNullException.ThrowIfNull(cardPlay.Target, nameof(cardPlay.Target));
+        if (base.Owner.Creature.CombatState is not { } combatState)
+        {
+            return;
+        }
+
+        Creature? amalgam = FriendlyAmalgamCmd.GetExisting(combatState, base.Owner);
+        if (amalgam is not { IsAlive: true })
+        {
+            return;
+        }
+
+        Creature target = cardPlay.Target;
+        decimal damage = base.DynamicVars.Damage.BaseValue;
+        if (target.IsAlive && damage > 0m)
+        {
+            AmalgamActionModel? attack = AmalgamActionRegistry.CreateOffense(damage, target);
+            if (attack != null)
+            {
+                await attack.ExecuteAsync(choiceContext, amalgam);
+            }
+        }
+
+        AmalgamSwipePower? swipe = amalgam.GetPower<AmalgamSwipePower>();
+        if (swipe == null)
+        {
+            await PowerCmd.Apply<AmalgamSwipePower>(amalgam, 1m, base.Owner.Creature, this);
+            swipe = amalgam.GetPower<AmalgamSwipePower>();
+        }
+
+        if (swipe != null)
+        {
+            bool success = await swipe.TryStealMonsterCaptureRewardAsync(base.Owner, target);
+            if (!success)
+            {
+                return;
+            }
+        }
+
+        await PowerCmd.Apply<AmalgamEscapePower>(amalgam, escapeTurns, base.Owner.Creature, this);
+    }
+}

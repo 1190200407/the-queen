@@ -42,9 +42,10 @@ public sealed class EmergencyEvasion : QueenCardModel
 		}
 
 		Creature? amalgamCreature = FriendlyAmalgamCmd.GetExisting(combatState, base.Owner);
-		if (amalgamCreature is { IsAlive: true, Monster: FriendlyAmalgam amalgam })
+		if (amalgamCreature is { IsAlive: true })
 		{
-			await amalgam.FallAsleep(FriendlyAmalgam.SleepReason.EmergencyEvasion);
+            // 进入“能力导致沉睡”：持续到下回合开始（由 AmalgamSleepPower 自行倒计时并苏醒）。
+			await PowerCmd.Apply<AmalgamSleepPower>(amalgamCreature, 1m, base.Owner.Creature, this);
 		}
 		
 		await PowerCmd.Apply<EmergencyEvasionPendingPower>(

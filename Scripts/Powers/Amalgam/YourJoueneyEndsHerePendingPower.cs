@@ -13,9 +13,8 @@ namespace ComicChess.TheQueen;
 /// <summary>你的旅程，到此为止：聚合体沉睡倒计时结束后，获得配置的力量。</summary>
 public sealed class YourJoueneyEndsHerePendingPower : QueenPowerModel
 {
-    // 复用原版沉睡图标。
-    public override string? CustomPackedIconPath => "res://images/atlases/power_atlas.sprites/asleep_power.tres";
-    public override string? CustomBigIconPath => "res://images/powers/asleep_power.png";
+    public override string? CustomPackedIconPath => "res://images/atlases/power_atlas.sprites/conqueror_power.tres";
+    public override string? CustomBigIconPath => "res://images/powers/conqueror_power.png";
 
     private sealed class Data
     {
@@ -55,11 +54,6 @@ public sealed class YourJoueneyEndsHerePendingPower : QueenPowerModel
         if (combatState != null)
         {
             Creature? amalgamCreature = FriendlyAmalgamCmd.GetExisting(combatState, player);
-            if (amalgamCreature?.Monster is FriendlyAmalgam amalgam)
-            {
-                await amalgam.WakeUp(FriendlyAmalgam.SleepReason.YourTourEndsHere);
-            }
-
             if (amalgamCreature is { IsAlive: true } && data.StrengthToGain > 0m)
             {
                 Flash();

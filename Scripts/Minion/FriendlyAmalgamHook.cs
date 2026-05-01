@@ -2,11 +2,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MegaCrit.Sts2.Core.Combat;
+using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Logging;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.ValueProps;
 
 namespace ComicChess.TheQueen;
 
@@ -70,6 +72,24 @@ public static class FriendlyAmalgamHook
             if (item is IAmalgamEventListener listener)
             {
                 await listener.OnAmalgamEscapeAsync(combatState, amalgam);
+            }
+        }
+    }
+
+    /// <summary>聚合体被命中（产生未格挡伤害）后触发。</summary>
+    public static async Task AfterHit(
+        CombatState combatState,
+        Creature amalgam,
+        decimal unblockedDamage,
+        ValueProp props,
+        Creature? dealer,
+        CardModel? cardSource)
+    {
+        foreach (AbstractModel item in combatState.IterateHookListeners())
+        {
+            if (item is IAmalgamEventListener listener)
+            {
+                await listener.OnAmalgamHitAsync(combatState, amalgam, unblockedDamage, props, dealer, cardSource);
             }
         }
     }
