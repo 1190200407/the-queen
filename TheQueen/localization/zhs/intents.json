@@ -41,6 +41,10 @@
     "AMALGAM_ENERGY.description": "在你的回合结束时，使你下回合获得{energyPrefix:energyIcons(1)}。",
     "AMALGAM_DRAW.title": "抽牌",
     "AMALGAM_DRAW.description": "这个聚合体将使你抽[blue]{Count}[/blue]张牌并附魔:[purple]{Enchantment}[/purple]。",
+    "AMALGAM_NOISE.title": "抽牌",
+    "AMALGAM_NOISE.description": "这个聚合体将使你抽[blue]1[/blue]张牌，下回合抽[blue]1[/blue]张牌，并附魔:[purple]{Enchantment}[/purple]。",
+    "AMALGAM_FABRICATE.title": "召唤",
+    "AMALGAM_FABRICATE.description": "这个聚合体将要在你的手牌中塞入[blue]1[/blue]张[gold]防御型[/gold]机器人卡牌和[blue]1[/blue]张[gold]输出型[/gold]机器人卡牌。",
     "AMALGAM_GENERATE_CARD.title": "召唤",
     "AMALGAM_GENERATE_CARD.description": "这个聚合体将要在你的手牌中塞入[blue]{Count}[/blue]张[gold]{CardName}[/gold]。",
     "AMALGAM_SOUL_SIPHON.title":"灵魂虹吸",
@@ -59,5 +63,8 @@
     "AMALGAM_SPECIAL.title":"特殊",
     "AMALGAM_SPECIAL_GRASPING_VINES.description":"这个聚合体将要使你获得[gold]缠结[/gold]，你的技能牌耗能-1。",
     "AMALGAM_SPECIAL_SMOGGY.description":"这个聚合体将要使你下回合获得[gold]烟雾弥漫[/gold]。",
-    "AMALGAM_SPECIAL_BEAST_CRY.description":"这个聚合体将要使所有敌人晕眩[blue]1[/blue]回合，并沉睡[blue]2[/blue]回合。"
+    "AMALGAM_SPECIAL_BEAST_CRY.description":"这个聚合体将要使所有敌人晕眩[blue]1[/blue]回合，并沉睡[blue]2[/blue]回合。",
+    "AMALGAM_DRAW_ENCHANT_AMOUNT.description":"这个聚合体将使你抽[blue]{Count}[/blue]张牌并附魔:[purple]{Enchantment}[/purple][blue]{EnchantAmount}[/blue]。",
+    "AMALGAM_FLAMETHROWER.title":"策略",
+    "AMALGAM_FLAMETHROWER.description":"这个聚合体将使你抽[blue]{Draw}[/blue]张牌并附魔:[purple]灼烧[/purple][blue]{EnchantAmount}[/blue]，并在下回合开始时造成[blue]{Damage}[/blue]点伤害。"
 }

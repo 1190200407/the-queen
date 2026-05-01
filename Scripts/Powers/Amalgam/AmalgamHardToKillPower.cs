@@ -22,25 +22,21 @@ public sealed class AmalgamHardToKillPower : QueenPowerModel
     public override string? CustomPackedIconPath => "res://images/atlases/power_atlas.sprites/hard_to_kill_power.tres";
     public override string? CustomBigIconPath => "res://images/powers/hard_to_kill_power.png";
 
-    public override decimal ModifyDamageCap(Creature? target, ValueProp props, Creature? dealer, CardModel? cardSource)
+    
+    public override decimal ModifyHpLostAfterOstyLate(Creature target, decimal amount, ValueProp props, Creature? dealer, CardModel? cardSource)
     {
-        _ = props;
-        _ = dealer;
-        _ = cardSource;
-
-        if (target != base.Owner)
+        if (target != base.Owner || amount <= 0m || Amount <= 0m)
         {
-            return decimal.MaxValue;
+            return amount;
         }
-
-        return base.Amount;
+ 
+        return decimal.Min(amount, Amount);
     }
 
-    public override Task AfterModifyingDamageAmount(CardModel? cardSource)
+    public override async Task AfterModifyingHpLostAfterOsty()
     {
-        _ = cardSource;
         Flash();
-        return Task.CompletedTask;
+        await Task.CompletedTask;
     }
 
     public override async Task AfterTurnEnd(PlayerChoiceContext choiceContext, CombatSide side)

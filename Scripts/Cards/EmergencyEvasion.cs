@@ -48,7 +48,7 @@ public sealed class EmergencyEvasion : QueenCardModel
 			await PowerCmd.Apply<AmalgamSleepPower>(amalgamCreature, 1m, base.Owner.Creature, this);
 		}
 		
-		await PowerCmd.Apply<EmergencyEvasionPendingPower>(
+		await PowerCmd.Apply<NextTurnAmalgamSummonPendingPower>(
 			base.Owner.Creature,
 			base.DynamicVars.Summon.BaseValue,
 			base.Owner.Creature,

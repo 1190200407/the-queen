@@ -8,8 +8,10 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>「紧急避险」：下回合开始时召唤 <see cref="PowerModel.Amount"/> 并 <see cref="FriendlyAmalgam.ClearForcedAction"/>。</summary>
-public sealed class EmergencyEvasionPendingPower : QueenPowerModel
+/// <summary>
+/// 通用「下回合开始时召唤聚合体」：与原版下回合召唤 pending 同类，在玩家下回合开始时按 <see cref="PowerModel.Amount"/> 调用 <see cref="FriendlyAmalgamCmd.Summon"/>，然后移除自身。
+/// </summary>
+public sealed class NextTurnAmalgamSummonPendingPower : QueenPowerModel
 {
 	public override PowerType Type => PowerType.Buff;
 
@@ -27,8 +29,8 @@ public sealed class EmergencyEvasionPendingPower : QueenPowerModel
 		{
 			return;
 		}
-		await FriendlyAmalgamCmd.Summon(choiceContext, player, base.Amount, this);
 
+		await FriendlyAmalgamCmd.Summon(choiceContext, player, base.Amount, this);
 		await PowerCmd.Remove(this);
 	}
 }

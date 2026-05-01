@@ -24,9 +24,6 @@ public sealed class AmalgamCurlUpPower : QueenPowerModel, IAmalgamEventListener
     public override string? CustomPackedIconPath => "res://images/atlases/power_atlas.sprites/curl_up_power.tres";
     public override string? CustomBigIconPath => "res://images/powers/curl_up_power.png";
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [HoverTipFactory.FromPower<BlockNextTurnPower>()];
-
     public async Task OnAmalgamHitAsync(
         CombatState combatState,
         Creature amalgam,

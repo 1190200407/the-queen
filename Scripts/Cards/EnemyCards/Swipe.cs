@@ -29,12 +29,12 @@ public sealed class Swipe : QueenCardModel
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
     public override int MaxUpgradeLevel => 0;
-
+    public override bool IsCapture => true;
     internal override bool HasSelfBound => true;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DamageVar(17m, ValueProp.Move),
+        new AmalgamLearnIntentDamageVar(17m, ValueProp.Move),
         new PowerVar<AmalgamEscapePower>(escapeTurns),
     ];
 
@@ -65,7 +65,7 @@ public sealed class Swipe : QueenCardModel
         }
 
         Creature target = cardPlay.Target;
-        decimal damage = base.DynamicVars.Damage.BaseValue;
+        decimal damage = base.DynamicVars["LearnIntentDamage"].BaseValue;
         if (target.IsAlive && damage > 0m)
         {
             AmalgamActionModel? attack = AmalgamActionRegistry.CreateOffense(damage, target);

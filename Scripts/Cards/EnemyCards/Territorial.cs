@@ -8,6 +8,7 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.CardPools;
+using MegaCrit.Sts2.Core.Models.Powers;
 
 namespace ComicChess.TheQueen;
 
@@ -25,6 +26,8 @@ public sealed class Territorial : QueenCardModel
     [
         new SummonVar(9m).WithTooltip("QUEEN_SUMMON_DYNAMIC"),
     ];
+
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromPower<StrengthPower>()];
 
     internal override bool HasSelfBound => true;
     public override int MaxUpgradeLevel => 0;

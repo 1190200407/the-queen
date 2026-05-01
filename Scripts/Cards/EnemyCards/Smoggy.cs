@@ -6,6 +6,7 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
+using MegaCrit.Sts2.Core.Models.Afflictions;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Models.Powers;
 
@@ -26,7 +27,8 @@ public sealed class Smoggy : LearnIntentCardModel
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
     [
         ..base.ExtraHoverTips,
-        HoverTipFactory.Static(StaticHoverTip.ReplayStatic),
+        HoverTipFactory.FromPower<SmoggyPower>(),
+        ..HoverTipFactory.FromAffliction<Smog>(),
     ];
 
     public override int MaxUpgradeLevel => 0;

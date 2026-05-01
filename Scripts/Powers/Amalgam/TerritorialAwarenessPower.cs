@@ -3,6 +3,7 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models.Powers;
 
 namespace ComicChess.TheQueen;
@@ -17,6 +18,9 @@ public sealed class TerritorialAwarenessPower : QueenPowerModel
     // 尝试复用原版 Territorial 的图标资源；若运行时不可用，可改回本 mod 自带图。
     public override string? CustomPackedIconPath => "res://images/atlases/power_atlas.sprites/territorial_power.tres";
     public override string? CustomBigIconPath => "res://images/powers/territorial_power.png";
+
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromPower<StrengthPower>()];
+
     public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
     {
         _ = choiceContext;

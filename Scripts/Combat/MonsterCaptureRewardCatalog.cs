@@ -70,6 +70,10 @@ public static class MonsterCaptureRewardCatalog
     public const string TheObscura = "THE_OBSCURA";
     public const string SpinyToad = "SPINY_TOAD";
     public const string Myte = "MYTE";
+    public const string LouseProgenitor = "LOUSE_PROGENITOR";
+    public const string DecimillipedeSegment = "DECIMILLIPEDE_SEGMENT";
+    public const string Entomancer = "ENTOMANCER";
+    public const string InfestedPrism = "INFESTED_PRISM";
 
     private static readonly Dictionary<string, Func<Player, CardModel>> RewardCreators =
         new(StringComparer.OrdinalIgnoreCase)
@@ -129,6 +133,10 @@ public static class MonsterCaptureRewardCatalog
             { TheObscura, static owner => owner.RunState!.CreateCard<Illusion2>(owner) },
             { SpinyToad, static owner => owner.RunState!.CreateCard<ProtrudingSpikes>(owner) },
             { Myte, static owner => owner.RunState!.CreateCard<ToxicCard>(owner) },
+            { LouseProgenitor, static owner => owner.RunState!.CreateCard<CurlUp>(owner) },
+            { DecimillipedeSegment, static owner => owner.RunState!.CreateCard<Reattach>(owner) },
+            { Entomancer, static owner => owner.RunState!.CreateCard<PheromoneSpit>(owner) },
+            { InfestedPrism, static owner => owner.RunState!.CreateCard<VitalSpark>(owner) },
         };
 
     /// <summary>为捕获预览或 <see cref="CaptureSuccessPower"/> 创建奖励牌实例；无配置时返回 <c>null</c>。</summary>

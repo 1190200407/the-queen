@@ -26,8 +26,6 @@ public sealed class HardToKill : QueenCardModel
 
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
-    public override string PortraitPath => "res://TheQueen/images/card_portraits/monsters/hardened_shell.png";
-
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new PowerVar<AmalgamHardToKillPower>(hardToKillStacks),

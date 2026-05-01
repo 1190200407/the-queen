@@ -21,7 +21,7 @@ public sealed class AmalgamBurrowedPower : QueenPowerModel
 
     public override bool ShouldClearBlock(Creature creature)
     {
-        if (base.Owner != creature)
+        if (base.Owner.PetOwner?.Creature != creature)
         {
             return true;
         }
@@ -31,7 +31,7 @@ public sealed class AmalgamBurrowedPower : QueenPowerModel
 
     public override async Task AfterBlockBroken(Creature creature)
     {
-        if (creature != base.Owner || base.Owner.Monster is not FriendlyAmalgam)
+        if (creature != base.Owner.PetOwner?.Creature)
         {
             return;
         }

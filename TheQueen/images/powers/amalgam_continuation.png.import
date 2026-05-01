@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c3ayhq1wy3l7n"
-path="res://.godot/imported/toxic.png-dbf67f83c6cf39a9e2ac909e4763ea4e.ctex"
+uid="uid://brtqpharfporm"
+path="res://.godot/imported/amalgam_continuation.png-75178b7edf7b9b25e1c686e843a4f6ce.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://TheQueen/images/card_portraits/monsters/toxic.png"
-dest_files=["res://.godot/imported/toxic.png-dbf67f83c6cf39a9e2ac909e4763ea4e.ctex"]
+source_file="res://TheQueen/images/powers/amalgam_continuation.png"
+dest_files=["res://.godot/imported/amalgam_continuation.png-75178b7edf7b9b25e1c686e843a4f6ce.ctex"]
 
 [params]
 
