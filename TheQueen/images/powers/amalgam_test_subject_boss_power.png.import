@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://qwlleter7hl0"
-path="res://.godot/imported/test_subject_boss.png-2cd5b34295e5e854c5890a1bc1a3ce4b.ctex"
+uid="uid://ccgxnc60sc6qg"
+path="res://.godot/imported/amalgam_test_subject_boss_power.png-1636bf48cd16c18825554d311db167ea.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://TheQueen/images/powers/test_subject_boss.png"
-dest_files=["res://.godot/imported/test_subject_boss.png-2cd5b34295e5e854c5890a1bc1a3ce4b.ctex"]
+source_file="res://TheQueen/images/powers/amalgam_test_subject_boss_power.png"
+dest_files=["res://.godot/imported/amalgam_test_subject_boss_power.png-1636bf48cd16c18825554d311db167ea.ctex"]
 
 [params]
 

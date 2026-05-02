@@ -2,7 +2,6 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.MonsterMoves.MonsterMoveStateMachine;
 
 namespace ComicChess.TheQueen;
@@ -14,7 +13,7 @@ public abstract class AmalgamActionModel
 {
     public const string AmountParam = "amount";
 
-    private MoveState? _moveState;
+    protected MoveState? _moveState;
     private readonly IReadOnlyDictionary<string, decimal> _parameters;
 
     protected AmalgamActionModel()
@@ -41,12 +40,6 @@ public abstract class AmalgamActionModel
 
     public decimal GetParameterOrDefault(string key, decimal defaultValue = 0m) =>
         _parameters.TryGetValue(key, out decimal value) ? value : defaultValue;
-
-    public abstract LocString IntentTitle { get; }
-
-    public abstract LocString GetIntentDescription();
-
-    public virtual string? IntentIconPath => null;
 
     public MoveState MoveState => _moveState ??= CreateMoveState();
 

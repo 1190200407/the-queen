@@ -21,15 +21,6 @@ public static class QueenCardCmd
             CardCmd.Upgrade(card);
         }
 
-		if (card is ScratchTaggedCard scratchTagged)
-		{
-			Player? owner = card.Owner;
-			if (owner != null)
-			{
-				QueenScratchBonusTracker.ApplyToNewScratchTagged(owner, scratchTagged);
-			}
-		}
-
 		await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Hand, addedByPlayer: true);
 	}
 

@@ -1,6 +1,8 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models;
 
 namespace ComicChess.TheQueen;
 
@@ -43,6 +45,20 @@ public abstract class ScratchTaggedCard : QueenCardModel
 	protected ScratchTaggedCard(int energyCost, CardType type, CardRarity rarity, TargetType targetType, bool shouldShowInCardLibrary)
 		: base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
 	{
+	}
+
+	/// <summary>
+	/// 首次进入战斗牌堆时补全本场已累积的抓挠伤害与无尽抓挠段数（此前仅在手牌生成路径调用 <see cref="QueenScratchBonusTracker.ApplyToNewScratchTagged"/>，会漏掉抽堆/奖励等后入场的抓挠牌）。
+	/// </summary>
+	public override async Task AfterCardEnteredCombat(CardModel card)
+	{
+		await base.AfterCardEnteredCombat(card);
+		if (card != this || base.IsClone || base.Owner?.Character is not QueenCharacter)
+		{
+			return;
+		}
+
+		QueenScratchBonusTracker.ApplyToNewScratchTagged(base.Owner, this);
 	}
 
 	internal void BuffFromScratchPlay(decimal extraDamage)

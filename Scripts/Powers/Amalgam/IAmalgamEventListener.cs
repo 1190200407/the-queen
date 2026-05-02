@@ -49,4 +49,9 @@ public interface IAmalgamEventListener
     {
         return Task.CompletedTask;
     }
+
+    Task AfterAmalgamTurnEnd(CombatState combatState, Creature amalgam)
+    {
+        return Task.CompletedTask;
+    }
 }

@@ -2,7 +2,6 @@ using System.Threading.Tasks;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.MonsterMoves.MonsterMoveStateMachine;
 
 namespace ComicChess.TheQueen;
@@ -34,12 +33,6 @@ public sealed class AmalgamEmergencySleepForcedActionModel : AmalgamForcedAction
     }
 
     protected override MoveState CreateMoveState() => FriendlyAmalgam.SleepOverlayMoveState;
-
-	public override LocString IntentTitle => new("intents", "AMALGAM_SLEEP.title");
-    public override LocString GetIntentDescription()
-    {
-		return new("intents", "AMALGAM_SLEEP.description");
-    }
 
     public override bool ClearAfterExecute => false;
 

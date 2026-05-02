@@ -43,7 +43,6 @@ public sealed class Smoggy : LearnIntentCardModel
         _ = cardPlay;
         AmalgamActionModel intent = new AmalgamSpecialIntentAction(
             moveId: "AMALGAM_INTENT_SPECIAL_SMOGGY",
-            intentTitleKey: "AMALGAM_SPECIAL.title",
             intentDescriptionKey: "AMALGAM_SPECIAL_SMOGGY.description",
             execute: async (PlayerChoiceContext _, Creature amalgam, Creature owner) =>
             {

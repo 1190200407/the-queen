@@ -42,7 +42,6 @@ public sealed class BeastCry : LearnIntentCardModel
         _ = cardPlay;
         AmalgamActionModel intent = new AmalgamSpecialIntentAction(
             moveId: "AMALGAM_INTENT_SPECIAL_BEAST_CRY",
-            intentTitleKey: "AMALGAM_SPECIAL.title",
             intentDescriptionKey: "AMALGAM_SPECIAL_BEAST_CRY.description",
             execute: async (PlayerChoiceContext _, Creature amalgam, Creature owner) =>
             {

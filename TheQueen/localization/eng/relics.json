@@ -4,5 +4,7 @@
     "COMICCHESS-QUEENS_GRACE_RELIC.title":"Queen's Grace",
     "COMICCHESS-QUEENS_GRACE_RELIC.description":"At the start of combat, gain {Cards} stacks of [aqua]Soul Lamp[/aqua].",
     "COMICCHESS-SOUL_LIGHT_BRAND_RELIC.title":"Soul-Light Brand",
-    "COMICCHESS-SOUL_LIGHT_BRAND_RELIC.description":"Upon pickup, [aqua]Enchant[/aqua] [blue]1[/blue] card in your deck with [gold]Soul Light[/gold] [blue]1[/blue]."
+    "COMICCHESS-SOUL_LIGHT_BRAND_RELIC.description":"Upon pickup, [aqua]Enchant[/aqua] [blue]1[/blue] card in your deck with [gold]Soul Light[/gold] [blue]1[/blue].",
+    "COMICCHESS-PAPER_CUTS_RELIC.title":"Paper Cuts",
+    "COMICCHESS-PAPER_CUTS_RELIC.description":"At the start of combat, all enemies lose {Cuts} Max HP."
 }

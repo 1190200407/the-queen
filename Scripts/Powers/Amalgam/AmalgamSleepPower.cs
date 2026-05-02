@@ -12,7 +12,7 @@ namespace ComicChess.TheQueen;
 /// <summary>
 /// 睡觉：获得时令聚合体进入沉睡；回合开始时层数 -1；层数清空或被移除时令聚合体苏醒。
 /// </summary>
-public sealed class AmalgamSleepPower : QueenPowerModel
+public sealed class AmalgamSleepPower : QueenPowerModel, IAmalgamEventListener
 {
     public override PowerType Type => PowerType.Debuff;
 
@@ -49,18 +49,8 @@ public sealed class AmalgamSleepPower : QueenPowerModel
         }
     }
 
-    public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
+    public async Task AfterAmalgamTurnEnd(CombatState combatState, Creature amalgam)
     {
-        if (base.Owner.Monster is not FriendlyAmalgam amalgam)
-        {
-            return;
-        }
-
-        if (base.Owner.PetOwner is not Player queen || player != queen)
-        {
-            return;
-        }
-
         await PowerCmd.Decrement(this);
     }
 }

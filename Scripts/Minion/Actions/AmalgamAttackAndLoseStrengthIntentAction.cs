@@ -30,15 +30,6 @@ public sealed class AmalgamAttackAndLoseStrengthIntentAction : AmalgamActionMode
         _strengthLoss = GetParameterOrDefault(StrengthLossParam, 0m);
     }
 
-    public override LocString IntentTitle => new("monsters", "FRIENDLY_AMALGAM.intent_offense.title");
-
-    public override LocString GetIntentDescription()
-    {
-        LocString desc = new("monsters", "FRIENDLY_AMALGAM.intent_offense.description");
-        desc.Add("Amount", Amount);
-        return desc;
-    }
-
     protected override MoveState CreateMoveState()
     {
         return new MoveState(

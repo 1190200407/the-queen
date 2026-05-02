@@ -31,16 +31,6 @@ public sealed class AmalgamAttackAndStrengthIntentAction : AmalgamActionModel
         _strength = GetParameterOrDefault(StrengthParam, 0m);
     }
 
-    public override LocString IntentTitle => new("monsters", "FRIENDLY_AMALGAM.intent_offense.title");
-
-    public override LocString GetIntentDescription()
-    {
-        // 灯槽悬停以 MoveState.Intents 为准；这里提供无战斗上下文时的兜底文案。
-        LocString desc = new("monsters", "FRIENDLY_AMALGAM.intent_offense.description");
-        desc.Add("Amount", Amount);
-        return desc;
-    }
-
     protected override MoveState CreateMoveState()
     {
         return new MoveState(

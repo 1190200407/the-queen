@@ -28,16 +28,6 @@ public sealed class AmalgamOffenseIntentAction : AmalgamActionModel
         _forcedTarget = forcedTarget;
     }
 
-    public override LocString IntentTitle => new("monsters", "FRIENDLY_AMALGAM.intent_offense.title");
-
-    public override LocString GetIntentDescription()
-    {
-        // 灯槽悬停文案走 <see cref="AmalgamSingleAttackIntent"/>；此处为无战斗上下文时的兜底。
-        var desc = new LocString("monsters", "FRIENDLY_AMALGAM.intent_offense.description");
-        desc.Add("Amount", Amount);
-        return desc;
-    }
-
     protected override MoveState CreateMoveState()
     {
         return new MoveState(

@@ -12,5 +12,9 @@
   "forget_intent.title": "Forget",
   "forget_intent.description": "If the Amalgam's current intent is one recorded on a torch, that torch is cleared and the current intent switches to the next recorded intent.",
   "capture.title": "Capture",
-  "capture.description": "If the target is not a [gold]Minion[/gold], at end of combat gain [blue]1[/blue] extra [gold]card[/gold] reward related to the target."
+  "capture.description": "If the target is not a [gold]Minion[/gold], at end of combat gain [blue]1[/blue] extra [gold]card[/gold] reward related to the target.",
+  "fabricate_defensive_derived_cards.title": "Fabricate: Defensive Derived Cards",
+  "fabricate_defensive_derived_cards.description": "[gold]Guard[/gold]: Learn Intent: Gain 10 Block. ([gold]Fade[/gold])\n[gold]Noise[/gold]: Learn Intent: Draw 1 card. Next turn, draw 1 card. Enchant both cards with: [purple]Dazed[/purple]. ([gold]Fade[/gold])",
+  "fabricate_offensive_derived_cards.title": "Fabricate: Offensive Derived Cards",
+  "fabricate_offensive_derived_cards.description": "[gold]Stab[/gold]: Learn Intent: Deal 11 damage. The target loses 2 [gold]Strength[/gold] this turn. ([gold]Fade[/gold])\n[gold]Zap[/gold]: Learn Intent: Deal 14 damage. ([gold]Fade[/gold])"
 }

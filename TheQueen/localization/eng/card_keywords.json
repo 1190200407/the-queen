@@ -1,4 +1,6 @@
 ﻿{
     "COMICCHESS-FADE.description": "When this card enters your [gold]Discard pile[/gold], it is [gold]Exhausted[/gold].",
-    "COMICCHESS-FADE.title": "Fade"
+    "COMICCHESS-FADE.title": "Fade",
+    "COMICCHESS-AMALGAM_COMPOSITE.description": "All intents with [gold]Composite[/gold] are learned into the same [gold]torch slot[/gold]; multiple intents in one slot each resolve as a separate action when executed.",
+    "COMICCHESS-AMALGAM_COMPOSITE.title": "Composite"
 }

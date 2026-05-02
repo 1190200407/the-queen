@@ -17,15 +17,6 @@ public sealed class AmalgamGainBlockIntentAction : AmalgamActionModel
 
 	public static readonly float CastAnimDelay = 1.5f;
 
-	public override LocString IntentTitle => new("monsters", "FRIENDLY_AMALGAM.intent_block.title");
-
-	public override LocString GetIntentDescription()
-	{
-		var desc = new LocString("monsters", "FRIENDLY_AMALGAM.intent_block.description");
-		desc.Add("Amount", Amount);
-		return desc;
-	}
-
 	protected override MoveState CreateMoveState()
 	{
 		return new MoveState(

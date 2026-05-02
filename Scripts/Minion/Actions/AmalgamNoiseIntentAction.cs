@@ -29,15 +29,6 @@ public sealed class AmalgamNoiseIntentAction : AmalgamActionModel
         _nextTurnDraw = GetParameterOrDefault(NextTurnDrawParam, 0m);
     }
 
-    public override LocString IntentTitle => new("monsters", "FRIENDLY_AMALGAM.intent_draw.title");
-
-    public override LocString GetIntentDescription()
-    {
-        LocString desc = new("intents", "AMALGAM_NOISE.description");
-        desc.Add("Enchantment", new LocString("enchantments", ModelDb.Enchantment<Dazed>().Id.Entry + ".title"));
-        return desc;
-    }
-
     protected override MoveState CreateMoveState()
     {
         return new MoveState(

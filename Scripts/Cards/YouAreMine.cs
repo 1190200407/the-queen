@@ -7,10 +7,12 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
+using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.Afflictions;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Models.Powers;
+using MegaCrit.Sts2.Core.Nodes.Vfx;
 
 namespace ComicChess.TheQueen;
 
@@ -22,6 +24,8 @@ public sealed class YouAreMine : QueenCardModel
 	private const CardRarity rarity = CardRarity.Rare;
 	private const TargetType targetType = TargetType.Self;
 	private const bool shouldShowInCardLibrary = true;
+	private static readonly LocString YouAreMineDoneLine =
+		new ("monsters", "QUEEN.YOU_ARE_MINE.doneLine");
 
 	public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
@@ -46,6 +50,14 @@ public sealed class YouAreMine : QueenCardModel
 		{
 			return;
 		}
+
+		if (base.Owner.Character is QueenCharacter)
+		{
+			TalkCmd.Play(YouAreMineDoneLine, base.Owner.Creature, VfxColor.Purple, VfxDuration.Standard);
+		}
+
+		await CreatureCmd.TriggerAnim(base.Owner.Creature, "Cast", base.Owner.Character.CastAnimDelay);
+		await Cmd.CustomScaledWait(0.5f, 1f);
 
 		int hits = base.DynamicVars["Hits"].IntValue;
 		for (int i = 0; i < hits; i++)

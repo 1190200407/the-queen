@@ -5,12 +5,13 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.Hooks;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Rewards;
+using MegaCrit.Sts2.Core.Rooms;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>提线木偶：倒计时结束时将对应敌怪卡永久加入牌组。</summary>
+/// <summary>提线木偶：倒计时结束时添加一份对应敌怪卡的卡牌奖励。</summary>
 public sealed class MarionettePendingPower : QueenPowerModel
 {
     private sealed class Data
@@ -22,7 +23,7 @@ public sealed class MarionettePendingPower : QueenPowerModel
 
     public override PowerType Type => PowerType.Buff;
 
-    public override PowerStackType StackType => PowerStackType.None;
+    public override PowerStackType StackType => PowerStackType.Counter;
 
     public override bool IsInstanced => true;
 
@@ -49,16 +50,11 @@ public sealed class MarionettePendingPower : QueenPowerModel
         Data data = GetInternalData<Data>();
         if (!string.IsNullOrWhiteSpace(data.MonsterId))
         {
-            CardModel? cardToAdd = MonsterCaptureRewardCatalog.TryCreateCaptureRewardCard(player, data.MonsterId);
-            if (cardToAdd is not null)
+            CombatRoom? combatRoom = player.RunState?.CurrentRoom as CombatRoom;
+            CardModel? rewardCard = MonsterCaptureRewardCatalog.TryCreateCaptureRewardCard(player, data.MonsterId);
+            if (combatRoom != null && rewardCard is not null)
             {
-                List<AbstractModel> sources = [this];
-                CardModel modified = Hook.ModifyCardBeingAddedToDeck(player.RunState!, cardToAdd, out sources);
-                AbstractModel? source = this;
-                if (Hook.ShouldAddToDeck(player.RunState!, modified, out source))
-                {
-                    player.Deck.AddInternal(modified, player.Deck.Cards.Count, silent: false);
-                }
+                combatRoom.AddExtraReward(player, new SpecialCardReward(rewardCard, player));
             }
         }
 

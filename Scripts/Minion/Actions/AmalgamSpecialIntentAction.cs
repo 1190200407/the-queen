@@ -2,7 +2,6 @@ using System.Threading.Tasks;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.MonsterMoves.MonsterMoveStateMachine;
 
 namespace ComicChess.TheQueen;
@@ -11,27 +10,20 @@ namespace ComicChess.TheQueen;
 public sealed class AmalgamSpecialIntentAction : AmalgamActionModel
 {
     private readonly string _moveId;
-    private readonly string _intentTitleKey;
     private readonly string _intentDescriptionKey;
     private readonly Func<PlayerChoiceContext, Creature, Creature, Task> _execute;
 
     public AmalgamSpecialIntentAction(
         string moveId,
-        string intentTitleKey,
         string intentDescriptionKey,
         Func<PlayerChoiceContext, Creature, Creature, Task> execute)
     {
         _moveId = moveId;
-        _intentTitleKey = intentTitleKey;
         _intentDescriptionKey = intentDescriptionKey;
         _execute = execute;
     }
 
     public static readonly float CastAnimDelay = 1.5f;
-
-    public override LocString IntentTitle => new("intents", _intentTitleKey);
-
-    public override LocString GetIntentDescription() => new("intents", _intentDescriptionKey);
 
     protected override MoveState CreateMoveState() =>
         new(
@@ -49,4 +41,3 @@ public sealed class AmalgamSpecialIntentAction : AmalgamActionModel
         await _execute(choiceContext, amalgam, owner);
     }
 }
-

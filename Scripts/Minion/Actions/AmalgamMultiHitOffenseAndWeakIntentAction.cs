@@ -36,16 +36,6 @@ public sealed class AmalgamMultiHitOffenseAndWeakIntentAction : AmalgamActionMod
         _forcedTarget = forcedTarget;
     }
 
-    public override LocString IntentTitle => new("intents", "AMALGAM_MULTI_ATTACK.title");
-
-    public override LocString GetIntentDescription()
-    {
-        LocString desc = new("intents", "AMALGAM_MULTI_ATTACK.fallback_description");
-        desc.Add("Amount", Amount);
-        desc.Add("Repeat", _hitCount);
-        return desc;
-    }
-
     protected override MoveState CreateMoveState()
     {
         // action 合并，但 intent 保留 2 个（进攻 + 虚弱）用于 UI。

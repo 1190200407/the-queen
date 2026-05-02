@@ -35,18 +35,6 @@ public sealed class AmalgamHauntIntentAction : AmalgamActionModel
 
     public static readonly float CastAnimDelay = 1.5f;
 
-    public override LocString IntentTitle => new("intents", "AMALGAM_HAUNT.title");
-
-    public override LocString GetIntentDescription()
-    {
-        // 灯槽悬停以 MoveState.Intents 为准；这里提供无战斗上下文时的兜底文案。
-        LocString desc = new("intents", "AMALGAM_HAUNT.description");
-        desc.Add("Weak", _weak);
-        desc.Add("Vulnerable", _vulnerable);
-        desc.Add("StrengthLoss", _strengthLoss);
-        return desc;
-    }
-
     protected override MoveState CreateMoveState()
     {
         // 注意：action 合并，但 intent 仍保留 3 个（用于 UI 类型/图标/文案）。

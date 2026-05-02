@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -288,9 +289,18 @@ public class FriendlyAmalgam : QueenMinionModel
 
         IEnumerable<Creature> targets = combatState.Players.Select(static p => p.Creature);
         _hoverTips.Clear();
+        int intetIndex = 0;
         foreach (AbstractIntent intent in moveState.Intents)
         {
-            _hoverTips.Add(intent.GetHoverTip(targets, amalgamCreature));
+            HoverTip hoverTip = intent.GetHoverTip(targets, amalgamCreature);
+            if (action is AmalgamCompositeIntentAction)
+            {
+                LocString titleLoc = new("intents", "COMPOSITE_INTENT_TITLE");
+                titleLoc.Add("Title", hoverTip.Title ?? string.Empty);
+                hoverTip = new HoverTip(titleLoc, hoverTip.Description, hoverTip.Icon);
+            }
+            hoverTip.Id += $"_{intetIndex++}";
+            _hoverTips.Add(hoverTip);
         }
 
         hoverTips = _hoverTips;
@@ -365,7 +375,16 @@ public class FriendlyAmalgam : QueenMinionModel
     public override async Task AfterTurnEnd(PlayerChoiceContext choiceContext, CombatSide side)
     {
         await base.AfterTurnEnd(choiceContext, side);
+        if (side != CombatSide.Player)
+        {
+            return;
+        }
+        await AfterTurnEndInternalAsync(choiceContext, side);
+        await FriendlyAmalgamHook.AfterAmalgamTurnEnd(Creature.CombatState, Creature);
+    }
 
+    private async Task AfterTurnEndInternalAsync(PlayerChoiceContext choiceContext, CombatSide side)
+    {
         Creature self = Creature;
         if (side != CombatSide.Player)
         {
@@ -539,6 +558,42 @@ public class FriendlyAmalgam : QueenMinionModel
             await WakeUp(SleepReason.NoLearnedAction);
         }
         FriendlyAmalgamCmd.TryRefreshIntentTorchVisuals(Creature);
+    }
+
+    /// <summary>
+    /// 按 <paramref name="compositeIndexKey"/> 合并意图：若某灯槽已有同键的 <see cref="AmalgamCompositeIntentAction"/>，则把 <paramref name="intent"/> 追加到该条组合内；
+    /// 否则无空槽时走 <see cref="LearnIntent"/>（三槽满时与单次学习相同：当场执行且不写入）；
+    /// 有空槽则新建一条组合意图并 <see cref="LearnIntent"/>。
+    /// </summary>
+    public async Task CombineIntentAsync(PlayerChoiceContext choiceContext, AmalgamActionModel intent, string? compositeIndexKey)
+    {
+        if (string.IsNullOrWhiteSpace(compositeIndexKey))
+        {
+            await LearnIntent(choiceContext, intent);
+            return;
+        }
+
+        string key = compositeIndexKey.Trim();
+        for (int i = 0; i < TorchSlotCount; i++)
+        {
+            if (_intentByTorchSlot[i] is AmalgamCompositeIntentAction composite &&
+                string.Equals(composite.CompositeIndexKey, key, StringComparison.OrdinalIgnoreCase))
+            {
+                composite.AddPart(intent);
+                RefreshDisplayedIntent();
+                FriendlyAmalgamCmd.TryRefreshIntentTorchVisuals(Creature);
+                return;
+            }
+        }
+
+        if (FirstEmptyTorchSlotIndex() < 0)
+        {
+            await LearnIntent(choiceContext, intent);
+            return;
+        }
+
+        AmalgamCompositeIntentAction bundle = new(key, intent);
+        await LearnIntent(choiceContext, bundle);
     }
 
     private async Task ClearTorchSlots()

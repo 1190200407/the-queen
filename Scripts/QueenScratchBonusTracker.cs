@@ -5,7 +5,7 @@ namespace ComicChess.TheQueen;
 
 /// <summary>
 /// 本场战斗中由 <see cref="Scratch"/> / <see cref="EndlessScratch"/> 累积的全局加成，
-/// 供之后通过 <see cref="QueenCardCmd.CreateInHand"/> 生成的 <see cref="ScratchTaggedCard"/> 补全数值。
+/// 在 <see cref="ScratchTaggedCard.AfterCardEnteredCombat"/> 中补全后入场的 <see cref="ScratchTaggedCard"/> 数值（含手牌生成、抽堆置入等）。
 /// </summary>
 internal static class QueenScratchBonusTracker
 {

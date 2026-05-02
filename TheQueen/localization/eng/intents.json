@@ -30,6 +30,8 @@
     "AMALGAM_NOISE.description": "Draw [blue]1[/blue] card. Next turn, draw [blue]1[/blue] card. Enchant both cards with: [purple]{Enchantment}[/purple].",
     "AMALGAM_FABRICATE.title": "Summon",
     "AMALGAM_FABRICATE.description": "Create [blue]1[/blue] defensive robot card and [blue]1[/blue] offensive robot card.",
+  "AMALGAM_CURSE_OF_KNOWLEDGE.title": "Curse",
+  "AMALGAM_CURSE_OF_KNOWLEDGE.description": "Choose [blue]1[/blue]: [gold]Rejuvenate[/gold], [gold]Mind Clarity[/gold], or [gold]Disintegration[/gold].",
     "AMALGAM_SINGLE_ATTACK.title": "Aggressive",
     "AMALGAM_SINGLE_ATTACK.description": "The Amalgam will deal [blue]{Damage}[/blue] damage.",
     "AMALGAM_SINGLE_ATTACK.description_all": "The Amalgam will deal [blue]{Damage}[/blue] damage to each enemy.",

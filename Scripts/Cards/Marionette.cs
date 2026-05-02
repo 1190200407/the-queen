@@ -1,13 +1,19 @@
 using System;
-using System.Collections.Generic;
+using System.Reflection;
 using System.Threading.Tasks;
 using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Localization;
+using MegaCrit.Sts2.Core.Logging;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.CardPools;
+using MegaCrit.Sts2.Core.Models.Monsters;
+using MegaCrit.Sts2.Core.MonsterMoves.MonsterMoveStateMachine;
+using MegaCrit.Sts2.Core.Nodes.Audio;
+using MegaCrit.Sts2.Core.Nodes.Vfx;
 
 namespace ComicChess.TheQueen;
 
@@ -27,6 +33,48 @@ public sealed class Marionette : QueenCardModel
     {
     }
 
+    /// <summary>
+    /// 对齐原版 <c>MegaCrit.Sts2.Core.Models.Monsters.Queen</c> 内 <c>AmalgamDeathResponse</c> 的激怒分支（不反射调用该方法本体）。
+    /// </summary>
+    private static bool TryEnrageQueenFromMarionette(Creature queenCreature)
+    {
+        if (queenCreature.Monster is not Queen queen)
+        {
+            return false;
+        }
+
+        try
+        {
+            NRunMusicController.Instance?.UpdateMusicParameter("queen_progress", 2f);
+            if (!queenCreature.IsDead)
+            {
+                FieldInfo? hasDiedField = typeof(Queen).GetField("_hasAmalgamDied", BindingFlags.Instance | BindingFlags.NonPublic);
+                FieldInfo? amalgamField = typeof(Queen).GetField("_amalgam", BindingFlags.Instance | BindingFlags.NonPublic);
+                hasDiedField?.SetValue(queen, true);
+                amalgamField?.SetValue(queen, null);
+
+                LocString line = MonsterModel.L10NMonsterLookup("QUEEN.amalgamDeathSpeakLine");
+                TalkCmd.Play(line, queenCreature, VfxColor.Purple, VfxDuration.Custom);
+
+                FieldInfo? burnField = typeof(Queen).GetField("_burnBrightForMeState", BindingFlags.Instance | BindingFlags.NonPublic);
+                FieldInfo? enragedField = typeof(Queen).GetField("_enragedState", BindingFlags.Instance | BindingFlags.NonPublic);
+                if (burnField?.GetValue(queen) is MoveState burn
+                    && enragedField?.GetValue(queen) is MoveState enraged
+                    && ReferenceEquals(queen.NextMove, burn))
+                {
+                    queen.SetMoveImmediate(enraged, false);
+                }
+            }
+
+            return true;
+        }
+        catch (Exception ex)
+        {
+            Log.Error($"Marionette: TryEnrageQueenFromMarionette failed: {ex}");
+            return true;
+        }
+    }
+
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         _ = choiceContext;
@@ -34,6 +82,11 @@ public sealed class Marionette : QueenCardModel
         Creature target = cardPlay.Target;
         string? monsterId = target.Monster?.Id.Entry;
         if (string.IsNullOrWhiteSpace(monsterId))
+        {
+            return;
+        }
+
+        if (TryEnrageQueenFromMarionette(target))
         {
             return;
         }

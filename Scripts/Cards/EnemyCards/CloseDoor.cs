@@ -1,0 +1,66 @@
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using BaseLib.Extensions;
+using BaseLib.Utils;
+using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models.CardPools;
+
+namespace ComicChess.TheQueen;
+
+/// <summary>关门：召唤并使聚合体获得门扉外壳。</summary>
+[Pool(typeof(EnemyCardPool))]
+public sealed class CloseDoor : QueenCardModel
+{
+    private const int energyCost = 3;
+    private const CardType type = CardType.Power;
+    private const CardRarity rarity = CardRarity.Rare;
+    private const TargetType targetType = TargetType.Self;
+    private const bool shouldShowInCardLibrary = true;
+
+    // 怪物牌不可升级：30(36) -> 36；25(30) -> 30。
+    private const decimal summon = 36m;
+    private const decimal shellStacks = 30m;
+
+    public override int MaxUpgradeLevel => 0;
+
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+    [
+        new SummonVar(summon).WithTooltip("QUEEN_SUMMON_DYNAMIC"),
+        new PowerVar<AmalgamDoormakerBossPower>(shellStacks),
+    ];
+
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+    [
+        HoverTipFactory.FromPower<AmalgamDoormakerBossPower>(),
+    ];
+
+    public CloseDoor()
+        : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
+    {
+    }
+
+    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    {
+        _ = cardPlay;
+        if (base.Owner.Creature.CombatState is not { } combatState)
+        {
+            return;
+        }
+
+        await FriendlyAmalgamCmd.Summon(choiceContext, base.Owner, summon, this);
+
+        Creature? amalgam = FriendlyAmalgamCmd.GetExisting(combatState, base.Owner);
+        if (amalgam is { IsAlive: true })
+        {
+            await PowerCmd.Apply<AmalgamDoormakerBossPower>(amalgam, shellStacks, base.Owner.Creature, this);
+        }
+
+        await CreatureCmd.TriggerAnim(base.Owner.Creature, "Cast", base.Owner.Character.CastAnimDelay);
+    }
+}
+

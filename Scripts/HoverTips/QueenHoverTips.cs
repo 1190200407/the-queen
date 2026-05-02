@@ -30,4 +30,12 @@ internal static class QueenHoverTips
 	internal static IHoverTip Capture => new HoverTip(
 		new LocString("static_hover_tips", "capture.title"),
 		new LocString("static_hover_tips", "capture.description"));
+
+	internal static IHoverTip FabricateDefensiveDerivedCards => new HoverTip(
+		new LocString("static_hover_tips", "fabricate_defensive_derived_cards.title"),
+		new LocString("static_hover_tips", "fabricate_defensive_derived_cards.description"));
+
+	internal static IHoverTip FabricateOffensiveDerivedCards => new HoverTip(
+		new LocString("static_hover_tips", "fabricate_offensive_derived_cards.title"),
+		new LocString("static_hover_tips", "fabricate_offensive_derived_cards.description"));
 }

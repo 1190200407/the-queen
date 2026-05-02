@@ -29,15 +29,6 @@ public sealed class AmalgamApplyWeakIntentAction : AmalgamActionModel
 
     public static readonly float CastAnimDelay = 1.5f;
 
-    public override LocString IntentTitle => new("monsters", "FRIENDLY_AMALGAM.intent_weak.title");
-
-    public override LocString GetIntentDescription()
-    {
-        LocString desc = new("monsters", "FRIENDLY_AMALGAM.intent_weak.description");
-        desc.Add("Amount", Amount);
-        return desc;
-    }
-
     protected override MoveState CreateMoveState()
     {
         return new MoveState(

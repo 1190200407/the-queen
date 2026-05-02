@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ccd36ij5ctsin"
-path="res://.godot/imported/doormaker_boss.png-35a067e9f8ff57b5d61fddfa47390e2b.ctex"
+uid="uid://b7qy77qghp1t2"
+path="res://.godot/imported/amalgam_doormaker_boss_power.png-24f9d029be956d6546760e5ebbee5d73.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://TheQueen/images/powers/doormaker_boss.png"
-dest_files=["res://.godot/imported/doormaker_boss.png-35a067e9f8ff57b5d61fddfa47390e2b.ctex"]
+source_file="res://TheQueen/images/powers/amalgam_doormaker_boss_power.png"
+dest_files=["res://.godot/imported/amalgam_doormaker_boss_power.png-24f9d029be956d6546760e5ebbee5d73.ctex"]
 
 [params]
 

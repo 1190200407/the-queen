@@ -40,7 +40,6 @@ public sealed class GraspingVines : LearnIntentCardModel
         _ = cardPlay;
         AmalgamActionModel intent = new AmalgamSpecialIntentAction(
             moveId: "AMALGAM_INTENT_SPECIAL_GRASPING_VINES",
-            intentTitleKey: "AMALGAM_SPECIAL.title",
             intentDescriptionKey: "AMALGAM_SPECIAL_GRASPING_VINES.description",
             execute: async (PlayerChoiceContext _, Creature amalgam, Creature owner) =>
             {

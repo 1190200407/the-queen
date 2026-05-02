@@ -93,4 +93,15 @@ public static class FriendlyAmalgamHook
             }
         }
     }
+
+    public static async Task AfterAmalgamTurnEnd(CombatState combatState, Creature amalgam)
+    {
+        foreach (AbstractModel item in combatState.IterateHookListeners())
+        {
+            if (item is IAmalgamEventListener listener)
+            {
+                await listener.AfterAmalgamTurnEnd(combatState, amalgam);
+            }
+        }
+    }
 }

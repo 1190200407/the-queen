@@ -29,16 +29,6 @@ public sealed class AmalgamReloadFireIntentAction : AmalgamActionModel
         _damage = GetParameterOrDefault(DamageParam, 0m);
     }
 
-    public override LocString IntentTitle => new("intents", "AMALGAM_RELOAD_FIRE.title");
-
-    public override LocString GetIntentDescription()
-    {
-        LocString d = new("intents", "AMALGAM_RELOAD_FIRE.description");
-        d.Add("Block", _block);
-        d.Add("Damage", _damage);
-        return d;
-    }
-
     protected override MoveState CreateMoveState()
     {
         return new MoveState(

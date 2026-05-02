@@ -19,15 +19,6 @@ public sealed class AmalgamDrawAndEnchantIntentAction<TEnchantment> : AmalgamAct
 	{
 	}
 
-	public override LocString IntentTitle => new("monsters", "FRIENDLY_AMALGAM.intent_draw.title");
-
-	public override LocString GetIntentDescription()
-	{
-		var desc = new LocString("monsters", "FRIENDLY_AMALGAM.intent_draw.description");
-		desc.Add("Amount", Amount);
-		return desc;
-	}
-
 	protected override MoveState CreateMoveState()
 	{
 		// NOTE: intent label/description is handled by the intent itself (intents table).

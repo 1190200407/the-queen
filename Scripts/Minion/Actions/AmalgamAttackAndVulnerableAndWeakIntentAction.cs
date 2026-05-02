@@ -35,15 +35,6 @@ public sealed class AmalgamAttackAndVulnerableAndWeakIntentAction : AmalgamActio
         _weak = GetParameterOrDefault(WeakParam, 0m);
     }
 
-    public override LocString IntentTitle => new("monsters", "FRIENDLY_AMALGAM.intent_offense.title");
-
-    public override LocString GetIntentDescription()
-    {
-        LocString desc = new("monsters", "FRIENDLY_AMALGAM.intent_offense.description");
-        desc.Add("Amount", Amount);
-        return desc;
-    }
-
     protected override MoveState CreateMoveState()
     {
         // Note: intent label/description is handled by the intents themselves.

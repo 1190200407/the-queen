@@ -1,4 +1,6 @@
 {
     "COMICCHESS-FADE.description": "当这张牌进入你的[gold]弃牌堆[/gold]时被[gold]消耗[/gold]。",
-    "COMICCHESS-FADE.title": "消逝"
+    "COMICCHESS-FADE.title": "消逝",
+    "COMICCHESS-AMALGAM_COMPOSITE.description": "所有带[gold]聚合[/gold]的意图在学习时记入同一盏[gold]灯[/gold]。同一盏灯内记录的多个意图在执行时各算作一次行动。",
+    "COMICCHESS-AMALGAM_COMPOSITE.title": "聚合"
 }

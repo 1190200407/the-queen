@@ -23,16 +23,6 @@ public sealed class AmalgamMultiHitOffenseIntentAction : AmalgamActionModel
 		_hitCount = (int)GetParameterOrDefault(RepeatParam, 0m);
 	}
 
-	public override LocString IntentTitle => new("intents", "AMALGAM_MULTI_ATTACK.title");
-
-	public override LocString GetIntentDescription()
-	{
-		LocString desc = new("intents", "AMALGAM_MULTI_ATTACK.fallback_description");
-		desc.Add("Amount", Amount);
-		desc.Add("Repeat", _hitCount);
-		return desc;
-	}
-
 	protected override MoveState CreateMoveState()
 	{
 		return new MoveState(

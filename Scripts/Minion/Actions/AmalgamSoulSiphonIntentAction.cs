@@ -24,15 +24,6 @@ public sealed class AmalgamSoulSiphonIntentAction : AmalgamActionModel
 
     public static readonly float CastAnimDelay = 1.5f;
 
-    public override LocString IntentTitle => new("intents", "AMALGAM_SOUL_SIPHON.title");
-
-    public override LocString GetIntentDescription()
-    {
-        LocString d = new("intents", "AMALGAM_SOUL_SIPHON.description");
-        d.Add("Stacks", _stacks);
-        return d;
-    }
-
     protected override MoveState CreateMoveState()
     {
         return new MoveState(

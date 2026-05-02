@@ -212,11 +212,7 @@ public static class FriendlyAmalgamCmd
     /// 学习灯槽意图的<strong>唯一入口</strong>：取友方聚合体；若当前生命为 0 则先 <see cref="EnsureOneHpViaSummonHealBeforeIntentAsync"/> 再写入。
     /// 卡牌/能力侧<strong>不要</strong>先 <see cref="GetExisting"/> 再以 <c>IsAlive</c> 短路，否则 0 血尸体态永远进不来这里。
     /// </summary>
-    public static async Task LearnIntent(
-        PlayerChoiceContext choiceContext,
-        Player owner,
-        AmalgamActionModel? intent,
-        AbstractModel? source)
+    public static async Task LearnIntent(PlayerChoiceContext choiceContext, Player owner, AmalgamActionModel? intent, AbstractModel? source)
     {
         if (intent == null)
         {
@@ -242,6 +238,37 @@ public static class FriendlyAmalgamCmd
         }
 
         await amalgamModel.LearnIntent(choiceContext, intent);
+    }
+
+    /// <summary>
+    /// 合并意图的<strong>唯一入口</strong>：取友方聚合体；若当前生命为 0 则先 <see cref="Summon"/> 补至可行动再写入。
+    /// 卡牌/能力侧<strong>不要</strong>先 <see cref="GetExisting"/> 再以 <c>IsAlive</c> 短路，否则 0 血尸体态永远进不来这里。
+    /// </summary>
+    public static async Task CombineIntent(PlayerChoiceContext choiceContext, Player owner, AmalgamActionModel? intent, AbstractModel? source, string? compositeIndexKey)
+    {
+        if (intent == null)
+        {
+            return;
+        }
+
+        CombatState? combatState = owner.Creature.CombatState;
+        if (combatState == null)
+        {
+            return;
+        }
+
+        Creature? amalgamCreature = GetExisting(combatState, owner);
+        if (amalgamCreature?.Monster is not FriendlyAmalgam amalgamModel)
+        {
+            return;
+        }
+
+        if (!amalgamCreature.IsAlive)
+        {
+            await Summon(choiceContext, owner, 1m, source);
+        }
+
+        await amalgamModel.CombineIntentAsync(choiceContext, intent, compositeIndexKey);
     }
 
     /// <summary>将 <see cref="FriendlyAmalgam"/> 三槽意图与 <see cref="NewNAmalgamVfx"/> 小火同步（无节点时静默跳过）。</summary>

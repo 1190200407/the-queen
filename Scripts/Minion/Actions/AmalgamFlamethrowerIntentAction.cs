@@ -35,17 +35,6 @@ public sealed class AmalgamFlamethrowerIntentAction : AmalgamActionModel
         _nextTurnDamage = GetParameterOrDefault(NextTurnDamageParam, 0m);
     }
 
-    public override LocString IntentTitle => new("intents", "AMALGAM_FLAMETHROWER.title");
-
-    public override LocString GetIntentDescription()
-    {
-        LocString d = new("intents", "AMALGAM_FLAMETHROWER.description");
-        d.Add("Draw", _draw);
-        d.Add("EnchantAmount", _enchantAmount);
-        d.Add("Damage", _nextTurnDamage);
-        return d;
-    }
-
     protected override MoveState CreateMoveState()
     {
         return new MoveState(

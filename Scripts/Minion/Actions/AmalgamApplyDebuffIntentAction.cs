@@ -32,17 +32,6 @@ public sealed class AmalgamApplyDebuffIntentAction<T> : AmalgamActionModel
 
     public static readonly float CastAnimDelay = 1.5f;
 
-    public override LocString IntentTitle => new("intents", "AMALGAM_APPLY_DEBUFF.title");
-
-    public override LocString GetIntentDescription()
-    {
-        // 灯槽悬停以 MoveState.Intents 为准；这里提供无战斗上下文时的兜底文案。
-        LocString desc = new("intents", "AMALGAM_APPLY_DEBUFF.description");
-        desc.Add("Stacks", Amount);
-        desc.Add("DebuffName", new LocString("powers", _debuffEntryId + ".title"));
-        return desc;
-    }
-
     protected override MoveState CreateMoveState()
     {
         return new MoveState(

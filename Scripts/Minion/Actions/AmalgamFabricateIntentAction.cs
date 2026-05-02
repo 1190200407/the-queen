@@ -4,7 +4,6 @@ using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.MonsterMoves.MonsterMoveStateMachine;
 
 namespace ComicChess.TheQueen;
@@ -12,11 +11,6 @@ namespace ComicChess.TheQueen;
 /// <summary>聚合体意图：随机生成 1 张防御衍生牌与 1 张输出衍生牌到手牌。</summary>
 public sealed class AmalgamFabricateIntentAction : AmalgamActionModel
 {
-    public override LocString IntentTitle => new("monsters", "FRIENDLY_AMALGAM.intent_generate_card.title");
-
-    public override LocString GetIntentDescription()
-        => new("intents", "AMALGAM_FABRICATE.description");
-
     protected override MoveState CreateMoveState()
     {
         return new MoveState(

@@ -21,8 +21,6 @@ public sealed class Hunger : QueenCardModel
 
 	protected override IEnumerable<IHoverTip> ExtraHoverTips => [
 		HoverTipFactory.FromCard<Devour>(upgrade: base.IsUpgraded),
-		HoverTipFactory.FromPower<HungerPower>(),
-		QueenHoverTips.SoulLamp
 	];
 
 	public Hunger()
@@ -37,8 +35,7 @@ public sealed class Hunger : QueenCardModel
 			return;
 		}
 
-		await QueenCardCmd.CreateInHand<Devour>(base.Owner, base.CombatState, base.IsUpgraded);
-		await QueenCardCmd.AddSoulLamp(base.Owner, 1);
+		await QueenCardCmd.CreateInHand<Devour>(base.Owner, base.CombatState, isUpgraded: base.IsUpgraded);
 		await PowerCmd.Apply<HungerPower>(base.Owner.Creature, 1m, base.Owner.Creature, this);
 		await CreatureCmd.TriggerAnim(base.Owner.Creature, "Cast", base.Owner.Character.CastAnimDelay);
 	}

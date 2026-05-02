@@ -4,9 +4,11 @@ using System.Threading.Tasks;
 using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Afflictions;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Models.Powers;
@@ -28,10 +30,7 @@ public sealed class Devour : QueenCardModel
 
 	protected override IEnumerable<IHoverTip> ExtraHoverTips => [
 		HoverTipFactory.FromPower<StrengthPower>(),
-		.. HoverTipFactory.FromAffliction<Bound>()
 	];
-
-	internal override bool HasSelfBound => true;
 
 	public override TargetType TargetType => base.IsUpgraded ? TargetType.AnyEnemy : TargetType.Self;
 
@@ -40,14 +39,28 @@ public sealed class Devour : QueenCardModel
 	{
 	}
 
+	private const decimal BaseStrengthGain = 1m;
+
+	public void SyncMultiplyVar()
+	{
+		if (base.Owner?.Creature is null)
+		{
+			return;
+		}
+
+		decimal mul = HungerPower.DevourEffectMultiplier(base.Owner.Creature);
+		base.DynamicVars.Strength.BaseValue = BaseStrengthGain * mul;
+	}
+
 	protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
 	{
-		await PowerCmd.Apply<DevourStrengthPower>(base.Owner.Creature, base.DynamicVars.Strength.BaseValue, base.Owner.Creature, this);
+		decimal strGain = BaseStrengthGain * HungerPower.DevourEffectMultiplier(base.Owner.Creature);
+		await PowerCmd.Apply<DevourStrengthPower>(base.Owner.Creature, strGain, base.Owner.Creature, this);
 
 		if (base.IsUpgraded)
 		{
 			ArgumentNullException.ThrowIfNull(cardPlay.Target);
-			await PowerCmd.Apply<DevourEnemyStrengthDownPower>(cardPlay.Target, 1m, base.Owner.Creature, this);
+			await PowerCmd.Apply<DevourEnemyStrengthDownPower>(cardPlay.Target, strGain, base.Owner.Creature, this);
 		}
 	}
 }

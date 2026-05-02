@@ -17,11 +17,6 @@ public sealed class AmalgamEmptyCupIntentAction : AmalgamActionModel
 
     public static readonly float CastAnimDelay = 1.5f;
 
-    public override LocString IntentTitle => new("monsters", "FRIENDLY_AMALGAM.intent_empty_cup.title");
-
-    public override LocString GetIntentDescription() =>
-        new("monsters", "FRIENDLY_AMALGAM.intent_empty_cup.description");
-
     protected override MoveState CreateMoveState()
     {
         return new MoveState(

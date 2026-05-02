@@ -51,17 +51,6 @@ public sealed class Soar : QueenCardModel
         _ = cardPlay;
         await FriendlyAmalgamCmd.Summon(choiceContext, base.Owner, base.DynamicVars.Summon.BaseValue, this);
 
-        if (base.Owner.Creature.CombatState is not { } combatState)
-        {
-            return;
-        }
-
-        Creature? amalgam = FriendlyAmalgamCmd.GetExisting(combatState, base.Owner);
-        if (amalgam is not { IsAlive: true })
-        {
-            return;
-        }
-
         decimal stacks = base.DynamicVars.Power<AmalgamSoarPower>().BaseValue;
         if (stacks <= 0m)
         {

@@ -28,15 +28,6 @@ public sealed class AmalgamStrengthDownIntentAction : AmalgamActionModel
 
     public static readonly float CastAnimDelay = 1.5f;
 
-    public override LocString IntentTitle => new("intents", "AMALGAM_STRENGTH_DOWN.title");
-
-    public override LocString GetIntentDescription()
-    {
-        LocString desc = new("intents", "AMALGAM_STRENGTH_DOWN.description");
-        desc.Add("Stacks", Amount);
-        return desc;
-    }
-
     protected override MoveState CreateMoveState()
     {
         return new MoveState(

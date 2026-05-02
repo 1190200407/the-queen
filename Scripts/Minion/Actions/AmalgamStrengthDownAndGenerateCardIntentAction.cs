@@ -39,17 +39,6 @@ public sealed class AmalgamStrengthDownAndGenerateCardIntentAction<T> : AmalgamA
         _cardNameForIntent = ResolveCardName();
     }
 
-    public override LocString IntentTitle => new("intents", "AMALGAM_STRENGTH_DOWN.title");
-
-    public override LocString GetIntentDescription()
-    {
-        LocString desc = new("intents", "AMALGAM_STRENGTH_DOWN_AND_GENERATE_CARD.description");
-        desc.Add("Stacks", _strengthLoss);
-        desc.Add("CardCount", _cardCount);
-        desc.Add("CardName", _cardNameForIntent);
-        return desc;
-    }
-
     private AmalgamStrengthDownIntentAction _strengthDownIntentAction;
 
     protected override MoveState CreateMoveState()

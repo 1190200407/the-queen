@@ -16,5 +16,9 @@ public class QueenKeyword
     [CustomEnum("SOUL_LAMP")]
     [KeywordProperties(AutoKeywordPosition.None)]
     public static CardKeyword soulLamp;
+
+    [CustomEnum("AMALGAM_COMPOSITE")]
+    [KeywordProperties(AutoKeywordPosition.After)]
+    public static CardKeyword amalgamComposite;
 }
 

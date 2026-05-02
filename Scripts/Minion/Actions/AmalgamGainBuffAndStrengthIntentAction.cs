@@ -32,16 +32,6 @@ public sealed class AmalgamGainBuffAndStrengthIntentAction<TPower> : AmalgamActi
 
     public static readonly float CastAnimDelay = 1.5f;
 
-    public override LocString IntentTitle => new("intents", "AMALGAM_GAIN_BUFF.title");
-
-    public override LocString GetIntentDescription()
-    {
-        LocString desc = new("intents", "AMALGAM_GAIN_BUFF.description");
-        desc.Add("Stacks", Amount);
-        desc.Add("BuffName", new LocString("powers", _buffEntryId + ".title"));
-        return desc;
-    }
-
     protected override MoveState CreateMoveState()
     {
         return new MoveState(

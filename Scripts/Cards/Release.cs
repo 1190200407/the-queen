@@ -56,7 +56,7 @@ public sealed class Release : QueenCardModel
         int actualPick = enemyCards.Count < pick ? enemyCards.Count : pick;
         CardSelectorPrefs prefs = new(
             new LocString("cards", "COMICCHESS-RELEASE.selectionPrompt"),
-            actualPick,
+            0,
             actualPick);
         IEnumerable<CardModel> selected = await CardSelectCmd.FromSimpleGrid(
             new BlockingPlayerChoiceContext(),

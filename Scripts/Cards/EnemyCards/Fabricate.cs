@@ -33,10 +33,8 @@ public sealed class Fabricate : LearnIntentCardModel
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
     [
         ..base.ExtraHoverTips,
-        HoverTipFactory.FromCard<Guard>(),
-        HoverTipFactory.FromCard<Noise>(),
-        HoverTipFactory.FromCard<Stab>(),
-        HoverTipFactory.FromCard<Zap>(),
+        QueenHoverTips.FabricateDefensiveDerivedCards,
+        QueenHoverTips.FabricateOffensiveDerivedCards,
     ];
 
     public Fabricate()
