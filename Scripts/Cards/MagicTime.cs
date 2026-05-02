@@ -52,4 +52,9 @@ public sealed class MagicTime : QueenCardModel
 		await PowerCmd.Apply<MagicTimePower>(base.Owner.Creature, 1m, base.Owner.Creature, this);
 		await CreatureCmd.TriggerAnim(base.Owner.Creature, "Cast", base.Owner.Character.CastAnimDelay);
 	}
+
+    protected override void OnUpgrade()
+    {
+		RemoveKeyword(CardKeyword.Ethereal);
+    }
 }
