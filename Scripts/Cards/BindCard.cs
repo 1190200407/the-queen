@@ -41,15 +41,17 @@ public sealed class BindCard : QueenCardModel
 			choiceContext,
 			base.Owner,
 			new CardSelectorPrefs(new LocString("cards", "COMICCHESS-BIND_CARD.selectionPrompt"), 1),
-			c => c.Affliction == null || c.Affliction is Bound,
+			c => c.Affliction is not Bound,
 			this
 		);
 
 		CardModel? card = selected.FirstOrDefault();
-		if (card != null && card.Affliction is not Bound)
+		if (card is null)
 		{
-			await CardCmd.Afflict<Bound>(card, 1m);
+			return;
 		}
+		CardCmd.ClearAffliction(card);
+		await CardCmd.Afflict<Bound>(card, 1m);
 	}
 
     protected override void OnUpgrade()

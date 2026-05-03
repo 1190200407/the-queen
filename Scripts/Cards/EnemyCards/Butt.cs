@@ -23,7 +23,7 @@ public sealed class Butt : LearnIntentCardModel
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new SummonVar(10m).WithTooltip("QUEEN_SUMMON_DYNAMIC"),
-        new AmalgamLearnIntentDamageVar(12m, ValueProp.Move),
+        new AmalgamLearnIntentDamageVar(8m, ValueProp.Move),
     ];
 
     protected override bool ShouldSummonBeforeLearnIntent => true;

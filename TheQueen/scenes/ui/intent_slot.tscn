@@ -39,7 +39,6 @@ script = ExtResource("1_intent_slot")
 
 [node name="Outline" type="TextureRect" parent="."]
 unique_name_in_owner = true
-z_index = 1
 layout_mode = 0
 offset_left = -30.0
 offset_top = -30.0

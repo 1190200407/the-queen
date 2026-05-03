@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using BaseLib.Extensions;
 using BaseLib.Utils;
+using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
@@ -24,7 +25,8 @@ public sealed class AcidGoop : LearnIntentCardModel
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new SummonVar(3m).WithTooltip("QUEEN_SUMMON_DYNAMIC"),
-        new AmalgamLearnIntentDamageVar(learnIntentDamage, ValueProp.Move)
+        new AmalgamLearnIntentDamageVar(learnIntentDamage, ValueProp.Move),
+        new CardsVar(1)
     ];
 
     protected override bool ShouldSummonBeforeLearnIntent => true;
@@ -33,6 +35,12 @@ public sealed class AcidGoop : LearnIntentCardModel
     public AcidGoop()
         : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
     {
+    }
+
+    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    {
+        await base.OnPlay(choiceContext, cardPlay);
+        await CardPileCmd.Draw(choiceContext, base.DynamicVars.Cards.BaseValue, base.Owner);
     }
 
     protected override Task<IReadOnlyList<AmalgamActionModel?>> CreateLearnIntentsAsync(PlayerChoiceContext choiceContext, CardPlay cardPlay)

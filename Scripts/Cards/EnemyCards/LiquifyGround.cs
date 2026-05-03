@@ -44,6 +44,7 @@ public sealed class LiquifyGround : QueenCardModel
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
     [
+        HoverTipFactory.FromPower<SandpitPower>(),
         HoverTipFactory.FromCard<FranticTug>(),
         QueenHoverTips.LearnIntent,
     ];

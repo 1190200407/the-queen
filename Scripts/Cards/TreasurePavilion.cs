@@ -44,7 +44,7 @@ public sealed class TreasurePavilion : QueenCardModel
 
         CardPile discard = PileType.Discard.GetPile(base.Owner);
         List<CardModel> candidates = discard.Cards
-            .Where(c => c.Affliction is null || c.Affliction is not Bound)
+            .Where(c => c.Affliction is not Bound)
             .ToList();
 
         if (candidates.Count > 0)
@@ -58,10 +58,8 @@ public sealed class TreasurePavilion : QueenCardModel
             if (picked is not null)
             {
                 await CardPileCmd.Add(picked, PileType.Hand);
-                if (picked.Affliction is not Bound)
-                {
-                    await CardCmd.Afflict<Bound>(picked, 1m);
-                }
+                CardCmd.ClearAffliction(picked);
+                await CardCmd.Afflict<Bound>(picked, 1m);
             }
         }
 

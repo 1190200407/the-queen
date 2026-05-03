@@ -87,7 +87,39 @@ public sealed class SoulLampPower : QueenPowerModel
 		return true;
 	}
 
-	public override async Task AfterPowerAmountChanged(PowerModel power, decimal amount, Creature? applier, CardModel? cardSource)
+
+    public override bool TryModifyStarCost(CardModel card, decimal originalCost, out decimal modifiedCost)
+    {
+        modifiedCost = originalCost;
+        if (base.Amount <= 0)
+        {
+            return false;
+        }
+
+        if (card.Owner?.Creature != base.Owner)
+        {
+            return false;
+		}
+
+		if (!(card.Affliction is Bound))
+		{
+			return false;
+		}
+
+		switch (card.Pile?.Type)
+		{
+			case PileType.Hand:
+			case PileType.Play:
+				break;
+			default:
+				return false;
+		}
+
+		modifiedCost = default(decimal);
+		return true;
+    }
+
+    public override async Task AfterPowerAmountChanged(PowerModel power, decimal amount, Creature? applier, CardModel? cardSource)
 	{
 		if (power != this || amount == 0m)
 		{

@@ -30,7 +30,8 @@ public sealed class SoulCalmCasket : QueenCardModel
     private const CardRarity rarity = CardRarity.Ancient;
     private const TargetType targetType = TargetType.AnyEnemy;
     private const bool shouldShowInCardLibrary = true;
-    public override bool IsCapture => base.Owner.RunState?.CurrentRoom?.RoomType != RoomType.Boss;
+    public override bool IsCapture =>
+        IsMutable && base.Owner.RunState?.CurrentRoom?.RoomType != RoomType.Boss;
 
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Retain];
 

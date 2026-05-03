@@ -30,9 +30,8 @@ public sealed class PheromoneSpit : LearnIntentCardModel
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
     [
-        ..HoverTipFactory.FromAffliction<Bound>(),
-        ..base.ExtraHoverTips,
         HoverTipFactory.FromPower<AmalgamPersonalHivePower>(),
+        ..HoverTipFactory.FromEnchantment<Dazed>(),
     ];
 
     public override int MaxUpgradeLevel => 0;
