@@ -50,7 +50,7 @@ public sealed class PunchOff : LearnIntentCardModel
         _ = choiceContext;
         _ = cardPlay;
         decimal block = base.DynamicVars["LearnIntentBlock"].BaseValue;
-        decimal dmg = base.DynamicVars["LearnIntentDamage"].BaseValue;
+        decimal dmg = AmalgamLearnIntentDamageVar.GetEffectiveFlatForOffenseIntent(this, "LearnIntentDamage");
         decimal weak = base.DynamicVars["LearnIntentWeak"].BaseValue;
         return Task.FromResult<IReadOnlyList<AmalgamActionModel?>>(
         [

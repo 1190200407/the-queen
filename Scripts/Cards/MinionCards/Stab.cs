@@ -40,7 +40,7 @@ public sealed class Stab : LearnIntentCardModel
     {
         _ = choiceContext;
         _ = cardPlay;
-        decimal dmg = base.DynamicVars["LearnIntentDamage"].BaseValue;
+        decimal dmg = AmalgamLearnIntentDamageVar.GetEffectiveFlatForOffenseIntent(this, "LearnIntentDamage");
         decimal strLoss = base.DynamicVars["LearnIntentStrengthLoss"].BaseValue;
         AmalgamActionModel? intent = new AmalgamAttackAndStrengthDownIntentAction(dmg, strLoss);
         return Task.FromResult<IReadOnlyList<AmalgamActionModel?>>([intent]);

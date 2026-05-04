@@ -49,7 +49,7 @@ public sealed class ReloadFire : LearnIntentCardModel
         _ = choiceContext;
         _ = cardPlay;
         decimal block = base.DynamicVars["LearnIntentBlock"].BaseValue;
-        decimal dmg = base.DynamicVars["LearnIntentDamage"].BaseValue;
+        decimal dmg = AmalgamLearnIntentDamageVar.GetEffectiveFlatForOffenseIntent(this, "LearnIntentDamage");
         return Task.FromResult<IReadOnlyList<AmalgamActionModel?>>(
         [
             new AmalgamReloadFireIntentAction(block, dmg),

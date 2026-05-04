@@ -8,6 +8,7 @@ using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
+using MegaCrit.Sts2.Core.Entities.Players;
 
 namespace ComicChess.TheQueen;
 
@@ -64,6 +65,11 @@ public sealed class AmalgamSuckPower : QueenPowerModel, IAmalgamEventListener
 
         Flash();
         await PowerCmd.Apply<StrengthPower>(amalgam, Amount * hitCount, amalgam, null);
+    }
+
+    public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
+    {
+        await PowerCmd.Remove(this);
     }
 }
 

@@ -47,7 +47,7 @@ public sealed class EnergyOrb : LearnIntentCardModel
     {
         _ = choiceContext;
         _ = cardPlay;
-        decimal damage = base.DynamicVars["LearnIntentDamage"].BaseValue;
+        decimal damage = AmalgamLearnIntentDamageVar.GetEffectiveFlatForOffenseIntent(this, "LearnIntentDamage");
         decimal strength = base.DynamicVars["LearnIntentStrength"].BaseValue;
         return Task.FromResult<IReadOnlyList<AmalgamActionModel?>>
         ([

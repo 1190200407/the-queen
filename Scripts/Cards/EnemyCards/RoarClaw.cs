@@ -63,7 +63,7 @@ public sealed class RoarClaw : QueenCardModel
             }
         }
 
-        decimal dmg = base.DynamicVars["LearnIntentDamage"].BaseValue;
+        decimal dmg = AmalgamLearnIntentDamageVar.GetEffectiveFlatForOffenseIntent(this, "LearnIntentDamage");
         AmalgamActionModel? intent = AmalgamActionRegistry.CreateOffenseMulti(dmg, learnIntentRepeat);
         await FriendlyAmalgamCmd.LearnIntent(choiceContext, base.Owner, intent, this);
     }

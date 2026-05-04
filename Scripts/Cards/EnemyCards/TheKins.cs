@@ -75,12 +75,12 @@ public sealed class TheKins : QueenCardModel
             return;
         }
 
-        decimal dmg1 = base.DynamicVars["LearnIntentDamage"].BaseValue;
+        decimal dmg1 = AmalgamLearnIntentDamageVar.GetEffectiveFlatForOffenseIntent(this, "LearnIntentDamage");
         decimal weak = base.DynamicVars["LearnIntentWeak"].BaseValue;
         AmalgamActionModel? intent1 = AmalgamActionRegistry.CreateAttackAndWeak(dmg1, weak);
         await FriendlyAmalgamCmd.LearnIntent(choiceContext, base.Owner, intent1, this);
 
-        decimal dmg2 = base.DynamicVars["LearnIntentDamage2"].BaseValue;
+        decimal dmg2 = AmalgamLearnIntentDamageVar.GetEffectiveFlatForOffenseIntent(this, "LearnIntentDamage2");
         decimal strLoss = base.DynamicVars["LearnIntentStrengthLoss"].BaseValue;
         AmalgamActionModel? intent2 = new AmalgamAttackAndLoseStrengthIntentAction(dmg2, strLoss);
         await FriendlyAmalgamCmd.LearnIntent(choiceContext, base.Owner, intent2, this);

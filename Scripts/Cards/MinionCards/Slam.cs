@@ -48,7 +48,7 @@ public sealed class Slam : LearnIntentCardModel
     {
         _ = choiceContext;
         _ = cardPlay;
-        decimal dmg = base.DynamicVars["LearnIntentDamage"].BaseValue;
+        decimal dmg = AmalgamLearnIntentDamageVar.GetEffectiveFlatForOffenseIntent(this, "LearnIntentDamage");
         AmalgamActionModel? intent = AmalgamActionRegistry.CreateOffense(dmg);
         return Task.FromResult<IReadOnlyList<AmalgamActionModel?>>([intent]);
     }

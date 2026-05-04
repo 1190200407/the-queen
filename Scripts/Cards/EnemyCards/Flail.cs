@@ -41,7 +41,7 @@ public sealed class Flail : LearnIntentCardModel
     {
         _ = choiceContext;
         _ = cardPlay;
-        decimal damagePerHit = base.DynamicVars["LearnIntentDamage"].BaseValue;
+        decimal damagePerHit = AmalgamLearnIntentDamageVar.GetEffectiveFlatForOffenseIntent(this, "LearnIntentDamage");
         AmalgamActionModel? intent = AmalgamActionRegistry.CreateOffenseMulti(damagePerHit, learnIntentHitCount);
         return Task.FromResult<IReadOnlyList<AmalgamActionModel?>>([intent]);
     }

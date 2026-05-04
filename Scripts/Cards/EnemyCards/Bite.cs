@@ -52,7 +52,7 @@ public sealed class Bite : QueenCardModel
         _ = cardPlay;
         await FriendlyAmalgamCmd.Summon(choiceContext, base.Owner, base.DynamicVars.Summon.BaseValue, this);
 
-        decimal damage = base.DynamicVars["LearnIntentDamage"].BaseValue;
+        decimal damage = AmalgamLearnIntentDamageVar.GetEffectiveFlatForOffenseIntent(this, "LearnIntentDamage");
         decimal block = base.DynamicVars["LearnIntentBlock"].BaseValue;
 
         await FriendlyAmalgamCmd.CombineIntent(

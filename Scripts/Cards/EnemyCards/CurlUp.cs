@@ -60,7 +60,7 @@ public sealed class CurlUp : QueenCardModel
                 await PowerCmd.Apply<AmalgamCurlUpPower>(amalgam, amount, base.Owner.Creature, this);
             }
 
-            decimal dmg = base.DynamicVars["LearnIntentDamage"].BaseValue;
+            decimal dmg = AmalgamLearnIntentDamageVar.GetEffectiveFlatForOffenseIntent(this, "LearnIntentDamage");
             decimal strLoss = base.DynamicVars["LearnIntentStrengthLoss"].BaseValue;
             if (dmg > 0m && strLoss > 0m)
             {

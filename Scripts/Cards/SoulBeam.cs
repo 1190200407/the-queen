@@ -43,7 +43,7 @@ public sealed class SoulBeam : LearnIntentCardModel
 			hits++;
 		}
 
-		decimal dmg = base.DynamicVars["LearnIntentDamage"].BaseValue;
+		decimal dmg = AmalgamLearnIntentDamageVar.GetEffectiveFlatForOffenseIntent(this, "LearnIntentDamage");
 		AmalgamActionModel? intent = AmalgamActionRegistry.CreateOffenseMulti(dmg, hits);
 		return Task.FromResult<IReadOnlyList<AmalgamActionModel?>>([intent]);
 	}

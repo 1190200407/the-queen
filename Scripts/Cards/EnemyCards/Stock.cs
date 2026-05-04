@@ -50,7 +50,7 @@ public sealed class Stock : QueenCardModel
         if (amalgam is { IsAlive: true })
         {
             Creature target = cardPlay.Target;
-            decimal dmg = base.DynamicVars["LearnIntentDamage"].BaseValue;
+            decimal dmg = AmalgamLearnIntentDamageVar.GetEffectiveFlatForOffenseIntent(this, "LearnIntentDamage");
             if (target.IsAlive && dmg > 0m)
             {
                 AmalgamActionModel? attack = AmalgamActionRegistry.CreateOffense(dmg, target);

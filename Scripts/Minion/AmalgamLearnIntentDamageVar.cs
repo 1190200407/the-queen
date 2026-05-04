@@ -1,5 +1,4 @@
 using System.Globalization;
-using System.Linq;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -11,8 +10,9 @@ using MegaCrit.Sts2.Core.ValueProps;
 namespace ComicChess.TheQueen;
 
 /// <summary>
-/// 卡面「学习进攻意图」伤害数字：仅用于<strong>展示</strong>，走 <see cref="Hook.ModifyDamage"/>（出手方为聚合体）。
-/// 灯槽内 <see cref="AmalgamOffenseIntentAction"/> 的 <see cref="AmalgamActionModel.Amount"/> 须保持<strong>原始基础值</strong>，由结算再叠力量，避免双算。
+/// 卡面「学习进攻意图」伤害数字：用于<strong>展示</strong>，并走 <see cref="Hook.ModifyDamage"/>（出手方为聚合体）。
+/// 写入灯槽的基数须与 <see cref="GetEffectiveFlatForOffenseIntent"/> 一致：卡牌 <see cref="DynamicVar.BaseValue"/> 加上
+/// <see cref="ILearnIntentDamageBonusEnchantment"/> 的固定加成；之后再由 <see cref="Hook.ModifyDamage"/> 叠力量等，避免双算的是「力量」而非附魔层数。
 /// </summary>
 public sealed class AmalgamLearnIntentDamageVar : DamageVar
 {
@@ -26,21 +26,42 @@ public sealed class AmalgamLearnIntentDamageVar : DamageVar
 	{
 	}
 
+	/// <summary>
+	/// 学习进攻意图写入灯槽 / 与预览一致的「平砍基数」：<paramref name="damageVar"/> 的 <see cref="DynamicVar.BaseValue"/> 加上
+	/// 当前牌附魔上实现的 <see cref="ILearnIntentDamageBonusEnchantment"/>（如感染）。
+	/// </summary>
+	public static decimal GetEffectiveFlatForOffenseIntent(CardModel card, AmalgamLearnIntentDamageVar damageVar)
+	{
+		decimal n = damageVar.BaseValue;
+		if (card.Enchantment is ILearnIntentDamageBonusEnchantment bonus)
+		{
+			n += bonus.GetLearnIntentDamageBonus(card, damageVar);
+		}
+
+		return n;
+	}
+
+	/// <inheritdoc cref="GetEffectiveFlatForOffenseIntent(CardModel, AmalgamLearnIntentDamageVar)"/>
+	public static decimal GetEffectiveFlatForOffenseIntent(CardModel card, string dynamicVarKey)
+	{
+		DynamicVar dv = card.DynamicVars[dynamicVarKey];
+		if (dv is AmalgamLearnIntentDamageVar adv)
+		{
+			return GetEffectiveFlatForOffenseIntent(card, adv);
+		}
+
+		return dv.BaseValue;
+	}
+
 	public override void UpdateCardPreview(CardModel card, CardPreviewMode previewMode, Creature? target, bool runGlobalHooks)
 	{
-		decimal num = BaseValue;
+		decimal num = GetEffectiveFlatForOffenseIntent(card, this);
 		EnchantmentModel? enchantment = card.Enchantment;
 		if (enchantment != null)
 		{
-            // 只对「学习意图伤害」吃特定附魔加成，避免影响普通攻击伤害等其它 DamageVar。
-            if (enchantment is ILearnIntentDamageBonusEnchantment bonus)
-            {
-                num += bonus.GetLearnIntentDamageBonus(card, this);
-            }
 			if (!card.IsEnchantmentPreview)
 			{
 				EnchantedValue = num;
-				BaseValue = num;
 			}
 		}
 
@@ -68,7 +89,7 @@ public sealed class AmalgamLearnIntentDamageVar : DamageVar
 				num = AmalgamIntentDamagePreview.PreviewOutgoingConsensusAmongReceivers(
 					amalgam,
 					pool,
-					BaseValue,
+					num,
 					Props,
 					cardSource: null,
 					previewMode);

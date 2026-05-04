@@ -65,7 +65,7 @@ public sealed class Swipe : QueenCardModel
         }
 
         Creature target = cardPlay.Target;
-        decimal damage = base.DynamicVars["LearnIntentDamage"].BaseValue;
+        decimal damage = AmalgamLearnIntentDamageVar.GetEffectiveFlatForOffenseIntent(this, "LearnIntentDamage");
         if (target.IsAlive && damage > 0m)
         {
             AmalgamActionModel? attack = AmalgamActionRegistry.CreateOffense(damage, target);

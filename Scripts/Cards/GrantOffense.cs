@@ -39,8 +39,8 @@ public sealed class GrantOffense : LearnIntentCardModel
     {
         _ = choiceContext;
         _ = cardPlay;
-        // 意图内只存原始基础伤害；力量等在 CreatureCmd.Damage 中由 Hook 叠一次。
-        AmalgamActionModel? intent = AmalgamActionRegistry.CreateOffense(learnIntentDamage);
+        decimal dmg = AmalgamLearnIntentDamageVar.GetEffectiveFlatForOffenseIntent(this, "LearnIntentDamage");
+        AmalgamActionModel? intent = AmalgamActionRegistry.CreateOffense(dmg);
         return Task.FromResult<IReadOnlyList<AmalgamActionModel?>>([intent]);
     }
 

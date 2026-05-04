@@ -46,9 +46,9 @@ public sealed class DoubleBlast : LearnIntentCardModel
     {
         _ = choiceContext;
         _ = cardPlay;
-        decimal dmg1 = base.DynamicVars["LearnIntentDamage"].BaseValue;
+        decimal dmg1 = AmalgamLearnIntentDamageVar.GetEffectiveFlatForOffenseIntent(this, "LearnIntentDamage");
         decimal str = base.DynamicVars["LearnIntentStrength"].BaseValue;
-        decimal dmg2 = base.DynamicVars["LearnIntentDamage2"].BaseValue;
+        decimal dmg2 = AmalgamLearnIntentDamageVar.GetEffectiveFlatForOffenseIntent(this, "LearnIntentDamage2");
         return Task.FromResult<IReadOnlyList<AmalgamActionModel?>>
         ([
             AmalgamActionRegistry.CreateAttackAndStrength(dmg1, str),

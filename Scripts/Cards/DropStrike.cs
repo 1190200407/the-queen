@@ -64,7 +64,7 @@ public sealed class DropStrike : QueenCardModel
             return;
         }
 
-        decimal dmg = 5m;
+        decimal dmg = AmalgamLearnIntentDamageVar.GetEffectiveFlatForOffenseIntent(this, "LearnIntentDamage");
         await FriendlyAmalgamCmd.ExecuteMultiHitOffense(choiceContext, amalgam, dmg, hitCount);
     }
 

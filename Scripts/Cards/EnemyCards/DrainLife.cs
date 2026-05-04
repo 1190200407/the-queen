@@ -55,7 +55,7 @@ public sealed class DrainLife : LearnIntentCardModel
         _ = choiceContext;
         _ = cardPlay;
 
-        decimal dmg = base.DynamicVars["LearnIntentDamage"].BaseValue;
+        decimal dmg = AmalgamLearnIntentDamageVar.GetEffectiveFlatForOffenseIntent(this, "LearnIntentDamage");
         decimal vulnerable = base.DynamicVars["LearnIntentVulnerable"].BaseValue;
         decimal weak = base.DynamicVars["LearnIntentWeak"].BaseValue;
 

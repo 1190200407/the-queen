@@ -65,7 +65,7 @@ public sealed class CorpseSlugHunger : QueenCardModel
                 await PowerCmd.Apply<AmalgamRavenousPower>(amalgam, stacks, base.Owner.Creature, this);
             }
 
-            decimal dmg = base.DynamicVars["LearnIntentDamage"].BaseValue;
+            decimal dmg = AmalgamLearnIntentDamageVar.GetEffectiveFlatForOffenseIntent(this, "LearnIntentDamage");
             AmalgamActionModel? intent = AmalgamActionRegistry.CreateOffense(dmg);
             await FriendlyAmalgamCmd.LearnIntent(choiceContext, base.Owner, intent, this);
         }

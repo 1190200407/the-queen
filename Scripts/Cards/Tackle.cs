@@ -37,7 +37,8 @@ public sealed class Tackle : LearnIntentCardModel
     {
         _ = choiceContext;
         _ = cardPlay;
-        AmalgamActionModel? intent = AmalgamActionRegistry.CreateOffense(learnIntentDamage);
+        decimal dmg = AmalgamLearnIntentDamageVar.GetEffectiveFlatForOffenseIntent(this, "LearnIntentDamage");
+        AmalgamActionModel? intent = AmalgamActionRegistry.CreateOffense(dmg);
         return Task.FromResult<IReadOnlyList<AmalgamActionModel?>>([intent]);
     }
 

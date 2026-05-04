@@ -23,8 +23,6 @@ public sealed class Suck : QueenCardModel
     private const bool shouldShowInCardLibrary = true;
     private const decimal suckStacks = 1m;
 
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
-
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         // 怪物牌不可升级：把 3(5) 落地为 5。

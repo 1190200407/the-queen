@@ -38,7 +38,7 @@ public sealed class Butt : LearnIntentCardModel
     {
         _ = choiceContext;
         _ = cardPlay;
-        decimal dmg = base.DynamicVars["LearnIntentDamage"].BaseValue;
+        decimal dmg = AmalgamLearnIntentDamageVar.GetEffectiveFlatForOffenseIntent(this, "LearnIntentDamage");
         return Task.FromResult<IReadOnlyList<AmalgamActionModel?>>([AmalgamActionRegistry.CreateOffense(dmg)]);
     }
 }

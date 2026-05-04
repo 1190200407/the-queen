@@ -70,7 +70,7 @@ public sealed class Headbutt : QueenCardModel
             await PowerCmd.Apply<AmalgamImbalancedPower>(amalgam, 1m, base.Owner.Creature, this);
         }
 
-        decimal damage = base.DynamicVars["LearnIntentDamage"].BaseValue;
+        decimal damage = AmalgamLearnIntentDamageVar.GetEffectiveFlatForOffenseIntent(this, "LearnIntentDamage");
         await FriendlyAmalgamCmd.CombineIntent(
             choiceContext,
             base.Owner,

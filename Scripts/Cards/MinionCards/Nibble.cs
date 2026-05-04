@@ -55,7 +55,7 @@ public sealed class Nibble : QueenCardModel
             return;
         }
 
-        decimal dmg = base.DynamicVars["LearnIntentDamage"].BaseValue;
+        decimal dmg = AmalgamLearnIntentDamageVar.GetEffectiveFlatForOffenseIntent(this, "LearnIntentDamage");
         if (dmg <= 0m)
         {
             return;

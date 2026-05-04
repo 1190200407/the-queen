@@ -53,7 +53,7 @@ public sealed class Flamethrower : LearnIntentCardModel
         _ = cardPlay;
         decimal draw = base.DynamicVars["LearnIntentDraw"].BaseValue;
         decimal burn = base.DynamicVars["LearnIntentBurn"].BaseValue;
-        decimal dmg = base.DynamicVars["LearnIntentDamage"].BaseValue;
+        decimal dmg = AmalgamLearnIntentDamageVar.GetEffectiveFlatForOffenseIntent(this, "LearnIntentDamage");
         return Task.FromResult<IReadOnlyList<AmalgamActionModel?>>(
         [
             new AmalgamFlamethrowerIntentAction(draw, burn, dmg),

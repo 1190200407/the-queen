@@ -67,7 +67,7 @@ public sealed class RollOut : QueenCardModel
             await PowerCmd.Apply<AmalgamSleepPower>(amalgam, 1m, base.Owner.Creature, this);
         }
 
-        decimal damage = base.DynamicVars["LearnIntentDamage"].BaseValue;
+        decimal damage = AmalgamLearnIntentDamageVar.GetEffectiveFlatForOffenseIntent(this, "LearnIntentDamage");
         decimal strength = base.DynamicVars["LearnIntentStrength"].BaseValue;
 
         await FriendlyAmalgamCmd.CombineIntent(
