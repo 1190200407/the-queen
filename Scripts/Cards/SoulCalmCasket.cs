@@ -30,8 +30,7 @@ public sealed class SoulCalmCasket : QueenCardModel
     private const CardRarity rarity = CardRarity.Ancient;
     private const TargetType targetType = TargetType.AnyEnemy;
     private const bool shouldShowInCardLibrary = true;
-    public override bool IsCapture =>
-        IsMutable && base.Owner.RunState?.CurrentRoom?.RoomType != RoomType.Boss;
+    public override bool IsCapture => IsMutable;
 
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Retain];
 
@@ -79,14 +78,9 @@ public sealed class SoulCalmCasket : QueenCardModel
         {
             return;
         }
-
-        Log.Info($"SoulCalmCasket: shouldTriggerFatal: {shouldTriggerFatal}, attackCommand.Results: {attackCommand.Results.Count(static r => r.WasTargetKilled)}");
-
-        Log.Info($"SoulCalmCasket: combatRoom: {combatRoom}");
+        
         if (shouldTriggerFatal
-            && attackCommand.Results.Any(static r => r.WasTargetKilled)
-            && base.CombatState?.RunState.CurrentRoom is CombatRoom
-            && base.Owner.RunState?.CurrentRoom?.RoomType != RoomType.Boss)
+            && attackCommand.Results.Any(static r => r.WasTargetKilled))
         {
             CardModel? reward = MonsterCaptureRewardCatalog.TryCreateCaptureRewardCard(base.Owner, target);
             if (reward is { } rewardCard)
