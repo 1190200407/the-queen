@@ -6,6 +6,7 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Hooks;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
@@ -14,6 +15,35 @@ using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Models.Powers;
 
 namespace ComicChess.TheQueen;
+
+/// <summary>饥饿倍率写入 Preview，与 Base 对比出 <c>{StrengthPower:diff()}</c> 绿字；避免默认 PowerVar 预览冲掉倍率。</summary>
+internal sealed class DevourStrengthPreviewVar : PowerVar<StrengthPower>
+{
+	public DevourStrengthPreviewVar()
+		: base(1m)
+	{
+	}
+
+	public override void UpdateCardPreview(CardModel card, CardPreviewMode previewMode, Creature? target, bool runGlobalHooks)
+	{
+		decimal amount = BaseValue;
+		if (runGlobalHooks && card.CombatState is not null && card.Owner?.Creature is { } dealer)
+		{
+			amount = Hook.ModifyPowerAmountGiven(
+				card.CombatState,
+				ModelDb.Power<StrengthPower>(),
+				dealer,
+				BaseValue,
+				target,
+				card,
+				out IEnumerable<AbstractModel> _);
+		}
+
+		PreviewValue = card.Owner?.Creature is { } c
+			? amount * HungerPower.DevourEffectMultiplier(c)
+			: amount;
+	}
+}
 
 [Pool(typeof(TokenCardPool))]
 public sealed class Devour : QueenCardModel
@@ -26,7 +56,7 @@ public sealed class Devour : QueenCardModel
 
 	public override IEnumerable<CardKeyword> CanonicalKeywords => [QueenKeyword.fade];
 
-	protected override IEnumerable<DynamicVar> CanonicalVars => [new PowerVar<StrengthPower>(1m)];
+	protected override IEnumerable<DynamicVar> CanonicalVars => [new DevourStrengthPreviewVar()];
 
 	protected override IEnumerable<IHoverTip> ExtraHoverTips => [
 		HoverTipFactory.FromPower<StrengthPower>(),
@@ -43,13 +73,12 @@ public sealed class Devour : QueenCardModel
 
 	public void SyncMultiplyVar()
 	{
-		if (base.Owner?.Creature is null)
+		if (base.Owner?.Creature is null || base.CombatState is null)
 		{
 			return;
 		}
 
-		decimal mul = HungerPower.DevourEffectMultiplier(base.Owner.Creature);
-		base.DynamicVars.Strength.BaseValue = BaseStrengthGain * mul;
+		base.UpdateDynamicVarPreview(CardPreviewMode.Normal, null, base.DynamicVars);
 	}
 
 	protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)

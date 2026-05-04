@@ -40,6 +40,7 @@ public sealed class AmalgamLearnIntentDamageVar : DamageVar
 			if (!card.IsEnchantmentPreview)
 			{
 				EnchantedValue = num;
+				BaseValue = num;
 			}
 		}
 
