@@ -14,7 +14,9 @@ namespace ComicChess.TheQueen;
 [Pool(typeof(EnemyCardPool))]
 public sealed class ToxicCard : LearnIntentCardModel
 {
-    private const decimal learnIntentDraw = 2m;
+    private const decimal learnIntentDraw = 1m;
+    private const int learnIntentEnchantAmount = 5;
+
     private const int energyCost = 2;
     private const CardType type = CardType.Skill;
     private const CardRarity rarity = CardRarity.Common;
@@ -25,6 +27,7 @@ public sealed class ToxicCard : LearnIntentCardModel
     [
         new SummonVar(7m).WithTooltip("QUEEN_SUMMON_DYNAMIC"),
         new IntVar("LearnIntentDraw", learnIntentDraw),
+        new IntVar("LearnIntentEnchantAmount", learnIntentEnchantAmount),
     ];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
@@ -47,7 +50,8 @@ public sealed class ToxicCard : LearnIntentCardModel
         _ = choiceContext;
         _ = cardPlay;
         decimal draw = base.DynamicVars["LearnIntentDraw"].BaseValue;
-        AmalgamActionModel? intent = AmalgamActionRegistry.CreateDrawAndEnchant<Toxic>(draw);
+        decimal enchantAmount = base.DynamicVars["LearnIntentEnchantAmount"].BaseValue;
+        AmalgamActionModel? intent = AmalgamActionRegistry.CreateDrawAndEnchantWithAmount<Toxic>(draw, enchantAmount);
         return Task.FromResult<IReadOnlyList<AmalgamActionModel?>>([intent]);
     }
 }

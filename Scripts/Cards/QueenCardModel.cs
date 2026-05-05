@@ -65,6 +65,7 @@ public abstract class QueenCardModel : CustomCardModel
             return Task.CompletedTask;
         }
 
+        CardCmd.ClearAffliction(card);
         return CardCmd.Afflict<Bound>(this, 1m);
     }
 

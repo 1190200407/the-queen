@@ -67,7 +67,8 @@
     "AMALGAM_SPECIAL_GRASPING_VINES.description":"这个聚合体将要使你获得[gold]缠结[/gold]，你的技能牌耗能-1。",
     "AMALGAM_SPECIAL_SMOGGY.description":"这个聚合体将要使你下回合获得[gold]烟雾弥漫[/gold],并使你下2张技能牌多打出一次。",
     "AMALGAM_SPECIAL_BEAST_CRY.description":"这个聚合体将要使所有敌人晕眩[blue]1[/blue]回合，并沉睡[blue]2[/blue]回合。",
-    "AMALGAM_DRAW_ENCHANT_AMOUNT.description":"这个聚合体将使你抽[blue]{Count}[/blue]张牌并附魔:[purple]{Enchantment}[/purple][blue]{EnchantAmount}[/blue]。",
+    "AMALGAM_DRAW_ENCHANT_AMOUNT.title":"抽牌",
+    "AMALGAM_DRAW_ENCHANT_AMOUNT.description":"这个聚合体将使你抽[blue]{Count}[/blue]张牌并附魔:[purple]{Enchantment}{EnchantAmount}[/purple]。",
     "AMALGAM_FLAMETHROWER.title":"策略",
     "AMALGAM_FLAMETHROWER.description":"这个聚合体将使你抽[blue]{Draw}[/blue]张牌并附魔:[purple]灼烧[/purple][blue]{EnchantAmount}[/blue]，并在下回合开始时造成[blue]{Damage}[/blue]点伤害。"
 }

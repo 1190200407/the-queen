@@ -56,11 +56,12 @@ public sealed class GluttonsFeast : QueenCardModel
 			return;
 		}
 
+		//TODO 明确IEnumerablez在遍历时被修改的问题
 		List<CardModel> devoursInExhaust = PileType.Exhaust.GetPile(owner).Cards.Where(static c => c is Devour).ToList();
 		bool firstAutoPlay = true;
-		foreach (CardModel card in devoursInExhaust)
+		for (int i = devoursInExhaust.Count - 1; i >= 0; i--)
 		{
-			await CardCmd.AutoPlay(choiceContext, card, cardPlay.Target, AutoPlayType.Default, skipXCapture: false, skipCardPileVisuals: !firstAutoPlay);
+			await CardCmd.AutoPlay(choiceContext, devoursInExhaust[i], cardPlay.Target, AutoPlayType.Default, skipXCapture: false, skipCardPileVisuals: !firstAutoPlay);
 			firstAutoPlay = false;
 		}
 

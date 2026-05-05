@@ -14,6 +14,8 @@ namespace ComicChess.TheQueen;
 public sealed class AmalgamDrawAndEnchantIntentAction<TEnchantment> : AmalgamActionModel
 	where TEnchantment : EnchantmentModel
 {
+	public static readonly float CastAnimDelay = 1.5f;
+
 	public AmalgamDrawAndEnchantIntentAction(decimal drawCount)
 		: base(drawCount)
 	{
@@ -41,6 +43,8 @@ public sealed class AmalgamDrawAndEnchantIntentAction<TEnchantment> : AmalgamAct
 		{
 			return;
 		}
+
+		await CreatureCmd.TriggerAnim(amalgam, "Buff", CastAnimDelay);
 
 		IEnumerable<CardModel> drawn = await CardPileCmd.Draw(choiceContext, Amount, owner);
 		foreach (CardModel card in drawn)

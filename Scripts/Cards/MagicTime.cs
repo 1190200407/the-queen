@@ -46,6 +46,7 @@ public sealed class MagicTime : QueenCardModel
 
 		foreach (CardModel card in player.PlayerCombatState.AllCards.ToList())
 		{
+			CardCmd.ClearAffliction(card);
 			await CardCmd.Afflict<Bound>(card, 1m);
 		}
 

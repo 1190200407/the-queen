@@ -15,7 +15,7 @@ namespace ComicChess.TheQueen;
 [Pool(typeof(QueenCardPool))]
 public sealed class TerminusForm : QueenCardModel
 {
-    private const decimal summonBase = 10m;
+    private const decimal summonBase = 13m;
     private const int energyCost = 3;
     private const CardType type = CardType.Power;
     private const CardRarity rarity = CardRarity.Rare;
@@ -39,10 +39,5 @@ public sealed class TerminusForm : QueenCardModel
         await FriendlyAmalgamCmd.Summon(choiceContext, base.Owner, base.DynamicVars.Summon.BaseValue, this);
         decimal terminusStacks = IsUpgraded ? 2m : 1m;
         await PowerCmd.Apply<TerminusFormPower>(base.Owner.Creature, terminusStacks, base.Owner.Creature, this);
-    }
-
-    protected override void OnUpgrade()
-    {
-        base.DynamicVars.Summon.UpgradeValueBy(5m);
     }
 }

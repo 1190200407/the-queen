@@ -40,7 +40,7 @@ public sealed class AmalgamFlamethrowerIntentAction : AmalgamActionModel
         return new MoveState(
             "AMALGAM_INTENT_FLAMETHROWER",
             _ => Task.CompletedTask,
-            new AmalgamDrawAndEnchantWithAmountIntent(_draw, ModelDb.Enchantment<Burn>().Id.Entry, _enchantAmount),
+            new AmalgamDrawAndEnchantWithAmountIntent<Burn>(_draw, _enchantAmount),
             new AmalgamGainBuffIntent("COMICCHESS-AMALGAM_NEXT_ROUND_ATTACK_POWER", _nextTurnDamage));
     }
 

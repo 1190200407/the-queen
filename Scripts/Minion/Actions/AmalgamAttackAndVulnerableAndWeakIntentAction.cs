@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -111,7 +110,12 @@ public sealed class AmalgamAttackAndVulnerableAndWeakIntentAction : AmalgamActio
             }
         }
 
-        Creature randomEnemy = alive[Random.Shared.Next(alive.Length)];
+        Creature? randomEnemy = FriendlyAmalgamCmd.NextRandomHittableEnemy(queen, alive);
+        if (randomEnemy is not { IsAlive: true })
+        {
+            return;
+        }
+
         await FriendlyAmalgamCmd.ExecuteSingleTargetAttack(
             choiceContext,
             amalgam,
@@ -162,7 +166,12 @@ public sealed class AmalgamAttackAndVulnerableAndWeakIntentAction : AmalgamActio
             return;
         }
 
-        Creature randomEnemy = alive[Random.Shared.Next(alive.Length)];
+        Creature? randomEnemy = FriendlyAmalgamCmd.NextRandomHittableEnemy(queen, alive);
+        if (randomEnemy is not { IsAlive: true })
+        {
+            return;
+        }
+
         await PowerCmd.Apply<VulnerablePower>(randomEnemy, _vulnerable, applier, null);
     }
 
@@ -206,7 +215,12 @@ public sealed class AmalgamAttackAndVulnerableAndWeakIntentAction : AmalgamActio
             return;
         }
 
-        Creature randomEnemy = alive[Random.Shared.Next(alive.Length)];
+        Creature? randomEnemy = FriendlyAmalgamCmd.NextRandomHittableEnemy(queen, alive);
+        if (randomEnemy is not { IsAlive: true })
+        {
+            return;
+        }
+
         await PowerCmd.Apply<WeakPower>(randomEnemy, _weak, applier, null);
     }
 }

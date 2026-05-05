@@ -24,7 +24,11 @@ public sealed class Burn : QueenEnchantmentModel
 
     public override bool CanEnchant(CardModel card)
     {
-        return card.CanPlay();
+        if (!base.CanEnchant(card))
+        {
+            return false;
+        }
+        return card.Enchantment is null;
     }
 
     public override async Task BeforeTurnEnd(PlayerChoiceContext choiceContext, CombatSide side)

@@ -94,7 +94,12 @@ public sealed class AmalgamMultiHitOffenseAndWeakIntentAction : AmalgamActionMod
             return;
         }
 
-        Creature randomEnemy = alive[System.Random.Shared.Next(alive.Length)];
+        Creature? randomEnemy = FriendlyAmalgamCmd.NextRandomHittableEnemy(queen, alive);
+        if (randomEnemy is not { IsAlive: true })
+        {
+            return;
+        }
+
         await PowerCmd.Apply<WeakPower>(randomEnemy, _weak, applier, null);
     }
 }

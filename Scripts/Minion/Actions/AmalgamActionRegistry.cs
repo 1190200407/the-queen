@@ -143,6 +143,17 @@ public static class AmalgamActionRegistry
         return new AmalgamDrawAndEnchantIntentAction<TEnchantment>(count);
     }
 
+    public static AmalgamActionModel? CreateDrawAndEnchantWithAmount<TEnchantment>(decimal count, decimal enchantAmount)
+        where TEnchantment : EnchantmentModel
+    {
+        if (count <= 0m || enchantAmount <= 0m)
+        {
+            return null;
+        }
+
+        return new AmalgamDrawAndEnchantWithAmountIntentAction<TEnchantment>(count, enchantAmount);
+    }
+
     public static AmalgamActionModel? CreateAttackAndStrength(decimal damage, decimal strength)
     {
         if (damage <= 0m || strength <= 0m)

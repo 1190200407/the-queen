@@ -530,6 +530,7 @@ public class FriendlyAmalgam : QueenMinionModel
 
     public async Task LearnIntent(PlayerChoiceContext choiceContext, AmalgamActionModel intent)
     {
+        Log.Info($"LearnIntent: {intent.GetType().Name} {Creature.PetOwner?.NetId}");
         int emptySlot = FirstEmptyTorchSlotIndex();
         if (emptySlot < 0)
         {

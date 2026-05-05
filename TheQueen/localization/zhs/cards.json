@@ -311,7 +311,7 @@
     "COMICCHESS-GOOP.title":"粘液",
     "COMICCHESS-GOOP.description":"[gold]学习意图[/gold]：抽{LearnIntentDraw:diff()}张牌，并附魔：[purple]黏液[/purple]",
     "COMICCHESS-TOXIC_CARD.title":"剧毒",
-    "COMICCHESS-TOXIC_CARD.description":"[gold]召唤[/gold]{Summon:diff()}。\n[gold]学习意图[/gold]：抽{LearnIntentDraw:diff()}张牌，并附魔：[gold]毒素[/gold]。",
+    "COMICCHESS-TOXIC_CARD.description":"[gold]召唤[/gold]{Summon:diff()}。\n[gold]学习意图[/gold]：抽{LearnIntentDraw:diff()}张牌，并附魔：[purple]毒素{LearnIntentEnchantAmount:diff()}[/purple]。",
     "COMICCHESS-STICKY_SHOT.title":"粘性射击",
     "COMICCHESS-STICKY_SHOT.description":"[gold]学习意图[/gold]：抽{LearnIntentDraw:diff()}张牌，并附魔：[purple]黏液[/purple]",
     "COMICCHESS-GIMME.title":"给我！",

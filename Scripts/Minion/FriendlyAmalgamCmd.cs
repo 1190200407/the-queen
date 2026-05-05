@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MegaCrit.Sts2.Core.Random;
 using Godot;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
@@ -34,9 +35,13 @@ public static class FriendlyAmalgamCmd
 
     public static Creature? GetExisting(CombatState combatState, Player owner)
     {
-        return combatState.Allies.FirstOrDefault(c =>
+        return owner.Creature.Pets.FirstOrDefault(c =>
             c.PetOwner == owner && c.Monster is FriendlyAmalgam);
     }
+
+    /// <summary>与原版 <see cref="MegaCrit.Sts2.Core.Commands.CardCmd"/> / <see cref="MegaCrit.Sts2.Core.Commands.Builders.AttackCommand"/> 一致，使用女王的 <see cref="Rng.CombatTargets"/>，保证联机下随机选敌一致。</summary>
+    public static Creature? NextRandomHittableEnemy(Player queen, IEnumerable<Creature> aliveEnemies) =>
+        queen.RunState.Rng.CombatTargets.NextItem(aliveEnemies);
 
     private static async Task<Creature> AddAmalgamPetAsync(Player owner, MinionSummonOptions options)
     {
@@ -485,7 +490,12 @@ public static class FriendlyAmalgamCmd
                 }
             }
 
-            Creature randomEnemy = alive[Random.Shared.Next(alive.Length)];
+            Creature? randomEnemy = NextRandomHittableEnemy(queen, alive);
+            if (randomEnemy is not { IsAlive: true })
+            {
+                continue;
+            }
+
             VfxCmd.PlayOnCreatureCenter(randomEnemy, hitVfxPath);
             IEnumerable<DamageResult> randomHit =
                 await CreatureCmd.Damage(choiceContext, randomEnemy, damagePerHit, ValueProp.Move, amalgam, null);

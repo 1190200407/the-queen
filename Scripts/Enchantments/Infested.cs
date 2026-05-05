@@ -11,6 +11,10 @@ public sealed class Infested : QueenEnchantmentModel, ILearnIntentDamageBonusEnc
 
     public override bool CanEnchant(CardModel card)
     {
+        if (!base.CanEnchant(card))
+        {
+            return false;
+        }
         if (card is not LearnIntentCardModel)
         {
             return false;

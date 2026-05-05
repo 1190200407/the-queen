@@ -100,7 +100,12 @@ public sealed class AmalgamHauntIntentAction : AmalgamActionModel
             return;
         }
 
-        Creature randomEnemy = alive[System.Random.Shared.Next(alive.Length)];
+        Creature? randomEnemy = FriendlyAmalgamCmd.NextRandomHittableEnemy(queen, alive);
+        if (randomEnemy is not { IsAlive: true })
+        {
+            return;
+        }
+
         await ApplyAll(randomEnemy);
     }
 }

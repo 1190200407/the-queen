@@ -83,7 +83,12 @@ public sealed class AmalgamApplyVulnerableIntentAction : AmalgamActionModel
             return;
         }
 
-        Creature randomEnemy = alive[System.Random.Shared.Next(alive.Length)];
+        Creature? randomEnemy = FriendlyAmalgamCmd.NextRandomHittableEnemy(queen, alive);
+        if (randomEnemy is not { IsAlive: true })
+        {
+            return;
+        }
+
         await PowerCmd.Apply<VulnerablePower>(randomEnemy, Amount, applier, null);
     }
 }

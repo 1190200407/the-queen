@@ -4,6 +4,8 @@ using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Models.Afflictions;
 
 namespace ComicChess.TheQueen;
 
@@ -17,7 +19,13 @@ public sealed class MagicTimePower : QueenPowerModel
 
 	public override PowerStackType StackType => PowerStackType.Counter;
 
-	internal static async Task TryAutoRefillSoulLamp(Player player)
+    public override async Task AfterCardEnteredCombat(CardModel card)
+    {
+		CardCmd.ClearAffliction(card);
+        await CardCmd.Afflict<Bound>(card, 1m);
+    }
+
+    internal static async Task TryAutoRefillSoulLamp(Player player)
 	{
 		if (player?.Creature == null || player.PlayerCombatState == null)
 		{

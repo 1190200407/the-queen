@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 using MegaCrit.Sts2.Core.Combat;
@@ -95,7 +94,12 @@ public sealed class AmalgamOffenseIntentAction : AmalgamActionModel
             }
         }
 
-        Creature randomEnemy = alive[Random.Shared.Next(alive.Length)];
+        Creature? randomEnemy = FriendlyAmalgamCmd.NextRandomHittableEnemy(queen, alive);
+        if (randomEnemy is not { IsAlive: true })
+        {
+            return;
+        }
+
         await FriendlyAmalgamCmd.ExecuteSingleTargetAttack(
             choiceContext,
             amalgam,

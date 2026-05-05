@@ -15,11 +15,6 @@ public sealed class Slimed : QueenEnchantmentModel
     protected override IEnumerable<DynamicVar> CanonicalVars => [new CardsVar(1)];
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromKeyword(CardKeyword.Exhaust)];
 
-    public override bool CanEnchant(CardModel card)
-    {
-        return card.CanPlay();
-    }
-
     protected override void OnEnchant()
     {
         Card.AddKeyword(CardKeyword.Exhaust);
