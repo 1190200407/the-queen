@@ -30,6 +30,8 @@ public static class FriendlyAmalgamCmd
 
     private const float AmalgamIntentAnchorLocalYMax = 80f;
 
+    private const string AmalgamIntentSyncTweenMeta = "TheQueen_AmalgamIntentSyncTween";
+
     public static Creature? GetExisting(CombatState combatState, Player owner)
     {
         return combatState.Allies.FirstOrDefault(c =>
@@ -64,7 +66,7 @@ public static class FriendlyAmalgamCmd
         p.Position = o.Position + new Vector2(320f, -75f);
     }
 
-    /// <summary>按 <see cref="Creature.MaxHp"/> 更新聚合体显示缩放（与奥斯提相同 <see cref="Osty.ScaleRange"/> 与 150 参考生命）；用 <see cref="NCreature.ScaleTo"/>，不移动节点位置。</summary>
+    /// <summary>按 <see cref="Creature.MaxHp"/> 更新聚合体显示缩放（与奥斯提相同 <see cref="Osty.ScaleRange"/> 与 150 参考生命）；用 <see cref="NCreature.ScaleTo"/>，不移动节点位置。体型只增不减（当前血量变小时保持已有显示倍率）。</summary>
     public static void TryRefreshAmalgamScaleFromMaxHp(Creature amalgamCreature, float durationSeconds = AmalgamScaleTweenOnHpChange)
     {
         if (TestMode.IsOn || amalgamCreature.Monster is not FriendlyAmalgam)
@@ -79,24 +81,51 @@ public static class FriendlyAmalgamCmd
         }
 
         float t = Mathf.Clamp((float)amalgamCreature.MaxHp / AmalgamScaleMaxHpReference, 0f, 1f);
-        float scaleMul = Mathf.Lerp(Osty.ScaleRange.X, Osty.ScaleRange.Y, t);
+        float fromHp = Mathf.Lerp(Osty.ScaleRange.X, Osty.ScaleRange.Y, t);
+        float defaultScale = node.Visuals.DefaultScale;
+        float currentMul = defaultScale > 0f ? node.Visuals.Scale.X / defaultScale : Osty.ScaleRange.X;
+        float scaleMul = Mathf.Max(fromHp, currentMul);
         node.ScaleTo(scaleMul, durationSeconds);
 
         if (durationSeconds <= 0f)
         {
             Callable.From(() => SyncAmalgamIntentContainerToIntentMarker(node)).CallDeferred();
+            return;
         }
-        else if (node.GetTree() is { } tree)
+
+        if (node.HasMeta(AmalgamIntentSyncTweenMeta))
         {
-            SceneTreeTimer timer = tree.CreateTimer(durationSeconds);
-            timer.Timeout += () =>
+            Variant metaV = node.GetMeta(AmalgamIntentSyncTweenMeta);
+            if (metaV.VariantType == Variant.Type.Object && metaV.AsGodotObject() is Tween oldTween && GodotObject.IsInstanceValid(oldTween))
+            {
+                oldTween.Kill();
+            }
+
+            node.RemoveMeta(AmalgamIntentSyncTweenMeta);
+        }
+
+        Tween intentSyncTween = node.CreateTween();
+        node.SetMeta(AmalgamIntentSyncTweenMeta, intentSyncTween);
+        intentSyncTween.Finished += () =>
+        {
+            if (GodotObject.IsInstanceValid(node) && node.HasMeta(AmalgamIntentSyncTweenMeta)
+                && node.GetMeta(AmalgamIntentSyncTweenMeta).AsGodotObject() == intentSyncTween)
+            {
+                node.RemoveMeta(AmalgamIntentSyncTweenMeta);
+            }
+        };
+
+        intentSyncTween.TweenMethod(
+            Callable.From<float>(_ =>
             {
                 if (GodotObject.IsInstanceValid(node))
                 {
                     SyncAmalgamIntentContainerToIntentMarker(node);
                 }
-            };
-        }
+            }),
+            0f,
+            1f,
+            durationSeconds);
     }
 
     private static void SyncAmalgamIntentContainerToIntentMarker(NCreature creatureNode)
