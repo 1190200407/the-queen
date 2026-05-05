@@ -23,29 +23,32 @@ namespace ComicChess.TheQueen;
 /// <summary>
 /// 在敌人 <see cref="NCreatureVisuals.IntentPosition"/> 上挂奖励/预览用 <see cref="NCard"/>。
 /// 四函数：显示全部、隐藏全部、放大某一怪、缩小某一怪；供捕获及后续其它预览复用。
-/// 放大时对该预览 <see cref="NCard"/> 的模型显示 <see cref="NHoverTipSet"/>（随卡移动），缩小时移除。
-/// Hover tip 位置：<see cref="NHoverTipSet.CreateAndShow"/> 内用私有的 SetAlignment(owner, alignment)；
-/// alignment 来自 <see cref="HoverTip.GetHoverTipAlignment(Control, float)"/>（手牌用 <see cref="NCardHolder"/> 的 SetAlignmentForCardHolder，与裸 <see cref="NCard"/> 不同）。
-/// 在本类用 <see cref="EnlargedHoverTipAlignmentThreshold"/> / <see cref="EnlargedHoverTipExtraFollowOffset"/> 微调即可，一般不必改 <see cref="NCard"/>。
+/// 放大时对该预览 <see cref="NCard"/> 的模型显示 <see cref="NHoverTipSet"/>：文字 <see cref="HoverTip"/> 与 <see cref="CardHoverTip"/> 各用独立 owner 锚点，便于分别调 <see cref="NHoverTipSet.SetExtraFollowOffset"/> / 对齐阈值；缩小时对两锚点各 <see cref="NHoverTipSet.Remove"/>。
+/// 锚点与卡面同父、同局部矩形（<see cref="CardPositionInAnchor"/> + <see cref="NCard.defaultSize"/>），随 <see cref="IntentRewardPreviewRoot"/> 缩放。
 /// 叠放：放大时 <see cref="IntentRewardPreviewRoot"/> 挂到 <see cref="NRun.GlobalUi"/> 顶层；hover tip 提高 <see cref="Control.ZIndex"/> 并移到 <see cref="NGame.HoverTipsContainer"/> 子节点末尾。夹紧在放大时显式调用，不按帧跟随意图点。
 /// </summary>
 internal static partial class EnemyIntentRewardCardPreview
 {
-    /// <summary>
-    /// <see cref="HoverTip.GetHoverTipAlignment(Control, float)"/> 的屏幕分界线（原版默认 0.75；<see cref="NCreature"/> 自身提示用 0.5）。
-    /// </summary>
-    private const float EnlargedHoverTipAlignmentThreshold = 0.5f;
+    /// <summary>文字类 <see cref="HoverTip"/> 条带用 <see cref="HoverTip.GetHoverTipAlignment(Control, float)"/> 时的屏幕分界线。</summary>
+    private const float EnlargedTextHoverTipAlignmentThreshold = 0.5f;
 
-    /// <summary>
-    /// <see cref="NHoverTipSet.SetExtraFollowOffset"/>：在 <see cref="NHoverTipSet.SetFollowOwner"/> 之后每帧叠加的全局偏移（正右、正下）。
-    /// </summary>
-    private static readonly Vector2 EnlargedHoverTipExtraFollowOffset = new Vector2(-350f, -120f);
+    /// <summary><see cref="CardHoverTip"/> 卡图条带用 <see cref="HoverTip.GetHoverTipAlignment(Control, float)"/> 时的屏幕分界线。</summary>
+    private const float EnlargedCardHoverTipAlignmentThreshold = 0.5f;
+
+    /// <summary>仅文字 hover 的 <see cref="NHoverTipSet.SetExtraFollowOffset"/>（正右、正下）。</summary>
+    private static readonly Vector2 EnlargedTextHoverTipExtraFollowOffset = new Vector2(-135f, -120f);
+
+    /// <summary>仅卡图 hover 的 <see cref="NHoverTipSet.SetExtraFollowOffset"/>（正右、正下）。</summary>
+    private static readonly Vector2 EnlargedCardHoverTipExtraFollowOffset = new Vector2(-500f, -120f);
 
     /// <summary>放大预览根挂在 <see cref="NRun.GlobalUi"/> 上时的 <see cref="Control.ZIndex"/>（需高于手牌 holder）。</summary>
     private const int EnlargedPreviewZOnGlobalUi = 160;
 
-    /// <summary>捕获预览 hover tip 在 <see cref="NGame.HoverTipsContainer"/> 内相对其它 tip 的叠放。</summary>
-    private const int EnlargedPreviewHoverTipZIndex = 320;
+    /// <summary>捕获预览文字类 hover 在 <see cref="NGame.HoverTipsContainer"/> 内相对其它 tip 的叠放。</summary>
+    private const int EnlargedPreviewTextHoverTipZIndex = 320;
+
+    /// <summary>卡图类 hover 叠在文字条带之上。</summary>
+    private const int EnlargedPreviewCardHoverTipZIndex = EnlargedPreviewTextHoverTipZIndex + 1;
 
     private const string CardScenePath = "res://scenes/cards/card.tscn";
 
@@ -526,6 +529,25 @@ internal static partial class EnemyIntentRewardCardPreview
             return;
         }
 
+        List<IHoverTip> textTips = new();
+        List<IHoverTip> cardTips = new();
+        foreach (IHoverTip item in IHoverTip.RemoveDupes(model.HoverTips))
+        {
+            if (item is CardHoverTip)
+            {
+                cardTips.Add(item);
+            }
+            else if (item is HoverTip)
+            {
+                textTips.Add(item);
+            }
+        }
+
+        if (textTips.Count == 0 && cardTips.Count == 0)
+        {
+            return;
+        }
+
         // 单体选目标时 NTargetManager 会置 shouldBlockHoverTips，CreateAndShow 会跳过 Init 导致 NRE。
         // 仅在为捕获预览卡展示 tip 的极短窗口内临时解除屏蔽，与 FinishTargeting 的清屏语义一致。
         bool hoverTipsWereBlocked = NHoverTipSet.shouldBlockHoverTips;
@@ -536,26 +558,35 @@ internal static partial class EnemyIntentRewardCardPreview
 
         try
         {
-            NHoverTipSet.Remove(slot.Card);
-            HoverTipAlignment alignment = HoverTip.GetHoverTipAlignment(slot.Card, EnlargedHoverTipAlignmentThreshold);
-            NHoverTipSet tipSet = NHoverTipSet.CreateAndShow(slot.Card, model.HoverTips, alignment);
-            tipSet.SetFollowOwner();
-            tipSet.SetExtraFollowOffset(EnlargedHoverTipExtraFollowOffset);
-            tipSet.ZAsRelative = false;
-            tipSet.ZIndex = EnlargedPreviewHoverTipZIndex;
-            if (NGame.Instance?.HoverTipsContainer is Node hoverTips)
-            {
-                NHoverTipSet tipRef = tipSet;
-                Callable.From(() =>
-                {
-                    if (!GodotObject.IsInstanceValid(hoverTips) || !GodotObject.IsInstanceValid(tipRef)
-                        || tipRef.GetParent() != hoverTips)
-                    {
-                        return;
-                    }
+            NHoverTipSet.Remove(slot.TextHoverTipAnchor);
+            NHoverTipSet.Remove(slot.CardHoverTipAnchor);
 
-                    hoverTips.MoveChild(tipRef, hoverTips.GetChildCount() - 1);
-                }).CallDeferred();
+            Node? hoverTipsContainer = NGame.Instance?.HoverTipsContainer;
+
+            if (textTips.Count > 0 && GodotObject.IsInstanceValid(slot.TextHoverTipAnchor))
+            {
+                HoverTipAlignment textAlign = HoverTip.GetHoverTipAlignment(
+                    slot.TextHoverTipAnchor,
+                    EnlargedTextHoverTipAlignmentThreshold);
+                NHoverTipSet textSet = NHoverTipSet.CreateAndShow(slot.TextHoverTipAnchor, textTips, textAlign);
+                ConfigureEnlargedHoverTipSet(
+                    textSet,
+                    EnlargedTextHoverTipExtraFollowOffset,
+                    EnlargedPreviewTextHoverTipZIndex,
+                    hoverTipsContainer);
+            }
+
+            if (cardTips.Count > 0 && GodotObject.IsInstanceValid(slot.CardHoverTipAnchor))
+            {
+                HoverTipAlignment cardAlign = HoverTip.GetHoverTipAlignment(
+                    slot.CardHoverTipAnchor,
+                    EnlargedCardHoverTipAlignmentThreshold);
+                NHoverTipSet cardSet = NHoverTipSet.CreateAndShow(slot.CardHoverTipAnchor, cardTips, cardAlign);
+                ConfigureEnlargedHoverTipSet(
+                    cardSet,
+                    EnlargedCardHoverTipExtraFollowOffset,
+                    EnlargedPreviewCardHoverTipZIndex,
+                    hoverTipsContainer);
             }
 
             slot.HoverTipsShownForEnlarged = true;
@@ -569,14 +600,43 @@ internal static partial class EnemyIntentRewardCardPreview
         }
     }
 
-    private static void RemoveEnlargedPreviewHoverTip(Slot slot)
+    private static void ConfigureEnlargedHoverTipSet(
+        NHoverTipSet tipSet,
+        Vector2 extraFollowOffset,
+        int zIndex,
+        Node? hoverTipsContainer)
     {
-        if (!slot.HoverTipsShownForEnlarged || !GodotObject.IsInstanceValid(slot.Card))
+        tipSet.SetFollowOwner();
+        tipSet.SetExtraFollowOffset(extraFollowOffset);
+        tipSet.ZAsRelative = false;
+        tipSet.ZIndex = zIndex;
+        if (hoverTipsContainer is null || !GodotObject.IsInstanceValid(hoverTipsContainer))
         {
             return;
         }
 
-        NHoverTipSet.Remove(slot.Card);
+        NHoverTipSet tipRef = tipSet;
+        Callable.From(() =>
+        {
+            if (!GodotObject.IsInstanceValid(hoverTipsContainer) || !GodotObject.IsInstanceValid(tipRef)
+                || tipRef.GetParent() != hoverTipsContainer)
+            {
+                return;
+            }
+
+            hoverTipsContainer.MoveChild(tipRef, hoverTipsContainer.GetChildCount() - 1);
+        }).CallDeferred();
+    }
+
+    private static void RemoveEnlargedPreviewHoverTip(Slot slot)
+    {
+        if (!slot.HoverTipsShownForEnlarged)
+        {
+            return;
+        }
+
+        NHoverTipSet.Remove(slot.TextHoverTipAnchor);
+        NHoverTipSet.Remove(slot.CardHoverTipAnchor);
         slot.HoverTipsShownForEnlarged = false;
     }
 
@@ -632,6 +692,11 @@ internal static partial class EnemyIntentRewardCardPreview
         scaleRoot.CustomMinimumSize = NCard.defaultSize;
         marker.AddChildSafely(scaleRoot);
 
+        Control textHoverTipAnchor = CreateHoverTipLayoutAnchor("TextHoverTipAnchor");
+        Control cardHoverTipAnchor = CreateHoverTipLayoutAnchor("CardHoverTipAnchor");
+        scaleRoot.AddChildSafely(textHoverTipAnchor);
+        scaleRoot.AddChildSafely(cardHoverTipAnchor);
+
         NCard card = PreloadManager.Cache.GetScene(CardScenePath).Instantiate<NCard>(PackedScene.GenEditState.Disabled);
         card.Visible = false;
         scaleRoot.AddChildSafely(card);
@@ -640,7 +705,19 @@ internal static partial class EnemyIntentRewardCardPreview
         EnsureIntentPreviewCardHasLayoutSize(card);
         scaleRoot.BindPreviewCard(card);
         scaleRoot.Visible = false;
-        return new Slot(scaleRoot, card);
+        return new Slot(scaleRoot, card, textHoverTipAnchor, cardHoverTipAnchor);
+    }
+
+    private static Control CreateHoverTipLayoutAnchor(string name)
+    {
+        return new Control
+        {
+            Name = name,
+            MouseFilter = Control.MouseFilterEnum.Ignore,
+            Position = CardPositionInAnchor,
+            CustomMinimumSize = NCard.defaultSize,
+            Size = NCard.defaultSize,
+        };
     }
 
     /// <summary>
@@ -751,11 +828,19 @@ internal static partial class EnemyIntentRewardCardPreview
         }
     }
 
-    private sealed class Slot(IntentRewardPreviewRoot scaleRoot, NCard card)
+    private sealed class Slot(
+        IntentRewardPreviewRoot scaleRoot,
+        NCard card,
+        Control textHoverTipAnchor,
+        Control cardHoverTipAnchor)
     {
         public readonly IntentRewardPreviewRoot ScaleRoot = scaleRoot;
 
         public readonly NCard Card = card;
+
+        public readonly Control TextHoverTipAnchor = textHoverTipAnchor;
+
+        public readonly Control CardHoverTipAnchor = cardHoverTipAnchor;
 
         public Tween? ScaleTween;
 
