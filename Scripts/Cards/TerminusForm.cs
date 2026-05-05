@@ -15,7 +15,7 @@ namespace ComicChess.TheQueen;
 [Pool(typeof(QueenCardPool))]
 public sealed class TerminusForm : QueenCardModel
 {
-    private const decimal summonBase = 20m;
+    private const decimal summonBase = 10m;
     private const int energyCost = 3;
     private const CardType type = CardType.Power;
     private const CardRarity rarity = CardRarity.Rare;

@@ -74,6 +74,6 @@ public sealed class MagicPigment : QueenCardModel
             await CardCmd.Afflict<Bound>(card, 1m);
         }
 
-        await QueenCardCmd.AddSoulLamp(base.Owner, 1);
+        await QueenCardCmd.AddSoulLamp(base.Owner, 2);
     }
 }
