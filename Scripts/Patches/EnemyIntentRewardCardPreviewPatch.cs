@@ -37,7 +37,7 @@ internal static class CaptureSingleTargetPreviewEntry
         }
 
         CardModel? card = Traverse.Create(play).Property("Card").GetValue<CardModel>();
-        if (card is null || !(card is QueenCardModel queenCard && queenCard.IsCapture))
+        if (card is null || card is not ICanMonsterCapture cap)
         {
             return;
         }
@@ -50,7 +50,38 @@ internal static class CaptureSingleTargetPreviewEntry
         }
 
         IReadOnlyList<Creature> enemies = combat.GetOpponentsOf(owner.Creature).Where(static c => c.IsHittable).ToList();
-        EnemyIntentRewardCardPreview.ShowAllRewardCards(owner, enemies, CaptureRewardPreviewRules.TryCreatePreviewCard);
+        bool anyPreview = false;
+        foreach (Creature e in enemies)
+        {
+            if (e.Monster is null || !cap.CanCapture(e.Monster, combat))
+            {
+                continue;
+            }
+
+            if (CaptureRewardPreviewRules.TryCreatePreviewCard(owner, e) is not null)
+            {
+                anyPreview = true;
+                break;
+            }
+        }
+
+        if (!anyPreview)
+        {
+            return;
+        }
+
+        EnemyIntentRewardCardPreview.ShowAllRewardCards(
+            owner,
+            enemies,
+            (o, target) =>
+            {
+                if (target.Monster is null || !cap.CanCapture(target.Monster, combat))
+                {
+                    return null;
+                }
+
+                return CaptureRewardPreviewRules.TryCreatePreviewCard(o, target);
+            });
     }
 }
 
@@ -81,8 +112,15 @@ internal static class EnemyIntentRewardCardPreview_NCard_SetPreviewTarget_Patch
     private static void Postfix(NCard __instance, Creature? creature)
     {
         CardModel? played = __instance.Model;
-        if (played is null || !(played is QueenCardModel queenCard && queenCard.IsCapture))
+        if (played is null || played is not ICanMonsterCapture cap)
         {
+            return;
+        }
+
+        if (creature is null || creature.Monster is null || played.CombatState is not CombatState combat
+            || !cap.CanCapture(creature.Monster, combat))
+        {
+            EnemyIntentRewardCardPreview.SyncEnlargeWithPreviewTarget(null);
             return;
         }
 

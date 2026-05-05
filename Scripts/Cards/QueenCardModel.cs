@@ -110,8 +110,6 @@ public abstract class QueenCardModel : CustomCardModel
 
     public override bool HasBuiltInOverlay => HasSelfBound;
 
-    public virtual bool IsCapture => false;
-
     public QueenCardModel(int energyCost, CardType type, CardRarity rarity, TargetType targetType, bool shouldShowInCardLibrary) : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
     {
     }

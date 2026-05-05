@@ -4,19 +4,22 @@ using System.Threading.Tasks;
 using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Commands.Builders;
+using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.CardPools;
+using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.ValueProps;
 
 namespace ComicChess.TheQueen;
 
 /// <summary>宣告：造成伤害并施加 2 回合内死亡可捕获的标记。</summary>
 [Pool(typeof(QueenCardPool))]
-public sealed class Declaration : QueenCardModel
+public sealed class Declaration : QueenCardModel, ICanMonsterCapture
 {
     private const int energyCost = 1;
     private const CardType type = CardType.Attack;
@@ -24,12 +27,20 @@ public sealed class Declaration : QueenCardModel
     private const TargetType targetType = TargetType.AnyEnemy;
     private const bool shouldShowInCardLibrary = true;
 
+    public bool CanCapture(MonsterModel monster, CombatState combatState) =>
+        monster is not null && combatState is not null
+        && (combatState.Encounter?.RoomType switch
+        {
+            RoomType.Boss => false,
+            RoomType.Elite => IsUpgraded,
+            _ => true,
+        });
+
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(7m, ValueProp.Move)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [QueenHoverTips.Capture];
-    public override bool IsCapture => true;
 
     public Declaration()
         : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)

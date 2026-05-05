@@ -23,14 +23,16 @@ namespace ComicChess.TheQueen;
 
 /// <summary>镇魂匣：保留；低血目标双倍伤害；斩杀时捕获目标。</summary>
 [Pool(typeof(QueenCardPool))]
-public sealed class SoulCalmCasket : QueenCardModel
+public sealed class SoulCalmCasket : QueenCardModel, ICanMonsterCapture
 {
     private const int energyCost = 1;
     private const CardType type = CardType.Attack;
     private const CardRarity rarity = CardRarity.Ancient;
     private const TargetType targetType = TargetType.AnyEnemy;
     private const bool shouldShowInCardLibrary = true;
-    public override bool IsCapture => IsMutable;
+
+    public bool CanCapture(MonsterModel monster, CombatState combatState) =>
+        monster is not null && combatState is not null && IsMutable;
 
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Retain];
 

@@ -2,6 +2,7 @@ using System;
 using System.Reflection;
 using System.Threading.Tasks;
 using BaseLib.Utils;
+using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -19,14 +20,16 @@ namespace ComicChess.TheQueen;
 
 /// <summary>提线木偶：获得目标对应敌怪卡，3 回合后将其永久加入牌组。</summary>
 [Pool(typeof(QueenCardPool))]
-public sealed class Marionette : QueenCardModel
+public sealed class Marionette : QueenCardModel, ICanMonsterCapture
 {
     private const int energyCost = 1;
     private const CardType type = CardType.Power;
     private const CardRarity rarity = CardRarity.Rare;
     private const TargetType targetType = TargetType.AnyEnemy;
     private const bool shouldShowInCardLibrary = true;
-    public override bool IsCapture => true;
+
+    public bool CanCapture(MonsterModel monster, CombatState combatState) =>
+        monster is not null && combatState is not null;
 
     public Marionette()
         : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)

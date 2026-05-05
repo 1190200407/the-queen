@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BaseLib.Utils;
+using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Commands.Builders;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -22,14 +23,16 @@ namespace ComicChess.TheQueen;
 
 /// <summary>处决：基础伤害 + 目标负面加成；斩杀时捕获目标。</summary>
 [Pool(typeof(QueenCardPool))]
-public sealed class Execution : QueenCardModel
+public sealed class Execution : QueenCardModel, ICanMonsterCapture
 {
     private const int energyCost = 1;
     private const CardType type = CardType.Attack;
     private const CardRarity rarity = CardRarity.Rare;
     private const TargetType targetType = TargetType.AnyEnemy;
     private const bool shouldShowInCardLibrary = true;
-    public override bool IsCapture => true;
+
+    public bool CanCapture(MonsterModel monster, CombatState combatState) =>
+        monster is not null && combatState is not null;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [

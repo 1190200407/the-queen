@@ -1,25 +1,35 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using BaseLib.Utils;
+using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.CardPools;
+using MegaCrit.Sts2.Core.Rooms;
 
 namespace ComicChess.TheQueen;
 
 /// <summary>掠食同化：能力牌；聚合体斩杀普通或精英敌怪时可捕获（逻辑在 <see cref="FriendlyAmalgamHook"/>）。</summary>
 [Pool(typeof(QueenCardPool))]
-public sealed class PredatoryAssimilation : QueenCardModel
+public sealed class PredatoryAssimilation : QueenCardModel, ICanMonsterCapture
 {
 	private const int energyCost = 1;
 	private const CardType type = CardType.Power;
 	private const CardRarity rarity = CardRarity.Uncommon;
 	private const TargetType targetType = TargetType.AnyEnemy;
 	private const bool shouldShowInCardLibrary = true;
-	public override bool IsCapture => true;
+
+	public bool CanCapture(MonsterModel monster, CombatState combatState) =>
+		monster is not null && combatState is not null
+		&& (combatState.Encounter?.RoomType switch
+		{
+			RoomType.Boss => false,
+			RoomType.Elite => IsUpgraded,
+			_ => true,
+		});
 
 	protected override IEnumerable<IHoverTip> ExtraHoverTips =>
 	[

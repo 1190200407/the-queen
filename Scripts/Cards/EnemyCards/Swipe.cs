@@ -9,6 +9,7 @@ using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Afflictions;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.ValueProps;
@@ -17,7 +18,7 @@ namespace ComicChess.TheQueen;
 
 /// <summary>偷窃：聚合体造成伤害、顺走目标对应怪物卡（<see cref="AmalgamSwipePower"/>），并启动/刷新逃跑倒计时（<see cref="AmalgamEscapePower"/>）。</summary>
 [Pool(typeof(EnemyCardPool))]
-public sealed class Swipe : QueenCardModel
+public sealed class Swipe : QueenCardModel, ICanMonsterCapture
 {
     private const int energyCost = 2;
     private const CardType type = CardType.Attack;
@@ -26,10 +27,12 @@ public sealed class Swipe : QueenCardModel
     private const bool shouldShowInCardLibrary = true;
     private const decimal escapeTurns = 3m;
 
+    public bool CanCapture(MonsterModel monster, CombatState combatState) =>
+        monster is not null && combatState is not null;
+
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
     public override int MaxUpgradeLevel => 0;
-    public override bool IsCapture => true;
     internal override bool HasSelfBound => true;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>

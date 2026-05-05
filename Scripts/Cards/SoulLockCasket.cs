@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BaseLib.Abstracts;
 using BaseLib.Utils;
+using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Commands.Builders;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -21,14 +22,16 @@ namespace ComicChess.TheQueen;
 
 /// <summary>锁魂匣：保留；斩杀（<see cref="StaticHoverTip.Fatal"/>）；捕获见 <see cref="QueenHoverTips.Capture"/>；成功时按 <see cref="MonsterCaptureRewardCatalog"/> 施加 <see cref="CaptureSuccessPower"/>（无配置则无奖励）。</summary>
 [Pool(typeof(QueenCardPool))]
-public sealed class SoulLockCasket : QueenCardModel, ITranscendenceCard
+public sealed class SoulLockCasket : QueenCardModel, ITranscendenceCard, ICanMonsterCapture
 {
     private const int energyCost = 1;
     private const CardType type = CardType.Attack;
     private const CardRarity rarity = CardRarity.Basic;
     private const TargetType targetType = TargetType.AnyEnemy;
     private const bool shouldShowInCardLibrary = true;
-    public override bool IsCapture => true;
+
+    public bool CanCapture(MonsterModel monster, CombatState combatState) =>
+        monster is not null && combatState is not null && combatState.Encounter?.RoomType != RoomType.Boss;
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
     [
