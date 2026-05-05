@@ -10,7 +10,6 @@ using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.UI;
 using MegaCrit.Sts2.Core.Helpers;
 using MegaCrit.Sts2.Core.HoverTips;
-using MegaCrit.Sts2.Core.Logging;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Nodes;
 using MegaCrit.Sts2.Core.Nodes.Cards;
@@ -68,6 +67,15 @@ internal static partial class EnemyIntentRewardCardPreview
     /// </summary>
     private const float PreviewClampCardBoundsOutset = 12f;
 
+    /// <summary>
+    /// 子控件并包后：水平方向仍以 <see cref="NCard"/> 根 <see cref="Control.GetGlobalRect"/> 为准，仅左右各扩本值（像素）；
+    /// 垂直方向用并集上下界。避免 Frame/Shadow 等略偏左导致「夹紧用包围盒宽度」远大于肉眼卡宽。
+    /// </summary>
+    private const float PreviewClampUseRootHorizontalBleedPx = 6f;
+
+    /// <summary>水平宽度在收束后再乘本系数（0.5=减半），水平中点不变；按主观与肉眼卡宽对齐。</summary>
+    private const float PreviewClampBoundsHorizontalWidthScale = 0.5f;
+
     private static readonly Vector2 CardPositionInAnchor =
         new(0, -NCard.defaultSize.Y * 0.5f);
 
@@ -85,9 +93,6 @@ internal static partial class EnemyIntentRewardCardPreview
     private static bool _sessionActive;
 
     private static Creature? _lastEnlargedCreature;
-
-    /// <summary>进程内只打一次诊断（改日志字段时递增后缀，便于再打一版）。</summary>
-    private static bool _loggedIntentPreviewClampDiagV5Once;
 
     /// <summary>在若干敌人的意图位创建或复用 <see cref="NCard"/>，仅当 <paramref name="getPreviewModel"/> 对该怪返回非 null 时显示。</summary>
     public static void ShowAllRewardCards(
@@ -365,22 +370,6 @@ internal static partial class EnemyIntentRewardCardPreview
             pos += correction;
         }
 
-        if (!_loggedIntentPreviewClampDiagV5Once)
-        {
-            _loggedIntentPreviewClampDiagV5Once = true;
-            root.GlobalPosition = pos;
-            Rect2 boundsAfter = GetPreviewCardClampBounds(card);
-            Log.Info(BuildIntentPreviewClampDiagnostics(
-                root,
-                card,
-                visible,
-                safe,
-                viewport,
-                desiredRootGlobalPos,
-                pos,
-                boundsAfter));
-        }
-
         return pos;
     }
 
@@ -391,16 +380,6 @@ internal static partial class EnemyIntentRewardCardPreview
         float x2 = Mathf.Max(a.Position.X + a.Size.X, b.Position.X + b.Size.X);
         float y2 = Mathf.Max(a.Position.Y + a.Size.Y, b.Position.Y + b.Size.Y);
         return new Rect2(new Vector2(x1, y1), new Vector2(x2 - x1, y2 - y1));
-    }
-
-    /// <summary>
-    /// <see cref="NCard"/> 根上用于夹紧的轴对齐包围盒（无 outset）：逻辑 rect 或 defaultSize 回退，再与所有可见子孙 <see cref="Control"/> 的 <see cref="Control.GetGlobalRect"/> 合并
-    /// （立绘/框常超出根 300×422，仅靠根 rect 会误判「在屏内」）。
-    /// </summary>
-    private static Rect2 GetPreviewCardClampBoundsCoreMerged(NCard card)
-    {
-        Rect2 core = GetPreviewCardClampBoundsCore(card);
-        return MergeVisibleDescendantControlGlobalRects(card, core);
     }
 
     private static Rect2 GetPreviewCardClampBoundsCore(NCard card)
@@ -465,7 +444,32 @@ internal static partial class EnemyIntentRewardCardPreview
     }
 
     /// <summary>
-    /// 夹紧用卡牌屏幕包围盒：根 + 子孙可见控件并包后再 <see cref="OutsetRect2"/>。
+    /// 水平：以 <paramref name="rootCore"/> 的 X 与宽度（± <paramref name="horizontalBleedPx"/>）；垂直：<paramref name="merged"/> 与 <paramref name="rootCore"/> 的并集上下界。
+    /// </summary>
+    private static Rect2 UseRootHorizontalExtentMergedVertical(Rect2 merged, Rect2 rootCore, float horizontalBleedPx)
+    {
+        float hx = Mathf.Max(0f, horizontalBleedPx);
+        float left = rootCore.Position.X - hx;
+        float right = rootCore.Position.X + rootCore.Size.X + hx;
+        float top = Mathf.Min(merged.Position.Y, rootCore.Position.Y);
+        float bottom = Mathf.Max(merged.Position.Y + merged.Size.Y, rootCore.Position.Y + rootCore.Size.Y);
+        return new Rect2(new Vector2(left, top), new Vector2(right - left, bottom - top));
+    }
+
+    private static Rect2 ScaleRectHorizontalWidthFromCenter(Rect2 r, float widthScale)
+    {
+        if (widthScale >= 1f - 1e-4f)
+        {
+            return r;
+        }
+
+        float w = r.Size.X * widthScale;
+        float cx = r.Position.X + r.Size.X * 0.5f;
+        return new Rect2(new Vector2(cx - w * 0.5f, r.Position.Y), new Vector2(w, r.Size.Y));
+    }
+
+    /// <summary>
+    /// 夹紧用卡牌屏幕包围盒：根 + 子孙可见控件并包；水平收束到根宽、再按系数缩宽，最后 <see cref="OutsetRect2"/>。
     /// </summary>
     private static Rect2 OutsetRect2(Rect2 r, float outset)
     {
@@ -479,19 +483,14 @@ internal static partial class EnemyIntentRewardCardPreview
 
     private static Rect2 GetPreviewCardClampBounds(NCard card)
     {
-        Rect2 merged = GetPreviewCardClampBoundsCoreMerged(card);
-        return OutsetRect2(merged, PreviewClampCardBoundsOutset);
-    }
-
-    /// <summary>与 <see cref="OutsetRect2"/> 相反：从已扩张的矩形收回一圈（用于日志还原逻辑卡面包围盒）。</summary>
-    private static Rect2 InsetRect2(Rect2 r, float inset)
-    {
-        if (inset <= 0f)
-        {
-            return r;
-        }
-
-        return new Rect2(r.Position + new Vector2(inset, inset), r.Size - new Vector2(2f * inset, 2f * inset));
+        Rect2 rootCore = GetPreviewCardClampBoundsCore(card);
+        Rect2 merged = MergeVisibleDescendantControlGlobalRects(card, rootCore);
+        Rect2 forClamp = UseRootHorizontalExtentMergedVertical(
+            merged,
+            rootCore,
+            PreviewClampUseRootHorizontalBleedPx);
+        forClamp = ScaleRectHorizontalWidthFromCenter(forClamp, PreviewClampBoundsHorizontalWidthScale);
+        return OutsetRect2(forClamp, PreviewClampCardBoundsOutset);
     }
 
     /// <summary>将控件局部 <c>(0,0)—size</c> 矩形经全局变换得到轴对齐外包（含旋转时的 AABB）。</summary>
@@ -507,169 +506,6 @@ internal static partial class EnemyIntentRewardCardPreview
         float minY = Mathf.Min(Mathf.Min(p00.Y, p10.Y), Mathf.Min(p01.Y, p11.Y));
         float maxY = Mathf.Max(Mathf.Max(p00.Y, p10.Y), Mathf.Max(p01.Y, p11.Y));
         return new Rect2(new Vector2(minX, minY), new Vector2(maxX - minX, maxY - minY));
-    }
-
-    private static string FormatBoundsVsSafe(Rect2 bounds, Rect2 safe)
-    {
-        float safeR = safe.Position.X + safe.Size.X;
-        float safeB = safe.Position.Y + safe.Size.Y;
-        float bR = bounds.Position.X + bounds.Size.X;
-        float bB = bounds.Position.Y + bounds.Size.Y;
-        bool l = bounds.Position.X >= safe.Position.X - 0.01f;
-        bool t = bounds.Position.Y >= safe.Position.Y - 0.01f;
-        bool r = bR <= safeR + 0.01f;
-        bool bottom = bB <= safeB + 0.01f;
-        return $"insideSafe=L{l} T{t} R{r} B{bottom} (all={l && t && r && bottom})";
-    }
-
-    /// <summary>卡面包围盒相对 <paramref name="safe"/> 四边剩余像素；负值表示穿出 safe（夹紧应已避免）。</summary>
-    private static string FormatMarginsToSafe(Rect2 bounds, Rect2 safe, string label)
-    {
-        float left = bounds.Position.X - safe.Position.X;
-        float top = bounds.Position.Y - safe.Position.Y;
-        float right = (safe.Position.X + safe.Size.X) - (bounds.Position.X + bounds.Size.X);
-        float bottom = (safe.Position.Y + safe.Size.Y) - (bounds.Position.Y + bounds.Size.Y);
-        return $"  [留白→{label}] L={left:F1} T={top:F1} R={right:F1} B={bottom:F1} px（相对 safe；负=越界）";
-    }
-
-    /// <summary>列出 <see cref="NCard"/> 根及所有可见子孙 <see cref="Control"/> 的 <see cref="Control.GetGlobalRect"/>（按面积降序），用于定位谁把合并包围盒撑大。</summary>
-    private static string FormatNCardDescendantControlRectsForDiagnostics(NCard card)
-    {
-        List<(string path, string typeName, Rect2 rect, float area)> rows = new();
-        int visited = 0;
-        const int maxVisit = 220;
-        const int maxLines = 100;
-
-        void Walk(Node n)
-        {
-            if (visited++ > maxVisit)
-            {
-                return;
-            }
-
-            foreach (Node ch in n.GetChildren())
-            {
-                if (ch is Control c && c.Visible && GodotObject.IsInstanceValid(c))
-                {
-                    Rect2 r = c.GetGlobalRect();
-                    if (r.Size.X > 0.5f && r.Size.Y > 0.5f)
-                    {
-                        string pathNote = c is NCardHighlight ? " [合并夹紧时忽略]" : string.Empty;
-                        rows.Add((c.GetPath().ToString() + pathNote, c.GetType().Name, r, r.Size.X * r.Size.Y));
-                    }
-                }
-
-                Walk(ch);
-            }
-        }
-
-        Rect2 rootGr = card.GetGlobalRect();
-        rows.Add((card.GetPath().ToString() + " [NCard根]", card.GetType().Name, rootGr, rootGr.Size.X * rootGr.Size.Y));
-        Walk(card);
-
-        System.Text.StringBuilder sb = new();
-        sb.AppendLine(
-            "  [NCard 下各 Control 的 GetGlobalRect]（含根；按面积降序；合并夹紧时并包除 NCardHighlight 外的矩形——Highlight 为整手级大框）");
-        IOrderedEnumerable<(string path, string typeName, Rect2 rect, float area)> ordered =
-            rows.OrderByDescending(static x => x.area).ThenBy(static x => x.path);
-        int n = 0;
-        foreach ((string path, string typeName, Rect2 rect, float area) in ordered)
-        {
-            if (n++ >= maxLines)
-            {
-                sb.AppendLine($"  … 共 {rows.Count} 条，此处仅列出前 {maxLines} 条");
-                break;
-            }
-
-            sb.AppendLine(
-                $"    area={area:F0} rect={rect} [{typeName}] path={path}");
-        }
-
-        return sb.ToString();
-    }
-
-    /// <summary>
-    /// 首次夹紧<strong>计算完成后</strong>打一次：说明各字段含义、desired→clamped、卡面包围盒与 safe 关系、坐标空间对照。
-    /// 不表示“每帧只执行一次夹紧”；仅避免刷屏。
-    /// </summary>
-    private static string BuildIntentPreviewClampDiagnostics(
-        IntentRewardPreviewRoot root,
-        NCard card,
-        Rect2 visibleGame,
-        Rect2 safe,
-        Viewport viewport,
-        Vector2 desiredRootGlobal,
-        Vector2 clampedRootGlobal,
-        Rect2 cardBoundsAfterClamp)
-    {
-        Rect2 vvr = viewport.GetVisibleRect();
-        Rect2 gr = card.GetGlobalRect();
-        Rect2 fb = GlobalAxisAlignedRectFromLocalRect(
-            card,
-            card.Size.X >= 2f && card.Size.Y >= 2f ? card.Size : NCard.defaultSize);
-
-        Control? game = NGame.Instance;
-        Control? globalUi = NRun.Instance?.GlobalUi;
-        Rect2 coreCardAfterClamp = InsetRect2(cardBoundsAfterClamp, PreviewClampCardBoundsOutset);
-
-        static string ControlLine(Control c)
-        {
-            return
-                $"  [{c.GetType().Name}] name={c.Name} path={c.GetPath()} visible={c.Visible} size={c.Size} globalPos={c.GlobalPosition} scale={c.Scale} globalScale={c.GetGlobalTransform().Scale} zRel={c.ZAsRelative} z={c.ZIndex} globalRect={c.GetGlobalRect()}";
-        }
-
-        static string HierarchyUp(Node? n, string label)
-        {
-            System.Text.StringBuilder sb = new();
-            sb.AppendLine(label);
-            int depth = 0;
-            while (n is not null && GodotObject.IsInstanceValid(n))
-            {
-                string indent = new string(' ', depth * 2);
-                if (n is Control cc)
-                {
-                    sb.AppendLine($"{indent}{ControlLine(cc)}");
-                }
-                else
-                {
-                    sb.AppendLine($"{indent}[{n.GetType().Name}] name={n.Name} path={n.GetPath()}");
-                }
-
-                n = n.GetParent();
-                depth++;
-                if (depth > 32)
-                {
-                    sb.AppendLine($"{indent}…(truncated)");
-                    break;
-                }
-            }
-
-            return sb.ToString();
-        }
-
-        return
-            "[IntentRewardCardPreview] one-shot diagnostics (after first clamp pass; see legend):\n"
-            + "  [含义] visibleGame=viewport 全屏可见矩形；safe=调整后允许区域（visible 四边各向内 margin，卡用于夹紧的包围盒须完全落在 safe 内）。\n"
-            + $"  [全视口 visibleGame] Position={visibleGame.Position} Size={visibleGame.Size}\n"
-            + $"  [调整后允许区域 safe] Position={safe.Position} Size={safe.Size} (margin={PreviewClampViewportMargin}, outset={PreviewClampCardBoundsOutset})\n"
-            + $"  [卡包围盒·夹紧用·含outset] {cardBoundsAfterClamp}\n"
-            + $"  [卡包围盒·根+子孙合并后去outset] {coreCardAfterClamp}\n"
-            + FormatMarginsToSafe(cardBoundsAfterClamp, safe, "safe 到「含outset」卡包边")
-            + "\n"
-            + FormatMarginsToSafe(coreCardAfterClamp, safe, "safe 到「合并后无outset」边")
-            + "\n"
-            + "  [含义续] desiredRootGlobal=意图 ToGlobal(offset)；夹紧包围盒已含 NCard 下可见子 Control 的 GetGlobalRect 并包。\n"
-            + "  [其它因素] NHoverTipSet 只跟说明框。下行对比 NGame.GetViewportRect 与 viewport 可见区。\n"
-            + $"  desiredRootGlobal={desiredRootGlobal} clampedRootGlobal={clampedRootGlobal} delta={clampedRootGlobal - desiredRootGlobal}\n"
-            + $"  {FormatBoundsVsSafe(cardBoundsAfterClamp, safe)} cardBoundsAfterClamp={cardBoundsAfterClamp} safe={safe}\n"
-            + $"  root.GlobalPosition={root.GlobalPosition} root.Scale={root.Scale} root.GetGlobalRect()={root.GetGlobalRect()}\n"
-            + $"  NGame.GetViewportRect()={game?.GetViewportRect()} NGame.GetGlobalRect()={(game is null ? "null" : game.GetGlobalRect().ToString())}\n"
-            + $"  NRun.GlobalUi.GetGlobalRect()={(globalUi is null ? "null" : globalUi.GetGlobalRect().ToString())}\n"
-            + $"  viewport.GetVisibleRect()={vvr} (应与 visibleGame 一致)\n"
-            + $"  card.GetGlobalRect()={gr} fallbackAabbFromSize={fb} card.Size={card.Size} defaultSize={NCard.defaultSize}\n"
-            + FormatNCardDescendantControlRectsForDiagnostics(card)
-            + HierarchyUp(card, "Hierarchy from NCard up:")
-            + HierarchyUp(root, "Hierarchy from IntentRewardPreviewRoot up:");
     }
 
     private static void TryShowEnlargedPreviewHoverTip(Slot slot)
