@@ -22,14 +22,14 @@ public sealed class SandpitPower : QueenPowerModel
     public override string? CustomPackedIconPath => "res://images/atlases/power_atlas.sprites/sandpit_power.tres";
     public override string? CustomBigIconPath => "res://images/powers/sandpit_power.png";
 
-    public override async Task AfterSideTurnStart(CombatSide side, CombatState combatState)
-    {
-        _ = combatState;
-        if (side == CombatSide.Enemy)
-        {
-            await PowerCmd.ModifyAmount(this, 1m, base.Owner, null);
-        }
-    }
+    // public override async Task AfterSideTurnStart(CombatSide side, CombatState combatState)
+    // {
+    //     _ = combatState;
+    //     if (side == CombatSide.Enemy)
+    //     {
+    //         await PowerCmd.ModifyAmount(this, 1m, base.Owner, null);
+    //     }
+    // }
 
     public override async Task AfterRemoved(Creature oldOwner)
     {

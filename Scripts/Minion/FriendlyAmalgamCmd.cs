@@ -17,6 +17,7 @@ using MegaCrit.Sts2.Core.Nodes.Combat;
 using MegaCrit.Sts2.Core.Nodes.Rooms;
 using MegaCrit.Sts2.Core.TestSupport;
 using MegaCrit.Sts2.Core.ValueProps;
+using MegaCrit.Sts2.Core.Logging;
 
 namespace ComicChess.TheQueen;
 
@@ -35,8 +36,7 @@ public static class FriendlyAmalgamCmd
 
     public static Creature? GetExisting(CombatState combatState, Player owner)
     {
-        return owner.Creature.Pets.FirstOrDefault(c =>
-            c.PetOwner == owner && c.Monster is FriendlyAmalgam);
+        return owner.Creature.Pets.FirstOrDefault(c => c.Monster is FriendlyAmalgam);
     }
 
     /// <summary>与原版 <see cref="MegaCrit.Sts2.Core.Commands.CardCmd"/> / <see cref="MegaCrit.Sts2.Core.Commands.Builders.AttackCommand"/> 一致，使用女王的 <see cref="Rng.CombatTargets"/>，保证联机下随机选敌一致。</summary>

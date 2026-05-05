@@ -13,14 +13,16 @@ namespace ComicChess.TheQueen;
 [Pool(typeof(QueenCardPool))]
 public sealed class Taste : QueenCardModel
 {
-	private const int energyCost = 1;
+	private const int energyCost = 2;
 	private const CardType type = CardType.Skill;
 	private const CardRarity rarity = CardRarity.Uncommon;
 	private const TargetType targetType = TargetType.Self;
 	private const bool shouldShowInCardLibrary = true;
 
-	protected override IEnumerable<IHoverTip> ExtraHoverTips => [
+	protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+	[
 		HoverTipFactory.FromCard<Devour>(base.IsUpgraded),
+		QueenHoverTips.SoulLamp,
 	];
 
 	public Taste()
@@ -35,12 +37,13 @@ public sealed class Taste : QueenCardModel
 			return;
 		}
 
-		for (int i = 0; i < 2; i++)
+		for (int i = 0; i < 3; i++)
 		{
 			await QueenCardCmd.CreateInHand<Devour>(base.Owner, base.CombatState, base.IsUpgraded);
 		}
 
 		await PowerCmd.Apply<TastePower>(base.Owner.Creature, 1m, base.Owner.Creature, this);
+		await QueenCardCmd.AddSoulLamp(base.Owner, 3);
 		await CreatureCmd.TriggerAnim(base.Owner.Creature, "Cast", base.Owner.Character.CastAnimDelay);
 	}
 }

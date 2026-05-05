@@ -25,7 +25,7 @@ public sealed class LiquifyGround : QueenCardModel
     private const TargetType targetType = TargetType.Self;
     private const bool shouldShowInCardLibrary = true;
 
-    private const decimal sandpit = 4m;
+    private const decimal sandpit = 7m;
     private const decimal summon = 20m;
 
     public override int MaxUpgradeLevel => 0;
@@ -58,7 +58,7 @@ public sealed class LiquifyGround : QueenCardModel
 	{
 		if (side == base.Owner.Creature.Side && combatState.RoundNumber <= 1 && combatState.Encounter?.RoomType == RoomType.Boss)
         {
-            base.DynamicVars.Power<SandpitPower>().BaseValue += 2;
+            base.DynamicVars.Power<SandpitPower>().BaseValue += 3;
         }
         return Task.CompletedTask;
     }

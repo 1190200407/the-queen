@@ -4,6 +4,7 @@ using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.CardPools;
 
@@ -18,9 +19,11 @@ public sealed class LocalMaterials : QueenCardModel
     private const TargetType targetType = TargetType.Self;
     private const bool shouldShowInCardLibrary = true;
 
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [QueenHoverTips.SoulLamp];
+
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new IntVar("GenerateThreshold", 7m)
+        new IntVar("GenerateThreshold", 5m)
     ];
 
     public LocalMaterials()
@@ -43,6 +46,6 @@ public sealed class LocalMaterials : QueenCardModel
 
     protected override void OnUpgrade()
     {
-        base.DynamicVars["GenerateThreshold"].UpgradeValueBy(-2m);
+        base.DynamicVars["GenerateThreshold"].UpgradeValueBy(-1m);
     }
 }

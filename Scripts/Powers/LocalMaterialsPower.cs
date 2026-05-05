@@ -59,7 +59,7 @@ public sealed class LocalMaterialsPower : QueenPowerModel
             Flash();
             if (base.Owner.Player is { } player)
             {
-                await PlayerCmd.GainEnergy(1m, player);
+                await QueenCardCmd.AddSoulLamp(player, 1);
             }
             data.cardGeneratedCount = 0;
         }

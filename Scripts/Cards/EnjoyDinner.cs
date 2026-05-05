@@ -28,6 +28,7 @@ public sealed class EnjoyDinner : QueenCardModel
 	protected override IEnumerable<IHoverTip> ExtraHoverTips =>
 	[
 		HoverTipFactory.FromCard<Devour>(base.IsUpgraded),
+		QueenHoverTips.SoulLamp,
 	];
 
 	public EnjoyDinner()
@@ -54,6 +55,8 @@ public sealed class EnjoyDinner : QueenCardModel
 		{
 			await QueenCardCmd.CreateInHand<Devour>(base.Owner, base.CombatState, base.IsUpgraded);
 		}
+
+		await QueenCardCmd.AddSoulLamp(base.Owner, 2);
 	}
 
 	protected override void OnUpgrade()

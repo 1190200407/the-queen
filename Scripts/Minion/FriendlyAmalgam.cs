@@ -12,7 +12,6 @@ using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization;
-using MegaCrit.Sts2.Core.Logging;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.MonsterMoves.Intents;
 using MegaCrit.Sts2.Core.MonsterMoves.MonsterMoveStateMachine;
@@ -38,7 +37,7 @@ public class FriendlyAmalgam : QueenMinionModel
         ?? throw new InvalidOperationException("MoveState.Intents has no non-public setter.");
 
     /// <summary>每个灯槽一条已学意图；按槽 0→1→2 顺序写入空槽，意图不随执行而清除。学习后当前灯立即切到该槽；三槽满时学习不写入，当场执行该意图一次。</summary>
-    private readonly AmalgamActionModel?[] _intentByTorchSlot = new AmalgamActionModel?[TorchSlotCount];
+    private AmalgamActionModel?[] _intentByTorchSlot = new AmalgamActionModel?[TorchSlotCount];
 
     /// <summary>当前轮到执行的灯槽下标（仅在已点亮的槽之间轮转）。</summary>
     private int _currentTorchSlotIndex;
@@ -48,6 +47,23 @@ public class FriendlyAmalgam : QueenMinionModel
 
     /// <summary>当前即将执行的灯槽。无已学意图时返回 -1。</summary>
     public int CurrentTorchSlotIndex => _currentTorchSlotIndex;
+
+    /// <summary>
+    /// 原版 <see cref="AbstractModel.MutableClone"/> 为 <c>MemberwiseClone</c> + <see cref="DeepCloneFields"/>；
+    /// 未重写的引用类型字段会与源（含 ModelDb 原型）共用同一引用。
+    /// 召唤时为每只宠物对怪物模型做 <c>ToMutable()</c>（原版 <c>MegaCrit.Sts2.Core.Commands.PlayerCmd.AddPet&lt;T&gt;</c>），
+    /// 若不拆数组则多只 <see cref="FriendlyAmalgam"/> 会共用同一条 <c>_intentByTorchSlot</c>。
+    /// </summary>
+    protected override void DeepCloneFields()
+    {
+        base.DeepCloneFields();
+        AmalgamActionModel?[] copiedFrom = _intentByTorchSlot;
+        _intentByTorchSlot = new AmalgamActionModel?[TorchSlotCount];
+        if (copiedFrom != null && copiedFrom.Length >= TorchSlotCount)
+        {
+            Array.Copy(copiedFrom, _intentByTorchSlot, TorchSlotCount);
+        }
+    }
 
     private AmalgamForcedActionModel? _forcedAction;
 
@@ -98,7 +114,6 @@ public class FriendlyAmalgam : QueenMinionModel
     {
         bool wasSleeping = IsSleeping();
         sleepReason &= ~reason;
-        Log.Info($"WakeUp: {wasSleeping} -> {IsSleeping()}, reason: {reason}");
         if (wasSleeping && !IsSleeping())
         {
             ClearForcedAction();
@@ -530,7 +545,6 @@ public class FriendlyAmalgam : QueenMinionModel
 
     public async Task LearnIntent(PlayerChoiceContext choiceContext, AmalgamActionModel intent)
     {
-        Log.Info($"LearnIntent: {intent.GetType().Name} {Creature.PetOwner?.NetId}");
         int emptySlot = FirstEmptyTorchSlotIndex();
         if (emptySlot < 0)
         {
@@ -538,7 +552,6 @@ public class FriendlyAmalgam : QueenMinionModel
             await intent.ExecuteAsync(choiceContext, Creature);
             return;
         }
-
         bool hadAnyIntentBefore = false;
         for (int i = 0; i < TorchSlotCount; i++)
         {
@@ -553,7 +566,6 @@ public class FriendlyAmalgam : QueenMinionModel
         _currentTorchSlotIndex = emptySlot;
 
         RefreshDisplayedIntent();
-        // 仅 0 意图 → 第 1 条意图（Sleep）时切到 Idle；再学新意图不刷 Idle。
         if (!hadAnyIntentBefore)
         {
             await WakeUp(SleepReason.NoLearnedAction);

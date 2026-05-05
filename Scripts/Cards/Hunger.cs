@@ -19,8 +19,10 @@ public sealed class Hunger : QueenCardModel
 	private const TargetType targetType = TargetType.Self;
 	private const bool shouldShowInCardLibrary = true;
 
-	protected override IEnumerable<IHoverTip> ExtraHoverTips => [
+	protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+	[
 		HoverTipFactory.FromCard<Devour>(upgrade: base.IsUpgraded),
+		QueenHoverTips.SoulLamp,
 	];
 
 	public Hunger()

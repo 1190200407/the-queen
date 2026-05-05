@@ -41,6 +41,7 @@ public abstract class LearnIntentCardModel : QueenCardModel
                 continue;
             }
 
+            
             await FriendlyAmalgamCmd.LearnIntent(choiceContext, base.Owner, intent, this);
         }
     }
