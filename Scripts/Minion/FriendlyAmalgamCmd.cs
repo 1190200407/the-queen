@@ -10,15 +10,26 @@ using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Hooks;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Models.Monsters;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.Nodes.Combat;
 using MegaCrit.Sts2.Core.Nodes.Rooms;
+using MegaCrit.Sts2.Core.TestSupport;
 using MegaCrit.Sts2.Core.ValueProps;
 
 namespace ComicChess.TheQueen;
 
 public static class FriendlyAmalgamCmd
 {
+    private const float AmalgamScaleMaxHpReference = 150f;
+
+    private const float AmalgamScaleTweenOnHpChange = 0.75f;
+
+    /// <summary>意图锚点在 <see cref="NCreature"/> 局部空间中的 Y 夹紧（Y 轴向下）；只约束 <see cref="SyncAmalgamIntentContainerToIntentMarker"/>，不改 <see cref="NCreature.ScaleTo"/>。</summary>
+    private const float AmalgamIntentAnchorLocalYMin = -530f;
+
+    private const float AmalgamIntentAnchorLocalYMax = 80f;
+
     public static Creature? GetExisting(CombatState combatState, Player owner)
     {
         return combatState.Allies.FirstOrDefault(c =>
@@ -53,6 +64,56 @@ public static class FriendlyAmalgamCmd
         p.Position = o.Position + new Vector2(320f, -75f);
     }
 
+    /// <summary>按 <see cref="Creature.MaxHp"/> 更新聚合体显示缩放（与奥斯提相同 <see cref="Osty.ScaleRange"/> 与 150 参考生命）；用 <see cref="NCreature.ScaleTo"/>，不移动节点位置。</summary>
+    public static void TryRefreshAmalgamScaleFromMaxHp(Creature amalgamCreature, float durationSeconds = AmalgamScaleTweenOnHpChange)
+    {
+        if (TestMode.IsOn || amalgamCreature.Monster is not FriendlyAmalgam)
+        {
+            return;
+        }
+
+        NCreature? node = NCombatRoom.Instance?.GetCreatureNode(amalgamCreature);
+        if (node == null)
+        {
+            return;
+        }
+
+        float t = Mathf.Clamp((float)amalgamCreature.MaxHp / AmalgamScaleMaxHpReference, 0f, 1f);
+        float scaleMul = Mathf.Lerp(Osty.ScaleRange.X, Osty.ScaleRange.Y, t);
+        node.ScaleTo(scaleMul, durationSeconds);
+
+        if (durationSeconds <= 0f)
+        {
+            Callable.From(() => SyncAmalgamIntentContainerToIntentMarker(node)).CallDeferred();
+        }
+        else if (node.GetTree() is { } tree)
+        {
+            SceneTreeTimer timer = tree.CreateTimer(durationSeconds);
+            timer.Timeout += () =>
+            {
+                if (GodotObject.IsInstanceValid(node))
+                {
+                    SyncAmalgamIntentContainerToIntentMarker(node);
+                }
+            };
+        }
+    }
+
+    private static void SyncAmalgamIntentContainerToIntentMarker(NCreature creatureNode)
+    {
+        Marker2D? marker = creatureNode.Visuals.GetNodeOrNull<Marker2D>("IntentPos");
+        if (marker == null)
+        {
+            return;
+        }
+
+        Control intents = creatureNode.IntentContainer;
+        Transform2D creatureGlobal = creatureNode.GetGlobalTransform();
+        Vector2 anchor = creatureGlobal.AffineInverse() * marker.GlobalPosition;
+        anchor.Y = Mathf.Clamp(anchor.Y, AmalgamIntentAnchorLocalYMin, AmalgamIntentAnchorLocalYMax);
+        intents.Position = anchor - intents.Size / 2f;
+    }
+
     public static async Task Summon(PlayerChoiceContext choiceContext, Player owner, decimal amount, AbstractModel? source)
     {
         CombatState? combatState = owner.Creature.CombatState;
@@ -75,6 +136,7 @@ public static class FriendlyAmalgamCmd
             CombatManager.Instance.History.Summoned(combatState, (int)amount, owner);
             await EnsureAmalgamCorePowers(existing);
             TryTrackOwnerBlockOnAmalgamNode(existing);
+            TryRefreshAmalgamScaleFromMaxHp(existing);
             return;
         }
 
@@ -105,6 +167,7 @@ public static class FriendlyAmalgamCmd
         await Hook.AfterSummon(combatState, choiceContext, owner, amount);
         PlaceAmalgamByQueen(owner, minion);
         SyncHealthBarVisibility(minion);
+        TryRefreshAmalgamScaleFromMaxHp(minion);
     }
 
     /// <summary>击倒沉睡回合末：最大生命设为 1，当前生命置为 1。</summary>
@@ -120,6 +183,7 @@ public static class FriendlyAmalgamCmd
         await CreatureCmd.SetMaxHp(creature, 1m);
         await CreatureCmd.SetCurrentHp(creature, 1m);
         SyncHealthBarVisibility(creature);
+        TryRefreshAmalgamScaleFromMaxHp(creature, 0f);
     }
 
     /// <summary><see cref="FriendlyAmalgam.IsHealthBarVisible"/> 在节点 <c>_Ready</c> 后若存活状态变化，须调此以同步 <see cref="NCreature.ToggleIsInteractable"/>（否则血条可见性会停留在旧状态）。</summary>
@@ -154,6 +218,7 @@ public static class FriendlyAmalgamCmd
         TryTrackOwnerBlockOnAmalgamNode(minion);
         PlaceAmalgamByQueen(owner, minion);
         SyncHealthBarVisibility(minion);
+        TryRefreshAmalgamScaleFromMaxHp(minion, 0f);
     }
 
     /// <summary>在已写入的最大生命下用 <see cref="CreatureCmd.Heal"/> 补足当前生命至目标值（含治疗/召唤类音效）。</summary>
