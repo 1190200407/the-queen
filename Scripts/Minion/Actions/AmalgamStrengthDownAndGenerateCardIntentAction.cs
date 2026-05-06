@@ -86,5 +86,8 @@ public sealed class AmalgamStrengthDownAndGenerateCardIntentAction<T> : AmalgamA
         CardModel card = ModelDb.Card<T>();
         return card.Title;
     }
+
+    public override AmalgamActionModel Clone() =>
+        new AmalgamStrengthDownAndGenerateCardIntentAction<T>(_strengthLoss, _cardCount, _forcedTarget);
 }
 

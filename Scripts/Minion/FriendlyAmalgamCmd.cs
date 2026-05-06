@@ -6,6 +6,8 @@ using MegaCrit.Sts2.Core.Random;
 using Godot;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Context;
+using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -54,21 +56,56 @@ public static class FriendlyAmalgamCmd
         return pet;
     }
 
-    private static void PlaceAmalgamByQueen(Player owner, Creature pet)
+    /// <summary>与原版 <see cref="NCombatRoom.AddCreature"/> 里奥斯提分支一致：仅「本地视角下的该玩家」用右上偏移 + sibling 顺序；联机里其他玩家保持 <c>AddCreature</c> 已为随从排好的脚边一行。</summary>
+    private static bool IsLayoutLocalPlayer(Player owner, CombatState? combatState)
     {
-        if (NCombatRoom.Instance is not { } room)
+        if (LocalContext.IsMe(owner))
+        {
+            return true;
+        }
+
+        // 未挂 NetId 时 IsMe 恒 false（例如部分测试）；单人战斗仍视为本地主控。
+        if (!LocalContext.NetId.HasValue && combatState != null && combatState.Players.Count == 1 && combatState.Players[0] == owner)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    /// <summary>
+    /// 对齐原版 <see cref="NCombatRoom.AddCreature"/> 奥斯提分支（本地主控）：<c>player.Position + GetOstyOffsetFromPlayer(pet)</c> 与 <c>MoveChild(p, player.GetIndex())</c>。
+    /// 不用 <see cref="NCreature.OstyScaleToSize"/>：随后 <see cref="TryRefreshAmalgamScaleFromMaxHp"/> 的 <see cref="NCreature.ScaleTo"/> 会 Kill 同一 <c>_scaleTween</c>，打断奥斯提位移 tween。
+    /// 联机里非本地玩家不调用本逻辑，保留 <c>AddCreature</c> 已为随从算好的脚边一行（<c>Y+10</c>）。
+    /// 延迟一帧应用，避免 <c>Hitbox.Size</c> 尚未就绪导致 <see cref="NCreature.GetOstyOffsetFromPlayer"/> 偏差。
+    /// </summary>
+    private static void PlaceAmalgamByQueen(Player owner, Creature pet, CombatState? combatState)
+    {
+        if (!IsLayoutLocalPlayer(owner, combatState))
         {
             return;
         }
 
-        NCreature? o = room.GetCreatureNode(owner.Creature);
-        NCreature? p = room.GetCreatureNode(pet);
-        if (o == null || p == null)
+        void ApplyLocalAmalgamSlot()
         {
-            return;
+            if (NCombatRoom.Instance is not { } room)
+            {
+                return;
+            }
+
+            NCreature? o = room.GetCreatureNode(owner.Creature);
+            NCreature? p = room.GetCreatureNode(pet);
+            if (o == null || p == null || !GodotObject.IsInstanceValid(o) || !GodotObject.IsInstanceValid(p))
+            {
+                return;
+            }
+
+            p.Position = o.Position + NCreature.GetOstyOffsetFromPlayer(pet);
+            p.GetParent().MoveChild(p, o.GetIndex());
+            p.ToggleIsInteractable(true);
         }
 
-        p.Position = o.Position + new Vector2(320f, -75f);
+        Callable.From(ApplyLocalAmalgamSlot).CallDeferred();
     }
 
     /// <summary>按 <see cref="Creature.MaxHp"/> 更新聚合体显示缩放（与奥斯提相同 <see cref="Osty.ScaleRange"/> 与 150 参考生命）；用 <see cref="NCreature.ScaleTo"/>，不移动节点位置。体型只增不减（当前血量变小时保持已有显示倍率）。</summary>
@@ -156,6 +193,13 @@ public static class FriendlyAmalgamCmd
             return;
         }
 
+        // 尚无聚合体随从但已有奥斯提实体（死灵等）：不走聚合体生成，改由原版 OstyCmd（含 Hook.ModifySummonAmount 与历史记录）。
+        if (GetExisting(combatState, owner) == null && owner.Osty != null)
+        {
+            await OstyCmd.Summon(choiceContext, owner, amount, source);
+            return;
+        }
+
         amount = Hook.ModifySummonAmount(combatState, owner, amount, source);
         if (amount <= 0m)
         {
@@ -199,8 +243,8 @@ public static class FriendlyAmalgamCmd
         await EnsureAmalgamCorePowers(minion);
         TryTrackOwnerBlockOnAmalgamNode(minion);
         await Hook.AfterSummon(combatState, choiceContext, owner, amount);
-        PlaceAmalgamByQueen(owner, minion);
-        SyncHealthBarVisibility(minion);
+        PlaceAmalgamByQueen(owner, minion, combatState);
+        //SyncHealthBarVisibility(minion);
         TryRefreshAmalgamScaleFromMaxHp(minion);
     }
 
@@ -216,20 +260,20 @@ public static class FriendlyAmalgamCmd
         _ = cs;
         await CreatureCmd.SetMaxHp(creature, 1m);
         await CreatureCmd.SetCurrentHp(creature, 1m);
-        SyncHealthBarVisibility(creature);
+        //SyncHealthBarVisibility(creature);
         TryRefreshAmalgamScaleFromMaxHp(creature, 0f);
     }
 
-    /// <summary><see cref="FriendlyAmalgam.IsHealthBarVisible"/> 在节点 <c>_Ready</c> 后若存活状态变化，须调此以同步 <see cref="NCreature.ToggleIsInteractable"/>（否则血条可见性会停留在旧状态）。</summary>
-    public static void SyncHealthBarVisibility(Creature amalgamCreature)
-    {
-        if (amalgamCreature.Monster is not FriendlyAmalgam)
-        {
-            return;
-        }
+    // /// <summary><see cref="FriendlyAmalgam.IsHealthBarVisible"/> 在节点 <c>_Ready</c> 后若存活状态变化，须调此以同步 <see cref="NCreature.ToggleIsInteractable"/>（否则血条可见性会停留在旧状态）。</summary>
+    // public static void SyncHealthBarVisibility(Creature amalgamCreature)
+    // {
+    //     if (amalgamCreature.Monster is not FriendlyAmalgam)
+    //     {
+    //         return;
+    //     }
 
-        NCombatRoom.Instance?.GetCreatureNode(amalgamCreature)?.ToggleIsInteractable(amalgamCreature.Monster.IsHealthBarVisible);
-    }
+    //     NCombatRoom.Instance?.GetCreatureNode(amalgamCreature)?.ToggleIsInteractable(amalgamCreature.Monster.IsHealthBarVisible);
+    // }
 
     /// <summary>战斗开场：仅生成 0 血的聚合体壳并写入固定最大生命，不治疗、不占召唤历史。</summary>
     public static async Task EnsureAmalgamCombatStartShellAsync(PlayerChoiceContext choiceContext, Player owner)
@@ -250,8 +294,8 @@ public static class FriendlyAmalgamCmd
         await EnsureAmalgamCorePowers(minion);
         await CreatureCmd.SetMaxHp(minion, 1m);
         TryTrackOwnerBlockOnAmalgamNode(minion);
-        PlaceAmalgamByQueen(owner, minion);
-        SyncHealthBarVisibility(minion);
+        PlaceAmalgamByQueen(owner, minion, combatState);
+        //SyncHealthBarVisibility(minion);
         TryRefreshAmalgamScaleFromMaxHp(minion, 0f);
     }
 
@@ -275,7 +319,7 @@ public static class FriendlyAmalgamCmd
         }
 
         TryRefreshIntentTorchVisuals(minion);
-        SyncHealthBarVisibility(minion);
+        //SyncHealthBarVisibility(minion);
     }
 
     /// <summary>与奥斯提一致：随从血条跟随主人的格挡状态（有格挡时血条呈护盾色）。</summary>
@@ -296,6 +340,7 @@ public static class FriendlyAmalgamCmd
             return;
         }
 
+        // 顺序固定：先 DieForYou。0 血壳上第二段 Apply 依赖 AmalgamDieForYouPower.ShouldAllowHitting 在「尚无渴血」时对尸体短暂放行（见该处注释）。
         if (minion.GetPower<AmalgamDieForYouPower>() == null)
         {
             await PowerCmd.Apply<AmalgamDieForYouPower>(minion, 1m, null, null);
@@ -337,6 +382,45 @@ public static class FriendlyAmalgamCmd
         }
 
         await amalgamModel.LearnIntent(choiceContext, intent);
+
+        await MirrorSoulResonanceLearnIntentAsync(choiceContext, owner, intent, source);
+    }
+
+    /// <summary>
+    /// <see cref="SoulResonancePower"/>：出牌方聚合体已学意图后，为其他存活玩家各再学一份（独立副本，见 <see cref="AmalgamActionModel.CloneForSoulResonance"/>）。
+    /// 仅当 <paramref name="source"/> 为 <see cref="LearnIntentCardModel"/> 且其 <see cref="CardModel.Owner"/> 与本次学习的玩家一致时触发，避免 CombineIntent 路径或代打误同步。
+    /// </summary>
+    private static async Task MirrorSoulResonanceLearnIntentAsync(
+        PlayerChoiceContext choiceContext,
+        Player amalgamOwner,
+        AmalgamActionModel intent,
+        AbstractModel? source)
+    {
+        if (source is not CardModel playedCard || playedCard is not LearnIntentCardModel)
+        {
+            return;
+        }
+
+        if (playedCard.Owner != amalgamOwner || amalgamOwner.Creature.GetPower<SoulResonancePower>() == null)
+        {
+            return;
+        }
+
+        CombatState? combatState = amalgamOwner.Creature.CombatState;
+        if (combatState == null)
+        {
+            return;
+        }
+
+        foreach (Player other in combatState.Players)
+        {
+            if (other.NetId == amalgamOwner.NetId || !other.Creature.IsAlive)
+            {
+                continue;
+            }
+
+            await LearnIntent(choiceContext, other, intent.Clone(), source);
+        }
     }
 
     /// <summary>

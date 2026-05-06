@@ -43,6 +43,17 @@ public abstract class AmalgamActionModel
 
     public MoveState MoveState => _moveState ??= CreateMoveState();
 
+    /// <summary>
+    /// 灵魂同调等：为其他玩家再学同一意图时复制一份，避免多盏灯槽/多名玩家共享同一引用。
+    /// 默认同 <see cref="MemberwiseClone"/> 并清空 <c>_moveState</c>；含可变集合子状态的类型（如 <see cref="AmalgamCompositeIntentAction"/>）须重写。
+    /// </summary>
+    public virtual AmalgamActionModel Clone()
+    {
+        AmalgamActionModel copy = (AmalgamActionModel)MemberwiseClone();
+        copy._moveState = null;
+        return copy;
+    }
+
     /// <summary>意图条等展示用；进攻类可在此把 <see cref="Hook.ModifyDamage"/>（出手方为聚合体）与卡面数字对齐。默认等同 <see cref="MoveState"/>。</summary>
     public virtual MoveState GetMoveStateForDisplay(Creature amalgam) => MoveState;
 

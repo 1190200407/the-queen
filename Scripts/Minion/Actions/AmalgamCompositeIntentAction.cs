@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -43,6 +44,12 @@ public sealed class AmalgamCompositeIntentAction : AmalgamActionModel
 
     /// <summary>子行动顺序（只读视图）。</summary>
     public IReadOnlyList<AmalgamActionModel> Parts => _parts;
+
+    public override AmalgamActionModel Clone()
+    {
+        AmalgamActionModel[] forked = _parts.Select(static p => p.Clone()).ToArray();
+        return new AmalgamCompositeIntentAction(_indexKey, forked);
+    }
 
     /// <summary>在原组合末尾追加子行动，并失效展示用 <see cref="AmalgamActionModel.MoveState"/> 缓存。</summary>
     public void AddPart(AmalgamActionModel part)

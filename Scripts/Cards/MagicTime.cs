@@ -8,6 +8,7 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Afflictions;
 using MegaCrit.Sts2.Core.Models.CardPools;
@@ -23,13 +24,13 @@ public sealed class MagicTime : QueenCardModel
 	private const TargetType targetType = TargetType.Self;
 	private const bool shouldShowInCardLibrary = true;
 
-	public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Ethereal];
+	protected override IEnumerable<DynamicVar> CanonicalVars => [new IntVar("SoulLampOnPlay", 1m)];
 
 	protected override IEnumerable<IHoverTip> ExtraHoverTips =>
 	[
 		base.EnergyHoverTip,
-		HoverTipFactory.FromKeyword(CardKeyword.Ethereal),
-		.. HoverTipFactory.FromAffliction<Bound>()
+		QueenHoverTips.SoulLamp,
+		.. HoverTipFactory.FromAffliction<Bound>(),
 	];
 
 	public MagicTime()
@@ -44,6 +45,12 @@ public sealed class MagicTime : QueenCardModel
 		Player player = base.Owner;
 		ArgumentNullException.ThrowIfNull(player.PlayerCombatState, nameof(player.PlayerCombatState));
 
+		int lampGain = (int)base.DynamicVars["SoulLampOnPlay"].BaseValue;
+		if (lampGain > 0)
+		{
+			await QueenCardCmd.AddSoulLamp(player, lampGain);
+		}
+
 		foreach (CardModel card in player.PlayerCombatState.AllCards.ToList())
 		{
 			CardCmd.ClearAffliction(card);
@@ -54,8 +61,8 @@ public sealed class MagicTime : QueenCardModel
 		await CreatureCmd.TriggerAnim(base.Owner.Creature, "Cast", base.Owner.Character.CastAnimDelay);
 	}
 
-    protected override void OnUpgrade()
-    {
-		RemoveKeyword(CardKeyword.Ethereal);
-    }
+	protected override void OnUpgrade()
+	{
+		base.DynamicVars["SoulLampOnPlay"].UpgradeValueBy(1m);
+	}
 }

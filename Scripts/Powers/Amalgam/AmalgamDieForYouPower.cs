@@ -110,7 +110,19 @@ public sealed class AmalgamDieForYouPower : QueenPowerModel
 		}
 
 		Data data = GetInternalData<Data>();
-		return creature.IsAlive && !data.AwaitingDeathSleepRevive;
+		if (creature.IsAlive)
+		{
+			return !data.AwaitingDeathSleepRevive;
+		}
+
+		// 已死：默认 false（不可选中/不可吃牌等）。但 FriendlyAmalgamCmd 会先上本能力再上 AmalgamEvolutionaryThirstPower；
+		// PowerCmd.Apply 会查 Creature.CanReceivePowers → Hook.ShouldAllowHitting，若此处恒 false 则第二段 Apply 永远失败。
+		if (creature.GetPower<AmalgamEvolutionaryThirstPower>() == null)
+		{
+			return true;
+		}
+
+		return false;
 	}
 
 	public override bool ShouldCreatureBeRemovedFromCombatAfterDeath(Creature creature)
