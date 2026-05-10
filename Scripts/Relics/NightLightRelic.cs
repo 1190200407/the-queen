@@ -29,7 +29,7 @@ public sealed class NightLightRelic : QueenRelicModel
 		new BlockVar(3m, ValueProp.Unpowered),
 	];
 
-	protected override IEnumerable<IHoverTip> ExtraHoverTips => [QueenHoverTips.SoulLamp];
+	protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromPower<SoulLampPower>()];
 
 	/// <summary>已计入、尚未凑满一次格挡奖励的魂灯层数（0 或 1，当 <see cref="SoulLampPerTrigger"/> 为 2 时）。</summary>
 	[SavedProperty]

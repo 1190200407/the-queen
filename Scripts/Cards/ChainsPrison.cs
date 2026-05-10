@@ -26,7 +26,7 @@ public sealed class ChainsPrison : QueenCardModel
 	];
 
 	protected override IEnumerable<IHoverTip> ExtraHoverTips => [
-		QueenHoverTips.SoulLamp
+		HoverTipFactory.FromPower<SoulLampPower>()
 	];
 
 	public ChainsPrison()

@@ -15,7 +15,7 @@ public sealed class LampInABottle : QueenPotionModel
     public override PotionRarity Rarity => PotionRarity.Common;
     public override PotionUsage Usage => PotionUsage.CombatOnly;
 
-    public override IEnumerable<IHoverTip> ExtraHoverTips => [QueenHoverTips.SoulLamp];
+    public override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromPower<SoulLampPower>()];
 
     protected override async Task OnUse(PlayerChoiceContext choiceContext, Creature? target)
     {

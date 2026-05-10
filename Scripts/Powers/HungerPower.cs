@@ -15,6 +15,6 @@ public sealed class HungerPower : QueenPowerModel
 	protected override IEnumerable<IHoverTip> ExtraHoverTips =>
 	[
 		HoverTipFactory.FromCard<Devour>(upgrade: false),
-		QueenHoverTips.SoulLamp,
+		HoverTipFactory.FromPower<SoulLampPower>(),
 	];
 }

@@ -32,7 +32,7 @@ public sealed class Astrolabe : QueenCardModel
 
 	protected override IEnumerable<IHoverTip> ExtraHoverTips =>
 	[
-		QueenHoverTips.SoulLamp,
+		HoverTipFactory.FromPower<SoulLampPower>(),
 		.. HoverTipFactory.FromAffliction<Bound>(),
 		HoverTipFactory.FromCard<MorningStar>(),
 		HoverTipFactory.FromCard<EveningStar>()

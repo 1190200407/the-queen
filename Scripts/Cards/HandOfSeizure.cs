@@ -29,7 +29,7 @@ public sealed class HandOfSeizure : QueenCardModel
 		HoverTipFactory.FromKeyword(QueenKeyword.fade),
 		HoverTipFactory.FromCard<HandOfRefusal>(upgrade: base.IsUpgraded),
 		.. HoverTipFactory.FromAffliction<Bound>(),
-		QueenHoverTips.SoulLamp
+		HoverTipFactory.FromPower<SoulLampPower>()
 	];
 
 	internal override bool HasSelfBound => true;

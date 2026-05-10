@@ -23,7 +23,7 @@ public sealed class Awaken : QueenCardModel
 		HoverTipFactory.FromCard<AwakenPain>(upgrade: base.IsUpgraded),
 		.. HoverTipFactory.FromAffliction<Bound>(),
 		QueenHoverTips.BindingOath,
-		QueenHoverTips.SoulLamp
+		HoverTipFactory.FromPower<SoulLampPower>()
 	];
 
 	public Awaken()

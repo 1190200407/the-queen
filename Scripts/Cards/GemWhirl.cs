@@ -29,7 +29,7 @@ public sealed class GemWhirl : QueenCardModel
 	protected override IEnumerable<DynamicVar> CanonicalVars => [new IntVar("Draw", 1m)];
 
 	protected override IEnumerable<IHoverTip> ExtraHoverTips => [
-		QueenHoverTips.SoulLamp,
+		HoverTipFactory.FromPower<SoulLampPower>(),
 		HoverTipFactory.FromKeyword(QueenKeyword.fade)
 	];
 

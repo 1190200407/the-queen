@@ -20,7 +20,7 @@ public class SummonSoul : QueenCardModel
     private const bool shouldShowInCardLibrary = true;
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromCard<SoulStrike>(base.IsUpgraded), HoverTipFactory.FromCard<SoulDefend>(base.IsUpgraded),
-        .. HoverTipFactory.FromAffliction<Bound>(), HoverTipFactory.FromKeyword(QueenKeyword.fade), QueenHoverTips.SoulLamp];
+        .. HoverTipFactory.FromAffliction<Bound>(), HoverTipFactory.FromKeyword(QueenKeyword.fade), HoverTipFactory.FromPower<SoulLampPower>()];
 
     public SummonSoul()
         : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)

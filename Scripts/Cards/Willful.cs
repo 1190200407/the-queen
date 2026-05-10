@@ -18,7 +18,7 @@ public sealed class Willful : QueenCardModel
 	private const TargetType targetType = TargetType.Self;
 	private const bool shouldShowInCardLibrary = true;
 
-	protected override IEnumerable<IHoverTip> ExtraHoverTips => [QueenHoverTips.SoulLamp];
+	protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromPower<SoulLampPower>()];
 
 	public Willful()
 		: base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)

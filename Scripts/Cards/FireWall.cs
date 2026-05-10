@@ -24,7 +24,7 @@ public sealed class FireWall : QueenCardModel
 
 	protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(5m, ValueProp.Move)];
 
-	protected override IEnumerable<IHoverTip> ExtraHoverTips => [QueenHoverTips.SoulLamp];
+	protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromPower<SoulLampPower>()];
 
 	public FireWall()
 		: base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)

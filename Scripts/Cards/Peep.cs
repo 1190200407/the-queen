@@ -21,7 +21,7 @@ public sealed class Peep : QueenCardModel
 
 	public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
-	protected override IEnumerable<IHoverTip> ExtraHoverTips => [QueenHoverTips.SoulLamp];
+	protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromPower<SoulLampPower>()];
 
 	protected override IEnumerable<DynamicVar> CanonicalVars => [new IntVar("Draw", 2m)];
 

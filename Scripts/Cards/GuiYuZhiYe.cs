@@ -28,7 +28,7 @@ public sealed class GuiYuZhiYe : QueenCardModel
         HoverTipFactory.FromKeyword(CardKeyword.Retain),
         HoverTipFactory.FromKeyword(QueenKeyword.fade),
         .. HoverTipFactory.FromAffliction<Bound>(),
-        QueenHoverTips.SoulLamp
+        HoverTipFactory.FromPower<SoulLampPower>()
     ];
 
     internal override bool HasSelfBound => true;

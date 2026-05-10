@@ -21,7 +21,7 @@ public sealed class LuoYeGuiGen : QueenCardModel
     [
         HoverTipFactory.FromCard<GuiYuZhiYe>(upgrade: base.IsUpgraded),
         HoverTipFactory.FromCard<GuiYuChenTu>(upgrade: base.IsUpgraded),
-        QueenHoverTips.SoulLamp
+        HoverTipFactory.FromPower<SoulLampPower>()
     ];
 
     public LuoYeGuiGen()

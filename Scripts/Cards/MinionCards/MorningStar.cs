@@ -26,7 +26,7 @@ public sealed class MorningStar : QueenCardModel
 	protected override IEnumerable<IHoverTip> ExtraHoverTips =>
 	[
 		HoverTipFactory.FromCard<EveningStar>(),
-		QueenHoverTips.SoulLamp,
+		HoverTipFactory.FromPower<SoulLampPower>(),
 	];
 
 	public MorningStar()

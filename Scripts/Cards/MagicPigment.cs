@@ -32,7 +32,7 @@ public sealed class MagicPigment : QueenCardModel
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
     [
         ..HoverTipFactory.FromAffliction<Bound>(),
-        QueenHoverTips.SoulLamp,
+        HoverTipFactory.FromPower<SoulLampPower>(),
     ];
 
     public MagicPigment()

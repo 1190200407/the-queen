@@ -37,7 +37,7 @@ public sealed class DarkVeil : QueenCardModel
 		}
 	}
 
-	protected override IEnumerable<IHoverTip> ExtraHoverTips => [QueenHoverTips.SoulLamp];
+	protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromPower<SoulLampPower>()];
 
 	protected override IEnumerable<DynamicVar> CanonicalVars => [
 		new BlockVar(5m, ValueProp.Move),

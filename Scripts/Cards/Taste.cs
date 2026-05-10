@@ -22,7 +22,7 @@ public sealed class Taste : QueenCardModel
 	protected override IEnumerable<IHoverTip> ExtraHoverTips =>
 	[
 		HoverTipFactory.FromCard<Devour>(base.IsUpgraded),
-		QueenHoverTips.SoulLamp,
+		HoverTipFactory.FromPower<SoulLampPower>(),
 	];
 
 	public Taste()

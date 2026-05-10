@@ -26,7 +26,7 @@ public sealed class Reminisce : QueenCardModel
 
 	protected override IEnumerable<DynamicVar> CanonicalVars => [new IntVar("Pick", 1m)];
 
-	protected override IEnumerable<IHoverTip> ExtraHoverTips => [QueenHoverTips.SoulLamp, ..HoverTipFactory.FromAffliction<Bound>()];
+	protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromPower<SoulLampPower>(), ..HoverTipFactory.FromAffliction<Bound>()];
 
 	public Reminisce()
 		: base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)

@@ -18,7 +18,7 @@ public class FirstGiftRelic : QueenRelicModel
 
 	// 遗物的数值。替换本地化中的{Cards}。
 	protected override IEnumerable<DynamicVar> CanonicalVars => [new CardsVar(1)];
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [QueenHoverTips.SoulLamp];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromPower<SoulLampPower>()];
 
     public override RelicModel? GetUpgradeReplacement()
     {

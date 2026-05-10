@@ -26,7 +26,7 @@ public sealed class TacticalDirective : QueenCardModel
 		HoverTipFactory.FromCard<TakeOver>(),
 		.. HoverTipFactory.FromAffliction<Bound>(),
 		HoverTipFactory.FromKeyword(QueenKeyword.fade),
-		QueenHoverTips.SoulLamp
+		HoverTipFactory.FromPower<SoulLampPower>()
 	];
 
 	public TacticalDirective()

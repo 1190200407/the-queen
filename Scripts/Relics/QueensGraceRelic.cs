@@ -15,7 +15,7 @@ public sealed class QueensGraceRelic : QueenRelicModel
 
 	protected override IEnumerable<DynamicVar> CanonicalVars => [new CardsVar(3)];
 
-	protected override IEnumerable<IHoverTip> ExtraHoverTips => [QueenHoverTips.SoulLamp];
+	protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromPower<SoulLampPower>()];
 
 	public override async Task BeforeCombatStart()
 	{

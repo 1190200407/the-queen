@@ -29,7 +29,7 @@ public sealed class GemShield : QueenCardModel
 	];
 
 	protected override IEnumerable<IHoverTip> ExtraHoverTips => IsUpgraded
-		? [base.EnergyHoverTip, QueenHoverTips.SoulLamp]
+		? [base.EnergyHoverTip, HoverTipFactory.FromPower<SoulLampPower>()]
 		: [base.EnergyHoverTip];
 
 	public GemShield()

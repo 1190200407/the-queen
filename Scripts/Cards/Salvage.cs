@@ -34,7 +34,7 @@ public sealed class Salvage : QueenCardModel
 		}
 	}
 
-	protected override IEnumerable<IHoverTip> ExtraHoverTips => [QueenHoverTips.SoulLamp];
+	protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromPower<SoulLampPower>()];
 
 	protected override IEnumerable<DynamicVar> CanonicalVars =>
 	[

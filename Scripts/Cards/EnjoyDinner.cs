@@ -28,7 +28,7 @@ public sealed class EnjoyDinner : QueenCardModel
 	protected override IEnumerable<IHoverTip> ExtraHoverTips =>
 	[
 		HoverTipFactory.FromCard<Devour>(base.IsUpgraded),
-		QueenHoverTips.SoulLamp,
+		HoverTipFactory.FromPower<SoulLampPower>(),
 	];
 
 	public EnjoyDinner()

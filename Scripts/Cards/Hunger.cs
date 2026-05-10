@@ -22,7 +22,7 @@ public sealed class Hunger : QueenCardModel
 	protected override IEnumerable<IHoverTip> ExtraHoverTips =>
 	[
 		HoverTipFactory.FromCard<Devour>(upgrade: base.IsUpgraded),
-		QueenHoverTips.SoulLamp,
+		HoverTipFactory.FromPower<SoulLampPower>(),
 	];
 
 	public Hunger()

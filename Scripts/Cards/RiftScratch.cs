@@ -34,7 +34,7 @@ public sealed class RiftScratch : ScratchTaggedCard
 	protected override IEnumerable<IHoverTip> ExtraHoverTips =>
 	[
 		.. HoverTipFactory.FromAffliction<Bound>(),
-		QueenHoverTips.SoulLamp,
+		HoverTipFactory.FromPower<SoulLampPower>(),
 	];
 
 	internal override bool HasSelfBound => true;

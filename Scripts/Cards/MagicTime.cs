@@ -29,7 +29,7 @@ public sealed class MagicTime : QueenCardModel
 	protected override IEnumerable<IHoverTip> ExtraHoverTips =>
 	[
 		base.EnergyHoverTip,
-		QueenHoverTips.SoulLamp,
+		HoverTipFactory.FromPower<SoulLampPower>(),
 		.. HoverTipFactory.FromAffliction<Bound>(),
 	];
 

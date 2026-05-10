@@ -23,7 +23,7 @@ public sealed class GemCharge : QueenCardModel
 		HoverTipFactory.FromCard<PiercingCharge>(upgrade: base.IsUpgraded),
 		HoverTipFactory.FromCard<DiffuseCharge>(upgrade: base.IsUpgraded),
 		.. HoverTipFactory.FromAffliction<Bound>(),
-		QueenHoverTips.SoulLamp
+		HoverTipFactory.FromPower<SoulLampPower>()
 	];
 
 	public GemCharge()

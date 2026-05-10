@@ -30,7 +30,7 @@ public sealed class TreasurePavilion : QueenCardModel
     [
         ..base.ExtraHoverTips,
         ..HoverTipFactory.FromAffliction<Bound>(),
-        QueenHoverTips.SoulLamp,
+        HoverTipFactory.FromPower<SoulLampPower>(),
     ];
 
     public TreasurePavilion()

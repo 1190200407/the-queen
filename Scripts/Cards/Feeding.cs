@@ -24,7 +24,7 @@ public sealed class Feeding : QueenCardModel
 	[
 		HoverTipFactory.FromCard<FeedingBone>(base.IsUpgraded),
 		HoverTipFactory.FromCard<FeedingFlesh>(base.IsUpgraded),
-		QueenHoverTips.SoulLamp
+		HoverTipFactory.FromPower<SoulLampPower>()
 	];
 
 	public Feeding()
