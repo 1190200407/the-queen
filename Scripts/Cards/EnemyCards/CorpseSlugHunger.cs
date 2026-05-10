@@ -16,7 +16,7 @@ namespace ComicChess.TheQueen;
 
 /// <summary>饥饿（噬尸蛞蝓）：召唤、使聚合体获得饥饿，并学习进攻意图。</summary>
 [Pool(typeof(EnemyCardPool))]
-public sealed class CorpseSlugHunger : QueenCardModel
+public sealed class CorpseSlugHunger : LearnIntentCardModel
 {
     private const int energyCost = 2;
     private const CardType type = CardType.Skill;
@@ -34,18 +34,19 @@ public sealed class CorpseSlugHunger : QueenCardModel
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
     [
         ..base.ExtraHoverTips,
-        QueenHoverTips.LearnIntent,
         HoverTipFactory.FromPower<AmalgamRavenousPower>(),
     ];
 
     public override int MaxUpgradeLevel => 0;
+
+    protected override bool ShouldSummonBeforeLearnIntent => true;
 
     public CorpseSlugHunger()
         : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
     {
     }
 
-    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    protected override async Task AfterSummonBeforeLearnIntentsAsync(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         _ = cardPlay;
         if (base.Owner.Creature.CombatState is not { } combatState)
@@ -53,22 +54,36 @@ public sealed class CorpseSlugHunger : QueenCardModel
             return;
         }
 
-        decimal summon = base.DynamicVars.Summon.BaseValue;
-        await FriendlyAmalgamCmd.Summon(choiceContext, base.Owner, summon, this);
-
         Creature? amalgam = FriendlyAmalgamCmd.GetExisting(combatState, base.Owner);
-        if (amalgam is { IsAlive: true })
+        if (amalgam is not { IsAlive: true })
         {
-            decimal stacks = base.DynamicVars["RavenousStacks"].BaseValue;
-            if (stacks > 0m)
-            {
-                await PowerCmd.Apply<AmalgamRavenousPower>(amalgam, stacks, base.Owner.Creature, this);
-            }
+            return;
+        }
 
-            decimal dmg = AmalgamLearnIntentDamageVar.GetEffectiveFlatForOffenseIntent(this, "LearnIntentDamage");
-            AmalgamActionModel? intent = AmalgamActionRegistry.CreateOffense(dmg);
-            await FriendlyAmalgamCmd.LearnIntent(choiceContext, base.Owner, intent, this);
+        decimal stacks = base.DynamicVars["RavenousStacks"].BaseValue;
+        if (stacks > 0m)
+        {
+            await PowerCmd.Apply<AmalgamRavenousPower>(amalgam, stacks, base.Owner.Creature, this);
         }
     }
-}
 
+    protected override Task<IReadOnlyList<AmalgamActionModel?>> CreateLearnIntentsAsync(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    {
+        _ = choiceContext;
+        _ = cardPlay;
+        if (base.Owner.Creature.CombatState is not { } combatState)
+        {
+            return Task.FromResult<IReadOnlyList<AmalgamActionModel?>>([]);
+        }
+
+        Creature? amalgam = FriendlyAmalgamCmd.GetExisting(combatState, base.Owner);
+        if (amalgam is not { IsAlive: true })
+        {
+            return Task.FromResult<IReadOnlyList<AmalgamActionModel?>>([]);
+        }
+
+        decimal dmg = AmalgamLearnIntentDamageVar.GetEffectiveFlatForOffenseIntent(this, "LearnIntentDamage");
+        AmalgamActionModel? intent = AmalgamActionRegistry.CreateOffense(dmg);
+        return Task.FromResult<IReadOnlyList<AmalgamActionModel?>>([intent]);
+    }
+}

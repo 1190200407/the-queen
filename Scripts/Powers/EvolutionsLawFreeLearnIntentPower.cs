@@ -8,7 +8,7 @@ using MegaCrit.Sts2.Core.Models;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>下一张 <see cref="LearnIntentCardModel"/> 耗能视为 0；打出后消耗一层。</summary>
+/// <summary>下一张带 <see cref="QueenCardTags.LearnIntent"/> 标签的牌耗能视为 0；打出后消耗一层。</summary>
 public sealed class EvolutionsLawFreeLearnIntentPower : QueenPowerModel
 {
 	public override PowerType Type => PowerType.Buff;
@@ -28,7 +28,7 @@ public sealed class EvolutionsLawFreeLearnIntentPower : QueenPowerModel
 			return false;
 		}
 
-		if (card is not LearnIntentCardModel)
+		if (!card.Tags.Contains(QueenCardTags.LearnIntent))
 		{
 			return false;
 		}
@@ -64,7 +64,7 @@ public sealed class EvolutionsLawFreeLearnIntentPower : QueenPowerModel
 			return;
 		}
 
-		if (card is not LearnIntentCardModel)
+		if (!card.Tags.Contains(QueenCardTags.LearnIntent))
 		{
 			return;
 		}

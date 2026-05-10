@@ -1,51 +1,176 @@
+using System.Threading.Tasks;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Models.Afflictions;
+using MegaCrit.Sts2.Core.Models.Powers;
+using MegaCrit.Sts2.Core.Random;
 
 namespace ComicChess.TheQueen;
 
 public static class QueenCardCmd
 {
-    public static async Task CreateInHand<T>(Player owner, CombatState combatState, bool isUpgraded = false) where T : CardModel
+	/// <summary>
+	/// 施加魂缚：战斗内走 <see cref="CardCmd.Afflict"/>；战斗外仅允许已在主牌组中的牌，直接 <see cref="CardModel.AfflictInternal"/>（商店改牌等）。
+	/// </summary>
+	public static async Task<bool> TryAfflictBoundOnCard(CardModel card, decimal amount)
 	{
-        CardModel card = combatState.CreateCard<T>(owner);
-        await CreateInHandInternal(card, isUpgraded);
+		if (card.Affliction != null)
+		{
+			return false;
+		}
+
+		CombatState? cs = card.CombatState ?? card.Owner?.Creature?.CombatState;
+		if (cs != null)
+		{
+			AfflictionModel? applied = await CardCmd.Afflict<Bound>(card, amount);
+			return applied != null;
+		}
+
+		if (card.Pile?.Type != PileType.Deck || card.Owner?.RunState == null)
+		{
+			return false;
+		}
+
+		AfflictionModel affliction = ModelDb.Affliction<Bound>().ToMutable();
+		if (!affliction.CanAfflict(card))
+		{
+			return false;
+		}
+
+		card.AfflictInternal(affliction, amount);
+		affliction.AfterApplied();
+		return true;
+	}
+
+	public static async Task CreateInHand<T>(Player owner, CombatState combatState, bool isUpgraded = false) where T : CardModel
+	{
+		CardModel card = combatState.CreateCard<T>(owner);
+		await CreateInHandInternal(card, isUpgraded);
 	}
 
 	private static async Task CreateInHandInternal(CardModel card, bool isUpgraded = false)
 	{
-        if (isUpgraded)
-        {
-            CardCmd.Upgrade(card);
-        }
+		if (isUpgraded)
+		{
+			CardCmd.Upgrade(card);
+		}
 
 		await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Hand, addedByPlayer: true);
 	}
 
-    public static async Task AddSoulLamp(Player owner, int amount = 1)
-    {
-        if (amount <= 0)
-        {
-            return;
-        }
+	public static async Task AddSoulLamp(Player owner, int amount = 1)
+	{
+		if (amount <= 0)
+		{
+			return;
+		}
 
-        SoulLampPower? existing = owner.Creature.GetPower<SoulLampPower>();
-        if (existing == null)
-        {
-            await PowerCmd.Apply<SoulLampPower>(owner.Creature, amount, owner.Creature, null);
-            return;
-        }
+		SoulLampPower? existing = owner.Creature.GetPower<SoulLampPower>();
+		if (existing == null)
+		{
+			await PowerCmd.Apply<SoulLampPower>(owner.Creature, amount, owner.Creature, null);
+		}
+		else if (existing.Amount <= 0)
+		{
+			// SoulLampPower uses -1 as the hidden "display 0" sentinel.
+			// When gaining Soul Lamp from this state, jump directly to gained amount.
+			await PowerCmd.SetAmount<SoulLampPower>(owner.Creature, amount, owner.Creature, null);
+		}
+		else
+		{
+			await PowerCmd.ModifyAmount(existing, amount, owner.Creature, null);
+		}
 
-        if (existing.Amount <= 0)
-        {
-            // SoulLampPower uses -1 as the hidden "display 0" sentinel.
-            // When gaining Soul Lamp from this state, jump directly to gained amount.
-            await PowerCmd.SetAmount<SoulLampPower>(owner.Creature, amount, owner.Creature, null);
-            return;
-        }
+		await NightLightRelic.NotifySoulLampGained(owner, amount);
+	}
 
-        await PowerCmd.ModifyAmount(existing, amount, owner.Creature, null);
-    }
+	private static readonly QueenTriadDebuffKind[] TriadDebuffKinds =
+	[
+		QueenTriadDebuffKind.Poison,
+		QueenTriadDebuffKind.Doom,
+		QueenTriadDebuffKind.Demise,
+	];
+
+	public static async Task ApplyRandomTriadDebuff(
+		Player owner,
+		Creature target,
+		Creature applier,
+		CardModel? cardSource,
+		decimal amount)
+	{
+		QueenTriadDebuffKind kind = PickTriadDebuff(owner, target);
+		await ApplyTriadDebuff(kind, target, applier, cardSource, amount);
+	}
+
+	/// <summary>
+	/// 按目标当前层数加权：尚未拥有的类型权重大，已有层数越高权重略降，便于尽快「三种都挂上」再偏向往层数低的一侧叠。
+	/// </summary>
+	public static QueenTriadDebuffKind PickTriadDebuff(Player owner, Creature target)
+	{
+		Rng rng = owner.RunState.Rng.CombatCardSelection;
+		QueenTriadDebuffKind? picked = rng.WeightedNextItem(TriadDebuffKinds, k => WeightForTriadKind(target, k));
+		return picked ?? QueenTriadDebuffKind.Poison;
+	}
+
+	public static async Task ApplyTriadDebuff(
+		QueenTriadDebuffKind kind,
+		Creature target,
+		Creature applier,
+		CardModel? cardSource,
+		decimal amount)
+	{
+		switch (kind)
+		{
+			case QueenTriadDebuffKind.Poison:
+				await PowerCmd.Apply<PoisonPower>(target, amount, applier, cardSource);
+				break;
+			case QueenTriadDebuffKind.Doom:
+				await PowerCmd.Apply<DoomPower>(target, amount, applier, cardSource);
+				break;
+			default:
+				await PowerCmd.Apply<DemisePower>(target, amount, applier, cardSource);
+				break;
+		}
+	}
+
+	private static float WeightForTriadKind(Creature target, QueenTriadDebuffKind? kind)
+	{
+		if (kind is not { } k)
+		{
+			return 0.01f;
+		}
+
+		decimal stacks = k switch
+		{
+			QueenTriadDebuffKind.Poison => target.GetPower<PoisonPower>()?.Amount ?? 0m,
+			QueenTriadDebuffKind.Doom => target.GetPower<DoomPower>()?.Amount ?? 0m,
+			QueenTriadDebuffKind.Demise => target.GetPower<DemisePower>()?.Amount ?? 0m,
+			_ => 0m,
+		};
+
+		double s = (double)Math.Max(0m, stacks);
+
+		const float Base = 3f;
+		const float FreshBonus = 12f;
+		const double StackDampen = 0.45;
+
+		if (s <= 0.0)
+		{
+			return Base + FreshBonus;
+		}
+
+		return Base + (float)(1.0 / (1.0 + s * StackDampen));
+	}
+}
+
+/// <summary>毒 / 灾厄(Doom) / 消亡(Demise) 三选一加权随机的标签。</summary>
+public enum QueenTriadDebuffKind
+{
+	Poison,
+	Doom,
+	Demise,
 }

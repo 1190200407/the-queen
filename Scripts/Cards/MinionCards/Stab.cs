@@ -9,7 +9,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>刺击：衍生牌（输出型），学习意图为伤害并使敌人本回合失去力量；消逝。</summary>
+/// <summary>刺击：衍生牌（输出型），学习意图为伤害并使敌人本回合失去力量；消逝�?/summary>
 [Pool(typeof(TokenCardPool))]
 public sealed class Stab : LearnIntentCardModel
 {

@@ -1,30 +1,34 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
-using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.Models;
-using MegaCrit.Sts2.Core.Models.Afflictions;
 using MegaCrit.Sts2.Core.Models.CardPools;
-using MegaCrit.Sts2.Core.ValueProps;
+using MegaCrit.Sts2.Core.Models.Powers;
 
 namespace ComicChess.TheQueen;
 
+/// <summary>注视：本回合与下回合各使目标失去 2 点力量；基础消耗。</summary>
 [Pool(typeof(QueenCardPool))]
 public sealed class Gaze : QueenCardModel
 {
-	private const int energyCost = 2;
-	private const CardType type = CardType.Attack;
+	private const int energyCost = 1;
+	private const CardType type = CardType.Skill;
 	private const CardRarity rarity = CardRarity.Common;
-	private const TargetType targetType = TargetType.AllEnemies;
+	private const TargetType targetType = TargetType.AnyEnemy;
 	private const bool shouldShowInCardLibrary = true;
+	private const decimal strengthLoss = 2m;
 
-	protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(13m, ValueProp.Move)];
+	public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
-	protected override IEnumerable<IHoverTip> ExtraHoverTips => [.. HoverTipFactory.FromAffliction<Bound>()];
+	protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+	[
+		HoverTipFactory.FromPower<StrengthPower>()
+	];
 
 	public Gaze()
 		: base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
@@ -33,25 +37,20 @@ public sealed class Gaze : QueenCardModel
 
 	protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
 	{
-		if (base.CombatState == null)
+		_ = choiceContext;
+		ArgumentNullException.ThrowIfNull(cardPlay.Target, nameof(cardPlay.Target));
+		Creature target = cardPlay.Target;
+		if (!target.IsAlive || base.Owner.Creature is not { IsAlive: true } applier)
 		{
 			return;
 		}
 
-		await DamageCmd.Attack(base.DynamicVars.Damage.BaseValue)
-			.FromCard(this)
-			.TargetingAllOpponents(base.CombatState)
-			.WithHitFx("vfx/vfx_attack_blunt")
-			.Execute(choiceContext);
-
-		if (Affliction is not Bound)
-		{
-			await CardCmd.Afflict<Bound>(this, 1m);
-		}
+		await PowerCmd.Apply<GazeEnemyStrengthPower>(target, strengthLoss, applier, this);
+		await PowerCmd.Apply<GazeNextTurnStrengthLossPower>(target, strengthLoss, applier, this);
 	}
 
 	protected override void OnUpgrade()
 	{
-		base.DynamicVars.Damage.UpgradeValueBy(5m);
+		RemoveKeyword(CardKeyword.Exhaust);
 	}
 }

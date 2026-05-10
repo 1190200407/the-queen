@@ -9,7 +9,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>格挡：衍生牌（防御型），学习意图为获得格挡；消逝。</summary>
+/// <summary>格挡：衍生牌（防御型），学习意图为获得格挡；消逝�?/summary>
 [Pool(typeof(TokenCardPool))]
 public sealed class Guard : LearnIntentCardModel
 {

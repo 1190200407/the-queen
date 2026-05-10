@@ -8,7 +8,7 @@ using MegaCrit.Sts2.Core.Models.CardPools;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>干扰：学习意图为抽牌。</summary>
+/// <summary>干扰：学习意图为抽牌�?/summary>
 [Pool(typeof(TokenCardPool))]
 public sealed class Distract : LearnIntentCardModel
 {

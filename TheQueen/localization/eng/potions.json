@@ -1,0 +1,12 @@
+{
+    "COMICCHESS-LAMP_IN_A_BOTTLE.description": "[aqua]Gain [blue]1[/blue] [gold]Soul Lamp[/gold].[/aqua]",
+    "COMICCHESS-LAMP_IN_A_BOTTLE.title": "Lamp in a Bottle",
+    "COMICCHESS-SOURCE_OF_CLARITY.description": "Clear [purple]Affliction[/purple] from a card in [gold]Hand[/gold].",
+    "COMICCHESS-SOURCE_OF_CLARITY.selectionScreenPrompt": "Choose a card in Hand.",
+    "COMICCHESS-SOURCE_OF_CLARITY.title": "Source of Clarity",
+    "COMICCHESS-MAGIC_MIRROR_SHARD.description": "Choose [blue]1[/blue] non-Dupe card from your [gold]Hand[/gold]. At the end of combat, gain it as an additional [gold]card[/gold] reward.",
+    "COMICCHESS-MAGIC_MIRROR_SHARD.selectionScreenPrompt": "Choose a non-Dupe card.",
+    "COMICCHESS-MAGIC_MIRROR_SHARD.title": "Magic Mirror Shard",
+    "COMICCHESS-DEATH_ELIXIR.description": "Apply [blue]{PoisonPower}[/blue] [gold]Poison[/gold], [blue]{DoomPower}[/blue] [gold]Doom[/gold], and [blue]{DemisePower}[/blue] [gold]Demise[/gold].",
+    "COMICCHESS-DEATH_ELIXIR.title": "Death Elixir"
+}

@@ -1,7 +1,7 @@
 {
     "COMICCHESS-SOUL_LIGHT.title": "灯火",
     "COMICCHESS-SOUL_LIGHT.description": "你第一次打出这张牌时，[aqua]获得{Amount}点魂灯[/aqua]。",
-    "COMICCHESS-SOUL_LIGHT.extraCardText": "第一次打出时[aqua]获得{Amount}点魂灯[/aqua]。",
+    "COMICCHESS-SOUL_LIGHT.extraCardText": "获得{Amount}点魂灯。",
     "COMICCHESS-SLIMED.title":"黏液",
     "COMICCHESS-SLIMED.description":"你这张牌打出时抽{Cards}张牌, 然后消耗这张牌。",
     "COMICCHESS-SLIMED.extraCardText":"抽{Cards}张牌。",

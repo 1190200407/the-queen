@@ -6,5 +6,19 @@
     "COMICCHESS-SOUL_LIGHT_BRAND_RELIC.title":"Soul-Light Brand",
     "COMICCHESS-SOUL_LIGHT_BRAND_RELIC.description":"Upon pickup, [aqua]Enchant[/aqua] [blue]1[/blue] card in your deck with [gold]Soul Light[/gold] [blue]1[/blue].",
     "COMICCHESS-PAPER_CUTS_RELIC.title":"Paper Cuts",
-    "COMICCHESS-PAPER_CUTS_RELIC.description":"At the start of combat, all enemies lose {Cuts} Max HP."
+    "COMICCHESS-PAPER_CUTS_RELIC.description":"At the start of combat, all enemies lose {Cuts} Max HP.",
+    "COMICCHESS-NIGHT_LIGHT_RELIC.title":"Night Light",
+    "COMICCHESS-NIGHT_LIGHT_RELIC.description":"Whenever you gain {SoulLampPerTrigger} stacks of [aqua]Soul Lamp[/aqua], gain {Block} [gold]Block[/gold].",
+    "COMICCHESS-OMINOUS_CURSE_RELIC.title":"Ominous Curse",
+    "COMICCHESS-OMINOUS_CURSE_RELIC.description":"The first time you apply [gold]Vulnerable[/gold] or [gold]Weak[/gold] each combat, apply {BonusStacks} extra stack.",
+    "COMICCHESS-SILVER_BRACELET_RELIC.title":"Silver Bracelet",
+    "COMICCHESS-SILVER_BRACELET_RELIC.description":"Upon pickup, choose a card in your deck. Afflict it with [gold]Bound[/gold]. Enchant it with [gold]Soul Light[/gold] {SoulLightAmount}.\n[gray]{MarkedCardTitle}[/gray]",
+    "COMICCHESS-GOLDEN_FINGER_RELIC.title":"Golden Finger",
+    "COMICCHESS-GOLDEN_FINGER_RELIC.description":"Each turn, whenever you play {PlaysRequired} cards without spending [gold]Energy[/gold], gain {Energy} [gold]Energy[/gold] and draw {Cards} card.",
+    "COMICCHESS-BROKEN_MAGIC_MIRROR_RELIC.title":"Broken Magic Mirror",
+    "COMICCHESS-BROKEN_MAGIC_MIRROR_RELIC.description":"Upon pickup, gain {Potions} [gold]Magic Mirror Shard[/gold] potion.",
+    "COMICCHESS-PEACH_HEART_WOODEN_SWORD_RELIC.title":"Peach-Heart Wooden Sword",
+    "COMICCHESS-PEACH_HEART_WOODEN_SWORD_RELIC.description":"At the start of combat, all Monster cards gain [gold]Ethereal[/gold].",
+    "COMICCHESS-REVELATION_CUP_RELIC.title":"Revelation Cup",
+    "COMICCHESS-REVELATION_CUP_RELIC.description":"The first time you [gold]Learn Intent[/gold] each combat, learn twice."
 }

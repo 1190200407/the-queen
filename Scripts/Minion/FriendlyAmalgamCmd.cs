@@ -239,6 +239,8 @@ public static class FriendlyAmalgamCmd
             await CreatureCmd.SetMaxHp(minion, amount);
             await HealCurrentUpToSummonTargetAsync(minion, amount);
         }
+
+        await FriendlyAmalgamHook.OnAmalgamEnterCombat(combatState, choiceContext, owner, minion);
         CombatManager.Instance.History.Summoned(combatState, (int)amount, owner);
         await EnsureAmalgamCorePowers(minion);
         TryTrackOwnerBlockOnAmalgamNode(minion);
@@ -278,7 +280,6 @@ public static class FriendlyAmalgamCmd
     /// <summary>战斗开场：仅生成 0 血的聚合体壳并写入固定最大生命，不治疗、不占召唤历史。</summary>
     public static async Task EnsureAmalgamCombatStartShellAsync(PlayerChoiceContext choiceContext, Player owner)
     {
-        _ = choiceContext;
         CombatState? combatState = owner.Creature.CombatState;
         if (combatState == null)
         {
@@ -293,6 +294,7 @@ public static class FriendlyAmalgamCmd
         Creature minion = await AddAmalgamPetAsync(owner, default);
         await EnsureAmalgamCorePowers(minion);
         await CreatureCmd.SetMaxHp(minion, 1m);
+        await FriendlyAmalgamHook.OnAmalgamEnterCombat(combatState, choiceContext, owner, minion);
         TryTrackOwnerBlockOnAmalgamNode(minion);
         PlaceAmalgamByQueen(owner, minion, combatState);
         //SyncHealthBarVisibility(minion);
@@ -382,45 +384,7 @@ public static class FriendlyAmalgamCmd
         }
 
         await amalgamModel.LearnIntent(choiceContext, intent);
-
-        await MirrorSoulResonanceLearnIntentAsync(choiceContext, owner, intent, source);
-    }
-
-    /// <summary>
-    /// <see cref="SoulResonancePower"/>：出牌方聚合体已学意图后，为其他存活玩家各再学一份（独立副本，见 <see cref="AmalgamActionModel.CloneForSoulResonance"/>）。
-    /// 仅当 <paramref name="source"/> 为 <see cref="LearnIntentCardModel"/> 且其 <see cref="CardModel.Owner"/> 与本次学习的玩家一致时触发，避免 CombineIntent 路径或代打误同步。
-    /// </summary>
-    private static async Task MirrorSoulResonanceLearnIntentAsync(
-        PlayerChoiceContext choiceContext,
-        Player amalgamOwner,
-        AmalgamActionModel intent,
-        AbstractModel? source)
-    {
-        if (source is not CardModel playedCard || playedCard is not LearnIntentCardModel)
-        {
-            return;
-        }
-
-        if (playedCard.Owner != amalgamOwner || amalgamOwner.Creature.GetPower<SoulResonancePower>() == null)
-        {
-            return;
-        }
-
-        CombatState? combatState = amalgamOwner.Creature.CombatState;
-        if (combatState == null)
-        {
-            return;
-        }
-
-        foreach (Player other in combatState.Players)
-        {
-            if (other.NetId == amalgamOwner.NetId || !other.Creature.IsAlive)
-            {
-                continue;
-            }
-
-            await LearnIntent(choiceContext, other, intent.Clone(), source);
-        }
+        await FriendlyAmalgamHook.AfterLearnIntent(combatState, choiceContext, owner, amalgamCreature, intent, source);
     }
 
     /// <summary>
@@ -452,6 +416,7 @@ public static class FriendlyAmalgamCmd
         }
 
         await amalgamModel.CombineIntentAsync(choiceContext, intent, compositeIndexKey);
+        await FriendlyAmalgamHook.AfterCombineIntent(combatState, choiceContext, owner, amalgamCreature, intent, source, compositeIndexKey);
     }
 
     /// <summary>将 <see cref="FriendlyAmalgam"/> 三槽意图与 <see cref="NewNAmalgamVfx"/> 小火同步（无节点时静默跳过）。</summary>

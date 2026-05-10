@@ -9,4 +9,7 @@ public static class QueenCardTags
 {
 	/// <summary>抓挠体系攻击牌；与 <see cref="ScratchTaggedCard"/> 配合。</summary>
 	public const CardTag Scratch = (CardTag)79;
+
+	/// <summary>学习意图类卡牌；与 <see cref="LearnIntentCardModel"/> 及手写写入学习意图的牌配合。</summary>
+	public const CardTag LearnIntent = (CardTag)599;
 }

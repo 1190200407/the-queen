@@ -38,7 +38,7 @@ public sealed class QuickAdaptation : QueenCardModel
         _ = cardPlay;
         CardPile drawPile = PileType.Draw.GetPile(base.Owner);
         List<CardModel> candidates = drawPile.Cards
-            .Where(static c => c is LearnIntentCardModel)
+            .Where(static c => c.Tags.Contains(QueenCardTags.LearnIntent))
             .ToList();
         if (candidates.Count == 0)
         {
@@ -58,13 +58,11 @@ public sealed class QuickAdaptation : QueenCardModel
         IEnumerable<CardModel> selected = await CardSelectCmd.FromSimpleGrid(choiceContext, candidates, base.Owner, prefs);
         foreach (CardModel card in selected.ToList())
         {
-            await CardCmd.AutoPlay(
+            await CardAutoPlayDirect.AutoPlayAsync(
                 choiceContext,
                 card,
                 target: null,
-                AutoPlayType.Default,
-                skipXCapture: false,
-                skipCardPileVisuals: false);
+                AutoPlayType.Default);
         }
     }
 

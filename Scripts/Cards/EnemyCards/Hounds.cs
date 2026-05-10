@@ -10,7 +10,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>猎犬：召唤并学习 1x8 的多段进攻意图。</summary>
+/// <summary>猎犬：召唤并学习 1x8 的多段进攻意图�?/summary>
 [Pool(typeof(EnemyCardPool))]
 public sealed class Hounds : LearnIntentCardModel
 {

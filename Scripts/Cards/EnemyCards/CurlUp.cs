@@ -15,7 +15,7 @@ namespace ComicChess.TheQueen;
 
 /// <summary>蜷身：使聚合体获得蜷身，并学习「攻击 + 本回合失去力量」意图。</summary>
 [Pool(typeof(EnemyCardPool))]
-public sealed class CurlUp : QueenCardModel
+public sealed class CurlUp : LearnIntentCardModel
 {
     private const int energyCost = 2;
     private const CardType type = CardType.Skill;
@@ -32,7 +32,7 @@ public sealed class CurlUp : QueenCardModel
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
     [
-        QueenHoverTips.LearnIntent,
+        ..base.ExtraHoverTips,
         HoverTipFactory.FromPower<AmalgamCurlUpPower>(),
     ];
 
@@ -59,17 +59,23 @@ public sealed class CurlUp : QueenCardModel
             {
                 await PowerCmd.Apply<AmalgamCurlUpPower>(amalgam, amount, base.Owner.Creature, this);
             }
-
-            decimal dmg = AmalgamLearnIntentDamageVar.GetEffectiveFlatForOffenseIntent(this, "LearnIntentDamage");
-            decimal strLoss = base.DynamicVars["LearnIntentStrengthLoss"].BaseValue;
-            if (dmg > 0m && strLoss > 0m)
-            {
-                await FriendlyAmalgamCmd.LearnIntent(
-                    choiceContext,
-                    base.Owner,
-                    new AmalgamAttackAndStrengthDownIntentAction(dmg, strLoss),
-                    this);
-            }
         }
+
+        await PlayLearnIntentsFromCreateAsync(choiceContext, cardPlay);
+    }
+
+    protected override Task<IReadOnlyList<AmalgamActionModel?>> CreateLearnIntentsAsync(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    {
+        _ = choiceContext;
+        _ = cardPlay;
+        decimal dmg = AmalgamLearnIntentDamageVar.GetEffectiveFlatForOffenseIntent(this, "LearnIntentDamage");
+        decimal strLoss = base.DynamicVars["LearnIntentStrengthLoss"].BaseValue;
+        if (dmg <= 0m || strLoss <= 0m)
+        {
+            return Task.FromResult<IReadOnlyList<AmalgamActionModel?>>([]);
+        }
+
+        return Task.FromResult<IReadOnlyList<AmalgamActionModel?>>(
+            [new AmalgamAttackAndStrengthDownIntentAction(dmg, strLoss)]);
     }
 }

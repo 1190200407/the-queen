@@ -15,7 +15,7 @@ namespace ComicChess.TheQueen;
 
 /// <summary>同族小队！集结！（亲族祭司）：召唤并生成 token，然后学习两个意图。</summary>
 [Pool(typeof(EnemyCardPool))]
-public sealed class TheKins : QueenCardModel
+public sealed class TheKins : LearnIntentCardModel
 {
     private const int energyCost = 3;
     private const CardType type = CardType.Skill;
@@ -39,6 +39,7 @@ public sealed class TheKins : QueenCardModel
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
     [
+        ..base.ExtraHoverTips,
         HoverTipFactory.FromCard<PowerDance>(),
         HoverTipFactory.FromPower<WeakPower>(),
         HoverTipFactory.FromPower<StrengthPower>(),
@@ -46,44 +47,52 @@ public sealed class TheKins : QueenCardModel
 
     public override int MaxUpgradeLevel => 0;
 
+    protected override bool ShouldSummonBeforeLearnIntent => true;
+
     public TheKins()
         : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
     {
     }
 
-    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    protected override async Task AfterSummonBeforeLearnIntentsAsync(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
+        _ = choiceContext;
         _ = cardPlay;
         if (base.Owner.Creature.CombatState is not { } combatState)
         {
             return;
         }
 
-        decimal summon = base.DynamicVars.Summon.BaseValue;
-        await FriendlyAmalgamCmd.Summon(choiceContext, base.Owner, summon, this);
-
-        // 生成 2 张力量之舞（爪牙 token）
         int count = (int)base.DynamicVars["GenerateCount"].BaseValue;
         for (int i = 0; i < count; i++)
         {
             await QueenCardCmd.CreateInHand<PowerDance>(base.Owner, combatState, isUpgraded: false);
         }
+    }
+
+    protected override Task<IReadOnlyList<AmalgamActionModel?>> CreateLearnIntentsAsync(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    {
+        _ = choiceContext;
+        _ = cardPlay;
+        if (base.Owner.Creature.CombatState is not { } combatState)
+        {
+            return Task.FromResult<IReadOnlyList<AmalgamActionModel?>>([]);
+        }
 
         Creature? amalgam = FriendlyAmalgamCmd.GetExisting(combatState, base.Owner);
         if (amalgam is not { IsAlive: true })
         {
-            return;
+            return Task.FromResult<IReadOnlyList<AmalgamActionModel?>>([]);
         }
 
         decimal dmg1 = AmalgamLearnIntentDamageVar.GetEffectiveFlatForOffenseIntent(this, "LearnIntentDamage");
         decimal weak = base.DynamicVars["LearnIntentWeak"].BaseValue;
         AmalgamActionModel? intent1 = AmalgamActionRegistry.CreateAttackAndWeak(dmg1, weak);
-        await FriendlyAmalgamCmd.LearnIntent(choiceContext, base.Owner, intent1, this);
 
         decimal dmg2 = AmalgamLearnIntentDamageVar.GetEffectiveFlatForOffenseIntent(this, "LearnIntentDamage2");
         decimal strLoss = base.DynamicVars["LearnIntentStrengthLoss"].BaseValue;
         AmalgamActionModel? intent2 = new AmalgamAttackAndLoseStrengthIntentAction(dmg2, strLoss);
-        await FriendlyAmalgamCmd.LearnIntent(choiceContext, base.Owner, intent2, this);
+
+        return Task.FromResult<IReadOnlyList<AmalgamActionModel?>>([intent1, intent2]);
     }
 }
-

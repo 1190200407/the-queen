@@ -10,7 +10,7 @@ using MegaCrit.Sts2.Core.Models.CardPools;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>刺耳尖啸：召唤并学习「目标本回合失去力量 + 生成一张刺耳尖啸」。</summary>
+/// <summary>刺耳尖啸：召唤并学习「目标本回合失去力量 + 生成一张刺耳尖啸」�?/summary>
 [Pool(typeof(EnemyCardPool))]
 public sealed class Screech : LearnIntentCardModel
 {

@@ -68,7 +68,12 @@ public sealed class YouAreMine : QueenCardModel
 				break;
 			}
 
-			Creature target = base.Owner.RunState.Rng.CombatCardSelection.NextItem(enemies);
+			Creature? target = base.Owner.RunState.Rng.CombatCardSelection.NextItem(enemies);
+			if (target == null)
+			{
+				continue;
+			}
+
 			if (base.Owner.RunState.Rng.CombatCardSelection.NextItem(new List<int> { 0, 1 }) == 0)
 			{
 				await PowerCmd.Apply<VulnerablePower>(target, 1m, base.Owner.Creature, this);

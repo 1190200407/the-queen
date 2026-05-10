@@ -11,7 +11,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>猛击：爪牙 token，学习意图为单体伤害；魂缚、消逝。</summary>
+/// <summary>猛击：爪�?token，学习意图为单体伤害；魂缚、消逝�?/summary>
 [Pool(typeof(TokenCardPool))]
 public sealed class Slam : LearnIntentCardModel
 {

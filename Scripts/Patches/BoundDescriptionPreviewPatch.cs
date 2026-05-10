@@ -47,6 +47,12 @@ internal static class BoundDescriptionPreviewPatch
 			return;
 		}
 
+		// 战斗中由真实 Affliction 或「已清除」状态决定文案，不追加深缚预览行。
+		if (card.CombatState != null)
+		{
+			return;
+		}
+
 		if (card.Affliction != null)
 		{
 			return;

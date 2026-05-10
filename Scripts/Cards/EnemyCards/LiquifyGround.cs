@@ -17,7 +17,7 @@ namespace ComicChess.TheQueen;
 
 /// <summary>液化地面：获得沙坑、召唤，并学习意图生成狂乱牵引。</summary>
 [Pool(typeof(EnemyCardPool))]
-public sealed class LiquifyGround : QueenCardModel
+public sealed class LiquifyGround : LearnIntentCardModel
 {
     private const int energyCost = 3;
     private const CardType type = CardType.Power;
@@ -36,7 +36,7 @@ public sealed class LiquifyGround : QueenCardModel
         new SummonVar(summon).WithTooltip("QUEEN_SUMMON_DYNAMIC"),
         new CalculationBaseVar(0m),
         new CalculationExtraVar(1m),
-        new CalculatedVar("Sandpit").WithMultiplier((CardModel card, Creature? _) => 
+        new CalculatedVar("Sandpit").WithMultiplier((CardModel card, Creature? _) =>
         {
             return card.Owner.Creature.GetPower<SandpitPower>()?.Amount ?? 0m;
         }),
@@ -46,7 +46,7 @@ public sealed class LiquifyGround : QueenCardModel
     [
         HoverTipFactory.FromPower<SandpitPower>(),
         HoverTipFactory.FromCard<FranticTug>(),
-        QueenHoverTips.LearnIntent,
+        ..base.ExtraHoverTips,
     ];
 
     public LiquifyGround()
@@ -75,8 +75,14 @@ public sealed class LiquifyGround : QueenCardModel
         }
         await FriendlyAmalgamCmd.Summon(choiceContext, base.Owner, summon, this);
 
+        await PlayLearnIntentsFromCreateAsync(choiceContext, cardPlay);
+    }
+
+    protected override Task<IReadOnlyList<AmalgamActionModel?>> CreateLearnIntentsAsync(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    {
+        _ = choiceContext;
+        _ = cardPlay;
         AmalgamActionModel intent = new AmalgamGenerateCardIntentAction<FranticTug>(1m);
-        await FriendlyAmalgamCmd.LearnIntent(choiceContext, base.Owner, intent, this);
+        return Task.FromResult<IReadOnlyList<AmalgamActionModel?>>([intent]);
     }
 }
-

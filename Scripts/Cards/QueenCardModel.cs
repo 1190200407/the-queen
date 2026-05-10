@@ -109,7 +109,13 @@ public abstract class QueenCardModel : CustomCardModel
         }
     }
 
-    public override bool HasBuiltInOverlay => HasSelfBound;
+    /// <summary>
+    /// 无战斗上下文（图鉴、预构）仍为 true，由 <see cref="BoundOverlayPreviewPatch"/> 提供魂缚叠层。
+    /// 战斗内仅在仍存在 <see cref="Bound"/> 时为 true；清除侵蚀后须为 false，否则 <see cref="MegaCrit.Sts2.Core.Nodes.Cards.NCard"/> 的
+    /// <c>ReloadOverlay</c> 会在 <c>Affliction == null</c> 时仍走内置叠层分支，看起来像清不掉。
+    /// </summary>
+    public override bool HasBuiltInOverlay =>
+        HasSelfBound && (CombatState == null || Affliction is Bound);
 
     public QueenCardModel(int energyCost, CardType type, CardRarity rarity, TargetType targetType, bool shouldShowInCardLibrary) : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
     {

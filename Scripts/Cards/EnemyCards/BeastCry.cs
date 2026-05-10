@@ -13,7 +13,7 @@ using MegaCrit.Sts2.Core.Models.CardPools;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>兽吼：学习晕眩意图，消耗。</summary>
+/// <summary>兽吼：学习晕眩意图，消耗�?/summary>
 [Pool(typeof(EnemyCardPool))]
 public sealed class BeastCry : LearnIntentCardModel
 {

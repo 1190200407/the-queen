@@ -8,7 +8,7 @@ using MegaCrit.Sts2.Core.Models.CardPools;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>力量之舞：爪牙 token，学习意图为获得力量。</summary>
+/// <summary>力量之舞：爪�?token，学习意图为获得力量�?/summary>
 [Pool(typeof(TokenCardPool))]
 public sealed class PowerDance : LearnIntentCardModel
 {

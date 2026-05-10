@@ -9,7 +9,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>电击：衍生牌（输出型），学习意图为单体伤害；消逝。</summary>
+/// <summary>电击：衍生牌（输出型），学习意图为单体伤害；消逝�?/summary>
 [Pool(typeof(TokenCardPool))]
 public sealed class Zap : LearnIntentCardModel
 {

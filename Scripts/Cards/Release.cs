@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using BaseLib.Utils;
+using Godot;
 using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -9,7 +10,7 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.CardPools;
-using MegaCrit.Sts2.Core.Rewards;
+using MegaCrit.Sts2.Core.Nodes;
 using MegaCrit.Sts2.Core.Runs;
 
 namespace ComicChess.TheQueen;
@@ -38,6 +39,14 @@ public sealed class Release : QueenCardModel
 
     public override async Task AfterAddToDeckPrevented(CardModel card)
     {
+        // 奖励界面尚未收起时立刻弹网格，子界面关闭后可能把同一次点击传到下层，触发第二次 SelectCard。
+        // 先等一帧再开选牌，并与 NCardRewardSelectionScreenSelectCardGuardPatch 一起避免 TCS 二次 SetResult。
+        SceneTree? tree = NGame.Instance?.GetTree();
+        if (tree != null)
+        {
+            await NGame.Instance!.ToSignal(tree, SceneTree.SignalName.ProcessFrame);
+        }
+
         await RemoveEnemyCardsOnPickup(card.Owner, card.IsUpgraded ? 2 : 1);
     }
 

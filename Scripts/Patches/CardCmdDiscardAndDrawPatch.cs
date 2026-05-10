@@ -113,7 +113,8 @@ internal static class CardCmdDiscardAndDrawPatch
 
 		foreach (CardModel item in slyCards)
 		{
-			await CardCmd.AutoPlay(choiceContext, item, null, AutoPlayType.SlyDiscard);
+			// 不走 CardCmd.AutoPlay：BaseLib 对其打的 AnyPlayer 补丁会引用已移除的 ICombatState，JIT 抛 TypeLoadException（联机弃灵巧牌等）。
+			await CardAutoPlayDirect.AutoPlayAsync(choiceContext, item, target: null, AutoPlayType.SlyDiscard);
 		}
 
 		foreach (CardModel item in fadeCards)
@@ -123,4 +124,5 @@ internal static class CardCmdDiscardAndDrawPatch
 			await Hook.AfterCardExhausted(combatState, choiceContext, item, causedByEthereal: false);
 		}
 	}
+
 }

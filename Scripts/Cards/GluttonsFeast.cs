@@ -61,7 +61,13 @@ public sealed class GluttonsFeast : QueenCardModel
 		bool firstAutoPlay = true;
 		for (int i = devoursInExhaust.Count - 1; i >= 0; i--)
 		{
-			await CardCmd.AutoPlay(choiceContext, devoursInExhaust[i], cardPlay.Target, AutoPlayType.Default, skipXCapture: false, skipCardPileVisuals: !firstAutoPlay);
+			await CardAutoPlayDirect.AutoPlayAsync(
+				choiceContext,
+				devoursInExhaust[i],
+				cardPlay.Target,
+				AutoPlayType.Default,
+				skipXCapture: false,
+				skipCardPileVisuals: !firstAutoPlay);
 			firstAutoPlay = false;
 		}
 

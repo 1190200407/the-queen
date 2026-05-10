@@ -1,0 +1,12 @@
+{
+    "COMICCHESS-LAMP_IN_A_BOTTLE.description": "[aqua]获得1点魂灯。[/aqua]",
+    "COMICCHESS-LAMP_IN_A_BOTTLE.title": "瓶中灯",
+    "COMICCHESS-SOURCE_OF_CLARITY.description": "清除一张[gold]手牌[/gold]的[purple]侵蚀[/purple]。",
+    "COMICCHESS-SOURCE_OF_CLARITY.selectionScreenPrompt": "选择1张手牌清除其侵蚀。",
+    "COMICCHESS-SOURCE_OF_CLARITY.title": "澄净之源",
+    "COMICCHESS-MAGIC_MIRROR_SHARD.description": "从[gold]手牌[/gold]中选择1张牌。战斗胜利时将该牌作为[gold]额外卡牌奖励[/gold]加入。",
+    "COMICCHESS-MAGIC_MIRROR_SHARD.selectionScreenPrompt": "选择1张牌。",
+    "COMICCHESS-MAGIC_MIRROR_SHARD.title": "魔镜碎片",
+    "COMICCHESS-DEATH_ELIXIR.description": "给予[blue]{PoisonPower}[/blue]层[gold]中毒[/gold]，[blue]{DoomPower}[/blue]层[gold]灾厄[/gold]和[blue]{DemisePower}[/blue]层[gold]消亡[/gold]。",
+    "COMICCHESS-DEATH_ELIXIR.title": "死亡合剂"
+}

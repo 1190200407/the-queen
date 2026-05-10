@@ -9,7 +9,7 @@ using MegaCrit.Sts2.Core.Models.CardPools;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>噪音：衍生牌（防御型），学习意图为抽牌并附魔晕眩；消逝。</summary>
+/// <summary>噪音：衍生牌（防御型），学习意图为抽牌并附魔晕眩；消逝�?/summary>
 [Pool(typeof(TokenCardPool))]
 public sealed class Noise : LearnIntentCardModel
 {

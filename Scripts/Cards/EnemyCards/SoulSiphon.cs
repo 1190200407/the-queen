@@ -11,7 +11,7 @@ using MegaCrit.Sts2.Core.Models.Powers;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>灵魂虹吸：召唤并学习「全体敌人失去力量 + 你获得力量与敏捷」。</summary>
+/// <summary>灵魂虹吸：召唤并学习「全体敌人失去力�?+ 你获得力量与敏捷」�?/summary>
 [Pool(typeof(EnemyCardPool))]
 public sealed class SoulSiphon : LearnIntentCardModel
 {
@@ -25,8 +25,7 @@ public sealed class SoulSiphon : LearnIntentCardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        // 怪物牌不可升级：10(14) 落地为 14。
-        new SummonVar(14m).WithTooltip("QUEEN_SUMMON_DYNAMIC"),
+        // 怪物牌不可升级：10(14) 落地�?14�?        new SummonVar(14m).WithTooltip("QUEEN_SUMMON_DYNAMIC"),
         new IntVar("Stacks", 1m)
     ];
 

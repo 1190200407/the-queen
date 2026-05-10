@@ -12,7 +12,7 @@
   "forget_intent.description": "若[gold]聚合体[/gold]当前意图是由灯记录的意图，则熄灭此灯并切换至下一意图。",
   "forget_intent.title": "遗忘",
   "capture.title": "捕获",
-  "capture.description": "若目标非爪牙，战斗结束时增加[blue]1[/blue]个与目标相关的[gold]卡牌[/gold]奖励。",
+  "capture.description": "若捕获目标非[gold]爪牙[/gold]，战斗结束时增加[blue]1[/blue]个[gold]卡牌[/gold]奖励。拖拽此牌可以看到捕获的奖励内容。",
   "fabricate_defensive_derived_cards.title": "防御型",
   "fabricate_defensive_derived_cards.description": "[gold]护卫[/gold]:学习意图:获得10点格挡。消逝。\n[gold]噪音[/gold]:学习意图:抽1张牌,下回合抽1张牌,为2张添加附魔:[purple]晕眩[/purple]。消逝。",
   "fabricate_offensive_derived_cards.title": "输出型",

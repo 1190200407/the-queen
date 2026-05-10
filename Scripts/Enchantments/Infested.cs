@@ -6,6 +6,12 @@ namespace ComicChess.TheQueen;
 
 public sealed class Infested : QueenEnchantmentModel, ILearnIntentDamageBonusEnchantment
 {
+    /// <summary>
+    /// 与原版 <see cref="MegaCrit.Sts2.Core.Models.EnchantmentModel.CanEnchant"/> 一致：已有同类型附魔时仍视为可附魔，
+    /// 否则 <see cref="MegaCrit.Sts2.Core.Commands.CardCmd.Enchant"/> 的叠层与选牌筛选会依赖「仅 Lash」分支（见 <see cref="CanEnchant"/>）。
+    /// </summary>
+    public override bool IsStackable => true;
+
     public override bool ShowAmount => true;
     public override bool HasExtraCardText => false;
 
@@ -15,15 +21,17 @@ public sealed class Infested : QueenEnchantmentModel, ILearnIntentDamageBonusEnc
         {
             return false;
         }
-        if (card is not LearnIntentCardModel)
+
+        if (!card.Tags.Contains(QueenCardTags.LearnIntent))
         {
             return false;
         }
-        if (card.Enchantment is not null && card is not Lash)
+
+        if (card.Enchantment is not null)
         {
-            return false;
+            return card.Enchantment is Infested && card is Lash;
         }
-        // 有攻击意图的牌
+
         return card.DynamicVars.Values.OfType<AmalgamLearnIntentDamageVar>().Any();
     }
 

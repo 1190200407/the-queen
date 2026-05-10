@@ -11,7 +11,6 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>轻咬：爪牙 token，聚合体主动攻击；消逝。</summary>
 [Pool(typeof(TokenCardPool))]
 public sealed class Nibble : QueenCardModel
 {

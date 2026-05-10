@@ -12,7 +12,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>火焰喷射器：召唤并学习「抽牌附魔（灼烧）+ 下回合伤害」意图；消耗。</summary>
+/// <summary>火焰喷射器：召唤并学习「抽牌附魔（灼烧�? 下回合伤害」意图；消耗�?/summary>
 [Pool(typeof(EnemyCardPool))]
 public sealed class Flamethrower : LearnIntentCardModel
 {

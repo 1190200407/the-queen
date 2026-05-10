@@ -12,7 +12,7 @@ using MegaCrit.Sts2.Core.Models.Powers;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>烟雾弥漫：SmoggyPower + Smog（原版）；被侵蚀的牌获得重放2次（本 mod）。</summary>
+/// <summary>烟雾弥漫：SmoggyPower + Smog（原版）；被侵蚀的牌获得重放2次（�?mod）�?/summary>
 [Pool(typeof(EnemyCardPool))]
 public sealed class Smoggy : LearnIntentCardModel
 {

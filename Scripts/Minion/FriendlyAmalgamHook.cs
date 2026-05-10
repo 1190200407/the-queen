@@ -104,4 +104,57 @@ public static class FriendlyAmalgamHook
             }
         }
     }
+
+    /// <summary>聚合体完成一次基准 <see cref="CreatureCmd.SetMaxHp"/> 后（开场壳或召唤/复活）。</summary>
+    public static async Task OnAmalgamEnterCombat(
+        CombatState combatState,
+        PlayerChoiceContext? choiceContext,
+        Player owner,
+        Creature amalgam)
+    {
+        foreach (AbstractModel item in combatState.IterateHookListeners())
+        {
+            if (item is IAmalgamEventListener listener)
+            {
+                await listener.OnAmalgamEnterCombat(combatState, choiceContext, owner, amalgam);
+            }
+        }
+    }
+
+    /// <summary><see cref="FriendlyAmalgamCmd.LearnIntent"/> 完成写入之后。</summary>
+    public static async Task AfterLearnIntent(
+        CombatState combatState,
+        PlayerChoiceContext choiceContext,
+        Player amalgamOwner,
+        Creature amalgam,
+        AmalgamActionModel intent,
+        AbstractModel? source)
+    {
+        foreach (AbstractModel item in combatState.IterateHookListeners())
+        {
+            if (item is IAmalgamEventListener listener)
+            {
+                await listener.AfterLearnIntent(combatState, choiceContext, amalgamOwner, amalgam, intent, source);
+            }
+        }
+    }
+
+    /// <summary><see cref="FriendlyAmalgamCmd.CombineIntent"/> 完成写入之后。</summary>
+    public static async Task AfterCombineIntent(
+        CombatState combatState,
+        PlayerChoiceContext choiceContext,
+        Player amalgamOwner,
+        Creature amalgam,
+        AmalgamActionModel intent,
+        AbstractModel? source,
+        string? compositeIndexKey)
+    {
+        foreach (AbstractModel item in combatState.IterateHookListeners())
+        {
+            if (item is IAmalgamEventListener listener)
+            {
+                await listener.AfterCombineIntent(combatState, choiceContext, amalgamOwner, amalgam, intent, source, compositeIndexKey);
+            }
+        }
+    }
 }

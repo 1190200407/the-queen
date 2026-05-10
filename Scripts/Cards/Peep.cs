@@ -38,6 +38,6 @@ public sealed class Peep : QueenCardModel
 
 	protected override void OnUpgrade()
 	{
-		base.DynamicVars["Draw"].UpgradeValueBy(1m);
+		RemoveKeyword(CardKeyword.Exhaust);
 	}
 }

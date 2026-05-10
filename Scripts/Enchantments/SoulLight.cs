@@ -4,6 +4,7 @@ using BaseLib.Abstracts;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Enchantments;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Hooks;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
 
@@ -18,12 +19,7 @@ public sealed class SoulLight : CustomEnchantmentModel
     public override bool HasExtraCardText => true;
 
 	protected override string? CustomIconPath => "res://TheQueen/images/powers/soul_lamp.png";
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [QueenHoverTips.SoulLamp];
-
-    public override bool CanEnchant(CardModel card)
-    {
-        return card.CanPlay();
-    }
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromPower<SoulLampPower>()];
 
     public override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay? cardPlay)
 	{

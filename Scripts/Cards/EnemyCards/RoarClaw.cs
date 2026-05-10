@@ -15,7 +15,7 @@ namespace ComicChess.TheQueen;
 
 /// <summary>咆哮爪击：聚合体先施加易伤，再学习 2 连击进攻意图。</summary>
 [Pool(typeof(EnemyCardPool))]
-public sealed class RoarClaw : QueenCardModel
+public sealed class RoarClaw : LearnIntentCardModel
 {
     private const int energyCost = 2;
     private const CardType type = CardType.Skill;
@@ -44,7 +44,6 @@ public sealed class RoarClaw : QueenCardModel
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        _ = cardPlay;
         CombatState? combatState = base.Owner.Creature.CombatState;
         if (combatState == null)
         {
@@ -63,8 +62,15 @@ public sealed class RoarClaw : QueenCardModel
             }
         }
 
+        await PlayLearnIntentsFromCreateAsync(choiceContext, cardPlay);
+    }
+
+    protected override Task<IReadOnlyList<AmalgamActionModel?>> CreateLearnIntentsAsync(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    {
+        _ = choiceContext;
+        _ = cardPlay;
         decimal dmg = AmalgamLearnIntentDamageVar.GetEffectiveFlatForOffenseIntent(this, "LearnIntentDamage");
         AmalgamActionModel? intent = AmalgamActionRegistry.CreateOffenseMulti(dmg, learnIntentRepeat);
-        await FriendlyAmalgamCmd.LearnIntent(choiceContext, base.Owner, intent, this);
+        return Task.FromResult<IReadOnlyList<AmalgamActionModel?>>([intent]);
     }
 }

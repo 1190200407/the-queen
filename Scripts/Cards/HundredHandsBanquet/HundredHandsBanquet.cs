@@ -22,8 +22,6 @@ public sealed class HundredHandsBanquet : QueenCardModel
 
 	protected override bool HasEnergyCostX => true;
 
-    internal override bool HasSelfBound => true;
-
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [
 		HoverTipFactory.FromCard<BloodthirstScratch>(upgrade: base.IsUpgraded),
 		.. HoverTipFactory.FromAffliction<Bound>()
