@@ -125,8 +125,11 @@
     "COMICCHESS-MARIONETTE_PENDING_POWER.description":"3回合后，将对应[gold]敌怪卡牌[/gold]永久加入牌组。",
     "COMICCHESS-MARIONETTE_PENDING_POWER.smartDescription":"{Amount}回合后，将对应[gold]敌怪卡牌[/gold]永久加入牌组。",
     "COMICCHESS-DECLARATION_CAPTURE_MARK_POWER.title":"宣告",
-    "COMICCHESS-DECLARATION_CAPTURE_MARK_POWER.description":"若在2回合内死亡，且为普通或精英敌怪，则被[gold]捕获[/gold]。",
-    "COMICCHESS-DECLARATION_CAPTURE_MARK_POWER.smartDescription":"若在{Amount}回合内死亡，且为普通{Upgraded:choose(0):|或精英}敌怪，则被[gold]捕获[/gold]。",
+    "COMICCHESS-DECLARATION_CAPTURE_MARK_POWER.description":"若在2回合内死亡，则被[gold]捕获[/gold]。",
+    "COMICCHESS-DECLARATION_CAPTURE_MARK_POWER.smartDescription":"若在{Amount}回合内死亡，则被[gold]捕获[/gold]。",
+    "COMICCHESS-DECLARATION_CAPTURE_MARK_NO_POWER.title":"宣告",
+    "COMICCHESS-DECLARATION_CAPTURE_MARK_NO_POWER.description":"无法捕获",
+    "COMICCHESS-DECLARATION_CAPTURE_MARK_NO_POWER.smartDescription":"无法捕获，{Amount}回合后移除。",
     "COMICCHESS-EVOLUTIONS_LAW_FREE_LEARN_INTENT_POWER.title":"进化论",
     "COMICCHESS-EVOLUTIONS_LAW_FREE_LEARN_INTENT_POWER.description":"你的下一张[gold]学习意图[/gold]牌耗能为[blue]0[/blue]。",
     "COMICCHESS-EVOLUTIONS_LAW_FREE_LEARN_INTENT_POWER.smartDescription":"下[blue]{Amount}[/blue]张[gold]学习意图[/gold]牌耗能为[blue]0[/blue]。",
@@ -204,5 +207,7 @@
     "COMICCHESS-UNFINISHED_CALAMITY_POWER.smartDescription":"失去负面状态效果时，获得5层[gold]中毒[/gold]、[gold]灾厄[/gold]或[gold]消亡[/gold]中的随机一种。",
     "COMICCHESS-PATH_OF_PAIN_POWER.title":"苦痛之路",
     "COMICCHESS-PATH_OF_PAIN_POWER.description":"你每打出1张牌，便给予一名随机敌人等同于层数的[gold]中毒[/gold]、[gold]灾厄[/gold]或[gold]消亡[/gold]中的一种。",
-    "COMICCHESS-PATH_OF_PAIN_POWER.smartDescription":"你每打出1张牌，便给予一名随机敌人{Amount}层[gold]中毒[/gold]、[gold]灾厄[/gold]或[gold]消亡[/gold]中的一种。"
+    "COMICCHESS-PATH_OF_PAIN_POWER.smartDescription":"你每打出1张牌，便给予一名随机敌人{Amount}层[gold]中毒[/gold]、[gold]灾厄[/gold]或[gold]消亡[/gold]中的一种。",
+    "COMICCHESS-ECOSPHERE_CAPTURE_MARK_POWER.title":"即将收容",
+    "COMICCHESS-ECOSPHERE_CAPTURE_MARK_POWER.description":"死亡时被[gold]捕获[/gold]。"
 }

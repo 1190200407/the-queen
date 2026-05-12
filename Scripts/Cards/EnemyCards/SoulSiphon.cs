@@ -15,7 +15,7 @@ namespace ComicChess.TheQueen;
 [Pool(typeof(EnemyCardPool))]
 public sealed class SoulSiphon : LearnIntentCardModel
 {
-    private const int energyCost = 3;
+private const int energyCost = 3;
     private const CardType type = CardType.Skill;
     private const CardRarity rarity = CardRarity.Rare;
     private const TargetType targetType = TargetType.Self;
@@ -25,7 +25,7 @@ public sealed class SoulSiphon : LearnIntentCardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        // 怪物牌不可升级：10(14) 落地�?14�?        new SummonVar(14m).WithTooltip("QUEEN_SUMMON_DYNAMIC"),
+        new SummonVar(15m).WithTooltip("QUEEN_SUMMON_DYNAMIC"),
         new IntVar("Stacks", 1m)
     ];
 

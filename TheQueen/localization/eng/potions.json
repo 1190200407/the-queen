@@ -8,5 +8,7 @@
     "COMICCHESS-MAGIC_MIRROR_SHARD.selectionScreenPrompt": "Choose a non-Dupe card.",
     "COMICCHESS-MAGIC_MIRROR_SHARD.title": "Magic Mirror Shard",
     "COMICCHESS-DEATH_ELIXIR.description": "Apply [blue]{PoisonPower}[/blue] [gold]Poison[/gold], [blue]{DoomPower}[/blue] [gold]Doom[/gold], and [blue]{DemisePower}[/blue] [gold]Demise[/gold].",
-    "COMICCHESS-DEATH_ELIXIR.title": "Death Elixir"
+    "COMICCHESS-DEATH_ELIXIR.title": "Death Elixir",
+    "COMICCHESS-ECOSPHERE_BOTTLE.description": "Apply [gold]Capture[/gold] (see keyword). If the enemy dies in combat in a capturable encounter, gain its [gold]capture card[/gold] as an extra reward, like [gold]Declaration[/gold].",
+    "COMICCHESS-ECOSPHERE_BOTTLE.title": "Ecosphere Crate"
 }

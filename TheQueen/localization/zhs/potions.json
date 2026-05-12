@@ -8,5 +8,7 @@
     "COMICCHESS-MAGIC_MIRROR_SHARD.selectionScreenPrompt": "选择1张牌。",
     "COMICCHESS-MAGIC_MIRROR_SHARD.title": "魔镜碎片",
     "COMICCHESS-DEATH_ELIXIR.description": "给予[blue]{PoisonPower}[/blue]层[gold]中毒[/gold]，[blue]{DoomPower}[/blue]层[gold]灾厄[/gold]和[blue]{DemisePower}[/blue]层[gold]消亡[/gold]。",
-    "COMICCHESS-DEATH_ELIXIR.title": "死亡合剂"
+    "COMICCHESS-DEATH_ELIXIR.title": "死亡合剂",
+    "COMICCHESS-ECOSPHERE_BOTTLE.description": "目标死亡时，将其[gold]捕获[/gold]。",
+    "COMICCHESS-ECOSPHERE_BOTTLE.title": "生态箱"
 }

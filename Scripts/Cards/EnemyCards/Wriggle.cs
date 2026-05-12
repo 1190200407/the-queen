@@ -32,7 +32,7 @@ public sealed class Wriggle : QueenCardModel
     public override bool CanBeGeneratedInCombat => false;
     public override bool CanBeGeneratedByModifiers => false;
     protected override IEnumerable<DynamicVar> CanonicalVars => [new IntVar("InfestedStacks", infestedStacks)];
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [..HoverTipFactory.FromEnchantment<Infested>()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [..HoverTipFactory.FromEnchantment<Infested>(infestedStacks)];
 
     public override int MaxUpgradeLevel => 0;
 

@@ -81,6 +81,9 @@
     "COMICCHESS-DECLARATION_CAPTURE_MARK_POWER.title":"Declaration",
     "COMICCHESS-DECLARATION_CAPTURE_MARK_POWER.description":"If the owner dies within 2 turns and is a normal or elite enemy, it is [gold]Captured[/gold].",
     "COMICCHESS-DECLARATION_CAPTURE_MARK_POWER.smartDescription":"If the owner dies within {Amount} turns and is a normal{Upgraded:choose(0):| or elite} enemy, it is [gold]Captured[/gold].",
+    "COMICCHESS-DECLARATION_CAPTURE_MARK_NO_POWER.title":"Declaration",
+    "COMICCHESS-DECLARATION_CAPTURE_MARK_NO_POWER.description":"If the owner dies within 2 turns and is a normal or elite enemy, it is [gold]Captured[/gold].",
+    "COMICCHESS-DECLARATION_CAPTURE_MARK_NO_POWER.smartDescription":"If the owner dies within {Amount} turns and is a normal{Upgraded:choose(0):| or elite} enemy, it is [gold]Captured[/gold].",
     "COMICCHESS-EVOLUTIONS_LAW_FREE_LEARN_INTENT_POWER.title":"Evolution's Law",
     "COMICCHESS-EVOLUTIONS_LAW_FREE_LEARN_INTENT_POWER.description":"Your next [gold]Learn Intent[/gold] card costs [blue]0[/blue].",
     "COMICCHESS-EVOLUTIONS_LAW_FREE_LEARN_INTENT_POWER.smartDescription":"Your next [blue]{Amount}[/blue] [gold]Learn Intent[/gold] card(s) cost [blue]0[/blue].",
@@ -182,5 +185,7 @@
   "COMICCHESS-UNFINISHED_CALAMITY_POWER.smartDescription":"Whenever another debuff on you ends, each enemy gains 5 [gold]Poison[/gold], [gold]Doom[/gold], or [gold]Demise[/gold] at random.",
   "COMICCHESS-PATH_OF_PAIN_POWER.title":"Path of Pain",
   "COMICCHESS-PATH_OF_PAIN_POWER.description":"Whenever you play a card, apply [gold]Poison[/gold], [gold]Doom[/gold], or [gold]Demise[/gold] at random to a random enemy, equal to stacks.",
-  "COMICCHESS-PATH_OF_PAIN_POWER.smartDescription":"Whenever you play a card, apply {Amount} [gold]Poison[/gold], [gold]Doom[/gold], or [gold]Demise[/gold] at random to a random enemy."
+  "COMICCHESS-PATH_OF_PAIN_POWER.smartDescription":"Whenever you play a card, apply {Amount} [gold]Poison[/gold], [gold]Doom[/gold], or [gold]Demise[/gold] at random to a random enemy.",
+  "COMICCHESS-ECOSPHERE_CAPTURE_MARK_POWER.title":"Ecosphere Mark",
+  "COMICCHESS-ECOSPHERE_CAPTURE_MARK_POWER.description":"If the holder dies in combat in a capturable encounter, gain an extra [gold]card[/gold] reward for its capture card, like [gold]Declaration[/gold]."
 }

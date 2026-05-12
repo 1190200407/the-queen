@@ -52,19 +52,31 @@ public sealed class Declaration : QueenCardModel, ICanMonsterCapture
         ArgumentNullException.ThrowIfNull(cardPlay.Target, nameof(cardPlay.Target));
         Creature target = cardPlay.Target;
 
+
+        CombatState? combatState = target.CombatState ?? base.Owner.Creature.CombatState;
+        if (target.Monster is not null && combatState is not null && CanCapture(target.Monster, combatState))
+        {
+            _ = await PowerCmd.Apply<DeclarationCaptureMarkPower>(
+                target,
+                2m,
+                base.Owner.Creature,
+                this);
+        }
+        else
+        {
+            _ = await PowerCmd.Apply<DeclarationCaptureMarkNoPower>(
+                target,
+                2m,
+                base.Owner.Creature,
+                this);
+        }
+
         AttackCommand attackCommand = await DamageCmd.Attack(base.DynamicVars.Damage.BaseValue)
             .FromCard(this)
             .Targeting(target)
             .WithHitFx("vfx/vfx_attack_blunt")
             .Execute(choiceContext);
         _ = attackCommand;
-
-        DeclarationCaptureMarkPower? mark = await PowerCmd.Apply<DeclarationCaptureMarkPower>(
-            target,
-            2m,
-            base.Owner.Creature,
-            this);
-        mark?.ConfigureCapturer(base.Owner, base.IsUpgraded);
     }
 
     protected override void OnUpgrade()
