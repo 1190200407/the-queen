@@ -9,12 +9,13 @@ using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Models.Powers;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>未了之祸：能力牌；对所有可攻击敌人各施加一条可叠加的 <see cref="UnfinishedCalamityPower"/>（<see cref="UnfinishedCalamityPower.IsInstanced"/>）；带有该标记的敌人身上其它负面结束时，每条实例对所有可攻击敌人各随机施加 5 层毒/灾厄/消亡之一。</summary>
+/// <summary>未了之祸：能力牌；对所有可攻击敌人各施加一条可叠加的 <see cref="UnfinishedCalamityPower"/>（<see cref="UnfinishedCalamityPower.IsInstanced"/>）；带有该标记的敌人身上其它负面结束时，每条实例对所有可攻击敌人各随机施加若干层毒/灾厄/消亡之一（基础 5，升级 7）。</summary>
 [Pool(typeof(QueenCardPool))]
 public sealed class UnfinishedCalamity : QueenCardModel
 {
@@ -24,7 +25,12 @@ public sealed class UnfinishedCalamity : QueenCardModel
 	private const TargetType targetType = TargetType.AllEnemies;
 	private const bool shouldShowInCardLibrary = true;
 
-	public override int MaxUpgradeLevel => 0;
+	internal const string TriadStacksOnTriggerKey = "TriadStacksOnTrigger";
+
+	protected override IEnumerable<DynamicVar> CanonicalVars =>
+	[
+		new IntVar(TriadStacksOnTriggerKey, 5m),
+	];
 
 	protected override IEnumerable<IHoverTip> ExtraHoverTips =>
 	[
@@ -56,14 +62,14 @@ public sealed class UnfinishedCalamity : QueenCardModel
 				continue;
 			}
 
-			await PowerCmd.Apply<UnfinishedCalamityPower>(enemy, 1m, applier, this);
+			await PowerCmd.Apply<UnfinishedCalamityPower>(enemy, base.DynamicVars[TriadStacksOnTriggerKey].BaseValue, applier, this);
 		}
 
 		await CreatureCmd.TriggerAnim(applier, "Cast", player.Character.CastAnimDelay);
 	}
 
-    protected override void OnUpgrade()
-    {
-        base.EnergyCost.UpgradeBy(-1);
-    }
+	protected override void OnUpgrade()
+	{
+		base.DynamicVars[TriadStacksOnTriggerKey].UpgradeValueBy(2m);
+	}
 }

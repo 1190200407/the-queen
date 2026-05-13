@@ -2,25 +2,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MegaCrit.Sts2.Core.Combat;
+using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 
 namespace ComicChess.TheQueen;
 
 /// <summary>
 /// 未了之祸（<see cref="IsInstanced"/>，挂在敌人身上的 Debuff）：当<strong>该敌人</strong>身上<strong>其它</strong>负面能力被移除（含层数归零）时，
-/// 每条本能力实例对所有可攻击敌人各随机施加毒/灾厄/消亡之一（<see cref="QueenCardCmd.ApplyRandomTriadDebuff"/>），固定 5 层。
+/// 每条本能力实例对所有可攻击敌人各随机施加毒/灾厄/消亡之一（<see cref="QueenCardCmd.ApplyRandomTriadDebuff"/>），层数由打出 <see cref="UnfinishedCalamity"/> 时决定（基础 5，升级 7）。
 /// 移除本能力自身不会触发。
 /// </summary>
 public sealed class UnfinishedCalamityPower : QueenPowerModel
 {
-	internal const decimal TriadStacksPerTrigger = 5m;
-
 	public override PowerType Type => PowerType.Debuff;
 
-	public override PowerStackType StackType => PowerStackType.Single;
+	public override PowerStackType StackType => PowerStackType.Counter;
 
 	public override bool IsInstanced => true;
 
@@ -57,7 +57,7 @@ public sealed class UnfinishedCalamityPower : QueenPowerModel
 			}
 
 			calamity.Flash();
-			await QueenCardCmd.ApplyRandomTriadDebuff(player, victim, dealer, null, TriadStacksPerTrigger);
+			await QueenCardCmd.ApplyRandomTriadDebuff(player, victim, dealer, null, calamity.Amount);
 		}
 	}
 }

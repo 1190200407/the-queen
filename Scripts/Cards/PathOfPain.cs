@@ -21,8 +21,6 @@ public sealed class PathOfPain : QueenCardModel
 	private const TargetType targetType = TargetType.Self;
 	private const bool shouldShowInCardLibrary = true;
 
-	public override int MaxUpgradeLevel => 0;
-
 	protected override IEnumerable<IHoverTip> ExtraHoverTips =>
 	[
 		HoverTipFactory.FromPower<PoisonPower>(),

@@ -24,7 +24,7 @@ public sealed class MindControl : QueenCardModel
 	private const TargetType targetType = TargetType.AnyEnemy;
 	private const bool shouldShowInCardLibrary = true;
 
-	public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust, CardKeyword.Ethereal];
+	public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
 	protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(1m, ValueProp.Move)];
 
@@ -57,6 +57,6 @@ public sealed class MindControl : QueenCardModel
 
 	protected override void OnUpgrade()
 	{
-		RemoveKeyword(CardKeyword.Ethereal);
+		base.EnergyCost.UpgradeBy(-1);
 	}
 }

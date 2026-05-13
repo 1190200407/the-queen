@@ -14,7 +14,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>撕裂空间：仅单人可出现；场上负面状态（非临时减益能力）数量大于 10 时可打出；对所有敌人造成伤害。</summary>
+/// <summary>撕裂空间：仅单人可出现；场上负面状态（非临时减益能力）数量不少于阈值时可打出（基础 10，升级 7）；对所有敌人造成伤害。</summary>
 [Pool(typeof(QueenCardPool))]
 public sealed class TearSpace : QueenCardModel
 {
@@ -24,12 +24,12 @@ public sealed class TearSpace : QueenCardModel
 	private const TargetType targetType = TargetType.AllEnemies;
 	private const bool shouldShowInCardLibrary = true;
 
-	/// <summary>场上负面数量须<strong>超过</strong>该值才可打出（即至少 11 个计数）。</summary>
-	private const int maxDebuffCountToRemainUnplayable = 10;
+	internal const string PlayThresholdKey = "PlayThreshold";
 
 	public override CardMultiplayerConstraint MultiplayerConstraint => CardMultiplayerConstraint.SingleplayerOnly;
 
 	protected override IEnumerable<DynamicVar> CanonicalVars => [
+		new IntVar(PlayThresholdKey, 9m),
 		new DamageVar(50m, ValueProp.Move),
 		new CalculationBaseVar(0m),
 		new CalculationExtraVar(1m),
@@ -50,7 +50,8 @@ public sealed class TearSpace : QueenCardModel
 				return true;
 			}
 
-			return CountBattlefieldDebuffs(combatState) >= maxDebuffCountToRemainUnplayable;
+			int threshold = (int)base.DynamicVars[PlayThresholdKey].BaseValue;
+			return CountBattlefieldDebuffs(combatState) >= threshold;
 		}
 	}
 
@@ -76,7 +77,7 @@ public sealed class TearSpace : QueenCardModel
 
 	protected override void OnUpgrade()
 	{
-		base.DynamicVars.Damage.UpgradeValueBy(13m);
+		base.DynamicVars[PlayThresholdKey].UpgradeValueBy(-2m);
 	}
 
 	private static int CountBattlefieldDebuffs(CombatState combatState)

@@ -148,7 +148,7 @@ public sealed class MindControlPower : QueenPowerModel
 		List<Creature> candidates = combatState.HittableEnemies.Where(e => e != dealer && e.IsAlive).ToList();
 		if (candidates.Count == 0)
 		{
-			return rngSourceApplier;
+			return dealer;
 		}
 
 		Player? applierPlayer = rngSourceApplier.Player;
