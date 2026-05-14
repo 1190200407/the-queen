@@ -21,7 +21,7 @@ namespace ComicChess.TheQueen;
 [Pool(typeof(QueenCardPool))]
 public sealed class TimeTrick : QueenCardModel
 {
-	private const int energyCost = 1;
+	private const int energyCost = 0;
 	private const CardType type = CardType.Attack;
 	private const CardRarity rarity = CardRarity.Rare;
 	private const TargetType targetType = TargetType.AnyEnemy;
@@ -29,7 +29,7 @@ public sealed class TimeTrick : QueenCardModel
 
 	private const int maxDiscard = 2;
 
-	protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(9m, ValueProp.Move)];
+	protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(8m, ValueProp.Move)];
 
 	public TimeTrick()
 		: base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
@@ -93,7 +93,7 @@ public sealed class TimeTrick : QueenCardModel
 
 	protected override void OnUpgrade()
 	{
-		base.DynamicVars.Damage.UpgradeValueBy(3m);
+		base.DynamicVars.Damage.UpgradeValueBy(4m);
 	}
 
 	private static bool IsValidHandDiscard(

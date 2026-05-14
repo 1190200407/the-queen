@@ -104,7 +104,7 @@
     "COMICCHESS-TASTE.title":"Taste",
     "COMICCHESS-TASTE.description":"Create 3 [gold]{IfUpgraded:show:Devour+|Devour}[/gold]. Whenever you play [gold]Devour[/gold] this turn, draw 1 card.\n[aqua]Gain 3 Soul Lamps.[/aqua]",
     "COMICCHESS-WILLFUL.title":"Willful",
-    "COMICCHESS-WILLFUL.description":"At the start of your turn, if Soul Lamp stacks {IfUpgraded:show:are at most [blue]3[/blue]|are [blue]0[/blue]}, [aqua]gain 1 Soul Lamp[/aqua].",
+    "COMICCHESS-WILLFUL.description":"At the start of your turn, add 1 random {IfUpgraded:show:upgraded |}card from your unlocked card pool to your hand, afflict it with [purple]Bound[/purple], then [aqua]gain 1 Soul Lamp[/aqua].",
     "COMICCHESS-YOU_ARE_MINE.title":"You're Mine!",
     "COMICCHESS-YOU_ARE_MINE.description":"{Hits:diff()} times in a row, apply [blue]1[/blue] [gold]Vulnerable[/gold] or [blue]1[/blue] [gold]Weak[/gold] to a random enemy.",
     "COMICCHESS-PURIFICATION_RITE.title":"Purification Rite",

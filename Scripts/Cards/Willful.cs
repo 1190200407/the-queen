@@ -27,8 +27,7 @@ public sealed class Willful : QueenCardModel
 
 	protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
 	{
-		decimal threshold = base.IsUpgraded ? 3m : 1m;
-		await PowerCmd.Apply<WillfulPower>(base.Owner.Creature, threshold, base.Owner.Creature, this);
+		await PowerCmd.Apply<WillfulPower>(base.Owner.Creature, 1m, base.Owner.Creature, this);
 		await CreatureCmd.TriggerAnim(base.Owner.Creature, "Cast", base.Owner.Character.CastAnimDelay);
 	}
 }

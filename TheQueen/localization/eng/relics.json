@@ -18,7 +18,7 @@
     "COMICCHESS-BROKEN_MAGIC_MIRROR_RELIC.title":"Broken Magic Mirror",
     "COMICCHESS-BROKEN_MAGIC_MIRROR_RELIC.description":"Upon pickup, gain {Potions} [gold]Magic Mirror Shard[/gold] potion.",
     "COMICCHESS-PEACH_HEART_WOODEN_SWORD_RELIC.title":"Peach-Heart Wooden Sword",
-    "COMICCHESS-PEACH_HEART_WOODEN_SWORD_RELIC.description":"At the start of combat, all Monster cards gain [gold]Ethereal[/gold].",
+    "COMICCHESS-PEACH_HEART_WOODEN_SWORD_RELIC.description":"Every [blue]2[/blue] combats, add [blue]1[/blue] [gold]Monster[/gold] card to your [gold]card[/gold] rewards ([gold]Boss[/gold] combats do not count). [gold]Boss[/gold] [gold]card[/gold] rewards always add [blue]1[/blue] [gold]Monster[/gold] card.",
     "COMICCHESS-REVELATION_CUP_RELIC.title":"Revelation Cup",
     "COMICCHESS-REVELATION_CUP_RELIC.description":"The first time you [gold]Learn Intent[/gold] each combat, learn twice."
 }

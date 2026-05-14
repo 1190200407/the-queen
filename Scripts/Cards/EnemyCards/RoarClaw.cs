@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using BaseLib.Utils;
@@ -7,6 +8,7 @@ using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
@@ -37,6 +39,13 @@ public sealed class RoarClaw : LearnIntentCardModel
         HoverTipFactory.FromPower<VulnerablePower>(),
     ];
 
+    /// <summary>无友方聚合体或 <see cref="FriendlyAmalgam.BlocksDirectOffenseFromHand"/> 时手牌红高亮（打出时先有聚合体对敌易伤再学意图）。</summary>
+    protected override bool ShouldGlowRedInternal =>
+        (base.Owner?.Creature?.CombatState is { } combatState
+            && (FriendlyAmalgamCmd.GetExisting(combatState, base.Owner) is not { Monster: FriendlyAmalgam amalgam }
+                || amalgam.BlocksDirectOffenseFromHand))
+        || base.ShouldGlowRedInternal;
+
     public RoarClaw()
         : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
     {
@@ -44,14 +53,20 @@ public sealed class RoarClaw : LearnIntentCardModel
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
+        ArgumentNullException.ThrowIfNull(cardPlay.Target, nameof(cardPlay.Target));
+        if (base.Owner.Creature is not { IsAlive: true })
+        {
+            return;
+        }
+
         CombatState? combatState = base.Owner.Creature.CombatState;
         if (combatState == null)
         {
             return;
         }
 
-        Creature? amalgamCreature = FriendlyAmalgamCmd.GetExisting(combatState, base.Owner);
-        if (amalgamCreature is { IsAlive: true, Monster: FriendlyAmalgam })
+        if (FriendlyAmalgamCmd.GetExisting(combatState, base.Owner) is { Monster: FriendlyAmalgam fam, IsAlive: true } amalgamCreature
+            && !fam.BlocksDirectOffenseFromHand)
         {
             decimal stacks = base.DynamicVars["LearnIntentVulnerable"].BaseValue;
             Creature? selectedEnemy = cardPlay.Target is { IsAlive: true } t ? t : null;

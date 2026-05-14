@@ -23,7 +23,7 @@ public sealed class RevelationCupRelic : QueenRelicModel, IAmalgamEventListener
 {
 	private bool _firstLearnDuplicateConsumed;
 
-	public override RelicRarity Rarity => RelicRarity.Rare;
+	public override RelicRarity Rarity => RelicRarity.Uncommon;
 
 	protected override IEnumerable<IHoverTip> ExtraHoverTips => [QueenHoverTips.LearnIntent];
 

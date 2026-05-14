@@ -16,7 +16,7 @@
     "COMICCHESS-BROKEN_MAGIC_MIRROR_RELIC.title":"破碎魔镜",
     "COMICCHESS-BROKEN_MAGIC_MIRROR_RELIC.description":"拾起时，获得{Potions}瓶[gold]魔镜碎片[/gold]。",
     "COMICCHESS-PEACH_HEART_WOODEN_SWORD_RELIC.title":"桃心木剑",
-    "COMICCHESS-PEACH_HEART_WOODEN_SWORD_RELIC.description":"战斗开始时，给所有敌怪卡牌添加[gold]虚无[/gold]。",
+    "COMICCHESS-PEACH_HEART_WOODEN_SWORD_RELIC.description":"每两场战斗或是首领战斗后，你的卡牌奖励就会额外包含一张敌怪卡牌。",
     "COMICCHESS-REVELATION_CUP_RELIC.title":"启示之杯",
     "COMICCHESS-REVELATION_CUP_RELIC.description":"你每场战斗的第一次[gold]学习意图[/gold]会学习两次。"
 }

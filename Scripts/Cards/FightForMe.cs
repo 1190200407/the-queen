@@ -27,6 +27,28 @@ public sealed class FightForMe : QueenCardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(5m, ValueProp.Move)];
 
+    protected override bool ShouldGlowGoldInternal 
+    {
+        get
+        {
+            CombatState? combatState = base.Owner.Creature.CombatState;
+            if (combatState == null)
+            {
+                return false;
+            }
+
+            Creature? amalgamCreature = FriendlyAmalgamCmd.GetExisting(combatState, base.Owner);
+            if (amalgamCreature?.Monster is not FriendlyAmalgam amalgam || !amalgamCreature.IsAlive)
+            {
+                return false;
+            }
+
+            MoveState displayMoveState = amalgam.LearnedAction?.GetMoveStateForDisplay(amalgamCreature) ?? FriendlyAmalgam.SleepOverlayMoveState;
+            bool hasAttackIntent = displayMoveState.Intents.Any(static intent => intent is AttackIntent);
+            return hasAttackIntent;
+        }
+    }
+
     public FightForMe()
         : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
     {
