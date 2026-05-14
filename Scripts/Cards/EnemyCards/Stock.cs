@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BaseLib.Utils;
+using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -33,6 +34,13 @@ public sealed class Stock : QueenCardModel
         new AmalgamLearnIntentDamageVar(damage, ValueProp.Move),
     ];
 
+    /// <summary>无友方聚合体或 <see cref="FriendlyAmalgam.BlocksDirectOffenseFromHand"/> 时手牌红高亮（打出时由聚合体直接对敌伤害）。</summary>
+    protected override bool ShouldGlowRedInternal =>
+        (base.Owner?.Creature?.CombatState is { } combatState
+            && (FriendlyAmalgamCmd.GetExisting(combatState, base.Owner) is not { Monster: FriendlyAmalgam amalgam }
+                || amalgam.BlocksDirectOffenseFromHand))
+        || base.ShouldGlowRedInternal;
+
     public Stock()
         : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
     {
@@ -46,8 +54,8 @@ public sealed class Stock : QueenCardModel
             return;
         }
 
-        Creature? amalgam = FriendlyAmalgamCmd.GetExisting(combatState, base.Owner);
-        if (amalgam is { IsAlive: true })
+        if (FriendlyAmalgamCmd.GetExisting(combatState, base.Owner) is { Monster: FriendlyAmalgam fam } amalgamCreature
+            && !fam.BlocksDirectOffenseFromHand)
         {
             Creature target = cardPlay.Target;
             decimal dmg = AmalgamLearnIntentDamageVar.GetEffectiveFlatForOffenseIntent(this, "LearnIntentDamage");
@@ -56,7 +64,7 @@ public sealed class Stock : QueenCardModel
                 AmalgamActionModel? attack = AmalgamActionRegistry.CreateOffense(dmg, target);
                 if (attack != null)
                 {
-                    await attack.ExecuteAsync(choiceContext, amalgam);
+                    await attack.ExecuteAsync(choiceContext, amalgamCreature);
                 }
             }
         }

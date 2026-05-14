@@ -246,7 +246,7 @@ public static class FriendlyAmalgamCmd
         TryTrackOwnerBlockOnAmalgamNode(minion);
         await Hook.AfterSummon(combatState, choiceContext, owner, amount);
         PlaceAmalgamByQueen(owner, minion, combatState);
-        //SyncHealthBarVisibility(minion);
+        SyncHealthBarVisibility(minion);
         TryRefreshAmalgamScaleFromMaxHp(minion);
     }
 
@@ -262,20 +262,38 @@ public static class FriendlyAmalgamCmd
         _ = cs;
         await CreatureCmd.SetMaxHp(creature, 1m);
         await CreatureCmd.SetCurrentHp(creature, 1m);
-        //SyncHealthBarVisibility(creature);
+        if (creature.Monster is FriendlyAmalgam amalgam)
+        {
+            await amalgam.WakeUp(FriendlyAmalgam.SleepReason.Dead);
+        }
+        SyncHealthBarVisibility(creature);
         TryRefreshAmalgamScaleFromMaxHp(creature, 0f);
     }
 
-    // /// <summary><see cref="FriendlyAmalgam.IsHealthBarVisible"/> 在节点 <c>_Ready</c> 后若存活状态变化，须调此以同步 <see cref="NCreature.ToggleIsInteractable"/>（否则血条可见性会停留在旧状态）。</summary>
-    // public static void SyncHealthBarVisibility(Creature amalgamCreature)
-    // {
-    //     if (amalgamCreature.Monster is not FriendlyAmalgam)
-    //     {
-    //         return;
-    //     }
+    /// <summary>
+    /// <see cref="FriendlyAmalgam.IsHealthBarVisible"/> 为真时仍可能被 <see cref="NCombatRoom.AddCreature"/> 里对随从统一 <c>ToggleIsInteractable(false)</c>、
+    /// 或 <see cref="NCreature.AnimDie"/> 淡出血条影响；在聚合体复活/入场等时机调用以同步交互与血条 UI。
+    /// </summary>
+    public static void SyncHealthBarVisibility(Creature amalgamCreature)
+    {
+        if (amalgamCreature.Monster is not FriendlyAmalgam)
+        {
+            return;
+        }
 
-    //     NCombatRoom.Instance?.GetCreatureNode(amalgamCreature)?.ToggleIsInteractable(amalgamCreature.Monster.IsHealthBarVisible);
-    // }
+        NCreature? node = NCombatRoom.Instance?.GetCreatureNode(amalgamCreature);
+        if (node == null || !GodotObject.IsInstanceValid(node))
+        {
+            return;
+        }
+
+        bool on = amalgamCreature.Monster.IsHealthBarVisible;
+        node.ToggleIsInteractable(on);
+        if (on)
+        {
+            _ = node.AnimEnableUi();
+        }
+    }
 
     /// <summary>战斗开场：仅生成 0 血的聚合体壳并写入固定最大生命，不治疗、不占召唤历史。</summary>
     public static async Task EnsureAmalgamCombatStartShellAsync(PlayerChoiceContext choiceContext, Player owner)
@@ -297,7 +315,7 @@ public static class FriendlyAmalgamCmd
         await FriendlyAmalgamHook.OnAmalgamEnterCombat(combatState, choiceContext, owner, minion);
         TryTrackOwnerBlockOnAmalgamNode(minion);
         PlaceAmalgamByQueen(owner, minion, combatState);
-        //SyncHealthBarVisibility(minion);
+        SyncHealthBarVisibility(minion);
         TryRefreshAmalgamScaleFromMaxHp(minion, 0f);
     }
 
@@ -321,7 +339,7 @@ public static class FriendlyAmalgamCmd
         }
 
         TryRefreshIntentTorchVisuals(minion);
-        //SyncHealthBarVisibility(minion);
+        SyncHealthBarVisibility(minion);
     }
 
     /// <summary>与奥斯提一致：随从血条跟随主人的格挡状态（有格挡时血条呈护盾色）。</summary>

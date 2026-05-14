@@ -45,6 +45,13 @@ public sealed class DropStrike : QueenCardModel
         })
     ];
 
+    /// <summary>无友方聚合体或 <see cref="FriendlyAmalgam.BlocksDirectOffenseFromHand"/> 时手牌红高亮（直接由聚合体结算多段伤害）。</summary>
+    protected override bool ShouldGlowRedInternal =>
+        (base.Owner?.Creature?.CombatState is { } combatState
+            && (FriendlyAmalgamCmd.GetExisting(combatState, base.Owner) is not { Monster: FriendlyAmalgam amalgam }
+                || amalgam.BlocksDirectOffenseFromHand))
+        || base.ShouldGlowRedInternal;
+
     public DropStrike()
         : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
     {
@@ -59,7 +66,12 @@ public sealed class DropStrike : QueenCardModel
         }
 
         var amalgam = FriendlyAmalgamCmd.GetExisting(combatState, base.Owner);
-        if (amalgam is not { IsAlive: true })
+        if (amalgam is not { Monster: FriendlyAmalgam amalgamModel })
+        {
+            return;
+        }
+
+        if (amalgamModel.BlocksDirectOffenseFromHand)
         {
             return;
         }

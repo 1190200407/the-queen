@@ -31,6 +31,13 @@ public sealed class BeetleCharge : QueenCardModel
         new AmalgamLearnIntentDamageVar(damage, ValueProp.Move),
     ];
 
+    /// <summary>无友方聚合体或 <see cref="FriendlyAmalgam.BlocksDirectOffenseFromHand"/> 时手牌红高亮（打出时由聚合体直接对敌伤害）。</summary>
+    protected override bool ShouldGlowRedInternal =>
+        (base.Owner?.Creature?.CombatState is { } combatState
+            && (FriendlyAmalgamCmd.GetExisting(combatState, base.Owner) is not { Monster: FriendlyAmalgam amalgam }
+                || amalgam.BlocksDirectOffenseFromHand))
+        || base.ShouldGlowRedInternal;
+
     public override int MaxUpgradeLevel => 0;
 
     protected override bool IsPlayable
@@ -44,7 +51,9 @@ public sealed class BeetleCharge : QueenCardModel
             }
 
             Creature? amalgam = FriendlyAmalgamCmd.GetExisting(combatState, base.Owner);
-            if (amalgam is not { IsAlive: true } || amalgam.MaxHp <= 0)
+            if (amalgam is not { Monster: FriendlyAmalgam fam }
+                || fam.BlocksDirectOffenseFromHand
+                || amalgam.MaxHp <= 0)
             {
                 return false;
             }
@@ -67,7 +76,12 @@ public sealed class BeetleCharge : QueenCardModel
         }
 
         Creature? amalgam = FriendlyAmalgamCmd.GetExisting(combatState, base.Owner);
-        if (amalgam is not { IsAlive: true })
+        if (amalgam is not { Monster: FriendlyAmalgam amalgamModel })
+        {
+            return;
+        }
+
+        if (amalgamModel.BlocksDirectOffenseFromHand)
         {
             return;
         }

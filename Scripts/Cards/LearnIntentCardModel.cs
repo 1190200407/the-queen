@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
@@ -37,6 +38,13 @@ public abstract class LearnIntentCardModel : QueenCardModel
             return h;
         }
     }
+
+    /// <summary>友方聚合体三灯槽均已有意图时金闪（打出后当场执行一次再学）。</summary>
+    protected override bool ShouldGlowGoldInternal =>
+        (base.Owner?.Creature?.CombatState is { } combatState
+            && FriendlyAmalgamCmd.GetExisting(combatState, base.Owner) is { Monster: FriendlyAmalgam amalgam }
+            && amalgam.HasAllTorchSlotsFilled)
+        || base.ShouldGlowGoldInternal;
 
     /// <summary>学习意图类卡牌的共通悬浮提示（默认含 Learn Intent）。子类可按需重写。</summary>
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [QueenHoverTips.LearnIntent];

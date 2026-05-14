@@ -48,6 +48,13 @@ public sealed class Swipe : QueenCardModel, ICanMonsterCapture
         HoverTipFactory.FromPower<AmalgamEscapePower>(),
     ];
 
+    /// <summary>无友方聚合体或 <see cref="FriendlyAmalgam.BlocksDirectOffenseFromHand"/> 时手牌红高亮（打出时由聚合体直接对敌伤害）。</summary>
+    protected override bool ShouldGlowRedInternal =>
+        (base.Owner?.Creature?.CombatState is { } combatState
+            && (FriendlyAmalgamCmd.GetExisting(combatState, base.Owner) is not { Monster: FriendlyAmalgam amalgam }
+                || amalgam.BlocksDirectOffenseFromHand))
+        || base.ShouldGlowRedInternal;
+
     public Swipe()
         : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
     {
@@ -62,19 +69,22 @@ public sealed class Swipe : QueenCardModel, ICanMonsterCapture
         }
 
         Creature? amalgam = FriendlyAmalgamCmd.GetExisting(combatState, base.Owner);
-        if (amalgam is not { IsAlive: true })
+        if (amalgam == null)
         {
             return;
         }
 
         Creature target = cardPlay.Target;
-        decimal damage = AmalgamLearnIntentDamageVar.GetEffectiveFlatForOffenseIntent(this, "LearnIntentDamage");
-        if (target.IsAlive && damage > 0m)
+        if (amalgam.Monster is FriendlyAmalgam fam && !fam.BlocksDirectOffenseFromHand)
         {
-            AmalgamActionModel? attack = AmalgamActionRegistry.CreateOffense(damage, target);
-            if (attack != null)
+            decimal damage = AmalgamLearnIntentDamageVar.GetEffectiveFlatForOffenseIntent(this, "LearnIntentDamage");
+            if (target.IsAlive && damage > 0m)
             {
-                await attack.ExecuteAsync(choiceContext, amalgam);
+                AmalgamActionModel? attack = AmalgamActionRegistry.CreateOffense(damage, target);
+                if (attack != null)
+                {
+                    await attack.ExecuteAsync(choiceContext, amalgam);
+                }
             }
         }
 

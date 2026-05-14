@@ -9,6 +9,7 @@ using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.ValueProps;
 
@@ -29,9 +30,23 @@ public sealed class FrenziedBite : QueenCardModel
     [
         new DamageVar(5m, ValueProp.Move),
         new SummonVar(4m).WithTooltip("QUEEN_SUMMON_DYNAMIC"),
+        new CalculationBaseVar(0m),
+        new CalculationExtraVar(1m),
+        new CalculatedVar("CalculatedSummonTotal").WithMultiplier(static (CardModel card, Creature? target) =>
+        {
+            int debuffCount = target?.Powers.Count(static p => p.Type == PowerType.Debuff) ?? 0;
+            return debuffCount * card.DynamicVars.Summon.BaseValue;
+        }),
     ];
 
     internal override bool HasSelfBound => true;
+
+    /// <summary>无友方聚合体或 <see cref="FriendlyAmalgam.BlocksDirectOffenseFromHand"/> 时手牌红高亮（打出时由聚合体直接对敌伤害）。</summary>
+    protected override bool ShouldGlowRedInternal =>
+        (base.Owner?.Creature?.CombatState is { } combatState
+            && (FriendlyAmalgamCmd.GetExisting(combatState, base.Owner) is not { Monster: FriendlyAmalgam amalgam }
+                || amalgam.BlocksDirectOffenseFromHand))
+        || base.ShouldGlowRedInternal;
 
     public FrenziedBite()
         : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
@@ -48,7 +63,7 @@ public sealed class FrenziedBite : QueenCardModel
         }
 
         Creature? amalgamCreature = FriendlyAmalgamCmd.GetExisting(combatState, base.Owner);
-        if (amalgamCreature is { IsAlive: true, Monster: FriendlyAmalgam })
+        if (amalgamCreature is { Monster: FriendlyAmalgam fam } && !fam.BlocksDirectOffenseFromHand)
         {
             decimal damagePerHit = base.DynamicVars.Damage.BaseValue;
             for (int i = 0; i < hitCount; i++)

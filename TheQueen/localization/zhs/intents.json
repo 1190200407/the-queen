@@ -22,7 +22,7 @@
     "AMALGAM_GAIN_BUFF.title": "强化",
     "AMALGAM_GAIN_BUFF.description": "这个聚合体将获得[blue]{Stacks}[/blue]层{BuffName}。",
     "AMALGAM_SHRINK_RAY.title": "策略",
-    "AMALGAM_SHRINK_RAY.description": "这个聚合体将要使聚合体以外所有单位缩小[blue]{Stacks}[/blue]回合。",
+    "AMALGAM_SHRINK_RAY.description": "这个聚合体将要使聚合体以外[red]所有[/red]单位缩小[blue]{Stacks}[/blue]回合。",
     "AMALGAM_SINGLE_ATTACK.title": "攻势",
     "AMALGAM_SINGLE_ATTACK.description": "这个聚合体将要造成[blue]{Damage}[/blue]点伤害。",
     "AMALGAM_SINGLE_ATTACK.description_all": "这个聚合体将要对所有敌人造成[blue]{Damage}[/blue]点伤害。",

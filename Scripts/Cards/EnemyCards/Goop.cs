@@ -25,7 +25,7 @@ public sealed class Goop : LearnIntentCardModel
         new IntVar("LearnIntentDraw", learnIntentDraw),
     ];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [..HoverTipFactory.FromEnchantment<Slimed>()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [QueenHoverTips.LearnIntent, ..HoverTipFactory.FromEnchantment<Slimed>()];
 
     public override int MaxUpgradeLevel => 0;
 

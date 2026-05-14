@@ -99,6 +99,7 @@ public sealed class AmalgamDieForYouPower : QueenPowerModel
 
 		GetInternalData<Data>().AwaitingDeathSleepRevive = true;
 		await CreatureCmd.TriggerAnim(creature, "Sleep", 0f);
+		await amalgam.FallAsleep(FriendlyAmalgam.SleepReason.Dead);
 		await amalgam.BeginForcedAction(new AmalgamEmergencySleepForcedActionModel(0m));
 	}
 

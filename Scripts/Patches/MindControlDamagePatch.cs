@@ -15,13 +15,18 @@ namespace ComicChess.TheQueen;
 /// <summary>
 /// 精神控制：在 <see cref="CreatureCmd.Damage(PlayerChoiceContext, IEnumerable{Creature}, decimal, ValueProp, Creature, CardModel)"/> 入口改写 <c>targets</c>，
 /// 使格挡与伤害整体落到新目标上；并用 <see cref="Hook.BeforeAttack"/> / <see cref="Hook.AfterAttack"/> 限定为敌方怪物正在执行的 <see cref="AttackCommand"/>。
+/// 与 <see cref="MindControlAttackFrame"/> 配合：同一 <see cref="AttackCommand"/> 内多段伤害只消耗一次精神控制（在 AfterAttack 时移除能力）。
 /// </summary>
 [HarmonyPatch]
 internal static class MindControlDamagePatch
 {
 	private static int _monsterAttackCommandDepth;
 
+	private static readonly Stack<MindControlAttackFrame> AttackFrames = new();
+
 	internal static bool IsInsideMonsterAttackCommand => _monsterAttackCommandDepth > 0;
+
+	internal static MindControlAttackFrame? TryPeekAttackFrame() => AttackFrames.Count > 0 ? AttackFrames.Peek() : null;
 
 	private static bool IsTrackedMonsterAttack(AttackCommand command)
 	{
@@ -47,6 +52,7 @@ internal static class MindControlDamagePatch
 		if (IsTrackedMonsterAttack(command))
 		{
 			_monsterAttackCommandDepth++;
+			AttackFrames.Push(new MindControlAttackFrame());
 		}
 	}
 
@@ -59,6 +65,11 @@ internal static class MindControlDamagePatch
 		if (IsTrackedMonsterAttack(command) && _monsterAttackCommandDepth > 0)
 		{
 			_monsterAttackCommandDepth--;
+			if (AttackFrames.Count > 0)
+			{
+				MindControlAttackFrame frame = AttackFrames.Pop();
+				frame.FlushRemovals();
+			}
 		}
 	}
 
@@ -100,7 +111,13 @@ internal static class MindControlDamagePatch
 			return;
 		}
 
-		if (!MindControlPower.TryApplyRedirectToTargets(list, combatState, dealer, props, cardSource))
+		if (!MindControlPower.TryApplyRedirectToTargets(
+			    list,
+			    combatState,
+			    dealer,
+			    props,
+			    cardSource,
+			    TryPeekAttackFrame()))
 		{
 			return;
 		}

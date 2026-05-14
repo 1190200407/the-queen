@@ -43,7 +43,7 @@ public sealed class RenounceIntent : QueenCardModel
 			return;
 		}
 
-		await amalgam.ActCurrentIntentImmediatelyAsync(choiceContext);
+		await amalgam.ActCurrentIntentImmediatelyAsync(choiceContext, skipRotate: true);
 		await amalgam.ForgetCurrentTorchSlotIntentAsync();
 	}
 

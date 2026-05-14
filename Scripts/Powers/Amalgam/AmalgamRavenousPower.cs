@@ -39,26 +39,27 @@ public sealed class AmalgamRavenousPower : QueenPowerModel
         HoverTipFactory.FromPower<StrengthPower>()
     ];
 
-    public override async Task AfterDeath(PlayerChoiceContext choiceContext, Creature target, bool wasRemovalPrevented, float deathAnimLength)
+    public override Task AfterDeath(PlayerChoiceContext choiceContext, Creature target, bool wasRemovalPrevented, float deathAnimLength)
     {
         _ = deathAnimLength;
         if (base.Owner == null)
         {
-            return;
+            return Task.CompletedTask;
         }
         if (wasRemovalPrevented || !base.Owner.IsAlive || target == base.Owner)
         {
-            return;
+            return Task.CompletedTask;
         }
 
         // 任意单位死亡都触发（不区分阵营）。
         if (Amount <= 0m)
         {
-            return;
+            return Task.CompletedTask;
         }
 
         Flash();
         GetInternalData<Data>().ShouldSleep = true;
+        return Task.CompletedTask;
     }
 
     public override async Task AfterPlayerTurnStartLate(PlayerChoiceContext choiceContext, Player player)

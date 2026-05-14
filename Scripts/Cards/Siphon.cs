@@ -9,6 +9,7 @@ using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Logging;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.ValueProps;
@@ -31,11 +32,9 @@ public sealed class Siphon : QueenCardModel
 		new DamageVar(6m, ValueProp.Move),
 		new CalculationBaseVar(0m),
 		new CalculationExtraVar(1m),
-		new CalculatedVar("CalculatedDraw").WithMultiplier((CardModel card, Creature? creature) =>
+		new CalculatedVar("CalculatedDraw").WithMultiplier(static (CardModel card, Creature? target) =>
 		{
-			_ = card;
-			int debuffKinds = creature?.Powers.Count(static p => p.Type == PowerType.Debuff) ?? 0;
-			return debuffKinds;
+			return target?.Powers.Count(static p => p.Type == PowerType.Debuff) ?? 0;
 		}),
 	];
 

@@ -36,8 +36,10 @@ public sealed class Execution : QueenCardModel, ICanMonsterCapture
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DamageVar(10m, ValueProp.Move),
-        new IntVar("BonusPerDebuff", 4m),
+        new CalculationBaseVar(10m),
+        new ExtraDamageVar(4m),
+        new CalculatedDamageVar(ValueProp.Move).WithMultiplier(static (CardModel card, Creature? target) =>
+            target?.Powers.Count(static p => p.Type == PowerType.Debuff) ?? 0),
     ];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
@@ -57,11 +59,7 @@ public sealed class Execution : QueenCardModel, ICanMonsterCapture
         Creature target = cardPlay.Target;
         bool shouldTriggerFatal = target.Powers.All(static p => p.ShouldOwnerDeathTriggerFatal());
 
-        int debuffCount = target.Powers.Count(static p => p.Type == PowerType.Debuff);
-        decimal bonusPerDebuff = base.DynamicVars["BonusPerDebuff"].BaseValue;
-        decimal totalDamage = base.DynamicVars.Damage.BaseValue + debuffCount * bonusPerDebuff;
-
-        AttackCommand attackCommand = await DamageCmd.Attack(totalDamage)
+        AttackCommand attackCommand = await DamageCmd.Attack(base.DynamicVars.CalculatedDamage)
             .FromCard(this)
             .Targeting(target)
             .WithHitFx("vfx/vfx_attack_blunt")
@@ -91,7 +89,7 @@ public sealed class Execution : QueenCardModel, ICanMonsterCapture
 
     protected override void OnUpgrade()
     {
-        base.DynamicVars.Damage.UpgradeValueBy(4m);
-        base.DynamicVars["BonusPerDebuff"].UpgradeValueBy(1m);
+        base.DynamicVars.CalculationBase.UpgradeValueBy(4m);
+        base.DynamicVars.ExtraDamage.UpgradeValueBy(1m);
     }
 }

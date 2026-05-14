@@ -70,6 +70,9 @@ public class FriendlyAmalgam : QueenMinionModel
     public bool HasIntentInTorchSlot(int slotIndex) =>
         slotIndex >= 0 && slotIndex < TorchSlotCount && _intentByTorchSlot[slotIndex] != null;
 
+    /// <summary>三盏灯槽均已记录意图（满槽后下一次学习会先当场执行一次再写入）。</summary>
+    public bool HasAllTorchSlotsFilled => FirstEmptyTorchSlotIndex() < 0;
+
     #region Sleep
     [Flags]
     public enum SleepReason
@@ -88,13 +91,17 @@ public class FriendlyAmalgam : QueenMinionModel
         Creature.IsAlive && _forcedAction == null && !IsSleeping();
 
     /// <summary>
-    /// 是否视为「沉睡」而不替主人承伤：已死亡、紧急避险等 <see cref="AmalgamForcedActionModel.IsSleepingd"/>，
-    /// 或灯槽即将执行的意图为沉睡。
+    /// 是否视为「沉睡」而不替主人承伤等（与灯槽展示一致）：任意非零 <see cref="sleepReason"/> 即视为睡，含仅 <see cref="SleepReason.NoLearnedAction"/>。
     /// </summary>
     public bool IsSleeping()
     {
         return sleepReason != 0;
     }
+
+    /// <summary>
+    /// 手牌打出时是否阻断聚合体「直接对敌」攻击：仅含 <see cref="SleepReason.NoLearnedAction"/>（无已学意图）时不阻断；含死亡、能力沉睡等则阻断。
+    /// </summary>
+    public bool BlocksDirectOffenseFromHand => (sleepReason & ~SleepReason.NoLearnedAction) != 0;
 
     public async Task FallAsleep(SleepReason reason)
     {
@@ -325,8 +332,8 @@ public class FriendlyAmalgam : QueenMinionModel
     public override int MaxInitialHp => 0;
     public override int MinInitialHp => 0;
 
-    /// <summary>与 <see cref="MegaCrit.Sts2.Core.Models.Monsters.Osty"/> 一致：0 血/尸体时不显示血条；复活后由 <see cref="FriendlyAmalgamCmd.SyncHealthBarVisibility"/> 再打开。</summary>
-    public override bool IsHealthBarVisible => Creature.IsAlive;
+    /// <summary>友方聚合体始终显示血条（含 0 血、击倒沉睡待复活），便于读血与复苏；与奥斯提「尸体隐藏血条」刻意不同。</summary>
+    public override bool IsHealthBarVisible => true;
 
     protected override string VisualsPath => "res://TheQueen/scenes/creature_visuals/torch_head_amalgam_minion.tscn";
 
@@ -471,8 +478,8 @@ public class FriendlyAmalgam : QueenMinionModel
         RefreshDisplayedIntent();
     }
 
-    /// <summary>立刻执行当前灯槽记录的意图（意图条演出 + 结算），<strong>不</strong>清空槽位、不轮转。</summary>
-    public async Task ActCurrentIntentImmediatelyAsync(PlayerChoiceContext choiceContext)
+    /// <summary>立刻执行当前灯槽记录的意图（意图条演出 + 结算），<strong>不</strong>清空槽位。</summary>
+    public async Task ActCurrentIntentImmediatelyAsync(PlayerChoiceContext choiceContext, bool skipRotate = false)
     {
         Creature self = Creature;
         if (!self.IsAlive)
@@ -500,7 +507,12 @@ public class FriendlyAmalgam : QueenMinionModel
         {
             ClearForcedAction();
         }
+        else if (!skipRotate)
+        {
+            RotateCurrentToNextLitTorchSlot();
+        }
         RefreshDisplayedIntent();
+        FriendlyAmalgamCmd.TryRefreshIntentTorchVisuals(self);
     }
 
     /// <summary>清空当前灯槽内意图，将「当前灯」切到下一盏有记录的槽（无则沉睡展示）；用于断念等仅遗忘、或已在外部执行过意图后的遗忘。</summary>
