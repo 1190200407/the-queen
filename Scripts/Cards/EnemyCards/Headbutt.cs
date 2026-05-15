@@ -15,7 +15,7 @@ namespace ComicChess.TheQueen;
 
 /// <summary>头槌：召唤；聚合体获得失衡；通过 <see cref="FriendlyAmalgamCmd.CombineIntent"/> 学习聚合进攻意图。消耗。</summary>
 [Pool(typeof(EnemyCardPool))]
-public sealed class Headbutt : QueenCardModel
+public sealed class Headbutt : LearnIntentCardModel
 {
     /// <summary>与 <see cref="AmalgamCompositeIntentAction"/> 及盛碗虫（石）捕获映射共用。</summary>
     public const string BowlbugRockCompositeKey = "BOWLBUG";
@@ -40,6 +40,7 @@ public sealed class Headbutt : QueenCardModel
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
     [
+        QueenHoverTips.LearnIntent,
         HoverTipFactory.FromKeyword(QueenKeyword.amalgamComposite),
         HoverTipFactory.FromPower<AmalgamImbalancedPower>(),
     ];

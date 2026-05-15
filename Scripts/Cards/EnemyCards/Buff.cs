@@ -13,7 +13,7 @@ namespace ComicChess.TheQueen;
 
 /// <summary>增益（蜜虫）：召唤；<see cref="FriendlyAmalgamCmd.CombineIntent"/> 学习聚合体获得力量（与盛碗虫系共用 <see cref="Headbutt.BowlbugRockCompositeKey"/>）。消耗。</summary>
 [Pool(typeof(EnemyCardPool))]
-public sealed class Buff : QueenCardModel
+public sealed class Buff : LearnIntentCardModel
 {
     private const decimal summon = 3m;
     private const decimal learnIntentStrength = 1m;
@@ -35,6 +35,7 @@ public sealed class Buff : QueenCardModel
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
     [
+        QueenHoverTips.LearnIntent,
         HoverTipFactory.FromKeyword(QueenKeyword.amalgamComposite),
         HoverTipFactory.FromPower<StrengthPower>(),
     ];

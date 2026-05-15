@@ -4,6 +4,7 @@ using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Nodes.Combat;
@@ -52,6 +53,11 @@ public sealed class Flee : QueenCardModel
         if (creature.IsDead)
         {
             return;
+        }
+
+        if (creature.Monster is FriendlyAmalgam && creature.PetOwner is Player amalgamOwner)
+        {
+            AmalgamFledSummonBlock.MarkAmalgamFled(combatState, amalgamOwner);
         }
 
         creature.RemoveAllPowersInternalExcept();

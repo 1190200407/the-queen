@@ -38,7 +38,7 @@ public sealed class QuickAdaptation : QueenCardModel
         _ = cardPlay;
         CardPile drawPile = PileType.Draw.GetPile(base.Owner);
         List<CardModel> candidates = drawPile.Cards
-            .Where(static c => c.Tags.Contains(QueenCardTags.LearnIntent))
+            .Where(static c => c.Tags.Contains(QueenCardTags.LearnIntent)) 
             .ToList();
         if (candidates.Count == 0)
         {

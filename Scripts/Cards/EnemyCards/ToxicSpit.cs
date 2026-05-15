@@ -13,7 +13,7 @@ namespace ComicChess.TheQueen;
 
 /// <summary>剧毒唾液：召唤；<see cref="FriendlyAmalgamCmd.CombineIntent"/> 学习虚弱（与盛碗虫系共用 <see cref="Headbutt.BowlbugRockCompositeKey"/>）。消耗。</summary>
 [Pool(typeof(EnemyCardPool))]
-public sealed class ToxicSpit : QueenCardModel
+public sealed class ToxicSpit : LearnIntentCardModel
 {
     private const decimal summon = 3m;
     private const decimal learnIntentWeak = 2m;
@@ -35,6 +35,7 @@ public sealed class ToxicSpit : QueenCardModel
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
     [
+        QueenHoverTips.LearnIntent,
         HoverTipFactory.FromKeyword(QueenKeyword.amalgamComposite),
         HoverTipFactory.FromPower<WeakPower>(),
     ];

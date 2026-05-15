@@ -16,7 +16,7 @@ namespace ComicChess.TheQueen;
 
 /// <summary>翻滚：召唤；聚合体沉睡；两次 <see cref="FriendlyAmalgamCmd.CombineIntent"/> 学习伤害与力量。消耗。</summary>
 [Pool(typeof(EnemyCardPool))]
-public sealed class RollOut : QueenCardModel
+public sealed class RollOut : LearnIntentCardModel
 {
     public const string SlumberingBeetleCompositeKey = "BOWLBUG";
 
@@ -42,6 +42,7 @@ public sealed class RollOut : QueenCardModel
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
     [
+        QueenHoverTips.LearnIntent,
         HoverTipFactory.FromKeyword(QueenKeyword.amalgamComposite),
         HoverTipFactory.FromPower<StrengthPower>(),
     ];

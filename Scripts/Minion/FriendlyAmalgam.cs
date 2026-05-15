@@ -675,6 +675,11 @@ public class FriendlyAmalgam : QueenMinionModel
     internal void RefreshDisplayedIntent()
     {
         Creature self = Creature;
+        if (self.CombatState == null || MoveStateMachine == null)
+        {
+            return;
+        }
+
         MoveState state = GetPendingDisplayedMoveState(self);
         SetMoveImmediate(state, forceTransition: true);
     }

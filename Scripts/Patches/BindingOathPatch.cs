@@ -95,10 +95,7 @@ internal static class BindingOathPatchState
 	{
 		foreach (Player p in combatState.Players)
 		{
-			if (p.Character is QueenCharacter)
-			{
-				BoundCardPlayedThisTurn[p.NetId] = false;
-			}
+			BoundCardPlayedThisTurn[p.NetId] = false;
 		}
 	}
 

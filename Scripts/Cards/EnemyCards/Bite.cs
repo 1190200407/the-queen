@@ -13,7 +13,7 @@ namespace ComicChess.TheQueen;
 
 /// <summary>撕咬：召唤；分两次 <see cref="FriendlyAmalgamCmd.CombineIntent"/> 学习同键的聚合伤害与格挡（同一灯槽内为两次行动）。消耗。</summary>
 [Pool(typeof(EnemyCardPool))]
-public sealed class Bite : QueenCardModel
+public sealed class Bite : LearnIntentCardModel
 {
     public const string BowlbugEggCompositeKey = "BOWLBUG";
 
@@ -39,6 +39,7 @@ public sealed class Bite : QueenCardModel
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
     [
+        QueenHoverTips.LearnIntent,
         HoverTipFactory.FromKeyword(QueenKeyword.amalgamComposite),
     ];
 

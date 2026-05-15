@@ -30,10 +30,12 @@ internal static class QueenSummonOnCombatStartPatch
         var choiceContext = new BlockingPlayerChoiceContext();
         foreach (Player player in combatState.Players)
         {
-            if (player.Character is QueenCharacter)
+            if (player.Character is not QueenCharacter)
             {
-                await FriendlyAmalgamCmd.EnsureAmalgamCombatStartShellAsync(choiceContext, player);
+                continue;
             }
+
+            await FriendlyAmalgamCmd.EnsureAmalgamCombatStartShellAsync(choiceContext, player);
         }
     }
 }

@@ -10,7 +10,7 @@ namespace ComicChess.TheQueen;
 /// <summary>
 /// 学习意图类卡牌基类：可选先召唤，再按列表依次写入一个或多个意图。
 /// 默认带 <see cref="QueenCardTags.LearnIntent"/>（与 <see cref="ScratchTaggedCard"/> / <see cref="QueenCardTags.Scratch"/> 相同做法）。
-/// 子类在 <see cref="CreateLearnIntentsAsync"/> 中集中声明本牌对应的意图，便于查阅；若出牌顺序需先召唤再插入其它逻辑，可重写
+/// 子类在 <see cref="CreateLearnIntentsAsync"/> 中集中声明本牌对应的意图（组合牌可重写 <see cref="OnPlay"/> 仅用 <see cref="FriendlyAmalgamCmd.CombineIntent"/>）；若出牌顺序需先召唤再插入其它逻辑，可重写
 /// <see cref="AfterSummonBeforeLearnIntentsAsync"/>；若完全自定义出牌流程，可重写 <see cref="OnPlay"/> 并在适当时机调用
 /// <see cref="PlayLearnIntentsFromCreateAsync"/>。
 /// </summary>
@@ -61,8 +61,12 @@ public abstract class LearnIntentCardModel : QueenCardModel
     protected virtual Task AfterSummonBeforeLearnIntentsAsync(PlayerChoiceContext choiceContext, CardPlay cardPlay) =>
         Task.CompletedTask;
 
-    /// <summary>返回本次要学习的意图集合；支持数组/列表与多意图写入。</summary>
-    protected abstract Task<IReadOnlyList<AmalgamActionModel?>> CreateLearnIntentsAsync(PlayerChoiceContext choiceContext, CardPlay cardPlay);
+    /// <summary>
+    /// 返回本次要学习的意图集合；由 <see cref="PlayLearnIntentsFromCreateAsync"/> 逐个 <see cref="FriendlyAmalgamCmd.LearnIntent"/> 写入。
+    /// 组合意图牌（<see cref="QueenKeyword.amalgamComposite"/>）走 <see cref="FriendlyAmalgamCmd.CombineIntent"/>，可重写 <see cref="OnPlay"/> 且不调用本方法，则保留默认空实现即可。
+    /// </summary>
+    protected virtual Task<IReadOnlyList<AmalgamActionModel?>> CreateLearnIntentsAsync(PlayerChoiceContext choiceContext, CardPlay cardPlay) =>
+        Task.FromResult<IReadOnlyList<AmalgamActionModel?>>([]);
 
     /// <summary>
     /// 调用 <see cref="CreateLearnIntentsAsync"/> 并对每个非空意图执行 <see cref="FriendlyAmalgamCmd.LearnIntent"/>。

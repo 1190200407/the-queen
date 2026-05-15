@@ -53,7 +53,7 @@ public abstract class ScratchTaggedCard : QueenCardModel
 	public override async Task AfterCardEnteredCombat(CardModel card)
 	{
 		await base.AfterCardEnteredCombat(card);
-		if (card != this || base.IsClone || base.Owner?.Character is not QueenCharacter)
+		if (card != this || base.IsClone)
 		{
 			return;
 		}

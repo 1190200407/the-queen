@@ -36,9 +36,14 @@ public static class FriendlyAmalgamCmd
 
     private const string AmalgamIntentSyncTweenMeta = "TheQueen_AmalgamIntentSyncTween";
 
+    /// <summary>
+    /// 仍在本场 <paramref name="combatState"/> 中的友方聚合体。逃跑等会 <c>RemoveCreature</c> 并清空 <c>Creature.CombatState</c>，
+    /// 但原版不会从 <see cref="MegaCrit.Sts2.Core.Entities.Players.PlayerCombatState.Pets"/> 移除，故必须过滤，否则 <see cref="GetExisting"/> 会命中僵尸引用。
+    /// </summary>
     public static Creature? GetExisting(CombatState combatState, Player owner)
     {
-        return owner.Creature.Pets.FirstOrDefault(c => c.Monster is FriendlyAmalgam);
+        return owner.Creature.Pets.FirstOrDefault(c =>
+            c.Monster is FriendlyAmalgam && ReferenceEquals(c.CombatState, combatState));
     }
 
     /// <summary>与原版 <see cref="MegaCrit.Sts2.Core.Commands.CardCmd"/> / <see cref="MegaCrit.Sts2.Core.Commands.Builders.AttackCommand"/> 一致，使用女王的 <see cref="Rng.CombatTargets"/>，保证联机下随机选敌一致。</summary>
@@ -193,8 +198,15 @@ public static class FriendlyAmalgamCmd
             return;
         }
 
-        // 尚无聚合体随从但已有奥斯提实体（死灵等）：不走聚合体生成，改由原版 OstyCmd（含 Hook.ModifySummonAmount 与历史记录）。
-        if (GetExisting(combatState, owner) == null && owner.Osty != null)
+        if (AmalgamFledSummonBlock.IsSummonBlocked(combatState, owner))
+        {
+            return;
+        }
+
+        // 尚无「在场」友方聚合体且 Pets 里也没有任何 FriendlyAmalgam（含已逃跑的僵尸条目）时，若已有奥斯提实体（死灵等）：走 OstyCmd。
+        if (GetExisting(combatState, owner) == null
+            && !owner.Creature.Pets.Any(static c => c.Monster is FriendlyAmalgam)
+            && owner.Osty != null)
         {
             await OstyCmd.Summon(choiceContext, owner, amount, source);
             return;
@@ -305,6 +317,12 @@ public static class FriendlyAmalgamCmd
         }
 
         if (GetExisting(combatState, owner) != null)
+        {
+            return;
+        }
+
+        // 与 GetExisting 一致：栏内仅有已离场占位时不重复铺壳。
+        if (owner.Creature.Pets.Any(static c => c.Monster is FriendlyAmalgam))
         {
             return;
         }
@@ -489,8 +507,8 @@ public static class FriendlyAmalgamCmd
         int hitCount)
     {
         const string beamAnim = "PowerAttack";
-        const float beamAnimDelay = 0.8f;
-        const float damageDelayAfterBeamAnim = 0.5f;
+        const float beamAnimDelay = 0.7f;
+        const float damageDelayAfterBeamAnim = 0.3f;
         const string beamSfx = "event:/sfx/enemy/enemy_attacks/torch_head_amalgam/torch_head_amalgam_beam";
         const string hitVfxPath = "vfx/vfx_attack_blunt";
         const float laserControlBoneFriendlyReach = 10000f;

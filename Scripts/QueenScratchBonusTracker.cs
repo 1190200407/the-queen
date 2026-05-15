@@ -30,27 +30,17 @@ internal static class QueenScratchBonusTracker
 
 	public static void RecordScratchPlay(Player owner, decimal increase)
 	{
-		if (owner.Character is not QueenCharacter)
-		{
-			return;
-		}
-
 		GetOrCreate(owner.NetId).ScratchDamageFromPlays += increase;
 	}
 
 	public static void RecordEndlessScratchPlay(Player owner)
 	{
-		if (owner.Character is not QueenCharacter)
-		{
-			return;
-		}
-
 		GetOrCreate(owner.NetId).EndlessScratchLayers++;
 	}
 
 	public static void ApplyToNewScratchTagged(Player owner, ScratchTaggedCard card)
 	{
-		if (owner.Character is not QueenCharacter || !ByPlayer.TryGetValue(owner.NetId, out Entry? e))
+		if (!ByPlayer.TryGetValue(owner.NetId, out Entry? e))
 		{
 			return;
 		}

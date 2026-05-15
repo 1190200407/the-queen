@@ -38,10 +38,7 @@ internal static class ChainsOfBindingPatch
 	[HarmonyPatch(typeof(ChainsOfBindingPower), nameof(ChainsOfBindingPower.ShouldPlay))]
 	private static void ShouldPlay_Postfix(CardModel card, ref bool __result)
 	{
-		if (card.Owner?.Character is QueenCharacter)
-		{
-			__result = true;
-		}
+		__result = true;
 	}
 
 	/// <summary>女王：不维护锁链的 <c>boundCardPlayed</c>。</summary>
@@ -49,13 +46,6 @@ internal static class ChainsOfBindingPatch
 	[HarmonyPatch(typeof(ChainsOfBindingPower), nameof(ChainsOfBindingPower.BeforeCardPlayed))]
 	private static bool BeforeCardPlayed_Prefix(ChainsOfBindingPower __instance, CardPlay cardPlay, ref Task __result)
 	{
-		_ = __instance;
-		Player? owner = cardPlay.Card.Owner;
-		if (owner?.Character is not QueenCharacter)
-		{
-			return true;
-		}
-
 		__result = Task.CompletedTask;
 		return false;
 	}
