@@ -68,10 +68,13 @@ public sealed class SoulLockCasket : QueenCardModel, ITranscendenceCard, ICanMon
             return;
         }
 
+        if (target.Monster is not null && base.CombatState is not null && !CanCapture(target.Monster, base.CombatState))
+        {
+            return;
+        }
+
         if (shouldTriggerFatal
-            && attackCommand.Results.Any(static r => r.WasTargetKilled)
-            && target.CombatState?.Encounter?.RoomType != RoomType.Boss
-            && base.CombatState?.RunState.CurrentRoom is CombatRoom)
+            && attackCommand.Results.Any(static r => r.WasTargetKilled))
         {
             CardModel? reward = MonsterCaptureRewardCatalog.TryCreateCaptureRewardCard(base.Owner, target);
             if (reward is { } rewardCard)
