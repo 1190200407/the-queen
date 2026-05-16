@@ -11,6 +11,7 @@ using STS2RitsuLib.Interop.AutoRegistration;
 namespace ComicChess.TheQueen;
 
 [RegisterCharacterStarterCard(typeof(QueenCharacter), 4)]
+[RegisterCard(typeof(QueenCardPool))]
 public sealed class StrikeQueen : QueenCardModel
 {
     // 基础耗能
@@ -19,7 +20,7 @@ public sealed class StrikeQueen : QueenCardModel
     private const CardType type = CardType.Attack;
     // 卡牌稀有度
     private const CardRarity rarity = CardRarity.Basic;
-    // 目标类型（AnyEnemy表示任意敌人�?
+    // 目标类型（AnyEnemy表示任意敌人�?
     private const TargetType targetType = TargetType.AnyEnemy;
     // 是否在卡牌图鉴中显示
     private const bool shouldShowInCardLibrary = true;

@@ -1,18 +1,23 @@
 ﻿using System.Threading.Tasks;
-using HarmonyLib;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Players;
+using MegaCrit.Sts2.Core.Helpers;
+using STS2RitsuLib.Patching.Models;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>
-/// 魔法时间：在获得能量后，若魂灯为 0 且有能量，则立刻执行“1 能量 -> 1 魂灯”的补灯逻辑。
-/// </summary>
-[HarmonyPatch(typeof(PlayerCmd), nameof(PlayerCmd.GainEnergy))]
-internal static class MagicTimeGainEnergyPatch
+internal sealed class MagicTimeGainEnergyPatch : IPatchMethod
 {
-	[HarmonyPostfix]
-	private static void Postfix(decimal amount, Player player)
+	public static string PatchId => "thequeen_magic_time_gain_energy";
+	public static string Description => "Magic Time: auto-refill soul lamp after gaining energy";
+	public static bool IsCritical => true;
+
+	public static ModPatchTarget[] GetTargets() =>
+	[
+		new(typeof(PlayerCmd), nameof(PlayerCmd.GainEnergy)),
+	];
+
+	public static void Postfix(decimal amount, Player player)
 	{
 		if (amount <= 0m || player?.Creature is null)
 		{
@@ -20,6 +25,6 @@ internal static class MagicTimeGainEnergyPatch
 		}
 
 		Task task = MagicTimePower.TryAutoRefillSoulLamp(player);
-		MegaCrit.Sts2.Core.Helpers.TaskHelper.RunSafely(task);
+		TaskHelper.RunSafely(task);
 	}
 }

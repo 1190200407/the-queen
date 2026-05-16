@@ -8,9 +8,12 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models.CardPools;
 
+using STS2RitsuLib.Interop.AutoRegistration;
+
 namespace ComicChess.TheQueen;
 
 
+[RegisterCard(typeof(QueenCardPool))]
 public sealed class RenounceIntent : QueenCardModel
 {
 	private const int energyCost = 1;

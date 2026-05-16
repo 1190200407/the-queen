@@ -12,9 +12,12 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 using STS2RitsuLib.Cards.DynamicVars;
 
+using STS2RitsuLib.Interop.AutoRegistration;
+
 namespace ComicChess.TheQueen;
 
 
+[RegisterCard(typeof(QueenCardPool))]
 public sealed class TerminusForm : QueenCardModel
 {
     private const decimal summonBase = 13m;

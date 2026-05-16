@@ -13,10 +13,12 @@ using MegaCrit.Sts2.Core.Models.Afflictions;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.ValueProps;
 
+using STS2RitsuLib.Interop.AutoRegistration;
+
 namespace ComicChess.TheQueen;
 
 /// <summary>裂隙抓挠：抓挠系，可受其他抓挠的全局伤害加成；打出时不提供抓挠全局强化。</summary>
-
+[RegisterCard(typeof(QueenCardPool))]
 public sealed class RiftScratch : ScratchTaggedCard
 {
 	private const int energyCost = 1;

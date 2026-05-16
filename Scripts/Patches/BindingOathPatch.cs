@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using HarmonyLib;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -10,14 +9,12 @@ using MegaCrit.Sts2.Core.Hooks;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Afflictions;
 using MegaCrit.Sts2.Core.Runs;
+using STS2RitsuLib.Patching.Models;
 
 namespace ComicChess.TheQueen;
 
 /// <summary>
-/// 女王「魂缚誓约」：每回合最多<strong>手动</strong>打出 1 张 <see cref="Bound"/> 牌；有魂灯层数时可无视该限制。
-/// <see cref="CardCmd.AutoPlay"/> 传入的 <see cref="AutoPlayType"/> 非 <see cref="AutoPlayType.None"/> 时不应用本限制。
-/// 原实现为 <c>BindingOathPower</c>，此处改为 Hook Patch，不在状态栏占用能力位。
-/// 与 Boss「魂缚锁链」：<see cref="ChainsOfBindingPatch"/> 对 <see cref="QueenCharacter"/> 关闭锁链出牌限制，由本 Patch 判断；锁链魂缚每回合仅清 <see cref="ChainsOfBindingBoundTracker"/> 登记的牌。
+/// 女王「魂缚誓约」：每回合最多手动打出 1 张 <see cref="Bound"/> 牌；有魂灯层数时可无视该限制。
 /// </summary>
 internal static class BindingOathPatchState
 {
@@ -25,7 +22,6 @@ internal static class BindingOathPatchState
 
 	private static AbstractModel? _bindingOathPreventer;
 
-	/// <summary><see cref="ModelDb.Power{T}"/> 的规范实例，只取一次供 ShouldPlay 气泡复用。</summary>
 	internal static AbstractModel BindingOathPreventer =>
 		_bindingOathPreventer ??= ModelDb.Power<BindingOathPreventerPower>();
 
@@ -35,12 +31,7 @@ internal static class BindingOathPatchState
 		ref bool __result,
 		ref AbstractModel? preventer)
 	{
-		if (!__result)
-		{
-			return;
-		}
-
-		if (autoPlayType != AutoPlayType.None)
+		if (!__result || autoPlayType != AutoPlayType.None)
 		{
 			return;
 		}
@@ -90,7 +81,6 @@ internal static class BindingOathPatchState
 		BoundCardPlayedThisTurn[owner.NetId] = true;
 	}
 
-	/// <summary>与旧 Power 一致：每次回合结束阶段 Hook 都清零，避免跨侧回合残留。</summary>
 	internal static void ResetQueenFlags(CombatState combatState)
 	{
 		foreach (Player p in combatState.Players)
@@ -106,12 +96,18 @@ internal static class BindingOathPatchState
 	}
 }
 
-[HarmonyPatch]
-internal static class BindingOathPatch
+internal sealed class BindingOathHookShouldPlayPatch : IPatchMethod
 {
-	[HarmonyPostfix]
-	[HarmonyPatch(typeof(Hook), nameof(Hook.ShouldPlay))]
-	private static void ShouldPlay_Postfix(
+	public static string PatchId => "thequeen_binding_oath_should_play";
+	public static string Description => "Binding oath: limit bound card plays per turn";
+	public static bool IsCritical => true;
+
+	public static ModPatchTarget[] GetTargets() =>
+	[
+		new(typeof(Hook), nameof(Hook.ShouldPlay)),
+	];
+
+	public static void Postfix(
 		CombatState combatState,
 		CardModel card,
 		ref AbstractModel? preventer,
@@ -121,30 +117,61 @@ internal static class BindingOathPatch
 		_ = combatState;
 		BindingOathPatchState.ApplyShouldPlayBlock(card, autoPlayType, ref __result, ref preventer);
 	}
+}
 
-	[HarmonyPostfix]
-	[HarmonyPatch(typeof(Hook), nameof(Hook.BeforeCardPlayed))]
-	private static async Task BeforeCardPlayed_Postfix(Task __result, CombatState combatState, CardPlay cardPlay)
+internal sealed class BindingOathHookBeforeCardPlayedPatch : IPatchMethod
+{
+	public static string PatchId => "thequeen_binding_oath_before_card_played";
+	public static string Description => "Binding oath: track bound card played";
+	public static bool IsCritical => true;
+
+	public static ModPatchTarget[] GetTargets() =>
+	[
+		new(typeof(Hook), nameof(Hook.BeforeCardPlayed)),
+	];
+
+	public static async Task Postfix(Task __result, CombatState combatState, CardPlay cardPlay)
 	{
 		_ = combatState;
 		await __result;
 		BindingOathPatchState.NoteBoundCardPlayedIfQueen(cardPlay);
 	}
+}
 
-	[HarmonyPostfix]
-	[HarmonyPatch(typeof(Hook), nameof(Hook.BeforeTurnEnd))]
-	private static async Task BeforeTurnEnd_Postfix(Task __result, CombatState combatState, CombatSide side)
+internal sealed class BindingOathHookBeforeTurnEndPatch : IPatchMethod
+{
+	public static string PatchId => "thequeen_binding_oath_before_turn_end";
+	public static string Description => "Binding oath: reset per-turn flags";
+	public static bool IsCritical => true;
+
+	public static ModPatchTarget[] GetTargets() =>
+	[
+		new(typeof(Hook), nameof(Hook.BeforeTurnEnd)),
+	];
+
+	public static async Task Postfix(Task __result, CombatState combatState, CombatSide side)
 	{
 		_ = side;
 		await __result;
 		BindingOathPatchState.ResetQueenFlags(combatState);
 	}
+}
 
-	[HarmonyPostfix]
-	[HarmonyPatch(typeof(Hook), nameof(Hook.BeforeCombatStart))]
-	private static async Task BeforeCombatStart_Postfix(Task __result, IRunState runState, CombatState? combatState)
+internal sealed class BindingOathHookBeforeCombatStartPatch : IPatchMethod
+{
+	public static string PatchId => "thequeen_binding_oath_before_combat_start";
+	public static string Description => "Binding oath: clear combat state";
+	public static bool IsCritical => true;
+
+	public static ModPatchTarget[] GetTargets() =>
+	[
+		new(typeof(Hook), nameof(Hook.BeforeCombatStart)),
+	];
+
+	public static async Task Postfix(Task __result, IRunState runState, CombatState? combatState)
 	{
 		_ = runState;
+		_ = combatState;
 		await __result;
 		BindingOathPatchState.ClearForNewCombat();
 	}

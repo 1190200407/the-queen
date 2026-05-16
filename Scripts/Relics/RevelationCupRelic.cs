@@ -20,7 +20,7 @@ namespace ComicChess.TheQueen;
 /// 通过 <see cref="IAmalgamEventListener.AfterLearnIntent"/> 接入，不污染 <see cref="FriendlyAmalgamCmd"/>。
 /// 不作用于 <see cref="SoulResonancePower"/> 等镜像学习（来源牌的 <see cref="CardModel.Owner"/> 非 relic 持有者）。
 /// </summary>
-[RegisterRelic(typeof(QueenRelicPool))]
+
 public sealed class RevelationCupRelic : QueenRelicModel, IAmalgamEventListener
 {
 	private bool _firstLearnDuplicateConsumed;

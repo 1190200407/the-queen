@@ -19,10 +19,13 @@ using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.Runs;
 using MegaCrit.Sts2.Core.ValueProps;
 
+using STS2RitsuLib.Interop.AutoRegistration;
+
 namespace ComicChess.TheQueen;
 
-/// <summary>镇魂匣：保留；低血目标双倍伤害；斩杀时捕获目标。</summary>
+/// <summary>镇魂匣：保留；低血目标双倍伤害；斩杀时捕获目标�?/summary>
 
+[RegisterCard(typeof(QueenCardPool))]
 public sealed class SoulCalmCasket : QueenCardModel, ICanMonsterCapture
 {
     private const int energyCost = 1;

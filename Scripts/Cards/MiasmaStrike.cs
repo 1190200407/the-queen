@@ -10,10 +10,13 @@ using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
 
+using STS2RitsuLib.Interop.AutoRegistration;
+
 namespace ComicChess.TheQueen;
 
-/// <summary>瘴气打击：伤害 + 随机施加中毒、灾厄或消亡其中一种 3 层。</summary>
+/// <summary>瘴气打击：伤�?+ 随机施加中毒、灾厄或消亡其中一�?3 层�?/summary>
 
+[RegisterCard(typeof(QueenCardPool))]
 public sealed class MiasmaStrike : QueenCardModel
 {
 	private const int energyCost = 1;

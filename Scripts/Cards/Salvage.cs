@@ -8,9 +8,12 @@ using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.CardPools;
 
+using STS2RitsuLib.Interop.AutoRegistration;
+
 namespace ComicChess.TheQueen;
 
 
+[RegisterCard(typeof(QueenCardPool))]
 public sealed class Salvage : QueenCardModel
 {
 	private const int energyCost = 0;
@@ -19,7 +22,7 @@ public sealed class Salvage : QueenCardModel
 	private const TargetType targetType = TargetType.Self;
 	private const bool shouldShowInCardLibrary = true;
 
-	// 参考 <see cref="DarkVeil"/>：无魂灯时额外效果生效，卡面发金光。
+	// ?? <see cref="DarkVeil"/>??????????????????
 	protected override bool ShouldGlowGoldInternal
 	{
 		get

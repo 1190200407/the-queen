@@ -12,15 +12,18 @@ using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Afflictions;
 using MegaCrit.Sts2.Core.Models.CardPools;
 
+using STS2RitsuLib.Interop.AutoRegistration;
+
 namespace ComicChess.TheQueen;
 
-/// <summary>藏宝阁：从弃牌堆取回 1 张非魂缚牌并侵蚀为魂缚，获得 1 点魂灯。</summary>
+/// <summary>藏宝阁：从弃牌堆取回 1 张非魂缚牌并侵蚀为魂缚，获得 1 点魂灯�?/summary>
 
+[RegisterCard(typeof(QueenCardPool))]
 public sealed class TreasurePavilion : QueenCardModel
 {
     private const int energyCost = 1;
     private const CardType type = CardType.Skill;
-    private const CardRarity rarity = CardRarity.Uncommon; // 中文“罕见”= Uncommon
+    private const CardRarity rarity = CardRarity.Uncommon; // 中文“罕见�? Uncommon
     private const TargetType targetType = TargetType.Self;
     private const bool shouldShowInCardLibrary = true;
 

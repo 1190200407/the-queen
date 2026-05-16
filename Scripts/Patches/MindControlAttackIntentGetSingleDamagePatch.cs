@@ -1,6 +1,6 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using HarmonyLib;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Context;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -10,18 +10,22 @@ using MegaCrit.Sts2.Core.Hooks;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.MonsterMoves.Intents;
 using MegaCrit.Sts2.Core.ValueProps;
+using STS2RitsuLib.Patching.Models;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>
-/// 原版 <see cref="AttackIntent.GetSingleDamage"/> 对怪物意图始终用本地玩家作 <c>ModifyDamage</c> 的 target；精神控制下实际可能打在其它敌方身上，
-/// 此处对「除自身外的可攻击敌方」逐个跑 <see cref="Hook.ModifyDamage"/>，取最大整型伤害作为意图数字（与多敌预览常见做法一致）。
-/// </summary>
-[HarmonyPatch(typeof(AttackIntent), nameof(AttackIntent.GetSingleDamage))]
-internal static class MindControlAttackIntentGetSingleDamagePatch
+internal sealed class MindControlAttackIntentGetSingleDamagePatch : IPatchMethod
 {
-	[HarmonyPostfix]
-	private static void GetSingleDamage_Postfix(AttackIntent __instance, IEnumerable<Creature> targets, Creature owner, ref int __result)
+	public static string PatchId => "thequeen_mind_control_attack_intent_damage";
+	public static string Description => "Mind control: intent damage uses max ModifyDamage across enemies";
+	public static bool IsCritical => true;
+
+	public static ModPatchTarget[] GetTargets() =>
+	[
+		new(typeof(AttackIntent), nameof(AttackIntent.GetSingleDamage)),
+	];
+
+	public static void Postfix(AttackIntent __instance, IEnumerable<Creature> targets, Creature owner, ref int __result)
 	{
 		_ = targets;
 		if (owner.CombatState is not CombatState combatState || !owner.IsEnemy)
@@ -73,6 +77,6 @@ internal static class MindControlAttackIntentGetSingleDamagePatch
 			}
 		}
 
-		__result = System.Math.Max(0, (int)max);
+		__result = Math.Max(0, (int)max);
 	}
 }

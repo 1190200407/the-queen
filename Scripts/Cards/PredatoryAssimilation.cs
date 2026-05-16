@@ -10,10 +10,13 @@ using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Rooms;
 
+using STS2RitsuLib.Interop.AutoRegistration;
+
 namespace ComicChess.TheQueen;
 
-/// <summary>掠食同化：能力牌；聚合体斩杀普通或精英敌怪时可捕获（逻辑在 <see cref="FriendlyAmalgamHook"/>）。</summary>
+/// <summary>�?��?�?�??�?�?��??�??�?�?�?�?�?��?�?��??�??精�?��??�?��?�可�?�?��?�?��?�??<see cref="FriendlyAmalgamHook"/>�?�??/summary>
 
+[RegisterCard(typeof(QueenCardPool))]
 public sealed class PredatoryAssimilation : QueenCardModel, ICanMonsterCapture
 {
 	private const int energyCost = 1;
@@ -46,7 +49,7 @@ public sealed class PredatoryAssimilation : QueenCardModel, ICanMonsterCapture
 	{
 		_ = choiceContext;
 		_ = cardPlay;
-		// 如果已经有掠食同化，则升级
+
 		if (base.Owner.Creature.GetPower<PredatoryAssimilationPower>() is PredatoryAssimilationPower power && !power.IsUpgraded && base.IsUpgraded)
 		{
 			power.ConfigureIsUpgraded(base.IsUpgraded, true);

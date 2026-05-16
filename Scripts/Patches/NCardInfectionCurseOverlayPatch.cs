@@ -1,3 +1,4 @@
+using System.Reflection;
 using Godot;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Assets;
@@ -5,25 +6,30 @@ using MegaCrit.Sts2.Core.Helpers;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Nodes.Cards;
 using MegaCrit.Sts2.Core.Nodes.GodotExtensions;
+using STS2RitsuLib.Patching.Models;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>
-/// <see cref="Infested"/>：使用与状态牌 <see cref="MegaCrit.Sts2.Core.Models.Cards.Infection"/> 相同的 overlay 场景（<c>cards/overlays/infection</c>）。
-/// </summary>
-[HarmonyPatch(typeof(NCard), "ReloadOverlay")]
-internal static class NCardInfectionCurseOverlayPatch
+internal sealed class NCardInfectionCurseOverlayPatch : IPatchMethod
 {
 	private static readonly string InfectionOverlayInnerPath = "cards/overlays/infection";
 
-	private static readonly System.Reflection.FieldInfo OverlayContainerField =
+	private static readonly FieldInfo OverlayContainerField =
 		AccessTools.Field(typeof(NCard), "_overlayContainer")!;
 
-	private static readonly System.Reflection.FieldInfo CardOverlayField =
+	private static readonly FieldInfo CardOverlayField =
 		AccessTools.Field(typeof(NCard), "_cardOverlay")!;
 
-	[HarmonyPostfix]
-	private static void Postfix(NCard __instance)
+	public static string PatchId => "thequeen_ncard_infection_overlay";
+	public static string Description => "Infested/Lash cards use infection overlay scene";
+	public static bool IsCritical => false;
+
+	public static ModPatchTarget[] GetTargets() =>
+	[
+		new(typeof(NCard), "ReloadOverlay"),
+	];
+
+	public static void Postfix(NCard __instance)
 	{
 		CardModel? model = __instance.Model;
 		if (model?.Enchantment is not Infested && model is not Lash)
@@ -42,7 +48,9 @@ internal static class NCardInfectionCurseOverlayPatch
 
 		string path = SceneHelper.GetScenePath(InfectionOverlayInnerPath);
 		if (!ResourceLoader.Exists(path, string.Empty))
+		{
 			return;
+		}
 
 		Node root = PreloadManager.Cache.GetScene(path).Instantiate();
 		if (root is not Control created)

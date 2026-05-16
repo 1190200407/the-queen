@@ -8,9 +8,12 @@ using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models.Afflictions;
 using MegaCrit.Sts2.Core.Models.CardPools;
 
+using STS2RitsuLib.Interop.AutoRegistration;
+
 namespace ComicChess.TheQueen;
 
 
+[RegisterCard(typeof(QueenCardPool))]
 public sealed class GemCharge : QueenCardModel
 {
 	private const int energyCost = 1;
@@ -38,8 +41,7 @@ public sealed class GemCharge : QueenCardModel
 			return;
 		}
 
-		// 只有本体升级后，才生成升级版衍生牌。
-		await QueenCardCmd.CreateInHand<PiercingCharge>(base.Owner, base.CombatState, isUpgraded: base.IsUpgraded);
+		// 只有本体升级后，才生成升级版衍生牌�?		await QueenCardCmd.CreateInHand<PiercingCharge>(base.Owner, base.CombatState, isUpgraded: base.IsUpgraded);
 		await QueenCardCmd.CreateInHand<DiffuseCharge>(base.Owner, base.CombatState, isUpgraded: base.IsUpgraded);
 		await QueenCardCmd.AddSoulLamp(base.Owner);
 	}

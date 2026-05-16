@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
-using HarmonyLib;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -10,10 +9,10 @@ using MegaCrit.Sts2.Core.Entities.Potions;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Nodes.Combat;
 using MegaCrit.Sts2.Core.Nodes.Potions;
+using STS2RitsuLib.Patching.Models;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>生态箱对敌单体指向时，在怪物意图位显示捕获预览卡；悬停放大与 <see cref="EnemyIntentRewardCardPreview"/> 捕获牌一致。</summary>
 internal static class EcosphereBottleTargetingPreview
 {
 	private static bool _active;
@@ -97,11 +96,18 @@ internal static class EcosphereBottleTargetingPreview
 	}
 }
 
-[HarmonyPatch(typeof(NPotionHolder), "TargetNode", typeof(TargetType))]
-internal static class EcosphereBottleTargetingPreview_NPotionHolder_TargetNode_Patch
+internal sealed class EcosphereBottleTargetingPreview_NPotionHolder_TargetNode_Patch : IPatchMethod
 {
-	[HarmonyPrefix]
-	private static void Prefix(NPotionHolder __instance, TargetType targetType)
+	public static string PatchId => "thequeen_ecosphere_potion_target_node";
+	public static string Description => "Ecosphere bottle: show capture preview on enemy targeting";
+	public static bool IsCritical => false;
+
+	public static ModPatchTarget[] GetTargets() =>
+	[
+		new(typeof(NPotionHolder), "TargetNode", new[] { typeof(TargetType) }),
+	];
+
+	public static void Prefix(NPotionHolder __instance, TargetType targetType)
 	{
 		if (__instance.Potion?.Model is not EcosphereBottle || targetType != TargetType.AnyEnemy
 		    || !CombatManager.Instance.IsInProgress)
@@ -114,11 +120,18 @@ internal static class EcosphereBottleTargetingPreview_NPotionHolder_TargetNode_P
 	}
 }
 
-[HarmonyPatch(typeof(NTargetManager), "FinishTargeting", typeof(bool))]
-internal static class EcosphereBottleTargetingPreview_NTargetManager_FinishTargeting_Patch
+internal sealed class EcosphereBottleTargetingPreview_NTargetManager_FinishTargeting_Patch : IPatchMethod
 {
-	[HarmonyPostfix]
-	private static void Postfix()
+	public static string PatchId => "thequeen_ecosphere_finish_targeting";
+	public static string Description => "Ecosphere bottle: end capture preview";
+	public static bool IsCritical => false;
+
+	public static ModPatchTarget[] GetTargets() =>
+	[
+		new(typeof(NTargetManager), "FinishTargeting", new[] { typeof(bool) }),
+	];
+
+	public static void Postfix()
 	{
 		EcosphereBottleTargetingPreview.End();
 	}

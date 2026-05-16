@@ -22,7 +22,7 @@ namespace ComicChess.TheQueen;
 /// 银制手链：拾起时从牌组选 1 张牌，侵蚀为魂缚并附魔灯火 1；在遗物上保存 <see cref="MarkedCard"/> 快照，
 /// 局外悬停用 <see cref="HoverTipFactory.FromCard"/> 展示带侵蚀/附魔的卡牌。
 /// </summary>
-[RegisterRelic(typeof(QueenRelicPool))]
+
 public sealed class SilverBraceletRelic : QueenRelicModel
 {
 	private readonly List<IHoverTip> _AdditionalHoverTips = [];

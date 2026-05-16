@@ -1,27 +1,30 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using HarmonyLib;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Factories;
 using MegaCrit.Sts2.Core.Models;
+using STS2RitsuLib.Patching.Models;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>
-/// 随机变形候选：排除「自身不能作为牌组常驻」的卡模板。
-/// 以 <see cref="AbstractModel.ShouldAddToDeck"/> 对「自身」判断（如 <c>card is not T</c> 的放生、寄生、纸伤难愈）；遗物战斗外变形不会走 <see cref="CardModel.CanBeGeneratedInCombat"/>。
-/// </summary>
-[HarmonyPatch(typeof(CardFactory), "GetFilteredTransformationOptions", new Type[]
+internal sealed class ExcludeNonDeckableFromCardTransformPatch : IPatchMethod
 {
-	typeof(CardModel),
-	typeof(IEnumerable<CardModel>),
-	typeof(bool)
-})]
-internal static class ExcludeNonDeckableFromCardTransformPatch
-{
-	[HarmonyPostfix]
-	private static void Postfix(ref CardModel[] __result)
+	public static string PatchId => "thequeen_exclude_non_deckable_transform";
+	public static string Description => "Filter transform options to deckable cards only";
+	public static bool IsCritical => true;
+
+	public static ModPatchTarget[] GetTargets() =>
+	[
+		new(typeof(CardFactory), "GetFilteredTransformationOptions", new[]
+		{
+			typeof(CardModel),
+			typeof(IEnumerable<CardModel>),
+			typeof(bool),
+		}),
+	];
+
+	public static void Postfix(ref CardModel[] __result)
 	{
 		if (__result is not { Length: > 0 })
 		{

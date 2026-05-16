@@ -9,9 +9,12 @@ using MegaCrit.Sts2.Core.Models.Afflictions;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.ValueProps;
 
+using STS2RitsuLib.Interop.AutoRegistration;
+
 namespace ComicChess.TheQueen;
 
 
+[RegisterCard(typeof(QueenCardPool))]
 public sealed class HundredHandsBanquet : QueenCardModel
 {
 	private const int energyCost = 0;

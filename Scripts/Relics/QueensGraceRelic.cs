@@ -10,7 +10,7 @@ using STS2RitsuLib.Interop.AutoRegistration;
 namespace ComicChess.TheQueen;
 
 /// <summary>「首份礼物」经 <see cref="MegaCrit.Sts2.Core.Models.Relics.TouchOfOrobas"/> 升级后的形态：战斗开始时获得更多魂灯。</summary>
-[RegisterRelic(typeof(QueenRelicPool))]
+
 public sealed class QueensGraceRelic : QueenRelicModel
 {
 	public override RelicRarity Rarity => RelicRarity.Starter;

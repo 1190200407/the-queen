@@ -15,7 +15,7 @@ using STS2RitsuLib.Interop.AutoRegistration;
 namespace ComicChess.TheQueen;
 
 /// <summary>金手指：每回合每累计 {PlaysRequired} 次未消耗能量打出卡牌，获得 {Energy} 点能量并抽 {Cards} 张牌。</summary>
-[RegisterRelic(typeof(QueenRelicPool))]
+
 public sealed class GoldenFingerRelic : QueenRelicModel
 {
 	public override RelicRarity Rarity => RelicRarity.Rare;

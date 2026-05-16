@@ -12,10 +12,13 @@ using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
 
+using STS2RitsuLib.Interop.AutoRegistration;
+
 namespace ComicChess.TheQueen;
 
-/// <summary>臣服于我！：基础伤害 + 目标每有 1 点净失去的力量（StrengthPower 为负）× ExtraDamage。</summary>
+/// <summary>臣服于我！：基础伤害 + 目标每有 1 点净失去的力量（StrengthPower 为负）�?ExtraDamage�?/summary>
 
+[RegisterCard(typeof(QueenCardPool))]
 public sealed class SubmitToMe : QueenCardModel
 {
 	private const int energyCost = 2;

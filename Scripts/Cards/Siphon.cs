@@ -14,10 +14,13 @@ using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.ValueProps;
 
+using STS2RitsuLib.Interop.AutoRegistration;
+
 namespace ComicChess.TheQueen;
 
-/// <summary>虹吸：伤害；目标每有 1 个负面能力（Debuff），抽 1 张牌。</summary>
+/// <summary>虹吸：伤害；目标每有 1 个负面能力（Debuff），�?1 张牌�?/summary>
 
+[RegisterCard(typeof(QueenCardPool))]
 public sealed class Siphon : QueenCardModel
 {
 	private const int energyCost = 1;

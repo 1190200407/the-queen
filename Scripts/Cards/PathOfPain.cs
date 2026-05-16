@@ -9,10 +9,13 @@ using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Models.Powers;
 
+using STS2RitsuLib.Interop.AutoRegistration;
+
 namespace ComicChess.TheQueen;
 
-/// <summary>苦痛之路：能力牌；可叠加。每打出一张牌，对随机敌人施加与能力层数相同层数的毒/灾厄/消亡之一。</summary>
+/// <summary>苦痛之路：能力牌；可叠加。每打出一张牌，对随机敌人施加与能力层数相同层数的�?灾厄/消亡之一�?/summary>
 
+[RegisterCard(typeof(QueenCardPool))]
 public sealed class PathOfPain : QueenCardModel
 {
 	private const int energyCost = 1;

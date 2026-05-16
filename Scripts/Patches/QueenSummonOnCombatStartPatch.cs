@@ -1,42 +1,44 @@
 using System.Threading.Tasks;
-using HarmonyLib;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Hooks;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Runs;
+using STS2RitsuLib.Patching.Models;
 
 namespace ComicChess.TheQueen;
 
-[HarmonyPatch]
-internal static class QueenSummonOnCombatStartPatch
+internal sealed class QueenSummonOnCombatStartPatch : IPatchMethod
 {
-    /// <summary>
-    /// 战斗开始后，如果有女王玩家，则生成 0 当前生命、最大生命已按遭遇缩放的聚合体壳（不治疗、不占召唤历史）。
-    /// </summary>
-    [HarmonyPostfix]
-    [HarmonyPatch(typeof(Hook), nameof(Hook.BeforeCombatStart))]
-    private static async Task BeforeCombatStart_Postfix(Task __result, IRunState runState, CombatState? combatState)
-    {
-        _ = runState;
-        await __result;
+	public static string PatchId => "thequeen_summon_on_combat_start";
+	public static string Description => "Spawn amalgam combat shell for queen at combat start";
+	public static bool IsCritical => true;
 
-        if (combatState == null)
-        {
-            return;
-        }
+	public static ModPatchTarget[] GetTargets() =>
+	[
+		new(typeof(Hook), nameof(Hook.BeforeCombatStart)),
+	];
 
-        var choiceContext = new BlockingPlayerChoiceContext();
-        foreach (Player player in combatState.Players)
-        {
-            if (player.Character is not QueenCharacter)
-            {
-                continue;
-            }
+	public static async Task Postfix(Task __result, IRunState runState, CombatState? combatState)
+	{
+		_ = runState;
+		await __result;
 
-            await FriendlyAmalgamCmd.EnsureAmalgamCombatStartShellAsync(choiceContext, player);
-        }
-    }
+		if (combatState == null)
+		{
+			return;
+		}
+
+		var choiceContext = new BlockingPlayerChoiceContext();
+		foreach (Player player in combatState.Players)
+		{
+			if (player.Character is not QueenCharacter)
+			{
+				continue;
+			}
+
+			await FriendlyAmalgamCmd.EnsureAmalgamCombatStartShellAsync(choiceContext, player);
+		}
+	}
 }
-

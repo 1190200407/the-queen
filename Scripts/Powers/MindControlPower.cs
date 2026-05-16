@@ -111,7 +111,7 @@ public sealed class MindControlPower : QueenPowerModel
 		CardModel? cardSource,
 		MindControlAttackFrame? attackFrame)
 	{
-		if (!MindControlDamagePatch.IsInsideMonsterAttackCommand)
+		if (!MindControlDamagePatchState.IsInsideMonsterAttackCommand)
 		{
 			return false;
 		}

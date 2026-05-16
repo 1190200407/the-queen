@@ -10,9 +10,12 @@ using MegaCrit.Sts2.Core.Models.CardPools;
 
 using STS2RitsuLib.Cards.DynamicVars;
 
+using STS2RitsuLib.Interop.AutoRegistration;
+
 namespace ComicChess.TheQueen;
 
 
+[RegisterCard(typeof(QueenCardPool))]
 public sealed class GrantDefense : LearnIntentCardModel
 {
 	private const decimal learnIntentBlock = 4m;

@@ -12,10 +12,13 @@ using MegaCrit.Sts2.Core.Models.CardPools;
 
 using STS2RitsuLib.Cards.DynamicVars;
 
+using STS2RitsuLib.Interop.AutoRegistration;
+
 namespace ComicChess.TheQueen;
 
-/// <summary>灵魂同调：为所有玩家召唤聚合体；持有本能力时，你打出学习意图类牌会使所有玩家的聚合体学习相同意图（见 <see cref="FriendlyAmalgamCmd.LearnIntent"/> 末尾同步）。</summary>
+/// <summary>灵魂同调：为所有玩家召唤聚合体；持有本能力时，你打出学习意图类牌会使所有玩家的聚合体学习相同意图（�?<see cref="FriendlyAmalgamCmd.LearnIntent"/> 末尾同步）�?/summary>
 
+[RegisterCard(typeof(QueenCardPool))]
 public sealed class SoulResonance : QueenCardModel
 {
 	private const decimal summonBase = 10m;

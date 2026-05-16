@@ -13,10 +13,13 @@ using MegaCrit.Sts2.Core.Models.Afflictions;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Random;
 
+using STS2RitsuLib.Interop.AutoRegistration;
+
 namespace ComicChess.TheQueen;
 
-/// <summary>神奇颜料：生成若干张随机颜色牌（卡池同 <see cref="HexCursePower"/>）并侵蚀为魂缚，获得魂灯。消耗。</summary>
+/// <summary>神奇颜料：生成若干张随机颜色牌（卡池�?<see cref="HexCursePower"/>）并侵蚀为魂缚，获得魂灯。消耗�?/summary>
 
+[RegisterCard(typeof(QueenCardPool))]
 public sealed class MagicPigment : QueenCardModel
 {
     private const int energyCost = 1;

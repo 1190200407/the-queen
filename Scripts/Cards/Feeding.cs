@@ -6,10 +6,13 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models.CardPools;
 
+using STS2RitsuLib.Interop.AutoRegistration;
+
 namespace ComicChess.TheQueen;
 
-/// <summary>喂食：生成喂食根骨、喂食血肉，获得魂灯。衍生牌为消逝+魂缚（<see cref="HasSelfBound"/>）。</summary>
+/// <summary>喂食：生成喂食根骨、喂食血肉，获得魂灯。衍生牌为消�?魂缚�?see cref="HasSelfBound"/>）�?/summary>
 
+[RegisterCard(typeof(QueenCardPool))]
 public sealed class Feeding : QueenCardModel
 {
 	private const int energyCost = 1;
@@ -46,7 +49,7 @@ public sealed class Feeding : QueenCardModel
 		await QueenCardCmd.AddSoulLamp(base.Owner, 1);
 	}
 
-	/// <summary>升级只影响衍生的根骨+ / 血肉+，本体数值不变。</summary>
+	/// <summary>升级只影响衍生的根骨+ / 血�?，本体数值不变�?/summary>
 	protected override void OnUpgrade()
 	{
 	}

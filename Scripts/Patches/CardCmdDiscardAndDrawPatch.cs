@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using HarmonyLib;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -11,18 +10,22 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Hooks;
 using MegaCrit.Sts2.Core.Models;
 using STS2RitsuLib.Keywords;
+using STS2RitsuLib.Patching.Models;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>
-/// 替换原版 <see cref="CardCmd.DiscardAndDraw"/>：对弃牌列表做快照与去重，按每张牌的 Owner 取弃牌堆，
-/// 跳过已脱离战斗或已无 Owner 的项，避免与「消逝」改道消耗、或其它 Hook 中途改牌堆时迭代不稳定。
-/// </summary>
-[HarmonyPatch(typeof(CardCmd), nameof(CardCmd.DiscardAndDraw))]
-internal static class CardCmdDiscardAndDrawPatch
+internal sealed class CardCmdDiscardAndDrawPatch : IPatchMethod
 {
-	[HarmonyPrefix]
-	private static bool Prefix(
+	public static string PatchId => "thequeen_card_cmd_discard_and_draw";
+	public static string Description => "Replace DiscardAndDraw with snapshot-safe fade/sly flow";
+	public static bool IsCritical => true;
+
+	public static ModPatchTarget[] GetTargets() =>
+	[
+		new(typeof(CardCmd), nameof(CardCmd.DiscardAndDraw)),
+	];
+
+	public static bool Prefix(
 		PlayerChoiceContext choiceContext,
 		IEnumerable<CardModel> cardsToDiscard,
 		int cardsToDraw,
@@ -43,7 +46,6 @@ internal static class CardCmdDiscardAndDrawPatch
 			return;
 		}
 
-		// 立即物化快照，避免调用方传入的 IEnumerable 在 await 后再次枚举时变化
 		List<CardModel> discardCards = cardsToDiscard.Where(c => c != null).Distinct().ToList();
 		if (discardCards.Count == 0)
 		{
@@ -63,8 +65,8 @@ internal static class CardCmdDiscardAndDrawPatch
 			return;
 		}
 
-		List<CardModel> slyCards = new List<CardModel>();
-		List<CardModel> fadeCards = new List<CardModel>();
+		List<CardModel> slyCards = new();
+		List<CardModel> fadeCards = new();
 
 		foreach (CardModel card in discardCards)
 		{
@@ -92,7 +94,6 @@ internal static class CardCmdDiscardAndDrawPatch
 				slyCards.Add(card);
 			}
 
-			// 消逝卡牌直接进入消耗堆，不在这做处理
 			if (card.HasModKeyword(QueenKeyword.Fade))
 			{
 				fadeCards.Add(card);
@@ -114,7 +115,6 @@ internal static class CardCmdDiscardAndDrawPatch
 
 		foreach (CardModel item in slyCards)
 		{
-			// 不走 CardCmd.AutoPlay：BaseLib 对其打的 AnyPlayer 补丁会引用已移除的 CombatState，JIT 抛 TypeLoadException（联机弃灵巧牌等）。
 			await CardAutoPlayDirect.AutoPlayAsync(choiceContext, item, target: null, AutoPlayType.SlyDiscard);
 		}
 
@@ -125,5 +125,4 @@ internal static class CardCmdDiscardAndDrawPatch
 			await Hook.AfterCardExhausted(combatState, choiceContext, item, causedByEthereal: false);
 		}
 	}
-
 }

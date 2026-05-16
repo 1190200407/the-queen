@@ -17,6 +17,16 @@ public abstract class QueenPowerModel : ModPowerTemplate
         }
     }
 
+    public override string? CustomIconPath
+    {
+        get
+        {
+            string key = ResolvePowerIconKey();
+            string custom = $"res://TheQueen/images/powers/{key}.png";
+            return ResourceLoader.Exists(custom) ? custom : "res://TheQueen/images/powers/power.png";
+        }
+    }
+
     private string ResolvePowerIconKey()
     {
         string key = Id.Entry.ToLowerInvariant().Replace("sts2_comicchess_thequeen_power_", "");

@@ -16,7 +16,7 @@ using STS2RitsuLib.Interop.AutoRegistration;
 namespace ComicChess.TheQueen;
 
 /// <summary>小夜灯：每累计 {SoulLampPerTrigger} 层魂灯，获得 {Block} 点格挡（经 <see cref="QueenCardCmd.AddSoulLamp"/>；余数跨获得保留）。</summary>
-[RegisterRelic(typeof(QueenRelicPool))]
+
 public sealed class NightLightRelic : QueenRelicModel
 {
 	public override RelicRarity Rarity => RelicRarity.Common;

@@ -9,16 +9,11 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Hooks;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.ValueProps;
+using STS2RitsuLib.Patching.Models;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>
-/// 精神控制：在 <see cref="CreatureCmd.Damage(PlayerChoiceContext, IEnumerable{Creature}, decimal, ValueProp, Creature, CardModel)"/> 入口改写 <c>targets</c>，
-/// 使格挡与伤害整体落到新目标上；并用 <see cref="Hook.BeforeAttack"/> / <see cref="Hook.AfterAttack"/> 限定为敌方怪物正在执行的 <see cref="AttackCommand"/>。
-/// 与 <see cref="MindControlAttackFrame"/> 配合：同一 <see cref="AttackCommand"/> 内多段伤害只消耗一次精神控制（在 AfterAttack 时移除能力）。
-/// </summary>
-[HarmonyPatch]
-internal static class MindControlDamagePatch
+internal static class MindControlDamagePatchState
 {
 	private static int _monsterAttackCommandDepth;
 
@@ -28,7 +23,7 @@ internal static class MindControlDamagePatch
 
 	internal static MindControlAttackFrame? TryPeekAttackFrame() => AttackFrames.Count > 0 ? AttackFrames.Peek() : null;
 
-	private static bool IsTrackedMonsterAttack(AttackCommand command)
+	internal static bool IsTrackedMonsterAttack(AttackCommand command)
 	{
 		if (command.Attacker is not { Side: CombatSide.Enemy, Monster: not null })
 		{
@@ -43,48 +38,92 @@ internal static class MindControlDamagePatch
 		return command.DamageProps.HasFlag(ValueProp.Move) && !command.DamageProps.HasFlag(ValueProp.Unpowered);
 	}
 
-	[HarmonyPatch(typeof(Hook), nameof(Hook.BeforeAttack))]
-	[HarmonyPriority(Priority.First)]
-	[HarmonyPrefix]
-	private static void BeforeAttackPrefix(CombatState combatState, AttackCommand command)
+	internal static void EnterMonsterAttack(AttackCommand command)
 	{
-		_ = combatState;
-		if (IsTrackedMonsterAttack(command))
+		if (!IsTrackedMonsterAttack(command))
 		{
-			_monsterAttackCommandDepth++;
-			AttackFrames.Push(new MindControlAttackFrame());
+			return;
 		}
+
+		_monsterAttackCommandDepth++;
+		AttackFrames.Push(new MindControlAttackFrame());
 	}
 
-	[HarmonyPatch(typeof(Hook), nameof(Hook.AfterAttack))]
+	internal static void ExitMonsterAttack(AttackCommand command)
+	{
+		if (!IsTrackedMonsterAttack(command) || _monsterAttackCommandDepth <= 0)
+		{
+			return;
+		}
+
+		_monsterAttackCommandDepth--;
+		if (AttackFrames.Count > 0)
+		{
+			MindControlAttackFrame frame = AttackFrames.Pop();
+			frame.FlushRemovals();
+		}
+	}
+}
+
+internal sealed class MindControlHookBeforeAttackPatch : IPatchMethod
+{
+	public static string PatchId => "thequeen_mind_control_before_attack";
+	public static string Description => "Mind control: track monster attack command";
+	public static bool IsCritical => true;
+
+	public static ModPatchTarget[] GetTargets() =>
+	[
+		new(typeof(Hook), nameof(Hook.BeforeAttack)),
+	];
+
+	[HarmonyPriority(Priority.First)]
+	public static void Prefix(CombatState combatState, AttackCommand command)
+	{
+		_ = combatState;
+		MindControlDamagePatchState.EnterMonsterAttack(command);
+	}
+}
+
+internal sealed class MindControlHookAfterAttackPatch : IPatchMethod
+{
+	public static string PatchId => "thequeen_mind_control_after_attack";
+	public static string Description => "Mind control: flush attack frame";
+	public static bool IsCritical => true;
+
+	public static ModPatchTarget[] GetTargets() =>
+	[
+		new(typeof(Hook), nameof(Hook.AfterAttack)),
+	];
+
 	[HarmonyPriority(Priority.Last)]
-	[HarmonyPostfix]
-	private static void AfterAttackPostfix(CombatState combatState, AttackCommand command)
+	public static void Postfix(CombatState combatState, AttackCommand command)
 	{
 		_ = combatState;
-		if (IsTrackedMonsterAttack(command) && _monsterAttackCommandDepth > 0)
-		{
-			_monsterAttackCommandDepth--;
-			if (AttackFrames.Count > 0)
-			{
-				MindControlAttackFrame frame = AttackFrames.Pop();
-				frame.FlushRemovals();
-			}
-		}
+		MindControlDamagePatchState.ExitMonsterAttack(command);
 	}
+}
 
-	[HarmonyPrefix]
+internal sealed class MindControlCreatureCmdDamagePatch : IPatchMethod
+{
+	public static string PatchId => "thequeen_mind_control_creature_cmd_damage";
+	public static string Description => "Mind control: redirect damage targets";
+	public static bool IsCritical => true;
+
+	public static ModPatchTarget[] GetTargets() =>
+	[
+		new(typeof(CreatureCmd), nameof(CreatureCmd.Damage), new[]
+		{
+			typeof(PlayerChoiceContext),
+			typeof(IEnumerable<Creature>),
+			typeof(decimal),
+			typeof(ValueProp),
+			typeof(Creature),
+			typeof(CardModel),
+		}),
+	];
+
 	[HarmonyPriority(Priority.First)]
-	[HarmonyPatch(typeof(CreatureCmd), nameof(CreatureCmd.Damage), new[]
-	{
-		typeof(PlayerChoiceContext),
-		typeof(IEnumerable<Creature>),
-		typeof(decimal),
-		typeof(ValueProp),
-		typeof(Creature),
-		typeof(CardModel),
-	})]
-	private static void DamagePrefix(
+	public static void Prefix(
 		PlayerChoiceContext choiceContext,
 		ref IEnumerable<Creature> targets,
 		decimal amount,
@@ -117,7 +156,7 @@ internal static class MindControlDamagePatch
 			    dealer,
 			    props,
 			    cardSource,
-			    TryPeekAttackFrame()))
+			    MindControlDamagePatchState.TryPeekAttackFrame()))
 		{
 			return;
 		}

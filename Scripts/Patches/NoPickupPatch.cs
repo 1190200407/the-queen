@@ -1,154 +1,183 @@
 using System;
 using System.Threading.Tasks;
-using HarmonyLib;
 using MegaCrit.Sts2.Core.Entities.Merchant;
 using MegaCrit.Sts2.Core.Hooks;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Runs;
+using STS2RitsuLib.Patching.Models;
 
 namespace ComicChess.TheQueen;
 
-
-[HarmonyPatch]
-internal static class ReleasePickupPatch
+internal sealed class ReleasePickupShouldAddToDeckPatch : IPatchMethod
 {
-    /// <summary>
-    /// Hook添加一段逻辑，让它会判断到卡牌本身的ShouldAddToDeck逻辑
-    /// </summary>
-    [HarmonyPostfix]
-    [HarmonyPatch(typeof(Hook), nameof(Hook.ShouldAddToDeck))]
-    private static void ShouldAddToDeck_Postfix(ref bool __result, IRunState runState, CardModel card, ref AbstractModel? preventer)
-    {
-        if (card is Release)
-        {
-            __result = false;
-            preventer = card;
-        }
-    }
+	public static string PatchId => "thequeen_release_should_add_to_deck";
+	public static string Description => "Release: block deck add, route to card logic";
+	public static bool IsCritical => true;
+
+	public static ModPatchTarget[] GetTargets() =>
+	[
+		new(typeof(Hook), nameof(Hook.ShouldAddToDeck)),
+	];
+
+	public static void Postfix(ref bool __result, IRunState runState, CardModel card, ref AbstractModel? preventer)
+	{
+		_ = runState;
+		if (card is Release)
+		{
+			__result = false;
+			preventer = card;
+		}
+	}
 }
 
-[HarmonyPatch(typeof(MerchantCardEntry), "OnTryPurchase", new Type[] { typeof(MerchantInventory), typeof(bool) })]
-internal static class ReleaseMerchantPurchasePatch
+internal sealed class ReleaseMerchantPurchasePatch : IPatchMethod
 {
-    [HarmonyPostfix]
-    private static void Postfix(ref Task<(bool, int)> __result, MerchantCardEntry __instance, bool ignoreCost)
-    {
-        __result = AdjustMerchantPurchaseAsync(__result, __instance, ignoreCost);
-    }
+	public static string PatchId => "thequeen_release_merchant_purchase";
+	public static string Description => "Release: allow merchant purchase without deck add";
+	public static bool IsCritical => true;
 
-    private static async Task<(bool, int)> AdjustMerchantPurchaseAsync(
-        Task<(bool, int)> original,
-        MerchantCardEntry __instance,
-        bool ignoreCost)
-    {
-        (bool success, int goldSpent) = await original.ConfigureAwait(false);
-        if (success)
-        {
-            return (success, goldSpent);
-        }
+	public static ModPatchTarget[] GetTargets() =>
+	[
+		new(typeof(MerchantCardEntry), "OnTryPurchase", new[] { typeof(MerchantInventory), typeof(bool) }),
+	];
 
-        if (__instance.CreationResult?.Card is Release)
-        {
-            return (true, ignoreCost ? 0 : __instance.Cost);
-        }
+	public static void Postfix(ref Task<(bool, int)> __result, MerchantCardEntry __instance, bool ignoreCost)
+	{
+		__result = AdjustMerchantPurchaseAsync(__result, __instance, ignoreCost);
+	}
 
-        return (success, goldSpent);
-    }
+	private static async Task<(bool, int)> AdjustMerchantPurchaseAsync(
+		Task<(bool, int)> original,
+		MerchantCardEntry __instance,
+		bool ignoreCost)
+	{
+		(bool success, int goldSpent) = await original.ConfigureAwait(false);
+		if (success)
+		{
+			return (success, goldSpent);
+		}
+
+		if (__instance.CreationResult?.Card is Release)
+		{
+			return (true, ignoreCost ? 0 : __instance.Cost);
+		}
+
+		return (success, goldSpent);
+	}
 }
 
-[HarmonyPatch]
-internal static class WrigglePickupPatch
+internal sealed class WrigglePickupShouldAddToDeckPatch : IPatchMethod
 {
-    /// <summary>
-    /// 参考放生：Hook 添加逻辑，让拾取时能走到卡牌本身的 ShouldAddToDeck / AfterAddToDeckPrevented。
-    /// </summary>
-    [HarmonyPostfix]
-    [HarmonyPatch(typeof(Hook), nameof(Hook.ShouldAddToDeck))]
-    private static void ShouldAddToDeck_Postfix(ref bool __result, IRunState runState, CardModel card, ref AbstractModel? preventer)
-    {
-        _ = runState;
-        if (card is Wriggle)
-        {
-            __result = false;
-            preventer = card;
-        }
-    }
+	public static string PatchId => "thequeen_wriggle_should_add_to_deck";
+	public static string Description => "Wriggle: block deck add, route to card logic";
+	public static bool IsCritical => true;
+
+	public static ModPatchTarget[] GetTargets() =>
+	[
+		new(typeof(Hook), nameof(Hook.ShouldAddToDeck)),
+	];
+
+	public static void Postfix(ref bool __result, IRunState runState, CardModel card, ref AbstractModel? preventer)
+	{
+		_ = runState;
+		if (card is Wriggle)
+		{
+			__result = false;
+			preventer = card;
+		}
+	}
 }
 
-[HarmonyPatch(typeof(MerchantCardEntry), "OnTryPurchase", new Type[] { typeof(MerchantInventory), typeof(bool) })]
-internal static class WriggleMerchantPurchasePatch
+internal sealed class WriggleMerchantPurchasePatch : IPatchMethod
 {
-    [HarmonyPostfix]
-    private static void Postfix(ref Task<(bool, int)> __result, MerchantCardEntry __instance, bool ignoreCost)
-    {
-        __result = AdjustMerchantPurchaseAsync(__result, __instance, ignoreCost);
-    }
+	public static string PatchId => "thequeen_wriggle_merchant_purchase";
+	public static string Description => "Wriggle: allow merchant purchase without deck add";
+	public static bool IsCritical => true;
 
-    private static async Task<(bool, int)> AdjustMerchantPurchaseAsync(
-        Task<(bool, int)> original,
-        MerchantCardEntry __instance,
-        bool ignoreCost)
-    {
-        (bool success, int goldSpent) = await original.ConfigureAwait(false);
-        if (success)
-        {
-            return (success, goldSpent);
-        }
+	public static ModPatchTarget[] GetTargets() =>
+	[
+		new(typeof(MerchantCardEntry), "OnTryPurchase", new[] { typeof(MerchantInventory), typeof(bool) }),
+	];
 
-        if (__instance.CreationResult?.Card is Wriggle)
-        {
-            return (true, ignoreCost ? 0 : __instance.Cost);
-        }
+	public static void Postfix(ref Task<(bool, int)> __result, MerchantCardEntry __instance, bool ignoreCost)
+	{
+		__result = AdjustMerchantPurchaseAsync(__result, __instance, ignoreCost);
+	}
 
-        return (success, goldSpent);
-    }
+	private static async Task<(bool, int)> AdjustMerchantPurchaseAsync(
+		Task<(bool, int)> original,
+		MerchantCardEntry __instance,
+		bool ignoreCost)
+	{
+		(bool success, int goldSpent) = await original.ConfigureAwait(false);
+		if (success)
+		{
+			return (success, goldSpent);
+		}
+
+		if (__instance.CreationResult?.Card is Wriggle)
+		{
+			return (true, ignoreCost ? 0 : __instance.Cost);
+		}
+
+		return (success, goldSpent);
+	}
 }
 
-[HarmonyPatch]
-internal static class PaperCutsPickupPatch
+internal sealed class PaperCutsPickupShouldAddToDeckPatch : IPatchMethod
 {
-    /// <summary>
-    /// 参考放生/寄生：Hook 添加逻辑，让拾取时能走到卡牌本身的 ShouldAddToDeck / AfterAddToDeckPrevented。
-    /// </summary>
-    [HarmonyPostfix]
-    [HarmonyPatch(typeof(Hook), nameof(Hook.ShouldAddToDeck))]
-    private static void ShouldAddToDeck_Postfix(ref bool __result, IRunState runState, CardModel card, ref AbstractModel? preventer)
-    {
-        _ = runState;
-        if (card is PaperCuts)
-        {
-            __result = false;
-            preventer = card;
-        }
-    }
+	public static string PatchId => "thequeen_paper_cuts_should_add_to_deck";
+	public static string Description => "PaperCuts: block deck add, route to card logic";
+	public static bool IsCritical => true;
+
+	public static ModPatchTarget[] GetTargets() =>
+	[
+		new(typeof(Hook), nameof(Hook.ShouldAddToDeck)),
+	];
+
+	public static void Postfix(ref bool __result, IRunState runState, CardModel card, ref AbstractModel? preventer)
+	{
+		_ = runState;
+		if (card is PaperCuts)
+		{
+			__result = false;
+			preventer = card;
+		}
+	}
 }
 
-[HarmonyPatch(typeof(MerchantCardEntry), "OnTryPurchase", new Type[] { typeof(MerchantInventory), typeof(bool) })]
-internal static class PaperCutsMerchantPurchasePatch
+internal sealed class PaperCutsMerchantPurchasePatch : IPatchMethod
 {
-    [HarmonyPostfix]
-    private static void Postfix(ref Task<(bool, int)> __result, MerchantCardEntry __instance, bool ignoreCost)
-    {
-        __result = AdjustMerchantPurchaseAsync(__result, __instance, ignoreCost);
-    }
+	public static string PatchId => "thequeen_paper_cuts_merchant_purchase";
+	public static string Description => "PaperCuts: allow merchant purchase without deck add";
+	public static bool IsCritical => true;
 
-    private static async Task<(bool, int)> AdjustMerchantPurchaseAsync(
-        Task<(bool, int)> original,
-        MerchantCardEntry __instance,
-        bool ignoreCost)
-    {
-        (bool success, int goldSpent) = await original.ConfigureAwait(false);
-        if (success)
-        {
-            return (success, goldSpent);
-        }
+	public static ModPatchTarget[] GetTargets() =>
+	[
+		new(typeof(MerchantCardEntry), "OnTryPurchase", new[] { typeof(MerchantInventory), typeof(bool) }),
+	];
 
-        if (__instance.CreationResult?.Card is PaperCuts)
-        {
-            return (true, ignoreCost ? 0 : __instance.Cost);
-        }
+	public static void Postfix(ref Task<(bool, int)> __result, MerchantCardEntry __instance, bool ignoreCost)
+	{
+		__result = AdjustMerchantPurchaseAsync(__result, __instance, ignoreCost);
+	}
 
-        return (success, goldSpent);
-    }
+	private static async Task<(bool, int)> AdjustMerchantPurchaseAsync(
+		Task<(bool, int)> original,
+		MerchantCardEntry __instance,
+		bool ignoreCost)
+	{
+		(bool success, int goldSpent) = await original.ConfigureAwait(false);
+		if (success)
+		{
+			return (success, goldSpent);
+		}
+
+		if (__instance.CreationResult?.Card is PaperCuts)
+		{
+			return (true, ignoreCost ? 0 : __instance.Cost);
+		}
+
+		return (success, goldSpent);
+	}
 }
-

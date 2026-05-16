@@ -4,18 +4,22 @@ using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.MonsterMoves.Intents;
 using MegaCrit.Sts2.Core.Nodes.Combat;
 using MegaCrit.Sts2.addons.mega_text;
+using STS2RitsuLib.Patching.Models;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>
-/// 原版 <see cref="NIntent"/> 仅在 <c>AttackIntent</c> / <c>StatusIntent</c> 时填充 <c>%Value</c>；
-/// <see cref="AmalgamGainBlockIntent"/> 为 <c>AbstractIntent</c>，需在此处补写格挡数字。
-/// </summary>
-[HarmonyPatch(typeof(NIntent), "UpdateVisuals")]
-public static class NIntentAmalgamBlockValueLabelPatch
+internal sealed class NIntentAmalgamBlockValueLabelPatch : IPatchMethod
 {
-	[HarmonyPostfix]
-	private static void Postfix(NIntent __instance)
+	public static string PatchId => "thequeen_nintent_amalgam_block_label";
+	public static string Description => "Fill intent value label for AmalgamGainBlockIntent";
+	public static bool IsCritical => false;
+
+	public static ModPatchTarget[] GetTargets() =>
+	[
+		new(typeof(NIntent), "UpdateVisuals"),
+	];
+
+	public static void Postfix(NIntent __instance)
 	{
 		var traverse = Traverse.Create(__instance);
 		AbstractIntent? intent = traverse.Field<AbstractIntent>("_intent").Value;

@@ -9,7 +9,7 @@ using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
-[RegisterPotion(typeof(QueenPotionPool))]
+
 public sealed class LampInABottle : QueenPotionModel
 {
     public override TargetType TargetType => TargetType.AnyAlly;

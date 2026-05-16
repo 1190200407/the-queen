@@ -9,10 +9,13 @@ using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.HoverTips;
 
+using STS2RitsuLib.Interop.AutoRegistration;
+
 namespace ComicChess.TheQueen;
 
-/// <summary>开馆：每位联机队友获得一张「入场券」（升级后的开馆生成升级后的入场券）。</summary>
+/// <summary>开馆：每位联机队友获得一张「入场券」（升级后的开馆生成升级后的入场券）�?/summary>
 
+[RegisterCard(typeof(QueenCardPool))]
 public sealed class OpenGallery : QueenCardModel
 {
 	private const int energyCost = 1;

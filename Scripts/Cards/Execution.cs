@@ -19,10 +19,13 @@ using MegaCrit.Sts2.Core.Rewards;
 using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.ValueProps;
 
+using STS2RitsuLib.Interop.AutoRegistration;
+
 namespace ComicChess.TheQueen;
 
-/// <summary>处决：基础伤害 + 目标负面加成；斩杀时捕获目标。</summary>
+/// <summary>处决：基础伤害 + 目标负面加成；斩杀时捕获目标�?/summary>
 
+[RegisterCard(typeof(QueenCardPool))]
 public sealed class Execution : QueenCardModel, ICanMonsterCapture
 {
     private const int energyCost = 1;

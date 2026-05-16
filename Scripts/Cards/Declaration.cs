@@ -15,10 +15,13 @@ using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.ValueProps;
 
+using STS2RitsuLib.Interop.AutoRegistration;
+
 namespace ComicChess.TheQueen;
 
-/// <summary>宣告：造成伤害并施加 2 回合内死亡可捕获的标记。</summary>
+/// <summary>宣告：造成伤害并施�?2 回合内死亡可捕获的标记�?/summary>
 
+[RegisterCard(typeof(QueenCardPool))]
 public sealed class Declaration : QueenCardModel, ICanMonsterCapture
 {
     private const int energyCost = 1;

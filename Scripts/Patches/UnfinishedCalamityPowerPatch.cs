@@ -1,20 +1,26 @@
 using System;
 using System.Threading.Tasks;
-using HarmonyLib;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.Models;
+using STS2RitsuLib.Patching.Models;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>在敌人身上的负面能力被移除后，若仍存在 <see cref="UnfinishedCalamityPower"/> 标记，则触发其效果（移除标记本身不触发）。</summary>
-[HarmonyPatch(typeof(PowerCmd), nameof(PowerCmd.Remove), new Type[] { typeof(PowerModel) })]
-internal static class UnfinishedCalamityPowerPatch
+internal sealed class UnfinishedCalamityPowerPatch : IPatchMethod
 {
-	[HarmonyPostfix]
-	private static async Task Postfix(Task __result, PowerModel? power)
+	public static string PatchId => "thequeen_unfinished_calamity_power_remove";
+	public static string Description => "Trigger Unfinished Calamity after enemy debuff removed";
+	public static bool IsCritical => true;
+
+	public static ModPatchTarget[] GetTargets() =>
+	[
+		new(typeof(PowerCmd), nameof(PowerCmd.Remove), new[] { typeof(PowerModel) }),
+	];
+
+	public static async Task Postfix(Task __result, PowerModel? power)
 	{
 		await __result;
 		if (power == null)

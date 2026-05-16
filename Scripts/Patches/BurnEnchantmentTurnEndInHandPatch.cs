@@ -1,25 +1,30 @@
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Models;
+using STS2RitsuLib.Patching.Models;
 
 namespace ComicChess.TheQueen;
 
-[HarmonyPatch(typeof(CardModel), "get_HasTurnEndInHandEffect")]
-internal static class BurnEnchantmentTurnEndInHandPatch
+internal sealed class BurnEnchantmentTurnEndInHandPatch : IPatchMethod
 {
-    [HarmonyPostfix]
-    private static void Postfix(CardModel __instance, ref bool __result)
-    {
-        if (__result)
-        {
-            return;
-        }
+	public static string PatchId => "thequeen_burn_turn_end_in_hand";
+	public static string Description => "Burn enchantment: flag HasTurnEndInHandEffect";
+	public static bool IsCritical => true;
 
-        // Treat Burn-enchanted cards as having an end-of-turn-in-hand effect
-        // so UI/engine can flag them similarly to status cards like Burn.
-        if (!__instance.IsEnchantmentPreview && __instance.Enchantment is Burn)
-        {
-            __result = true;
-        }
-    }
+	public static ModPatchTarget[] GetTargets() =>
+	[
+		new(typeof(CardModel), nameof(CardModel.HasTurnEndInHandEffect), MethodType.Getter),
+	];
+
+	public static void Postfix(CardModel __instance, ref bool __result)
+	{
+		if (__result)
+		{
+			return;
+		}
+
+		if (!__instance.IsEnchantmentPreview && __instance.Enchantment is Burn)
+		{
+			__result = true;
+		}
+	}
 }
-

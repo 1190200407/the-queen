@@ -10,10 +10,13 @@ using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Models.Powers;
 
+using STS2RitsuLib.Interop.AutoRegistration;
+
 namespace ComicChess.TheQueen;
 
-/// <summary>注视：本回合与下回合各使目标失去 2 点力量；基础消耗。</summary>
+/// <summary>注视：本回合与下回合各使目标失去 2 点力量；基础消耗�?/summary>
 
+[RegisterCard(typeof(QueenCardPool))]
 public sealed class Gaze : QueenCardModel
 {
 	private const int energyCost = 1;

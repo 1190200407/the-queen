@@ -1,53 +1,54 @@
+using System;
 using System.Reflection;
-using HarmonyLib;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Afflictions;
+using STS2RitsuLib.Patching.Models;
 
 namespace ComicChess.TheQueen;
 
-[HarmonyPatch]
-internal static class BoundDescriptionPreviewPatch
+internal sealed class BoundDescriptionPreviewPatch : IPatchMethod
 {
-	private static string? GetBoundPreviewLine()
-	{
-		return new LocString("cards", "COMICCHESS-BOUNDED.description").GetFormattedText();
-	}
+	private static readonly ModPatchTarget[] Targets = BuildTargets();
 
-	/// <summary>
-	/// 拦截私有实现，覆盖升级预览、各牌堆描述等所有出口，避免漏补丁。
-	/// <see cref="CardModel"/> 内 <c>DescriptionPreviewType</c> 为 private enum，需反射取类型。
-	/// </summary>
-	[HarmonyTargetMethod]
-	private static MethodBase TargetMethod()
+	public static string PatchId => "thequeen_bound_description_preview";
+	public static string Description => "Append bound affliction preview line on queen self-bound cards";
+	public static bool IsCritical => false;
+
+	public static ModPatchTarget[] GetTargets() => Targets;
+
+	private static ModPatchTarget[] BuildTargets()
 	{
 		Type? previewType = typeof(CardModel).GetNestedType("DescriptionPreviewType", BindingFlags.NonPublic);
 		if (previewType == null)
 		{
-			throw new System.InvalidOperationException("CardModel.DescriptionPreviewType nested type not found");
+			throw new InvalidOperationException("CardModel.DescriptionPreviewType nested type not found");
 		}
 
-		MethodInfo? m = AccessTools.Method(typeof(CardModel), "GetDescriptionForPile", [typeof(PileType), previewType, typeof(Creature)]);
-		return m ?? throw new System.InvalidOperationException("CardModel.GetDescriptionForPile(PileType, DescriptionPreviewType, Creature) not found");
+		return
+		[
+			new(typeof(CardModel), "GetDescriptionForPile",
+				new[] { typeof(PileType), previewType, typeof(Creature) }),
+		];
 	}
 
-	[HarmonyPostfix]
-	private static void GetDescriptionForPileCore_Postfix(CardModel __instance, ref string __result)
+	public static void Postfix(CardModel __instance, ref string __result)
 	{
 		TryAppendBoundPreviewText(__instance, ref __result);
 	}
 
+	private static string? GetBoundPreviewLine() =>
+		new LocString("cards", "COMICCHESS-BOUNDED.description").GetFormattedText();
+
 	private static void TryAppendBoundPreviewText(CardModel card, ref string description)
 	{
-		// 与 HasSelfBound 一致：自带魂缚的牌在 cards.json 勿重复写魂缚行。
 		if (card is not QueenCardModel queen || !queen.HasSelfBound)
 		{
 			return;
 		}
 
-		// 战斗中由真实 Affliction 或「已清除」状态决定文案，不追加深缚预览行。
 		if (card.CombatState != null)
 		{
 			return;
@@ -63,6 +64,7 @@ internal static class BoundDescriptionPreviewPatch
 		{
 			return;
 		}
+
 		if (description.Contains(line))
 		{
 			return;

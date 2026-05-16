@@ -12,9 +12,12 @@ using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.CardPools;
 
 using STS2RitsuLib.Keywords;
+using STS2RitsuLib.Interop.AutoRegistration;
+
 namespace ComicChess.TheQueen;
 
 
+[RegisterCard(typeof(QueenCardPool))]
 public sealed class GemWhirl : QueenCardModel
 {
 	private bool _soulLampReturnFromExhaustPending = true;

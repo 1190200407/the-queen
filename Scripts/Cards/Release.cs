@@ -13,10 +13,13 @@ using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Nodes;
 using MegaCrit.Sts2.Core.Runs;
 
+using STS2RitsuLib.Interop.AutoRegistration;
+
 namespace ComicChess.TheQueen;
 
-/// <summary>放生：拾起时选择并移除敌怪卡牌，本卡不加入牌组。</summary>
+/// <summary>�?��??�?�?�起�?��??�?�并移�?��??�?�卡�??�?�?�卡不�?��?��??�?�??/summary>
 
+[RegisterCard(typeof(QueenCardPool))]
 public sealed class Release : QueenCardModel
 {
     private const int energyCost = -1;
@@ -39,8 +42,8 @@ public sealed class Release : QueenCardModel
 
     public override async Task AfterAddToDeckPrevented(CardModel card)
     {
-        // 奖励界面尚未收起时立刻弹网格，子界面关闭后可能把同一次点击传到下层，触发第二次 SelectCard。
-        // 先等一帧再开选牌，并与 NCardRewardSelectionScreenSelectCardGuardPatch 一起避免 TCS 二次 SetResult。
+        // ??????????????????????????????????????? SelectCard?
+        // ??????????? NCardRewardSelectionScreenSelectCardGuardPatch ???? TCS ?? SetResult?
         SceneTree? tree = NGame.Instance?.GetTree();
         if (tree != null)
         {

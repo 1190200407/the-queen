@@ -15,10 +15,13 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 using STS2RitsuLib.Cards.DynamicVars;
 
+using STS2RitsuLib.Interop.AutoRegistration;
+
 namespace ComicChess.TheQueen;
 
-/// <summary>疯狂撕咬：聚合体对目标 2 连击；按目标负面效果数量召唤。</summary>
+/// <summary>疯狂撕咬：聚合体对目�?2 连击；按目标负面效果数量召唤�?/summary>
 
+[RegisterCard(typeof(QueenCardPool))]
 public sealed class FrenziedBite : QueenCardModel
 {
     private const int energyCost = 2;
@@ -43,7 +46,7 @@ public sealed class FrenziedBite : QueenCardModel
 
     internal override bool HasSelfBound => true;
 
-    /// <summary>无友方聚合体或 <see cref="FriendlyAmalgam.BlocksDirectOffenseFromHand"/> 时手牌红高亮（打出时由聚合体直接对敌伤害）。</summary>
+    /// <summary>无友方聚合体�?<see cref="FriendlyAmalgam.BlocksDirectOffenseFromHand"/> 时手牌红高亮（打出时由聚合体直接对敌伤害）�?/summary>
     protected override bool ShouldGlowRedInternal =>
         (base.Owner?.Creature?.CombatState is { } combatState
             && (FriendlyAmalgamCmd.GetExisting(combatState, base.Owner) is not { Monster: FriendlyAmalgam amalgam }

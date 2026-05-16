@@ -14,10 +14,13 @@ using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.ValueProps;
 
+using STS2RitsuLib.Interop.AutoRegistration;
+
 namespace ComicChess.TheQueen;
 
-/// <summary>饕餮盛宴：自动打出消耗堆中所有 <see cref="Devour"/>，再对目标造成多次伤害（参考原版 <see cref="MegaCrit.Sts2.Core.Models.Cards.KnifeTrap"/>）。</summary>
+/// <summary>饕餮盛宴：自动打出消耗堆中所�?<see cref="Devour"/>，再对目标造成多次伤害（参考原�?<see cref="MegaCrit.Sts2.Core.Models.Cards.KnifeTrap"/>）�?/summary>
 
+[RegisterCard(typeof(QueenCardPool))]
 public sealed class GluttonsFeast : QueenCardModel
 {
 	private const string CalculatedDevoursKey = "CalculatedDevours";

@@ -5,24 +5,22 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
+using STS2RitsuLib.Patching.Models;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>
-/// PersonalHivePower：与原版奥斯提一致，聚合体作为出手者时将“伤害归因/处理对象”转移给主人。
-/// 只影响 <see cref="PersonalHivePower.AfterDamageReceived"/> 内部看到的参数，不改实际伤害结算与表现。
-/// </summary>
-/// <remarks>
-/// sts2.dll 中方法签名为
-/// <c>Task AfterDamageReceived(PlayerChoiceContext, Creature, DamageResult _, ValueProp, Creature dealer, CardModel cardSource)</c>，
-/// 其中 <c>dealer</c> / <c>cardSource</c> 带 <c>[Nullable(2)]</c>，等价于 C# 的 <c>Creature?</c> / <c>CardModel?</c>。
-/// 第三个参数名为 <c>_</c>，前缀里用 <see cref="HarmonyArgumentAttribute"/> 绑定到其它合法标识符（如 <c>damageResult</c>）；其余形参名须与原版一致，否则 Harmony 会报 “Parameter … not found”。
-/// </remarks>
-[HarmonyPatch(typeof(PersonalHivePower), nameof(PersonalHivePower.AfterDamageReceived))]
-internal static class PersonalHivePowerAmalgamDealerTransferPatch
+internal sealed class PersonalHivePowerAmalgamDealerTransferPatch : IPatchMethod
 {
-	[HarmonyPrefix]
-	private static bool Prefix(
+	public static string PatchId => "thequeen_personal_hive_amalgam_dealer";
+	public static string Description => "Personal Hive: redirect amalgam dealer to owner";
+	public static bool IsCritical => true;
+
+	public static ModPatchTarget[] GetTargets() =>
+	[
+		new(typeof(PersonalHivePower), nameof(PersonalHivePower.AfterDamageReceived)),
+	];
+
+	public static bool Prefix(
 		PersonalHivePower __instance,
 		PlayerChoiceContext choiceContext,
 		Creature target,
@@ -48,7 +46,6 @@ internal static class PersonalHivePowerAmalgamDealerTransferPatch
 			}
 		}
 
-		// 原版此处会访问 dealer.Player；无玩家且非友方聚合体时跳过本能力逻辑（async 前缀需补全 Task）。
 		if (dealer != null && dealer.Player is null)
 		{
 			__result = Task.CompletedTask;

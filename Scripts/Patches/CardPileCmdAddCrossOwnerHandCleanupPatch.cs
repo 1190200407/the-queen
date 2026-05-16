@@ -12,28 +12,30 @@ using MegaCrit.Sts2.Core.Nodes.Combat;
 using MegaCrit.Sts2.Core.Nodes.Rooms;
 using MegaCrit.Sts2.Core.Nodes.Vfx;
 using MegaCrit.Sts2.Core.TestSupport;
+using STS2RitsuLib.Patching.Models;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>
-/// 原版 <see cref="CardPileCmd.Add(System.Collections.Generic.IEnumerable{CardModel},CardPile,CardPilePosition,AbstractModel?,bool)"/> 在把牌加入「非本地玩家」的手牌时，
-/// 依赖 <see cref="MegaCrit.Sts2.Core.Nodes.Cards.NCard.FindOnTable"/> 做动画；但 <c>card.Pile == null</c> 时 FindOnTable 恒为 null，
-/// 无法清理仍挂在本地 <see cref="NPlayerHand"/>（含选牌区）上的旧节点。典型场景：递交牌先 <see cref="CardModel.RemoveFromCurrentPile"/> 再改 <see cref="CardModel.Owner"/> 后加入女王手牌。
-/// 清理时用原版能力牌同款 <see cref="NCardFlyPowerVfx"/>（此时 <see cref="CardModel.Owner"/> 已是接收方，轨迹飞向该角色）。
-/// </summary>
-[HarmonyPatch(typeof(CardPileCmd), nameof(CardPileCmd.Add), new[]
+internal sealed class CardPileCmdAddCrossOwnerHandCleanupPatch : IPatchMethod
 {
-	typeof(IEnumerable<CardModel>),
-	typeof(CardPile),
-	typeof(CardPilePosition),
-	typeof(AbstractModel),
-	typeof(bool),
-})]
-internal static class CardPileCmdAddCrossOwnerHandCleanupPatch
-{
+	public static string PatchId => "thequeen_card_pile_cmd_cross_owner_hand_cleanup";
+	public static string Description => "Clean local hand UI when cards move to another player's hand";
+	public static bool IsCritical => true;
+
+	public static ModPatchTarget[] GetTargets() =>
+	[
+		new(typeof(CardPileCmd), nameof(CardPileCmd.Add), new[]
+		{
+			typeof(IEnumerable<CardModel>),
+			typeof(CardPile),
+			typeof(CardPilePosition),
+			typeof(AbstractModel),
+			typeof(bool),
+		}),
+	];
+
 	[HarmonyPriority(200)]
-	[HarmonyPrefix]
-	private static void Prefix(IEnumerable<CardModel> cards, CardPile newPile)
+	public static void Prefix(IEnumerable<CardModel> cards, CardPile newPile)
 	{
 		if (TestMode.IsOn || !LocalContext.NetId.HasValue || !CombatManager.Instance.IsInProgress)
 		{

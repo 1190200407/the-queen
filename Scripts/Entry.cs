@@ -1,29 +1,46 @@
 using System.Reflection;
 using Godot.Bridge;
-using HarmonyLib;
 using MegaCrit.Sts2.Core.Logging;
 using MegaCrit.Sts2.Core.Modding;
 using STS2RitsuLib;
+using STS2RitsuLib.Content;
 using STS2RitsuLib.Interop;
+using STS2RitsuLib.Patching.Core;
 
 namespace ComicChess.TheQueen;
 
-// 必须要加的属性，用于注册Mod。字符串和初始化函数命名一致。
 [ModInitializer("Init")]
 public class Entry
 {
-    // 你的modid
-    public const string ModId = "sts2.comicchess.thequeen";
-    public static readonly Logger Logger = RitsuLibFramework.CreateLogger(ModId);
+	public const string ModId = "sts2.comicchess.thequeen";
+	public static readonly Logger Logger = RitsuLibFramework.CreateLogger(ModId);
 
-    public static void Init()
-    {
-        // harmony可用，但是最好用ritsu的封装patch（TODO）
-        // var harmony = new Harmony("com.example.testmod");
-        // harmony.PatchAll();
-        var assembly = Assembly.GetExecutingAssembly();
-        RitsuLibFramework.EnsureGodotScriptsRegistered(assembly, Logger);
-        // 自动注册内容
-        ModTypeDiscoveryHub.RegisterModAssembly(ModId, assembly);
-    }
+	public static void Init()
+	{
+		var assembly = Assembly.GetExecutingAssembly();
+		RitsuLibFramework.EnsureGodotScriptsRegistered(assembly, Logger);
+
+		RitsuLibFramework.GetContentRegistry(ModId)
+			.RegisterCardLibraryCompendiumSharedPoolFilter<EnemyCardPool>(
+				"enemy",
+				"res://TheQueen/images/charui/monster_card.png",
+				[
+					new CardLibraryCompendiumPlacementRule
+					{
+						VanillaFilterAnchorUniqueName = CardLibraryCompendiumVanillaFilterNames.ColorlessPool,
+						Relation = CardLibraryCompendiumFilterInsertRelation.After,
+					},
+				]);
+
+		ModTypeDiscoveryHub.RegisterModAssembly(ModId, assembly);
+
+		var patcher = RitsuLibFramework.CreatePatcher(ModId, "main", "the-queen");
+		patcher.RegisterPatches<QueenModPatches>();
+		RitsuLibFramework.ApplyRequiredPatcher(patcher, DisableMod);
+	}
+
+	private static void DisableMod()
+	{
+		Logger.Error("Required patches failed to apply; The Queen mod is disabled for this session.");
+	}
 }

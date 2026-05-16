@@ -10,10 +10,13 @@ using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Afflictions;
 using MegaCrit.Sts2.Core.Models.CardPools;
 
+using STS2RitsuLib.Interop.AutoRegistration;
+
 namespace ComicChess.TheQueen;
 
-/// <summary>星盘：获得能量并生成多张 <see cref="MorningStar"/>；消耗。</summary>
+/// <summary>星盘：获得能量并生成多张 <see cref="MorningStar"/>；消耗�?/summary>
 
+[RegisterCard(typeof(QueenCardPool))]
 public sealed class Astrolabe : QueenCardModel
 {
 	private const int energyCost = 0;

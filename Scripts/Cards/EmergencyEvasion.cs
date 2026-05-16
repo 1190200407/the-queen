@@ -11,9 +11,12 @@ using MegaCrit.Sts2.Core.Models.CardPools;
 
 using STS2RitsuLib.Cards.DynamicVars;
 
+using STS2RitsuLib.Interop.AutoRegistration;
+
 namespace ComicChess.TheQueen;
 
 
+[RegisterCard(typeof(QueenCardPool))]
 public sealed class EmergencyEvasion : QueenCardModel
 {
 	private const decimal nextTurnSummon = 7m;
@@ -45,8 +48,7 @@ public sealed class EmergencyEvasion : QueenCardModel
 		Creature? amalgamCreature = FriendlyAmalgamCmd.GetExisting(combatState, base.Owner);
 		if (amalgamCreature is { IsAlive: true })
 		{
-            // 进入“能力导致沉睡”：持续到下回合开始（由 AmalgamSleepPower 自行倒计时并苏醒）。
-			await PowerCmd.Apply<AmalgamSleepPower>(amalgamCreature, 1m, base.Owner.Creature, this);
+            // 进入“能力导致沉睡”：持续到下回合开始（�?AmalgamSleepPower 自行倒计时并苏醒）�?			await PowerCmd.Apply<AmalgamSleepPower>(amalgamCreature, 1m, base.Owner.Creature, this);
 		}
 		
 		await PowerCmd.Apply<NextTurnAmalgamSummonPendingPower>(

@@ -16,10 +16,13 @@ using MegaCrit.Sts2.Core.MonsterMoves.MonsterMoveStateMachine;
 using MegaCrit.Sts2.Core.Nodes.Audio;
 using MegaCrit.Sts2.Core.Nodes.Vfx;
 
+using STS2RitsuLib.Interop.AutoRegistration;
+
 namespace ComicChess.TheQueen;
 
-/// <summary>提线木偶：获得目标对应敌怪卡，3 回合后将其永久加入牌组。</summary>
+/// <summary>提线木偶：获得目标对应敌怪卡�? 回合后将其永久加入牌组�?/summary>
 
+[RegisterCard(typeof(QueenCardPool))]
 public sealed class Marionette : QueenCardModel, ICanMonsterCapture
 {
     private const int energyCost = 1;
@@ -37,8 +40,7 @@ public sealed class Marionette : QueenCardModel, ICanMonsterCapture
     }
 
     /// <summary>
-    /// 对齐原版 <c>MegaCrit.Sts2.Core.Models.Monsters.Queen</c> 内 <c>AmalgamDeathResponse</c> 的激怒分支（不反射调用该方法本体）。
-    /// </summary>
+    /// 对齐原版 <c>MegaCrit.Sts2.Core.Models.Monsters.Queen</c> �?<c>AmalgamDeathResponse</c> 的激怒分支（不反射调用该方法本体）�?    /// </summary>
     private static bool TryEnrageQueenFromMarionette(Creature queenCreature)
     {
         if (queenCreature.Monster is not Queen queen)

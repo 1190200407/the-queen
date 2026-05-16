@@ -17,9 +17,12 @@ using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
 
+using STS2RitsuLib.Interop.AutoRegistration;
+
 namespace ComicChess.TheQueen;
 
 
+[RegisterCard(typeof(QueenCardPool))]
 public sealed class Joyless : QueenCardModel
 {
 	private const int energyCost = 0;
@@ -67,8 +70,8 @@ public sealed class Joyless : QueenCardModel
 			c => c != this,
 			this);
 
-		// DiscardAndDraw 用首牌解析 CombatState；若 card.CombatState 与 Owner.Creature.CombatState 皆为 null，
-		// 会在 History / Hook 里对 null combatState 访问 RoundNumber 而 NRE（Boss 战等偶发）。
+		// DiscardAndDraw ????? CombatState?? card.CombatState ? Owner.Creature.CombatState ?? null?
+		// ?? History / Hook ?? null combatState ?? RoundNumber ? NRE?Boss ??????
 		IReadOnlyList<CardModel> handSnapshot = PileType.Hand.GetPile(owner).Cards;
 		List<CardModel> toDiscard = selected
 			.Distinct()

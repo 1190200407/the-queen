@@ -9,9 +9,12 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.ValueProps;
 
+using STS2RitsuLib.Interop.AutoRegistration;
+
 namespace ComicChess.TheQueen;
 
 
+[RegisterCard(typeof(QueenCardPool))]
 public sealed class DarkVeil : QueenCardModel
 {
 	private const int energyCost = 0;
@@ -22,7 +25,7 @@ public sealed class DarkVeil : QueenCardModel
 
 	public override bool GainsBlock => true;
 
-	// BaseLib/引擎在「无魂灯、额外格挡生效」时仍给 ShouldGlowGoldInternal=true，与 OnPlay 判定相反；0 魂灯时强制不要金闪。
+	// ??????????????????????????? OnPlay ??????
 	protected override bool ShouldGlowGoldInternal
 	{
 		get

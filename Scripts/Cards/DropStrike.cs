@@ -11,10 +11,13 @@ using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.ValueProps;
 
+using STS2RitsuLib.Interop.AutoRegistration;
+
 namespace ComicChess.TheQueen;
 
-/// <summary>坠击：聚合体对随机敌人造成多段伤害。</summary>
+/// <summary>坠击：聚合体对随机敌人造成多段伤害�?/summary>
 
+[RegisterCard(typeof(QueenCardPool))]
 public sealed class DropStrike : QueenCardModel
 {
     private const int energyCost = 2;
@@ -45,7 +48,7 @@ public sealed class DropStrike : QueenCardModel
         })
     ];
 
-    /// <summary>无友方聚合体或 <see cref="FriendlyAmalgam.BlocksDirectOffenseFromHand"/> 时手牌红高亮（直接由聚合体结算多段伤害）。</summary>
+    /// <summary>无友方聚合体�?<see cref="FriendlyAmalgam.BlocksDirectOffenseFromHand"/> 时手牌红高亮（直接由聚合体结算多段伤害）�?/summary>
     protected override bool ShouldGlowRedInternal =>
         (base.Owner?.Creature?.CombatState is { } combatState
             && (FriendlyAmalgamCmd.GetExisting(combatState, base.Owner) is not { Monster: FriendlyAmalgam amalgam }

@@ -11,10 +11,13 @@ using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.ValueProps;
 
+using STS2RitsuLib.Interop.AutoRegistration;
+
 namespace ComicChess.TheQueen;
 
-/// <summary>享用晚餐：造成伤害，在手牌中生成两张吞噬（升级后为吞噬+）。</summary>
+/// <summary>享用晚餐：造成伤害，在手牌中生成两张吞噬（升级后为吞噬+）�?/summary>
 
+[RegisterCard(typeof(QueenCardPool))]
 public sealed class EnjoyDinner : QueenCardModel
 {
 	private const int energyCost = 1;

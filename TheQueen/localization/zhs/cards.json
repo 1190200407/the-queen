@@ -1,5 +1,5 @@
 {
-    "STS2_COMICCHESS_THEQUEEN_CARD_BOUNDED.description": "[purple]魂缚[/purple]",
+    "COMICCHESS-BOUNDED.description": "[purple]魂缚[/purple]",
     "STS2_COMICCHESS_THEQUEEN_CARD_PULSE_STRIKE.title":"脉冲打击",
     "STS2_COMICCHESS_THEQUEEN_CARD_PULSE_STRIKE.description":"造成{Damage:diff()}点伤害。\n丢弃2张牌。\n每当你的手牌数超过7张时，将这张牌返回你的[gold]手牌[/gold]。",
     "STS2_COMICCHESS_THEQUEEN_CARD_STRIKE_QUEEN.title":"打击",

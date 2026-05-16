@@ -20,7 +20,7 @@ namespace ComicChess.TheQueen;
 /// <see cref="ModifyPowerAmountGiven"/> 在卡牌预览中也会被调用，因此<strong>只改数值、不消耗次数</strong>；
 /// 次数在 <see cref="AfterModifyingPowerAmountGiven"/>（仅真实 <see cref="MegaCrit.Sts2.Core.Commands.PowerCmd"/> 结算）中消耗。
 /// </summary>
-[RegisterRelic(typeof(QueenRelicPool))]
+
 public sealed class OminousCurseRelic : QueenRelicModel
 {
 	private bool _firstDebuffBonusConsumed;

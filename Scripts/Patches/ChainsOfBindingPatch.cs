@@ -12,48 +12,80 @@ using MegaCrit.Sts2.Core.Models.Afflictions;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.Nodes.CommonUi;
 using MegaCrit.Sts2.Core.Runs;
+using STS2RitsuLib.Patching.Models;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>
-/// 魂缚锁链与女王 <see cref="BindingOathPatch"/>：女王侧出牌限制由誓约 Patch 负责。
-/// 锁链改为每回合最多对 <see cref="ChainsOfBindingPower.Amount"/> 张抽到的牌施加魂缚（原版逻辑），
-/// 回合结束时<strong>只清除这些牌</strong>上的魂缚，保留牌面自带魂缚。
-/// </summary>
-[HarmonyPatch]
-internal static class ChainsOfBindingPatch
+internal sealed class ChainsOfBindingHookBeforeCombatStartPatch : IPatchMethod
 {
-	[HarmonyPostfix]
-	[HarmonyPatch(typeof(Hook), nameof(Hook.BeforeCombatStart))]
-	private static async Task BeforeCombatStart_Postfix(Task __result, IRunState runState, CombatState? combatState)
+	public static string PatchId => "thequeen_chains_before_combat_start";
+	public static string Description => "Chains of binding: reset combat tracker";
+	public static bool IsCritical => true;
+
+	public static ModPatchTarget[] GetTargets() =>
+	[
+		new(typeof(Hook), nameof(Hook.BeforeCombatStart)),
+	];
+
+	public static async Task Postfix(Task __result, IRunState runState, CombatState? combatState)
 	{
 		_ = runState;
 		_ = combatState;
 		await __result;
 		ChainsOfBindingBoundTracker.ResetCombat();
 	}
+}
 
-	/// <summary>女王：锁链不限制魂缚出牌，由 <see cref="BindingOathPatch"/> 判断。</summary>
-	[HarmonyPostfix]
-	[HarmonyPatch(typeof(ChainsOfBindingPower), nameof(ChainsOfBindingPower.ShouldPlay))]
-	private static void ShouldPlay_Postfix(CardModel card, ref bool __result)
+internal sealed class ChainsOfBindingPowerShouldPlayPatch : IPatchMethod
+{
+	public static string PatchId => "thequeen_chains_should_play";
+	public static string Description => "Chains of binding: queen bypasses play lock";
+	public static bool IsCritical => true;
+
+	public static ModPatchTarget[] GetTargets() =>
+	[
+		new(typeof(ChainsOfBindingPower), nameof(ChainsOfBindingPower.ShouldPlay)),
+	];
+
+	public static void Postfix(CardModel card, ref bool __result)
 	{
+		_ = card;
 		__result = true;
 	}
+}
 
-	/// <summary>女王：不维护锁链的 <c>boundCardPlayed</c>。</summary>
-	[HarmonyPrefix]
-	[HarmonyPatch(typeof(ChainsOfBindingPower), nameof(ChainsOfBindingPower.BeforeCardPlayed))]
-	private static bool BeforeCardPlayed_Prefix(ChainsOfBindingPower __instance, CardPlay cardPlay, ref Task __result)
+internal sealed class ChainsOfBindingPowerBeforeCardPlayedPatch : IPatchMethod
+{
+	public static string PatchId => "thequeen_chains_before_card_played";
+	public static string Description => "Chains of binding: skip vanilla bound tracking for queen";
+	public static bool IsCritical => true;
+
+	public static ModPatchTarget[] GetTargets() =>
+	[
+		new(typeof(ChainsOfBindingPower), nameof(ChainsOfBindingPower.BeforeCardPlayed)),
+	];
+
+	public static bool Prefix(ChainsOfBindingPower __instance, CardPlay cardPlay, ref Task __result)
 	{
+		_ = __instance;
+		_ = cardPlay;
 		__result = Task.CompletedTask;
 		return false;
 	}
+}
 
-	/// <summary>用独立计数与牌集合替代原版「历史条目数」，避免与自带魂缚的结算混在一起。</summary>
-	[HarmonyPrefix]
-	[HarmonyPatch(typeof(ChainsOfBindingPower), nameof(ChainsOfBindingPower.AfterCardDrawn))]
-	private static bool AfterCardDrawn_Prefix(
+internal sealed class ChainsOfBindingPowerAfterCardDrawnPatch : IPatchMethod
+{
+	public static string PatchId => "thequeen_chains_after_card_drawn";
+	public static string Description => "Chains of binding: custom bound-on-draw logic";
+	public static bool IsCritical => true;
+
+	public static ModPatchTarget[] GetTargets() =>
+	[
+		new(typeof(ChainsOfBindingPower), nameof(ChainsOfBindingPower.AfterCardDrawn)),
+	];
+
+	public static bool Prefix(
 		ChainsOfBindingPower __instance,
 		PlayerChoiceContext choiceContext,
 		CardModel card,
@@ -92,11 +124,20 @@ internal static class ChainsOfBindingPatch
 			CardPreviewStyle.None);
 		ChainsOfBindingBoundTracker.RegisterChainsBoundCard(player, card);
 	}
+}
 
-	/// <summary>仅在本侧回合结束时清理锁链登记的牌；不清消耗堆中的登记牌。</summary>
-	[HarmonyPrefix]
-	[HarmonyPatch(typeof(ChainsOfBindingPower), nameof(ChainsOfBindingPower.BeforeTurnEnd))]
-	private static bool BeforeTurnEnd_Prefix(
+internal sealed class ChainsOfBindingPowerBeforeTurnEndPatch : IPatchMethod
+{
+	public static string PatchId => "thequeen_chains_before_turn_end";
+	public static string Description => "Chains of binding: clear chains-bound cards end of turn";
+	public static bool IsCritical => true;
+
+	public static ModPatchTarget[] GetTargets() =>
+	[
+		new(typeof(ChainsOfBindingPower), nameof(ChainsOfBindingPower.BeforeTurnEnd)),
+	];
+
+	public static bool Prefix(
 		ChainsOfBindingPower __instance,
 		PlayerChoiceContext choiceContext,
 		CombatSide side,

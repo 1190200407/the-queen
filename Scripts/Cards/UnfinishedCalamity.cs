@@ -13,10 +13,13 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Models.Powers;
 
+using STS2RitsuLib.Interop.AutoRegistration;
+
 namespace ComicChess.TheQueen;
 
-/// <summary>未了之祸：能力牌；对所有可攻击敌人各施加一条可叠加的 <see cref="UnfinishedCalamityPower"/>（<see cref="UnfinishedCalamityPower.IsInstanced"/>）；带有该标记的敌人身上其它负面结束时，每条实例对所有可攻击敌人各随机施加若干层毒/灾厄/消亡之一（基础 5，升级 7）。</summary>
+/// <summary>未了之祸：能力牌；对所有可攻击敌人各施加一条可叠加�?<see cref="UnfinishedCalamityPower"/>�?see cref="UnfinishedCalamityPower.IsInstanced"/>）；带有该标记的敌人身上其它负面结束时，每条实例对所有可攻击敌人各随机施加若干层�?灾厄/消亡之一（基础 5，升�?7）�?/summary>
 
+[RegisterCard(typeof(QueenCardPool))]
 public sealed class UnfinishedCalamity : QueenCardModel
 {
 	private const int energyCost = 1;

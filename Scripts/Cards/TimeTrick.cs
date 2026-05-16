@@ -15,10 +15,13 @@ using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.ValueProps;
 
+using STS2RitsuLib.Interop.AutoRegistration;
+
 namespace ComicChess.TheQueen;
 
-/// <summary>时间把戏：造成伤害；至多弃 2 张；下回合开始时将本次弃掉的牌移回手牌。</summary>
+/// <summary>时间把戏：造成伤害；至多弃 2 张；下回合开始时将本次弃掉的牌移回手牌�?/summary>
 
+[RegisterCard(typeof(QueenCardPool))]
 public sealed class TimeTrick : QueenCardModel
 {
 	private const int energyCost = 0;

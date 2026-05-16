@@ -9,10 +9,13 @@ using MegaCrit.Sts2.Core.Models.Afflictions;
 using MegaCrit.Sts2.Core.Models.CardPools;
 
 using STS2RitsuLib.Keywords;
+using STS2RitsuLib.Interop.AutoRegistration;
+
 namespace ComicChess.TheQueen;
 
-/// <summary>战术指令：生成代劳、接手，获得魂灯；升级减费。</summary>
+/// <summary>战术指令：生成代劳、接手，获得魂灯；升级减费�?/summary>
 
+[RegisterCard(typeof(QueenCardPool))]
 public sealed class TacticalDirective : QueenCardModel
 {
 	private const int energyCost = 1;

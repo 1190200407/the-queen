@@ -11,10 +11,13 @@ using MegaCrit.Sts2.Core.Models.Afflictions;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.ValueProps;
 
+using STS2RitsuLib.Interop.AutoRegistration;
+
 namespace ComicChess.TheQueen;
 
-/// <summary>宝石火焰：单体伤害，打出后将此牌侵蚀为魂缚。</summary>
+/// <summary>宝石火焰：单体伤害，打出后将此牌侵蚀为魂缚�?/summary>
 
+[RegisterCard(typeof(QueenCardPool))]
 public sealed class GemFlame : QueenCardModel
 {
 	private const int energyCost = 2;

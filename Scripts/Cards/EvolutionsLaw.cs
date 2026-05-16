@@ -11,10 +11,13 @@ using MegaCrit.Sts2.Core.Models.Afflictions;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.ValueProps;
 
+using STS2RitsuLib.Interop.AutoRegistration;
+
 namespace ComicChess.TheQueen;
 
-/// <summary>进化论：造成伤害；下一张学习意图牌耗能为 0；将此牌侵蚀为魂缚。</summary>
+/// <summary>进化论：造成伤害；下一张学习意图牌耗能�?0；将此牌侵蚀为魂缚�?/summary>
 
+[RegisterCard(typeof(QueenCardPool))]
 public sealed class EvolutionsLaw : QueenCardModel
 {
 	private const int energyCost = 2;

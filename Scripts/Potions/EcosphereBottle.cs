@@ -15,7 +15,7 @@ using STS2RitsuLib.Interop.AutoRegistration;
 namespace ComicChess.TheQueen;
 
 /// <summary>生态箱：对敌人施加捕获标记；目标在战斗中死亡且可映射捕获牌时，与宣告相同地追加额外卡牌奖励。</summary>
-[RegisterPotion(typeof(QueenPotionPool))]
+
 public sealed class EcosphereBottle : QueenPotionModel
 {
 	public override TargetType TargetType => TargetType.AnyEnemy;
