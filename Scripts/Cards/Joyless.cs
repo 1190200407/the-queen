@@ -66,7 +66,7 @@ public sealed class Joyless : QueenCardModel
 		IEnumerable<CardModel> selected = await CardSelectCmd.FromHandForDiscard(
 			choiceContext,
 			owner,
-			new CardSelectorPrefs(new LocString("cards", "COMICCHESS-JOYLESS.selectionPrompt"), 0, 999999999),
+			new CardSelectorPrefs(new LocString("cards", "STS2_COMICCHESS_THEQUEEN_CARD_JOYLESS.selectionPrompt"), 0, 999999999),
 			c => c != this,
 			this);
 

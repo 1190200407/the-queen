@@ -35,12 +35,12 @@ public sealed class AdmissionTicket : QueenCardModel
 
 	private static readonly string[] GiftNotifyQueenLocKeys =
 	[
-		"COMICCHESS-ADMISSION_TICKET.giftNotifyQueen_1",
-		"COMICCHESS-ADMISSION_TICKET.giftNotifyQueen_2",
-		"COMICCHESS-ADMISSION_TICKET.giftNotifyQueen_3",
-		"COMICCHESS-ADMISSION_TICKET.giftNotifyQueen_4",
-		"COMICCHESS-ADMISSION_TICKET.giftNotifyQueen_5",
-		"COMICCHESS-ADMISSION_TICKET.giftNotifyQueen_6",
+		"QUEEN.ADMISSION_TICKET.giftNotifyQueen_1",
+		"QUEEN.ADMISSION_TICKET.giftNotifyQueen_2",
+		"QUEEN.ADMISSION_TICKET.giftNotifyQueen_3",
+		"QUEEN.ADMISSION_TICKET.giftNotifyQueen_4",
+		"QUEEN.ADMISSION_TICKET.giftNotifyQueen_5",
+		"QUEEN.ADMISSION_TICKET.giftNotifyQueen_6",
 	];
 
 	public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
@@ -87,7 +87,7 @@ public sealed class AdmissionTicket : QueenCardModel
 		CardModel? selected = (await CardSelectCmd.FromHand(
 			choiceContext,
 			base.Owner,
-			new CardSelectorPrefs(new LocString("cards", "COMICCHESS-ADMISSION_TICKET.selectionPrompt"), 1),
+			new CardSelectorPrefs(new LocString("cards", "STS2_COMICCHESS_THEQUEEN_CARD_ADMISSION_TICKET.selectionPrompt"), 1),
 			static _ => true,
 			this
 		)).FirstOrDefault();
@@ -113,7 +113,7 @@ public sealed class AdmissionTicket : QueenCardModel
 		// Niche 为独立计数器，Run 存档里单独持久化，各端仍一致。
 		string notifyKey = queen.RunState.Rng.Niche.NextItem(GiftNotifyQueenLocKeys)
 			?? GiftNotifyQueenLocKeys[0];
-		LocString notify = new LocString("cards", notifyKey);
+		LocString notify = new LocString("monsters", notifyKey);
 		notify.Add("Giver", giverName);
 		notify.Add("CardTitle", cardTitleFormatted);
 		ThinkCmd.Play(notify, queen.Creature, 2.5);

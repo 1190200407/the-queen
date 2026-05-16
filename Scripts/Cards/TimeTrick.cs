@@ -59,7 +59,7 @@ public sealed class TimeTrick : QueenCardModel
 		IEnumerable<CardModel> selected = await CardSelectCmd.FromHandForDiscard(
 			choiceContext,
 			owner,
-			new CardSelectorPrefs(new LocString("cards", "COMICCHESS-TIME_TRICK.selectionPrompt"), 0, maxDiscard),
+			new CardSelectorPrefs(new LocString("cards", "STS2_COMICCHESS_THEQUEEN_CARD_TIME_TRICK.selectionPrompt"), 0, maxDiscard),
 			c => c != this,
 			this);
 

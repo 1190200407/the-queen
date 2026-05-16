@@ -53,7 +53,7 @@ public sealed class TreasurePavilion : QueenCardModel
         if (candidates.Count > 0)
         {
             CardSelectorPrefs prefs = new(
-                new LocString("cards", "COMICCHESS-TREASURE_PAVILION.selectionPrompt"),
+                new LocString("cards", "STS2_COMICCHESS_THEQUEEN_CARD_TREASURE_PAVILION.selectionPrompt"),
                 1,
                 1);
 
