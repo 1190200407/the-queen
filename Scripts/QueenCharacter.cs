@@ -83,11 +83,26 @@ public class QueenCharacter : ModCharacterTemplate<QueenCardPool, QueenRelicPool
     protected override NCreatureVisuals? TryCreateCreatureVisuals() => RitsuGodotNodeFactories.CreateFromScenePath<NCreatureVisuals>(CustomVisualsPath);
 
     protected override Type? UnlocksAfterRunAsType => typeof(Defect);
+
+    /// <summary>叠加轨循环动画（不占 track 0 的 attack/hurt 等）。原版女王 Boss 同用 <c>trackId = 1</c>。</summary>
+    private const string WritheOverlayAnim = "tracks/writhe";
+
+    /// <summary>Spine 叠加轨索引：0 = 战斗主动画，1 = writhe 层（对应常说的「第二条 track」）。</summary>
+    private const int WritheOverlayTrackId = 1;
+
+    /// <summary>
+    /// track 0：标准战斗 trigger（Idle / Attack / Hit / Cast / Dead）。
+    /// track 1：常驻 <see cref="WritheOverlayAnim"/>，与主动画并行，类似 Unity Animator 多 Layer。
+    /// </summary>
     protected override ModAnimStateMachine? SetupCustomCombatAnimationStateMachine(Node visualsRoot, CharacterModel character)
     {
-        ModAnimStateMachine? animator = base.SetupCustomCombatAnimationStateMachine(visualsRoot, character);
-        //animator?.GetAnimationState().SetAnimation("tracks/writhe", loop: true, 1);
-        return animator;
+        var machine = base.SetupCustomCombatAnimationStateMachine(visualsRoot, character);
+        
+        if (visualsRoot is NCreatureVisuals { HasSpineAnimation: true, SpineBody: { } ready })
+        {
+            ready.GetAnimationState().SetAnimation(WritheOverlayAnim, loop: true, WritheOverlayTrackId);
+        }
+        return machine;
     }
 
     public override bool RequiresEpochAndTimeline => false;
