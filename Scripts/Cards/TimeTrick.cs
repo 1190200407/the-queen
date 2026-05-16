@@ -19,7 +19,7 @@ using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>时间把戏：造成伤害；至多弃 2 张；下回合开始时将本次弃掉的牌移回手牌�?/summary>
+/// <summary>时间把戝：造戝伤害；至多弃 2 张；下回坈开始时将本次弃掉的牌移回手牌�?/summary>
 
 [RegisterCard(typeof(QueenCardPool))]
 public sealed class TimeTrick : QueenCardModel
@@ -59,7 +59,7 @@ public sealed class TimeTrick : QueenCardModel
 		IEnumerable<CardModel> selected = await CardSelectCmd.FromHandForDiscard(
 			choiceContext,
 			owner,
-			new CardSelectorPrefs(new LocString("cards", "COMICCHESS-TIME_TRICK.selectionPrompt"), 0, maxDiscard),
+			new CardSelectorPrefs(new LocString("cards", "STS2_COMICCHESS_THEQUEEN_CARD_TIME_TRICK.selectionPrompt"), 0, maxDiscard),
 			c => c != this,
 			this);
 

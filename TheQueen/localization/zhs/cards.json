@@ -420,12 +420,6 @@
     "STS2_COMICCHESS_THEQUEEN_CARD_ADMISSION_TICKET.title":"入场券",
     "STS2_COMICCHESS_THEQUEEN_CARD_ADMISSION_TICKET.description":"{InCombat:从手牌中选择1张牌交给[gold]{Applier}[/gold]。|从手牌中选择1张牌交给[gold]卡牌来源[/gold]。}",
     "STS2_COMICCHESS_THEQUEEN_CARD_ADMISSION_TICKET.selectionPrompt":"选择一张牌。",
-    "STS2_COMICCHESS_THEQUEEN_CARD_ADMISSION_TICKET.giftNotifyQueen_1":"[gold]{CardTitle}[/gold]……很好。我会铭记你的馈赠，[gold]{Giver}[/gold]。",
-    "STS2_COMICCHESS_THEQUEEN_CARD_ADMISSION_TICKET.giftNotifyQueen_2":"[gold]{CardTitle}[/gold]……正合我意。谢了，[gold]{Giver}[/gold]。",
-    "STS2_COMICCHESS_THEQUEEN_CARD_ADMISSION_TICKET.giftNotifyQueen_3":"[gold]{CardTitle}[/gold]……我会让它发挥价值。你做得很好，[gold]{Giver}[/gold]。",
-    "STS2_COMICCHESS_THEQUEEN_CARD_ADMISSION_TICKET.giftNotifyQueen_4":"我收下了，[gold]{Giver}[/gold]。这张 [gold]{CardTitle}[/gold] 不会被浪费。",
-    "STS2_COMICCHESS_THEQUEEN_CARD_ADMISSION_TICKET.giftNotifyQueen_5":"[gold]{CardTitle}[/gold]。呵……你倒是很会挑啊，[gold]{Giver}[/gold]。",
-    "STS2_COMICCHESS_THEQUEEN_CARD_ADMISSION_TICKET.giftNotifyQueen_6":"我会善用这张 [gold]{CardTitle}[/gold]。[gold]{Giver}[/gold]。",
     "STS2_COMICCHESS_THEQUEEN_CARD_NIBBLE.title":"轻咬",
     "STS2_COMICCHESS_THEQUEEN_CARD_NIBBLE.description":"[gold]聚合体[/gold]造成{LearnIntentDamage:diff()}点伤害。"
 }

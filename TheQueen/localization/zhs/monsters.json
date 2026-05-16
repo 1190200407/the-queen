@@ -3,5 +3,11 @@
     "FRIENDLY_AMALGAM.intent_slot_empty.title": "空槽",
     "FRIENDLY_AMALGAM.intent_slot_empty.description": "该灯槽尚未记录任何意图。",
     "FRIENDLY_AMALGAM.CURSE_OF_KNOWLEDGE.doneLine": "此事...已成。",
-    "QUEEN.YOU_ARE_MINE.doneLine":"你是我的了！"
+    "QUEEN.YOU_ARE_MINE.doneLine":"你是我的了！",
+    "QUEEN.ADMISSION_TICKET.giftNotifyQueen_1":"[gold]{CardTitle}[/gold]……很好。我会铭记你的馈赠，[gold]{Giver}[/gold]。",
+    "QUEEN.ADMISSION_TICKET.giftNotifyQueen_2":"[gold]{CardTitle}[/gold]……正合我意。谢了，[gold]{Giver}[/gold]。",
+    "QUEEN.ADMISSION_TICKET.giftNotifyQueen_3":"[gold]{CardTitle}[/gold]……我会让它发挥价值。你做得很好，[gold]{Giver}[/gold]。",
+    "QUEEN.ADMISSION_TICKET.giftNotifyQueen_4":"我收下了，[gold]{Giver}[/gold]。这张 [gold]{CardTitle}[/gold] 不会被浪费。",
+    "QUEEN.ADMISSION_TICKET.giftNotifyQueen_5":"[gold]{CardTitle}[/gold]。呵……你倒是很会挑啊，[gold]{Giver}[/gold]。",
+    "QUEEN.ADMISSION_TICKET.giftNotifyQueen_6":"我会善用这张 [gold]{CardTitle}[/gold]。[gold]{Giver}[/gold]。"
 }

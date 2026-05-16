@@ -22,5 +22,11 @@
     "FRIENDLY_AMALGAM.intent_stun.title": "Stun",
     "FRIENDLY_AMALGAM.intent_stun.description": "At the end of your turn, stun an enemy for [blue]1[/blue] turn.",
     "FRIENDLY_AMALGAM.intent_slot_empty.title": "Empty slot",
-    "FRIENDLY_AMALGAM.intent_slot_empty.description": "This torch slot has not recorded an intent yet."
+    "FRIENDLY_AMALGAM.intent_slot_empty.description": "This torch slot has not recorded an intent yet.",
+    "QUEEN.ADMISSION_TICKET.giftNotifyQueen_1": "[gold]{CardTitle}[/gold]... Very good. I will remember your gift, [gold]{Giver}[/gold].",
+    "QUEEN.ADMISSION_TICKET.giftNotifyQueen_2": "[gold]{CardTitle}[/gold]... Exactly what I wanted. Thanks, [gold]{Giver}[/gold].",
+    "QUEEN.ADMISSION_TICKET.giftNotifyQueen_3": "[gold]{CardTitle}[/gold]... I will put it to good use. Well done, [gold]{Giver}[/gold].",
+    "QUEEN.ADMISSION_TICKET.giftNotifyQueen_4": "I'll take it, [gold]{Giver}[/gold]. This [gold]{CardTitle}[/gold] won't go to waste.",
+    "QUEEN.ADMISSION_TICKET.giftNotifyQueen_5": "[gold]{CardTitle}[/gold]. Heh... You've got an eye, [gold]{Giver}[/gold].",
+    "QUEEN.ADMISSION_TICKET.giftNotifyQueen_6": "I will make good use of this [gold]{CardTitle}[/gold]. Your judgment was sound, [gold]{Giver}[/gold]."
 }

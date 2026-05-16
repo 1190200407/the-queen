@@ -16,14 +16,14 @@ using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>è—å®é˜ï¼šä»Žå¼ƒç‰Œå †å–å›ž 1 å¼ éžé­‚ç¼šç‰Œå¹¶ä¾µèš€ä¸ºé­‚ç¼šï¼ŒèŽ·å¾— 1 ç‚¹é­‚ç¯ã€?/summary>
+/// <summary>è?å®é?ï¼?ä»?å¼?ç??å ?å?å?? 1 å¼ é?é­?ç¼?ç??å¹¶ä¾µè??ä¸ºé­?ç¼?ï¼?è?·å¾? 1 ç?¹é­?ç¯ã??/summary>
 
 [RegisterCard(typeof(QueenCardPool))]
 public sealed class TreasurePavilion : QueenCardModel
 {
     private const int energyCost = 1;
     private const CardType type = CardType.Skill;
-    private const CardRarity rarity = CardRarity.Uncommon; // ä¸­æ–‡â€œç½•è§â€? Uncommon
+    private const CardRarity rarity = CardRarity.Uncommon; // ä¸­æ??â??ç½?è§â?? Uncommon
     private const TargetType targetType = TargetType.Self;
     private const bool shouldShowInCardLibrary = true;
 
@@ -53,7 +53,7 @@ public sealed class TreasurePavilion : QueenCardModel
         if (candidates.Count > 0)
         {
             CardSelectorPrefs prefs = new(
-                new LocString("cards", "COMICCHESS-TREASURE_PAVILION.selectionPrompt"),
+                new LocString("cards", "STS2_COMICCHESS_THEQUEEN_CARD_TREASURE_PAVILION.selectionPrompt"),
                 1,
                 1);
 
