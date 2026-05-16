@@ -4,6 +4,7 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Afflictions;
 using MegaCrit.Sts2.Core.Models.Powers;
@@ -49,20 +50,20 @@ public static class QueenCardCmd
 	public static async Task CreateInHand<T>(Player owner, ICombatState combatState, bool isUpgraded = false) where T : CardModel
 	{
 		CardModel card = combatState.CreateCard<T>(owner);
-		await CreateInHandInternal(card, isUpgraded);
+		await CreateInHandInternal(card, isUpgraded, owner);
 	}
 
-	private static async Task CreateInHandInternal(CardModel card, bool isUpgraded = false)
+	private static async Task CreateInHandInternal(CardModel card, bool isUpgraded = false, Player? creator = null)
 	{
 		if (isUpgraded)
 		{
 			CardCmd.Upgrade(card);
 		}
 
-		await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Hand, addedByPlayer: true);
+		await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Hand, creator);
 	}
 
-	public static async Task AddSoulLamp(Player owner, int amount = 1)
+	public static async Task AddSoulLamp(PlayerChoiceContext choiceContext, Player owner, int amount = 1)
 	{
 		if (amount <= 0)
 		{
@@ -78,11 +79,11 @@ public static class QueenCardCmd
 		{
 			// SoulLampPower uses -1 as the hidden "display 0" sentinel.
 			// When gaining Soul Lamp from this state, jump directly to gained amount.
-			await PowerCmd.SetAmount<SoulLampPower>(owner.Creature, amount, owner.Creature, null);
+			await PowerCmd.ModifyAmount(choiceContext, existing, amount - existing.Amount, owner.Creature, null);
 		}
 		else
 		{
-			await PowerCmd.ModifyAmount(existing, amount, owner.Creature, null);
+			await PowerCmd.ModifyAmount(choiceContext, existing, amount, owner.Creature, null);
 		}
 
 		await NightLightRelic.NotifySoulLampGained(owner, amount);
@@ -96,6 +97,7 @@ public static class QueenCardCmd
 	];
 
 	public static async Task ApplyRandomTriadDebuff(
+		PlayerChoiceContext choiceContext,
 		Player owner,
 		Creature target,
 		Creature applier,
@@ -103,7 +105,7 @@ public static class QueenCardCmd
 		decimal amount)
 	{
 		QueenTriadDebuffKind kind = PickTriadDebuff(owner, target);
-		await ApplyTriadDebuff(kind, target, applier, cardSource, amount);
+		await ApplyTriadDebuff(choiceContext, kind, target, applier, cardSource, amount);
 	}
 
 	/// <summary>
@@ -117,6 +119,7 @@ public static class QueenCardCmd
 	}
 
 	public static async Task ApplyTriadDebuff(
+		PlayerChoiceContext choiceContext,
 		QueenTriadDebuffKind kind,
 		Creature target,
 		Creature applier,

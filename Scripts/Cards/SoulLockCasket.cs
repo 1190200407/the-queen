@@ -68,7 +68,7 @@ public sealed class SoulLockCasket : QueenCardModel, ICanMonsterCapture
         }
 
         if (shouldTriggerFatal
-            && attackCommand.Results.Any(static r => r.WasTargetKilled))
+            && QueenDamageResults.AnyTargetKilled(attackCommand))
         {
             CardModel? reward = MonsterCaptureRewardCatalog.TryCreateCaptureRewardCard(base.Owner, target);
             if (reward is { } rewardCard)

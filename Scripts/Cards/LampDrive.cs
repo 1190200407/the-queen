@@ -37,7 +37,7 @@ public sealed class LampDrive : QueenCardModel
         if (lamp != null && lamp.Amount > 0)
         {
             consumedSoulLamp = (int)lamp.Amount;
-            await PowerCmd.SetAmount<SoulLampPower>(base.Owner.Creature, -1m, base.Owner.Creature, this);
+            await PowerCmd.ModifyAmount(choiceContext, lamp, -1m - consumedSoulLamp, base.Owner.Creature, this);
         }
 
         if (consumedSoulLamp <= 0)

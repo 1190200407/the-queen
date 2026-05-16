@@ -37,6 +37,6 @@ public class SummonSoul : QueenCardModel
         await QueenCardCmd.CreateInHand<SoulStrike>(base.Owner, base.CombatState, base.IsUpgraded);
         await QueenCardCmd.CreateInHand<SoulDefend>(base.Owner, base.CombatState, base.IsUpgraded);
 
-        await QueenCardCmd.AddSoulLamp(base.Owner);
+        await QueenCardCmd.AddSoulLamp(choiceContext, base.Owner);
     }
 }

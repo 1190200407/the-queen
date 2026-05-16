@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Entities.Relics;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
@@ -22,6 +23,6 @@ public sealed class QueensGraceRelic : QueenRelicModel
 	public override async Task BeforeCombatStart()
 	{
 		int amount = base.DynamicVars["Cards"].IntValue;
-		await QueenCardCmd.AddSoulLamp(base.Owner, amount);
+		await QueenCardCmd.AddSoulLamp(new ThrowingPlayerChoiceContext(), base.Owner, amount);
 	}
 }

@@ -38,7 +38,7 @@ public sealed class FireWall : QueenCardModel
 	{
 		if (base.IsUpgraded)
 		{
-			await QueenCardCmd.AddSoulLamp(base.Owner, 1);
+			await QueenCardCmd.AddSoulLamp(choiceContext, base.Owner, 1);
 		}
 
 		SoulLampPower? lamp = base.Owner.Creature.GetPower<SoulLampPower>();

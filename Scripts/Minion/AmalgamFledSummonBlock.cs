@@ -17,7 +17,7 @@ public static class AmalgamFledSummonBlock
         public readonly Dictionary<Player, bool> ByOwner = new();
     }
 
-    private static readonly ConditionalWeakTable<CombatState, Row> s_rows = new();
+    private static readonly ConditionalWeakTable<ICombatState, Row> s_rows = new();
 
     public static void MarkAmalgamFled(ICombatState combatState, Player amalgamOwner)
     {

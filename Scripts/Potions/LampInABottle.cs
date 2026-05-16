@@ -24,6 +24,6 @@ public sealed class LampInABottle : QueenPotionModel
         {
             return;
         }
-        await QueenCardCmd.AddSoulLamp(target.Player, 1);
+        await QueenCardCmd.AddSoulLamp(choiceContext, target.Player, 1);
     }
 }

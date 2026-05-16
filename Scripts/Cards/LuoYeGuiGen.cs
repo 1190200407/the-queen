@@ -42,6 +42,6 @@ public sealed class LuoYeGuiGen : QueenCardModel
 
         await QueenCardCmd.CreateInHand<GuiYuZhiYe>(base.Owner, base.CombatState, isUpgraded: base.IsUpgraded);
         await QueenCardCmd.CreateInHand<GuiYuChenTu>(base.Owner, base.CombatState, isUpgraded: base.IsUpgraded);
-        await QueenCardCmd.AddSoulLamp(base.Owner, 1);
+        await QueenCardCmd.AddSoulLamp(choiceContext, base.Owner, 1);
     }
 }

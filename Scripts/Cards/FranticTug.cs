@@ -52,7 +52,7 @@ public sealed class FranticTug : QueenCardModel
 
         if (self.GetPower<AmalgamSandpitPower>() is { } sandpit)
         {
-            await PowerCmd.ModifyAmount(sandpit, -1m, self, this);
+            await PowerCmd.ModifyAmount(choiceContext, sandpit, -1m, self, this);
         }
 
         // 提高这张牌自己的基础耗能（下次再抽到会更贵）。

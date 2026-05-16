@@ -64,7 +64,7 @@ public sealed class Devour : QueenCardModel
 
 		if (creature.GetPower<QueenHungerPower>() is { Amount: > 0 } hunger)
 		{
-			await QueenCardCmd.AddSoulLamp(base.Owner, hunger.Amount);
+			await QueenCardCmd.AddSoulLamp(choiceContext, base.Owner, hunger.Amount);
 		}
 	}
 

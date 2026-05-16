@@ -45,7 +45,7 @@ public sealed class MorningStar : QueenCardModel
 			return;
 		}
 
-		await QueenCardCmd.AddSoulLamp(base.Owner, 1);
+		await QueenCardCmd.AddSoulLamp(choiceContext, base.Owner, 1);
 		await QueenCardCmd.CreateInHand<EveningStar>(base.Owner, base.CombatState, isUpgraded: false);
 	}
 }

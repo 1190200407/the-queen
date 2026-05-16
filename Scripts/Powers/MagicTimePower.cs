@@ -54,7 +54,7 @@ public sealed class MagicTimePower : QueenPowerModel
 			}
 
 			await PlayerCmd.LoseEnergy(1m, player);
-			await QueenCardCmd.AddSoulLamp(player, 1);
+			await QueenCardCmd.AddSoulLamp(new ThrowingPlayerChoiceContext(), player, 1);
 		}
 	}
 

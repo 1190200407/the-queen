@@ -135,7 +135,7 @@ public sealed class AmalgamAttackAndLoseStrengthIntentAction : AmalgamActionMode
         {
             foreach (Creature enemy in alive)
             {
-                await PowerCmd.Apply<StrengthPower>(choiceContext, enemy, -_strengthLoss, applier, null);
+                await PowerCmd.Apply<StrengthPower>(new ThrowingPlayerChoiceContext(), enemy, -_strengthLoss, applier, null);
             }
 
             return;
@@ -146,7 +146,7 @@ public sealed class AmalgamAttackAndLoseStrengthIntentAction : AmalgamActionMode
             Creature? marked = AmalgamOffenseTargeting.FindMarkedEnemy(combatState);
             if (marked is { IsAlive: true })
             {
-                await PowerCmd.Apply<StrengthPower>(choiceContext, marked, -_strengthLoss, applier, null);
+                await PowerCmd.Apply<StrengthPower>(new ThrowingPlayerChoiceContext(), marked, -_strengthLoss, applier, null);
             }
 
             return;
@@ -158,7 +158,7 @@ public sealed class AmalgamAttackAndLoseStrengthIntentAction : AmalgamActionMode
             return;
         }
 
-        await PowerCmd.Apply<StrengthPower>(choiceContext, randomEnemy, -_strengthLoss, applier, null);
+        await PowerCmd.Apply<StrengthPower>(new ThrowingPlayerChoiceContext(), randomEnemy, -_strengthLoss, applier, null);
     }
 }
 

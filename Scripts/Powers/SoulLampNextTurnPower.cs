@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 
 namespace ComicChess.TheQueen;
 
@@ -23,7 +24,7 @@ public sealed class SoulLampNextTurnPower : QueenPowerModel
 
 		if (base.Amount > 0)
 		{
-			await QueenCardCmd.AddSoulLamp(player, base.Amount);
+			await QueenCardCmd.AddSoulLamp(new ThrowingPlayerChoiceContext(), player, base.Amount);
 		}
 
 		await PowerCmd.Remove(this);

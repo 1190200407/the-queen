@@ -47,7 +47,7 @@ public sealed class BeastCry : LearnIntentCardModel
             intentDescriptionKey: "AMALGAM_SPECIAL_BEAST_CRY.description",
             execute: async (PlayerChoiceContext _, Creature amalgam, Creature owner) =>
             {
-                IICombatState? cs = amalgam.CombatState;
+                ICombatState? cs = amalgam.CombatState;
                 if (cs == null)
                 {
                     return;

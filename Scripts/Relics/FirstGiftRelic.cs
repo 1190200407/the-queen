@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Relics;
 using MegaCrit.Sts2.Core.HoverTips;
@@ -25,7 +26,7 @@ public class FirstGiftRelic : QueenRelicModel
 	{
 		// 战斗开始时获得魂灯（SoulLampPower）层数。
 		int amount = base.DynamicVars["Cards"].IntValue;
-		await QueenCardCmd.AddSoulLamp(base.Owner, amount);
+		await QueenCardCmd.AddSoulLamp(new ThrowingPlayerChoiceContext(), base.Owner, amount);
 	}
 }
 

@@ -149,7 +149,7 @@ public sealed class AmalgamAttackAndVulnerableAndWeakIntentAction : AmalgamActio
         {
             foreach (Creature enemy in alive)
             {
-                await PowerCmd.Apply<VulnerablePower>(choiceContext, enemy, _vulnerable, applier, null);
+                await PowerCmd.Apply<VulnerablePower>(new ThrowingPlayerChoiceContext(), enemy, _vulnerable, applier, null);
             }
 
             return;
@@ -160,7 +160,7 @@ public sealed class AmalgamAttackAndVulnerableAndWeakIntentAction : AmalgamActio
             Creature? marked = AmalgamOffenseTargeting.FindMarkedEnemy(combatState);
             if (marked is { IsAlive: true })
             {
-                await PowerCmd.Apply<VulnerablePower>(choiceContext, marked, _vulnerable, applier, null);
+                await PowerCmd.Apply<VulnerablePower>(new ThrowingPlayerChoiceContext(), marked, _vulnerable, applier, null);
             }
 
             return;
@@ -172,7 +172,7 @@ public sealed class AmalgamAttackAndVulnerableAndWeakIntentAction : AmalgamActio
             return;
         }
 
-        await PowerCmd.Apply<VulnerablePower>(choiceContext, randomEnemy, _vulnerable, applier, null);
+        await PowerCmd.Apply<VulnerablePower>(new ThrowingPlayerChoiceContext(), randomEnemy, _vulnerable, applier, null);
     }
 
     private async Task ExecuteWeakPart(Creature amalgam)
@@ -198,7 +198,7 @@ public sealed class AmalgamAttackAndVulnerableAndWeakIntentAction : AmalgamActio
         {
             foreach (Creature enemy in alive)
             {
-                await PowerCmd.Apply<WeakPower>(choiceContext, enemy, _weak, applier, null);
+                await PowerCmd.Apply<WeakPower>(new ThrowingPlayerChoiceContext(), enemy, _weak, applier, null);
             }
 
             return;
@@ -209,7 +209,7 @@ public sealed class AmalgamAttackAndVulnerableAndWeakIntentAction : AmalgamActio
             Creature? marked = AmalgamOffenseTargeting.FindMarkedEnemy(combatState);
             if (marked is { IsAlive: true })
             {
-                await PowerCmd.Apply<WeakPower>(choiceContext, marked, _weak, applier, null);
+                await PowerCmd.Apply<WeakPower>(new ThrowingPlayerChoiceContext(), marked, _weak, applier, null);
             }
 
             return;
@@ -221,7 +221,7 @@ public sealed class AmalgamAttackAndVulnerableAndWeakIntentAction : AmalgamActio
             return;
         }
 
-        await PowerCmd.Apply<WeakPower>(choiceContext, randomEnemy, _weak, applier, null);
+        await PowerCmd.Apply<WeakPower>(new ThrowingPlayerChoiceContext(), randomEnemy, _weak, applier, null);
     }
 }
 

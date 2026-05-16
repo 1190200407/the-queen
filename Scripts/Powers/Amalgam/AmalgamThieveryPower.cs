@@ -64,7 +64,7 @@ public sealed class AmalgamThieveryPower : QueenPowerModel, IAmalgamEventListene
         }
         else
         {
-            await PowerCmd.ModifyAmount(heist, stolen, applier, cardSource: null);
+            await PowerCmd.ModifyAmount(choiceContext, heist, stolen, applier, cardSource: null);
         }
     }
 }

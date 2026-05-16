@@ -70,7 +70,7 @@ public sealed class GuiYuZhiYe : QueenCardModel
             await amalgam.ForgetCurrentTorchSlotIntentAsync();
         }
 
-        await QueenCardCmd.AddSoulLamp(base.Owner, forgotten + 1);
+        await QueenCardCmd.AddSoulLamp(choiceContext, base.Owner, forgotten + 1);
     }
 
     protected override void OnUpgrade()

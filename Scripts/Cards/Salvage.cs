@@ -58,7 +58,7 @@ public sealed class Salvage : QueenCardModel
 		if (lamp == null || lamp.Amount <= 0)
 		{
 			await CardPileCmd.Draw(choiceContext, base.DynamicVars["ExtraDraw"].BaseValue, base.Owner);
-			await QueenCardCmd.AddSoulLamp(base.Owner, 1);
+			await QueenCardCmd.AddSoulLamp(choiceContext, base.Owner, 1);
 		}
 	}
 

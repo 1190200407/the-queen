@@ -58,7 +58,7 @@ public sealed class DelegateLabor : QueenCardModel
 		decimal transfer = playerStr?.Amount ?? 0m;
 		if (transfer > 0m)
 		{
-			await PowerCmd.SetAmount<StrengthPower>(self, 0m, self, this);
+			await PowerCmd.Remove<StrengthPower>(self);
 			await PowerCmd.Apply<StrengthPower>(choiceContext, amalgam, transfer, self, this);
 		}
 

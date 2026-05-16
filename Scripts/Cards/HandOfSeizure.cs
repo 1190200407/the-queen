@@ -59,7 +59,7 @@ public sealed class HandOfSeizure : QueenCardModel
 		{
 			handsNextTurn.isUpgraded = base.IsUpgraded;
 		}
-		await QueenCardCmd.AddSoulLamp(base.Owner);
+		await QueenCardCmd.AddSoulLamp(choiceContext, base.Owner);
 	}
 
 	protected override void OnUpgrade()

@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.DevConsole;
 using MegaCrit.Sts2.Core.DevConsole.ConsoleCommands;
 using MegaCrit.Sts2.Core.Entities.Players;
@@ -43,7 +44,7 @@ public class SoulConsoleCmd : AbstractConsoleCmd
 			return new CmdResult(success: false, "The soul amount cannot be negative.");
 		}
 
-		Task task = QueenCardCmd.AddSoulLamp(issuingPlayer, amount);
+		Task task = QueenCardCmd.AddSoulLamp(new ThrowingPlayerChoiceContext(), issuingPlayer, amount);
 		return new CmdResult(task, success: true, $"Added '{amount}' Soul Lamp.");
 	}
 }

@@ -58,7 +58,7 @@ public sealed class WillfulPower : QueenPowerModel
 		foreach (CardModel item in forCombat)
 		{
 			item.SetToFreeThisCombat();
-			await CardPileCmd.AddGeneratedCardToCombat(item, PileType.Hand, addedByPlayer: true);
+			await CardPileCmd.AddGeneratedCardToCombat(item, PileType.Hand, player);
 			if (_grantUpgradedGeneratedCard && item.IsUpgradable && !item.IsUpgraded)
 			{
 				CardCmd.Upgrade(item, CardPreviewStyle.None);
@@ -72,6 +72,6 @@ public sealed class WillfulPower : QueenPowerModel
 				await CardCmd.Afflict<Bound>(item, 1m);
 			}
 		}
-		await QueenCardCmd.AddSoulLamp(player, 1);
+		await QueenCardCmd.AddSoulLamp(choiceContext, player, 1);
 	}
 }

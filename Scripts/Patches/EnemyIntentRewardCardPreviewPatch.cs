@@ -44,7 +44,7 @@ internal static class CaptureSingleTargetPreviewEntry
 		}
 
 		Player? owner = card.Owner;
-		CombatState? combat = card.CombatState;
+		ICombatState? combat= card.CombatState;
 		if (owner is null || combat is null)
 		{
 			return;

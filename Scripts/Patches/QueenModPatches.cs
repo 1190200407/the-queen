@@ -57,7 +57,6 @@ internal sealed class QueenModPatches : IModPatches
 		patcher.RegisterPatch<NCreatureAnimDisableUiFriendlyAmalgamPatch>();
 		patcher.RegisterPatch<NCreatureStateDisplayTrackBlockStatusPatch>();
 		patcher.RegisterPatch<NIntentAmalgamBlockValueLabelPatch>();
-		patcher.RegisterPatch<SoulLampFreeCardGlowPatch>();
 		patcher.RegisterPatch<BigMushroomGrowScalePatch>();
 		patcher.RegisterPatch<SurroundedPowerQueenFacingPatch>();
 	}

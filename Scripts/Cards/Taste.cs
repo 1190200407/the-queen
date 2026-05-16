@@ -46,7 +46,7 @@ public sealed class Taste : QueenCardModel
 		}
 
 		await PowerCmd.Apply<TastePower>(choiceContext, base.Owner.Creature, 1m, base.Owner.Creature, this);
-		await QueenCardCmd.AddSoulLamp(base.Owner, 3);
+		await QueenCardCmd.AddSoulLamp(choiceContext, base.Owner, 3);
 		await CreatureCmd.TriggerAnim(base.Owner.Creature, "Cast", base.Owner.Character.CastAnimDelay);
 	}
 }

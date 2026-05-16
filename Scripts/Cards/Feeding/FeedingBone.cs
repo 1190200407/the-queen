@@ -52,7 +52,7 @@ public sealed class FeedingBone : QueenCardModel
 	protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
 	{
 		_ = cardPlay;
-		IICombatState? cs = base.Owner.Creature.CombatState;
+		ICombatState? cs = base.Owner.Creature.CombatState;
 		if (cs == null)
 		{
 			return;

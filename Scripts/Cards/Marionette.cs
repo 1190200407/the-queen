@@ -107,7 +107,7 @@ public sealed class Marionette : QueenCardModel, ICanMonsterCapture
             return;
         }
 
-        await CardPileCmd.AddGeneratedCardToCombat(enemyCard, PileType.Hand, addedByPlayer: true);
+        await CardPileCmd.AddGeneratedCardToCombat(enemyCard, PileType.Hand, base.Owner);
 
         MarionettePendingPower? pending = await PowerCmd.Apply<MarionettePendingPower>(choiceContext, 
             base.Owner.Creature,

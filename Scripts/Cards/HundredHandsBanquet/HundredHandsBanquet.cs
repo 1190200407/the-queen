@@ -53,6 +53,6 @@ public sealed class HundredHandsBanquet : QueenCardModel
 			await QueenCardCmd.CreateInHand<BloodthirstScratch>(base.Owner, base.CombatState, base.IsUpgraded);
 		}
 
-		await QueenCardCmd.AddSoulLamp(base.Owner, x);
+		await QueenCardCmd.AddSoulLamp(choiceContext, base.Owner, x);
 	}
 }

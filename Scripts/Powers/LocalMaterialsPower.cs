@@ -6,6 +6,7 @@ using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 
 namespace ComicChess.TheQueen;
 
@@ -57,7 +58,7 @@ public sealed class LocalMaterialsPower : QueenPowerModel
         if (data.cardGeneratedCount >= data.triggerCount)
         {
             Flash();
-            await QueenCardCmd.AddSoulLamp(creator, 1);
+            await QueenCardCmd.AddSoulLamp(new ThrowingPlayerChoiceContext(), creator, 1);
             data.cardGeneratedCount = 0;
         }
         InvokeDisplayAmountChanged();

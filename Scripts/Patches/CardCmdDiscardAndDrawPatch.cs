@@ -76,7 +76,7 @@ internal sealed class CardCmdDiscardAndDrawPatch : IPatchMethod
 				continue;
 			}
 
-			CombatState? resolvedCombat = card.CombatState ?? owner.Creature.CombatState;
+			ICombatState? resolvedCombat = card.CombatState ?? owner.Creature.CombatState;
 			if (resolvedCombat == null || !resolvedCombat.ContainsCard(card))
 			{
 				continue;

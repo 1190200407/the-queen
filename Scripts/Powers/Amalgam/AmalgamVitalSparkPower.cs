@@ -82,6 +82,6 @@ public sealed class AmalgamVitalSparkPower : QueenPowerModel, IAmalgamEventListe
 
         data.triggeredThisTurn = true;
         Flash();
-        await PowerCmd.Apply<EnergyNextTurnPower>(choiceContext, queen, 1m, base.Owner, null);
+        await PowerCmd.Apply<EnergyNextTurnPower>(new ThrowingPlayerChoiceContext(), queen, 1m, base.Owner, null);
     }
 }

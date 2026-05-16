@@ -60,7 +60,7 @@ public sealed class RiftScratch : ScratchTaggedCard
 			return;
 		}
 
-		await QueenCardCmd.AddSoulLamp(base.Owner, 1);
+		await QueenCardCmd.AddSoulLamp(choiceContext, base.Owner, 1);
 	}
 
 	protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)

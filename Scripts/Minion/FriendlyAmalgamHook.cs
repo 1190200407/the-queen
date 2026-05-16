@@ -53,13 +53,13 @@ public static class FriendlyAmalgamHook
     }
 
     /// <summary>聚合体从沉睡状态恢复时触发（用于蛰伏再生等效果）。</summary>
-    public static async Task AfterAwake(CombatState queenCombatState, Creature amalgam)
+    public static async Task AfterAwake(ICombatState combatState, Creature amalgam)
     {
-        foreach (AbstractModel item in queenCombatState.IterateHookListeners())
+        foreach (AbstractModel item in combatState.IterateHookListeners())
         {
             if (item is IAmalgamEventListener listener)
             {
-                await listener.OnAmalgamWakeFromSleepAsync(queenCombatState, amalgam);
+                await listener.OnAmalgamWakeFromSleepAsync(combatState, amalgam);
             }
         }
     }

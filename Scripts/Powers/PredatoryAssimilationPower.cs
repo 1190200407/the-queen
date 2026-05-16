@@ -50,7 +50,7 @@ public sealed class PredatoryAssimilationPower : QueenPowerModel, IAmalgamEventL
 			return;
 		}
 
-		if (damageResults.Any(static r => r.WasTargetKilled))
+		if (QueenDamageResults.AnyTargetKilled(damageResults))
 		{
             await TryGrantCaptureAfterAmalgamFatalKillAsync(choiceContext, queen, damagedEnemy);
 		}

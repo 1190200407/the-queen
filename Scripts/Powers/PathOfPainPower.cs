@@ -50,6 +50,6 @@ public sealed class PathOfPainPower : QueenPowerModel
 			return;
 		}
 
-		await QueenCardCmd.ApplyRandomTriadDebuff(player, target, base.Owner, played, Amount);
+		await QueenCardCmd.ApplyRandomTriadDebuff(choiceContext, player, target, base.Owner, played, Amount);
 	}
 }

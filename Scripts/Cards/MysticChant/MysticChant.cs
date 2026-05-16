@@ -47,7 +47,7 @@ public sealed class MysticChant : QueenCardModel
 
 		if (base.IsUpgraded)
 		{
-			await QueenCardCmd.AddSoulLamp(base.Owner);
+			await QueenCardCmd.AddSoulLamp(choiceContext, base.Owner);
 		}
 	}
 }

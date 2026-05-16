@@ -51,7 +51,7 @@ public sealed class MagicTime : QueenCardModel
 		int lampGain = (int)base.DynamicVars["SoulLampOnPlay"].BaseValue;
 		if (lampGain > 0)
 		{
-			await QueenCardCmd.AddSoulLamp(player, lampGain);
+			await QueenCardCmd.AddSoulLamp(choiceContext, player, lampGain);
 		}
 
 		foreach (CardModel card in player.PlayerCombatState.AllCards.ToList())

@@ -55,7 +55,7 @@ public sealed class Reminisce : QueenCardModel
 			}
 		}
 
-		await QueenCardCmd.AddSoulLamp(base.Owner);
+		await QueenCardCmd.AddSoulLamp(choiceContext, base.Owner);
 	}
 
 	protected override void OnUpgrade()

@@ -50,7 +50,7 @@ public sealed class TimeTrick : QueenCardModel
 			.Execute(choiceContext);
 
 		Player? owner = base.Owner;
-		CombatState? combat = base.CombatState;
+		ICombatState? combat= base.CombatState;
 		if (owner == null || combat == null)
 		{
 			return;
@@ -101,7 +101,7 @@ public sealed class TimeTrick : QueenCardModel
 
 	private static bool IsValidHandDiscard(
 		Player expectedOwner,
-		CombatState currentCombat,
+		ICombatState currentCombat,
 		IReadOnlyList<CardModel> hand,
 		CardModel? card)
 	{
@@ -115,7 +115,7 @@ public sealed class TimeTrick : QueenCardModel
 			return false;
 		}
 
-		CombatState? resolved = card.Owner.Creature.CombatState ?? card.CombatState;
+		ICombatState? resolved = card.Owner.Creature.CombatState ?? card.CombatState;
 		return resolved != null && ReferenceEquals(resolved, currentCombat);
 	}
 }

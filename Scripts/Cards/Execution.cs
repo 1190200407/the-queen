@@ -73,10 +73,10 @@ public sealed class Execution : QueenCardModel, ICanMonsterCapture
         {
             return;
         }
-        Log.Info($"Execution: shouldTriggerFatal: {shouldTriggerFatal}, attackCommand.Results: {attackCommand.Results.Count(static r => r.WasTargetKilled)}");
+        Log.Info($"Execution: shouldTriggerFatal: {shouldTriggerFatal}, killedHits: {QueenDamageResults.CountTargetKilled(attackCommand)}");
 
         if (shouldTriggerFatal
-            && attackCommand.Results.Any(static r => r.WasTargetKilled)
+            && QueenDamageResults.AnyTargetKilled(attackCommand)
             && base.CombatState?.RunState.CurrentRoom is CombatRoom)
         {
             Log.Info($"Execution: Capturing target: {target.Name}");

@@ -32,7 +32,7 @@ public sealed class SoulLight : QueenEnchantmentModel
 		
         if (Status == EnchantmentStatus.Normal)
 		{
-			await QueenCardCmd.AddSoulLamp(base.Card.Owner, base.Amount);
+			await QueenCardCmd.AddSoulLamp(choiceContext, base.Card.Owner, base.Amount);
 			Status = EnchantmentStatus.Disabled;
 		}
 	}

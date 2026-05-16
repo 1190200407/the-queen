@@ -4,6 +4,7 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Rewards;
@@ -32,7 +33,7 @@ public sealed class CaptureSuccessPower : QueenPowerModel
     internal static async Task ApplyForCapture(Player owner, CardModel rewardCard, CardModel? captureSourceCard)
     {
         CaptureSuccessPower? applied =
-            await PowerCmd.Apply<CaptureSuccessPower>(choiceContext, owner.Creature, 1m, owner.Creature, captureSourceCard);
+            await PowerCmd.Apply<CaptureSuccessPower>(new ThrowingPlayerChoiceContext(), owner.Creature, 1m, owner.Creature, captureSourceCard);
         if (applied is not null)
         {
             applied.RewardCard = rewardCard;
