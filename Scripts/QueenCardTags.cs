@@ -1,15 +1,17 @@
-using MegaCrit.Sts2.Core.Entities.Cards;
+using STS2RitsuLib.Content;
+using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
 /// <summary>
-/// 引擎 <see cref="CardTag"/> 未开放扩展时，使用未占用的枚举底层值作为 mod 专用标签（参考完美打击对 <see cref="CardTag.Strike"/> 的用法）。
+/// Mod 专用卡牌标签（经 <see cref="RegisteredCardTagIds"/> 写入牌实例，用 <see cref="STS2RitsuLib.CardTags.ModCardTagExtensions.HasModCardTag"/> 判定）。
+/// 原版 <see cref="MegaCrit.Sts2.Core.Entities.Cards.CardTag"/> 如 Strike、Defend 仍通过 <see cref="MegaCrit.Sts2.Core.Models.CardModel.CanonicalTags"/> 声明。
 /// </summary>
+[RegisterOwnedCardTag(nameof(Scratch))]
+[RegisterOwnedCardTag(nameof(LearnIntent))]
 public static class QueenCardTags
 {
-	/// <summary>抓挠体系攻击牌；与 <see cref="ScratchTaggedCard"/> 配合。</summary>
-	public const CardTag Scratch = (CardTag)79;
+	public static readonly string Scratch = ModContentRegistry.GetQualifiedCardTagId(Entry.ModId, nameof(Scratch));
 
-	/// <summary>学习意图类卡牌；与 <see cref="LearnIntentCardModel"/> 及手写写入学习意图的牌配合。</summary>
-	public const CardTag LearnIntent = (CardTag)599;
+	public static readonly string LearnIntent = ModContentRegistry.GetQualifiedCardTagId(Entry.ModId, nameof(LearnIntent));
 }

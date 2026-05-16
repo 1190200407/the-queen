@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -9,7 +10,7 @@ namespace ComicChess.TheQueen;
 
 /// <summary>
 /// 学习意图类卡牌基类：可选先召唤，再按列表依次写入一个或多个意图。
-/// 默认带 <see cref="QueenCardTags.LearnIntent"/>（与 <see cref="ScratchTaggedCard"/> / <see cref="QueenCardTags.Scratch"/> 相同做法）。
+/// 默认带 <see cref="QueenCardTags.LearnIntent"/> mod 标签（与 <see cref="ScratchTaggedCard"/> 的 Scratch 标签相同注册方式）。
 /// 子类在 <see cref="CreateLearnIntentsAsync"/> 中集中声明本牌对应的意图（组合牌可重写 <see cref="OnPlay"/> 仅用 <see cref="FriendlyAmalgamCmd.CombineIntent"/>）；若出牌顺序需先召唤再插入其它逻辑，可重写
 /// <see cref="AfterSummonBeforeLearnIntentsAsync"/>；若完全自定义出牌流程，可重写 <see cref="OnPlay"/> 并在适当时机调用
 /// <see cref="PlayLearnIntentsFromCreateAsync"/>。
@@ -21,23 +22,7 @@ public abstract class LearnIntentCardModel : QueenCardModel
     {
     }
 
-    /// <summary>除 <see cref="QueenCardTags.LearnIntent"/> 外附加的 <see cref="CardTag"/>。</summary>
-    protected virtual IEnumerable<CardTag> AdditionalCanonicalTags() => [];
-
-    protected override HashSet<CardTag> CanonicalTags
-    {
-        get
-        {
-            HashSet<CardTag> h = new();
-            foreach (CardTag t in AdditionalCanonicalTags())
-            {
-                h.Add(t);
-            }
-
-            h.Add(QueenCardTags.LearnIntent);
-            return h;
-        }
-    }
+    protected override IEnumerable<string> RegisteredCardTagIds => [QueenCardTags.LearnIntent];
 
     /// <summary>友方聚合体三灯槽均已有意图时金闪（打出后当场执行一次再学）。</summary>
     protected override bool ShouldGlowGoldInternal =>

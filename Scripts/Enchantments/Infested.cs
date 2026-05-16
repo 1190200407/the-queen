@@ -1,6 +1,7 @@
 using System.Linq;
-using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models;
+using STS2RitsuLib.CardTags;
 
 namespace ComicChess.TheQueen;
 
@@ -22,7 +23,7 @@ public sealed class Infested : QueenEnchantmentModel, ILearnIntentDamageBonusEnc
             return false;
         }
 
-        if (!card.Tags.Contains(QueenCardTags.LearnIntent))
+        if (card is not LearnIntentCardModel)
         {
             return false;
         }

@@ -12,7 +12,6 @@ namespace ComicChess.TheQueen;
 
 /// <summary>
 /// 灵魂同调：打出触发 <see cref="FriendlyAmalgamCmd.LearnIntent"/> / <see cref="FriendlyAmalgamCmd.CombineIntent"/> 的牌后，为其他存活玩家镜像同一意图；
-/// 学习路径要求牌带 <see cref="QueenCardTags.LearnIntent"/>；合并路径对其他聚合体使用同一 <c>compositeIndexKey</c>。
 /// </summary>
 /// <remarks>
 /// <see cref="PlayerChoiceContext"/> 标识<strong>当前这一次</strong>出牌/指令解析过程（会沿着 Cmd 调用链向下传递）；
@@ -41,7 +40,7 @@ public sealed class SoulResonancePower : QueenPowerModel, IAmalgamEventListener
 			return;
 		}
 
-		if (source is not CardModel playedCard || !playedCard.Tags.Contains(QueenCardTags.LearnIntent))
+		if (source is not CardModel playedCard)
 		{
 			return;
 		}

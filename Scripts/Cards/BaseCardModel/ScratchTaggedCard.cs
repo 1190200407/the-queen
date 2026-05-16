@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
@@ -24,23 +25,7 @@ public abstract class ScratchTaggedCard : QueenCardModel
 			_extraDamageFromScratchPlays = value;
 		}
 	}
-
-	/// <summary>除 <see cref="QueenCardTags.Scratch"/> 外附加的 tag（如 <see cref="CardTag.Strike"/>）。</summary>
-	protected virtual IEnumerable<CardTag> TagsBesideScratch => [];
-
-	protected override HashSet<CardTag> CanonicalTags
-	{
-		get
-		{
-			HashSet<CardTag> h = new();
-			foreach (CardTag t in TagsBesideScratch)
-			{
-				h.Add(t);
-			}
-			h.Add(QueenCardTags.Scratch);
-			return h;
-		}
-	}
+	protected override IEnumerable<string> RegisteredCardTagIds => [QueenCardTags.Scratch];
 
 	protected ScratchTaggedCard(int energyCost, CardType type, CardRarity rarity, TargetType targetType, bool shouldShowInCardLibrary)
 		: base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)

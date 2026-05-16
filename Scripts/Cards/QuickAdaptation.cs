@@ -12,11 +12,12 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.CardPools;
 
+using STS2RitsuLib.CardTags;
 using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>快速适应：从抽牌堆选择学习意图卡并自动打出�?/summary>
+/// <summary>?????????????????????�?/summary>
 
 [RegisterCard(typeof(QueenCardPool))]
 public sealed class QuickAdaptation : QueenCardModel
@@ -41,7 +42,7 @@ public sealed class QuickAdaptation : QueenCardModel
         _ = cardPlay;
         CardPile drawPile = PileType.Draw.GetPile(base.Owner);
         List<CardModel> candidates = drawPile.Cards
-            .Where(static c => c.Tags.Contains(QueenCardTags.LearnIntent)) 
+            .Where(static c => c is LearnIntentCardModel) 
             .ToList();
         if (candidates.Count == 0)
         {

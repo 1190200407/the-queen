@@ -34,7 +34,7 @@ public class SummonSoul : QueenCardModel
     {
         if (base.CombatState == null) return;
 
-        // 生成两张牌后，给它们附加原版 Bound(魂缚)�?        // 这样 Bound 的“每回合限制打出次数/回合结束解除”等规则才能正确生效�?        await QueenCardCmd.CreateInHand<SoulStrike>(base.Owner, base.CombatState, base.IsUpgraded);
+        await QueenCardCmd.CreateInHand<SoulStrike>(base.Owner, base.CombatState, base.IsUpgraded);
         await QueenCardCmd.CreateInHand<SoulDefend>(base.Owner, base.CombatState, base.IsUpgraded);
 
         await QueenCardCmd.AddSoulLamp(base.Owner);
