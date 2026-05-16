@@ -16,7 +16,7 @@ using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>灵魂同调：为所有玩家召唤聚合体；持有本能力时，你打出学习意图类牌会使所有玩家的聚合体学习相同意图（�?<see cref="FriendlyAmalgamCmd.LearnIntent"/> 末尾同步）�?/summary>
+/// <summary>灵魂同调：为所有玩家召唤聚合体；持有本能力时，你打出学习意图类牌会使所有玩家的聚合体学习相同意图（�?<see cref="FriendlyAmalgamCmd.LearnIntent"/> 末尾同步）�?/summary>
 
 [RegisterCard(typeof(QueenCardPool))]
 public sealed class SoulResonance : QueenCardModel
@@ -44,7 +44,7 @@ public sealed class SoulResonance : QueenCardModel
 		_ = cardPlay;
 		await CreatureCmd.TriggerAnim(base.Owner.Creature, "Cast", base.Owner.Character.CastAnimDelay);
 
-		CombatState? combatState = base.Owner.Creature.CombatState;
+		ICombatState? combatState = base.Owner.Creature.CombatState;
 		if (combatState != null)
 		{
 			decimal summonAmount = base.DynamicVars.Summon.BaseValue;
@@ -58,7 +58,7 @@ public sealed class SoulResonance : QueenCardModel
 				await FriendlyAmalgamCmd.Summon(choiceContext, player, summonAmount, this);
 			}
 		}
-		await PowerCmd.Apply<SoulResonancePower>(base.Owner.Creature, 1m, base.Owner.Creature, this);
+		await PowerCmd.Apply<SoulResonancePower>(choiceContext, base.Owner.Creature, 1m, base.Owner.Creature, this);
 	}
 
 	protected override void OnUpgrade()

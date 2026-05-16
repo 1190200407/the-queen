@@ -39,7 +39,7 @@ public sealed class EmergencyEvasion : QueenCardModel
 	protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
 	{
 		_ = cardPlay;
-		CombatState? combatState = base.Owner.Creature.CombatState;
+		ICombatState? combatState = base.Owner.Creature.CombatState;
 		if (combatState == null)
 		{
 			return;
@@ -48,10 +48,10 @@ public sealed class EmergencyEvasion : QueenCardModel
 		Creature? amalgamCreature = FriendlyAmalgamCmd.GetExisting(combatState, base.Owner);
 		if (amalgamCreature is { IsAlive: true })
 		{
-            // 进入“能力导致沉睡”：持续到下回合开始（�?AmalgamSleepPower 自行倒计时并苏醒）�?			await PowerCmd.Apply<AmalgamSleepPower>(amalgamCreature, 1m, base.Owner.Creature, this);
+            // 进入“能力导致沉睡”：持续到下回合开始（�?AmalgamSleepPower 自行倒计时并苏醒）�?			await PowerCmd.Apply<AmalgamSleepPower>(choiceContext, amalgamCreature, 1m, base.Owner.Creature, this);
 		}
 		
-		await PowerCmd.Apply<NextTurnAmalgamSummonPendingPower>(
+		await PowerCmd.Apply<NextTurnAmalgamSummonPendingPower>(choiceContext, 
 			base.Owner.Creature,
 			base.DynamicVars.Summon.BaseValue,
 			base.Owner.Creature,

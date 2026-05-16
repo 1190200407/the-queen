@@ -20,7 +20,7 @@ public static class FriendlyAmalgamHook
 	/// <see cref="PredatoryAssimilationPower.TryGrantCaptureAfterAmalgamFatalKillAsync"/> 等基于斩杀的扩展。
 	/// </summary>
 	public static async Task AfterAmalgamDamagedCreature(
-        CombatState combatState,
+        ICombatState combatState,
 		PlayerChoiceContext choiceContext,
 		Creature amalgam,
 		Creature damagedEnemy,
@@ -36,7 +36,7 @@ public static class FriendlyAmalgamHook
 	}
 
     /// <summary>聚合体完成一次行动后触发（用于先锋等效果）。</summary>
-    public static async Task AfterAct(CombatState combatState, PlayerChoiceContext choiceContext, Creature amalgam)
+    public static async Task AfterAct(ICombatState combatState, PlayerChoiceContext choiceContext, Creature amalgam)
     {
         if (amalgam.PetOwner is not Player queen)
         {
@@ -65,7 +65,7 @@ public static class FriendlyAmalgamHook
     }
 
     /// <summary>聚合体逃跑后触发。</summary>
-    public static async Task OnEscape(CombatState combatState, Creature amalgam)
+    public static async Task OnEscape(ICombatState combatState, Creature amalgam)
     {
         foreach (AbstractModel item in combatState.IterateHookListeners())
         {
@@ -78,7 +78,7 @@ public static class FriendlyAmalgamHook
 
     /// <summary>聚合体被命中（产生未格挡伤害）后触发。</summary>
     public static async Task AfterHit(
-        CombatState combatState,
+        ICombatState combatState,
         Creature amalgam,
         decimal unblockedDamage,
         ValueProp props,
@@ -94,7 +94,7 @@ public static class FriendlyAmalgamHook
         }
     }
 
-    public static async Task AfterAmalgamTurnEnd(CombatState combatState, Creature amalgam)
+    public static async Task AfterAmalgamTurnEnd(ICombatState combatState, Creature amalgam)
     {
         foreach (AbstractModel item in combatState.IterateHookListeners())
         {
@@ -107,7 +107,7 @@ public static class FriendlyAmalgamHook
 
     /// <summary>聚合体完成一次基准 <see cref="CreatureCmd.SetMaxHp"/> 后（开场壳或召唤/复活）。</summary>
     public static async Task OnAmalgamEnterCombat(
-        CombatState combatState,
+        ICombatState combatState,
         PlayerChoiceContext? choiceContext,
         Player owner,
         Creature amalgam)
@@ -123,7 +123,7 @@ public static class FriendlyAmalgamHook
 
     /// <summary><see cref="FriendlyAmalgamCmd.LearnIntent"/> 完成写入之后。</summary>
     public static async Task AfterLearnIntent(
-        CombatState combatState,
+        ICombatState combatState,
         PlayerChoiceContext choiceContext,
         Player amalgamOwner,
         Creature amalgam,
@@ -141,7 +141,7 @@ public static class FriendlyAmalgamHook
 
     /// <summary><see cref="FriendlyAmalgamCmd.CombineIntent"/> 完成写入之后。</summary>
     public static async Task AfterCombineIntent(
-        CombatState combatState,
+        ICombatState combatState,
         PlayerChoiceContext choiceContext,
         Player amalgamOwner,
         Creature amalgam,

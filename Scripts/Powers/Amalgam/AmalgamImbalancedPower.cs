@@ -21,7 +21,7 @@ public sealed class AmalgamImbalancedPower : QueenPowerModel, IAmalgamEventListe
     public override string? CustomBigIconPath => "res://images/powers/imbalanced_power.png";
 
     public async Task OnAmalgamDamagedCreatureAsync(
-        CombatState combatState,
+        ICombatState combatState,
         PlayerChoiceContext choiceContext,
         Creature amalgam,
         Creature damagedEnemy,
@@ -42,6 +42,6 @@ public sealed class AmalgamImbalancedPower : QueenPowerModel, IAmalgamEventListe
         }
 
         Flash();
-        await PowerCmd.Apply<AmalgamSleepPower>(base.Owner, 1m, base.Owner, null);
+        await PowerCmd.Apply<AmalgamSleepPower>(choiceContext, base.Owner, 1m, base.Owner, null);
     }
 }

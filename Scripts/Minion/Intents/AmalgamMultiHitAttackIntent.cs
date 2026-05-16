@@ -72,7 +72,7 @@ public sealed class AmalgamMultiHitAttackIntent : AttackIntent
 	{
 		string descKey = IntentPrefix + ResolveDescriptionSuffix(owner);
 		LocString intentDescription = new("intents", descKey);
-		CombatState? combatState = owner.CombatState;
+		ICombatState? combatState = owner.CombatState;
 		intentDescription.Add("IsMultiplayer", combatState != null && combatState.RunState.Players.Count > 1);
 		intentDescription.Add("Damage", GetOneHitConsensusDamage(targets, owner));
 		intentDescription.Add("Repeat", Repeats);

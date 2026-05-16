@@ -53,8 +53,8 @@ public sealed class Tender : QueenCardModel
         _ = choiceContext;
         _ = cardPlay;
         Creature self = base.Owner.Creature;
-        await PowerCmd.Apply<StrengthPower>(self, base.DynamicVars["StrengthGain"].BaseValue, self, this);
-        await PowerCmd.Apply<DexterityPower>(self, base.DynamicVars["DexterityGain"].BaseValue, self, this);
-        await PowerCmd.Apply<TenderPower>(self, tenderStacks, self, this);
+        await PowerCmd.Apply<StrengthPower>(choiceContext, self, base.DynamicVars["StrengthGain"].BaseValue, self, this);
+        await PowerCmd.Apply<DexterityPower>(choiceContext, self, base.DynamicVars["DexterityGain"].BaseValue, self, this);
+        await PowerCmd.Apply<TenderPower>(choiceContext, self, tenderStacks, self, this);
     }
 }

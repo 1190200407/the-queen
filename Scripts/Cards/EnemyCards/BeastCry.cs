@@ -47,7 +47,7 @@ public sealed class BeastCry : LearnIntentCardModel
             intentDescriptionKey: "AMALGAM_SPECIAL_BEAST_CRY.description",
             execute: async (PlayerChoiceContext _, Creature amalgam, Creature owner) =>
             {
-                CombatState? cs = amalgam.CombatState;
+                IICombatState? cs = amalgam.CombatState;
                 if (cs == null)
                 {
                     return;
@@ -65,7 +65,7 @@ public sealed class BeastCry : LearnIntentCardModel
                 }
 
                 await Cmd.CustomScaledWait(1.5f, 2f);
-                await PowerCmd.Apply<AmalgamSleepPower>(amalgam, 2m, applier: owner, cardSource: null);
+                await PowerCmd.Apply<AmalgamSleepPower>(choiceContext, amalgam, 2m, applier: owner, cardSource: null);
             });
 
         return Task.FromResult<IReadOnlyList<AmalgamActionModel?>>([intent]);

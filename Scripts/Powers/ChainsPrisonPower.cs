@@ -14,7 +14,7 @@ public sealed class ChainsPrisonPower : QueenPowerModel
 
 	public override PowerStackType StackType => PowerStackType.Counter;
 
-	public override async Task AfterPowerAmountChanged(PowerModel power, decimal amount, Creature? applier, CardModel? cardSource)
+	public override async Task AfterPowerAmountChanged(PlayerChoiceContext choiceContext, PowerModel power, decimal amount, Creature? applier, CardModel? cardSource)
 	{
 		// 仅在“对手获得魂灯”时触发。
 		if (amount <= 0m || power is not SoulLampPower || power.Owner == base.Owner)

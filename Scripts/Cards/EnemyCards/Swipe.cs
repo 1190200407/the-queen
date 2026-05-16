@@ -29,7 +29,7 @@ public sealed class Swipe : QueenCardModel, ICanMonsterCapture
     private const bool shouldShowInCardLibrary = true;
     private const decimal escapeTurns = 3m;
 
-    public bool CanCapture(MonsterModel monster, CombatState combatState) =>
+    public bool CanCapture(MonsterModel monster, ICombatState combatState) =>
         monster is not null && combatState is not null;
 
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
@@ -93,7 +93,7 @@ public sealed class Swipe : QueenCardModel, ICanMonsterCapture
         AmalgamSwipePower? swipe = amalgam.GetPower<AmalgamSwipePower>();
         if (swipe == null)
         {
-            await PowerCmd.Apply<AmalgamSwipePower>(amalgam, 1m, base.Owner.Creature, this);
+            await PowerCmd.Apply<AmalgamSwipePower>(choiceContext, amalgam, 1m, base.Owner.Creature, this);
             swipe = amalgam.GetPower<AmalgamSwipePower>();
         }
 
@@ -106,6 +106,6 @@ public sealed class Swipe : QueenCardModel, ICanMonsterCapture
             }
         }
 
-        await PowerCmd.Apply<AmalgamEscapePower>(amalgam, escapeTurns, base.Owner.Creature, this);
+        await PowerCmd.Apply<AmalgamEscapePower>(choiceContext, amalgam, escapeTurns, base.Owner.Creature, this);
     }
 }

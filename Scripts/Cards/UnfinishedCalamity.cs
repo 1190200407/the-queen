@@ -17,7 +17,7 @@ using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>未了之祸：能力牌；对所有可攻击敌人各施加一条可叠加�?<see cref="UnfinishedCalamityPower"/>�?see cref="UnfinishedCalamityPower.IsInstanced"/>）；带有该标记的敌人身上其它负面结束时，每条实例对所有可攻击敌人各随机施加若干层�?灾厄/消亡之一（基础 5，升�?7）�?/summary>
+/// <summary>未了之祸：能力牌；对所有可攻击敌人各施加一条可叠加�?<see cref="UnfinishedCalamityPower"/>�?see cref="UnfinishedCalamityPower.IsInstanced"/>）；带有该标记的敌人身上其它负面结束时，每条实例对所有可攻击敌人各随机施加若干层�?灾厄/消亡之一（基础 5，升�?7）�?/summary>
 
 [RegisterCard(typeof(QueenCardPool))]
 public sealed class UnfinishedCalamity : QueenCardModel
@@ -51,7 +51,7 @@ public sealed class UnfinishedCalamity : QueenCardModel
 	{
 		_ = choiceContext;
 		_ = cardPlay;
-		if (base.CombatState is not CombatState combatState)
+		if (base.CombatState is not ICombatState combatState)
 		{
 			return;
 		}
@@ -65,7 +65,7 @@ public sealed class UnfinishedCalamity : QueenCardModel
 				continue;
 			}
 
-			await PowerCmd.Apply<UnfinishedCalamityPower>(enemy, base.DynamicVars[TriadStacksOnTriggerKey].BaseValue, applier, this);
+			await PowerCmd.Apply<UnfinishedCalamityPower>(choiceContext, enemy, base.DynamicVars[TriadStacksOnTriggerKey].BaseValue, applier, this);
 		}
 
 		await CreatureCmd.TriggerAnim(applier, "Cast", player.Character.CastAnimDelay);

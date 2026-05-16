@@ -52,7 +52,7 @@ public sealed class FeedingBone : QueenCardModel
 	protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
 	{
 		_ = cardPlay;
-		CombatState? cs = base.Owner.Creature.CombatState;
+		IICombatState? cs = base.Owner.Creature.CombatState;
 		if (cs == null)
 		{
 			return;
@@ -75,7 +75,7 @@ public sealed class FeedingBone : QueenCardModel
 		Creature? amalgam = FriendlyAmalgamCmd.GetExisting(cs, base.Owner);
 		if (amalgam is { IsAlive: true })
 		{
-			await PowerCmd.Apply<StrengthPower>(
+			await PowerCmd.Apply<StrengthPower>(choiceContext, 
 				amalgam,
 				base.DynamicVars.Strength.BaseValue,
 				base.Owner.Creature,

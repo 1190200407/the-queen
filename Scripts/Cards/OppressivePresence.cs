@@ -56,7 +56,7 @@ public sealed class OppressivePresence : QueenCardModel
 			return;
 		}
 
-		await PowerCmd.Apply<OppressivePresenceEnemyStrengthPower>(cardPlay.Target, str, dealer, this);
+		await PowerCmd.Apply<OppressivePresenceEnemyStrengthPower>(choiceContext, cardPlay.Target, str, dealer, this);
 	}
 
 	protected override void OnUpgrade()

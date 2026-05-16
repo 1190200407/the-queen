@@ -84,7 +84,7 @@ public sealed class Joyless : QueenCardModel
 		}
 
 		await CardCmd.Discard(choiceContext, toDiscard);
-		await PowerCmd.Apply<JoylessStrengthPower>(owner.Creature, toDiscard.Count, owner.Creature, this);
+		await PowerCmd.Apply<JoylessStrengthPower>(choiceContext, owner.Creature, toDiscard.Count, owner.Creature, this);
 	}
 
 	protected override void OnUpgrade()

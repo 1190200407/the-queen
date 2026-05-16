@@ -15,7 +15,7 @@ public sealed class BeckonPower : QueenPowerModel
 
     public override PowerStackType StackType => PowerStackType.Counter;
 
-    public override async Task AfterSideTurnStart(CombatSide side, CombatState combatState)
+    public override async Task AfterSideTurnStart(CombatSide side, ICombatState combatState)
     {
         _ = combatState;
         if (side != base.Owner.Side || base.Amount <= 0m || !base.Owner.IsAlive)

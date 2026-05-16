@@ -16,7 +16,7 @@ using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>精神控制：少量伤害；指定敌人下一次对你的怪物攻击改打别处；消耗�?/summary>
+/// <summary>精神控制：少量伤害；指定敌人下一次对你的怪物攻击改打别处；消耗�?/summary>
 
 [RegisterCard(typeof(QueenCardPool))]
 public sealed class MindControl : QueenCardModel
@@ -55,7 +55,7 @@ public sealed class MindControl : QueenCardModel
 			return;
 		}
 
-		_ = await PowerCmd.Apply<MindControlPower>(cardPlay.Target, 1m, queen, this);
+		_ = await PowerCmd.Apply<MindControlPower>(choiceContext, cardPlay.Target, 1m, queen, this);
 	}
 
 	protected override void OnUpgrade()

@@ -59,7 +59,7 @@ internal sealed class CardCmdDiscardAndDrawPatch : IPatchMethod
 		}
 
 		Player primaryOwner = anchor.Owner;
-		CombatState? combatState = anchor.CombatState ?? primaryOwner.Creature?.CombatState;
+		ICombatState? combatState = anchor.CombatState ?? primaryOwner.Creature?.CombatState;
 		if (combatState == null)
 		{
 			return;

@@ -69,7 +69,7 @@ public sealed class RollOut : LearnIntentCardModel
         Creature? amalgam = FriendlyAmalgamCmd.GetExisting(combatState, base.Owner);
         if (amalgam is { IsAlive: true })
         {
-            await PowerCmd.Apply<AmalgamSleepPower>(amalgam, 1m, base.Owner.Creature, this);
+            await PowerCmd.Apply<AmalgamSleepPower>(choiceContext, amalgam, 1m, base.Owner.Creature, this);
         }
 
         decimal damage = AmalgamLearnIntentDamageVar.GetEffectiveFlatForOffenseIntent(this, "LearnIntentDamage");

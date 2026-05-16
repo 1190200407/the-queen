@@ -63,12 +63,12 @@ public sealed class Miasma : QueenCardModel
 
         if (loss > 0m)
         {
-            await PowerCmd.Apply<DexterityPower>(target, -loss, base.Owner.Creature, this);
+            await PowerCmd.Apply<DexterityPower>(choiceContext, target, -loss, base.Owner.Creature, this);
         }
 
         if (grant > 0m && base.Owner.Creature.IsAlive)
         {
-            await PowerCmd.Apply<DexterityPower>(base.Owner.Creature, grant, base.Owner.Creature, this);
+            await PowerCmd.Apply<DexterityPower>(choiceContext, base.Owner.Creature, grant, base.Owner.Creature, this);
         }
     }
 }

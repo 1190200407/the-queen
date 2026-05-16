@@ -83,13 +83,13 @@ public sealed class AmalgamTestSubjectBossPower : QueenPowerModel
         switch (mode)
         {
             case Mode.Enrage:
-                await PowerCmd.Apply<AmalgamEnragePower>(base.Owner, 1m, base.Owner.PetOwner?.Creature, null);
+                await PowerCmd.Apply<AmalgamEnragePower>(choiceContext, base.Owner, 1m, base.Owner.PetOwner?.Creature, null);
                 break;
             case Mode.PainfulStabs:
-                await PowerCmd.Apply<AmalgamPainfulStabsPower>(base.Owner, 1m, base.Owner.PetOwner?.Creature, null);
+                await PowerCmd.Apply<AmalgamPainfulStabsPower>(choiceContext, base.Owner, 1m, base.Owner.PetOwner?.Creature, null);
                 break;
             case Mode.Intangible:
-                await PowerCmd.Apply<AmalgamIntangiblePower>(base.Owner, 1m, base.Owner.PetOwner?.Creature, null);
+                await PowerCmd.Apply<AmalgamIntangiblePower>(choiceContext, base.Owner, 1m, base.Owner.PetOwner?.Creature, null);
                 SetColor(StsColors.halfTransparentWhite);
                 break;
         }

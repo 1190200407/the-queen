@@ -15,7 +15,7 @@ public sealed class VanguardPower : QueenPowerModel, IAmalgamEventListener
 
     public override PowerStackType StackType => PowerStackType.Counter;
 
-    public async Task OnAmalgamActAsync(CombatState combatState, PlayerChoiceContext choiceContext, Creature amalgam)
+    public async Task OnAmalgamActAsync(ICombatState combatState, PlayerChoiceContext choiceContext, Creature amalgam)
     {
         if (amalgam.PetOwner is not Player queen)
         {

@@ -47,7 +47,7 @@ public sealed class DelegateLabor : QueenCardModel
 		_ = choiceContext;
 		_ = cardPlay;
 		Creature self = base.Owner.Creature;
-		CombatState? cs = self.CombatState;
+		ICombatState? cs = self.CombatState;
 		Creature? amalgam = cs != null ? FriendlyAmalgamCmd.GetExisting(cs, base.Owner) : null;
 		if (amalgam is not { IsAlive: true })
 		{
@@ -59,7 +59,7 @@ public sealed class DelegateLabor : QueenCardModel
 		if (transfer > 0m)
 		{
 			await PowerCmd.SetAmount<StrengthPower>(self, 0m, self, this);
-			await PowerCmd.Apply<StrengthPower>(amalgam, transfer, self, this);
+			await PowerCmd.Apply<StrengthPower>(choiceContext, amalgam, transfer, self, this);
 		}
 
 		await CreatureCmd.TriggerAnim(self, "Cast", base.Owner.Character.CastAnimDelay);

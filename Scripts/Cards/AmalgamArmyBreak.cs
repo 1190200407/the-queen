@@ -31,7 +31,7 @@ public sealed class AmalgamArmyBreak : QueenCardModel
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         _ = cardPlay;
-        await PowerCmd.Apply<AmalgamArmyBreakPower>(base.Owner.Creature, 1m, base.Owner.Creature, this);
+        await PowerCmd.Apply<AmalgamArmyBreakPower>(choiceContext, base.Owner.Creature, 1m, base.Owner.Creature, this);
         await CreatureCmd.TriggerAnim(base.Owner.Creature, "Cast", base.Owner.Character.CastAnimDelay);
     }
 

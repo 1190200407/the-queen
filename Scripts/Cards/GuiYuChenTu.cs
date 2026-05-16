@@ -44,7 +44,7 @@ public sealed class GuiYuChenTu : QueenCardModel
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         _ = cardPlay;
-        CombatState? combatState = base.Owner.Creature.CombatState;
+        ICombatState? combatState = base.Owner.Creature.CombatState;
         if (combatState == null)
         {
             return;

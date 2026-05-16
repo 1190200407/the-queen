@@ -23,7 +23,7 @@ public static class QueenCardCmd
 			return false;
 		}
 
-		CombatState? cs = card.CombatState ?? card.Owner?.Creature?.CombatState;
+		ICombatState? cs = card.CombatState ?? card.Owner?.Creature?.CombatState;
 		if (cs != null)
 		{
 			AfflictionModel? applied = await CardCmd.Afflict<Bound>(card, amount);
@@ -46,7 +46,7 @@ public static class QueenCardCmd
 		return true;
 	}
 
-	public static async Task CreateInHand<T>(Player owner, CombatState combatState, bool isUpgraded = false) where T : CardModel
+	public static async Task CreateInHand<T>(Player owner, ICombatState combatState, bool isUpgraded = false) where T : CardModel
 	{
 		CardModel card = combatState.CreateCard<T>(owner);
 		await CreateInHandInternal(card, isUpgraded);
@@ -72,7 +72,7 @@ public static class QueenCardCmd
 		SoulLampPower? existing = owner.Creature.GetPower<SoulLampPower>();
 		if (existing == null)
 		{
-			await PowerCmd.Apply<SoulLampPower>(owner.Creature, amount, owner.Creature, null);
+			await PowerCmd.Apply<SoulLampPower>(choiceContext, owner.Creature, amount, owner.Creature, null);
 		}
 		else if (existing.Amount <= 0)
 		{
@@ -126,13 +126,13 @@ public static class QueenCardCmd
 		switch (kind)
 		{
 			case QueenTriadDebuffKind.Poison:
-				await PowerCmd.Apply<PoisonPower>(target, amount, applier, cardSource);
+				await PowerCmd.Apply<PoisonPower>(choiceContext, target, amount, applier, cardSource);
 				break;
 			case QueenTriadDebuffKind.Doom:
-				await PowerCmd.Apply<DoomPower>(target, amount, applier, cardSource);
+				await PowerCmd.Apply<DoomPower>(choiceContext, target, amount, applier, cardSource);
 				break;
 			default:
-				await PowerCmd.Apply<DemisePower>(target, amount, applier, cardSource);
+				await PowerCmd.Apply<DemisePower>(choiceContext, target, amount, applier, cardSource);
 				break;
 		}
 	}

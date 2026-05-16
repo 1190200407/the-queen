@@ -52,7 +52,7 @@ public sealed class AmalgamStrengthDownAndGenerateCardIntentAction<T> : AmalgamA
 
     protected override async Task OnExecute(PlayerChoiceContext choiceContext, Creature amalgam)
     {
-        CombatState? combatState = amalgam.CombatState;
+        ICombatState? combatState = amalgam.CombatState;
         if (combatState == null || amalgam.PetOwner is not Player queen || !queen.Creature.IsAlive)
         {
             return;
@@ -76,7 +76,7 @@ public sealed class AmalgamStrengthDownAndGenerateCardIntentAction<T> : AmalgamA
         }
     }
 
-    private async Task CreateInHandByType(Player owner, CombatState combatState)
+    private async Task CreateInHandByType(Player owner, ICombatState combatState)
     {
         await QueenCardCmd.CreateInHand<T>(owner, combatState);
     }

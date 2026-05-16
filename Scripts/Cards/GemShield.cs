@@ -43,10 +43,10 @@ public sealed class GemShield : QueenCardModel
 	protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
 	{
 		await CreatureCmd.GainBlock(base.Owner.Creature, base.DynamicVars.Block, cardPlay);
-		await PowerCmd.Apply<EnergyNextTurnPower>(base.Owner.Creature, base.DynamicVars.Energy.BaseValue, base.Owner.Creature, this);
+		await PowerCmd.Apply<EnergyNextTurnPower>(choiceContext, base.Owner.Creature, base.DynamicVars.Energy.BaseValue, base.Owner.Creature, this);
 		if (base.DynamicVars["SoulLampNextTurn"].BaseValue > 0m)
 		{
-			await PowerCmd.Apply<SoulLampNextTurnPower>(base.Owner.Creature, base.DynamicVars["SoulLampNextTurn"].BaseValue, base.Owner.Creature, this);
+			await PowerCmd.Apply<SoulLampNextTurnPower>(choiceContext, base.Owner.Creature, base.DynamicVars["SoulLampNextTurn"].BaseValue, base.Owner.Creature, this);
 		}
 	}
 

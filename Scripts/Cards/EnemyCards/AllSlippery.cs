@@ -57,7 +57,7 @@ public sealed class AllSlippery : QueenCardModel
         if (amalgam is { IsAlive: true } && summonStacks > 0m)
         {
             decimal slipperyStacks = base.DynamicVars["SlipperyStacks"].BaseValue;
-            await PowerCmd.Apply<AmalgamSlipperyPower>(amalgam, slipperyStacks, base.Owner.Creature, this);
+            await PowerCmd.Apply<AmalgamSlipperyPower>(choiceContext, amalgam, slipperyStacks, base.Owner.Creature, this);
         }
     }
 }

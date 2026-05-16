@@ -22,9 +22,9 @@ public sealed class UnfinishedCalamityPower : QueenPowerModel
 
 	public override PowerStackType StackType => PowerStackType.Counter;
 
-	public override bool IsInstanced => true;
+	public override PowerInstanceType InstanceType => PowerInstanceType.Instanced;
 
-	internal static async Task TryApplyAfterEnemyDebuffRemoved(CombatState combatState, Creature victim, PowerModel removedPower)
+	internal static async Task TryApplyAfterEnemyDebuffRemoved(ICombatState combatState, Creature victim, PowerModel removedPower)
 	{
 		if (removedPower is UnfinishedCalamityPower)
 		{

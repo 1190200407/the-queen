@@ -54,7 +54,7 @@ public sealed class AmalgamCrabRagePower : QueenPowerModel
         }
 
         Flash();
-        await PowerCmd.Apply<StrengthPower>(base.Owner, base.DynamicVars.Strength.IntValue, base.Owner, null);
+        await PowerCmd.Apply<StrengthPower>(choiceContext, base.Owner, base.DynamicVars.Strength.IntValue, base.Owner, null);
         await CreatureCmd.GainBlock(base.Owner, base.DynamicVars.Block, null);
         await PowerCmd.Remove(this);
     }

@@ -33,7 +33,7 @@ public sealed class AmalgamShriekPower : QueenPowerModel
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips => [HoverTipFactory.FromPower<VigorPower>()];
 
-    private async Task CheckShriek()
+    private async Task CheckShriek(PlayerChoiceContext choiceContext)
     {
         if (base.Owner.CurrentHp > Amount)
         {
@@ -47,18 +47,18 @@ public sealed class AmalgamShriekPower : QueenPowerModel
 
         Flash();
         // 施加 2 层：怪物回合命中后很快进入玩家回合开始，AmalgamSleepPower 会立刻 -1。
-        await PowerCmd.Apply<AmalgamSleepPower>(base.Owner, 1m, applier: base.Owner, cardSource: null);
-        await PowerCmd.Apply<VigorPower>(base.Owner, 7m, base.Owner, null);
+        await PowerCmd.Apply<AmalgamSleepPower>(choiceContext, base.Owner, 1m, applier: base.Owner, cardSource: null);
+        await PowerCmd.Apply<VigorPower>(choiceContext, base.Owner, 7m, base.Owner, null);
         await PowerCmd.Remove(this);
     }
 
-    public override async Task AfterPowerAmountChanged(PowerModel power, decimal amount, Creature? applier, CardModel? cardSource)
+    public override async Task AfterPowerAmountChanged(PlayerChoiceContext choiceContext, PowerModel power, decimal amount, Creature? applier, CardModel? cardSource)
     {
         if (Amount <= 0m)
         {
             return;
         }
-        await CheckShriek();
+        await CheckShriek(choiceContext);
     }
 
     public override async Task AfterDamageGiven(PlayerChoiceContext choiceContext, Creature? dealer, DamageResult result, ValueProp props, Creature target, CardModel? cardSource)
@@ -67,6 +67,6 @@ public sealed class AmalgamShriekPower : QueenPowerModel
         {
             return;
         }
-        await CheckShriek();
+        await CheckShriek(choiceContext);
     }
 }

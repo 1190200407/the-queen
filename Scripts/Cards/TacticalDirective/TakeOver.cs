@@ -47,7 +47,7 @@ public sealed class TakeOver : QueenCardModel
 		_ = choiceContext;
 		_ = cardPlay;
 		Creature self = base.Owner.Creature;
-		CombatState? cs = self.CombatState;
+		IICombatState? cs = self.CombatState;
 		Creature? amalgam = cs != null ? FriendlyAmalgamCmd.GetExisting(cs, base.Owner) : null;
 		if (amalgam is not { IsAlive: true })
 		{
@@ -58,8 +58,8 @@ public sealed class TakeOver : QueenCardModel
 		decimal transfer = amalgamStr?.Amount ?? 0m;
 		if (transfer > 0m)
 		{
-			await PowerCmd.SetAmount<StrengthPower>(amalgam, 0m, self, this);
-			await PowerCmd.Apply<StrengthPower>(self, transfer, self, this);
+			await PowerCmd.Remove<StrengthPower>(amalgam);
+			await PowerCmd.Apply<StrengthPower>(choiceContext, self, transfer, self, this);
 		}
 
 		await CreatureCmd.TriggerAnim(self, "Cast", base.Owner.Character.CastAnimDelay);

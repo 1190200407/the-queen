@@ -19,7 +19,7 @@ using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>时间把戏：造成伤害；至多弃 2 张；下回合开始时将本次弃掉的牌移回手牌�?/summary>
+/// <summary>时间把戏：造成伤害；至多弃 2 张；下回合开始时将本次弃掉的牌移回手牌�?/summary>
 
 [RegisterCard(typeof(QueenCardPool))]
 public sealed class TimeTrick : QueenCardModel
@@ -89,7 +89,7 @@ public sealed class TimeTrick : QueenCardModel
 		}
 		else
 		{
-			pending = await PowerCmd.Apply<TimeTrickReturnPendingPower>(owner.Creature, 1m, owner.Creature, this);
+			pending = await PowerCmd.Apply<TimeTrickReturnPendingPower>(choiceContext, owner.Creature, 1m, owner.Creature, this);
 			pending?.CardsToReturn.AddRange(toDiscard);
 		}
 	}

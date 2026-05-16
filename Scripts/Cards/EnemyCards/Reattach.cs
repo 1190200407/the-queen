@@ -54,7 +54,7 @@ public sealed class Reattach : QueenCardModel
             decimal amount = base.DynamicVars.Power<AmalgamReattachPower>().BaseValue;
             if (amount > 0m)
             {
-                await PowerCmd.Apply<AmalgamReattachPower>(amalgam, amount, base.Owner.Creature, this);
+                await PowerCmd.Apply<AmalgamReattachPower>(choiceContext, amalgam, amount, base.Owner.Creature, this);
             }
         }
     }

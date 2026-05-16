@@ -13,7 +13,7 @@ using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>苦痛之路：能力牌；可叠加。每打出一张牌，对随机敌人施加与能力层数相同层数的�?灾厄/消亡之一�?/summary>
+/// <summary>苦痛之路：能力牌；可叠加。每打出一张牌，对随机敌人施加与能力层数相同层数的�?灾厄/消亡之一�?/summary>
 
 [RegisterCard(typeof(QueenCardPool))]
 public sealed class PathOfPain : QueenCardModel
@@ -41,7 +41,7 @@ public sealed class PathOfPain : QueenCardModel
 		_ = choiceContext;
 		_ = cardPlay;
 		Player player = base.Owner;
-		await PowerCmd.Apply<PathOfPainPower>(player.Creature, 1m, player.Creature, this);
+		await PowerCmd.Apply<PathOfPainPower>(choiceContext, player.Creature, 1m, player.Creature, this);
 		await CreatureCmd.TriggerAnim(player.Creature, "Cast", player.Character.CastAnimDelay);
 	}
 

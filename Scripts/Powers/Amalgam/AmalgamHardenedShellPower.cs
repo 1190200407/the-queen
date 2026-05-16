@@ -84,12 +84,8 @@ public sealed class AmalgamHardenedShellPower : QueenPowerModel
         await Task.CompletedTask;
     }
 
-    public override Task AfterPowerAmountChanged(PowerModel power, decimal amount, Creature? applier, CardModel? cardSource)
+    public override Task AfterPowerAmountChanged(PlayerChoiceContext choiceContext, PowerModel power, decimal amount, Creature? applier, CardModel? cardSource)
     {
-        _ = amount;
-        _ = applier;
-        _ = cardSource;
-
         // 在“获得/叠加”时立刻刷新一次显示（让 DisplayAmount 立即生效）。
         if (power == this)
         {

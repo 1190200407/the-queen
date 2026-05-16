@@ -25,7 +25,7 @@ public sealed class AmalgamCurlUpPower : QueenPowerModel, IAmalgamEventListener
     public override string? CustomBigIconPath => "res://images/powers/curl_up_power.png";
 
     public async Task OnAmalgamHitAsync(
-        CombatState combatState,
+        ICombatState combatState,
         Creature amalgam,
         decimal unblockedDamage,
         ValueProp props,
@@ -52,7 +52,7 @@ public sealed class AmalgamCurlUpPower : QueenPowerModel, IAmalgamEventListener
         }
 
         Flash();
-        await PowerCmd.Apply<BlockNextTurnPower>(queen, Amount, base.Owner, null);
+        await PowerCmd.Apply<BlockNextTurnPower>(choiceContext, queen, Amount, base.Owner, null);
         await PowerCmd.Remove(this);
     }
 }

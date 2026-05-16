@@ -48,7 +48,7 @@ public sealed class AmalgamSkittishPower : QueenPowerModel, IAmalgamEventListene
     }
 
     public async Task OnAmalgamHitAsync(
-        CombatState combatState,
+        ICombatState combatState,
         Creature amalgam,
         decimal unblockedDamage,
         ValueProp props,
@@ -82,6 +82,6 @@ public sealed class AmalgamSkittishPower : QueenPowerModel, IAmalgamEventListene
 
         data.triggeredThisTurn = true;
         Flash();
-        await PowerCmd.Apply<BlockNextTurnPower>(queen, Amount, base.Owner, null);
+        await PowerCmd.Apply<BlockNextTurnPower>(choiceContext, queen, Amount, base.Owner, null);
     }
 }

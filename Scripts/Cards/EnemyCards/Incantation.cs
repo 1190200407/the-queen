@@ -62,7 +62,7 @@ public sealed class Incantation : QueenCardModel
             decimal ritual = base.DynamicVars.Power<RitualPower>().BaseValue;
             if (ritual > 0m)
             {
-                await PowerCmd.Apply<RitualPower>(amalgam, ritual, base.Owner.Creature, this);
+                await PowerCmd.Apply<RitualPower>(choiceContext, amalgam, ritual, base.Owner.Creature, this);
             }
         }
     }

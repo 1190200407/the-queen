@@ -60,6 +60,6 @@ public sealed class HardToKill : QueenCardModel
             return;
         }
 
-        await PowerCmd.Apply<AmalgamHardToKillPower>(amalgam, hardToKillStacks, base.Owner.Creature, this);
+        await PowerCmd.Apply<AmalgamHardToKillPower>(choiceContext, amalgam, hardToKillStacks, base.Owner.Creature, this);
     }
 }

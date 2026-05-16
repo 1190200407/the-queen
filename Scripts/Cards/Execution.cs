@@ -23,7 +23,7 @@ using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>处决：基础伤害 + 目标负面加成；斩杀时捕获目标�?/summary>
+/// <summary>处决：基础伤害 + 目标负面加成；斩杀时捕获目标�?/summary>
 
 [RegisterCard(typeof(QueenCardPool))]
 public sealed class Execution : QueenCardModel, ICanMonsterCapture
@@ -34,7 +34,7 @@ public sealed class Execution : QueenCardModel, ICanMonsterCapture
     private const TargetType targetType = TargetType.AnyEnemy;
     private const bool shouldShowInCardLibrary = true;
 
-    public bool CanCapture(MonsterModel monster, CombatState combatState) =>
+    public bool CanCapture(MonsterModel monster, ICombatState combatState) =>
         monster is not null && combatState is not null;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>

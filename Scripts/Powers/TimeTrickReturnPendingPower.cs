@@ -64,7 +64,7 @@ public sealed class TimeTrickReturnPendingPower : QueenPowerModel
 			return;
 		}
 
-		CombatState combatState = base.CombatState;
+		ICombatState combatState = base.CombatState;
 		foreach (CardModel card in CardsToReturn.Distinct().ToList())
 		{
 			if (card.HasBeenRemovedFromState || !combatState.ContainsCard(card) || card.Owner != player)

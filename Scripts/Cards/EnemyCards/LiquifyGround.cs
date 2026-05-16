@@ -56,8 +56,8 @@ public sealed class LiquifyGround : LearnIntentCardModel
     {
     }
 
-	public override Task BeforeSideTurnStart(PlayerChoiceContext choiceContext, CombatSide side, CombatState combatState)
-	{
+    public override Task BeforeSideTurnStart(PlayerChoiceContext choiceContext, CombatSide side, ICombatState combatState)
+    {
 		if (side == base.Owner.Creature.Side && combatState.RoundNumber <= 1 && combatState.Encounter?.RoomType == RoomType.Boss)
         {
             base.DynamicVars.Power<AmalgamSandpitPower>().BaseValue += 3;
@@ -73,7 +73,7 @@ public sealed class LiquifyGround : LearnIntentCardModel
         decimal sandpitToGain = base.DynamicVars.Power<AmalgamSandpitPower>().BaseValue;
         if (base.Owner.Creature.GetPower<AmalgamSandpitPower>() == null)
         {
-            await PowerCmd.Apply<AmalgamSandpitPower>(base.Owner.Creature, sandpitToGain, base.Owner.Creature, this);
+            await PowerCmd.Apply<AmalgamSandpitPower>(choiceContext, base.Owner.Creature, sandpitToGain, base.Owner.Creature, this);
         }
         await FriendlyAmalgamCmd.Summon(choiceContext, base.Owner, summon, this);
 

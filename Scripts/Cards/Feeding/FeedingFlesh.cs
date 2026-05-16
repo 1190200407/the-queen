@@ -49,7 +49,7 @@ public sealed class FeedingFlesh : QueenCardModel
 	protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
 	{
 		_ = cardPlay;
-		CombatState? cs = base.Owner.Creature.CombatState;
+		ICombatState? cs = base.Owner.Creature.CombatState;
 		if (cs == null)
 		{
 			return;

@@ -20,7 +20,7 @@ using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>脉冲打击�? 费罕见攻击；伤害；弃 2；每当手牌数达到 8 张或以上且本牌不在手牌时，移回手牌（与原版「如此甚好」同类钩子）�?/summary>
+/// <summary>脉冲打击�? 费罕见攻击；伤害；弃 2；每当手牌数达到 8 张或以上且本牌不在手牌时，移回手牌（与原版「如此甚好」同类钩子）�?/summary>
 
 [RegisterCard(typeof(QueenCardPool))]
 public sealed class PulseStrike : QueenCardModel
@@ -78,8 +78,12 @@ public sealed class PulseStrike : QueenCardModel
 	}
 
 
-    public override async Task AfterCardGeneratedForCombat(CardModel card, bool addedByPlayer)
+    public override async Task AfterCardGeneratedForCombat(CardModel card, Player? creator)
     {
+		if (creator != base.Owner)
+		{
+			return;
+		}
 		await TryReturnToHandIfEligible();
     }
 

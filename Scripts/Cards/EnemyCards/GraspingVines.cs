@@ -46,8 +46,8 @@ public sealed class GraspingVines : LearnIntentCardModel
             execute: async (PlayerChoiceContext _, Creature amalgam, Creature owner) =>
             {
                 await CreatureCmd.TriggerAnim(amalgam, "Cast", AmalgamSpecialIntentAction.CastAnimDelay);
-                await PowerCmd.Apply<TangledPower>(owner, 1m, applier: amalgam, cardSource: null);
-                await PowerCmd.Apply<SkillCostMinusOneThisTurnPower>(owner, 1m, applier: amalgam, cardSource: null, silent: true);
+                await PowerCmd.Apply<TangledPower>(choiceContext, owner, 1m, applier: amalgam, cardSource: null);
+                await PowerCmd.Apply<SkillCostMinusOneThisTurnPower>(choiceContext, owner, 1m, applier: amalgam, cardSource: null, silent: true);
             });
 
         return Task.FromResult<IReadOnlyList<AmalgamActionModel?>>([intent]);

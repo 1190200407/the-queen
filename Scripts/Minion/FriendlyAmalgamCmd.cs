@@ -40,7 +40,7 @@ public static class FriendlyAmalgamCmd
     /// 仍在本场 <paramref name="combatState"/> 中的友方聚合体。逃跑等会 <c>RemoveCreature</c> 并清空 <c>Creature.CombatState</c>，
     /// 但原版不会从 <see cref="MegaCrit.Sts2.Core.Entities.Players.PlayerCombatState.Pets"/> 移除，故必须过滤，否则 <see cref="GetExisting"/> 会命中僵尸引用。
     /// </summary>
-    public static Creature? GetExisting(CombatState combatState, Player owner)
+    public static Creature? GetExisting(ICombatState combatState, Player owner)
     {
         return owner.Creature.Pets.FirstOrDefault(c =>
             c.Monster is FriendlyAmalgam && ReferenceEquals(c.CombatState, combatState));
@@ -62,7 +62,7 @@ public static class FriendlyAmalgamCmd
     }
 
     /// <summary>与原版 <see cref="NCombatRoom.AddCreature"/> 里奥斯提分支一致：仅「本地视角下的该玩家」用右上偏移 + sibling 顺序；联机里其他玩家保持 <c>AddCreature</c> 已为随从排好的脚边一行。</summary>
-    private static bool IsLayoutLocalPlayer(Player owner, CombatState? combatState)
+    private static bool IsLayoutLocalPlayer(Player owner, ICombatState? combatState)
     {
         if (LocalContext.IsMe(owner))
         {
@@ -84,7 +84,7 @@ public static class FriendlyAmalgamCmd
     /// 联机里非本地玩家不调用本逻辑，保留 <c>AddCreature</c> 已为随从算好的脚边一行（<c>Y+10</c>）。
     /// 延迟一帧应用，避免 <c>Hitbox.Size</c> 尚未就绪导致 <see cref="NCreature.GetOstyOffsetFromPlayer"/> 偏差。
     /// </summary>
-    private static void PlaceAmalgamByQueen(Player owner, Creature pet, CombatState? combatState)
+    private static void PlaceAmalgamByQueen(Player owner, Creature pet, ICombatState? combatState)
     {
         if (!IsLayoutLocalPlayer(owner, combatState))
         {
@@ -192,7 +192,7 @@ public static class FriendlyAmalgamCmd
 
     public static async Task Summon(PlayerChoiceContext choiceContext, Player owner, decimal amount, AbstractModel? source)
     {
-        CombatState? combatState = owner.Creature.CombatState;
+        ICombatState? combatState = owner.Creature.CombatState;
         if (combatState == null)
         {
             return;
@@ -265,7 +265,7 @@ public static class FriendlyAmalgamCmd
     /// <summary>击倒沉睡回合末：最大生命设为 1，当前生命置为 1。</summary>
     internal static async Task ApplyDeathSleepReviveStatsAsync(Creature creature)
     {
-        CombatState? cs = creature.CombatState;
+        ICombatState? cs = creature.CombatState;
         if (cs == null)
         {
             return;
@@ -310,7 +310,7 @@ public static class FriendlyAmalgamCmd
     /// <summary>战斗开场：仅生成 0 血的聚合体壳并写入固定最大生命，不治疗、不占召唤历史。</summary>
     public static async Task EnsureAmalgamCombatStartShellAsync(PlayerChoiceContext choiceContext, Player owner)
     {
-        CombatState? combatState = owner.Creature.CombatState;
+        ICombatState? combatState = owner.Creature.CombatState;
         if (combatState == null)
         {
             return;
@@ -381,12 +381,12 @@ public static class FriendlyAmalgamCmd
         // 顺序固定：先 DieForYou。0 血壳上第二段 Apply 依赖 AmalgamDieForYouPower.ShouldAllowHitting 在「尚无渴血」时对尸体短暂放行（见该处注释）。
         if (minion.GetPower<AmalgamDieForYouPower>() == null)
         {
-            await PowerCmd.Apply<AmalgamDieForYouPower>(minion, 1m, null, null);
+            await PowerCmd.Apply<AmalgamDieForYouPower>(choiceContext, minion, 1m, null, null);
         }
 
         if (minion.GetPower<AmalgamEvolutionaryThirstPower>() == null)
         {
-            await PowerCmd.Apply<AmalgamEvolutionaryThirstPower>(minion, 1m, null, null);
+            await PowerCmd.Apply<AmalgamEvolutionaryThirstPower>(choiceContext, minion, 1m, null, null);
         }
     }
 
@@ -401,7 +401,7 @@ public static class FriendlyAmalgamCmd
             return;
         }
 
-        CombatState? combatState = owner.Creature.CombatState;
+        ICombatState? combatState = owner.Creature.CombatState;
         if (combatState == null)
         {
             return;
@@ -434,7 +434,7 @@ public static class FriendlyAmalgamCmd
             return;
         }
 
-        CombatState? combatState = owner.Creature.CombatState;
+        ICombatState? combatState = owner.Creature.CombatState;
         if (combatState == null)
         {
             return;
@@ -518,7 +518,7 @@ public static class FriendlyAmalgamCmd
             return;
         }
 
-        CombatState? combatState = amalgam.CombatState;
+        ICombatState? combatState = amalgam.CombatState;
         if (combatState == null || amalgam.PetOwner is not Player queen)
         {
             return;

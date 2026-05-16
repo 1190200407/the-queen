@@ -48,7 +48,7 @@ public sealed class AmalgamVitalSparkPower : QueenPowerModel, IAmalgamEventListe
     }
 
     public async Task OnAmalgamHitAsync(
-        CombatState combatState,
+        ICombatState combatState,
         Creature amalgam,
         decimal unblockedDamage,
         ValueProp props,
@@ -82,6 +82,6 @@ public sealed class AmalgamVitalSparkPower : QueenPowerModel, IAmalgamEventListe
 
         data.triggeredThisTurn = true;
         Flash();
-        await PowerCmd.Apply<EnergyNextTurnPower>(queen, 1m, base.Owner, null);
+        await PowerCmd.Apply<EnergyNextTurnPower>(choiceContext, queen, 1m, base.Owner, null);
     }
 }

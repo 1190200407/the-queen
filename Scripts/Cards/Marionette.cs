@@ -20,7 +20,7 @@ using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>提线木偶：获得目标对应敌怪卡�? 回合后将其永久加入牌组�?/summary>
+/// <summary>提线木偶：获得目标对应敌怪卡�? 回合后将其永久加入牌组�?/summary>
 
 [RegisterCard(typeof(QueenCardPool))]
 public sealed class Marionette : QueenCardModel, ICanMonsterCapture
@@ -31,7 +31,7 @@ public sealed class Marionette : QueenCardModel, ICanMonsterCapture
     private const TargetType targetType = TargetType.AnyEnemy;
     private const bool shouldShowInCardLibrary = true;
 
-    public bool CanCapture(MonsterModel monster, CombatState combatState) =>
+    public bool CanCapture(MonsterModel monster, ICombatState combatState) =>
         monster is not null && combatState is not null;
 
     public Marionette()
@@ -40,7 +40,7 @@ public sealed class Marionette : QueenCardModel, ICanMonsterCapture
     }
 
     /// <summary>
-    /// 对齐原版 <c>MegaCrit.Sts2.Core.Models.Monsters.Queen</c> �?<c>AmalgamDeathResponse</c> 的激怒分支（不反射调用该方法本体）�?    /// </summary>
+    /// 对齐原版 <c>MegaCrit.Sts2.Core.Models.Monsters.Queen</c> �?<c>AmalgamDeathResponse</c> 的激怒分支（不反射调用该方法本体）�?    /// </summary>
     private static bool TryEnrageQueenFromMarionette(Creature queenCreature)
     {
         if (queenCreature.Monster is not Queen queen)
@@ -109,7 +109,7 @@ public sealed class Marionette : QueenCardModel, ICanMonsterCapture
 
         await CardPileCmd.AddGeneratedCardToCombat(enemyCard, PileType.Hand, addedByPlayer: true);
 
-        MarionettePendingPower? pending = await PowerCmd.Apply<MarionettePendingPower>(
+        MarionettePendingPower? pending = await PowerCmd.Apply<MarionettePendingPower>(choiceContext, 
             base.Owner.Creature,
             3m,
             base.Owner.Creature,

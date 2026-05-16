@@ -47,7 +47,7 @@ public sealed class HandOfRefusal : QueenCardModel
 	protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
 	{
 		await CreatureCmd.GainBlock(base.Owner.Creature, base.DynamicVars.Block, cardPlay);
-		HandOfSeizureNextTurnPower? handsNextTurn = await PowerCmd.Apply<HandOfSeizureNextTurnPower>(base.Owner.Creature, 1m, base.Owner.Creature, this);
+		HandOfSeizureNextTurnPower? handsNextTurn = await PowerCmd.Apply<HandOfSeizureNextTurnPower>(choiceContext, base.Owner.Creature, 1m, base.Owner.Creature, this);
 		if (handsNextTurn != null)
 		{
 			handsNextTurn.isUpgraded = base.IsUpgraded;

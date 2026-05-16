@@ -38,7 +38,7 @@ public sealed class AmalgamStrengthDownIntentAction : AmalgamActionModel
 
     protected override async Task OnExecute(PlayerChoiceContext choiceContext, Creature amalgam)
     {
-        CombatState? combatState = amalgam.CombatState;
+        ICombatState? combatState = amalgam.CombatState;
         if (combatState == null || amalgam.PetOwner is not Player queen || !queen.Creature.IsAlive || Amount <= 0m)
         {
             return;
@@ -57,7 +57,7 @@ public sealed class AmalgamStrengthDownIntentAction : AmalgamActionModel
 
         if (_forcedTarget is { IsAlive: true } forcedTarget && alive.Contains(forcedTarget))
         {
-            await PowerCmd.Apply<AmalgamIntentStrengthDownPower>(forcedTarget, Amount, applier, null);
+            await PowerCmd.Apply<AmalgamIntentStrengthDownPower>(choiceContext, forcedTarget, Amount, applier, null);
             return;
         }
 
@@ -65,7 +65,7 @@ public sealed class AmalgamStrengthDownIntentAction : AmalgamActionModel
         {
             foreach (Creature enemy in alive)
             {
-                await PowerCmd.Apply<AmalgamIntentStrengthDownPower>(enemy, Amount, applier, null);
+                await PowerCmd.Apply<AmalgamIntentStrengthDownPower>(choiceContext, enemy, Amount, applier, null);
             }
 
             return;
@@ -76,7 +76,7 @@ public sealed class AmalgamStrengthDownIntentAction : AmalgamActionModel
             Creature? marked = AmalgamOffenseTargeting.FindMarkedEnemy(combatState);
             if (marked is { IsAlive: true })
             {
-                await PowerCmd.Apply<AmalgamIntentStrengthDownPower>(marked, Amount, applier, null);
+                await PowerCmd.Apply<AmalgamIntentStrengthDownPower>(choiceContext, marked, Amount, applier, null);
             }
 
             return;
@@ -88,7 +88,7 @@ public sealed class AmalgamStrengthDownIntentAction : AmalgamActionModel
             return;
         }
 
-        await PowerCmd.Apply<AmalgamIntentStrengthDownPower>(randomEnemy, Amount, applier, null);
+        await PowerCmd.Apply<AmalgamIntentStrengthDownPower>(choiceContext, randomEnemy, Amount, applier, null);
     }
 }
 

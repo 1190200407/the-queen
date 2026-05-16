@@ -54,7 +54,7 @@ public sealed class HandOfSeizure : QueenCardModel
 				.Execute(choiceContext);
 		}
 
-		HandOfRefusalNextTurnPower? handsNextTurn = await PowerCmd.Apply<HandOfRefusalNextTurnPower>(base.Owner.Creature, 1m, base.Owner.Creature, this);
+		HandOfRefusalNextTurnPower? handsNextTurn = await PowerCmd.Apply<HandOfRefusalNextTurnPower>(choiceContext, base.Owner.Creature, 1m, base.Owner.Creature, this);
 		if (handsNextTurn != null)
 		{
 			handsNextTurn.isUpgraded = base.IsUpgraded;

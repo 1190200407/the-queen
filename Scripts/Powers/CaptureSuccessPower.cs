@@ -20,7 +20,7 @@ public sealed class CaptureSuccessPower : QueenPowerModel
     public override PowerType Type => PowerType.Buff;
 
     public override PowerStackType StackType => PowerStackType.None;
-    public override bool IsInstanced => true;
+    public override PowerInstanceType InstanceType => PowerInstanceType.Instanced;
 
     /// <summary>战斗结束时发放的奖励牌（由捕获牌创建后赋值）。</summary>
     public CardModel? RewardCard { get; set; }
@@ -32,7 +32,7 @@ public sealed class CaptureSuccessPower : QueenPowerModel
     internal static async Task ApplyForCapture(Player owner, CardModel rewardCard, CardModel? captureSourceCard)
     {
         CaptureSuccessPower? applied =
-            await PowerCmd.Apply<CaptureSuccessPower>(owner.Creature, 1m, owner.Creature, captureSourceCard);
+            await PowerCmd.Apply<CaptureSuccessPower>(choiceContext, owner.Creature, 1m, owner.Creature, captureSourceCard);
         if (applied is not null)
         {
             applied.RewardCard = rewardCard;

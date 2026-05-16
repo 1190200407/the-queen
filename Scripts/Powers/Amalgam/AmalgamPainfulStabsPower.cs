@@ -21,7 +21,7 @@ public sealed class AmalgamPainfulStabsPower : QueenPowerModel, IAmalgamEventLis
     public override string? CustomBigIconPath => "res://images/powers/painful_stabs_power.png";
 
     public async Task OnAmalgamDamagedCreatureAsync(
-        CombatState combatState,
+        ICombatState combatState,
         PlayerChoiceContext choiceContext,
         Creature amalgam,
         Creature damagedEnemy,

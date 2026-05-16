@@ -63,7 +63,7 @@ public sealed class AmalgamNoiseIntentAction : AmalgamActionModel
         int drawNextTurn = System.Math.Max(0, (int)_nextTurnDraw);
         if (drawNextTurn > 0)
         {
-            await PowerCmd.Apply<NoisePendingPower>(ownerCreature, drawNextTurn, ownerCreature, cardSource: null);
+            await PowerCmd.Apply<NoisePendingPower>(choiceContext, ownerCreature, drawNextTurn, ownerCreature, cardSource: null);
         }
     }
 }

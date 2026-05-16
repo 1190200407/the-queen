@@ -33,7 +33,7 @@ public sealed class AmalgamYourJoueneyEndsHerePendingPower : QueenPowerModel
         new IntVar("StrengthToGain", 0m),
     ];
 
-    public override bool IsInstanced => true;
+    public override PowerInstanceType InstanceType => PowerInstanceType.Instanced;
 
     internal void ConfigureStrength(decimal strengthToGain)
     {
@@ -51,14 +51,14 @@ public sealed class AmalgamYourJoueneyEndsHerePendingPower : QueenPowerModel
         }
 
         Data data = GetInternalData<Data>();
-        CombatState? combatState = base.Owner.CombatState;
+        ICombatState? combatState = base.Owner.CombatState;
         if (combatState != null)
         {
             Creature? amalgamCreature = FriendlyAmalgamCmd.GetExisting(combatState, player);
             if (amalgamCreature is { IsAlive: true } && data.StrengthToGain > 0m)
             {
                 Flash();
-                await PowerCmd.Apply<StrengthPower>(amalgamCreature, data.StrengthToGain, base.Owner, null);
+                await PowerCmd.Apply<StrengthPower>(choiceContext, amalgamCreature, data.StrengthToGain, base.Owner, null);
             }
         }
 

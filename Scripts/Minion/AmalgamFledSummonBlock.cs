@@ -19,13 +19,13 @@ public static class AmalgamFledSummonBlock
 
     private static readonly ConditionalWeakTable<CombatState, Row> s_rows = new();
 
-    public static void MarkAmalgamFled(CombatState combatState, Player amalgamOwner)
+    public static void MarkAmalgamFled(ICombatState combatState, Player amalgamOwner)
     {
         Row row = s_rows.GetValue(combatState, _ => new Row());
         row.ByOwner[amalgamOwner] = true;
     }
 
-    public static bool IsSummonBlocked(CombatState combatState, Player owner) =>
+    public static bool IsSummonBlocked(ICombatState combatState, Player owner) =>
         s_rows.TryGetValue(combatState, out Row? row)
         && row.ByOwner.TryGetValue(owner, out bool fled)
         && fled;

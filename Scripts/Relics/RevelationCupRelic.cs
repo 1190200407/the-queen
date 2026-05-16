@@ -36,7 +36,7 @@ public sealed class RevelationCupRelic : QueenRelicModel, IAmalgamEventListener
 	}
 
 	public async Task AfterLearnIntent(
-		CombatState combatState,
+		ICombatState combatState,
 		PlayerChoiceContext choiceContext,
 		Player amalgamOwner,
 		Creature amalgam,

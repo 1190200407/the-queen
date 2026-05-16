@@ -27,7 +27,7 @@ public sealed class AmalgamThieveryPower : QueenPowerModel, IAmalgamEventListene
     public override string? CustomBigIconPath => "res://images/powers/thievery_power.png";
 
     public async Task OnAmalgamDamagedCreatureAsync(
-        CombatState combatState,
+        ICombatState combatState,
         PlayerChoiceContext choiceContext,
         Creature amalgam,
         Creature damagedEnemy,
@@ -60,7 +60,7 @@ public sealed class AmalgamThieveryPower : QueenPowerModel, IAmalgamEventListene
         AmalgamHeistPower? heist = amalgam.GetPower<AmalgamHeistPower>();
         if (heist is null)
         {
-            await PowerCmd.Apply<AmalgamHeistPower>(amalgam, stolen, applier, cardSource: null);
+            await PowerCmd.Apply<AmalgamHeistPower>(choiceContext, amalgam, stolen, applier, cardSource: null);
         }
         else
         {

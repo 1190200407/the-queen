@@ -63,7 +63,7 @@ public sealed class SoulMoldPower : QueenPowerModel
 		}
 
 		copy.AddModKeyword(QueenKeyword.Fade);
-		await CardPileCmd.AddGeneratedCardToCombat(copy, PileType.Hand, addedByPlayer: true);
+		await CardPileCmd.AddGeneratedCardToCombat(copy, PileType.Hand, player);
 
 		if (copy.Affliction is not null && copy.Affliction is not Bound)
 		{

@@ -18,7 +18,7 @@ public sealed class DeclarationCaptureMarkPower : QueenPowerModel
 
 	public override PowerStackType StackType => PowerStackType.Counter;
 
-	public override bool IsInstanced => true;
+	public override PowerInstanceType InstanceType => PowerInstanceType.Instanced;
 
 	public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
 	{
@@ -57,7 +57,7 @@ public sealed class DeclarationCaptureMarkPower : QueenPowerModel
 		if (reward is { } rewardCard)
 		{
 			combatRoom.AddExtraReward(capturer, new SpecialCardReward(rewardCard, capturer));
-			CaptureSuccessPower? applied = await PowerCmd.Apply<CaptureSuccessPower>(
+			CaptureSuccessPower? applied = await PowerCmd.Apply<CaptureSuccessPower>(choiceContext, 
 				capturer.Creature,
 				1m,
 				capturer.Creature,

@@ -22,7 +22,7 @@ internal static class FadeOnDiscardPatchHelpers
 
 	internal static bool HasFade(CardModel card) => card.HasModKeyword(QueenKeyword.Fade);
 
-	internal static void EnqueueFadeExhaustNotify(CombatState combatState, CardModel card)
+	internal static void EnqueueFadeExhaustNotify(ICombatState combatState, CardModel card)
 	{
 		lock (ExhaustNotifyQueueLock)
 		{
@@ -32,7 +32,7 @@ internal static class FadeOnDiscardPatchHelpers
 		}
 	}
 
-	private static async Task NotifyFadeExhausted(CombatState combatState, CardModel card)
+	private static async Task NotifyFadeExhausted(ICombatState combatState, CardModel card)
 	{
 		CombatManager.Instance.History.CardExhausted(combatState, card);
 		await Hook.AfterCardExhausted(combatState, new BlockingPlayerChoiceContext(), card, causedByEthereal: false);
@@ -123,7 +123,7 @@ internal sealed class FadeOnDiscardCardPileAddInternalPatch : IPatchMethod
 			return;
 		}
 
-		CombatState? combatState = card.CombatState ?? card.Owner?.Creature.CombatState;
+		ICombatState? combatState = card.CombatState ?? card.Owner?.Creature.CombatState;
 		if (combatState == null || CombatManager.Instance == null)
 		{
 			return;
@@ -144,7 +144,7 @@ internal sealed class FadeOnDiscardCombatHistoryCardDiscardedPatch : IPatchMetho
 		new(typeof(CombatHistory), nameof(CombatHistory.CardDiscarded)),
 	];
 
-	public static bool Prefix(CombatState combatState, CardModel card) =>
+	public static bool Prefix(ICombatState combatState, CardModel card) =>
 		!FadeOnDiscardPatchHelpers.HasFade(card);
 }
 
@@ -159,6 +159,6 @@ internal sealed class FadeOnDiscardHookAfterCardDiscardedPatch : IPatchMethod
 		new(typeof(Hook), nameof(Hook.AfterCardDiscarded)),
 	];
 
-	public static bool Prefix(CombatState combatState, PlayerChoiceContext choiceContext, CardModel card) =>
+	public static bool Prefix(ICombatState combatState, PlayerChoiceContext choiceContext, CardModel card) =>
 		!FadeOnDiscardPatchHelpers.HasFade(card);
 }

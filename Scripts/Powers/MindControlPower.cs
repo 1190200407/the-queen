@@ -16,6 +16,7 @@ using MegaCrit.Sts2.Core.Platform;
 using MegaCrit.Sts2.Core.Random;
 using MegaCrit.Sts2.Core.Runs;
 using MegaCrit.Sts2.Core.ValueProps;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 
 namespace ComicChess.TheQueen;
 
@@ -51,7 +52,7 @@ public sealed class MindControlPower : QueenPowerModel
 
 	public override PowerStackType StackType => PowerStackType.Single;
 
-	public override bool IsInstanced => true;
+	public override PowerInstanceType InstanceType => PowerInstanceType.Instanced;
 
 	protected override IEnumerable<DynamicVar> CanonicalVars => [new StringVar(ApplierPlayerNameKey)];
 
@@ -71,7 +72,7 @@ public sealed class MindControlPower : QueenPowerModel
 	}
 
 	/// <summary>宿主身上任意能力层数变化时由 <c>Hook.AfterPowerAmountChanged</c> 广播；用于刷新意图（含依赖 <c>targets</c> 的预览）。</summary>
-	public override Task AfterPowerAmountChanged(PowerModel power, decimal amount, Creature? applier, CardModel? cardSource)
+	public override Task AfterPowerAmountChanged(PlayerChoiceContext choiceContext, PowerModel power, decimal amount, Creature? applier, CardModel? cardSource)
 	{
 		_ = amount;
 		_ = applier;
@@ -89,7 +90,7 @@ public sealed class MindControlPower : QueenPowerModel
 	private void TryRefreshOwnerMonsterIntent()
 	{
 		Creature? owner = base.Owner;
-		if (owner?.CombatState is not CombatState combatState || !owner.IsEnemy || owner.Monster == null || !owner.IsAlive)
+		if (owner?.CombatState is not ICombatState combatState || !owner.IsEnemy || owner.Monster == null || !owner.IsAlive)
 		{
 			return;
 		}
@@ -105,7 +106,7 @@ public sealed class MindControlPower : QueenPowerModel
 	/// <summary>由 <see cref="MindControlDamagePatch"/> 在 <see cref="CreatureCmd.Damage"/> 前缀中调用。</summary>
 	internal static bool TryApplyRedirectToTargets(
 		List<Creature> targets,
-		CombatState combatState,
+		ICombatState combatState,
 		Creature dealer,
 		ValueProp props,
 		CardModel? cardSource,
@@ -247,7 +248,7 @@ public sealed class MindControlPower : QueenPowerModel
 		}
 	}
 
-	private static Creature ResolveSharedRedirect(CombatState combatState, Creature dealer, Creature rngSourceApplier)
+	private static Creature ResolveSharedRedirect(ICombatState combatState, Creature dealer, Creature rngSourceApplier)
 	{
 		List<Creature> candidates = combatState.HittableEnemies.Where(e => e != dealer && e.IsAlive).ToList();
 		if (candidates.Count == 0)

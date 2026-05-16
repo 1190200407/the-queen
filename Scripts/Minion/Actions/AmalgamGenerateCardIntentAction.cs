@@ -67,7 +67,7 @@ public sealed class AmalgamGenerateCardIntentAction<T> : AmalgamActionModel wher
         }
     }
 
-    private async Task CreateInHandByType(Player owner, CombatState combatState)
+    private async Task CreateInHandByType(Player owner, ICombatState combatState)
     {
         await QueenCardCmd.CreateInHand<T>(owner, combatState, _generateUpgradedCard);
     }

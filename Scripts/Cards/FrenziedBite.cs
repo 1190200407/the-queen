@@ -19,7 +19,7 @@ using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>疯狂撕咬：聚合体对目�?2 连击；按目标负面效果数量召唤�?/summary>
+/// <summary>疯狂撕咬：聚合体对目�?2 连击；按目标负面效果数量召唤�?/summary>
 
 [RegisterCard(typeof(QueenCardPool))]
 public sealed class FrenziedBite : QueenCardModel
@@ -46,7 +46,7 @@ public sealed class FrenziedBite : QueenCardModel
 
     internal override bool HasSelfBound => true;
 
-    /// <summary>无友方聚合体�?<see cref="FriendlyAmalgam.BlocksDirectOffenseFromHand"/> 时手牌红高亮（打出时由聚合体直接对敌伤害）�?/summary>
+    /// <summary>无友方聚合体�?<see cref="FriendlyAmalgam.BlocksDirectOffenseFromHand"/> 时手牌红高亮（打出时由聚合体直接对敌伤害）�?/summary>
     protected override bool ShouldGlowRedInternal =>
         (base.Owner?.Creature?.CombatState is { } combatState
             && (FriendlyAmalgamCmd.GetExisting(combatState, base.Owner) is not { Monster: FriendlyAmalgam amalgam }
@@ -61,7 +61,7 @@ public sealed class FrenziedBite : QueenCardModel
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         Creature? target = cardPlay.Target;
-        CombatState? combatState = base.Owner.Creature.CombatState;
+        ICombatState? combatState = base.Owner.Creature.CombatState;
         if (target == null || combatState == null)
         {
             return;

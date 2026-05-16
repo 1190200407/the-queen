@@ -10,6 +10,7 @@ using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.Models.CardPools;
 
 using STS2RitsuLib.Interop.AutoRegistration;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 
 namespace ComicChess.TheQueen;
 
@@ -36,7 +37,7 @@ public sealed class Rejuvenate : QueenCardModel, KnowledgeDemon.IChoosable
 
     public async Task OnChosen()
     {
-        await PowerCmd.Apply<EnergyNextTurnPower>(base.Owner.Creature, 1m, base.Owner.Creature, this);
+        await PowerCmd.Apply<EnergyNextTurnPower>(new ThrowingPlayerChoiceContext(), base.Owner.Creature, 1m, base.Owner.Creature, this);
     }
 }
 

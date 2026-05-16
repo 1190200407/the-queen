@@ -54,7 +54,7 @@ public sealed class MindYourManners : QueenCardModel
 		{
 			decimal amount = vulnerable.Amount;
 			await PowerCmd.Remove(vulnerable);
-			await PowerCmd.Apply<VulnerablePower>(enemy, amount, self, this);
+			await PowerCmd.Apply<VulnerablePower>(choiceContext, enemy, amount, self, this);
 		}
 
 		WeakPower? weak = self.GetPower<WeakPower>();
@@ -62,7 +62,7 @@ public sealed class MindYourManners : QueenCardModel
 		{
 			decimal amount = weak.Amount;
 			await PowerCmd.Remove(weak);
-			await PowerCmd.Apply<WeakPower>(enemy, amount, self, this);
+			await PowerCmd.Apply<WeakPower>(choiceContext, enemy, amount, self, this);
 		}
 	}
 

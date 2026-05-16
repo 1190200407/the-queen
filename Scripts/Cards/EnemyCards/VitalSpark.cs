@@ -55,7 +55,7 @@ public sealed class VitalSpark : QueenCardModel
         {
             if (vitalSparkStacks > 0m)
             {
-                await PowerCmd.Apply<AmalgamVitalSparkPower>(amalgam, vitalSparkStacks, base.Owner.Creature, this);
+                await PowerCmd.Apply<AmalgamVitalSparkPower>(choiceContext, amalgam, vitalSparkStacks, base.Owner.Creature, this);
             }
         }
     }

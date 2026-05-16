@@ -6,6 +6,7 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Afflictions;
 
@@ -119,8 +120,8 @@ public sealed class SoulLampPower : QueenPowerModel
 		return true;
     }
 
-    public override async Task AfterPowerAmountChanged(PowerModel power, decimal amount, Creature? applier, CardModel? cardSource)
-	{
+    public override async Task AfterPowerAmountChanged(PlayerChoiceContext choiceContext, PowerModel power, decimal amount, Creature? applier, CardModel? cardSource)
+    {
 		if (power != this || amount == 0m)
 		{
 			return;
@@ -139,8 +140,8 @@ public sealed class SoulLampPower : QueenPowerModel
 		}
 	}
 
-	public override async Task BeforeCardPlayed(CardPlay cardPlay)
-	{
+    public override async Task AfterCardPlayed(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    {
 		// 只在“手动打出”时消耗 1 层魂灯。
 		if (cardPlay.IsAutoPlay)
 		{
@@ -173,7 +174,7 @@ public sealed class SoulLampPower : QueenPowerModel
 				// 从 1 -> -1（offset -2）并保持在状态栏显示 0。
 				if (base.Amount == 1)
 				{
-					await PowerCmd.ModifyAmount(this, -2m, null, null);
+					await PowerCmd.ModifyAmount(choiceContext, this, -2m, null, null);
 				}
 				else
 				{

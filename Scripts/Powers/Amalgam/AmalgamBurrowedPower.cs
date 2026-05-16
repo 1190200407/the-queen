@@ -37,7 +37,7 @@ public sealed class AmalgamBurrowedPower : QueenPowerModel
         }
 
         await PowerCmd.Remove(this);
-        await PowerCmd.Apply<AmalgamSleepPower>(
+        await PowerCmd.Apply<AmalgamSleepPower>(choiceContext, 
             base.Owner,
             1m,
             applier: base.Owner.PetOwner?.Creature,

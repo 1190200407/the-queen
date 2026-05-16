@@ -46,7 +46,7 @@ public sealed class Toxic : QueenEnchantmentModel
             return;
         }
 
-        await PowerCmd.Apply<PoisonPower>(target, base.Amount, base.Card.Owner.Creature, base.Card);
+        await PowerCmd.Apply<PoisonPower>(choiceContext, target, base.Amount, base.Card.Owner.Creature, base.Card);
     }
 }
 

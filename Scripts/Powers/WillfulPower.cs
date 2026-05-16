@@ -24,7 +24,7 @@ public sealed class WillfulPower : QueenPowerModel
 	public override PowerType Type => PowerType.Buff;
 
 	public override PowerStackType StackType => PowerStackType.Single;
-	public override bool IsInstanced => true;
+	public override PowerInstanceType InstanceType => PowerInstanceType.Instanced;
 
 	/// <summary>与掠食同化 <c>Upgraded</c> 同理：<c>IfUpgradedVar</c> 在 <c>DeepCloneFields</c> 时即入 DynamicVarSet，早于 <c>BeforeApplied</c> 会冻在 Normal。</summary>
 	protected override IEnumerable<DynamicVar> CanonicalVars =>
@@ -47,7 +47,7 @@ public sealed class WillfulPower : QueenPowerModel
 			return;
 		}
 
-		CombatState? combatState = base.Owner.CombatState;
+		ICombatState? combatState = base.Owner.CombatState;
 		if (combatState == null)
 		{
 			return;

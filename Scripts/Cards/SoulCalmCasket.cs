@@ -23,7 +23,7 @@ using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>镇魂匣：保留；低血目标双倍伤害；斩杀时捕获目标�?/summary>
+/// <summary>镇魂匣：保留；低血目标双倍伤害；斩杀时捕获目标�?/summary>
 
 [RegisterCard(typeof(QueenCardPool))]
 public sealed class SoulCalmCasket : QueenCardModel, ICanMonsterCapture
@@ -34,7 +34,7 @@ public sealed class SoulCalmCasket : QueenCardModel, ICanMonsterCapture
     private const TargetType targetType = TargetType.AnyEnemy;
     private const bool shouldShowInCardLibrary = true;
 
-    public bool CanCapture(MonsterModel monster, CombatState combatState) =>
+    public bool CanCapture(MonsterModel monster, ICombatState combatState) =>
         monster is not null && combatState is not null && IsMutable;
 
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Retain];

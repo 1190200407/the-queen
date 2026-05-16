@@ -51,7 +51,7 @@
 // 			.WithHitFx("vfx/vfx_attack_blunt")
 // 			.Execute(choiceContext);
 
-// 		await PowerCmd.Apply<EvolutionsLawFreeLearnIntentPower>(
+// 		await PowerCmd.Apply<EvolutionsLawFreeLearnIntentPower>(choiceContext, 
 // 			base.Owner.Creature,
 // 			1m,
 // 			base.Owner.Creature,

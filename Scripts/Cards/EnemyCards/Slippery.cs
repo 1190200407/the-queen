@@ -55,7 +55,7 @@ public sealed class Slippery : QueenCardModel
         Creature? amalgam = FriendlyAmalgamCmd.GetExisting(combatState, base.Owner);
         if (amalgam is { IsAlive: true } && stacks > 0m)
         {
-            await PowerCmd.Apply<AmalgamSlipperyPower>(amalgam, stacks, base.Owner.Creature, this);
+            await PowerCmd.Apply<AmalgamSlipperyPower>(choiceContext, amalgam, stacks, base.Owner.Creature, this);
         }
     }
 }
