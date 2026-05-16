@@ -80,7 +80,7 @@ public class QueenCharacter : ModCharacterTemplate<QueenCardPool, QueenRelicPool
 
     public override float CastAnimDelay => 0.2f;
 
-    protected override NCreatureVisuals? TryCreateCreatureVisuals() => RitsuGodotNodeFactories.CreateFromScenePath<NCreatureVisuals>(AssetProfile.Scenes!.VisualsPath!);
+    protected override NCreatureVisuals? TryCreateCreatureVisuals() => RitsuGodotNodeFactories.CreateFromScenePath<NCreatureVisuals>(CustomVisualsPath);
 
     protected override Type? UnlocksAfterRunAsType => typeof(Defect);
     protected override ModAnimStateMachine? SetupCustomCombatAnimationStateMachine(Node visualsRoot, CharacterModel character)
