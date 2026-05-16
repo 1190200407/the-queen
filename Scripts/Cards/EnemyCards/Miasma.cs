@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BaseLib.Utils;
+
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -11,10 +11,12 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Models.Powers;
 
+using STS2RitsuLib.Interop.AutoRegistration;
+
 namespace ComicChess.TheQueen;
 
 /// <summary>瘴气：降低目标本回合敏捷，你获得敏捷；消耗。</summary>
-[Pool(typeof(EnemyCardPool))]
+[RegisterCard(typeof(EnemyCardPool))]
 public sealed class Miasma : QueenCardModel
 {
     private const int energyCost = 1;
@@ -36,7 +38,7 @@ public sealed class Miasma : QueenCardModel
         new IntVar("PlayerDexterityGain", playerDexterityGain),
     ];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
         HoverTipFactory.FromPower<DexterityPower>(),
     ];

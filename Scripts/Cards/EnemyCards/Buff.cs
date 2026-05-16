@@ -1,18 +1,19 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BaseLib.Extensions;
-using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Models.Powers;
+using STS2RitsuLib.Cards.DynamicVars;
+using STS2RitsuLib.Interop.AutoRegistration;
+using STS2RitsuLib.Keywords;
 
 namespace ComicChess.TheQueen;
 
 /// <summary>增益（蜜虫）：召唤；<see cref="FriendlyAmalgamCmd.CombineIntent"/> 学习聚合体获得力量（与盛碗虫系共用 <see cref="Headbutt.BowlbugRockCompositeKey"/>）。消耗。</summary>
-[Pool(typeof(EnemyCardPool))]
+[RegisterCard(typeof(EnemyCardPool))]
 public sealed class Buff : LearnIntentCardModel
 {
     private const decimal summon = 3m;
@@ -23,20 +24,20 @@ public sealed class Buff : LearnIntentCardModel
     private const TargetType targetType = TargetType.Self;
     private const bool shouldShowInCardLibrary = true;
 
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust, QueenKeyword.amalgamComposite];
-
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
+    protected override IEnumerable<string> RegisteredKeywordIds => [QueenKeyword.AmalgamComposite];
     public override int MaxUpgradeLevel => 0;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new SummonVar(summon).WithTooltip("QUEEN_SUMMON_DYNAMIC"),
+        new SummonVar(summon).WithSharedTooltip("QUEEN_SUMMON_DYNAMIC"),
         new AmalgamLearnIntentStrengthVar(learnIntentStrength),
     ];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
         QueenHoverTips.LearnIntent,
-        HoverTipFactory.FromKeyword(QueenKeyword.amalgamComposite),
+        ModKeywordRegistry.CreateHoverTip(QueenKeyword.AmalgamComposite),
         HoverTipFactory.FromPower<StrengthPower>(),
     ];
 

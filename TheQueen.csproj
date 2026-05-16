@@ -22,10 +22,7 @@
       <Private>false</Private>
     </Reference>
 
-    <Reference Include="BaseLib">
-      <HintPath>$(Sts2Dir)/mods/BaseLib/BaseLib.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
+    <PackageReference Include=" STS2.RitsuLib.Compat.0.103.2 " Version="*" />
 
   </ItemGroup>
 

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BaseLib.Extensions;
-using BaseLib.Utils;
+
+
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -11,10 +11,12 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Models.Powers;
 
+using STS2RitsuLib.Interop.AutoRegistration;
+
 namespace ComicChess.TheQueen;
 
 /// <summary>难以杀灭：聚合体获得 9 层难以杀灭，持续 1 回合；消耗。</summary>
-[Pool(typeof(EnemyCardPool))]
+[RegisterCard(typeof(EnemyCardPool))]
 public sealed class HardToKill : QueenCardModel
 {
     private const int energyCost = 2;
@@ -31,7 +33,7 @@ public sealed class HardToKill : QueenCardModel
         new PowerVar<AmalgamHardToKillPower>(hardToKillStacks),
     ];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
         HoverTipFactory.FromPower<AmalgamHardToKillPower>(),
     ];

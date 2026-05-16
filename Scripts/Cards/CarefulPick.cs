@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BaseLib.Utils;
+
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using System.Linq;
@@ -15,7 +15,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 namespace ComicChess.TheQueen;
 
-[Pool(typeof(QueenCardPool))]
+
 public sealed class CarefulPick : QueenCardModel
 {
     private const decimal damage = 5m;
@@ -27,7 +27,7 @@ public sealed class CarefulPick : QueenCardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(damage, ValueProp.Move)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromPower<AmalgamPickLockPower>()];
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [HoverTipFactory.FromPower<AmalgamPickLockPower>()];
 
     public CarefulPick()
         : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)

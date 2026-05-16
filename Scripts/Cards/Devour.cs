@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BaseLib.Utils;
+
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -12,9 +12,12 @@ using MegaCrit.Sts2.Core.Models.Afflictions;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Models.Powers;
 
+using STS2RitsuLib.Interop.AutoRegistration;
+
+using STS2RitsuLib.Keywords;
 namespace ComicChess.TheQueen;
 
-[Pool(typeof(TokenCardPool))]
+[RegisterCard(typeof(TokenCardPool))]
 public sealed class Devour : QueenCardModel
 {
 	private const int energyCost = 0;
@@ -26,7 +29,7 @@ public sealed class Devour : QueenCardModel
 	/// <summary>消逝 + 魂缚；文案由补丁/关键词展示，勿在 <c>cards.json</c> 重复写。</summary>
 	internal override bool HasSelfBound => true;
 
-	public override IEnumerable<CardKeyword> CanonicalKeywords => [QueenKeyword.fade];
+	protected override IEnumerable<string> RegisteredKeywordIds => [QueenKeyword.Fade];
 
 	protected override IEnumerable<DynamicVar> CanonicalVars =>
 	[
@@ -34,12 +37,12 @@ public sealed class Devour : QueenCardModel
 		new CalculationBaseVar(0m),
 		new CalculationExtraVar(1m),
 		new CalculatedVar("HungerPower").WithMultiplier(static (CardModel card, Creature? _) =>
-			card.Owner?.Creature?.GetPower<HungerPower>() is { Amount: > 0 } h ? h.Amount : 0m),
+			card.Owner?.Creature?.GetPower<QueenHungerPower>() is { Amount: > 0 } h ? h.Amount : 0m),
 	];
 
-	protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+	protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
 	[
-		HoverTipFactory.FromKeyword(QueenKeyword.fade),
+		ModKeywordRegistry.CreateHoverTip(QueenKeyword.Fade),
 		HoverTipFactory.FromPower<StrengthPower>(),
 		.. HoverTipFactory.FromAffliction<Bound>(),
 	];
@@ -59,7 +62,7 @@ public sealed class Devour : QueenCardModel
 		decimal strAmount = base.DynamicVars.Strength.BaseValue;
 		await PowerCmd.Apply<DevourStrengthPower>(creature, strAmount, creature, this);
 
-		if (creature.GetPower<HungerPower>() is { Amount: > 0 } hunger)
+		if (creature.GetPower<QueenHungerPower>() is { Amount: > 0 } hunger)
 		{
 			await QueenCardCmd.AddSoulLamp(base.Owner, hunger.Amount);
 		}

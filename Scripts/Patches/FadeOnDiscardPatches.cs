@@ -8,6 +8,7 @@ using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Hooks;
 using MegaCrit.Sts2.Core.Models;
+using STS2RitsuLib.Keywords;
 
 namespace ComicChess.TheQueen;
 
@@ -21,7 +22,7 @@ internal static class FadeOnDiscardPatches
 	private static readonly object ExhaustNotifyQueueLock = new object();
 	private static Task ExhaustNotifyQueue = Task.CompletedTask;
 
-	private static bool HasFade(CardModel card) => card.Keywords.Contains(QueenKeyword.fade);
+	private static bool HasFade(CardModel card) => card.HasModKeyword(QueenKeyword.Fade);
 
 	private static void EnqueueFadeExhaustNotify(CombatState combatState, CardModel card)
 	{

@@ -30,10 +30,10 @@ public sealed class AmalgamSkittishPower : QueenPowerModel, IAmalgamEventListene
 
     public override PowerStackType StackType => PowerStackType.Counter;
 
-    public override string? CustomPackedIconPath => "res://images/atlases/power_atlas.sprites/skittish_power.tres";
+    public override string? CustomIconPath => "res://images/atlases/power_atlas.sprites/skittish_power.tres";
     public override string? CustomBigIconPath => "res://images/powers/skittish_power.png";
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
         [HoverTipFactory.FromPower<BlockNextTurnPower>()];
 
     public override Task AfterTurnEnd(PlayerChoiceContext choiceContext, CombatSide side)

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Players;
@@ -8,18 +9,17 @@ using MegaCrit.Sts2.Core.Models.Powers;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>领地意识：回合开始时，若聚合体存活，则使其获得 <see cref="PowerModel.Amount"/> 点力量。</summary>
-public sealed class TerritorialAwarenessPower : QueenPowerModel
+/// <summary>领地意识：回合开始时，若聚合体存活，则使其获得力量。类名不可为 <c>TerritorialAwarenessPower</c>（与原版 ModelId 冲突）。</summary>
+public sealed class AmalgamTerritorialAwarenessPower : QueenPowerModel
 {
     public override PowerType Type => PowerType.Buff;
 
     public override PowerStackType StackType => PowerStackType.Counter;
 
-    // 尝试复用原版 Territorial 的图标资源；若运行时不可用，可改回本 mod 自带图。
-    public override string? CustomPackedIconPath => "res://images/atlases/power_atlas.sprites/territorial_power.tres";
+    public override string? CustomIconPath => "res://images/atlases/power_atlas.sprites/territorial_power.tres";
     public override string? CustomBigIconPath => "res://images/powers/territorial_power.png";
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromPower<StrengthPower>()];
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [HoverTipFactory.FromPower<StrengthPower>()];
 
     public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
     {

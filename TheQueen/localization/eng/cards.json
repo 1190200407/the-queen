@@ -394,7 +394,7 @@
     "COMICCHESS-CURSE_OF_KNOWLEDGE.title":"Curse of Knowledge",
     "COMICCHESS-CURSE_OF_KNOWLEDGE.description":"[gold]Summon[/gold] {Summon:diff()}.\n[gold]Learn Intent[/gold]: Choose 1: [gold]Rejuvenate[/gold], [gold]Mind Clarity[/gold], or [gold]Disintegration[/gold], then execute it.",
     "COMICCHESS-LIQUIFY_GROUND.title":"Liquify Ground",
-    "COMICCHESS-LIQUIFY_GROUND.description":"Gain {SandpitPower:diff()} (6) [gold]Sandpit[/gold].\n[gold]Summon[/gold] {Summon:diff()}.\n[gold]Learn Intent[/gold]: Create 1 [gold]Sandpit Tug[/gold].",
+    "COMICCHESS-LIQUIFY_GROUND.description":"Gain {AmalgamSandpitPower:diff()} (6) [gold]Sandpit[/gold].\n[gold]Summon[/gold] {Summon:diff()}.\n[gold]Learn Intent[/gold]: Create 1 [gold]Sandpit Tug[/gold].",
     "COMICCHESS-SANDPIT_TUG.title":"Sandpit Tug",
     "COMICCHESS-SANDPIT_TUG.description":"Your [gold]Sandpit[/gold] count -1.",
     "COMICCHESS-FRANTIC_TUG.title":"Frantic Tug",

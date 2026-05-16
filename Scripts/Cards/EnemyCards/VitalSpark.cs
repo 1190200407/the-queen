@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BaseLib.Extensions;
-using BaseLib.Utils;
+
+
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -10,10 +10,12 @@ using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.CardPools;
 
+using STS2RitsuLib.Interop.AutoRegistration;
+
 namespace ComicChess.TheQueen;
 
 /// <summary>活力火花：使聚合体获得活力火花。</summary>
-[Pool(typeof(EnemyCardPool))]
+[RegisterCard(typeof(EnemyCardPool))]
 public sealed class VitalSpark : QueenCardModel
 {
     private const int energyCost = 1;
@@ -28,7 +30,7 @@ public sealed class VitalSpark : QueenCardModel
         new PowerVar<AmalgamVitalSparkPower>(vitalSparkStacks),
     ];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
         EnergyHoverTip
     ];

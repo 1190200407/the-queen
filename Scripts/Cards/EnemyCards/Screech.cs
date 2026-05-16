@@ -1,17 +1,19 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BaseLib.Extensions;
-using BaseLib.Utils;
+
+
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.CardPools;
+using STS2RitsuLib.Cards.DynamicVars;
+using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
 /// <summary>刺耳尖啸：召唤并学习「目标本回合失去力量 + 生成一张刺耳尖啸」�?/summary>
-[Pool(typeof(EnemyCardPool))]
+[RegisterCard(typeof(EnemyCardPool))]
 public sealed class Screech : LearnIntentCardModel
 {
     private const int energyCost = 1;
@@ -24,7 +26,7 @@ public sealed class Screech : LearnIntentCardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new SummonVar(5m).WithTooltip("QUEEN_SUMMON_DYNAMIC"),
+        new SummonVar(5m).WithSharedTooltip("QUEEN_SUMMON_DYNAMIC"),
         new IntVar("LearnIntentStrengthLoss", 3m),
         new IntVar("LearnIntentGenerate", 1m),
     ];

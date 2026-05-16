@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BaseLib.Extensions;
-using BaseLib.Utils;
+
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -9,10 +8,11 @@ using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.ValueProps;
+using STS2RitsuLib.Cards.DynamicVars;
 
 namespace ComicChess.TheQueen;
 
-[Pool(typeof(QueenCardPool))]
+
 public sealed class DormantRebirth : QueenCardModel
 {
     private const decimal summonBase = 8m;
@@ -24,7 +24,7 @@ public sealed class DormantRebirth : QueenCardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new SummonVar(summonBase).WithTooltip("QUEEN_SUMMON_DYNAMIC")
+        new SummonVar(summonBase).WithSharedTooltip("QUEEN_SUMMON_DYNAMIC")
     ];
 
     public DormantRebirth()

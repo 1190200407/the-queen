@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BaseLib.Utils;
+
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -10,9 +10,10 @@ using MegaCrit.Sts2.Core.Models.Afflictions;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.ValueProps;
 
+using STS2RitsuLib.Keywords;
 namespace ComicChess.TheQueen;
 
-[Pool(typeof(QueenCardPool))]
+
 public sealed class HandOfSeizure : QueenCardModel
 {
 	private const int energyCost = 0;
@@ -25,8 +26,8 @@ public sealed class HandOfSeizure : QueenCardModel
 
 	protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(7m, ValueProp.Move)];
 
-	protected override IEnumerable<IHoverTip> ExtraHoverTips => [
-		HoverTipFactory.FromKeyword(QueenKeyword.fade),
+	protected override IEnumerable<IHoverTip> AdditionalHoverTips => [
+		ModKeywordRegistry.CreateHoverTip(QueenKeyword.Fade),
 		HoverTipFactory.FromCard<HandOfRefusal>(upgrade: base.IsUpgraded),
 		.. HoverTipFactory.FromAffliction<Bound>(),
 		HoverTipFactory.FromPower<SoulLampPower>()

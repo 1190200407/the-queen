@@ -1,21 +1,12 @@
-using BaseLib.Abstracts;
+
 using MegaCrit.Sts2.Core.Entities.Cards;
 using Godot;
+using STS2RitsuLib.Scaffolding.Content;
 
 namespace ComicChess.TheQueen;
 
-public abstract class QueenPowerModel : CustomPowerModel
+public abstract class QueenPowerModel : ModPowerTemplate
 {
-    public override string? CustomPackedIconPath
-    {
-        get
-        {
-            string key = ResolvePowerIconKey();
-            string custom = $"res://TheQueen/images/powers/{key}.png";
-            return ResourceLoader.Exists(custom) ? custom : "res://TheQueen/images/powers/power.png";
-        }
-    }
-
     public override string? CustomBigIconPath
     {
         get
@@ -28,7 +19,7 @@ public abstract class QueenPowerModel : CustomPowerModel
 
     private string ResolvePowerIconKey()
     {
-        string key = Id.Entry.ToLowerInvariant().Replace("comicchess-", "");
+        string key = Id.Entry.ToLowerInvariant().Replace("sts2_comicchess_thequeen_power_", "");
         if (key.EndsWith("_power"))
         {
             key = key[..^"_power".Length];

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BaseLib.Utils;
+
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -9,7 +9,7 @@ using MegaCrit.Sts2.Core.Models.CardPools;
 
 namespace ComicChess.TheQueen;
 
-[Pool(typeof(QueenCardPool))]
+
 public sealed class AmalgamArmyBreak : QueenCardModel
 {
     private const int energyCost = 1;
@@ -18,7 +18,7 @@ public sealed class AmalgamArmyBreak : QueenCardModel
     private const TargetType targetType = TargetType.Self;
     private const bool shouldShowInCardLibrary = true;
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromPower<AmalgamArmyBreakPower>()];
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [HoverTipFactory.FromPower<AmalgamArmyBreakPower>()];
 
     public AmalgamArmyBreak()
         : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)

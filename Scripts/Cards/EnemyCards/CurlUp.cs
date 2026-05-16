@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BaseLib.Extensions;
-using BaseLib.Utils;
+
+
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -11,10 +11,12 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.ValueProps;
 
+using STS2RitsuLib.Interop.AutoRegistration;
+
 namespace ComicChess.TheQueen;
 
 /// <summary>蜷身：使聚合体获得蜷身，并学习「攻击 + 本回合失去力量」意图。</summary>
-[Pool(typeof(EnemyCardPool))]
+[RegisterCard(typeof(EnemyCardPool))]
 public sealed class CurlUp : LearnIntentCardModel
 {
     private const int energyCost = 2;
@@ -30,9 +32,9 @@ public sealed class CurlUp : LearnIntentCardModel
         new IntVar("LearnIntentStrengthLoss", 2m),
     ];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
-        ..base.ExtraHoverTips,
+        ..base.AdditionalHoverTips,
         HoverTipFactory.FromPower<AmalgamCurlUpPower>(),
     ];
 

@@ -1,18 +1,20 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BaseLib.Extensions;
-using BaseLib.Utils;
+
+
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.ValueProps;
+using STS2RitsuLib.Cards.DynamicVars;
+using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
 /// <summary>钳击：召唤；学习 8×2 伤害；学习抽牌并附魔（晕眩/虚无）。</summary>
-[Pool(typeof(EnemyCardPool))]
+[RegisterCard(typeof(EnemyCardPool))]
 public sealed class Clamp : LearnIntentCardModel
 {
     private const int learnIntentHitCount = 2;
@@ -25,14 +27,14 @@ public sealed class Clamp : LearnIntentCardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new SummonVar(10m).WithTooltip("QUEEN_SUMMON_DYNAMIC"),
+        new SummonVar(10m).WithSharedTooltip("QUEEN_SUMMON_DYNAMIC"),
         new AmalgamLearnIntentDamageVar(8m, ValueProp.Move),
         new IntVar("LearnIntentDraw", learnIntentDraw),
     ];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
-        ..base.ExtraHoverTips,
+        ..base.AdditionalHoverTips,
         ..HoverTipFactory.FromEnchantment<Dazed>(),
     ];
 

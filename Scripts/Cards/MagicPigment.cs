@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BaseLib.Utils;
+
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Factories;
@@ -16,7 +16,7 @@ using MegaCrit.Sts2.Core.Random;
 namespace ComicChess.TheQueen;
 
 /// <summary>神奇颜料：生成若干张随机颜色牌（卡池同 <see cref="HexCursePower"/>）并侵蚀为魂缚，获得魂灯。消耗。</summary>
-[Pool(typeof(QueenCardPool))]
+
 public sealed class MagicPigment : QueenCardModel
 {
     private const int energyCost = 1;
@@ -29,7 +29,7 @@ public sealed class MagicPigment : QueenCardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [new CardsVar(2)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
         ..HoverTipFactory.FromAffliction<Bound>(),
         HoverTipFactory.FromPower<SoulLampPower>(),

@@ -29,10 +29,10 @@ public sealed class AmalgamSwipePower : QueenPowerModel, IAmalgamEventListener
 
     public override bool IsInstanced => true;
 
-    public override string? CustomPackedIconPath => "res://images/atlases/power_atlas.sprites/swipe_power.tres";
+    public override string? CustomIconPath => "res://images/atlases/power_atlas.sprites/swipe_power.tres";
     public override string? CustomBigIconPath => "res://images/powers/swipe_power.png";
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => _stolenCard == null ? [] : [HoverTipFactory.FromCard(_stolenCard)];
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => _stolenCard == null ? [] : [HoverTipFactory.FromCard(_stolenCard)];
 
     public async Task OnAmalgamEscapeAsync(CombatState combatState, Creature amalgam)
     {

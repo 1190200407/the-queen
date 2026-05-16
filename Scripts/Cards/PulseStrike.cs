@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BaseLib.Utils;
+
 using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Combat;
@@ -19,7 +19,7 @@ using MegaCrit.Sts2.Core.Entities.Creatures;
 namespace ComicChess.TheQueen;
 
 /// <summary>脉冲打击：0 费罕见攻击；伤害；弃 2；每当手牌数达到 8 张或以上且本牌不在手牌时，移回手牌（与原版「如此甚好」同类钩子）。</summary>
-[Pool(typeof(QueenCardPool))]
+
 public sealed class PulseStrike : QueenCardModel
 {
 	private const int energyCost = 0;

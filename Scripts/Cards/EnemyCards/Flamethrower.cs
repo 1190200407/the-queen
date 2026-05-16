@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BaseLib.Extensions;
-using BaseLib.Utils;
+
+
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
@@ -9,11 +9,13 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.Afflictions;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.ValueProps;
+using STS2RitsuLib.Cards.DynamicVars;
+using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
 /// <summary>火焰喷射器：召唤并学习「抽牌附魔（灼烧�? 下回合伤害」意图；消耗�?/summary>
-[Pool(typeof(EnemyCardPool))]
+[RegisterCard(typeof(EnemyCardPool))]
 public sealed class Flamethrower : LearnIntentCardModel
 {
     private const int energyCost = 3;
@@ -24,7 +26,7 @@ public sealed class Flamethrower : LearnIntentCardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new SummonVar(15m).WithTooltip("QUEEN_SUMMON_DYNAMIC"),
+        new SummonVar(15m).WithSharedTooltip("QUEEN_SUMMON_DYNAMIC"),
         new IntVar("LearnIntentDraw", 4m),
         new IntVar("LearnIntentBurn", 3m),
         new AmalgamLearnIntentDamageVar(40m, ValueProp.Move),
@@ -32,9 +34,9 @@ public sealed class Flamethrower : LearnIntentCardModel
 
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
-        ..base.ExtraHoverTips,
+        ..base.AdditionalHoverTips,
         ..HoverTipFactory.FromEnchantment<Burn>(3),
     ];
 

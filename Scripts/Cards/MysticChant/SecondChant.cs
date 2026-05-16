@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BaseLib.Utils;
+
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -10,9 +10,11 @@ using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Afflictions;
 using MegaCrit.Sts2.Core.Models.CardPools;
 
+using STS2RitsuLib.Interop.AutoRegistration;
+
 namespace ComicChess.TheQueen;
 
-[Pool(typeof(TokenCardPool))]
+[RegisterCard(typeof(TokenCardPool))]
 public sealed class SecondChant : QueenCardModel
 {
 	private const int energyCost = 13;
@@ -23,9 +25,9 @@ public sealed class SecondChant : QueenCardModel
 
 	public override int MaxUpgradeLevel => 0;
 
-	public override IEnumerable<CardKeyword> CanonicalKeywords => [QueenKeyword.fade];
+	protected override IEnumerable<string> RegisteredKeywordIds => [QueenKeyword.Fade];
 
-	protected override IEnumerable<IHoverTip> ExtraHoverTips => [.. HoverTipFactory.FromAffliction<Bound>()];
+	protected override IEnumerable<IHoverTip> AdditionalHoverTips => [.. HoverTipFactory.FromAffliction<Bound>()];
 
 	internal override bool HasSelfBound => true;
 

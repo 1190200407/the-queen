@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BaseLib.Extensions;
-using BaseLib.Utils;
+
+
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
@@ -10,11 +10,13 @@ using MegaCrit.Sts2.Core.Models.Afflictions;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
+using STS2RitsuLib.Cards.DynamicVars;
+using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
 /// <summary>喷油：召唤并学习进攻 + 虚弱意图；自带魂缚。</summary>
-[Pool(typeof(EnemyCardPool))]
+[RegisterCard(typeof(EnemyCardPool))]
 public sealed class OilSpray : LearnIntentCardModel
 {
     private const int energyCost = 1;
@@ -25,7 +27,7 @@ public sealed class OilSpray : LearnIntentCardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new SummonVar(5m).WithTooltip("QUEEN_SUMMON_DYNAMIC"),
+        new SummonVar(5m).WithSharedTooltip("QUEEN_SUMMON_DYNAMIC"),
         new AmalgamLearnIntentDamageVar(8m, ValueProp.Move),
         new AmalgamLearnIntentWeakVar(2m),
     ];
@@ -34,9 +36,9 @@ public sealed class OilSpray : LearnIntentCardModel
     protected override bool ShouldSummonBeforeLearnIntent => true;
     internal override bool HasSelfBound => true;
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
-        ..base.ExtraHoverTips,
+        ..base.AdditionalHoverTips,
         HoverTipFactory.FromPower<WeakPower>(),
         ..HoverTipFactory.FromAffliction<Bound>(),
     ];

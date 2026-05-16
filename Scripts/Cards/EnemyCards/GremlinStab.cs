@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System;
 using System.Threading.Tasks;
-using BaseLib.Extensions;
-using BaseLib.Utils;
+
+
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -13,10 +13,12 @@ using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.ValueProps;
 
+using STS2RitsuLib.Interop.AutoRegistration;
+
 namespace ComicChess.TheQueen;
 
-/// <summary>刺击：召唤聚合体、造成伤害，并偷取金币（进入 <see cref="HeistPower"/> 资金池）。</summary>
-[Pool(typeof(EnemyCardPool))]
+/// <summary>刺击：召唤聚合体、造成伤害，并偷取金币（进入 <see cref="AmalgamHeistPower"/> 资金池）。</summary>
+[RegisterCard(typeof(EnemyCardPool))]
 public sealed class GremlinStab : QueenCardModel
 {
     private const int energyCost = 1;
@@ -73,11 +75,11 @@ public sealed class GremlinStab : QueenCardModel
         decimal gold = base.DynamicVars.Gold.BaseValue;
         if (gold > 0m)
         {
-            HeistPower? heist = amalgam.GetPower<HeistPower>();
+            AmalgamHeistPower? heist = amalgam.GetPower<AmalgamHeistPower>();
             Creature? applier = amalgam.PetOwner?.Creature;
             if (heist is null)
             {
-                await PowerCmd.Apply<HeistPower>(amalgam, gold, applier, this);
+                await PowerCmd.Apply<AmalgamHeistPower>(amalgam, gold, applier, this);
             }
             else
             {

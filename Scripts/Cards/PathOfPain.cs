@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BaseLib.Utils;
+
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
@@ -12,7 +12,7 @@ using MegaCrit.Sts2.Core.Models.Powers;
 namespace ComicChess.TheQueen;
 
 /// <summary>苦痛之路：能力牌；可叠加。每打出一张牌，对随机敌人施加与能力层数相同层数的毒/灾厄/消亡之一。</summary>
-[Pool(typeof(QueenCardPool))]
+
 public sealed class PathOfPain : QueenCardModel
 {
 	private const int energyCost = 1;
@@ -21,7 +21,7 @@ public sealed class PathOfPain : QueenCardModel
 	private const TargetType targetType = TargetType.Self;
 	private const bool shouldShowInCardLibrary = true;
 
-	protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+	protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
 	[
 		HoverTipFactory.FromPower<PoisonPower>(),
 		HoverTipFactory.FromPower<DoomPower>(),

@@ -1,16 +1,18 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BaseLib.Extensions;
-using BaseLib.Utils;
+
+
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.CardPools;
 
+using STS2RitsuLib.Cards.DynamicVars;
+
 namespace ComicChess.TheQueen;
 
-[Pool(typeof(QueenCardPool))]
+
 public sealed class GrantDefense : LearnIntentCardModel
 {
 	private const decimal learnIntentBlock = 4m;
@@ -22,11 +24,11 @@ public sealed class GrantDefense : LearnIntentCardModel
 
 	protected override IEnumerable<DynamicVar> CanonicalVars =>
 	[
-		new SummonVar(3m).WithTooltip("QUEEN_SUMMON_DYNAMIC"),
+		new SummonVar(3m).WithSharedTooltip("QUEEN_SUMMON_DYNAMIC"),
 		new AmalgamLearnIntentBlockVar(learnIntentBlock)
 	];
 
-	protected override IEnumerable<IHoverTip> ExtraHoverTips => [QueenHoverTips.LearnIntent];
+	protected override IEnumerable<IHoverTip> AdditionalHoverTips => [QueenHoverTips.LearnIntent];
 	protected override bool ShouldSummonBeforeLearnIntent => true;
 
 	public GrantDefense()

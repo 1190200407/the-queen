@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BaseLib.Utils;
+
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -15,7 +15,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 namespace ComicChess.TheQueen;
 
 /// <summary>臣服于我！：基础伤害 + 目标每有 1 点净失去的力量（StrengthPower 为负）× ExtraDamage。</summary>
-[Pool(typeof(QueenCardPool))]
+
 public sealed class SubmitToMe : QueenCardModel
 {
 	private const int energyCost = 2;
@@ -38,7 +38,7 @@ public sealed class SubmitToMe : QueenCardModel
 		}),
 	];
 
-	protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromPower<StrengthPower>()];
+	protected override IEnumerable<IHoverTip> AdditionalHoverTips => [HoverTipFactory.FromPower<StrengthPower>()];
 
 	public SubmitToMe()
 		: base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)

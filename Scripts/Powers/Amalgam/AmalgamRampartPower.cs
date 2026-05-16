@@ -15,7 +15,7 @@ public sealed class AmalgamRampartPower : QueenPowerModel
     public override PowerStackType StackType => PowerStackType.Counter;
 
     // 复用原版 Rampart 的图标资源。
-    public override string? CustomPackedIconPath => "res://images/atlases/power_atlas.sprites/rampart_power.tres";
+    public override string? CustomIconPath => "res://images/atlases/power_atlas.sprites/rampart_power.tres";
     public override string? CustomBigIconPath => "res://images/powers/rampart_power.png";
 
     public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BaseLib.Utils;
+
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -14,7 +14,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 namespace ComicChess.TheQueen;
 
 /// <summary>坠击：聚合体对随机敌人造成多段伤害。</summary>
-[Pool(typeof(QueenCardPool))]
+
 public sealed class DropStrike : QueenCardModel
 {
     private const int energyCost = 2;

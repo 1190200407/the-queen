@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BaseLib.Utils;
+
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -11,9 +11,10 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.CardPools;
 
+using STS2RitsuLib.Keywords;
 namespace ComicChess.TheQueen;
 
-[Pool(typeof(QueenCardPool))]
+
 public sealed class GemWhirl : QueenCardModel
 {
 	private bool _soulLampReturnFromExhaustPending = true;
@@ -24,13 +25,13 @@ public sealed class GemWhirl : QueenCardModel
 	private const TargetType targetType = TargetType.Self;
 	private const bool shouldShowInCardLibrary = true;
 
-	public override IEnumerable<CardKeyword> CanonicalKeywords => [QueenKeyword.fade];
+	protected override IEnumerable<string> RegisteredKeywordIds => [QueenKeyword.Fade];
 
 	protected override IEnumerable<DynamicVar> CanonicalVars => [new IntVar("Draw", 1m)];
 
-	protected override IEnumerable<IHoverTip> ExtraHoverTips => [
+	protected override IEnumerable<IHoverTip> AdditionalHoverTips => [
 		HoverTipFactory.FromPower<SoulLampPower>(),
-		HoverTipFactory.FromKeyword(QueenKeyword.fade)
+		ModKeywordRegistry.CreateHoverTip(QueenKeyword.Fade)
 	];
 
 	public GemWhirl()

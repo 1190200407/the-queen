@@ -17,7 +17,7 @@ public sealed class AmalgamReattachPower : QueenPowerModel
 
     public override PowerStackType StackType => PowerStackType.Single;
     
-    public override string? CustomPackedIconPath => "res://images/atlases/power_atlas.sprites/reattach_power.tres";
+    public override string? CustomIconPath => "res://images/atlases/power_atlas.sprites/reattach_power.tres";
     public override string? CustomBigIconPath => "res://images/powers/reattach_power.png";
 
     public override async Task BeforeDeath(Creature creature)

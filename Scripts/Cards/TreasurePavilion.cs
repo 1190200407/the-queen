@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BaseLib.Utils;
+
 using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -15,7 +15,7 @@ using MegaCrit.Sts2.Core.Models.CardPools;
 namespace ComicChess.TheQueen;
 
 /// <summary>藏宝阁：从弃牌堆取回 1 张非魂缚牌并侵蚀为魂缚，获得 1 点魂灯。</summary>
-[Pool(typeof(QueenCardPool))]
+
 public sealed class TreasurePavilion : QueenCardModel
 {
     private const int energyCost = 1;
@@ -26,9 +26,9 @@ public sealed class TreasurePavilion : QueenCardModel
 
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
-        ..base.ExtraHoverTips,
+        ..base.AdditionalHoverTips,
         ..HoverTipFactory.FromAffliction<Bound>(),
         HoverTipFactory.FromPower<SoulLampPower>(),
     ];

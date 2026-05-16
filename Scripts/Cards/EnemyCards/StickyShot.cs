@@ -1,16 +1,18 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BaseLib.Utils;
+
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.CardPools;
 
+using STS2RitsuLib.Interop.AutoRegistration;
+
 namespace ComicChess.TheQueen;
 
 /// <summary>粘性射击：学习意图为抽牌并附魔（黏液）。</summary>
-[Pool(typeof(EnemyCardPool))]
+[RegisterCard(typeof(EnemyCardPool))]
 public sealed class StickyShot : LearnIntentCardModel
 {
     private const decimal learnIntentDraw = 2m;
@@ -25,7 +27,7 @@ public sealed class StickyShot : LearnIntentCardModel
         new IntVar("LearnIntentDraw", learnIntentDraw),
     ];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [..HoverTipFactory.FromEnchantment<Slimed>()];
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [..HoverTipFactory.FromEnchantment<Slimed>()];
 
     public override int MaxUpgradeLevel => 0;
 

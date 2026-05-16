@@ -1,6 +1,6 @@
 using System.Linq;
 using System.Threading.Tasks;
-using BaseLib.Utils;
+
 using Godot;
 using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Commands;
@@ -13,10 +13,11 @@ using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.PotionPools;
 using MegaCrit.Sts2.Core.Nodes.Cards;
 using MegaCrit.Sts2.Core.Nodes.Rooms;
+using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
-[Pool(typeof(SharedPotionPool))]
+[RegisterPotion(typeof(SharedPotionPool))]
 public sealed class SourceOfClarity : QueenPotionModel
 {
 	private static readonly Color SplashTint = new("a8e6cf");

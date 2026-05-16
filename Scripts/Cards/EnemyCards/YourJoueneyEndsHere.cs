@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BaseLib.Extensions;
-using BaseLib.Utils;
+
+
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -11,11 +11,13 @@ using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Models.Powers;
+using STS2RitsuLib.Cards.DynamicVars;
+using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
 /// <summary>你的旅程，到此为止：召唤后让聚合体沉睡 2 回合，随后获得力量。</summary>
-[Pool(typeof(EnemyCardPool))]
+[RegisterCard(typeof(EnemyCardPool))]
 public sealed class YourJoueneyEndsHere : QueenCardModel
 {
     private const int energyCost = 1;
@@ -26,12 +28,12 @@ public sealed class YourJoueneyEndsHere : QueenCardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new SummonVar(9m).WithTooltip("QUEEN_SUMMON_DYNAMIC"),
+        new SummonVar(9m).WithSharedTooltip("QUEEN_SUMMON_DYNAMIC"),
         new PowerVar<StrengthPower>(10m)
     ];
     public override int MaxUpgradeLevel => 0;
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
         HoverTipFactory.FromPower<StrengthPower>(),
     ];
@@ -53,7 +55,7 @@ public sealed class YourJoueneyEndsHere : QueenCardModel
             const decimal sleepTurns = 2m;
             await PowerCmd.Apply<AmalgamSleepPower>(amalgamCreature, sleepTurns, base.Owner.Creature, this);
 
-            YourJoueneyEndsHerePendingPower? pending = await PowerCmd.Apply<YourJoueneyEndsHerePendingPower>(
+            AmalgamYourJoueneyEndsHerePendingPower? pending = await PowerCmd.Apply<AmalgamYourJoueneyEndsHerePendingPower>(
                 amalgamCreature,
                 sleepTurns,
                 base.Owner.Creature,

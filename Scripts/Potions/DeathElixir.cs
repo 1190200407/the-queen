@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BaseLib.Utils;
+
 using Godot;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -13,10 +13,11 @@ using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.PotionPools;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.Nodes.Rooms;
+using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
-[Pool(typeof(QueenPotionPool))]
+[RegisterPotion(typeof(QueenPotionPool))]
 public sealed class DeathElixir : QueenPotionModel
 {
 	//#6b4a8a
@@ -35,7 +36,7 @@ public sealed class DeathElixir : QueenPotionModel
 		new PowerVar<DemisePower>(3m),
 	];
 
-	public override IEnumerable<IHoverTip> ExtraHoverTips =>
+	protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
 	[
 		HoverTipFactory.FromPower<PoisonPower>(),
 		HoverTipFactory.FromPower<DoomPower>(),

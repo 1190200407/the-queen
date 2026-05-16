@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BaseLib.Utils;
+
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -11,9 +11,11 @@ using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.ValueProps;
 
+using STS2RitsuLib.Interop.AutoRegistration;
+
 namespace ComicChess.TheQueen;
 
-[Pool(typeof(TokenCardPool))]
+[RegisterCard(typeof(TokenCardPool))]
 public sealed class Nibble : QueenCardModel
 {
     private const int energyCost = 0;
@@ -26,7 +28,7 @@ public sealed class Nibble : QueenCardModel
 
     public override int MaxUpgradeLevel => 0;
 
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [QueenKeyword.fade];
+    protected override IEnumerable<string> RegisteredKeywordIds => [QueenKeyword.Fade];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [

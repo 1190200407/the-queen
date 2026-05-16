@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BaseLib.Extensions;
-using BaseLib.Utils;
+
+
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -10,10 +10,12 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Models.Powers;
 
+using STS2RitsuLib.Interop.AutoRegistration;
+
 namespace ComicChess.TheQueen;
 
 /// <summary>恶咒：获得厄咒之力。</summary>
-[Pool(typeof(EnemyCardPool))]
+[RegisterCard(typeof(EnemyCardPool))]
 public sealed class Hex : QueenCardModel
 {
     private const int energyCost = 1;
@@ -24,7 +26,7 @@ public sealed class Hex : QueenCardModel
 
     public override int MaxUpgradeLevel => 0;
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromPower<HexPower>(), HoverTipFactory.FromKeyword(CardKeyword.Ethereal)];
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [HoverTipFactory.FromPower<HexPower>(), HoverTipFactory.FromKeyword(CardKeyword.Ethereal)];
 
     public Hex()
         : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)

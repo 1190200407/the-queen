@@ -1,7 +1,7 @@
 using System;
 using System.Reflection;
 using System.Threading.Tasks;
-using BaseLib.Utils;
+
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -19,7 +19,7 @@ using MegaCrit.Sts2.Core.Nodes.Vfx;
 namespace ComicChess.TheQueen;
 
 /// <summary>提线木偶：获得目标对应敌怪卡，3 回合后将其永久加入牌组。</summary>
-[Pool(typeof(QueenCardPool))]
+
 public sealed class Marionette : QueenCardModel, ICanMonsterCapture
 {
     private const int energyCost = 1;

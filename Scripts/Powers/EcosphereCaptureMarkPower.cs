@@ -22,7 +22,7 @@ public sealed class EcosphereCaptureMarkPower : QueenPowerModel
 
 	public override bool IsInstanced => true;
 
-	protected override IEnumerable<IHoverTip> ExtraHoverTips => [QueenHoverTips.Capture];
+	protected override IEnumerable<IHoverTip> AdditionalHoverTips => [QueenHoverTips.Capture];
 
 	public override async Task AfterDeath(PlayerChoiceContext choiceContext, Creature creature, bool wasRemovalPrevented, float deathAnimLength)
 	{

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BaseLib.Utils;
+
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Commands.Builders;
 using MegaCrit.Sts2.Core.Combat;
@@ -18,7 +18,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 namespace ComicChess.TheQueen;
 
 /// <summary>宣告：造成伤害并施加 2 回合内死亡可捕获的标记。</summary>
-[Pool(typeof(QueenCardPool))]
+
 public sealed class Declaration : QueenCardModel, ICanMonsterCapture
 {
     private const int energyCost = 1;
@@ -40,7 +40,7 @@ public sealed class Declaration : QueenCardModel, ICanMonsterCapture
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(7m, ValueProp.Move)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [QueenHoverTips.Capture];
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [QueenHoverTips.Capture];
 
     public Declaration()
         : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)

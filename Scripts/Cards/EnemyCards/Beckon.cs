@@ -1,17 +1,19 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BaseLib.Extensions;
-using BaseLib.Utils;
+
+
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.CardPools;
+using STS2RitsuLib.Cards.DynamicVars;
+using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
 /// <summary>呼唤：召唤并学习「施加呼唤」意图。</summary>
-[Pool(typeof(EnemyCardPool))]
+[RegisterCard(typeof(EnemyCardPool))]
 public sealed class Beckon : LearnIntentCardModel
 {
     private const int energyCost = 3;
@@ -23,13 +25,13 @@ public sealed class Beckon : LearnIntentCardModel
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         // 怪物牌不可升级：10(14) 落地为 14。
-        new SummonVar(14m).WithTooltip("QUEEN_SUMMON_DYNAMIC"),
+        new SummonVar(14m).WithSharedTooltip("QUEEN_SUMMON_DYNAMIC"),
         new IntVar("LearnIntentBeckon", 12m),
     ];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
-        ..base.ExtraHoverTips,
+        ..base.AdditionalHoverTips,
         HoverTipFactory.FromPower<BeckonPower>(),
     ];
 

@@ -28,7 +28,7 @@ public sealed class GazeNextTurnStrengthLossPower : QueenPowerModel
 
 	protected override object? InitInternalData() => new Data { EnemyTurnStartsBeforeLoss = 1 };
 
-	protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromPower<StrengthPower>()];
+	protected override IEnumerable<IHoverTip> AdditionalHoverTips => [HoverTipFactory.FromPower<StrengthPower>()];
 
     public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
     {

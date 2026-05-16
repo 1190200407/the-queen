@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BaseLib.Utils;
+
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -14,10 +14,12 @@ using MegaCrit.Sts2.Core.Models.Afflictions;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.ValueProps;
 
+using STS2RitsuLib.Interop.AutoRegistration;
+
 namespace ComicChess.TheQueen;
 
 /// <summary>偷窃：聚合体造成伤害、顺走目标对应怪物卡（<see cref="AmalgamSwipePower"/>），并启动/刷新逃跑倒计时（<see cref="AmalgamEscapePower"/>）。</summary>
-[Pool(typeof(EnemyCardPool))]
+[RegisterCard(typeof(EnemyCardPool))]
 public sealed class Swipe : QueenCardModel, ICanMonsterCapture
 {
     private const int energyCost = 2;
@@ -41,7 +43,7 @@ public sealed class Swipe : QueenCardModel, ICanMonsterCapture
         new PowerVar<AmalgamEscapePower>(escapeTurns),
     ];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
         ..HoverTipFactory.FromAffliction<Bound>(),
         HoverTipFactory.FromPower<AmalgamSwipePower>(),

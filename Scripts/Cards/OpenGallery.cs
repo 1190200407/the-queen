@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using BaseLib.Utils;
+
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -12,7 +12,7 @@ using MegaCrit.Sts2.Core.HoverTips;
 namespace ComicChess.TheQueen;
 
 /// <summary>开馆：每位联机队友获得一张「入场券」（升级后的开馆生成升级后的入场券）。</summary>
-[Pool(typeof(QueenCardPool))]
+
 public sealed class OpenGallery : QueenCardModel
 {
 	private const int energyCost = 1;
@@ -22,7 +22,7 @@ public sealed class OpenGallery : QueenCardModel
 	private const bool shouldShowInCardLibrary = true;
 
 	public override CardMultiplayerConstraint MultiplayerConstraint => CardMultiplayerConstraint.MultiplayerOnly;
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromCard<AdmissionTicket>(upgrade: base.IsUpgraded)];
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [HoverTipFactory.FromCard<AdmissionTicket>(upgrade: base.IsUpgraded)];
     public OpenGallery()
 		: base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
 	{

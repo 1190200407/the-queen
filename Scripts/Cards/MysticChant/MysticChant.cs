@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BaseLib.Utils;
+
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
@@ -9,7 +9,7 @@ using MegaCrit.Sts2.Core.Models.CardPools;
 
 namespace ComicChess.TheQueen;
 
-[Pool(typeof(QueenCardPool))]
+
 public sealed class MysticChant : QueenCardModel
 {
 	private const int energyCost = 0;
@@ -18,7 +18,7 @@ public sealed class MysticChant : QueenCardModel
 	private const TargetType targetType = TargetType.Self;
 	private const bool shouldShowInCardLibrary = true;
 
-	protected override IEnumerable<IHoverTip> ExtraHoverTips => [
+	protected override IEnumerable<IHoverTip> AdditionalHoverTips => [
 		HoverTipFactory.FromCard<FirstChant>(upgrade: false),
 		HoverTipFactory.FromCard<SecondChant>(upgrade: false),
 		HoverTipFactory.FromCard<FinalChant>(upgrade: false),

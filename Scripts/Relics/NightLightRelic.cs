@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BaseLib.Utils;
+
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Relics;
@@ -11,10 +11,12 @@ using MegaCrit.Sts2.Core.Models.RelicPools;
 using MegaCrit.Sts2.Core.Saves.Runs;
 using MegaCrit.Sts2.Core.ValueProps;
 
+using STS2RitsuLib.Interop.AutoRegistration;
+
 namespace ComicChess.TheQueen;
 
 /// <summary>小夜灯：每累计 {SoulLampPerTrigger} 层魂灯，获得 {Block} 点格挡（经 <see cref="QueenCardCmd.AddSoulLamp"/>；余数跨获得保留）。</summary>
-[Pool(typeof(QueenRelicPool))]
+[RegisterRelic(typeof(QueenRelicPool))]
 public sealed class NightLightRelic : QueenRelicModel
 {
 	public override RelicRarity Rarity => RelicRarity.Common;
@@ -29,7 +31,7 @@ public sealed class NightLightRelic : QueenRelicModel
 		new BlockVar(3m, ValueProp.Unpowered),
 	];
 
-	protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromPower<SoulLampPower>()];
+	protected override IEnumerable<IHoverTip> AdditionalHoverTips => [HoverTipFactory.FromPower<SoulLampPower>()];
 
 	/// <summary>已计入、尚未凑满一次格挡奖励的魂灯层数（0 或 1，当 <see cref="SoulLampPerTrigger"/> 为 2 时）。</summary>
 	[SavedProperty]

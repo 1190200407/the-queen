@@ -16,7 +16,7 @@ namespace ComicChess.TheQueen;
 
 /// <summary>
 /// 与 <see cref="CardCmd.AutoPlay"/> 对齐的实现（含 <see cref="TargetType.AnyPlayer"/> 随机目标），但不走经 BaseLib 补丁的入口，
-/// 避免其引用已移除的 <c>ICombatState</c> 时在 JIT 抛出 <see cref="TypeLoadException"/>。
+/// 避免其引用已移除的 <c>CombatState</c> 时在 JIT 抛出 <see cref="TypeLoadException"/>。
 /// </summary>
 internal static class CardAutoPlayDirect
 {

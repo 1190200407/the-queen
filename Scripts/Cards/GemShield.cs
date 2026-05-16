@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BaseLib.Utils;
+
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -11,7 +11,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 namespace ComicChess.TheQueen;
 
-[Pool(typeof(QueenCardPool))]
+
 public sealed class GemShield : QueenCardModel
 {
 	private const int energyCost = 1;
@@ -28,7 +28,7 @@ public sealed class GemShield : QueenCardModel
 		new DynamicVar("SoulLampNextTurn", 0m)
 	];
 
-	protected override IEnumerable<IHoverTip> ExtraHoverTips => IsUpgraded
+	protected override IEnumerable<IHoverTip> AdditionalHoverTips => IsUpgraded
 		? [base.EnergyHoverTip, HoverTipFactory.FromPower<SoulLampPower>()]
 		: [base.EnergyHoverTip];
 

@@ -1,18 +1,20 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BaseLib.Extensions;
-using BaseLib.Utils;
+
+
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Models.Powers;
+using STS2RitsuLib.Cards.DynamicVars;
+using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
 /// <summary>闹鬼：召唤并学习「虚弱 + 易伤 + 本回合失去力量」的复合意图。</summary>
-[Pool(typeof(EnemyCardPool))]
+[RegisterCard(typeof(EnemyCardPool))]
 public sealed class Haunt : LearnIntentCardModel
 {
     private const int energyCost = 2;
@@ -24,7 +26,7 @@ public sealed class Haunt : LearnIntentCardModel
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         // 怪物牌不可升级：3(5) / 1(2) 直接落地为 5 / 2。
-        new SummonVar(5m).WithTooltip("QUEEN_SUMMON_DYNAMIC"),
+        new SummonVar(5m).WithSharedTooltip("QUEEN_SUMMON_DYNAMIC"),
         new AmalgamLearnIntentWeakVar(2m),
         new AmalgamLearnIntentVulnerableVar(2m),
         new IntVar("LearnIntentStrengthLoss", 2m),
@@ -33,9 +35,9 @@ public sealed class Haunt : LearnIntentCardModel
     protected override bool ShouldSummonBeforeLearnIntent => true;
     public override int MaxUpgradeLevel => 0;
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
-        ..base.ExtraHoverTips,
+        ..base.AdditionalHoverTips,
         HoverTipFactory.FromPower<WeakPower>(),
         HoverTipFactory.FromPower<VulnerablePower>(),
         HoverTipFactory.FromPower<AmalgamIntentStrengthDownPower>(),

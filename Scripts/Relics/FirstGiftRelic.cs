@@ -1,16 +1,17 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Relics;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
+using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
-[Pool(typeof(QueenRelicPool))]
+[RegisterCharacterStarterRelic(typeof(QueenCharacter))]
+[RegisterTouchOfOrobasRefinement(typeof(QueensGraceRelic))]
 public class FirstGiftRelic : QueenRelicModel
 {
 	// 稀有度
@@ -18,12 +19,7 @@ public class FirstGiftRelic : QueenRelicModel
 
 	// 遗物的数值。替换本地化中的{Cards}。
 	protected override IEnumerable<DynamicVar> CanonicalVars => [new CardsVar(1)];
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromPower<SoulLampPower>()];
-
-    public override RelicModel? GetUpgradeReplacement()
-    {
-        return ModelDb.Relic<QueensGraceRelic>();
-    }
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [HoverTipFactory.FromPower<SoulLampPower>()];
 
     public override async Task BeforeCombatStart()
 	{

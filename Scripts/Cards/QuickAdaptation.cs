@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BaseLib.Utils;
+
 using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -15,7 +15,7 @@ using MegaCrit.Sts2.Core.Models.CardPools;
 namespace ComicChess.TheQueen;
 
 /// <summary>快速适应：从抽牌堆选择学习意图卡并自动打出。</summary>
-[Pool(typeof(QueenCardPool))]
+
 public sealed class QuickAdaptation : QueenCardModel
 {
     private const int energyCost = 0;

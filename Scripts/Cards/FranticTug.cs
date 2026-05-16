@@ -1,16 +1,18 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Godot;
-using BaseLib.Utils;
+
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models.CardPools;
 
+using STS2RitsuLib.Interop.AutoRegistration;
+
 namespace ComicChess.TheQueen;
 
 /// <summary>狂乱牵引：沙坑计数 -1；本卡耗能 +1。</summary>
-[Pool(typeof(TokenCardPool))]
+[RegisterCard(typeof(TokenCardPool))]
 public sealed class FranticTug : QueenCardModel
 {
     private const int energyCost = 1;
@@ -48,7 +50,7 @@ public sealed class FranticTug : QueenCardModel
 
         await CreatureCmd.TriggerAnim(self, "Cast", base.Owner.Character.CastAnimDelay);
 
-        if (self.GetPower<SandpitPower>() is { } sandpit)
+        if (self.GetPower<AmalgamSandpitPower>() is { } sandpit)
         {
             await PowerCmd.ModifyAmount(sandpit, -1m, self, this);
         }

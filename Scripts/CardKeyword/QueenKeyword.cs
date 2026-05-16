@@ -1,24 +1,13 @@
-using BaseLib.Patches.Content;
-using MegaCrit.Sts2.Core.Entities.Cards;
+using STS2RitsuLib.Content;
+using STS2RitsuLib.Interop.AutoRegistration;
+using STS2RitsuLib.Keywords;
 
 namespace ComicChess.TheQueen;
 
+[RegisterOwnedCardKeyword(nameof(Fade), IconPath = "res://icon.svg", CardDescriptionPlacement = ModKeywordCardDescriptionPlacement.BeforeCardDescription)]
+[RegisterOwnedCardKeyword(nameof(AmalgamComposite), IconPath = "res://icon.svg", CardDescriptionPlacement = ModKeywordCardDescriptionPlacement.AfterCardDescription)]
 public class QueenKeyword
 {
-    [CustomEnum("FADE")]
-    [KeywordProperties(AutoKeywordPosition.Before)]
-    public static CardKeyword fade;
-
-    [CustomEnum("BINDING_OATH")]
-    [KeywordProperties(AutoKeywordPosition.None)]
-    public static CardKeyword bindingOath;
-
-    [CustomEnum("SOUL_LAMP")]
-    [KeywordProperties(AutoKeywordPosition.None)]
-    public static CardKeyword soulLamp;
-
-    [CustomEnum("AMALGAM_COMPOSITE")]
-    [KeywordProperties(AutoKeywordPosition.After)]
-    public static CardKeyword amalgamComposite;
+    public static readonly string Fade = ModContentRegistry.GetQualifiedKeywordId(Entry.ModId, nameof(Fade));
+    public static readonly string AmalgamComposite = ModContentRegistry.GetQualifiedKeywordId(Entry.ModId, nameof(AmalgamComposite));
 }
-

@@ -31,10 +31,10 @@ public sealed class AmalgamRavenousPower : QueenPowerModel
     public override PowerStackType StackType => PowerStackType.Counter;
 
     // 复用原版 Ravenous 的图标资源。
-    public override string? CustomPackedIconPath => "res://images/atlases/power_atlas.sprites/ravenous_power.tres";
+    public override string? CustomIconPath => "res://images/atlases/power_atlas.sprites/ravenous_power.tres";
     public override string? CustomBigIconPath => "res://images/powers/ravenous_power.png";
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
         HoverTipFactory.FromPower<StrengthPower>()
     ];

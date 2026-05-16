@@ -1,4 +1,4 @@
-using BaseLib.Utils;
+
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Commands;
@@ -7,10 +7,12 @@ using MegaCrit.Sts2.Core.ValueProps;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models.Afflictions;
 using MegaCrit.Sts2.Core.Nodes.CommonUi;
+using STS2RitsuLib.Interop.AutoRegistration;
 
+using STS2RitsuLib.Keywords;
 namespace ComicChess.TheQueen;
 
-[Pool(typeof(QueenCardPool))]
+[RegisterCharacterStarterCard(typeof(QueenCharacter), 1)]
 public class SummonSoul : QueenCardModel
 {
     private const int energyCost = 2;
@@ -19,8 +21,8 @@ public class SummonSoul : QueenCardModel
     private const TargetType targetType = TargetType.Self;
     private const bool shouldShowInCardLibrary = true;
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromCard<SoulStrike>(base.IsUpgraded), HoverTipFactory.FromCard<SoulDefend>(base.IsUpgraded),
-        .. HoverTipFactory.FromAffliction<Bound>(), HoverTipFactory.FromKeyword(QueenKeyword.fade), HoverTipFactory.FromPower<SoulLampPower>()];
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [HoverTipFactory.FromCard<SoulStrike>(base.IsUpgraded), HoverTipFactory.FromCard<SoulDefend>(base.IsUpgraded),
+        .. HoverTipFactory.FromAffliction<Bound>(), ModKeywordRegistry.CreateHoverTip(QueenKeyword.Fade), HoverTipFactory.FromPower<SoulLampPower>()];
 
     public SummonSoul()
         : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)

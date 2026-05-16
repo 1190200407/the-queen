@@ -21,7 +21,7 @@ public sealed class AmalgamCurlUpPower : QueenPowerModel, IAmalgamEventListener
 
     public override PowerStackType StackType => PowerStackType.Counter;
 
-    public override string? CustomPackedIconPath => "res://images/atlases/power_atlas.sprites/curl_up_power.tres";
+    public override string? CustomIconPath => "res://images/atlases/power_atlas.sprites/curl_up_power.tres";
     public override string? CustomBigIconPath => "res://images/powers/curl_up_power.png";
 
     public async Task OnAmalgamHitAsync(

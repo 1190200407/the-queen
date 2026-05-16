@@ -10,6 +10,7 @@ using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Hooks;
 using MegaCrit.Sts2.Core.Models;
+using STS2RitsuLib.Keywords;
 
 namespace ComicChess.TheQueen;
 
@@ -92,7 +93,7 @@ internal static class CardCmdDiscardAndDrawPatch
 			}
 
 			// 消逝卡牌直接进入消耗堆，不在这做处理
-			if (card.Keywords.Contains(QueenKeyword.fade))
+			if (card.HasModKeyword(QueenKeyword.Fade))
 			{
 				fadeCards.Add(card);
 			}
@@ -113,7 +114,7 @@ internal static class CardCmdDiscardAndDrawPatch
 
 		foreach (CardModel item in slyCards)
 		{
-			// 不走 CardCmd.AutoPlay：BaseLib 对其打的 AnyPlayer 补丁会引用已移除的 ICombatState，JIT 抛 TypeLoadException（联机弃灵巧牌等）。
+			// 不走 CardCmd.AutoPlay：BaseLib 对其打的 AnyPlayer 补丁会引用已移除的 CombatState，JIT 抛 TypeLoadException（联机弃灵巧牌等）。
 			await CardAutoPlayDirect.AutoPlayAsync(choiceContext, item, target: null, AutoPlayType.SlyDiscard);
 		}
 

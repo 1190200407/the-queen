@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BaseLib.Utils;
+
 using Godot;
 using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Commands;
@@ -16,7 +16,7 @@ using MegaCrit.Sts2.Core.Runs;
 namespace ComicChess.TheQueen;
 
 /// <summary>放生：拾起时选择并移除敌怪卡牌，本卡不加入牌组。</summary>
-[Pool(typeof(QueenCardPool))]
+
 public sealed class Release : QueenCardModel
 {
     private const int energyCost = -1;

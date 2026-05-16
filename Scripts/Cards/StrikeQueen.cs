@@ -6,12 +6,11 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.ValueProps;
-using BaseLib.Abstracts;
-using BaseLib.Utils;
+using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
-[Pool(typeof(QueenCardPool))]
+[RegisterCharacterStarterCard(typeof(QueenCharacter), 4)]
 public sealed class StrikeQueen : QueenCardModel
 {
     // 基础耗能

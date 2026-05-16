@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BaseLib.Utils;
+
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -14,7 +14,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 namespace ComicChess.TheQueen;
 
 /// <summary>进化论：造成伤害；下一张学习意图牌耗能为 0；将此牌侵蚀为魂缚。</summary>
-[Pool(typeof(QueenCardPool))]
+
 public sealed class EvolutionsLaw : QueenCardModel
 {
 	private const int energyCost = 2;
@@ -26,7 +26,7 @@ public sealed class EvolutionsLaw : QueenCardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(9m, ValueProp.Move)];
 
-	protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+	protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
 	[
 		HoverTipFactory.FromPower<EvolutionsLawFreeLearnIntentPower>(),
 		QueenHoverTips.LearnIntent,

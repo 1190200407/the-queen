@@ -1,4 +1,4 @@
-using BaseLib.Abstracts;
+
 using Godot;
 using MegaCrit.Sts2.Core.Animation;
 using MegaCrit.Sts2.Core.Bindings.MegaSpine;
@@ -7,24 +7,33 @@ using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Characters;
 using MegaCrit.Sts2.Core.Nodes.Combat;
+using STS2RitsuLib.Interop.AutoRegistration;
+using STS2RitsuLib.Scaffolding.Characters;
+using STS2RitsuLib.Scaffolding.Godot;
+using STS2RitsuLib.Scaffolding.Visuals.StateMachine;
 
 namespace ComicChess.TheQueen;
 
-public class QueenCharacter : PlaceholderCharacterModel
+[RegisterCharacter]
+public class QueenCharacter : ModCharacterTemplate<QueenCardPool, QueenRelicPool, QueenPotionPool>
 {
     // 角色名称颜色 #814390
     public override Color NameColor => new(161f/255f, 67f/255f, 144f/255f);
     // 能量图标轮廓颜色rgb(161, 67, 144)
     public override Color EnergyLabelOutlineColor => new(161f/255f, 67f/255f, 144f/255f);
+    // 能量图标轮廓颜色rgb(161, 67, 144)
+    public override Color MapDrawingColor => new(161f/255f, 67f/255f, 144f/255f);
+
 
     // 人物性别（男女中立）
     public override CharacterGender Gender => CharacterGender.Feminine;
 
     // 初始血量
     public override int StartingHp => 66;
+    public override int StartingGold => 99;
 
     // 人物模型tscn路径。要自定义见下。
-    public override string CustomVisualPath => "res://TheQueen/scenes/creature_visuals/queen_character.tscn";
+    public override string CustomVisualsPath => "res://TheQueen/scenes/creature_visuals/queen_character.tscn";
     // 卡牌拖尾场景。
     // public override string CustomTrailPath => "res://scenes/vfx/card_trail_ironclad.tscn";
     // 人物头像路径。
@@ -55,7 +64,7 @@ public class QueenCharacter : PlaceholderCharacterModel
     // 人物选择过渡动画。
     // public override string CustomCharacterSelectTransitionPath => "res://materials/transitions/ironclad_transition_mat.tres";
     // 地图上的角色标记图标、表情轮盘上的角色头像
-    public override string CustomMapMarkerPath => "res://TheQueen/images/charui/queen_boss.png";
+    //public override string CustomMapMarkerPath => "res://TheQueen/images/charui/queen_boss.png";
     // 攻击音效
     // public override string CustomAttackSfx => null;
     // 施法音效
@@ -67,41 +76,21 @@ public class QueenCharacter : PlaceholderCharacterModel
     // 过渡音效。这个不能删。
     public override string CharacterTransitionSfx => "event:/sfx/ui/wipe_ironclad";
 
-    public override CardPoolModel CardPool => ModelDb.CardPool<QueenCardPool>();
-    public override RelicPoolModel RelicPool => ModelDb.RelicPool<QueenRelicPool>();
-    public override PotionPoolModel PotionPool => ModelDb.PotionPool<QueenPotionPool>();
-
     public override float AttackAnimDelay => 0.25f;
 
     public override float CastAnimDelay => 0.2f;
 
-    protected override CharacterModel? UnlocksAfterRunAs => ModelDb.Character<Defect>();
+    protected override NCreatureVisuals? TryCreateCreatureVisuals() => RitsuGodotNodeFactories.CreateFromScenePath<NCreatureVisuals>(AssetProfile.Scenes!.VisualsPath!);
 
-    public override CreatureAnimator? SetupCustomAnimationStates(MegaSprite controller)
+    protected override Type? UnlocksAfterRunAsType => typeof(Defect);
+    protected override ModAnimStateMachine? SetupCustomCombatAnimationStateMachine(Node visualsRoot, CharacterModel character)
     {
-        CreatureAnimator? animator = base.SetupCustomAnimationStates(controller);
-        controller?.GetAnimationState().SetAnimation("tracks/writhe", loop: true, 1);
+        ModAnimStateMachine? animator = base.SetupCustomCombatAnimationStateMachine(visualsRoot, character);
+        //animator?.GetAnimationState().SetAnimation("tracks/writhe", loop: true, 1);
         return animator;
     }
 
-    // 初始卡组
-    public override IEnumerable<CardModel> StartingDeck => [
-        ModelDb.Card<StrikeQueen>(),
-        ModelDb.Card<StrikeQueen>(),
-        ModelDb.Card<StrikeQueen>(),
-        ModelDb.Card<StrikeQueen>(),
-        ModelDb.Card<DefendQueen>(),
-        ModelDb.Card<DefendQueen>(),
-        ModelDb.Card<DefendQueen>(),
-        ModelDb.Card<DefendQueen>(),
-        ModelDb.Card<SummonSoul>(),
-        ModelDb.Card<SoulLockCasket>(),
-    ];
-
-    // 初始遗物
-    public override IReadOnlyList<RelicModel> StartingRelics => [
-        ModelDb.Relic<FirstGiftRelic>(),
-    ];
+    public override bool RequiresEpochAndTimeline => false;
 
     // 攻击建筑师的攻击特效列表
     public override List<string> GetArchitectAttackVfx() => [

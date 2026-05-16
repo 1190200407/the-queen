@@ -1,6 +1,6 @@
 using System;
 using System.Threading.Tasks;
-using BaseLib.Abstracts;
+
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -47,7 +47,7 @@ public sealed class SoulLampPower : QueenPowerModel
 	public override PowerStackType StackType => PowerStackType.Counter;
 
     public override string? CustomBigIconPath => "res://TheQueen/images/powers/big/soul_lamp.png";
-	public override string? CustomPackedIconPath => "res://TheQueen/images/powers/soul_lamp.png";
+	public override string? CustomIconPath => "res://TheQueen/images/powers/soul_lamp.png";
 
     // 引擎默认 Amount == 0 时会移除 Power。
     // 我们为了让状态栏还能显示“0层”，在最后一层被消耗时把数值跳到 -1，

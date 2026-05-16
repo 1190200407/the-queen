@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BaseLib.Utils;
+
 using Godot;
 using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Commands;
@@ -14,16 +14,18 @@ using MegaCrit.Sts2.Core.Nodes;
 using MegaCrit.Sts2.Core.Nodes.Vfx;
 using MegaCrit.Sts2.Core.Saves.Runs;
 
+using STS2RitsuLib.Interop.AutoRegistration;
+
 namespace ComicChess.TheQueen;
 
 /// <summary>
 /// 银制手链：拾起时从牌组选 1 张牌，侵蚀为魂缚并附魔灯火 1；在遗物上保存 <see cref="MarkedCard"/> 快照，
 /// 局外悬停用 <see cref="HoverTipFactory.FromCard"/> 展示带侵蚀/附魔的卡牌。
 /// </summary>
-[Pool(typeof(QueenRelicPool))]
+[RegisterRelic(typeof(QueenRelicPool))]
 public sealed class SilverBraceletRelic : QueenRelicModel
 {
-	private readonly List<IHoverTip> _extraHoverTips = [];
+	private readonly List<IHoverTip> _AdditionalHoverTips = [];
 
 	private SerializableCard? _markedCard;
 
@@ -36,7 +38,7 @@ public sealed class SilverBraceletRelic : QueenRelicModel
 		new IntVar("SoulLightAmount", 1m),
 	];
 
-	protected override IEnumerable<IHoverTip> ExtraHoverTips => [..HoverTipFactory.FromEnchantment<SoulLight>()];
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [..HoverTipFactory.FromEnchantment<SoulLight>()];
 
 	[SavedProperty]
 	public SerializableCard? MarkedCard
@@ -52,7 +54,7 @@ public sealed class SilverBraceletRelic : QueenRelicModel
 	protected override void AfterCloned()
 	{
 		base.AfterCloned();
-		_extraHoverTips.Clear();
+		_AdditionalHoverTips.Clear();
 	}
 
 	public override async Task AfterObtained()

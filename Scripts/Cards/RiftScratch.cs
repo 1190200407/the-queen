@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BaseLib.Utils;
+
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -16,7 +16,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 namespace ComicChess.TheQueen;
 
 /// <summary>裂隙抓挠：抓挠系，可受其他抓挠的全局伤害加成；打出时不提供抓挠全局强化。</summary>
-[Pool(typeof(QueenCardPool))]
+
 public sealed class RiftScratch : ScratchTaggedCard
 {
 	private const int energyCost = 1;
@@ -31,7 +31,7 @@ public sealed class RiftScratch : ScratchTaggedCard
 		new RepeatVar(1),
 	];
 
-	protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+	protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
 	[
 		.. HoverTipFactory.FromAffliction<Bound>(),
 		HoverTipFactory.FromPower<SoulLampPower>(),

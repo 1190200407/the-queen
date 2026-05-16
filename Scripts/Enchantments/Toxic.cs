@@ -15,8 +15,6 @@ public sealed class Toxic : QueenEnchantmentModel
 {
     public override bool ShowAmount => true;
     public override bool HasExtraCardText => true;
-
-    protected override string? CustomIconPath => "res://TheQueen/images/enchantments/toxic.png";
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromPower<PoisonPower>()];
 
     public override bool CanEnchant(CardModel card)

@@ -8,6 +8,7 @@ using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.ValueProps;
 
+using STS2RitsuLib.Keywords;
 namespace ComicChess.TheQueen;
 
 public sealed class AshenWallPower : QueenPowerModel
@@ -16,9 +17,9 @@ public sealed class AshenWallPower : QueenPowerModel
 
 	public override PowerStackType StackType => PowerStackType.Counter;
 
-	protected override IEnumerable<IHoverTip> ExtraHoverTips => [
+	protected override IEnumerable<IHoverTip> AdditionalHoverTips => [
 		HoverTipFactory.Static(StaticHoverTip.Block),
-		HoverTipFactory.FromKeyword(QueenKeyword.fade)
+		ModKeywordRegistry.CreateHoverTip(QueenKeyword.Fade)
 	];
 
 	public override async Task AfterCardExhausted(PlayerChoiceContext choiceContext, CardModel card, bool causedByEthereal)
@@ -27,7 +28,7 @@ public sealed class AshenWallPower : QueenPowerModel
 		{
 			return;
 		}
-		if (!card.Keywords.Contains(QueenKeyword.fade))
+		if (!card.HasModKeyword(QueenKeyword.Fade))
 		{
 			return;
 		}

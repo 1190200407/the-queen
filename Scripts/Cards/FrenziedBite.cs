@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BaseLib.Extensions;
-using BaseLib.Utils;
+
+
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -13,10 +13,12 @@ using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.ValueProps;
 
+using STS2RitsuLib.Cards.DynamicVars;
+
 namespace ComicChess.TheQueen;
 
 /// <summary>疯狂撕咬：聚合体对目标 2 连击；按目标负面效果数量召唤。</summary>
-[Pool(typeof(QueenCardPool))]
+
 public sealed class FrenziedBite : QueenCardModel
 {
     private const int energyCost = 2;
@@ -29,7 +31,7 @@ public sealed class FrenziedBite : QueenCardModel
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new DamageVar(5m, ValueProp.Move),
-        new SummonVar(4m).WithTooltip("QUEEN_SUMMON_DYNAMIC"),
+        new SummonVar(4m).WithSharedTooltip("QUEEN_SUMMON_DYNAMIC"),
         new CalculationBaseVar(0m),
         new CalculationExtraVar(1m),
         new CalculatedVar("CalculatedSummonTotal").WithMultiplier(static (CardModel card, Creature? target) =>

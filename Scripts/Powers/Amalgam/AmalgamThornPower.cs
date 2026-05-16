@@ -13,7 +13,7 @@ public sealed class AmalgamThornPower : QueenPowerModel
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Counter;
 
-    public override string? CustomPackedIconPath => "res://images/atlases/power_atlas.sprites/thorns_power.tres";
+    public override string? CustomIconPath => "res://images/atlases/power_atlas.sprites/thorns_power.tres";
     public override string? CustomBigIconPath => "res://images/powers/thorns_power.png";
 
     private PlayerChoiceContext? _choiceContext;

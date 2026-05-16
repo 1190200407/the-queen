@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BaseLib.Utils;
+
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -13,7 +13,7 @@ using MegaCrit.Sts2.Core.Rooms;
 namespace ComicChess.TheQueen;
 
 /// <summary>掠食同化：能力牌；聚合体斩杀普通或精英敌怪时可捕获（逻辑在 <see cref="FriendlyAmalgamHook"/>）。</summary>
-[Pool(typeof(QueenCardPool))]
+
 public sealed class PredatoryAssimilation : QueenCardModel, ICanMonsterCapture
 {
 	private const int energyCost = 1;
@@ -31,7 +31,7 @@ public sealed class PredatoryAssimilation : QueenCardModel, ICanMonsterCapture
 			_ => true,
 		});
 
-	protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+	protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
 	[
 		HoverTipFactory.Static(StaticHoverTip.Fatal),
 		QueenHoverTips.Capture

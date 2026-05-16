@@ -30,7 +30,7 @@ public sealed class AmalgamHardenedShellPower : QueenPowerModel
     public override int DisplayAmount => (int)Math.Max(0, GetInternalData<Data>().Remaining);
 
     // 复用原版 Hardened Shell 的图标资源。
-    public override string? CustomPackedIconPath => "res://images/atlases/power_atlas.sprites/hardened_shell_power.tres";
+    public override string? CustomIconPath => "res://images/atlases/power_atlas.sprites/hardened_shell_power.tres";
     public override string? CustomBigIconPath => "res://images/powers/hardened_shell_power.png";
 
     public override decimal ModifyHpLostAfterOsty(Creature target, decimal amount, ValueProp props, Creature? dealer, CardModel? cardSource)

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BaseLib.Utils;
+
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
@@ -8,9 +8,11 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.ValueProps;
 
+using STS2RitsuLib.Interop.AutoRegistration;
+
 namespace ComicChess.TheQueen;
 
-[Pool(typeof(TokenCardPool))]
+[RegisterCard(typeof(TokenCardPool))]
 public sealed class Tackle : LearnIntentCardModel
 {
     private const decimal learnIntentDamage = 5m;
@@ -25,8 +27,8 @@ public sealed class Tackle : LearnIntentCardModel
         new AmalgamLearnIntentDamageVar(learnIntentDamage, ValueProp.Move)
     ];
 
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [QueenKeyword.fade];
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [QueenHoverTips.LearnIntent];
+    protected override IEnumerable<string> RegisteredKeywordIds => [QueenKeyword.Fade];
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [QueenHoverTips.LearnIntent];
 
     public Tackle()
         : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)

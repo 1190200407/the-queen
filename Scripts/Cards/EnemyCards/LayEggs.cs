@@ -1,18 +1,20 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BaseLib.Extensions;
-using BaseLib.Utils;
+
+
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.Afflictions;
 using MegaCrit.Sts2.Core.Models.CardPools;
+using STS2RitsuLib.Cards.DynamicVars;
+using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
 /// <summary>产卵：召唤10。学习意图：生成4张结实的卵。魂缚</summary>
-[Pool(typeof(EnemyCardPool))]
+[RegisterCard(typeof(EnemyCardPool))]
 public sealed class LayEggs : LearnIntentCardModel
 {
     private const int energyCost = 2;
@@ -32,14 +34,14 @@ public sealed class LayEggs : LearnIntentCardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new SummonVar(summon).WithTooltip("QUEEN_SUMMON_DYNAMIC"),
+        new SummonVar(summon).WithSharedTooltip("QUEEN_SUMMON_DYNAMIC"),
         new IntVar("EggCount", eggCount),
     ];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
         ..HoverTipFactory.FromAffliction<Bound>(),
-        ..base.ExtraHoverTips,
+        ..base.AdditionalHoverTips,
         HoverTipFactory.FromCard<ToughEgg>(),
         HoverTipFactory.FromCard<Nibble>()
     ];

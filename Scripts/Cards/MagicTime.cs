@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BaseLib.Utils;
+
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
@@ -15,7 +15,7 @@ using MegaCrit.Sts2.Core.Models.CardPools;
 
 namespace ComicChess.TheQueen;
 
-[Pool(typeof(QueenCardPool))]
+
 public sealed class MagicTime : QueenCardModel
 {
 	private const int energyCost = 3;
@@ -26,7 +26,7 @@ public sealed class MagicTime : QueenCardModel
 
 	protected override IEnumerable<DynamicVar> CanonicalVars => [new IntVar("SoulLampOnPlay", 1m)];
 
-	protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+	protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
 	[
 		base.EnergyHoverTip,
 		HoverTipFactory.FromPower<SoulLampPower>(),

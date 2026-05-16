@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BaseLib.Utils;
+
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -11,6 +11,8 @@ using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.RelicPools;
 
+using STS2RitsuLib.Interop.AutoRegistration;
+
 namespace ComicChess.TheQueen;
 
 /// <summary>
@@ -18,14 +20,14 @@ namespace ComicChess.TheQueen;
 /// 通过 <see cref="IAmalgamEventListener.AfterLearnIntent"/> 接入，不污染 <see cref="FriendlyAmalgamCmd"/>。
 /// 不作用于 <see cref="SoulResonancePower"/> 等镜像学习（来源牌的 <see cref="CardModel.Owner"/> 非 relic 持有者）。
 /// </summary>
-[Pool(typeof(QueenRelicPool))]
+[RegisterRelic(typeof(QueenRelicPool))]
 public sealed class RevelationCupRelic : QueenRelicModel, IAmalgamEventListener
 {
 	private bool _firstLearnDuplicateConsumed;
 
 	public override RelicRarity Rarity => RelicRarity.Uncommon;
 
-	protected override IEnumerable<IHoverTip> ExtraHoverTips => [QueenHoverTips.LearnIntent];
+	protected override IEnumerable<IHoverTip> AdditionalHoverTips => [QueenHoverTips.LearnIntent];
 
 	public override Task BeforeCombatStart()
 	{

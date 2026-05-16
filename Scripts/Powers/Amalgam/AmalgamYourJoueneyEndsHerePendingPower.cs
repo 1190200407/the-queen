@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
@@ -10,10 +11,10 @@ using MegaCrit.Sts2.Core.Models.Powers;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>你的旅程，到此为止：聚合体沉睡倒计时结束后，获得配置的力量。</summary>
-public sealed class YourJoueneyEndsHerePendingPower : QueenPowerModel
+/// <summary>你的旅程，到此为止：聚合体沉睡倒计时结束后，获得配置的力量。类名不可为 <c>YourJoueneyEndsHerePendingPower</c>（与原版 ModelId 冲突）。</summary>
+public sealed class AmalgamYourJoueneyEndsHerePendingPower : QueenPowerModel
 {
-    public override string? CustomPackedIconPath => "res://images/atlases/power_atlas.sprites/conqueror_power.tres";
+    public override string? CustomIconPath => "res://images/atlases/power_atlas.sprites/conqueror_power.tres";
     public override string? CustomBigIconPath => "res://images/powers/conqueror_power.png";
 
     private sealed class Data

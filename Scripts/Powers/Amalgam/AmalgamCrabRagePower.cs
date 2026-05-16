@@ -11,18 +11,18 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>蟹之怒（女王版）：聚合体死亡时，你获得力量与格挡，然后移除此能力。</summary>
-public sealed class CrabRagePower : QueenPowerModel
+/// <summary>蟹之怒（女王版）：聚合体死亡时，你获得力量与格挡，然后移除此能力。类名不可为 <c>CrabRagePower</c>（与原版 ModelId 冲突）。</summary>
+public sealed class AmalgamCrabRagePower : QueenPowerModel
 {
     public override PowerType Type => PowerType.Buff;
 
     public override PowerStackType StackType => PowerStackType.Single;
 
     // 复用原版 Crab Rage 的图标资源。
-    public override string? CustomPackedIconPath => "res://images/atlases/power_atlas.sprites/crab_rage_power.tres";
+    public override string? CustomIconPath => "res://images/atlases/power_atlas.sprites/crab_rage_power.tres";
     public override string? CustomBigIconPath => "res://images/powers/crab_rage_power.png";
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
         HoverTipFactory.FromPower<StrengthPower>(),
         HoverTipFactory.Static(StaticHoverTip.Block),
@@ -59,4 +59,3 @@ public sealed class CrabRagePower : QueenPowerModel
         await PowerCmd.Remove(this);
     }
 }
-

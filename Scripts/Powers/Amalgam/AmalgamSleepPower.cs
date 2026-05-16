@@ -19,7 +19,7 @@ public sealed class AmalgamSleepPower : QueenPowerModel, IAmalgamEventListener
     public override PowerStackType StackType => PowerStackType.Counter;
 
     // 复用原版沉睡图标。
-    public override string? CustomPackedIconPath => "res://images/atlases/power_atlas.sprites/asleep_power.tres";
+    public override string? CustomIconPath => "res://images/atlases/power_atlas.sprites/asleep_power.tres";
     public override string? CustomBigIconPath => "res://images/powers/asleep_power.png";
 
     private bool appliedSleep = false;

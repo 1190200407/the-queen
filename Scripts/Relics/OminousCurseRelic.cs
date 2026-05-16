@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BaseLib.Utils;
+
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -11,6 +11,8 @@ using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.Models.RelicPools;
 
+using STS2RitsuLib.Interop.AutoRegistration;
+
 namespace ComicChess.TheQueen;
 
 /// <summary>
@@ -18,7 +20,7 @@ namespace ComicChess.TheQueen;
 /// <see cref="ModifyPowerAmountGiven"/> 在卡牌预览中也会被调用，因此<strong>只改数值、不消耗次数</strong>；
 /// 次数在 <see cref="AfterModifyingPowerAmountGiven"/>（仅真实 <see cref="MegaCrit.Sts2.Core.Commands.PowerCmd"/> 结算）中消耗。
 /// </summary>
-[Pool(typeof(QueenRelicPool))]
+[RegisterRelic(typeof(QueenRelicPool))]
 public sealed class OminousCurseRelic : QueenRelicModel
 {
 	private bool _firstDebuffBonusConsumed;
@@ -27,7 +29,7 @@ public sealed class OminousCurseRelic : QueenRelicModel
 
 	protected override IEnumerable<DynamicVar> CanonicalVars => [new IntVar("BonusStacks", 1m)];
 
-	protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+	protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
 	[
 		HoverTipFactory.FromPower<VulnerablePower>(),
 		HoverTipFactory.FromPower<WeakPower>(),

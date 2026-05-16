@@ -20,7 +20,7 @@ public sealed class AmalgamSuckPower : QueenPowerModel, IAmalgamEventListener
     public override PowerStackType StackType => PowerStackType.Counter;
 
     // 复用原版 Suck 的图标资源。
-    public override string? CustomPackedIconPath => "res://images/atlases/power_atlas.sprites/suck_power.tres";
+    public override string? CustomIconPath => "res://images/atlases/power_atlas.sprites/suck_power.tres";
     public override string? CustomBigIconPath => "res://images/powers/suck_power.png";
 
     public async Task OnAmalgamDamagedCreatureAsync(

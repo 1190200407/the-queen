@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BaseLib.Utils;
+
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -10,10 +10,13 @@ using MegaCrit.Sts2.Core.Models.Afflictions;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.ValueProps;
 
+using STS2RitsuLib.Interop.AutoRegistration;
+
+using STS2RitsuLib.Keywords;
 namespace ComicChess.TheQueen;
 
 /// <summary>百手之宴衍生物：渴血抓挠 / 渴血抓挠+</summary>
-[Pool(typeof(TokenCardPool))]
+[RegisterCard(typeof(TokenCardPool))]
 public sealed class BloodthirstScratch : ScratchTaggedCard
 {
 	private const int energyCost = 0;
@@ -22,15 +25,15 @@ public sealed class BloodthirstScratch : ScratchTaggedCard
 	private const TargetType targetType = TargetType.AnyEnemy;
 	private const bool shouldShowInCardLibrary = false;
 
-	public override IEnumerable<CardKeyword> CanonicalKeywords => [QueenKeyword.fade];
+	protected override IEnumerable<string> RegisteredKeywordIds => [QueenKeyword.Fade];
 
 	protected override IEnumerable<DynamicVar> CanonicalVars => [
 		new DamageVar(6m, ValueProp.Move),
 		new RepeatVar(1)
 	];
 
-	protected override IEnumerable<IHoverTip> ExtraHoverTips => [
-		HoverTipFactory.FromKeyword(QueenKeyword.fade),
+	protected override IEnumerable<IHoverTip> AdditionalHoverTips => [
+		ModKeywordRegistry.CreateHoverTip(QueenKeyword.Fade),
 		.. HoverTipFactory.FromAffliction<Bound>()
 	];
 

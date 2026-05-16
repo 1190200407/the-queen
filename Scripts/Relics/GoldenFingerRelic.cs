@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BaseLib.Utils;
+
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -10,11 +10,12 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.RelicPools;
+using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
 /// <summary>金手指：每回合每累计 {PlaysRequired} 次未消耗能量打出卡牌，获得 {Energy} 点能量并抽 {Cards} 张牌。</summary>
-[Pool(typeof(QueenRelicPool))]
+[RegisterRelic(typeof(QueenRelicPool))]
 public sealed class GoldenFingerRelic : QueenRelicModel
 {
 	public override RelicRarity Rarity => RelicRarity.Rare;

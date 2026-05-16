@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BaseLib.Utils;
+
 using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -17,10 +17,12 @@ using MegaCrit.Sts2.Core.Nodes;
 using MegaCrit.Sts2.Core.Nodes.Vfx;
 using MegaCrit.Sts2.Core.Runs;
 
+using STS2RitsuLib.Interop.AutoRegistration;
+
 namespace ComicChess.TheQueen;
 
 /// <summary>寄生：拾起时为一张学习意图（意图伤害）牌添加附魔：感染。本卡不加入牌组。</summary>
-[Pool(typeof(EnemyCardPool))]
+[RegisterCard(typeof(EnemyCardPool))]
 public sealed class Wriggle : QueenCardModel
 {
     private const int infestedStacks = 3;
@@ -32,7 +34,7 @@ public sealed class Wriggle : QueenCardModel
     public override bool CanBeGeneratedInCombat => false;
     public override bool CanBeGeneratedByModifiers => false;
     protected override IEnumerable<DynamicVar> CanonicalVars => [new IntVar("InfestedStacks", infestedStacks)];
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [..HoverTipFactory.FromEnchantment<Infested>(infestedStacks)];
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [..HoverTipFactory.FromEnchantment<Infested>(infestedStacks)];
 
     public override int MaxUpgradeLevel => 0;
 

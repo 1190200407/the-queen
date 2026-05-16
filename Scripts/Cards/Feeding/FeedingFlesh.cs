@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BaseLib.Extensions;
-using BaseLib.Utils;
+
+
 using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Combat;
@@ -14,10 +14,15 @@ using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.ValueProps;
 
+using STS2RitsuLib.Interop.AutoRegistration;
+
+using STS2RitsuLib.Cards.DynamicVars;
+
+using STS2RitsuLib.Keywords;
 namespace ComicChess.TheQueen;
 
 /// <summary>喂食血肉：消耗1张牌，召唤。消逝、魂缚（<see cref="HasSelfBound"/>）。</summary>
-[Pool(typeof(TokenCardPool))]
+[RegisterCard(typeof(TokenCardPool))]
 public sealed class FeedingFlesh : QueenCardModel
 {
 	private const int energyCost = 0;
@@ -30,11 +35,11 @@ public sealed class FeedingFlesh : QueenCardModel
 
 	internal override bool HasSelfBound => true;
 
-	public override IEnumerable<CardKeyword> CanonicalKeywords => [QueenKeyword.fade];
+	protected override IEnumerable<string> RegisteredKeywordIds => [QueenKeyword.Fade];
 
-	protected override IEnumerable<DynamicVar> CanonicalVars => [new SummonVar(5m).WithTooltip("QUEEN_SUMMON_DYNAMIC")];
+	protected override IEnumerable<DynamicVar> CanonicalVars => [new SummonVar(5m).WithSharedTooltip("QUEEN_SUMMON_DYNAMIC")];
 
-	protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromKeyword(QueenKeyword.fade)];
+	protected override IEnumerable<IHoverTip> AdditionalHoverTips => [ModKeywordRegistry.CreateHoverTip(QueenKeyword.Fade)];
 
 	public FeedingFlesh()
 		: base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)

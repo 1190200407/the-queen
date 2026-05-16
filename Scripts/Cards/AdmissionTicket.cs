@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BaseLib.Utils;
+
 using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -14,6 +14,7 @@ using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Platform;
 using MegaCrit.Sts2.Core.Runs;
+using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
@@ -21,7 +22,7 @@ namespace ComicChess.TheQueen;
 /// 入场券：所选牌由打出者手牌经 <see cref="CardModel.Owner"/> 转移给女王（原版 <see cref="CardModel.Owner"/> 不允许直接改换主人，须先置 <c>null</c> 再赋女王）。
 /// 联机选牌由 <see cref="CardSelectCmd.FromHand"/> 同步，各端对同一 <c>selected</c> 执行相同转移。
 /// </summary>
-[Pool(typeof(TokenCardPool))]
+[RegisterCard(typeof(TokenCardPool))]
 public sealed class AdmissionTicket : QueenCardModel
 {
 	private const int energyCost = 0;
@@ -49,7 +50,7 @@ public sealed class AdmissionTicket : QueenCardModel
 		new StringVar("Applier"),
 	];
 
-	protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+	protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
 	[
 		HoverTipFactory.FromKeyword(CardKeyword.Exhaust),
 	];

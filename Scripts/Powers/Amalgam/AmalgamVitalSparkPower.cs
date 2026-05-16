@@ -30,10 +30,10 @@ public sealed class AmalgamVitalSparkPower : QueenPowerModel, IAmalgamEventListe
 
     public override PowerStackType StackType => PowerStackType.Counter;
 
-    public override string? CustomPackedIconPath => "res://images/atlases/power_atlas.sprites/vital_spark_power.tres";
+    public override string? CustomIconPath => "res://images/atlases/power_atlas.sprites/vital_spark_power.tres";
     public override string? CustomBigIconPath => "res://images/powers/vital_spark_power.png";
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
         [HoverTipFactory.FromPower<EnergyNextTurnPower>()];
 
     public override Task AfterTurnEnd(PlayerChoiceContext choiceContext, CombatSide side)

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BaseLib.Utils;
+
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
@@ -9,10 +9,12 @@ using MegaCrit.Sts2.Core.Models.Afflictions;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.ValueProps;
 
+using STS2RitsuLib.Interop.AutoRegistration;
+
 namespace ComicChess.TheQueen;
 
 /// <summary>猛击：爪�?token，学习意图为单体伤害；魂缚、消逝�?/summary>
-[Pool(typeof(TokenCardPool))]
+[RegisterCard(typeof(TokenCardPool))]
 public sealed class Slam : LearnIntentCardModel
 {
     private const int energyCost = 2;
@@ -22,7 +24,7 @@ public sealed class Slam : LearnIntentCardModel
     private const bool shouldShowInCardLibrary = false;
     private const decimal learnIntentDamage = 16m;
 
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [QueenKeyword.fade];
+    protected override IEnumerable<string> RegisteredKeywordIds => [QueenKeyword.Fade];
 
     public override int MaxUpgradeLevel => 0;
 
@@ -33,9 +35,9 @@ public sealed class Slam : LearnIntentCardModel
         new AmalgamLearnIntentDamageVar(learnIntentDamage, ValueProp.Move),
     ];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
-        ..base.ExtraHoverTips,
+        ..base.AdditionalHoverTips,
         ..HoverTipFactory.FromAffliction<Bound>(),
     ];
 

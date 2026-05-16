@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BaseLib.Utils;
+
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -14,7 +14,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 namespace ComicChess.TheQueen;
 
 /// <summary>宝石火焰：单体伤害，打出后将此牌侵蚀为魂缚。</summary>
-[Pool(typeof(QueenCardPool))]
+
 public sealed class GemFlame : QueenCardModel
 {
 	private const int energyCost = 2;
@@ -25,7 +25,7 @@ public sealed class GemFlame : QueenCardModel
 
 	protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(13m, ValueProp.Move)];
 
-	protected override IEnumerable<IHoverTip> ExtraHoverTips => [.. HoverTipFactory.FromAffliction<Bound>()];
+	protected override IEnumerable<IHoverTip> AdditionalHoverTips => [.. HoverTipFactory.FromAffliction<Bound>()];
 
 	internal override bool HasSelfBound => false;
 

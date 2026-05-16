@@ -1,15 +1,17 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BaseLib.Utils;
+
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.CardPools;
 
+using STS2RitsuLib.Interop.AutoRegistration;
+
 namespace ComicChess.TheQueen;
 
 /// <summary>干扰：学习意图为抽牌�?/summary>
-[Pool(typeof(TokenCardPool))]
+[RegisterCard(typeof(TokenCardPool))]
 public sealed class Distract : LearnIntentCardModel
 {
     private const decimal learnIntentDraw = 2m;
@@ -19,7 +21,7 @@ public sealed class Distract : LearnIntentCardModel
     private const TargetType targetType = TargetType.Self;
     private const bool shouldShowInCardLibrary = false;
 
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [QueenKeyword.fade];
+    protected override IEnumerable<string> RegisteredKeywordIds => [QueenKeyword.Fade];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [

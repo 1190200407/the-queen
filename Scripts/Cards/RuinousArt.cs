@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BaseLib.Utils;
+
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -11,7 +11,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 namespace ComicChess.TheQueen;
 
-[Pool(typeof(QueenCardPool))]
+
 public sealed class RuinousArt : QueenCardModel
 {
 	private const int energyCost = 4;
@@ -22,7 +22,7 @@ public sealed class RuinousArt : QueenCardModel
 
 	protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(35m, ValueProp.Move)];
 
-	protected override IEnumerable<IHoverTip> ExtraHoverTips => [base.EnergyHoverTip];
+	protected override IEnumerable<IHoverTip> AdditionalHoverTips => [base.EnergyHoverTip];
 
 	public RuinousArt()
 		: base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)

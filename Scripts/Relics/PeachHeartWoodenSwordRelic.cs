@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BaseLib.Utils;
+
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
@@ -14,13 +14,15 @@ using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.Runs;
 using MegaCrit.Sts2.Core.Saves.Runs;
 
+using STS2RitsuLib.Interop.AutoRegistration;
+
 namespace ComicChess.TheQueen;
 
 /// <summary>
 /// 桃心木剑：与原版 <c>LastingCandy</c> 相同，在遭遇战 <see cref="CardCreationSource.Encounter"/> 的卡牌奖励选项中追加一张牌；
 /// 追加牌来自 <see cref="EnemyCardPool"/>。非首领战每 2 场触发一次（首领战不计数）；首领战卡牌奖励必定追加一张。
 /// </summary>
-[Pool(typeof(QueenRelicPool))]
+[RegisterRelic(typeof(QueenRelicPool))]
 public sealed class PeachHeartWoodenSwordRelic : QueenRelicModel
 {
 	private int _combatsSeen;

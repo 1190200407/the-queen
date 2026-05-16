@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BaseLib.Utils;
+
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -10,10 +10,13 @@ using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Models.Powers;
 
+using STS2RitsuLib.Interop.AutoRegistration;
+
+using STS2RitsuLib.Keywords;
 namespace ComicChess.TheQueen;
 
 /// <summary>代劳：你失去所有力量，聚合体获得等量力量。</summary>
-[Pool(typeof(TokenCardPool))]
+[RegisterCard(typeof(TokenCardPool))]
 public sealed class DelegateLabor : QueenCardModel
 {
 	private const int energyCost = 0;
@@ -26,12 +29,12 @@ public sealed class DelegateLabor : QueenCardModel
 
 	internal override bool HasSelfBound => true;
 
-	public override IEnumerable<CardKeyword> CanonicalKeywords => [QueenKeyword.fade];
+	protected override IEnumerable<string> RegisteredKeywordIds => [QueenKeyword.Fade];
 
-	protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+	protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
 	[
 		HoverTipFactory.FromPower<StrengthPower>(),
-		HoverTipFactory.FromKeyword(QueenKeyword.fade)
+		ModKeywordRegistry.CreateHoverTip(QueenKeyword.Fade)
 	];
 
 	public DelegateLabor()

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BaseLib.Utils;
+
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -12,10 +12,12 @@ using MegaCrit.Sts2.Core.Models.Afflictions;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Models.Powers;
 
+using STS2RitsuLib.Interop.AutoRegistration;
+
 namespace ComicChess.TheQueen;
 
 /// <summary>衰弱烟雾：降低目标本回合力量，你获得力量；魂缚、消耗。</summary>
-[Pool(typeof(EnemyCardPool))]
+[RegisterCard(typeof(EnemyCardPool))]
 public sealed class DebilitatingSmog : QueenCardModel
 {
     private const int energyCost = 1;
@@ -39,7 +41,7 @@ public sealed class DebilitatingSmog : QueenCardModel
         new IntVar("PlayerStrengthGain", playerStrengthGain),
     ];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
         ..HoverTipFactory.FromAffliction<Bound>(),
         HoverTipFactory.FromPower<AmalgamIntentStrengthDownPower>(),

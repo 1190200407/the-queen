@@ -1,6 +1,6 @@
 // using System.Collections.Generic;
 // using System.Threading.Tasks;
-// using BaseLib.Utils;
+// 
 // using MegaCrit.Sts2.Core.Entities.Cards;
 // using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 // using MegaCrit.Sts2.Core.HoverTips;
@@ -8,7 +8,7 @@
 
 // namespace ComicChess.TheQueen;
 
-// [Pool(typeof(QueenCardPool))]
+// 
 // public sealed class EmptyCupRefill : LearnIntentCardModel
 // {
 //     private const int energyCost = 0;
@@ -19,9 +19,9 @@
 
 //     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
-//     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+//     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
 //     [
-//         ..base.ExtraHoverTips,
+//         ..base.AdditionalHoverTips,
 //         base.EnergyHoverTip
 //     ];
 

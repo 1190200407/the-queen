@@ -19,7 +19,7 @@ public sealed class AmalgamSteamEruptionPower : QueenPowerModel, IAmalgamEventLi
     public override PowerStackType StackType => PowerStackType.Counter;
 
     // 复用原版 Steam Eruption 的图标资源。
-    public override string? CustomPackedIconPath => "res://images/atlases/power_atlas.sprites/steam_eruption_power.tres";
+    public override string? CustomIconPath => "res://images/atlases/power_atlas.sprites/steam_eruption_power.tres";
     public override string? CustomBigIconPath => "res://images/powers/steam_eruption_power.png";
 
     public async Task OnAmalgamActAsync(CombatState combatState, PlayerChoiceContext choiceContext, Creature amalgam)

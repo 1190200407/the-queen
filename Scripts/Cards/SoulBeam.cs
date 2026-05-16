@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BaseLib.Utils;
+
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
@@ -10,7 +10,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 namespace ComicChess.TheQueen;
 
-[Pool(typeof(QueenCardPool))]
+
 public sealed class SoulBeam : LearnIntentCardModel
 {
 	private const decimal learnIntentDamagePerHit = 8m;
@@ -26,7 +26,7 @@ public sealed class SoulBeam : LearnIntentCardModel
 		new AmalgamLearnIntentDamageVar(learnIntentDamagePerHit, ValueProp.Move)
 	];
 
-	protected override IEnumerable<IHoverTip> ExtraHoverTips => [QueenHoverTips.LearnIntent];
+	protected override IEnumerable<IHoverTip> AdditionalHoverTips => [QueenHoverTips.LearnIntent];
 
 	public SoulBeam()
 		: base(0, type, rarity, targetType, shouldShowInCardLibrary)

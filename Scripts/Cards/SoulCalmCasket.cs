@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BaseLib.Utils;
+
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Commands.Builders;
@@ -22,7 +22,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 namespace ComicChess.TheQueen;
 
 /// <summary>镇魂匣：保留；低血目标双倍伤害；斩杀时捕获目标。</summary>
-[Pool(typeof(QueenCardPool))]
+
 public sealed class SoulCalmCasket : QueenCardModel, ICanMonsterCapture
 {
     private const int energyCost = 1;
@@ -36,7 +36,7 @@ public sealed class SoulCalmCasket : QueenCardModel, ICanMonsterCapture
 
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Retain];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
         HoverTipFactory.Static(StaticHoverTip.Fatal),
         QueenHoverTips.Capture,

@@ -1,4 +1,4 @@
-using BaseLib.Utils;
+
 using MegaCrit.Sts2.Core.Entities.Cards;
 using ComicChess.TheQueen;
 using MegaCrit.Sts2.Core.Models.CardPools;
@@ -7,9 +7,11 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.ValueProps;
 
+using STS2RitsuLib.Interop.AutoRegistration;
+
 namespace ComicChess.TheQueen;
 
-[Pool(typeof(TokenCardPool))]
+[RegisterCard(typeof(TokenCardPool))]
 public class SoulStrike : QueenCardModel
 {
     private const int energyCost = 0;
@@ -18,7 +20,7 @@ public class SoulStrike : QueenCardModel
     private const TargetType targetType = TargetType.AnyEnemy;
     private const bool shouldShowInCardLibrary = false;
 
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [QueenKeyword.fade];
+    protected override IEnumerable<string> RegisteredKeywordIds => [QueenKeyword.Fade];
     protected override HashSet<CardTag> CanonicalTags => new HashSet<CardTag> { CardTag.Strike };
 
 	protected override IEnumerable<DynamicVar> CanonicalVars => new List<DynamicVar> { new DamageVar(14m, ValueProp.Move) };

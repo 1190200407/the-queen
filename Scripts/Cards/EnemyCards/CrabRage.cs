@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BaseLib.Extensions;
-using BaseLib.Utils;
+
+
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Powers;
@@ -12,10 +12,13 @@ using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
 
+using STS2RitsuLib.Cards.DynamicVars;
+using STS2RitsuLib.Interop.AutoRegistration;
+
 namespace ComicChess.TheQueen;
 
 /// <summary>蟹之怒：召唤并获得蟹之怒之力（聚合体死亡时获得力量与格挡）。</summary>
-[Pool(typeof(EnemyCardPool))]
+[RegisterCard(typeof(EnemyCardPool))]
 public sealed class CrabRage : QueenCardModel
 {
     private const int energyCost = 3;
@@ -28,12 +31,12 @@ public sealed class CrabRage : QueenCardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new SummonVar(20m).WithTooltip("QUEEN_SUMMON_DYNAMIC"),
+        new SummonVar(20m).WithSharedTooltip("QUEEN_SUMMON_DYNAMIC"),
         new PowerVar<StrengthPower>(3m),
         new BlockVar(30m, ValueProp.Unpowered),
     ];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
         HoverTipFactory.FromPower<StrengthPower>(),
         HoverTipFactory.Static(StaticHoverTip.Block),
@@ -54,7 +57,7 @@ public sealed class CrabRage : QueenCardModel
 
         await CreatureCmd.TriggerAnim(base.Owner.Creature, "Cast", base.Owner.Character.CastAnimDelay);
         await FriendlyAmalgamCmd.Summon(choiceContext, base.Owner, base.DynamicVars.Summon.BaseValue, this);
-        await PowerCmd.Apply<CrabRagePower>(base.Owner.Creature, 1m, base.Owner.Creature, this);
+        await PowerCmd.Apply<AmalgamCrabRagePower>(base.Owner.Creature, 1m, base.Owner.Creature, this);
     }
 }
 

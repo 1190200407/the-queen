@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BaseLib.Utils;
+
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -17,7 +17,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 namespace ComicChess.TheQueen;
 
 /// <summary>虹吸：伤害；目标每有 1 个负面能力（Debuff），抽 1 张牌。</summary>
-[Pool(typeof(QueenCardPool))]
+
 public sealed class Siphon : QueenCardModel
 {
 	private const int energyCost = 1;

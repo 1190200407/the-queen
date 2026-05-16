@@ -13,7 +13,7 @@ public sealed class AmalgamSlipperyPower : QueenPowerModel
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Counter;
 
-    public override string? CustomPackedIconPath => "res://images/atlases/power_atlas.sprites/slippery_power.tres";
+    public override string? CustomIconPath => "res://images/atlases/power_atlas.sprites/slippery_power.tres";
     public override string? CustomBigIconPath => "res://images/powers/slippery_power.png";
 
     public override decimal ModifyHpLostAfterOsty(Creature target, decimal amount, ValueProp props, Creature? dealer, CardModel? cardSource)

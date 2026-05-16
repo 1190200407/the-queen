@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BaseLib.Utils;
+
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -12,7 +12,7 @@ using MegaCrit.Sts2.Core.Models.CardPools;
 
 namespace ComicChess.TheQueen;
 
-[Pool(typeof(QueenCardPool))]
+
 public sealed class PurificationRite : QueenCardModel
 {
 	private const int energyCost = 1;
@@ -23,7 +23,7 @@ public sealed class PurificationRite : QueenCardModel
 
 	protected override IEnumerable<DynamicVar> CanonicalVars => [new EnergyVar(2)];
 
-	protected override IEnumerable<IHoverTip> ExtraHoverTips => [
+	protected override IEnumerable<IHoverTip> AdditionalHoverTips => [
 		base.EnergyHoverTip,
 		.. HoverTipFactory.FromAffliction<Bound>()
 	];

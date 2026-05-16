@@ -17,7 +17,7 @@ public sealed class AmalgamImbalancedPower : QueenPowerModel, IAmalgamEventListe
 
     public override PowerStackType StackType => PowerStackType.Single;
 
-    public override string? CustomPackedIconPath => "res://images/atlases/power_atlas.sprites/imbalanced_power.tres";
+    public override string? CustomIconPath => "res://images/atlases/power_atlas.sprites/imbalanced_power.tres";
     public override string? CustomBigIconPath => "res://images/powers/imbalanced_power.png";
 
     public async Task OnAmalgamDamagedCreatureAsync(

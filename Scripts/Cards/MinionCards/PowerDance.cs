@@ -1,15 +1,17 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BaseLib.Utils;
+
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.CardPools;
 
+using STS2RitsuLib.Interop.AutoRegistration;
+
 namespace ComicChess.TheQueen;
 
 /// <summary>力量之舞：爪�?token，学习意图为获得力量�?/summary>
-[Pool(typeof(TokenCardPool))]
+[RegisterCard(typeof(TokenCardPool))]
 public sealed class PowerDance : LearnIntentCardModel
 {
     private const int energyCost = 0;
@@ -19,8 +21,7 @@ public sealed class PowerDance : LearnIntentCardModel
     private const bool shouldShowInCardLibrary = false;
 
     private const decimal learnIntentStrength = 2m;
-
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [QueenKeyword.fade];
+    protected override IEnumerable<string> RegisteredKeywordIds => [QueenKeyword.Fade];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [

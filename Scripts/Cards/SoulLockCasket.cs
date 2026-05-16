@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BaseLib.Abstracts;
-using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Commands.Builders;
@@ -17,12 +15,14 @@ using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Rewards;
 using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.ValueProps;
+using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
 /// <summary>锁魂匣：保留；斩杀（<see cref="StaticHoverTip.Fatal"/>）；捕获见 <see cref="QueenHoverTips.Capture"/>；成功时按 <see cref="MonsterCaptureRewardCatalog"/> 施加 <see cref="CaptureSuccessPower"/>（无配置则无奖励）。</summary>
-[Pool(typeof(QueenCardPool))]
-public sealed class SoulLockCasket : QueenCardModel, ITranscendenceCard, ICanMonsterCapture
+[RegisterCharacterStarterCard(typeof(QueenCharacter), 1)]
+[RegisterArchaicToothTranscendence(typeof(SoulCalmCasket))]
+public sealed class SoulLockCasket : QueenCardModel, ICanMonsterCapture
 {
     private const int energyCost = 1;
     private const CardType type = CardType.Attack;
@@ -32,13 +32,6 @@ public sealed class SoulLockCasket : QueenCardModel, ITranscendenceCard, ICanMon
 
     public bool CanCapture(MonsterModel monster, CombatState combatState) =>
         monster is not null && combatState is not null && combatState.Encounter?.RoomType != RoomType.Boss;
-
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-    [
-        HoverTipFactory.Static(StaticHoverTip.Fatal),
-        QueenHoverTips.Capture,
-    ];
-
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(7m, ValueProp.Move)];
 
     public SoulLockCasket()

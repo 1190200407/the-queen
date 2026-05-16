@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BaseLib.Extensions;
-using BaseLib.Utils;
+
+
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -12,11 +12,13 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Rooms;
+using STS2RitsuLib.Cards.DynamicVars;
+using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
 /// <summary>液化地面：获得沙坑、召唤，并学习意图生成狂乱牵引。</summary>
-[Pool(typeof(EnemyCardPool))]
+[RegisterCard(typeof(EnemyCardPool))]
 public sealed class LiquifyGround : LearnIntentCardModel
 {
     private const int energyCost = 3;
@@ -32,21 +34,21 @@ public sealed class LiquifyGround : LearnIntentCardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new PowerVar<SandpitPower>(sandpit),
-        new SummonVar(summon).WithTooltip("QUEEN_SUMMON_DYNAMIC"),
+        new PowerVar<AmalgamSandpitPower>(sandpit),
+        new SummonVar(summon).WithSharedTooltip("QUEEN_SUMMON_DYNAMIC"),
         new CalculationBaseVar(0m),
         new CalculationExtraVar(1m),
         new CalculatedVar("Sandpit").WithMultiplier((CardModel card, Creature? _) =>
         {
-            return card.Owner.Creature.GetPower<SandpitPower>()?.Amount ?? 0m;
+            return card.Owner.Creature.GetPower<AmalgamSandpitPower>()?.Amount ?? 0m;
         }),
     ];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
-        HoverTipFactory.FromPower<SandpitPower>(),
+        HoverTipFactory.FromPower<AmalgamSandpitPower>(),
         HoverTipFactory.FromCard<FranticTug>(),
-        ..base.ExtraHoverTips,
+        ..base.AdditionalHoverTips,
     ];
 
     public LiquifyGround()
@@ -58,7 +60,7 @@ public sealed class LiquifyGround : LearnIntentCardModel
 	{
 		if (side == base.Owner.Creature.Side && combatState.RoundNumber <= 1 && combatState.Encounter?.RoomType == RoomType.Boss)
         {
-            base.DynamicVars.Power<SandpitPower>().BaseValue += 3;
+            base.DynamicVars.Power<AmalgamSandpitPower>().BaseValue += 3;
         }
         return Task.CompletedTask;
     }
@@ -68,10 +70,10 @@ public sealed class LiquifyGround : LearnIntentCardModel
         _ = cardPlay;
         await CreatureCmd.TriggerAnim(base.Owner.Creature, "Cast", base.Owner.Character.CastAnimDelay);
 
-        decimal sandpitToGain = base.DynamicVars.Power<SandpitPower>().BaseValue;
-        if (base.Owner.Creature.GetPower<SandpitPower>() == null)
+        decimal sandpitToGain = base.DynamicVars.Power<AmalgamSandpitPower>().BaseValue;
+        if (base.Owner.Creature.GetPower<AmalgamSandpitPower>() == null)
         {
-            await PowerCmd.Apply<SandpitPower>(base.Owner.Creature, sandpitToGain, base.Owner.Creature, this);
+            await PowerCmd.Apply<AmalgamSandpitPower>(base.Owner.Creature, sandpitToGain, base.Owner.Creature, this);
         }
         await FriendlyAmalgamCmd.Summon(choiceContext, base.Owner, summon, this);
 

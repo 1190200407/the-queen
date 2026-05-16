@@ -1,6 +1,5 @@
 using System.Linq;
 using System.Threading.Tasks;
-using BaseLib.Abstracts;
 using Godot;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -8,10 +7,12 @@ using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Afflictions;
+using STS2RitsuLib.Interop.AutoRegistration;
+using STS2RitsuLib.Scaffolding.Content;
 
 namespace ComicChess.TheQueen;
 
-public abstract class QueenCardModel : CustomCardModel
+public abstract class ComicChessCardModel : ModCardTemplate
 {
 	private static readonly PileType[] PilesForSoulLampBroadcast =
 	[
@@ -26,14 +27,14 @@ public abstract class QueenCardModel : CustomCardModel
     {
         get
         {
-            string portraitPath = $"res://TheQueen/images/card_portraits/{Id.Entry.ToLowerInvariant().Replace("comicchess-", "")}.png";
+            string portraitPath = $"res://TheQueen/images/card_portraits/{Id.Entry.ToLowerInvariant().Replace("sts2_comicchess_thequeen_card_", "")}.png";
             if (ResourceLoader.Exists(portraitPath))
             {
                 return portraitPath;
             }
             else
             {
-                portraitPath = $"res://TheQueen/images/card_portraits/monsters/{Id.Entry.ToLowerInvariant().Replace("comicchess-", "")}.png";
+                portraitPath = $"res://TheQueen/images/card_portraits/monsters/{Id.Entry.ToLowerInvariant().Replace("sts2_comicchess_thequeen_card_", "")}.png";
                 if (ResourceLoader.Exists(portraitPath))
                 {
                     return portraitPath;
@@ -55,8 +56,7 @@ public abstract class QueenCardModel : CustomCardModel
     private bool ShouldApplySelfBound(CardModel card) =>
         card == this
         && HasSelfBound
-        && base.Owner?.Creature?.CombatState != null
-        && Affliction is null;
+        && base.Owner?.Creature?.CombatState != null;
 
     private Task TryApplySelfBound(CardModel card)
     {
@@ -117,7 +117,7 @@ public abstract class QueenCardModel : CustomCardModel
     public override bool HasBuiltInOverlay =>
         HasSelfBound && (CombatState == null || Affliction is Bound);
 
-    public QueenCardModel(int energyCost, CardType type, CardRarity rarity, TargetType targetType, bool shouldShowInCardLibrary) : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
+    public ComicChessCardModel(int energyCost, CardType type, CardRarity rarity, TargetType targetType, bool shouldShowInCardLibrary) : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
     {
     }
 }

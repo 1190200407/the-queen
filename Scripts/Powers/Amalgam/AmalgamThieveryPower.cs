@@ -23,7 +23,7 @@ public sealed class AmalgamThieveryPower : QueenPowerModel, IAmalgamEventListene
     public override PowerStackType StackType => PowerStackType.Counter;
 
     // 复用原版 Hardened Shell 的图标资源。
-    public override string? CustomPackedIconPath => "res://images/atlases/power_atlas.sprites/thievery_power.tres";
+    public override string? CustomIconPath => "res://images/atlases/power_atlas.sprites/thievery_power.tres";
     public override string? CustomBigIconPath => "res://images/powers/thievery_power.png";
 
     public async Task OnAmalgamDamagedCreatureAsync(
@@ -57,10 +57,10 @@ public sealed class AmalgamThieveryPower : QueenPowerModel, IAmalgamEventListene
 
         decimal stolen = Amount * hitCount;
         Creature? applier = amalgam.PetOwner?.Creature;
-        HeistPower? heist = amalgam.GetPower<HeistPower>();
+        AmalgamHeistPower? heist = amalgam.GetPower<AmalgamHeistPower>();
         if (heist is null)
         {
-            await PowerCmd.Apply<HeistPower>(amalgam, stolen, applier, cardSource: null);
+            await PowerCmd.Apply<AmalgamHeistPower>(amalgam, stolen, applier, cardSource: null);
         }
         else
         {

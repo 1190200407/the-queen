@@ -1,6 +1,6 @@
 using System.Linq;
 using System.Threading.Tasks;
-using BaseLib.Utils;
+
 using Godot;
 using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Commands;
@@ -14,11 +14,12 @@ using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.PotionPools;
 using MegaCrit.Sts2.Core.Nodes.Rooms;
 using MegaCrit.Sts2.Core.Saves.Runs;
+using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
 /// <summary>魔镜碎片：从手牌选1张非衍生牌，战斗结束时加入牌组。</summary>
-[Pool(typeof(TokenPotionPool))]
+[RegisterPotion(typeof(TokenPotionPool))]
 public sealed class MagicMirrorShard : QueenPotionModel
 {
 	private static readonly Color SplashTint = new("c8b8e8");

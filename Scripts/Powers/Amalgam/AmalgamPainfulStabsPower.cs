@@ -17,7 +17,7 @@ public sealed class AmalgamPainfulStabsPower : QueenPowerModel, IAmalgamEventLis
 
     public override PowerStackType StackType => PowerStackType.Single;
 
-    public override string? CustomPackedIconPath => "res://images/atlases/power_atlas.sprites/painful_stabs_power.tres";
+    public override string? CustomIconPath => "res://images/atlases/power_atlas.sprites/painful_stabs_power.tres";
     public override string? CustomBigIconPath => "res://images/powers/painful_stabs_power.png";
 
     public async Task OnAmalgamDamagedCreatureAsync(

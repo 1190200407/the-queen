@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BaseLib.Utils;
+
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -12,10 +12,11 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.ValueProps;
+using STS2RitsuLib.Keywords;
 
 namespace ComicChess.TheQueen;
 
-[Pool(typeof(QueenCardPool))]
+
 public sealed class AllSoulSlash : QueenCardModel
 {
 	private const int energyCost = 1;
@@ -28,10 +29,10 @@ public sealed class AllSoulSlash : QueenCardModel
 		new CalculationBaseVar(6m),
 		new ExtraDamageVar(2m),
 		new CalculatedDamageVar(ValueProp.Move).WithMultiplier((CardModel card, Creature? _) =>
-			PileType.Exhaust.GetPile(card.Owner).Cards.Count(c => c.Keywords.Contains(QueenKeyword.fade)))
+			PileType.Exhaust.GetPile(card.Owner).Cards.Count(c => c.HasModKeyword(QueenKeyword.Fade)))
 	];
 
-	protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromKeyword(QueenKeyword.fade)];
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [ModKeywordRegistry.CreateHoverTip(QueenKeyword.Fade)];
 
 	public AllSoulSlash()
 		: base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)

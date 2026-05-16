@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BaseLib.Utils;
+
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -8,9 +8,10 @@ using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models.Afflictions;
 using MegaCrit.Sts2.Core.Models.CardPools;
 
+using STS2RitsuLib.Keywords;
 namespace ComicChess.TheQueen;
 
-[Pool(typeof(QueenCardPool))]
+
 public sealed class SoulMold : QueenCardModel
 {
 	private const int energyCost = 2;
@@ -19,8 +20,8 @@ public sealed class SoulMold : QueenCardModel
 	private const TargetType targetType = TargetType.Self;
 	private const bool shouldShowInCardLibrary = true;
 
-	protected override IEnumerable<IHoverTip> ExtraHoverTips => [
-		HoverTipFactory.FromKeyword(QueenKeyword.fade),
+	protected override IEnumerable<IHoverTip> AdditionalHoverTips => [
+		ModKeywordRegistry.CreateHoverTip(QueenKeyword.Fade),
 		.. HoverTipFactory.FromAffliction<Bound>()
 	];
 

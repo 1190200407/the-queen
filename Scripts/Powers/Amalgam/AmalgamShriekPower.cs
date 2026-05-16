@@ -28,10 +28,10 @@ public sealed class AmalgamShriekPower : QueenPowerModel
     public override PowerStackType StackType => PowerStackType.Counter;
 
     // 复用原版 SHRIEK_POWER 的图标资源。
-    public override string? CustomPackedIconPath => "res://images/atlases/power_atlas.sprites/shriek_power.tres";
+    public override string? CustomIconPath => "res://images/atlases/power_atlas.sprites/shriek_power.tres";
     public override string? CustomBigIconPath => "res://images/powers/shriek_power.png";
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromPower<VigorPower>()];
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [HoverTipFactory.FromPower<VigorPower>()];
 
     private async Task CheckShriek()
     {

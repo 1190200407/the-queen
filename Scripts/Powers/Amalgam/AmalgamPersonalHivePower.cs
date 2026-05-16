@@ -19,9 +19,9 @@ public sealed class AmalgamPersonalHivePower : QueenPowerModel, IAmalgamEventLis
 {
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Counter;
-    public override string? CustomPackedIconPath => "res://images/atlases/power_atlas.sprites/personal_hive_power.tres";
+    public override string? CustomIconPath => "res://images/atlases/power_atlas.sprites/personal_hive_power.tres";
     public override string? CustomBigIconPath => "res://images/powers/personal_hive_power.png";
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [..HoverTipFactory.FromEnchantment<Dazed>()];
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [..HoverTipFactory.FromEnchantment<Dazed>()];
 
     public async Task OnAmalgamHitAsync(CombatState combatState, Creature amalgam, decimal unblockedDamage, ValueProp props, Creature? dealer, CardModel? cardSource)
     {

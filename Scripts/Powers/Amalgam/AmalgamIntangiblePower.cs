@@ -17,7 +17,7 @@ public sealed class AmalgamIntangiblePower : QueenPowerModel
 
     public override PowerStackType StackType => PowerStackType.Single;
 
-    public override string? CustomPackedIconPath => "res://images/atlases/power_atlas.sprites/intangible_power.tres";
+    public override string? CustomIconPath => "res://images/atlases/power_atlas.sprites/intangible_power.tres";
     public override string? CustomBigIconPath => "res://images/powers/intangible_power.png";
 
     public override decimal ModifyHpLostAfterOsty(Creature target, decimal amount, ValueProp props, Creature? dealer, CardModel? cardSource)

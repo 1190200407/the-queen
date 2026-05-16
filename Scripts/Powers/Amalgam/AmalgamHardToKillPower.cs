@@ -19,7 +19,7 @@ public sealed class AmalgamHardToKillPower : QueenPowerModel
 
     public override PowerStackType StackType => PowerStackType.Counter;
 
-    public override string? CustomPackedIconPath => "res://images/atlases/power_atlas.sprites/hard_to_kill_power.tres";
+    public override string? CustomIconPath => "res://images/atlases/power_atlas.sprites/hard_to_kill_power.tres";
     public override string? CustomBigIconPath => "res://images/powers/hard_to_kill_power.png";
 
     

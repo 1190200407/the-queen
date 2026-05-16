@@ -14,7 +14,7 @@ public sealed class BackAttackAmalgamPower : QueenPowerModel
 
     public override bool ShouldPlayVfx => false;
 
-    public override string? CustomPackedIconPath => "res://TheQueen/images/powers/back_attack_amalgam_power.png";
+    public override string? CustomIconPath => "res://TheQueen/images/powers/back_attack_amalgam_power.png";
     public override string? CustomBigIconPath => "res://TheQueen/images/powers/big/back_attack_amalgam_power.png";
 
     public override decimal ModifyDamageMultiplicative(Creature? target, decimal amount, ValueProp props, Creature? dealer, CardModel? cardSource)

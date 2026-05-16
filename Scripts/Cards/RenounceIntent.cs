@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BaseLib.Utils;
+
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -10,7 +10,7 @@ using MegaCrit.Sts2.Core.Models.CardPools;
 
 namespace ComicChess.TheQueen;
 
-[Pool(typeof(QueenCardPool))]
+
 public sealed class RenounceIntent : QueenCardModel
 {
 	private const int energyCost = 1;
@@ -21,7 +21,7 @@ public sealed class RenounceIntent : QueenCardModel
 
 	public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
-	protected override IEnumerable<IHoverTip> ExtraHoverTips => [QueenHoverTips.ForgetIntent];
+	protected override IEnumerable<IHoverTip> AdditionalHoverTips => [QueenHoverTips.ForgetIntent];
 
 	public RenounceIntent()
 		: base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)

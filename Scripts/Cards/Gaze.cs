@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BaseLib.Utils;
+
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -13,7 +13,7 @@ using MegaCrit.Sts2.Core.Models.Powers;
 namespace ComicChess.TheQueen;
 
 /// <summary>注视：本回合与下回合各使目标失去 2 点力量；基础消耗。</summary>
-[Pool(typeof(QueenCardPool))]
+
 public sealed class Gaze : QueenCardModel
 {
 	private const int energyCost = 1;
@@ -25,7 +25,7 @@ public sealed class Gaze : QueenCardModel
 
 	public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
-	protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+	protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
 	[
 		HoverTipFactory.FromPower<StrengthPower>()
 	];

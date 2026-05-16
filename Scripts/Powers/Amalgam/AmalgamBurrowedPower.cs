@@ -16,7 +16,7 @@ public sealed class AmalgamBurrowedPower : QueenPowerModel
 
     public override PowerStackType StackType => PowerStackType.Single;
 
-    public override string? CustomPackedIconPath => "res://images/atlases/power_atlas.sprites/burrowed_power.tres";
+    public override string? CustomIconPath => "res://images/atlases/power_atlas.sprites/burrowed_power.tres";
     public override string? CustomBigIconPath => "res://images/powers/burrowed_power.png";
 
     public override bool ShouldClearBlock(Creature creature)

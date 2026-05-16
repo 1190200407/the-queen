@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BaseLib.Utils;
+
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -12,10 +12,12 @@ using MegaCrit.Sts2.Core.Logging;
 using MegaCrit.Sts2.Core.Models.RelicPools;
 using MegaCrit.Sts2.Core.Saves.Runs;
 
+using STS2RitsuLib.Interop.AutoRegistration;
+
 namespace ComicChess.TheQueen;
 
 /// <summary>纸伤难愈：战斗开始时，所有敌人的最大生命值减少 X（X 为遗物计数）。</summary>
-[Pool(typeof(EventRelicPool))]
+[RegisterRelic(typeof(EventRelicPool))]
 public sealed class PaperCutsRelic : QueenRelicModel
 {
 	public override RelicRarity Rarity => RelicRarity.Common;

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BaseLib.Utils;
+
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -16,7 +16,7 @@ using MegaCrit.Sts2.Core.Nodes.Vfx;
 
 namespace ComicChess.TheQueen;
 
-[Pool(typeof(QueenCardPool))]
+
 public sealed class YouAreMine : QueenCardModel
 {
 	private const int energyCost = 2;
@@ -31,7 +31,7 @@ public sealed class YouAreMine : QueenCardModel
 
 	protected override IEnumerable<DynamicVar> CanonicalVars => [new IntVar("Hits", 10m)];
 
-	protected override IEnumerable<IHoverTip> ExtraHoverTips => [
+	protected override IEnumerable<IHoverTip> AdditionalHoverTips => [
 		HoverTipFactory.FromPower<VulnerablePower>(),
 		HoverTipFactory.FromPower<WeakPower>(),
 		.. HoverTipFactory.FromAffliction<Bound>()

@@ -1,9 +1,12 @@
-using BaseLib.Abstracts;
+
 using Godot;
+using STS2RitsuLib.Interop.AutoRegistration;
+using STS2RitsuLib.Scaffolding.Content;
 
 namespace ComicChess.TheQueen;
 
-public abstract class QueenRelicModel : CustomRelicModel
+[RegisterRelic(typeof(QueenRelicPool), Inherit = true)]
+public abstract class QueenRelicModel : ModRelicTemplate
 {
     // // 小图标
     // public override string PackedIconPath => $"res://TheQueen/images/relics/{Id.Entry.ToLowerInvariant()}.png";
@@ -16,7 +19,7 @@ public abstract class QueenRelicModel : CustomRelicModel
     {
         get
         {
-            string key = Id.Entry.ToLowerInvariant().Replace("comicchess-", "");
+            string key = Id.Entry.ToLowerInvariant().Replace("sts2_comicchess_thequeen_relic_", "");
             string custom = $"res://TheQueen/images/relics/{key}.png";
             return ResourceLoader.Exists(custom) ? custom : "res://TheQueen/images/relics/relic.png";
         }
@@ -26,7 +29,7 @@ public abstract class QueenRelicModel : CustomRelicModel
     {
         get
         {
-            string key = Id.Entry.ToLowerInvariant().Replace("comicchess-", "");
+            string key = Id.Entry.ToLowerInvariant().Replace("sts2_comicchess_thequeen_relic_", "");
             string custom = $"res://TheQueen/images/relics/{key}_outline.png";
             return ResourceLoader.Exists(custom) ? custom : "res://TheQueen/images/relics/relic_outline.png";
         }
@@ -36,7 +39,7 @@ public abstract class QueenRelicModel : CustomRelicModel
     {
         get
         {
-            string key = Id.Entry.ToLowerInvariant().Replace("comicchess-", "");
+            string key = Id.Entry.ToLowerInvariant().Replace("sts2_comicchess_thequeen_relic_", "");
             string custom = $"res://TheQueen/images/relics/big/{key}.png";
             return ResourceLoader.Exists(custom) ? custom : "res://TheQueen/images/relics/big/relic.png";
         }

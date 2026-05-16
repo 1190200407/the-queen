@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using BaseLib.Utils;
+
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -13,7 +13,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 namespace ComicChess.TheQueen;
 
 /// <summary>瘴气打击：伤害 + 随机施加中毒、灾厄或消亡其中一种 3 层。</summary>
-[Pool(typeof(QueenCardPool))]
+
 public sealed class MiasmaStrike : QueenCardModel
 {
 	private const int energyCost = 1;
@@ -27,7 +27,7 @@ public sealed class MiasmaStrike : QueenCardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(7m, ValueProp.Move)];
 
-	protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+	protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
 	[
 		HoverTipFactory.FromPower<PoisonPower>(),
 		HoverTipFactory.FromPower<DoomPower>(),

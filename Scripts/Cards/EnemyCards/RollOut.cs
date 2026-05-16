@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BaseLib.Extensions;
-using BaseLib.Utils;
+
+
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -11,11 +11,14 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
+using STS2RitsuLib.Cards.DynamicVars;
+using STS2RitsuLib.Interop.AutoRegistration;
+using STS2RitsuLib.Keywords;
 
 namespace ComicChess.TheQueen;
 
 /// <summary>翻滚：召唤；聚合体沉睡；两次 <see cref="FriendlyAmalgamCmd.CombineIntent"/> 学习伤害与力量。消耗。</summary>
-[Pool(typeof(EnemyCardPool))]
+[RegisterCard(typeof(EnemyCardPool))]
 public sealed class RollOut : LearnIntentCardModel
 {
     public const string SlumberingBeetleCompositeKey = "BOWLBUG";
@@ -29,21 +32,22 @@ public sealed class RollOut : LearnIntentCardModel
     private const TargetType targetType = TargetType.Self;
     private const bool shouldShowInCardLibrary = true;
 
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust, QueenKeyword.amalgamComposite];
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
+    protected override IEnumerable<string> RegisteredKeywordIds => [QueenKeyword.AmalgamComposite];
 
     public override int MaxUpgradeLevel => 0;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new SummonVar(summon).WithTooltip("QUEEN_SUMMON_DYNAMIC"),
+        new SummonVar(summon).WithSharedTooltip("QUEEN_SUMMON_DYNAMIC"),
         new AmalgamLearnIntentDamageVar(learnIntentDamage, ValueProp.Move),
         new AmalgamLearnIntentStrengthVar(learnIntentStrength),
     ];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
         QueenHoverTips.LearnIntent,
-        HoverTipFactory.FromKeyword(QueenKeyword.amalgamComposite),
+        ModKeywordRegistry.CreateHoverTip(QueenKeyword.AmalgamComposite),
         HoverTipFactory.FromPower<StrengthPower>(),
     ];
 

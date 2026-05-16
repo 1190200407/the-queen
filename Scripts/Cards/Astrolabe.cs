@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BaseLib.Utils;
+
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -13,7 +13,7 @@ using MegaCrit.Sts2.Core.Models.CardPools;
 namespace ComicChess.TheQueen;
 
 /// <summary>星盘：获得能量并生成多张 <see cref="MorningStar"/>；消耗。</summary>
-[Pool(typeof(QueenCardPool))]
+
 public sealed class Astrolabe : QueenCardModel
 {
 	private const int energyCost = 0;
@@ -30,7 +30,7 @@ public sealed class Astrolabe : QueenCardModel
 		new CardsVar(2),
 	];
 
-	protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+	protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
 	[
 		HoverTipFactory.FromPower<SoulLampPower>(),
 		.. HoverTipFactory.FromAffliction<Bound>(),

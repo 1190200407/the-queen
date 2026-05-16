@@ -7,6 +7,7 @@ using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models.Afflictions;
 using MegaCrit.Sts2.Core.Models;
+using STS2RitsuLib.Keywords;
 
 namespace ComicChess.TheQueen;
 
@@ -61,7 +62,7 @@ public sealed class SoulMoldPower : QueenPowerModel
 			copy.Owner = player;
 		}
 
-		CardCmd.ApplyKeyword(copy, QueenKeyword.fade);
+		copy.AddModKeyword(QueenKeyword.Fade);
 		await CardPileCmd.AddGeneratedCardToCombat(copy, PileType.Hand, addedByPlayer: true);
 
 		if (copy.Affliction is not null && copy.Affliction is not Bound)

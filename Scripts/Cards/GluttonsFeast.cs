@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BaseLib.Utils;
+
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -17,7 +17,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 namespace ComicChess.TheQueen;
 
 /// <summary>饕餮盛宴：自动打出消耗堆中所有 <see cref="Devour"/>，再对目标造成多次伤害（参考原版 <see cref="MegaCrit.Sts2.Core.Models.Cards.KnifeTrap"/>）。</summary>
-[Pool(typeof(QueenCardPool))]
+
 public sealed class GluttonsFeast : QueenCardModel
 {
 	private const string CalculatedDevoursKey = "CalculatedDevours";
@@ -40,7 +40,7 @@ public sealed class GluttonsFeast : QueenCardModel
 		new RepeatVar(3),
 	];
 
-	protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromCard<Devour>()];
+	protected override IEnumerable<IHoverTip> AdditionalHoverTips => [HoverTipFactory.FromCard<Devour>()];
 
 	public GluttonsFeast()
 		: base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)

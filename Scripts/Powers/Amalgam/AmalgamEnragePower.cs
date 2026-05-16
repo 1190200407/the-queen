@@ -16,7 +16,7 @@ public sealed class AmalgamEnragePower : QueenPowerModel
 
     public override PowerStackType StackType => PowerStackType.Single;
 
-    public override string? CustomPackedIconPath => "res://images/atlases/power_atlas.sprites/enrage_power.tres";
+    public override string? CustomIconPath => "res://images/atlases/power_atlas.sprites/enrage_power.tres";
     public override string? CustomBigIconPath => "res://images/powers/enrage_power.png";
 
     public override async Task AfterCardPlayed(PlayerChoiceContext context, CardPlay cardPlay)

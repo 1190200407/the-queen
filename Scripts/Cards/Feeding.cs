@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BaseLib.Utils;
+
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
@@ -9,7 +9,7 @@ using MegaCrit.Sts2.Core.Models.CardPools;
 namespace ComicChess.TheQueen;
 
 /// <summary>喂食：生成喂食根骨、喂食血肉，获得魂灯。衍生牌为消逝+魂缚（<see cref="HasSelfBound"/>）。</summary>
-[Pool(typeof(QueenCardPool))]
+
 public sealed class Feeding : QueenCardModel
 {
 	private const int energyCost = 1;
@@ -20,7 +20,7 @@ public sealed class Feeding : QueenCardModel
 
 	public override int MaxUpgradeLevel => 1;
 
-	protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+	protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
 	[
 		HoverTipFactory.FromCard<FeedingBone>(base.IsUpgraded),
 		HoverTipFactory.FromCard<FeedingFlesh>(base.IsUpgraded),

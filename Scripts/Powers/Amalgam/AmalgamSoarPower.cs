@@ -20,7 +20,7 @@ public sealed class AmalgamSoarPower : QueenPowerModel
     public override PowerStackType StackType => PowerStackType.Single;
 
     // 复用原版 SoarPower 的图标资源。
-    public override string? CustomPackedIconPath => "res://images/atlases/power_atlas.sprites/soar_power.tres";
+    public override string? CustomIconPath => "res://images/atlases/power_atlas.sprites/soar_power.tres";
     public override string? CustomBigIconPath => "res://images/powers/soar_power.png";
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>

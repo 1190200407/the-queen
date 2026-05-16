@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BaseLib.Utils;
+
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -15,7 +15,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 namespace ComicChess.TheQueen;
 
 /// <summary>精神控制：少量伤害；指定敌人下一次对你的怪物攻击改打别处；消耗。</summary>
-[Pool(typeof(QueenCardPool))]
+
 public sealed class MindControl : QueenCardModel
 {
 	private const int energyCost = 3;

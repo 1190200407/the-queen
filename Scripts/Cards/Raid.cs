@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using BaseLib.Utils;
+
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -8,7 +8,7 @@ using MegaCrit.Sts2.Core.Models.CardPools;
 
 namespace ComicChess.TheQueen;
 
-[Pool(typeof(QueenCardPool))]
+
 public sealed class Raid : QueenCardModel
 {
     private const int energyCost = 1;
@@ -17,7 +17,7 @@ public sealed class Raid : QueenCardModel
     private const TargetType targetType = TargetType.Self;
     private const bool shouldShowInCardLibrary = true;
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromCard<Tackle>(upgrade: base.IsUpgraded)];
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [HoverTipFactory.FromCard<Tackle>(upgrade: base.IsUpgraded)];
 
     public Raid()
         : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)

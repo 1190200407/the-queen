@@ -47,7 +47,7 @@ public abstract class LearnIntentCardModel : QueenCardModel
         || base.ShouldGlowGoldInternal;
 
     /// <summary>学习意图类卡牌的共通悬浮提示（默认含 Learn Intent）。子类可按需重写。</summary>
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [QueenHoverTips.LearnIntent];
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [QueenHoverTips.LearnIntent];
 
     /// <summary>是否在学习意图前先走召唤流程。</summary>
     protected virtual bool ShouldSummonBeforeLearnIntent => false;
@@ -63,7 +63,7 @@ public abstract class LearnIntentCardModel : QueenCardModel
 
     /// <summary>
     /// 返回本次要学习的意图集合；由 <see cref="PlayLearnIntentsFromCreateAsync"/> 逐个 <see cref="FriendlyAmalgamCmd.LearnIntent"/> 写入。
-    /// 组合意图牌（<see cref="QueenKeyword.amalgamComposite"/>）走 <see cref="FriendlyAmalgamCmd.CombineIntent"/>，可重写 <see cref="OnPlay"/> 且不调用本方法，则保留默认空实现即可。
+    /// 组合意图牌（<see cref="QueenKeyword.AmalgamComposite"/>）走 <see cref="FriendlyAmalgamCmd.CombineIntent"/>，可重写 <see cref="OnPlay"/> 且不调用本方法，则保留默认空实现即可。
     /// </summary>
     protected virtual Task<IReadOnlyList<AmalgamActionModel?>> CreateLearnIntentsAsync(PlayerChoiceContext choiceContext, CardPlay cardPlay) =>
         Task.FromResult<IReadOnlyList<AmalgamActionModel?>>([]);
