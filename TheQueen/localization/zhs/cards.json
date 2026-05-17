@@ -159,7 +159,7 @@
     "STS2_COMICCHESS_THEQUEEN_CARD_AMALGAM_ARMY_BREAK.title":"万灵破军",
     "STS2_COMICCHESS_THEQUEEN_CARD_AMALGAM_ARMY_BREAK.description":"聚合体现在攻击所有敌人。",
     "STS2_COMICCHESS_THEQUEEN_CARD_TERMINUS_FORM.title":"终焉形态",
-    "STS2_COMICCHESS_THEQUEEN_CARD_TERMINUS_FORM.description":"[gold]召唤[/gold]{Summon:diff()}。\n聚合体可以额外行动{IfUpgraded:show:2|1}次。",
+    "STS2_COMICCHESS_THEQUEEN_CARD_TERMINUS_FORM.description":"[gold]召唤[/gold]{Summon:diff()}。\n回合结束时聚合体可以额外行动{IfUpgraded:show:2|1}次。",
     "STS2_COMICCHESS_THEQUEEN_CARD_DORMANT_REBIRTH.title":"蛰伏再生",
     "STS2_COMICCHESS_THEQUEEN_CARD_DORMANT_REBIRTH.description":"聚合体从沉睡中苏醒时，[gold]召唤[/gold]{Summon:diff()}。",
     "STS2_COMICCHESS_THEQUEEN_CARD_VANGUARD.title":"先锋",

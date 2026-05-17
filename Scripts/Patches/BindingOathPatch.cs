@@ -14,7 +14,7 @@ using STS2RitsuLib.Patching.Models;
 namespace ComicChess.TheQueen;
 
 /// <summary>
-/// 女王「魂缚誓约」：每回合最多手动打出 1 张 <see cref="Bound"/> 牌；有魂灯层数时可无视该限制。
+/// 「魂缚誓约」：每名玩家每回合最多手动打出 1 张 <see cref="Bound"/> 牌；有魂灯层数时可无视该限制。
 /// </summary>
 internal static class BindingOathPatchState
 {
@@ -59,7 +59,7 @@ internal static class BindingOathPatchState
 		preventer = BindingOathPreventer;
 	}
 
-	internal static void NoteBoundCardPlayedIfQueen(CardPlay cardPlay)
+	internal static void NoteBoundCardPlayed(CardPlay cardPlay)
 	{
 		CardModel card = cardPlay.Card;
 		if (card.IsDupe)
@@ -68,7 +68,7 @@ internal static class BindingOathPatchState
 		}
 
 		Player? owner = card.Owner;
-		if (owner?.Character is not QueenCharacter || card.Owner.Creature != owner.Creature)
+		if (owner == null || card.Owner.Creature != owner.Creature)
 		{
 			return;
 		}
@@ -81,7 +81,7 @@ internal static class BindingOathPatchState
 		BoundCardPlayedThisTurn[owner.NetId] = true;
 	}
 
-	internal static void ResetQueenFlags(ICombatState combatState)
+	internal static void ResetPerTurnFlags(ICombatState combatState)
 	{
 		foreach (Player p in combatState.Players)
 		{
@@ -134,7 +134,7 @@ internal sealed class BindingOathHookBeforeCardPlayedPatch : IPatchMethod
 	{
 		_ = combatState;
 		await __result;
-		BindingOathPatchState.NoteBoundCardPlayedIfQueen(cardPlay);
+		BindingOathPatchState.NoteBoundCardPlayed(cardPlay);
 	}
 }
 
@@ -153,7 +153,7 @@ internal sealed class BindingOathHookBeforeTurnEndPatch : IPatchMethod
 	{
 		_ = side;
 		await __result;
-		BindingOathPatchState.ResetQueenFlags(combatState);
+		BindingOathPatchState.ResetPerTurnFlags(combatState);
 	}
 }
 

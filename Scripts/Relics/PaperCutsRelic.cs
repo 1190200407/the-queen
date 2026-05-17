@@ -13,12 +13,13 @@ using MegaCrit.Sts2.Core.Models.RelicPools;
 using MegaCrit.Sts2.Core.Saves.Runs;
 
 using STS2RitsuLib.Interop.AutoRegistration;
+using STS2RitsuLib.Scaffolding.Content;
 
 namespace ComicChess.TheQueen;
 
 /// <summary>纸伤难愈：战斗开始时，所有敌人的最大生命值减少 X（X 为遗物计数）。</summary>
 [RegisterRelic(typeof(EventRelicPool))]
-public sealed class PaperCutsRelic : QueenRelicModel
+public sealed class PaperCutsRelic : ModRelicTemplate
 {
 	public override RelicRarity Rarity => RelicRarity.Common;
     public override bool ShowCounter => true;
