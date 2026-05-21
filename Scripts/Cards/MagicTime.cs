@@ -27,7 +27,7 @@ public sealed class MagicTime : QueenCardModel
 	private const TargetType targetType = TargetType.Self;
 	private const bool shouldShowInCardLibrary = true;
 
-	protected override IEnumerable<DynamicVar> CanonicalVars => [new IntVar("SoulLampOnPlay", 1m)];
+	protected override IEnumerable<DynamicVar> CanonicalVars => [new IntVar("SoulLampOnPlay", 2m)];
 
 	protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
 	[
