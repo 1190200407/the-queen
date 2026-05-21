@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dwxdcrka0own7"
-path="res://.godot/imported/terminus_form.png-fae06d94a0e8c5864f8f5566e28f11cc.ctex"
+uid="uid://cpbe48hhxbwkk"
+path="res://.godot/imported/terminus_form.png-967e8b146981ac133a69426eaf94ccac.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://TheQueen/images/powers/big/terminus_form.png"
-dest_files=["res://.godot/imported/terminus_form.png-fae06d94a0e8c5864f8f5566e28f11cc.ctex"]
+source_file="res://TheQueen/images/powers/terminus_form.png"
+dest_files=["res://.godot/imported/terminus_form.png-967e8b146981ac133a69426eaf94ccac.ctex"]
 
 [params]
 

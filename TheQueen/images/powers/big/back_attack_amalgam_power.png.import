@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dwjpjh52pn1an"
-path="res://.godot/imported/back_attack_amalgam_power.png-992d967c176baa085620f9fa395b856e.ctex"
+uid="uid://yuoie3tp3rwd"
+path="res://.godot/imported/back_attack_amalgam_power.png-0a9618a829b8a8ccd3c96b914eaaab0b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://TheQueen/images/powers/big/back_attack_amalgam_power.png"
-dest_files=["res://.godot/imported/back_attack_amalgam_power.png-992d967c176baa085620f9fa395b856e.ctex"]
+source_file="res://TheQueen/images/powers/back_attack_amalgam_power.png"
+dest_files=["res://.godot/imported/back_attack_amalgam_power.png-0a9618a829b8a8ccd3c96b914eaaab0b.ctex"]
 
 [params]
 

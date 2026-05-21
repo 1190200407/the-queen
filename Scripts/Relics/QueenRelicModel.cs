@@ -8,40 +8,41 @@ namespace ComicChess.TheQueen;
 [RegisterRelic(typeof(QueenRelicPool), Inherit = true)]
 public abstract class QueenRelicModel : ModRelicTemplate
 {
-    // // 小图标
-    // public override string PackedIconPath => $"res://TheQueen/images/relics/{Id.Entry.ToLowerInvariant()}.png";
-    // // 轮廓图标
-    // protected override string PackedIconOutlinePath => $"res://TheQueen/images/relics/{Id.Entry.ToLowerInvariant()}.png";
-    // // 大图标
-    // protected override string BigIconPath => $"res://TheQueen/images/relics/{Id.Entry.ToLowerInvariant()}.png";
-    // 小图标
-    public override string PackedIconPath
+    public override string? CustomIconPath
     {
         get
         {
-            string key = Id.Entry.ToLowerInvariant().Replace("sts2_comicchess_thequeen_relic_", "");
-            string custom = $"res://TheQueen/images/relics/{key}.png";
+            string custom = $"res://TheQueen/images/relics/{ResolveRelicIconKey()}.png";
             return ResourceLoader.Exists(custom) ? custom : "res://TheQueen/images/relics/relic.png";
         }
     }
-    // 轮廓图标
-    protected override string PackedIconOutlinePath
+
+    public override string? CustomIconOutlinePath
     {
         get
         {
-            string key = Id.Entry.ToLowerInvariant().Replace("sts2_comicchess_thequeen_relic_", "");
-            string custom = $"res://TheQueen/images/relics/{key}_outline.png";
+            string custom = $"res://TheQueen/images/relics/{ResolveRelicIconKey()}_outline.png";
             return ResourceLoader.Exists(custom) ? custom : "res://TheQueen/images/relics/relic_outline.png";
         }
     }
-    // 大图标
-    protected override string BigIconPath
+
+    public override string? CustomBigIconPath
     {
         get
         {
-            string key = Id.Entry.ToLowerInvariant().Replace("sts2_comicchess_thequeen_relic_", "");
-            string custom = $"res://TheQueen/images/relics/big/{key}.png";
+            string custom = $"res://TheQueen/images/relics/big/{ResolveRelicIconKey()}.png";
             return ResourceLoader.Exists(custom) ? custom : "res://TheQueen/images/relics/big/relic.png";
         }
+    }
+
+    private string ResolveRelicIconKey()
+    {
+        string key = Id.Entry.ToLowerInvariant().Replace("sts2_comicchess_thequeen_relic_", "");
+        if (key.EndsWith("_relic"))
+        {
+            key = key[..^"_relic".Length];
+        }
+
+        return key;
     }
 }

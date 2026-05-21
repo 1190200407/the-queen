@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://12juhrv10pqj"
-path="res://.godot/imported/back_attack_queen_power.png-2c576d946fe862af8d8edcf7c5c04b4c.ctex"
+uid="uid://db3hjylc0ciqp"
+path="res://.godot/imported/back_attack_queen_power.png-2219c2805e5ddc0d55d5353aafc821f1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://TheQueen/images/powers/big/back_attack_queen_power.png"
-dest_files=["res://.godot/imported/back_attack_queen_power.png-2c576d946fe862af8d8edcf7c5c04b4c.ctex"]
+source_file="res://TheQueen/images/powers/back_attack_queen_power.png"
+dest_files=["res://.godot/imported/back_attack_queen_power.png-2219c2805e5ddc0d55d5353aafc821f1.ctex"]
 
 [params]
 

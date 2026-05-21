@@ -12,18 +12,20 @@ public abstract class QueenPotionModel : ModPotionTemplate
     {
         get
         {
-            string key = Id.Entry.ToLowerInvariant().Replace("sts2_comicchess_thequeen_potion_", "");
-            string custom = $"res://TheQueen/images/potions/{key}.png";
+            string custom = $"res://TheQueen/images/potions/{ResolvePotionAssetKey()}.png";
             return ResourceLoader.Exists(custom) ? custom : "res://TheQueen/images/potions/potion.png";
         }
     }
+
     public override string? CustomOutlinePath
     {
         get
         {
-            string key = Id.Entry.ToLowerInvariant().Replace("sts2_comicchess_thequeen_potion_", "");
-            string custom = $"res://TheQueen/images/potions/{key}_outline.png";
+            string custom = $"res://TheQueen/images/potions/{ResolvePotionAssetKey()}_outline.png";
             return ResourceLoader.Exists(custom) ? custom : "res://TheQueen/images/potions/potion_outline.png";
         }
     }
+
+    private string ResolvePotionAssetKey() =>
+        Id.Entry.ToLowerInvariant().Replace("sts2_comicchess_thequeen_potion_", "");
 }

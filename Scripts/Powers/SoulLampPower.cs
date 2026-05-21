@@ -140,7 +140,7 @@ public sealed class SoulLampPower : QueenPowerModel
 		}
 	}
 
-    public override async Task AfterCardPlayed(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    public override async Task BeforeCardPlayed(CardPlay cardPlay)
     {
 		// 只在“手动打出”时消耗 1 层魂灯。
 		if (cardPlay.IsAutoPlay)
@@ -174,7 +174,7 @@ public sealed class SoulLampPower : QueenPowerModel
 				// 从 1 -> -1（offset -2）并保持在状态栏显示 0。
 				if (base.Amount == 1)
 				{
-					await PowerCmd.ModifyAmount(choiceContext, this, -2m, null, null);
+					await PowerCmd.ModifyAmount(new ThrowingPlayerChoiceContext(), this, -2m, null, null);
 				}
 				else
 				{

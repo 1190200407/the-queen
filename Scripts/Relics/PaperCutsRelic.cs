@@ -14,6 +14,7 @@ using MegaCrit.Sts2.Core.Saves.Runs;
 
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
+using STS2RitsuLib.Scaffolding.Content.Patches;
 
 namespace ComicChess.TheQueen;
 
@@ -21,8 +22,12 @@ namespace ComicChess.TheQueen;
 [RegisterRelic(typeof(EventRelicPool))]
 public sealed class PaperCutsRelic : ModRelicTemplate
 {
-	public override RelicRarity Rarity => RelicRarity.Common;
+	public override RelicRarity Rarity => RelicRarity.Event;
     public override bool ShowCounter => true;
+
+	public override string? CustomIconPath => "res://TheQueen/images/relics/paper_cuts.png";
+    public override string? CustomIconOutlinePath => "res://TheQueen/images/relics/paper_cuts_outline.png";
+    public override string? CustomBigIconPath => "res://TheQueen/images/relics/big/paper_cuts.png";
 
 	[SavedProperty]
 	public int Cuts {get; set;} = 0;

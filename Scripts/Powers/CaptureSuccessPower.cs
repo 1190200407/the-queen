@@ -16,7 +16,7 @@ namespace ComicChess.TheQueen;
 /// 通用「捕获成功」：战斗胜利结算时追加一张 <see cref="SpecialCardReward"/>；层数不叠加（<see cref="PowerStackType.Single"/>）。
 /// 捕获牌在斩杀触发后调用 <see cref="ApplyForCapture"/> 并传入奖励用 <see cref="CardModel"/> 实例。
 /// </summary>
-public sealed class CaptureSuccessPower : QueenPowerModel
+public class CaptureSuccessPower : QueenPowerModel
 {
     public override PowerType Type => PowerType.Buff;
 
@@ -32,11 +32,19 @@ public sealed class CaptureSuccessPower : QueenPowerModel
     /// <summary>由带「捕获」效果的卡牌在成功触发时调用。</summary>
     internal static async Task ApplyForCapture(Player owner, CardModel rewardCard, CardModel? captureSourceCard)
     {
-        CaptureSuccessPower? applied =
-            await PowerCmd.Apply<CaptureSuccessPower>(new ThrowingPlayerChoiceContext(), owner.Creature, 1m, owner.Creature, captureSourceCard);
+        // 根据捕获卡牌的稀有度，决定power的图标
+        CaptureSuccessPower? applied = rewardCard.Rarity switch
+        {
+            CardRarity.Rare => await PowerCmd.Apply<CaptureSuccessBossPower>(new ThrowingPlayerChoiceContext(), owner.Creature, 1m, owner.Creature, captureSourceCard),
+            CardRarity.Uncommon => await PowerCmd.Apply<CaptureSuccessElitePower>(new ThrowingPlayerChoiceContext(), owner.Creature, 1m, owner.Creature, captureSourceCard),
+            _ => await PowerCmd.Apply<CaptureSuccessPower>(new ThrowingPlayerChoiceContext(), owner.Creature, 1m, owner.Creature, captureSourceCard),
+        };
         if (applied is not null)
         {
             applied.RewardCard = rewardCard;
         }
     }
 }
+
+public class CaptureSuccessElitePower : CaptureSuccessPower { }
+public class CaptureSuccessBossPower : CaptureSuccessPower { }

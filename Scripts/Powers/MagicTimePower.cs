@@ -18,7 +18,7 @@ public sealed class MagicTimePower : QueenPowerModel
 {
 	public override PowerType Type => PowerType.Buff;
 
-	public override PowerStackType StackType => PowerStackType.Counter;
+	public override PowerStackType StackType => PowerStackType.Single;
 
     public override async Task AfterCardEnteredCombat(CardModel card)
     {
@@ -40,22 +40,19 @@ public sealed class MagicTimePower : QueenPowerModel
 			return;
 		}
 
-		for (int i = 0; i < magicTime.Amount; i++)
+		SoulLampPower? lamp = creature.GetPower<SoulLampPower>();
+		if (lamp != null && lamp.Amount > 0)
 		{
-			SoulLampPower? lamp = creature.GetPower<SoulLampPower>();
-			if (lamp != null && lamp.Amount > 0)
-			{
-				return;
-			}
-
-			if (player.PlayerCombatState.Energy < 1)
-			{
-				return;
-			}
-
-			await PlayerCmd.LoseEnergy(1m, player);
-			await QueenCardCmd.AddSoulLamp(new ThrowingPlayerChoiceContext(), player, 1);
+			return;
 		}
+
+		if (player.PlayerCombatState.Energy < 1)
+		{
+			return;
+		}
+
+		await PlayerCmd.LoseEnergy(1m, player);
+		await QueenCardCmd.AddSoulLamp(new ThrowingPlayerChoiceContext(), player, 1);
 	}
 
 	public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)

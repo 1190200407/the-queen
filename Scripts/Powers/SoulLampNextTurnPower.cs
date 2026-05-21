@@ -12,9 +12,6 @@ public sealed class SoulLampNextTurnPower : QueenPowerModel
 
 	public override PowerStackType StackType => PowerStackType.Counter;
 
-	// 作为结算用临时 Power，不需要在状态栏常驻显示。
-	protected override bool IsVisibleInternal => false;
-
 	public override async Task AfterEnergyReset(Player player)
 	{
 		if (player != base.Owner.Player)

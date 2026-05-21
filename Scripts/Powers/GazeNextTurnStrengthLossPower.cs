@@ -17,16 +17,9 @@ namespace ComicChess.TheQueen;
 /// </summary>
 public sealed class GazeNextTurnStrengthLossPower : QueenPowerModel
 {
-	private sealed class Data
-	{
-		public int EnemyTurnStartsBeforeLoss;
-	}
-
 	public override PowerType Type => PowerType.Debuff;
 
 	public override PowerStackType StackType => PowerStackType.Counter;
-
-	protected override object? InitInternalData() => new Data { EnemyTurnStartsBeforeLoss = 1 };
 
 	protected override IEnumerable<IHoverTip> AdditionalHoverTips => [HoverTipFactory.FromPower<StrengthPower>()];
 
@@ -40,13 +33,6 @@ public sealed class GazeNextTurnStrengthLossPower : QueenPowerModel
 
 		if (base.Amount <= 0m)
 		{
-			return;
-		}
-
-		Data data = GetInternalData<Data>();
-		if (data.EnemyTurnStartsBeforeLoss > 0)
-		{
-			data.EnemyTurnStartsBeforeLoss--;
 			return;
 		}
 
