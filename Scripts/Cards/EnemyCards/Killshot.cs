@@ -25,7 +25,7 @@ public sealed class Killshot : LearnIntentCardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new SummonVar(5m).WithSharedTooltip("QUEEN_SUMMON_DYNAMIC"),
+        new SummonVar(8m).WithSharedTooltip("QUEEN_SUMMON_DYNAMIC"),
         new AmalgamLearnIntentDamageVar(learnIntentDamage, ValueProp.Move)
     ];
 

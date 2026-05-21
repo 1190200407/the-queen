@@ -7,7 +7,7 @@ using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Models.Powers;
-
+using STS2RitsuLib.Cards.DynamicVars;
 using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
@@ -24,8 +24,11 @@ public sealed class Constrict : LearnIntentCardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
+        new SummonVar(6m).WithSharedTooltip("QUEEN_SUMMON_DYNAMIC"),
         new AmalgamLearnIntentConstrictVar(5m),
     ];
+
+    protected override bool ShouldSummonBeforeLearnIntent => true;
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [

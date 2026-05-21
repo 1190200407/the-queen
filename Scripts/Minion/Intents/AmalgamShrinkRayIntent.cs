@@ -6,7 +6,7 @@ using MegaCrit.Sts2.Core.MonsterMoves.Intents;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>友方聚合体：对聚合体以外所有单位施加若干层缩小的意图展示。</summary>
+/// <summary>友方聚合体：对所有敌方单位施加若干层缩小的意图展示。</summary>
 public sealed class AmalgamShrinkRayIntent : AbstractIntent
 {
     private readonly int _turns;

@@ -12,12 +12,12 @@ using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
-
+using STS2RitsuLib.Cards.DynamicVars;
 using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>咆哮爪击：聚合体先施加易伤，再学习 2 连击进攻意图。</summary>
+/// <summary>咆哮爪击：召唤；聚合体先施加易伤，再学习 2 连击进攻意图。</summary>
 [RegisterCard(typeof(EnemyCardPool))]
 public sealed class RoarClaw : LearnIntentCardModel
 {
@@ -30,10 +30,13 @@ public sealed class RoarClaw : LearnIntentCardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
+        new SummonVar(10m).WithSharedTooltip("QUEEN_SUMMON_DYNAMIC"),
         new AmalgamLearnIntentVulnerableVar(3m),
         new AmalgamLearnIntentDamageVar(5m, ValueProp.Move),
     ];
     public override int MaxUpgradeLevel => 0;
+
+    protected override bool ShouldSummonBeforeLearnIntent => true;
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
@@ -53,7 +56,7 @@ public sealed class RoarClaw : LearnIntentCardModel
     {
     }
 
-    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    protected override async Task AfterSummonBeforeLearnIntentsAsync(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target, nameof(cardPlay.Target));
         if (base.Owner.Creature is not { IsAlive: true })
@@ -78,8 +81,6 @@ public sealed class RoarClaw : LearnIntentCardModel
                 await vulnerableAction.ExecuteAsync(choiceContext, amalgamCreature);
             }
         }
-
-        await PlayLearnIntentsFromCreateAsync(choiceContext, cardPlay);
     }
 
     protected override Task<IReadOnlyList<AmalgamActionModel?>> CreateLearnIntentsAsync(PlayerChoiceContext choiceContext, CardPlay cardPlay)

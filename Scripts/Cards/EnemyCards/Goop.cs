@@ -6,7 +6,7 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.CardPools;
-
+using STS2RitsuLib.Cards.DynamicVars;
 using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
@@ -24,8 +24,11 @@ public sealed class Goop : LearnIntentCardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
+        new SummonVar(5m).WithSharedTooltip("QUEEN_SUMMON_DYNAMIC"),
         new IntVar("LearnIntentDraw", learnIntentDraw),
     ];
+
+    protected override bool ShouldSummonBeforeLearnIntent => true;
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips => [QueenHoverTips.LearnIntent, ..HoverTipFactory.FromEnchantment<Slimed>()];
 

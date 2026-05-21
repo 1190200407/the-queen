@@ -8,7 +8,7 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
-
+using STS2RitsuLib.Cards.DynamicVars;
 using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
@@ -26,10 +26,13 @@ public sealed class DoubleBlast : LearnIntentCardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
+        new SummonVar(8m).WithSharedTooltip("QUEEN_SUMMON_DYNAMIC"),
         new AmalgamLearnIntentDamageVar("LearnIntentDamage", 6m, ValueProp.Move),
         new AmalgamLearnIntentStrengthVar(1m),
         new AmalgamLearnIntentDamageVar("LearnIntentDamage2", 5m, ValueProp.Move),
     ];
+
+    protected override bool ShouldSummonBeforeLearnIntent => true;
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [

@@ -13,7 +13,7 @@ using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>缩小射线：学习意图，对聚合体以外所有单位施加 1 回合缩小，并带魂缚。</summary>
+/// <summary>缩小射线：学习意图，对所有敌方单位施加 1 回合缩小，并带魂缚。</summary>
 [RegisterCard(typeof(EnemyCardPool))]
 public sealed class Shrinker : LearnIntentCardModel
 {

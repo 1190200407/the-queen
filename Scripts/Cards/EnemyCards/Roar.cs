@@ -26,7 +26,7 @@ public sealed class Roar : LearnIntentCardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new SummonVar(3m).WithSharedTooltip("QUEEN_SUMMON_DYNAMIC"),
+        new SummonVar(5m).WithSharedTooltip("QUEEN_SUMMON_DYNAMIC"),
         new AmalgamLearnIntentStrengthVar(learnIntentStrength),
     ];
 
