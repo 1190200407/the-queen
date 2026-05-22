@@ -106,6 +106,7 @@ public static class MonsterCaptureRewardCatalog
     public const string TheLost = "THE_LOST";
     public const string TurretOperator = "TURRET_OPERATOR";
     public const string KnowledgeDemon = "KNOWLEDGE_DEMON";
+    public const string Aeonglass = "AEONGLASS";
 
     private static readonly Dictionary<string, Func<Player, CardModel>> RewardCreators =
         new(StringComparer.OrdinalIgnoreCase)
@@ -201,6 +202,7 @@ public static class MonsterCaptureRewardCatalog
             { TheLost, static owner => owner.RunState!.CreateCard<Miasma>(owner) },
             { TurretOperator, static owner => owner.RunState!.CreateCard<Unload>(owner) },
             { KnowledgeDemon, static owner => owner.RunState!.CreateCard<CurseOfKnowledge>(owner) },
+            { Aeonglass, static owner => owner.RunState!.CreateCard<WitheringPresence>(owner) },
         };
 
     /// <summary>为捕获预览或 <see cref="CaptureSuccessPower"/> 创建奖励牌实例；无配置时返回 <c>null</c>。</summary>

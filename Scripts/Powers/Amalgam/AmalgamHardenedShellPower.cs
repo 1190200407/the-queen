@@ -27,6 +27,8 @@ public sealed class AmalgamHardenedShellPower : QueenPowerModel
 
     public override PowerStackType StackType => PowerStackType.Counter;
 
+    public override PowerInstanceType InstanceType => PowerInstanceType.Instanced;
+
     public override int DisplayAmount => (int)Math.Max(0, GetInternalData<Data>().Remaining);
 
     // 复用原版 Hardened Shell 的图标资源。

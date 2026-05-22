@@ -36,7 +36,7 @@ public sealed class AmalgamVitalSparkPower : QueenPowerModel, IAmalgamEventListe
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
         [HoverTipFactory.FromPower<EnergyNextTurnPower>()];
 
-    public override Task AfterTurnEnd(PlayerChoiceContext choiceContext, CombatSide side)
+    public override Task AfterSideTurnEnd(PlayerChoiceContext choiceContext, CombatSide side, IEnumerable<Creature> participants)
     {
         _ = choiceContext;
         if (side != base.Owner.Side)

@@ -24,7 +24,7 @@ public sealed class Illusion : LearnIntentCardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new SummonVar(5m).WithSharedTooltip("QUEEN_SUMMON_DYNAMIC"),
+        new SummonVar(7m).WithSharedTooltip("QUEEN_SUMMON_DYNAMIC"),
     ];
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>

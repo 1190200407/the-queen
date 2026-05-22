@@ -134,7 +134,7 @@ internal sealed class ChainsOfBindingPowerBeforeTurnEndPatch : IPatchMethod
 
 	public static ModPatchTarget[] GetTargets() =>
 	[
-		new(typeof(ChainsOfBindingPower), nameof(ChainsOfBindingPower.BeforeTurnEnd)),
+		new(typeof(ChainsOfBindingPower), nameof(ChainsOfBindingPower.BeforeSideTurnEnd)),
 	];
 
 	public static bool Prefix(

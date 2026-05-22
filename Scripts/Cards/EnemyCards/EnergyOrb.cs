@@ -8,12 +8,12 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
-
+using STS2RitsuLib.Cards.DynamicVars;
 using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>能量球：学习「进攻 + 力量」双意图，并带魂缚。</summary>
+/// <summary>能量球：召唤并学习「进攻 + 力量」双意图，并带魂缚。</summary>
 [RegisterCard(typeof(EnemyCardPool))]
 public sealed class EnergyOrb : LearnIntentCardModel
 {
@@ -27,9 +27,12 @@ public sealed class EnergyOrb : LearnIntentCardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
+        new SummonVar(5m).WithSharedTooltip("QUEEN_SUMMON_DYNAMIC"),
         new AmalgamLearnIntentDamageVar(learnIntentDamage, ValueProp.Move),
         new AmalgamLearnIntentStrengthVar(learnIntentStrength),
     ];
+
+    protected override bool ShouldSummonBeforeLearnIntent => true;
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [

@@ -12,7 +12,7 @@ using MegaCrit.Sts2.Core.MonsterMoves.MonsterMoveStateMachine;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>聚合体意图：对聚合体以外所有单位施加若干回合的缩小（原版 <see cref="ShrinkPower"/>）。</summary>
+/// <summary>聚合体意图：对所有敌方单位施加若干回合的缩小（原版 <see cref="ShrinkPower"/>）。</summary>
 public sealed class AmalgamShrinkRayIntentAction : AmalgamActionModel
 {
     public AmalgamShrinkRayIntentAction(decimal turns)
@@ -43,22 +43,7 @@ public sealed class AmalgamShrinkRayIntentAction : AmalgamActionModel
             return;
         }
 
-        List<Creature> targets = new();
-        foreach (Player p in combatState.Players)
-        {
-            if (p.Creature is { IsAlive: true } pc && !ReferenceEquals(pc, amalgam))
-            {
-                targets.Add(pc);
-            }
-        }
-
-        foreach (Creature enemy in combatState.Enemies.Where(e => e.IsAlive))
-        {
-            if (!ReferenceEquals(enemy, amalgam))
-            {
-                targets.Add(enemy);
-            }
-        }
+        List<Creature> targets = combatState.Enemies.Where(e => e.IsAlive).ToList();
 
         if (targets.Count == 0)
         {

@@ -62,8 +62,8 @@ public sealed class PaperCutsRelic : ModRelicTemplate
 		obtained.AddCuts(amount);
 	}
 
-	public override async Task BeforeSideTurnStart(PlayerChoiceContext choiceContext, CombatSide side, ICombatState combatState)
-	{
+    public override async Task BeforeSideTurnStart(PlayerChoiceContext choiceContext, CombatSide side, IReadOnlyList<Creature> participants, ICombatState combatState)
+    {
 		if (side == base.Owner.Creature.Side && combatState.RoundNumber <= 1)
 		{
 			Flash();

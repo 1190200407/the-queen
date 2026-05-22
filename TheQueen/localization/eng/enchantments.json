@@ -12,5 +12,8 @@
     "COMICCHESS-TOXIC.extraCardText": "On play, apply {Amount} [gold]Poison[/gold] to a random enemy.",
     "COMICCHESS-BURN.title": "Burn",
     "COMICCHESS-BURN.description": "At end of turn, if this card is in your [gold]hand[/gold], deal {Amount} damage to all enemies.",
-    "COMICCHESS-BURN.extraCardText": "End of turn in hand: deal {Amount} damage to all enemies."
+    "COMICCHESS-BURN.extraCardText": "End of turn in hand: deal {Amount} damage to all enemies.",
+    "COMICCHESS-WITHERING.title": "Wither",
+    "COMICCHESS-WITHERING.description": "This card gains [gold]Retain[/gold]. After it is retained {Amount} times, it is [gold]Exhausted[/gold].",
+    "COMICCHESS-WITHERING.extraCardText": "Gains [gold]Retain[/gold]. [gold]Exhaust[/gold] after retained {Amount} times."
 }

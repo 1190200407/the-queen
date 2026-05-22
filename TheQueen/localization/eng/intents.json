@@ -19,7 +19,7 @@
     "AMALGAM_GAIN_BUFF.title": "Strategic",
     "AMALGAM_GAIN_BUFF.description": "The Amalgam will gain [blue]{Stacks}[/blue] {BuffName}.",
     "AMALGAM_SHRINK_RAY.title": "Strategic",
-    "AMALGAM_SHRINK_RAY.description": "All creatures except the Amalgam are Shrunk for [blue]{Stacks}[/blue] turn(s).",
+    "AMALGAM_SHRINK_RAY.description": "The Amalgam will Shrink all enemies for [blue]{Stacks}[/blue] turn(s).",
     "FORMAT_AMALGAM_ENERGY_LABEL": "{energyPrefix:energyIcons(1)}",
     "FORMAT_AMALGAM_DRAW_LABEL": "{Count}",
     "AMALGAM_ENERGY.title": "Energy",

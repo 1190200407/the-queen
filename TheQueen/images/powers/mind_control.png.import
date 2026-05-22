@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b5n5nc5fhcqg1"
-path="res://.godot/imported/power.png-d86123bd0b74dd10b1009399f079f90f.ctex"
+uid="uid://cpnac0xsf42ev"
+path="res://.godot/imported/mind_control.png-3f2c544f62c589ea126297b35f3f2ee5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://TheQueen/images/powers/big/power.png"
-dest_files=["res://.godot/imported/power.png-d86123bd0b74dd10b1009399f079f90f.ctex"]
+source_file="res://TheQueen/images/powers/mind_control.png"
+dest_files=["res://.godot/imported/mind_control.png-3f2c544f62c589ea126297b35f3f2ee5.ctex"]
 
 [params]
 

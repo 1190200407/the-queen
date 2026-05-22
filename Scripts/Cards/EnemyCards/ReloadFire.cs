@@ -18,7 +18,7 @@ namespace ComicChess.TheQueen;
 [RegisterCard(typeof(EnemyCardPool))]
 public sealed class ReloadFire : LearnIntentCardModel
 {
-    // 怪物牌不可升级：召唤3(5) 落地为 5；格挡3(4) 落地为 4；下回合伤害14(16) 落地为 16。
+    // 怪物牌不可升级：召唤8；格挡3(4) 落地为 4；下回合伤害14(16) 落地为 16。
     private const int energyCost = 2;
     private const CardType type = CardType.Skill;
     private const CardRarity rarity = CardRarity.Common;
@@ -27,7 +27,7 @@ public sealed class ReloadFire : LearnIntentCardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new SummonVar(5m).WithSharedTooltip("QUEEN_SUMMON_DYNAMIC"),
+        new SummonVar(8m).WithSharedTooltip("QUEEN_SUMMON_DYNAMIC"),
         new AmalgamLearnIntentBlockVar(4m),
         new AmalgamLearnIntentDamageVar(16m, ValueProp.Move),
     ];

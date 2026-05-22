@@ -56,7 +56,7 @@ public sealed class LiquifyGround : LearnIntentCardModel
     {
     }
 
-    public override Task BeforeSideTurnStart(PlayerChoiceContext choiceContext, CombatSide side, ICombatState combatState)
+    public override Task BeforeSideTurnStart(PlayerChoiceContext choiceContext, CombatSide side, IReadOnlyList<Creature> participants, ICombatState combatState)
     {
 		if (side == base.Owner.Creature.Side && combatState.RoundNumber <= 1 && combatState.Encounter?.RoomType == RoomType.Boss)
         {

@@ -7,7 +7,6 @@ using STS2RitsuLib;
 using STS2RitsuLib.Content;
 using STS2RitsuLib.Interop;
 using STS2RitsuLib.Patching.Core;
-using STS2RitsuLib.Scaffolding.Cards.HandOutline;
 
 namespace ComicChess.TheQueen;
 
@@ -25,10 +24,9 @@ public class Entry
 		RitsuLibFramework.EnsureGodotScriptsRegistered(assembly, Logger);
 
 		RitsuLibFramework.CreateContentPack(ModId)
-			.CardHandOutline<CardModel>(new ModCardHandOutlineRule(
-				static card => SoulLampPower.IsCardFreeBySoulLamp(card),
-				SoulLampFreeGlow,
-				int.MinValue))
+			.CardHandOutline<CardModel>(
+				static card => SoulLampPower.IsCardFreeBySoulLamp(card) ? SoulLampFreeGlow : null,
+				int.MinValue)
 			.Apply();
 
 		RitsuLibFramework.GetContentRegistry(ModId)

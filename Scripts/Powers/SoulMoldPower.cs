@@ -8,6 +8,7 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models.Afflictions;
 using MegaCrit.Sts2.Core.Models;
 using STS2RitsuLib.Keywords;
+using MegaCrit.Sts2.Core.Entities.Creatures;
 
 namespace ComicChess.TheQueen;
 
@@ -75,8 +76,8 @@ public sealed class SoulMoldPower : QueenPowerModel
 		}
 	}
 
-	public override Task BeforeTurnEnd(PlayerChoiceContext choiceContext, CombatSide side)
-	{
+    public override Task BeforeSideTurnEnd(PlayerChoiceContext choiceContext, CombatSide side, IEnumerable<Creature> participants)
+    {
 		if (side == base.Owner.Side)
 		{
 			GetInternalData<Data>().triggeredThisTurn = false;

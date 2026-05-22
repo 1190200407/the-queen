@@ -35,7 +35,7 @@ public class QueenCharacter : ModCharacterTemplate<QueenCardPool, QueenRelicPool
     // 人物模型tscn路径。要自定义见下。
     public override string CustomVisualsPath => "res://TheQueen/scenes/creature_visuals/queen_character.tscn";
     // 卡牌拖尾场景。
-    // public override string CustomTrailPath => "res://scenes/vfx/card_trail_ironclad.tscn";
+    public override string CustomTrailPath => "res://scenes/vfx/card_trail_silent.tscn";
     // 人物头像路径。
     public override string CustomIconTexturePath => "res://TheQueen/images/charui/queen_boss.png";
     // 人物头像2号。
@@ -45,7 +45,7 @@ public class QueenCharacter : ModCharacterTemplate<QueenCardPool, QueenRelicPool
     // 篝火休息场景。
     // public override string CustomRestSiteAnimPath => "res://scenes/rest_site/characters/ironclad_rest_site.tscn";
     // 商店人物场景。
-    // public override string CustomMerchantAnimPath => "res://scenes/merchant/characters/ironclad_merchant.tscn";
+    public override string CustomMerchantAnimPath => "res://scenes/creature_visuals/queen_character_merchant.tscn";
     // 多人模式-手指。
     public override string CustomArmPointingTexturePath => "res://TheQueen/images/hands/multiplayer_hand_ironclad_point.png";
     // 多人模式剪刀石头布-石头。
@@ -56,7 +56,7 @@ public class QueenCharacter : ModCharacterTemplate<QueenCardPool, QueenRelicPool
     public override string CustomArmScissorsTexturePath => "res://TheQueen/images/hands/multiplayer_hand_ironclad_scissors.png";
 
     // 人物选择背景。
-    //public override string CustomCharacterSelectBg => "res://test/scenes/test_bg.tscn";
+    public override string? CustomCharacterSelectBgPath => "res://TheQueen/scenes/screens/char_select_bg_queen.tscn";
     // 人物选择图标。
     public override string CustomCharacterSelectIconPath => "res://TheQueen/images/charui/char_select_queen.png";
     // 人物选择图标-锁定状态。

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b5n5nc5fhcqg1"
-path="res://.godot/imported/power.png-d86123bd0b74dd10b1009399f079f90f.ctex"
+uid="uid://d02u8fgkwwqg3"
+path="res://.godot/imported/withering.png-4e438b5dbfe5de51cedd6e11b67633c7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://TheQueen/images/powers/big/power.png"
-dest_files=["res://.godot/imported/power.png-d86123bd0b74dd10b1009399f079f90f.ctex"]
+source_file="res://TheQueen/images/enchantments/withering.png"
+dest_files=["res://.godot/imported/withering.png-4e438b5dbfe5de51cedd6e11b67633c7.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b5n5nc5fhcqg1"
-path="res://.godot/imported/power.png-d86123bd0b74dd10b1009399f079f90f.ctex"
+uid="uid://dy1heno0j1bpa"
+path="res://.godot/imported/withering_presence.png-699859fb8fae8955839011e426154a43.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://TheQueen/images/powers/big/power.png"
-dest_files=["res://.godot/imported/power.png-d86123bd0b74dd10b1009399f079f90f.ctex"]
+source_file="res://TheQueen/images/card_portraits/monsters/withering_presence.png"
+dest_files=["res://.godot/imported/withering_presence.png-699859fb8fae8955839011e426154a43.ctex"]
 
 [params]
 

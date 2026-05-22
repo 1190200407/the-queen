@@ -12,7 +12,7 @@ using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>回旋踢：召唤并学习 2x4 的多段进攻意图。</summary>
+/// <summary>回旋踢：召唤并学习 2x4 的多段进攻意图；消耗。</summary>
 [RegisterCard(typeof(EnemyCardPool))]
 public sealed class SpinningKick : LearnIntentCardModel
 {
@@ -24,6 +24,8 @@ public sealed class SpinningKick : LearnIntentCardModel
     private const TargetType targetType = TargetType.Self;
     private const bool shouldShowInCardLibrary = true;
     internal override bool HasSelfBound => true;
+
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [

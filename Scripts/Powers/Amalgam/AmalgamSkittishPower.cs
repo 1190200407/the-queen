@@ -36,7 +36,7 @@ public sealed class AmalgamSkittishPower : QueenPowerModel, IAmalgamEventListene
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
         [HoverTipFactory.FromPower<BlockNextTurnPower>()];
 
-    public override Task AfterTurnEnd(PlayerChoiceContext choiceContext, CombatSide side)
+    public override Task AfterSideTurnEnd(PlayerChoiceContext choiceContext, CombatSide side, IEnumerable<Creature> participants)
     {
         _ = choiceContext;
         if (side != base.Owner.Side)

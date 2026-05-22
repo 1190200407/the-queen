@@ -6,12 +6,12 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.CardPools;
-
+using STS2RitsuLib.Cards.DynamicVars;
 using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>粘液：学习意图为抽牌并附魔（黏液）。</summary>
+/// <summary>粘液：召唤并学习意图为抽牌并附魔（黏液）。</summary>
 [RegisterCard(typeof(EnemyCardPool))]
 public sealed class Goop : LearnIntentCardModel
 {
@@ -24,8 +24,11 @@ public sealed class Goop : LearnIntentCardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
+        new SummonVar(5m).WithSharedTooltip("QUEEN_SUMMON_DYNAMIC"),
         new IntVar("LearnIntentDraw", learnIntentDraw),
     ];
+
+    protected override bool ShouldSummonBeforeLearnIntent => true;
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips => [QueenHoverTips.LearnIntent, ..HoverTipFactory.FromEnchantment<Slimed>()];
 

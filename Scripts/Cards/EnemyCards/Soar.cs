@@ -24,7 +24,7 @@ public sealed class Soar : LearnIntentCardModel
 
     private const decimal summon = 5m;
     private const decimal soarStacks = 1m;
-    private const string soarEntryId = "COMICCHESS-AMALGAM_SOAR_POWER";
+    private const string soarEntryId = "AMALGAM_SOAR_POWER";
 
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
