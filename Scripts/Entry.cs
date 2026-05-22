@@ -6,6 +6,7 @@ using MegaCrit.Sts2.Core.Modding;
 using STS2RitsuLib;
 using STS2RitsuLib.Content;
 using STS2RitsuLib.Interop;
+using STS2RitsuLib.Keywords;
 using STS2RitsuLib.Patching.Core;
 
 namespace ComicChess.TheQueen;
@@ -24,6 +25,16 @@ public class Entry
 		RitsuLibFramework.EnsureGodotScriptsRegistered(assembly, Logger);
 
 		RitsuLibFramework.CreateContentPack(ModId)
+			.CardKeywordOwnedByLocNamespace(
+				"Fade",
+				"res://TheQueen/images/charui/queen_boss.png",
+				ModKeywordCardDescriptionPlacement.BeforeCardDescription,
+				includeInCardHoverTip: true)
+			.CardKeywordOwnedByLocNamespace(
+				"AmalgamComposite",
+				"res://TheQueen/images/charui/queen_boss.png",
+				ModKeywordCardDescriptionPlacement.AfterCardDescription,
+				includeInCardHoverTip: true)
 			.CardHandOutline<CardModel>(
 				static card => SoulLampPower.IsCardFreeBySoulLamp(card) ? SoulLampFreeGlow : null,
 				int.MinValue)

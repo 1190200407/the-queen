@@ -357,7 +357,7 @@
     "STS2_COMICCHESS_THEQUEEN_CARD_TREASURE_PAVILION.description":"从[gold]弃牌堆[/gold]中选择1张没有[purple]魂缚[/purple]的牌加入[gold]手牌[/gold]并侵蚀为[purple]魂缚[/purple]。\n[aqua]获得1点魂灯。[/aqua]",
     "STS2_COMICCHESS_THEQUEEN_CARD_TREASURE_PAVILION.selectionPrompt":"从弃牌堆中选择1张没有魂缚的牌。",
     "STS2_COMICCHESS_THEQUEEN_CARD_MAGIC_PIGMENT.title":"神奇颜料",
-    "STS2_COMICCHESS_THEQUEEN_CARD_MAGIC_PIGMENT.description":"生成[blue]{Cards}[/blue]张{IfUpgraded:show:升级过的|}随机颜色牌并侵蚀为[purple]魂缚[/purple]。\n[aqua]获得2点魂灯。[/aqua]",
+    "STS2_COMICCHESS_THEQUEEN_CARD_MAGIC_PIGMENT.description":"生成[blue]{Cards}[/blue]张{IfUpgraded:show:升级过的|}其他颜色牌并侵蚀为[purple]魂缚[/purple]。\n[aqua]获得2点魂灯。[/aqua]",
     "STS2_COMICCHESS_THEQUEEN_CARD_DELEGATE_LABOR.title":"代劳",
     "STS2_COMICCHESS_THEQUEEN_CARD_DELEGATE_LABOR.description":"你失去所有[gold]力量[/gold]。[gold]聚合体[/gold]获得等量[gold]力量[/gold]。",
     "STS2_COMICCHESS_THEQUEEN_CARD_TAKE_OVER.title":"接手",

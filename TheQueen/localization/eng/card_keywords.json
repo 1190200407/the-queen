@@ -1,6 +1,6 @@
 ﻿{
-    "COMICCHESS-FADE.description": "When this card enters your [gold]Discard pile[/gold], it is [gold]Exhausted[/gold].",
-    "COMICCHESS-FADE.title": "Fade",
-    "COMICCHESS-AMALGAM_COMPOSITE.description": "All intents with [gold]Composite[/gold] are learned into the same [gold]torch slot[/gold]; multiple intents in one slot each resolve as a separate action when executed.",
-    "COMICCHESS-AMALGAM_COMPOSITE.title": "Composite"
+    "STS2_COMICCHESS_THEQUEEN_KEYWORD_FADE.description": "When this card enters your [gold]Discard pile[/gold], it is [gold]Exhausted[/gold].",
+    "STS2_COMICCHESS_THEQUEEN_KEYWORD_FADE.title": "Fade",
+    "STS2_COMICCHESS_THEQUEEN_KEYWORD_AMALGAM_COMPOSITE.description": "All intents with [gold]Composite[/gold] are learned into the same [gold]torch slot[/gold]; multiple intents in one slot each resolve as a separate action when executed.",
+    "STS2_COMICCHESS_THEQUEEN_KEYWORD_AMALGAM_COMPOSITE.title": "Composite"
 }

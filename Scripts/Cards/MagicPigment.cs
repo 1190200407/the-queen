@@ -17,7 +17,6 @@ using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>神奇颜料：生成若干张随机颜色牌（卡池�?<see cref="HexCursePower"/>）并侵蚀为魂缚，获得魂灯。消耗�?/summary>
 
 [RegisterCard(typeof(QueenCardPool))]
 public sealed class MagicPigment : QueenCardModel
@@ -54,10 +53,7 @@ public sealed class MagicPigment : QueenCardModel
         }
 
         int count = base.DynamicVars.Cards.IntValue;
-        List<CardModel> allUnlocked = base.Owner.UnlockState.CharacterCardPools
-            .SelectMany(p => p.GetUnlockedCards(base.Owner.UnlockState, base.Owner.RunState.CardMultiplayerConstraint))
-            .Where(static c => c.Rarity is not (CardRarity.Basic or CardRarity.Ancient))
-            .ToList();
+        List<CardModel> allUnlocked = QueenCrossColorCardSource.GetOtherCharacterUnlockedCards(base.Owner);
 
         if (allUnlocked.Count == 0)
         {
