@@ -45,15 +45,15 @@ public class QueenCharacter : ModCharacterTemplate<QueenCardPool, QueenRelicPool
     // 篝火休息场景。
     // public override string CustomRestSiteAnimPath => "res://scenes/rest_site/characters/ironclad_rest_site.tscn";
     // 商店人物场景。
-    public override string CustomMerchantAnimPath => "res://scenes/creature_visuals/queen_character_merchant.tscn";
+    public override string CustomMerchantAnimPath => "res://TheQueen/scenes/creature_visuals/queen_character_merchant.tscn";
     // 多人模式-手指。
-    public override string CustomArmPointingTexturePath => "res://TheQueen/images/hands/multiplayer_hand_ironclad_point.png";
+    public override string CustomArmPointingTexturePath => "res://TheQueen/images/hands/multiplayer_hand_queen_point.png";
     // 多人模式剪刀石头布-石头。
-    public override string CustomArmRockTexturePath => "res://TheQueen/images/hands/multiplayer_hand_ironclad_rock.png";
+    public override string CustomArmRockTexturePath => "res://TheQueen/images/hands/multiplayer_hand_queen_rock.png";
     // 多人模式剪刀石头布-布。
-    public override string CustomArmPaperTexturePath => "res://TheQueen/images/hands/multiplayer_hand_ironclad_paper.png";
+    public override string CustomArmPaperTexturePath => "res://TheQueen/images/hands/multiplayer_hand_queen_paper.png";
     // 多人模式剪刀石头布-剪刀。
-    public override string CustomArmScissorsTexturePath => "res://TheQueen/images/hands/multiplayer_hand_ironclad_scissors.png";
+    public override string CustomArmScissorsTexturePath => "res://TheQueen/images/hands/multiplayer_hand_queen_scissors.png";
 
     // 人物选择背景。
     public override string? CustomCharacterSelectBgPath => "res://TheQueen/scenes/screens/char_select_bg_queen.tscn";

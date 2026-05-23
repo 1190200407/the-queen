@@ -32,8 +32,8 @@ public sealed class TearSpace : QueenCardModel
 	public override CardMultiplayerConstraint MultiplayerConstraint => CardMultiplayerConstraint.SingleplayerOnly;
 
 	protected override IEnumerable<DynamicVar> CanonicalVars => [
-		new IntVar(PlayThresholdKey, 9m),
-		new DamageVar(50m, ValueProp.Move),
+		new IntVar(PlayThresholdKey, 7m),
+		new DamageVar(30m, ValueProp.Move),
 		new CalculationBaseVar(0m),
 		new CalculationExtraVar(1m),
 		new CalculatedVar("BattlefieldDebuffCount").WithMultiplier(static (CardModel card, Creature? _) =>
