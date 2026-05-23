@@ -48,7 +48,7 @@ public sealed class RoarClaw : LearnIntentCardModel
     protected override bool ShouldGlowRedInternal =>
         (base.Owner?.Creature?.CombatState is { } combatState
             && (FriendlyAmalgamCmd.GetExisting(combatState, base.Owner) is not { Monster: FriendlyAmalgam amalgam }
-                || amalgam.BlocksDirectOffenseFromHand))
+                || amalgam.sleepReason.HasFlag(FriendlyAmalgam.SleepReason.Power)))
         || base.ShouldGlowRedInternal;
 
     public RoarClaw()

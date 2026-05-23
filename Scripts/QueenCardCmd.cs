@@ -9,6 +9,7 @@ using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Afflictions;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.Random;
+using MegaCrit.Sts2.Core.Rooms;
 
 namespace ComicChess.TheQueen;
 
@@ -25,7 +26,7 @@ public static class QueenCardCmd
 		}
 
 		ICombatState? cs = card.CombatState ?? card.Owner?.Creature?.CombatState;
-		if (cs != null)
+		if (cs != null && card.Owner?.RunState?.CurrentRoom is CombatRoom)
 		{
 			AfflictionModel? applied = await CardCmd.Afflict<Bound>(card, amount);
 			return applied != null;

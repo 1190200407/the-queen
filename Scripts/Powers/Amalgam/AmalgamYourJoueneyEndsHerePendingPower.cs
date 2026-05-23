@@ -42,7 +42,8 @@ public sealed class AmalgamYourJoueneyEndsHerePendingPower : QueenPowerModel
         base.DynamicVars["StrengthToGain"].BaseValue = strengthToGain;
     }
 
-    public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
+
+    public override async Task BeforeSideTurnStart(PlayerChoiceContext choiceContext, CombatSide side, IReadOnlyList<Creature> participants, ICombatState combatState)
     {
         await PowerCmd.Decrement(this);
         if (Amount > 0m)
@@ -51,10 +52,9 @@ public sealed class AmalgamYourJoueneyEndsHerePendingPower : QueenPowerModel
         }
 
         Data data = GetInternalData<Data>();
-        ICombatState? combatState = base.Owner.CombatState;
         if (combatState != null)
         {
-            Creature? amalgamCreature = FriendlyAmalgamCmd.GetExisting(combatState, player);
+            Creature? amalgamCreature = base.Owner;
             if (amalgamCreature is { IsAlive: true } && data.StrengthToGain > 0m)
             {
                 Flash();

@@ -29,6 +29,7 @@ internal sealed class QueenModPatches : IModPatches
 		patcher.RegisterPatch<MindControlAttackIntentGetSingleDamagePatch>();
 		patcher.RegisterPatch<QueenSummonOnCombatStartPatch>();
 		patcher.RegisterPatch<OstyAmalgamSummonCrossRedirectPatch>();
+		patcher.RegisterPatch<CreatureCmdHealNullGuardPatch>();
 		patcher.RegisterPatch<PersonalHivePowerAmalgamDealerTransferPatch>();
 		patcher.RegisterPatch<CardCmdDiscardAndDrawPatch>();
 		patcher.RegisterPatch<CardPileCmdAddCrossOwnerHandCleanupPatch>();
@@ -46,6 +47,8 @@ internal sealed class QueenModPatches : IModPatches
 		// UI / 预览 / 表现（可选失败不关停 mod）
 		patcher.RegisterPatch<BoundDescriptionPreviewPatch>();
 		patcher.RegisterPatch<BoundOverlayPreviewPatch>();
+		patcher.RegisterPatch<SoulLightBuiltInOverlayPatch>();
+		patcher.RegisterPatch<NCardSoulLightOverlayRefreshPatch>();
 		patcher.RegisterPatch<EcosphereBottleTargetingPreview_NPotionHolder_TargetNode_Patch>();
 		patcher.RegisterPatch<EcosphereBottleTargetingPreview_NTargetManager_FinishTargeting_Patch>();
 		patcher.RegisterPatch<EnemyIntentRewardCardPreview_NMouseCardPlay_SingleCreatureTargeting_Patch>();

@@ -115,7 +115,7 @@ public abstract class QueenCardModel : ModCardTemplate
     /// <c>ReloadOverlay</c> 会在 <c>Affliction == null</c> 时仍走内置叠层分支，看起来像清不掉。
     /// </summary>
     public override bool HasBuiltInOverlay =>
-        HasSelfBound && (CombatState == null || Affliction is Bound);
+        (HasSelfBound || Enchantment is SoulLight) && (CombatState == null || Affliction is Bound);
 
     public QueenCardModel(int energyCost, CardType type, CardRarity rarity, TargetType targetType, bool shouldShowInCardLibrary) : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
     {
