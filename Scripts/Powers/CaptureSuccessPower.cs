@@ -32,11 +32,10 @@ public class CaptureSuccessPower : QueenPowerModel
     /// <summary>由带「捕获」效果的卡牌在成功触发时调用。</summary>
     internal static async Task ApplyForCapture(Player owner, CardModel rewardCard, CardModel? captureSourceCard)
     {
-        // 根据捕获卡牌的稀有度，决定power的图标
-        CaptureSuccessPower? applied = rewardCard.Rarity switch
+        CaptureSuccessPower? applied = MonsterCaptureRewardCatalog.GetEncounterRoomType(owner.Creature.CombatState) switch
         {
-            CardRarity.Rare => await PowerCmd.Apply<CaptureSuccessBossPower>(new ThrowingPlayerChoiceContext(), owner.Creature, 1m, owner.Creature, captureSourceCard),
-            CardRarity.Uncommon => await PowerCmd.Apply<CaptureSuccessElitePower>(new ThrowingPlayerChoiceContext(), owner.Creature, 1m, owner.Creature, captureSourceCard),
+            RoomType.Boss => await PowerCmd.Apply<CaptureSuccessBossPower>(new ThrowingPlayerChoiceContext(), owner.Creature, 1m, owner.Creature, captureSourceCard),
+            RoomType.Elite => await PowerCmd.Apply<CaptureSuccessElitePower>(new ThrowingPlayerChoiceContext(), owner.Creature, 1m, owner.Creature, captureSourceCard),
             _ => await PowerCmd.Apply<CaptureSuccessPower>(new ThrowingPlayerChoiceContext(), owner.Creature, 1m, owner.Creature, captureSourceCard),
         };
         if (applied is not null)

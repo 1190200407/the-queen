@@ -32,12 +32,12 @@ public sealed class Declaration : QueenCardModel, ICanMonsterCapture
 
     public bool CanCapture(MonsterModel monster, ICombatState combatState) =>
         monster is not null && combatState is not null
-        && (combatState.Encounter?.RoomType switch
+        && MonsterCaptureRewardCatalog.GetEncounterRoomType(combatState) switch
         {
             RoomType.Boss => false,
             RoomType.Elite => IsUpgraded,
             _ => true,
-        });
+        };
 
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 

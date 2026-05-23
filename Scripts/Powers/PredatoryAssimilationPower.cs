@@ -76,8 +76,8 @@ public sealed class PredatoryAssimilationPower : QueenPowerModel, IAmalgamEventL
 			return;
 		}
 
-		RoomType? roomType = base.Owner.CombatState?.Encounter?.RoomType;
-		bool check = roomType is RoomType.Monster || roomType is RoomType.Event || (roomType is RoomType.Elite && IsUpgraded);
+		RoomType? roomType = MonsterCaptureRewardCatalog.GetEncounterRoomType(base.Owner.CombatState);
+		bool check = roomType is RoomType.Monster || (roomType is RoomType.Elite && IsUpgraded);
 		if (!check)
 		{
 			return;

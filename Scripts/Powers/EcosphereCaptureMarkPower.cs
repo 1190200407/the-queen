@@ -44,12 +44,6 @@ public sealed class EcosphereCaptureMarkPower : QueenPowerModel
 			return;
 		}
 
-		RoomType? roomType = creature.CombatState?.Encounter?.RoomType;
-		if (roomType is not (RoomType.Monster or RoomType.Event or RoomType.Elite))
-		{
-			return;
-		}
-
 		CombatRoom? combatRoom = applier.RunState?.CurrentRoom as CombatRoom;
 		if (combatRoom == null)
 		{
