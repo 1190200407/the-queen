@@ -493,28 +493,45 @@ public static class FriendlyAmalgamCmd
     }
 
     /// <summary>
-    /// 多段进攻：单次 <c>PowerAttack</c> 出手动画 + 光束音效；<c>Visuals/LaserControlBone</c> 固定向友方场侧偏移，随后按 <see cref="AmalgamOffenseTargeting"/> 连打 <paramref name="hitCount"/> 次。
+    /// 多段进攻：先播放一次出手动画，再连打 <paramref name="hitCount"/> 次。
+    /// <paramref name="target"/> 非空时固定攻击该目标；否则按 <see cref="AmalgamOffenseTargeting"/> 选敌。
     /// </summary>
     public static async Task ExecuteMultiHitOffense(
         PlayerChoiceContext choiceContext,
-        Creature amalgam,
+        Creature attacker,
+        Creature? target,
         decimal damagePerHit,
-        int hitCount)
+        int hitCount,
+        string attackerAnimName,
+        float attackerAnimDelay,
+        string hitVfxPath,
+        string attackerSfxPath,
+        Func<Creature, Task>? playHitVfxOnTarget = null)
     {
-        const string beamAnim = "PowerAttack";
-        const float beamAnimDelay = 0.7f;
-        const float damageDelayAfterBeamAnim = 0.3f;
-        const string beamSfx = "event:/sfx/enemy/enemy_attacks/torch_head_amalgam/torch_head_amalgam_beam";
-        const string hitVfxPath = "vfx/vfx_attack_blunt";
+        const float damageDelayAfterAttackAnim = 0.3f;
         const float laserControlBoneFriendlyReach = 10000f;
+
+        async Task PlayHitVfxAsync(Creature hitTarget)
+        {
+            if (playHitVfxOnTarget != null)
+            {
+                await playHitVfxOnTarget(hitTarget);
+                return;
+            }
+
+            if (!string.IsNullOrEmpty(hitVfxPath))
+            {
+                VfxCmd.PlayOnCreatureCenter(hitTarget, hitVfxPath);
+            }
+        }
 
         if (hitCount <= 0 || damagePerHit <= 0m)
         {
             return;
         }
 
-        ICombatState? combatState = amalgam.CombatState;
-        if (combatState == null || amalgam.PetOwner is not Player queen)
+        ICombatState? combatState = attacker.CombatState;
+        if (combatState == null || attacker.PetOwner is not Player queen)
         {
             return;
         }
@@ -525,11 +542,18 @@ public static class FriendlyAmalgamCmd
             return;
         }
 
-        TryOffsetMultiHitLaserControlBone(amalgam, laserControlBoneFriendlyReach);
+        if (attackerAnimName == "PowerAttack")
+        {
+            TryOffsetMultiHitLaserControlBone(attacker, laserControlBoneFriendlyReach);
+        }
 
-        SfxCmd.Play(beamSfx);
-        await CreatureCmd.TriggerAnim(amalgam, beamAnim, beamAnimDelay);
-        await Cmd.CustomScaledWait(damageDelayAfterBeamAnim, damageDelayAfterBeamAnim);
+        if (!string.IsNullOrEmpty(attackerSfxPath))
+        {
+            SfxCmd.Play(attackerSfxPath);
+        }
+
+        await CreatureCmd.TriggerAnim(attacker, attackerAnimName, attackerAnimDelay);
+        await Cmd.CustomScaledWait(damageDelayAfterAttackAnim, damageDelayAfterAttackAnim);
 
         for (int i = 0; i < hitCount; i++)
         {
@@ -539,19 +563,28 @@ public static class FriendlyAmalgamCmd
                 return;
             }
 
+            if (target is { IsAlive: true } forcedTarget && alive.Contains(forcedTarget))
+            {
+                await PlayHitVfxAsync(forcedTarget);
+                IEnumerable<DamageResult> damageResults =
+                    await CreatureCmd.Damage(choiceContext, forcedTarget, damagePerHit, ValueProp.Move, attacker, null);
+                await FriendlyAmalgamHook.AfterAmalgamDamagedCreature(combatState, choiceContext, attacker, forcedTarget, damageResults);
+                continue;
+            }
+
             AmalgamOffenseTargetingMode mode = AmalgamOffenseTargeting.ResolveMode(combatState, queen);
             if (mode == AmalgamOffenseTargetingMode.AllAliveEnemies)
             {
                 foreach (Creature enemy in alive)
                 {
-                    VfxCmd.PlayOnCreatureCenter(enemy, hitVfxPath);
+                    await PlayHitVfxAsync(enemy);
                 }
 
                 foreach (Creature enemy in alive)
                 {
                     IEnumerable<DamageResult> damageResults =
-                        await CreatureCmd.Damage(choiceContext, enemy, damagePerHit, ValueProp.Move, amalgam, null);
-                    await FriendlyAmalgamHook.AfterAmalgamDamagedCreature(combatState, choiceContext, amalgam, enemy, damageResults);
+                        await CreatureCmd.Damage(choiceContext, enemy, damagePerHit, ValueProp.Move, attacker, null);
+                    await FriendlyAmalgamHook.AfterAmalgamDamagedCreature(combatState, choiceContext, attacker, enemy, damageResults);
                 }
 
                 continue;
@@ -562,10 +595,10 @@ public static class FriendlyAmalgamCmd
                 Creature? marked = AmalgamOffenseTargeting.FindMarkedEnemy(combatState);
                 if (marked is { IsAlive: true })
                 {
-                    VfxCmd.PlayOnCreatureCenter(marked, hitVfxPath);
+                    await PlayHitVfxAsync(marked);
                     IEnumerable<DamageResult> damageResults =
-                        await CreatureCmd.Damage(choiceContext, marked, damagePerHit, ValueProp.Move, amalgam, null);
-                    await FriendlyAmalgamHook.AfterAmalgamDamagedCreature(combatState, choiceContext, amalgam, marked, damageResults);
+                        await CreatureCmd.Damage(choiceContext, marked, damagePerHit, ValueProp.Move, attacker, null);
+                    await FriendlyAmalgamHook.AfterAmalgamDamagedCreature(combatState, choiceContext, attacker, marked, damageResults);
                     continue;
                 }
             }
@@ -576,10 +609,10 @@ public static class FriendlyAmalgamCmd
                 continue;
             }
 
-            VfxCmd.PlayOnCreatureCenter(randomEnemy, hitVfxPath);
+            await PlayHitVfxAsync(randomEnemy);
             IEnumerable<DamageResult> randomHit =
-                await CreatureCmd.Damage(choiceContext, randomEnemy, damagePerHit, ValueProp.Move, amalgam, null);
-            await FriendlyAmalgamHook.AfterAmalgamDamagedCreature(combatState, choiceContext, amalgam, randomEnemy, randomHit);
+                await CreatureCmd.Damage(choiceContext, randomEnemy, damagePerHit, ValueProp.Move, attacker, null);
+            await FriendlyAmalgamHook.AfterAmalgamDamagedCreature(combatState, choiceContext, attacker, randomEnemy, randomHit);
         }
     }
 

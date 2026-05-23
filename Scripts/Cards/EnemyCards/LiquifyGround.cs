@@ -68,7 +68,10 @@ public sealed class LiquifyGround : LearnIntentCardModel
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         _ = cardPlay;
+        SfxCmd.Play("event:/sfx/enemy/enemy_attacks/the_insatiable/the_insatiable_liquify_ground");
         await CreatureCmd.TriggerAnim(base.Owner.Creature, "Cast", base.Owner.Character.CastAnimDelay);
+		VfxCmd.PlayOnCreatureCenter(base.Owner.Creature, "vfx/vfx_scream");
+		await Cmd.Wait(0.75f);
 
         decimal sandpitToGain = base.DynamicVars.Power<AmalgamSandpitPower>().BaseValue;
         if (base.Owner.Creature.GetPower<AmalgamSandpitPower>() == null)

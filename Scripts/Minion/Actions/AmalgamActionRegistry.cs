@@ -66,6 +66,16 @@ public static class AmalgamActionRegistry
         return new AmalgamMultiHitOffenseIntentAction(damagePerHit, hitCount);
     }
 
+    public static AmalgamActionModel? CreateLashOffenseMulti(decimal damagePerHit, int hitCount)
+    {
+        if (damagePerHit <= 0m || hitCount <= 0)
+        {
+            return null;
+        }
+
+        return new AmalgamLashMultiHitOffenseIntentAction(damagePerHit, hitCount);
+    }
+
     public static AmalgamActionModel? CreateOffenseMultiAndWeak(decimal damagePerHit, int hitCount, decimal weakStacks)
     {
         if (damagePerHit <= 0m || hitCount <= 0 || weakStacks <= 0m)

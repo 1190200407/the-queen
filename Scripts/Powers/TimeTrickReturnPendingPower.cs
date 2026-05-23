@@ -14,7 +14,7 @@ using MegaCrit.Sts2.Core.Models;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>时间把戏：记录待在下回合 energy 重置时移回手牌的弃牌（合并多次打出）。</summary>
+/// <summary>时间把戏：记录待在下回合 energy 重置时移回手牌的标记牌（合并多次打出）。</summary>
 public sealed class TimeTrickReturnPendingPower : QueenPowerModel
 {
 	public override PowerType Type => PowerType.Buff;

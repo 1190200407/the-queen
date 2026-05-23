@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -18,21 +17,8 @@ namespace ComicChess.TheQueen;
 public static class MonsterCaptureRewardCatalog
 {
     /// <summary>当前战斗遭遇的房间类型（普通 / 精英 / 首领等）。</summary>
-    public static RoomType? GetEncounterRoomType(ICombatState? combatState)
-    {
-        if (combatState?.Encounter is not { } encounter)
-        {
-            return null;
-        }
-
-        RoomType roomType = encounter.RoomType;
-        if (roomType != RoomType.Event)
-        {
-            return roomType;
-        }
-
-        return LookupMonsterTierInAct(combatState);
-    }
+    public static RoomType? GetEncounterRoomType(ICombatState? combatState) =>
+        combatState?.Encounter?.RoomType;
 
     /// <summary>原版 <see cref="MegaCrit.Sts2.Core.Models.Monsters.Flyconid"/> 的 Id。</summary>
     public const string Flyconid = "FLYCONID";
@@ -260,33 +246,5 @@ public static class MonsterCaptureRewardCatalog
         }
 
         return create(owner);
-    }
-
-    /// <summary>Event 遭遇：按当前幕图鉴遭遇列表反查怪物真实分级。</summary>
-    private static RoomType LookupMonsterTierInAct(ICombatState combatState)
-    {
-        ActModel act = combatState.RunState.Act;
-        foreach (Creature enemy in combatState.Enemies)
-        {
-            if (enemy.Monster is not { } monster)
-            {
-                continue;
-            }
-
-            ModelId monsterId = monster.Id;
-            if (act.AllBossEncounters.Any(e => e.AllPossibleMonsters.Any(m => m.Id == monsterId)))
-            {
-                return RoomType.Boss;
-            }
-
-            if (act.AllEliteEncounters.Any(e => e.AllPossibleMonsters.Any(m => m.Id == monsterId)))
-            {
-                return RoomType.Elite;
-            }
-
-            return RoomType.Monster;
-        }
-
-        return RoomType.Monster;
     }
 }

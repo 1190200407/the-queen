@@ -27,7 +27,21 @@ public sealed class BurnBrightForMe : QueenCardModel
 
 	public override bool GainsBlock => true;
 
-	protected override IEnumerable<DynamicVar> CanonicalVars => [
+    protected override bool ShouldGlowRedInternal
+	{
+		get
+		{
+			Creature? amalgam = FriendlyAmalgamCmd.GetExisting(base.Owner.Creature.CombatState, base.Owner);
+			if (amalgam == null || !amalgam.IsAlive)
+			{
+				return true;
+			}
+
+			return false;
+		}
+	}
+
+    protected override IEnumerable<DynamicVar> CanonicalVars => [
 		new PowerVar<StrengthPower>(1m),
 		new BlockVar(13m, ValueProp.Move)
 	];

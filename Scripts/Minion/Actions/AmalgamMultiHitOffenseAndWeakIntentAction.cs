@@ -61,7 +61,16 @@ public sealed class AmalgamMultiHitOffenseAndWeakIntentAction : AmalgamActionMod
         }
 
         // 先按现有逻辑打多段伤害（内部会处理目标选择 + 动画）
-        await FriendlyAmalgamCmd.ExecuteMultiHitOffense(choiceContext, amalgam, Amount, _hitCount);
+        await FriendlyAmalgamCmd.ExecuteMultiHitOffense(
+            choiceContext,
+            amalgam,
+            _forcedTarget,
+            Amount,
+            _hitCount,
+            "PowerAttack",
+            0.7f,
+            "vfx/vfx_attack_blunt",
+            "event:/sfx/enemy/enemy_attacks/torch_head_amalgam/torch_head_amalgam_beam");
 
         // 再对同一目标规则施加虚弱（与 ApplyWeakIntentAction 保持一致）
         AmalgamOffenseTargetingMode mode = AmalgamOffenseTargeting.ResolveMode(combatState, queen);

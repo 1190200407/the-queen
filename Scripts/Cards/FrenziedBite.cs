@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 
@@ -19,7 +18,7 @@ using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>疯狂撕咬：聚合体对目�?2 连击；按目标负面效果数量召唤�?/summary>
+/// <summary>疯狂撕咬：聚合体对目标 2 连击；按目标负面效果数量召唤。</summary>
 
 [RegisterCard(typeof(QueenCardPool))]
 public sealed class FrenziedBite : QueenCardModel
@@ -33,7 +32,7 @@ public sealed class FrenziedBite : QueenCardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DamageVar(5m, ValueProp.Move),
+        new AmalgamLearnIntentDamageVar(5m, ValueProp.Move),
         new SummonVar(4m).WithSharedTooltip("QUEEN_SUMMON_DYNAMIC"),
         new CalculationBaseVar(0m),
         new CalculationExtraVar(1m),
@@ -46,7 +45,7 @@ public sealed class FrenziedBite : QueenCardModel
 
     internal override bool HasSelfBound => true;
 
-    /// <summary>无友方聚合体�?<see cref="FriendlyAmalgam.BlockActionFromSleep"/> 时手牌红高亮（打出时由聚合体直接对敌伤害）�?/summary>
+    /// <summary>无友方聚合体或 <see cref="FriendlyAmalgam.BlockActionFromSleep"/> 时手牌红高亮（打出时由聚合体直接对敌伤害）。</summary>
     protected override bool ShouldGlowRedInternal =>
         (base.Owner?.Creature?.CombatState is { } combatState
             && (FriendlyAmalgamCmd.GetExisting(combatState, base.Owner) is not { Monster: FriendlyAmalgam amalgam }
@@ -70,22 +69,22 @@ public sealed class FrenziedBite : QueenCardModel
         Creature? amalgamCreature = FriendlyAmalgamCmd.GetExisting(combatState, base.Owner);
         if (amalgamCreature is { Monster: FriendlyAmalgam fam } && !fam.BlockActionFromSleep)
         {
-            decimal damagePerHit = base.DynamicVars.Damage.BaseValue;
-            for (int i = 0; i < hitCount; i++)
+            decimal damage = AmalgamLearnIntentDamageVar.GetEffectiveFlatForOffenseIntent(this, "LearnIntentDamage");
+            if (target.IsAlive && damage > 0m)
             {
-                if (!target.IsAlive)
+                AmalgamActionModel? attack = AmalgamActionRegistry.CreateOffense(damage, target);
+                if (attack != null)
                 {
-                    break;
-                }
+                    for (int i = 0; i < hitCount; i++)
+                    {
+                        if (!target.IsAlive)
+                        {
+                            break;
+                        }
 
-                await FriendlyAmalgamCmd.ExecuteSingleTargetAttack(
-                    choiceContext,
-                    amalgamCreature,
-                    target,
-                    damagePerHit,
-                    "Attack",
-                    0.6f,
-                    "vfx/vfx_attack_blunt");
+                        await attack.ExecuteAsync(choiceContext, amalgamCreature);
+                    }
+                }
             }
         }
 
@@ -99,7 +98,7 @@ public sealed class FrenziedBite : QueenCardModel
 
     protected override void OnUpgrade()
     {
-        base.DynamicVars.Damage.UpgradeValueBy(2m);
+        base.DynamicVars["LearnIntentDamage"].UpgradeValueBy(2m);
         base.DynamicVars.Summon.UpgradeValueBy(1m);
     }
 }

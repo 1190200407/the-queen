@@ -49,6 +49,9 @@ public sealed class AmalgamSteamEruptionPower : QueenPowerModel, IAmalgamEventLi
             return;
         }
 
+		VfxCmd.PlayVfx(base.Owner.GetCreatureNode().VfxSpawnPosition, "vfx/vfx_scream", base.Owner.GetVfxContainer());
+        SfxCmd.Play("event:/sfx/enemy/enemy_attacks/waterfall_giant/waterfall_giant_die");
+
         Creature[] alive = combatState.Enemies.Where(e => e.IsAlive).ToArray();
         if (alive.Length == 0)
         {

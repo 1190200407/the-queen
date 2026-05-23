@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 
@@ -8,13 +9,16 @@ using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Models.Afflictions;
 using MegaCrit.Sts2.Core.Models.CardPools;
+using MegaCrit.Sts2.Core.Models.Powers;
 
 using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>活力火花：使聚合体获得活力火花。</summary>
+/// <summary>活力火花：聚合体获得活力火花，你获得传染。</summary>
 [RegisterCard(typeof(EnemyCardPool))]
 public sealed class VitalSpark : QueenCardModel
 {
@@ -23,16 +27,18 @@ public sealed class VitalSpark : QueenCardModel
     private const CardRarity rarity = CardRarity.Uncommon;
     private const TargetType targetType = TargetType.Self;
     private const bool shouldShowInCardLibrary = true;
-    private const decimal vitalSparkStacks = 1m;
+    private const decimal vitalSparkStacks = 2m;
+    private const decimal galvanizedStacks = 2m;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new PowerVar<AmalgamVitalSparkPower>(vitalSparkStacks),
+        new PowerVar<VitalSparkPower>(vitalSparkStacks),
     ];
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
-        EnergyHoverTip
+        HoverTipFactory.FromPower<VitalSparkPower>(),
+        HoverTipFactory.FromPower<TaintedPower>(),
     ];
 
     public override int MaxUpgradeLevel => 0;
@@ -45,19 +51,29 @@ public sealed class VitalSpark : QueenCardModel
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         _ = cardPlay;
-        if (base.Owner.Creature.CombatState is not { } combatState)
+        if (base.Owner.Creature == null)
         {
             return;
         }
 
-        Creature? amalgam = FriendlyAmalgamCmd.GetExisting(combatState, base.Owner);
-        if (amalgam is { IsAlive: true })
+        if (base.Owner.PlayerCombatState is { } playerCombatState)
         {
-            if (vitalSparkStacks > 0m)
+            foreach (CardModel card in playerCombatState.AllCards.ToList())
             {
-                await PowerCmd.Apply<AmalgamVitalSparkPower>(choiceContext, amalgam, vitalSparkStacks, base.Owner.Creature, this);
+                if (card.Affliction is null || card.Affliction is Tainted)
+                    await CardCmd.Afflict<Tainted>(card, galvanizedStacks);
             }
+        }
+
+        await PowerCmd.Apply<VitalSparkPower>(choiceContext, base.Owner.Creature, vitalSparkStacks, base.Owner.Creature, this);
+        QueenContagionPower? contagionPower = base.Owner.Creature.GetPower<QueenContagionPower>();
+        if (contagionPower is not null)
+        {
+            await PowerCmd.ModifyAmount(choiceContext, contagionPower, contagionPower.Amount, base.Owner.Creature, this);
+        }
+        else
+        {
+            await PowerCmd.Apply<QueenContagionPower>(choiceContext, base.Owner.Creature, 2m, base.Owner.Creature, this);
         }
     }
 }
-

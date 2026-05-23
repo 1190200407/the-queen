@@ -80,7 +80,16 @@ public sealed class DropStrike : QueenCardModel
         }
 
         decimal dmg = AmalgamLearnIntentDamageVar.GetEffectiveFlatForOffenseIntent(this, "LearnIntentDamage");
-        await FriendlyAmalgamCmd.ExecuteMultiHitOffense(choiceContext, amalgam, dmg, hitCount);
+        await FriendlyAmalgamCmd.ExecuteMultiHitOffense(
+            choiceContext,
+            amalgam,
+            target: null,
+            dmg,
+            hitCount,
+            "PowerAttack",
+            0.7f,
+            "vfx/vfx_attack_blunt",
+            "event:/sfx/enemy/enemy_attacks/torch_head_amalgam/torch_head_amalgam_beam");
     }
 
     protected override void OnUpgrade()
