@@ -5,6 +5,7 @@ using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
+using STS2RitsuLib.Keywords;
 
 namespace ComicChess.TheQueen;
 
@@ -24,12 +25,13 @@ public abstract class LearnIntentCardModel : QueenCardModel
 
     protected override IEnumerable<string> RegisteredCardTagIds => [QueenCardTags.LearnIntent];
 
-    /// <summary>友方聚合体三灯槽均已有意图时金闪（打出后当场执行一次再学）。</summary>
+    /// <summary>友方聚合体三灯槽均已有意图时金闪（打出后当场执行一次再学；与是否能力沉睡无关，仅死亡不金闪）。</summary>
     protected override bool ShouldGlowGoldInternal =>
         (base.Owner?.Creature?.CombatState is { } combatState
             && FriendlyAmalgamCmd.GetExisting(combatState, base.Owner) is { Monster: FriendlyAmalgam amalgam }
-            && amalgam.HasAllTorchSlotsFilled)
-        || base.ShouldGlowGoldInternal;
+            && amalgam.Creature.IsAlive
+            && amalgam.HasAllTorchSlotsFilled
+            && !amalgam.BlockActionFromSleep);
 
     /// <summary>学习意图类卡牌的共通悬浮提示（默认含 Learn Intent）。子类可按需重写。</summary>
     protected override IEnumerable<IHoverTip> AdditionalHoverTips => [QueenHoverTips.LearnIntent];

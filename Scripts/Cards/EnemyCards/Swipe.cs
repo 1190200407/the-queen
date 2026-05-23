@@ -50,11 +50,11 @@ public sealed class Swipe : QueenCardModel, ICanMonsterCapture
         HoverTipFactory.FromPower<AmalgamEscapePower>(),
     ];
 
-    /// <summary>无友方聚合体或 <see cref="FriendlyAmalgam.BlocksDirectOffenseFromHand"/> 时手牌红高亮（打出时由聚合体直接对敌伤害）。</summary>
+    /// <summary>无友方聚合体或 <see cref="FriendlyAmalgam.BlockActionFromSleep"/> 时手牌红高亮（打出时由聚合体直接对敌伤害）。</summary>
     protected override bool ShouldGlowRedInternal =>
         (base.Owner?.Creature?.CombatState is { } combatState
             && (FriendlyAmalgamCmd.GetExisting(combatState, base.Owner) is not { Monster: FriendlyAmalgam amalgam }
-                || amalgam.BlocksDirectOffenseFromHand))
+                || amalgam.BlockActionFromSleep))
         || base.ShouldGlowRedInternal;
 
     public Swipe()
@@ -77,7 +77,7 @@ public sealed class Swipe : QueenCardModel, ICanMonsterCapture
         }
 
         Creature target = cardPlay.Target;
-        if (amalgam.Monster is FriendlyAmalgam fam && !fam.BlocksDirectOffenseFromHand)
+        if (amalgam.Monster is FriendlyAmalgam fam && !fam.BlockActionFromSleep)
         {
             decimal damage = AmalgamLearnIntentDamageVar.GetEffectiveFlatForOffenseIntent(this, "LearnIntentDamage");
             if (target.IsAlive && damage > 0m)

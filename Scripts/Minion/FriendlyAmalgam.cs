@@ -101,7 +101,7 @@ public class FriendlyAmalgam : QueenMinionModel
     /// <summary>
     /// 手牌打出时是否阻断聚合体「直接对敌」攻击：仅含 <see cref="SleepReason.NoLearnedAction"/>（无已学意图）时不阻断；含死亡、能力沉睡等则阻断。
     /// </summary>
-    public bool BlocksDirectOffenseFromHand => (sleepReason & ~SleepReason.NoLearnedAction) != 0;
+    public bool BlockActionFromSleep => (sleepReason & ~SleepReason.NoLearnedAction) != 0;
 
     public async Task FallAsleep(SleepReason reason)
     {
@@ -467,6 +467,10 @@ public class FriendlyAmalgam : QueenMinionModel
             {
                 break;
             }
+            if (BlockActionFromSleep)
+            {
+                break;
+            }
 
             await FriendlyAmalgamCmd.TryPerformIntent(self);
             await action.ExecuteAsync(choiceContext, self);
@@ -561,7 +565,11 @@ public class FriendlyAmalgam : QueenMinionModel
         if (emptySlot < 0)
         {
             // 三槽已满：不写入槽位，当场执行本次要学的意图；不做意图条/小火等意图 UI 同步。
-            await intent.ExecuteAsync(choiceContext, Creature);
+            // 能力/死亡等沉睡（BlockActionFromSleep）时与回合末一致，不执行。
+            if (!BlockActionFromSleep)
+            {
+                await intent.ExecuteAsync(choiceContext, Creature);
+            }
             return;
         }
         bool hadAnyIntentBefore = false;

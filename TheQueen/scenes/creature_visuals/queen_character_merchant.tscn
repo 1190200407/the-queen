@@ -132,7 +132,7 @@ scale = Vector2(-0.14, 0.14)
 [node name="eyeSlot" type="SpineSlotNode" parent="Visuals"]
 slot_name = "eye 1"
 show_behind_parent = true
-position = Vector2(-79.00452, -2803.7239)
+position = Vector2(14.029646, -2705.071)
 rotation = -1.5707964
 
 [node name="eye_fire" type="ColorRect" parent="Visuals/eyeSlot"]
@@ -154,7 +154,7 @@ rotation = 1.5708
 [node name="eyeSlot2" type="SpineSlotNode" parent="Visuals"]
 slot_name = "eye 2"
 show_behind_parent = true
-position = Vector2(32.901093, -2732.2065)
+position = Vector2(-59.035324, -2820.2375)
 rotation = -1.5676117
 scale = Vector2(0.99999994, 0.99999994)
 
@@ -202,13 +202,13 @@ position = Vector2(-6.18904, -1336.537)
 [node name="EyeBoneTop" type="SpineBoneNode" parent="Visuals"]
 bone_name = "eye_flame_top"
 show_behind_parent = true
-position = Vector2(-79.00452, -2803.7239)
+position = Vector2(14.029646, -2705.071)
 rotation = -1.5707964
 
 [node name="EyeBoneBot" type="SpineBoneNode" parent="Visuals"]
 bone_name = "eye_flame_bottom"
 show_behind_parent = true
-position = Vector2(32.901093, -2732.2065)
+position = Vector2(-59.035324, -2820.2375)
 rotation = -1.5676117
 scale = Vector2(0.99999994, 0.99999994)
 

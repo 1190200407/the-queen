@@ -46,11 +46,11 @@ public sealed class FrenziedBite : QueenCardModel
 
     internal override bool HasSelfBound => true;
 
-    /// <summary>无友方聚合体�?<see cref="FriendlyAmalgam.BlocksDirectOffenseFromHand"/> 时手牌红高亮（打出时由聚合体直接对敌伤害）�?/summary>
+    /// <summary>无友方聚合体�?<see cref="FriendlyAmalgam.BlockActionFromSleep"/> 时手牌红高亮（打出时由聚合体直接对敌伤害）�?/summary>
     protected override bool ShouldGlowRedInternal =>
         (base.Owner?.Creature?.CombatState is { } combatState
             && (FriendlyAmalgamCmd.GetExisting(combatState, base.Owner) is not { Monster: FriendlyAmalgam amalgam }
-                || amalgam.BlocksDirectOffenseFromHand))
+                || amalgam.BlockActionFromSleep))
         || base.ShouldGlowRedInternal;
 
     public FrenziedBite()
@@ -68,7 +68,7 @@ public sealed class FrenziedBite : QueenCardModel
         }
 
         Creature? amalgamCreature = FriendlyAmalgamCmd.GetExisting(combatState, base.Owner);
-        if (amalgamCreature is { Monster: FriendlyAmalgam fam } && !fam.BlocksDirectOffenseFromHand)
+        if (amalgamCreature is { Monster: FriendlyAmalgam fam } && !fam.BlockActionFromSleep)
         {
             decimal damagePerHit = base.DynamicVars.Damage.BaseValue;
             for (int i = 0; i < hitCount; i++)
