@@ -67,7 +67,6 @@ public sealed class SoulResonancePower : QueenPowerModel, IAmalgamEventListener
 				}
 
 				await FriendlyAmalgamCmd.LearnIntent(choiceContext, other, intent.Clone(), source);
-				LogSleepReasonAfterMirror(combatState, other, "LearnIntent");
 			}
 		}
 		finally
@@ -116,26 +115,11 @@ public sealed class SoulResonancePower : QueenPowerModel, IAmalgamEventListener
 				}
 
 				await FriendlyAmalgamCmd.CombineIntent(choiceContext, other, intent.Clone(), source, compositeIndexKey);
-				LogSleepReasonAfterMirror(combatState, other, "CombineIntent");
 			}
 		}
 		finally
 		{
 			SpreadLock.Remove(choiceContext);
 		}
-	}
-
-	private static void LogSleepReasonAfterMirror(ICombatState combatState, Player owner, string mirrorKind)
-	{
-		Creature? amalgamCreature = FriendlyAmalgamCmd.GetExisting(combatState, owner);
-		if (amalgamCreature?.Monster is not FriendlyAmalgam amalgam)
-		{
-			Log.Info($"[SoulResonance] After mirror {mirrorKind} for player {owner.NetId}: no amalgam");
-			return;
-		}
-
-		Log.Info(
-			$"[SoulResonance] After mirror {mirrorKind} for player {owner.NetId}: "
-			+ $"sleepReason={amalgam.sleepReason}, IsSleeping={amalgam.IsSleeping()}, BlockActionFromSleep={amalgam.BlockActionFromSleep}");
 	}
 }

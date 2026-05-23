@@ -234,24 +234,19 @@ public static class FriendlyAmalgamCmd
         Creature minion = existing ?? await AddAmalgamPetAsync(
             owner,
             new MinionSummonOptions(Source: source as CardModel));
-        
-        if (isReviving)
-        {
-            owner.PlayerCombatState?.AddPetInternal(minion);
-        }
 
         if (isReviving)
         {
+            owner.PlayerCombatState?.AddPetInternal(minion);
             await CreatureCmd.SetMaxHp(minion, amount);
-            await HealCurrentUpToSummonTargetAsync(minion, amount);
-            await FinishSummonRevivePresentationAsync(minion);
         }
         else
         {
             await CreatureCmd.SetMaxHp(minion, amount);
-            await HealCurrentUpToSummonTargetAsync(minion, amount);
         }
 
+        await HealCurrentUpToSummonTargetAsync(minion, amount);
+        await FinishSummonRevivePresentationAsync(minion);
         await FriendlyAmalgamHook.OnAmalgamEnterCombat(combatState, choiceContext, owner, minion);
         CombatManager.Instance.History.Summoned(combatState, (int)amount, owner);
         await EnsureAmalgamCorePowers(minion);
