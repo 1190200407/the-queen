@@ -32,7 +32,7 @@ public sealed class AllSlippery : QueenCardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new SummonVar(10m).WithSharedTooltip("QUEEN_SUMMON_DYNAMIC"),
+        new SummonVar(15m).WithSharedTooltip("QUEEN_SUMMON_DYNAMIC"),
         new IntVar("SlipperyStacks", 4m),
     ];
     public override int MaxUpgradeLevel => 0;

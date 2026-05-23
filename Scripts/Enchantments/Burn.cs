@@ -20,8 +20,6 @@ public sealed class Burn : QueenEnchantmentModel
     public override bool ShowAmount => true;
     public override bool HasExtraCardText => true;
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromKeyword(CardKeyword.Unplayable)];
-
     public override bool CanEnchant(CardModel card)
     {
         if (!base.CanEnchant(card))

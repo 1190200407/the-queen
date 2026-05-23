@@ -16,11 +16,11 @@ using STS2RitsuLib.Keywords;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>头槌：召唤；聚合体获得失衡；通过 <see cref="FriendlyAmalgamCmd.CombineIntent"/> 学习聚合进攻意图。消耗。</summary>
+/// <summary>头槌：召唤；聚合体获得失衡；通过 <see cref="FriendlyAmalgamCmd.CombineIntent"/> 学习聚合进攻意图。消耗�?/summary>
 [RegisterCard(typeof(EnemyCardPool))]
 public sealed class Headbutt : LearnIntentCardModel
 {
-    /// <summary>与 <see cref="AmalgamCompositeIntentAction"/> 及盛碗虫（石）捕获映射共用。</summary>
+    /// <summary>�?<see cref="AmalgamCompositeIntentAction"/> 及盛碗虫（石）捕获映射共用�?/summary>
     public const string BowlbugRockCompositeKey = "BOWLBUG";
 
     private const decimal summon = 3m;
@@ -31,8 +31,7 @@ public sealed class Headbutt : LearnIntentCardModel
     private const TargetType targetType = TargetType.Self;
     private const bool shouldShowInCardLibrary = true;
 
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
-    protected override IEnumerable<string> RegisteredKeywordIds => [QueenKeyword.AmalgamComposite];
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust, ModKeywordRegistry.GetCardKeyword(QueenKeyword.AmalgamComposite)];
 
     public override int MaxUpgradeLevel => 0;
 

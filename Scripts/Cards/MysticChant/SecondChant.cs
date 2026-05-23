@@ -12,6 +12,8 @@ using MegaCrit.Sts2.Core.Models.CardPools;
 
 using STS2RitsuLib.Interop.AutoRegistration;
 
+using STS2RitsuLib.Keywords;
+
 namespace ComicChess.TheQueen;
 
 [RegisterCard(typeof(TokenCardPool))]
@@ -25,7 +27,7 @@ public sealed class SecondChant : QueenCardModel
 
 	public override int MaxUpgradeLevel => 0;
 
-	protected override IEnumerable<string> RegisteredKeywordIds => [QueenKeyword.Fade];
+	public override IEnumerable<CardKeyword> CanonicalKeywords => [ModKeywordRegistry.GetCardKeyword(QueenKeyword.Fade)];
 
 	protected override IEnumerable<IHoverTip> AdditionalHoverTips => [.. HoverTipFactory.FromAffliction<Bound>()];
 

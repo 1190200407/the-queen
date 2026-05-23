@@ -24,7 +24,7 @@ public sealed class GuiYuChenTu : QueenCardModel
     private const TargetType targetType = TargetType.Self;
     private const bool shouldShowInCardLibrary = false;
 
-    protected override IEnumerable<string> RegisteredKeywordIds => [QueenKeyword.Fade];
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [ModKeywordRegistry.GetCardKeyword(QueenKeyword.Fade)];
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [

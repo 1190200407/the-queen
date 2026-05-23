@@ -8,9 +8,11 @@ using MegaCrit.Sts2.Core.Models.CardPools;
 
 using STS2RitsuLib.Interop.AutoRegistration;
 
+using STS2RitsuLib.Keywords;
+
 namespace ComicChess.TheQueen;
 
-/// <summary>干扰：学习意图为抽牌�?/summary>
+/// <summary>干扰：学习意图为抽牌�?/summary>
 [RegisterCard(typeof(TokenCardPool))]
 public sealed class Distract : LearnIntentCardModel
 {
@@ -21,7 +23,7 @@ public sealed class Distract : LearnIntentCardModel
     private const TargetType targetType = TargetType.Self;
     private const bool shouldShowInCardLibrary = false;
 
-    protected override IEnumerable<string> RegisteredKeywordIds => [QueenKeyword.Fade];
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [ModKeywordRegistry.GetCardKeyword(QueenKeyword.Fade)];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [

@@ -24,8 +24,7 @@ public sealed class CloseDoor : QueenCardModel
     private const TargetType targetType = TargetType.Self;
     private const bool shouldShowInCardLibrary = true;
 
-    // 怪物牌不可升级：30(36) -> 36；25(30) -> 30。
-    private const decimal summon = 36m;
+    private const decimal summon = 25m;
     private const decimal shellStacks = 30m;
 
     public override int MaxUpgradeLevel => 0;

@@ -24,7 +24,7 @@ public sealed class DiffuseCharge : QueenCardModel
 	private const bool shouldShowInCardLibrary = false;
 
 	internal override bool HasSelfBound => true;
-	protected override IEnumerable<string> RegisteredKeywordIds => [QueenKeyword.Fade];
+	public override IEnumerable<CardKeyword> CanonicalKeywords => [ModKeywordRegistry.GetCardKeyword(QueenKeyword.Fade)];
 	protected override IEnumerable<DynamicVar> CanonicalVars => [new PowerVar<DexterityPower>(1m)];
 
 	protected override IEnumerable<IHoverTip> AdditionalHoverTips => [

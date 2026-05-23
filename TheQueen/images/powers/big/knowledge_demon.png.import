@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d4gl4bj7nkiux"
-path="res://.godot/imported/miasma.png-92cbdec501f07ebdda07254d816bde46.ctex"
+uid="uid://cjkgyb2tj42qc"
+path="res://.godot/imported/knowledge_demon.png-042a3b816794dbc1fde2909fe5eb7b4e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://TheQueen/images/card_portraits/monsters/miasma.png"
-dest_files=["res://.godot/imported/miasma.png-92cbdec501f07ebdda07254d816bde46.ctex"]
+source_file="res://TheQueen/images/powers/big/knowledge_demon.png"
+dest_files=["res://.godot/imported/knowledge_demon.png-042a3b816794dbc1fde2909fe5eb7b4e.ctex"]
 
 [params]
 

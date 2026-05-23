@@ -11,9 +11,11 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 using STS2RitsuLib.Interop.AutoRegistration;
 
+using STS2RitsuLib.Keywords;
+
 namespace ComicChess.TheQueen;
 
-/// <summary>猛击：爪�?token，学习意图为单体伤害；魂缚、消逝�?/summary>
+/// <summary>猛击：爪�?token，学习意图为单体伤害；魂缚、消逝�?/summary>
 [RegisterCard(typeof(TokenCardPool))]
 public sealed class Slam : LearnIntentCardModel
 {
@@ -24,7 +26,7 @@ public sealed class Slam : LearnIntentCardModel
     private const bool shouldShowInCardLibrary = false;
     private const decimal learnIntentDamage = 16m;
 
-    protected override IEnumerable<string> RegisteredKeywordIds => [QueenKeyword.Fade];
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [ModKeywordRegistry.GetCardKeyword(QueenKeyword.Fade)];
 
     public override int MaxUpgradeLevel => 0;
 

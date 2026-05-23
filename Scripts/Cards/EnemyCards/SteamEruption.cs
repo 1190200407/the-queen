@@ -27,7 +27,7 @@ public sealed class SteamEruption : QueenCardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new SummonVar(14m).WithSharedTooltip("QUEEN_SUMMON_DYNAMIC"),
+        new SummonVar(15m).WithSharedTooltip("QUEEN_SUMMON_DYNAMIC"),
         new PowerVar<AmalgamSteamEruptionPower>(15m),
     ];
 

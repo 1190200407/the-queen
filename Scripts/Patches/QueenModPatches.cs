@@ -13,6 +13,7 @@ internal sealed class QueenModPatches : IModPatches
 		patcher.RegisterPatch<FadeOnDiscardCardPileAddInternalPatch>();
 		patcher.RegisterPatch<FadeOnDiscardCombatHistoryCardDiscardedPatch>();
 		patcher.RegisterPatch<FadeOnDiscardHookAfterCardDiscardedPatch>();
+		patcher.RegisterPatch<BurningSticksAfterCardExhaustedPatch>();
 		patcher.RegisterPatch<BindingOathHookShouldPlayPatch>();
 		patcher.RegisterPatch<BindingOathHookBeforeCardPlayedPatch>();
 		patcher.RegisterPatch<BindingOathHookBeforeTurnEndPatch>();

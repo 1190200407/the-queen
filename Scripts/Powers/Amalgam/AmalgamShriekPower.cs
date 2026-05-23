@@ -48,7 +48,7 @@ public sealed class AmalgamShriekPower : QueenPowerModel
         Flash();
         // 施加 2 层：怪物回合命中后很快进入玩家回合开始，AmalgamSleepPower 会立刻 -1。
         await PowerCmd.Apply<AmalgamSleepPower>(choiceContext, base.Owner, 1m, applier: base.Owner, cardSource: null);
-        await PowerCmd.Apply<VigorPower>(choiceContext, base.Owner, 7m, base.Owner, null);
+        //await PowerCmd.Apply<VigorPower>(choiceContext, base.Owner, 7m, base.Owner, null);
         await PowerCmd.Remove(this);
     }
 

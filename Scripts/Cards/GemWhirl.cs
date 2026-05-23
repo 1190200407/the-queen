@@ -28,7 +28,7 @@ public sealed class GemWhirl : QueenCardModel
 	private const TargetType targetType = TargetType.Self;
 	private const bool shouldShowInCardLibrary = true;
 
-	protected override IEnumerable<string> RegisteredKeywordIds => [QueenKeyword.Fade];
+	public override IEnumerable<CardKeyword> CanonicalKeywords => [ModKeywordRegistry.GetCardKeyword(QueenKeyword.Fade)];
 
 	protected override IEnumerable<DynamicVar> CanonicalVars => [new IntVar("Draw", 1m)];
 

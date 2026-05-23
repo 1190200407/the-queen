@@ -33,8 +33,6 @@ public sealed class DebilitatingSmog : QueenCardModel
 
     public override int MaxUpgradeLevel => 0;
 
-    internal override bool HasSelfBound => true;
-
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new IntVar("EnemyStrengthLoss", enemyStrengthLoss),
@@ -43,8 +41,6 @@ public sealed class DebilitatingSmog : QueenCardModel
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
-        ..HoverTipFactory.FromAffliction<Bound>(),
-        HoverTipFactory.FromPower<AmalgamIntentStrengthDownPower>(),
         HoverTipFactory.FromPower<StrengthPower>(),
     ];
 

@@ -22,6 +22,8 @@
     "HANDS_NEXT_TURN_POWER.description":"下回合开始时，生成1张[gold]夺取之手+[/gold]和1张[gold]拒绝之手+[/gold]。",
     "STRONG_ADAPTABILITY_POWER.title":"强适应性",
     "STRONG_ADAPTABILITY_POWER.description":"回合开始时，选择一张手牌升级。",
+    "KNOWLEDGE_DEMON_POWER.title":"知识的诅咒",
+    "KNOWLEDGE_DEMON_POWER.description":"每场战斗开始时，从[gold]焕发[/gold]、[gold]心灵澄明[/gold]、[gold]瓦解[/gold]中选择1张执行。",
     "WILLFUL_POWER.title":"任性",
     "WILLFUL_POWER.description":"回合开始时，随机获得1张{GrantUpgradedCard:choose(0):|升级过的}牌加入手牌并侵蚀为[purple]魂缚[/purple]，然后[aqua]获得1点魂灯[/aqua]。",
     "WILLFUL_POWER.smartDescription":"回合开始时，随机获得1张{GrantUpgradedCard:choose(0):|升级过的}牌加入手牌并侵蚀为[purple]魂缚[/purple]，然后[aqua]获得1点魂灯[/aqua]。",

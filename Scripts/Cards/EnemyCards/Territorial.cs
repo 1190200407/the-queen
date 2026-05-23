@@ -26,7 +26,7 @@ public sealed class Territorial : QueenCardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new SummonVar(15m).WithSharedTooltip("QUEEN_SUMMON_DYNAMIC"),
+        new SummonVar(10m).WithSharedTooltip("QUEEN_SUMMON_DYNAMIC"),
     ];
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips => [HoverTipFactory.FromPower<StrengthPower>()];

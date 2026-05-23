@@ -26,10 +26,10 @@ public sealed class Devour : QueenCardModel
 	private const TargetType constructorTargetType = TargetType.Self;
 	private const bool shouldShowInCardLibrary = true;
 
-	/// <summary>消逝 + 魂缚；文案由补丁/关键词展示，勿在 <c>cards.json</c> 重复写。</summary>
+	/// <summary>消�?+ 魂缚；文案由补丁/关键词展示，勿在 <c>cards.json</c> 重复写�?/summary>
 	internal override bool HasSelfBound => true;
 
-	protected override IEnumerable<string> RegisteredKeywordIds => [QueenKeyword.Fade];
+	public override IEnumerable<CardKeyword> CanonicalKeywords => [ModKeywordRegistry.GetCardKeyword(QueenKeyword.Fade)];
 
 	protected override IEnumerable<DynamicVar> CanonicalVars =>
 	[

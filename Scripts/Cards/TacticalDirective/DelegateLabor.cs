@@ -15,7 +15,7 @@ using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Keywords;
 namespace ComicChess.TheQueen;
 
-/// <summary>代劳：你失去所有力量，聚合体获得等量力量。</summary>
+/// <summary>代劳：你失去所有力量，聚合体获得等量力量�?/summary>
 [RegisterCard(typeof(TokenCardPool))]
 public sealed class DelegateLabor : QueenCardModel
 {
@@ -29,7 +29,7 @@ public sealed class DelegateLabor : QueenCardModel
 
 	internal override bool HasSelfBound => true;
 
-	protected override IEnumerable<string> RegisteredKeywordIds => [QueenKeyword.Fade];
+	public override IEnumerable<CardKeyword> CanonicalKeywords => [ModKeywordRegistry.GetCardKeyword(QueenKeyword.Fade)];
 
 	protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
 	[

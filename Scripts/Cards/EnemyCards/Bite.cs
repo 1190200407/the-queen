@@ -14,7 +14,7 @@ using STS2RitsuLib.Keywords;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>撕咬：召唤；分两次 <see cref="FriendlyAmalgamCmd.CombineIntent"/> 学习同键的聚合伤害与格挡（同一灯槽内为两次行动）。消耗。</summary>
+/// <summary>撕咬：召唤；分两�?<see cref="FriendlyAmalgamCmd.CombineIntent"/> 学习同键的聚合伤害与格挡（同一灯槽内为两次行动）。消耗�?/summary>
 [RegisterCard(typeof(EnemyCardPool))]
 public sealed class Bite : LearnIntentCardModel
 {
@@ -29,8 +29,7 @@ public sealed class Bite : LearnIntentCardModel
     private const TargetType targetType = TargetType.Self;
     private const bool shouldShowInCardLibrary = true;
 
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
-    protected override IEnumerable<string> RegisteredKeywordIds => [QueenKeyword.AmalgamComposite];
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust, ModKeywordRegistry.GetCardKeyword(QueenKeyword.AmalgamComposite)];
 
     public override int MaxUpgradeLevel => 0;
 

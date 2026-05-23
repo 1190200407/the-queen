@@ -25,7 +25,7 @@ public sealed class Beckon : LearnIntentCardModel
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         // 怪物牌不可升级：10(14) 落地为 14。
-        new SummonVar(14m).WithSharedTooltip("QUEEN_SUMMON_DYNAMIC"),
+        new SummonVar(15m).WithSharedTooltip("QUEEN_SUMMON_DYNAMIC"),
         new IntVar("LearnIntentBeckon", 12m),
     ];
 

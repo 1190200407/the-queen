@@ -17,8 +17,6 @@ using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>?????????????????????�?/summary>
-
 [RegisterCard(typeof(QueenCardPool))]
 public sealed class QuickAdaptation : QueenCardModel
 {

@@ -11,9 +11,11 @@ using MegaCrit.Sts2.Core.Models.CardPools;
 
 using STS2RitsuLib.Interop.AutoRegistration;
 
+using STS2RitsuLib.Keywords;
+
 namespace ComicChess.TheQueen;
 
-/// <summary>暮星：抽牌；魂缚；消逝。</summary>
+/// <summary>暮星：抽牌；魂缚；消逝�?/summary>
 [RegisterCard(typeof(TokenCardPool))]
 public sealed class EveningStar : QueenCardModel
 {
@@ -27,7 +29,7 @@ public sealed class EveningStar : QueenCardModel
 
 	internal override bool HasSelfBound => true;
 
-	protected override IEnumerable<string> RegisteredKeywordIds => [QueenKeyword.Fade];
+	public override IEnumerable<CardKeyword> CanonicalKeywords => [ModKeywordRegistry.GetCardKeyword(QueenKeyword.Fade)];
 
 	protected override IEnumerable<DynamicVar> CanonicalVars => [new IntVar("Draw", 2m)];
 

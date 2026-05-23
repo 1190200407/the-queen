@@ -27,7 +27,7 @@ public sealed class Skittish : QueenCardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new SummonVar(7m).WithSharedTooltip("QUEEN_SUMMON_DYNAMIC"),
+        new SummonVar(4m).WithSharedTooltip("QUEEN_SUMMON_DYNAMIC"),
         new PowerVar<AmalgamSkittishPower>(8m),
     ];
 

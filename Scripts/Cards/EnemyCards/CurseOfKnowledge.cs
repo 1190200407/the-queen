@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 
 
+using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
@@ -12,9 +13,9 @@ using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>知识的诅咒：召唤并学习特殊意图（选择 1 张执行）。</summary>
+/// <summary>知识的诅咒：召唤并获得 1 层 <see cref="KnowledgeDemonPower"/>（可叠加，每层战斗开局多选 1 次诅咒牌）。</summary>
 [RegisterCard(typeof(EnemyCardPool))]
-public sealed class CurseOfKnowledge : LearnIntentCardModel
+public sealed class CurseOfKnowledge : QueenCardModel
 {
     private const int energyCost = 3;
     private const CardType type = CardType.Power;
@@ -25,8 +26,6 @@ public sealed class CurseOfKnowledge : LearnIntentCardModel
 
     public override int MaxUpgradeLevel => 0;
 
-    protected override bool ShouldSummonBeforeLearnIntent => true;
-
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new SummonVar(summon).WithSharedTooltip("QUEEN_SUMMON_DYNAMIC"),
@@ -34,7 +33,7 @@ public sealed class CurseOfKnowledge : LearnIntentCardModel
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
-        ..base.AdditionalHoverTips,
+        HoverTipFactory.FromPower<KnowledgeDemonPower>(),
         HoverTipFactory.FromCard<Rejuvenate>(),
         HoverTipFactory.FromCard<MindClarity>(),
         HoverTipFactory.FromCard<Disintegration>(),
@@ -45,11 +44,16 @@ public sealed class CurseOfKnowledge : LearnIntentCardModel
     {
     }
 
-    protected override Task<IReadOnlyList<AmalgamActionModel?>> CreateLearnIntentsAsync(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        _ = choiceContext;
         _ = cardPlay;
-        return Task.FromResult<IReadOnlyList<AmalgamActionModel?>>([new AmalgamCurseOfKnowledgeIntentAction()]);
+        if (base.Owner.Creature.CombatState is not { })
+        {
+            return;
+        }
+
+        await CreatureCmd.TriggerAnim(base.Owner.Creature, "Cast", base.Owner.Character.CastAnimDelay);
+        await FriendlyAmalgamCmd.Summon(choiceContext, base.Owner, base.DynamicVars.Summon.BaseValue, this);
+        await PowerCmd.Apply<KnowledgeDemonPower>(choiceContext, base.Owner.Creature, 1m, base.Owner.Creature, this);
     }
 }
-

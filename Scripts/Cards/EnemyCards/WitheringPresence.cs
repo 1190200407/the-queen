@@ -21,7 +21,7 @@ public sealed class WitheringPresence : QueenCardModel
 	private const TargetType targetType = TargetType.Self;
 	private const bool shouldShowInCardLibrary = true;
 
-	private const decimal summonHp = 36m;
+	private const decimal summonHp = 25m;
 	private const int defaultWitheringEnchantAmount = 3;
 
 	protected override IEnumerable<DynamicVar> CanonicalVars =>
