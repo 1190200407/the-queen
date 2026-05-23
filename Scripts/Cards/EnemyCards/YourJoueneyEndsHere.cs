@@ -13,6 +13,8 @@ using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Models.Powers;
 using STS2RitsuLib.Cards.DynamicVars;
 using STS2RitsuLib.Interop.AutoRegistration;
+using MegaCrit.Sts2.Core.Localization;
+using MegaCrit.Sts2.Core.Models;
 
 namespace ComicChess.TheQueen;
 
@@ -54,6 +56,8 @@ public sealed class YourJoueneyEndsHere : QueenCardModel
         {
             const decimal sleepTurns = 2m;
             await PowerCmd.Apply<AmalgamSleepPower>(choiceContext, amalgamCreature, sleepTurns, base.Owner.Creature, this);
+            LocString line = MonsterModel.L10NMonsterLookup("FRIENDLY_AMALGAM.YOUR_JOURNEY_ENDS_HERE.speakLine1");
+            ThinkCmd.Play(line, amalgamCreature);
 
             AmalgamYourJoueneyEndsHerePendingPower? pending = await PowerCmd.Apply<AmalgamYourJoueneyEndsHerePendingPower>(choiceContext, 
                 amalgamCreature,

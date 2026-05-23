@@ -23,6 +23,8 @@
     "FRIENDLY_AMALGAM.intent_stun.description": "At the end of your turn, stun an enemy for [blue]1[/blue] turn.",
     "FRIENDLY_AMALGAM.intent_slot_empty.title": "Empty slot",
     "FRIENDLY_AMALGAM.intent_slot_empty.description": "This torch slot has not recorded an intent yet.",
+    "FRIENDLY_AMALGAM.YOUR_JOURNEY_ENDS_HERE.speakLine1": "[red][sine]Your journey... ends here...[/sine][/red]",
+    "FRIENDLY_AMALGAM.YOUR_JOURNEY_ENDS_HERE.speakLine2": "...Shall we begin?",
     "QUEEN.ADMISSION_TICKET.giftNotifyQueen_1": "[gold]{CardTitle}[/gold]... Very good. I will remember your gift, [gold]{Giver}[/gold].",
     "QUEEN.ADMISSION_TICKET.giftNotifyQueen_2": "[gold]{CardTitle}[/gold]... Exactly what I wanted. Thanks, [gold]{Giver}[/gold].",
     "QUEEN.ADMISSION_TICKET.giftNotifyQueen_3": "[gold]{CardTitle}[/gold]... I will put it to good use. Well done, [gold]{Giver}[/gold].",

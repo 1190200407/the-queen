@@ -60,7 +60,7 @@ internal static class MindControlDamagePatchState
 		if (AttackFrames.Count > 0)
 		{
 			MindControlAttackFrame frame = AttackFrames.Pop();
-			frame.FlushRemovals();
+			frame.FlushDecrements();
 		}
 	}
 }

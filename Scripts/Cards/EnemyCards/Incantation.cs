@@ -7,9 +7,11 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
+using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Models.Powers;
+using MegaCrit.Sts2.Core.Nodes.Vfx;
 using STS2RitsuLib.Cards.DynamicVars;
 using STS2RitsuLib.Interop.AutoRegistration;
 
@@ -24,6 +26,8 @@ public sealed class Incantation : QueenCardModel
     private const CardRarity rarity = CardRarity.Common;
     private const TargetType targetType = TargetType.Self;
     private const bool shouldShowInCardLibrary = true;
+
+	private static readonly LocString _cawCawDialogue = new LocString("monsters", "DAMP_CULTIST.moves.INCANTATION.banter");
 
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
@@ -62,6 +66,9 @@ public sealed class Incantation : QueenCardModel
             decimal ritual = base.DynamicVars.Power<RitualPower>().BaseValue;
             if (ritual > 0m)
             {
+		        SfxCmd.Play("event:/sfx/enemy/enemy_attacks/cultists/cultists_buff_damp");
+                await CreatureCmd.TriggerAnim(amalgam, "Cast", 0.45f);
+                TalkCmd.Play(_cawCawDialogue, amalgam, VfxColor.Swamp, VfxDuration.Long);
                 await PowerCmd.Apply<RitualPower>(choiceContext, amalgam, ritual, base.Owner.Creature, this);
             }
         }

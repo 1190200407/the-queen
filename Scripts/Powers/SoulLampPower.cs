@@ -57,9 +57,32 @@ public sealed class SoulLampPower : QueenPowerModel
 
 	public override int DisplayAmount => Math.Max(0, Amount);
 
-	public override bool TryModifyEnergyCostInCombat(CardModel card, decimal originalCost, out decimal modifiedCost)
+	public override bool TryModifyEnergyCostInCombatLate(CardModel card, decimal originalCost, out decimal modifiedCost)
 	{
 		modifiedCost = originalCost;
+		if (!ShouldZeroBoundCardCost(card))
+		{
+			return false;
+		}
+
+		modifiedCost = default(decimal);
+		return true;
+	}
+
+    public override bool TryModifyStarCost(CardModel card, decimal originalCost, out decimal modifiedCost)
+    {
+        modifiedCost = originalCost;
+        if (!ShouldZeroBoundCardCost(card))
+        {
+            return false;
+        }
+
+		modifiedCost = default(decimal);
+		return true;
+    }
+
+	private bool ShouldZeroBoundCardCost(CardModel card)
+	{
 		if (base.Amount <= 0)
 		{
 			return false;
@@ -69,56 +92,14 @@ public sealed class SoulLampPower : QueenPowerModel
 		{
 			return false;
 		}
-		if (!(card.Affliction is Bound))
+
+		if (card.Affliction is not Bound)
 		{
 			return false;
 		}
 
-		// 只影响手牌/桌面上可打出的那种牌
-		switch (card.Pile?.Type)
-		{
-			case PileType.Hand:
-			case PileType.Play:
-				break;
-			default:
-				return false;
-		}
-
-		modifiedCost = default(decimal);
-		return true;
+		return card.Pile?.Type is PileType.Hand or PileType.Play;
 	}
-
-
-    public override bool TryModifyStarCost(CardModel card, decimal originalCost, out decimal modifiedCost)
-    {
-        modifiedCost = originalCost;
-        if (base.Amount <= 0)
-        {
-            return false;
-        }
-
-        if (card.Owner?.Creature != base.Owner)
-        {
-            return false;
-		}
-
-		if (!(card.Affliction is Bound))
-		{
-			return false;
-		}
-
-		switch (card.Pile?.Type)
-		{
-			case PileType.Hand:
-			case PileType.Play:
-				break;
-			default:
-				return false;
-		}
-
-		modifiedCost = default(decimal);
-		return true;
-    }
 
     public override async Task AfterPowerAmountChanged(PlayerChoiceContext choiceContext, PowerModel power, decimal amount, Creature? applier, CardModel? cardSource)
     {
