@@ -11,7 +11,6 @@ namespace ComicChess.TheQueen;
 
 /// <summary>
 /// 学习意图类卡牌基类：可选先召唤，再按列表依次写入一个或多个意图。
-/// 默认带 <see cref="QueenCardTags.LearnIntent"/> mod 标签（与 <see cref="ScratchTaggedCard"/> 的 Scratch 标签相同注册方式）。
 /// 子类在 <see cref="CreateLearnIntentsAsync"/> 中集中声明本牌对应的意图（组合牌可重写 <see cref="OnPlay"/> 仅用 <see cref="FriendlyAmalgamCmd.CombineIntent"/>）；若出牌顺序需先召唤再插入其它逻辑，可重写
 /// <see cref="AfterSummonBeforeLearnIntentsAsync"/>；若完全自定义出牌流程，可重写 <see cref="OnPlay"/> 并在适当时机调用
 /// <see cref="PlayLearnIntentsFromCreateAsync"/>。
@@ -22,8 +21,6 @@ public abstract class LearnIntentCardModel : QueenCardModel
         : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
     {
     }
-
-    protected override IEnumerable<string> RegisteredCardTagIds => [QueenCardTags.LearnIntent];
 
     /// <summary>友方聚合体三灯槽均已有意图时金闪（打出后当场执行一次再学；与是否能力沉睡无关，仅死亡不金闪）。</summary>
     protected override bool ShouldGlowGoldInternal =>

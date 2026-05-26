@@ -139,9 +139,6 @@
     "DECLARATION_CAPTURE_MARK_NO_POWER.title":"宣告",
     "DECLARATION_CAPTURE_MARK_NO_POWER.description":"无法捕获",
     "DECLARATION_CAPTURE_MARK_NO_POWER.smartDescription":"无法捕获，{Amount}回合后移除。",
-    "EVOLUTIONS_LAW_FREE_LEARN_INTENT_POWER.title":"进化论",
-    "EVOLUTIONS_LAW_FREE_LEARN_INTENT_POWER.description":"你的下一张[gold]学习意图[/gold]牌耗能为[blue]0[/blue]。",
-    "EVOLUTIONS_LAW_FREE_LEARN_INTENT_POWER.smartDescription":"下[blue]{Amount}[/blue]张[gold]学习意图[/gold]牌耗能为[blue]0[/blue]。",
     "PREDATORY_ASSIMILATION_POWER.title":"掠食同化",
     "PREDATORY_ASSIMILATION_POWER.description":"[gold]聚合体[/gold][gold]斩杀[/gold]普通{Upgraded:choose(0):|或精英}敌怪时，[gold]捕获[/gold]目标。",
     "PREDATORY_ASSIMILATION_POWER.smartDescription":"[gold]聚合体[/gold][gold]斩杀[/gold]普通{Upgraded:choose(0):|或精英}敌怪时，[gold]捕获[/gold]目标。",
@@ -220,5 +217,11 @@
     "ECOSPHERE_CAPTURE_MARK_POWER.title":"即将收容",
     "ECOSPHERE_CAPTURE_MARK_POWER.description":"死亡时被[gold]捕获[/gold]。",
     "SOUL_LAMP_NEXT_TURN_POWER.title":"下回合魂灯",
-    "SOUL_LAMP_NEXT_TURN_POWER.description":"下回合获得{Amount}点[aqua]魂灯[/aqua]。"
+    "SOUL_LAMP_NEXT_TURN_POWER.description":"下回合获得{Amount}点[aqua]魂灯[/aqua]。",
+    "SPLIT_VULNERABLE_POWER.title":"易伤",
+    "SPLIT_VULNERABLE_POWER.description":"易伤的生物从攻击中受到的伤害增加[blue]50%[/blue]。",
+    "SPLIT_VULNERABLE_POWER.smartDescription":"[blue]{Amount}[/blue]回合内，受到的攻击伤害增加[blue]{DamageIncrease:percentMore()}%[/blue]。",
+    "SPLIT_WEAK_POWER.title":"虚弱",
+    "SPLIT_WEAK_POWER.description":"虚弱的生物造成的攻击伤害减少[blue]25%[/blue]。",
+    "SPLIT_WEAK_POWER.smartDescription":"[blue]{Amount}[/blue]回合内，造成的攻击伤害减少[blue]25%[/blue]。"
 }

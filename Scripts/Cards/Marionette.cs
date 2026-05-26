@@ -58,7 +58,7 @@ public sealed class Marionette : QueenCardModel, ICanMonsterCapture
                 hasDiedField?.SetValue(queen, true);
                 amalgamField?.SetValue(queen, null);
 
-                LocString line = MonsterModel.L10NMonsterLookup("QUEEN.amalgamDeathSpeakLine");
+                LocString line = MonsterModel.L10NMonsterLookup("QUEEN.marionetteLine");
                 TalkCmd.Play(line, queenCreature, VfxColor.Purple, VfxDuration.Custom);
 
                 FieldInfo? burnField = typeof(Queen).GetField("_burnBrightForMeState", BindingFlags.Instance | BindingFlags.NonPublic);

@@ -19,11 +19,13 @@ namespace ComicChess.TheQueen;
 [RegisterCard(typeof(EnemyCardPool))]
 public sealed class Slippery : QueenCardModel
 {
-    private const int energyCost = 1;
-    private const CardType type = CardType.Power;
+    private const int energyCost = 2;
+    private const CardType type = CardType.Skill;
     private const CardRarity rarity = CardRarity.Common;
     private const TargetType targetType = TargetType.Self;
     private const bool shouldShowInCardLibrary = true;
+
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [

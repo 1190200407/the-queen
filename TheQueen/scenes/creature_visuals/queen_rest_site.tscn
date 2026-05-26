@@ -1,0 +1,188 @@
+[gd_scene load_steps=13 format=3 uid="uid://cavy2ics1exgf"]
+
+[ext_resource type="PackedScene" uid="uid://sdok1yfxsmi8" path="res://TheQueen/scenes/ui/selection_reticle.tscn" id="3_6yex7"]
+[ext_resource type="Shader" uid="uid://b3mjsdna22bkv" path="res://TheQueen/shaders/vfx/fire_shader_1.tres" id="3_tdf15"]
+[ext_resource type="Texture2D" uid="uid://fengwprb5t82" path="res://TheQueen/images/charui/queen_rest_site.png" id="4_pgg53"]
+[ext_resource type="Texture2D" uid="uid://coh5st6ot143t" path="res://TheQueen/images/vfx/tileable_noise_4.png" id="4_wx8ir"]
+[ext_resource type="Texture2D" uid="uid://dyf81bnux60no" path="res://TheQueen/images/vfx/tileable_noise_1.png" id="5_150fg"]
+[ext_resource type="Texture2D" uid="uid://b3m3d67snv22n" path="res://TheQueen/images/vfx/tileable_noise_2.png" id="6_gqubk"]
+[ext_resource type="Texture2D" uid="uid://jvscsy87jgm3" path="res://TheQueen/images/vfx/fire_shape_1.png" id="7_uxyth"]
+[ext_resource type="Texture2D" uid="uid://c1j4r03q72038" path="res://TheQueen/images/vfx/basic_fire_gradient.png" id="8_0v8d5"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rp0ll"]
+shader = ExtResource("3_tdf15")
+shader_parameter/ColorParameter = Color(0.6479158, 1, 0.57077026, 1)
+shader_parameter/Smooth_Step = Vector2(0.81, 0.89)
+shader_parameter/Noise_Intensity_1 = 1.055
+shader_parameter/NoiseScale1 = 0.6
+shader_parameter/TimeOffset = 0.0
+shader_parameter/Noise_Scroll_1 = Vector2(0.4, 0.695)
+shader_parameter/NoiseTexture1 = ExtResource("5_150fg")
+shader_parameter/NoiseScale2 = 0.5
+shader_parameter/Noise_Scroll_2 = Vector2(-0.045, 0.385)
+shader_parameter/NoiseTexture2 = ExtResource("6_gqubk")
+shader_parameter/Noise_Intensity_2 = 0.985
+shader_parameter/top_gradient = ExtResource("8_0v8d5")
+shader_parameter/MaskNoiseIntensity = 0.09
+shader_parameter/MaskNoiseScroll = Vector2(0.085, 0.81)
+shader_parameter/MaskNoiseTexture = ExtResource("4_wx8ir")
+shader_parameter/Shape_Mask = ExtResource("7_uxyth")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rai71"]
+shader = ExtResource("3_tdf15")
+shader_parameter/ColorParameter = Color(0.7921399, 0.9768372, 0.83003885, 1)
+shader_parameter/Smooth_Step = Vector2(0.925, 0.99)
+shader_parameter/Noise_Intensity_1 = 1.055
+shader_parameter/NoiseScale1 = 0.6
+shader_parameter/TimeOffset = 0.0
+shader_parameter/Noise_Scroll_1 = Vector2(0.4, 0.695)
+shader_parameter/NoiseTexture1 = ExtResource("5_150fg")
+shader_parameter/NoiseScale2 = 0.5
+shader_parameter/Noise_Scroll_2 = Vector2(-0.045, 0.385)
+shader_parameter/NoiseTexture2 = ExtResource("6_gqubk")
+shader_parameter/Noise_Intensity_2 = 0.985
+shader_parameter/top_gradient = ExtResource("8_0v8d5")
+shader_parameter/MaskNoiseIntensity = 0.09
+shader_parameter/MaskNoiseScroll = Vector2(0.085, 0.81)
+shader_parameter/MaskNoiseTexture = ExtResource("4_wx8ir")
+shader_parameter/Shape_Mask = ExtResource("7_uxyth")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_pj6p5"]
+shader = ExtResource("3_tdf15")
+shader_parameter/ColorParameter = Color(0.72156864, 1, 0, 1)
+shader_parameter/Smooth_Step = Vector2(0.81, 0.9)
+shader_parameter/Noise_Intensity_1 = 0.935
+shader_parameter/NoiseScale1 = 0.6
+shader_parameter/TimeOffset = 0.5
+shader_parameter/Noise_Scroll_1 = Vector2(0.4, 0.69)
+shader_parameter/NoiseTexture1 = ExtResource("5_150fg")
+shader_parameter/NoiseScale2 = 0.5
+shader_parameter/Noise_Scroll_2 = Vector2(-0.045, 0.495)
+shader_parameter/NoiseTexture2 = ExtResource("6_gqubk")
+shader_parameter/Noise_Intensity_2 = 1.055
+shader_parameter/top_gradient = ExtResource("8_0v8d5")
+shader_parameter/MaskNoiseIntensity = 0.1
+shader_parameter/MaskNoiseScroll = Vector2(0.085, 0.81)
+shader_parameter/MaskNoiseTexture = ExtResource("4_wx8ir")
+shader_parameter/Shape_Mask = ExtResource("7_uxyth")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hpb5h"]
+shader = ExtResource("3_tdf15")
+shader_parameter/ColorParameter = Color(0.7921569, 0.9764706, 0.83137256, 1)
+shader_parameter/Smooth_Step = Vector2(0.84, 0.995)
+shader_parameter/Noise_Intensity_1 = 0.935
+shader_parameter/NoiseScale1 = 0.6
+shader_parameter/TimeOffset = 0.5
+shader_parameter/Noise_Scroll_1 = Vector2(0.4, 0.69)
+shader_parameter/NoiseTexture1 = ExtResource("5_150fg")
+shader_parameter/NoiseScale2 = 0.5
+shader_parameter/Noise_Scroll_2 = Vector2(-0.045, 0.495)
+shader_parameter/NoiseTexture2 = ExtResource("6_gqubk")
+shader_parameter/Noise_Intensity_2 = 1.055
+shader_parameter/top_gradient = ExtResource("8_0v8d5")
+shader_parameter/MaskNoiseIntensity = 0.1
+shader_parameter/MaskNoiseScroll = Vector2(0.085, 0.81)
+shader_parameter/MaskNoiseTexture = ExtResource("4_wx8ir")
+shader_parameter/Shape_Mask = ExtResource("7_uxyth")
+
+[node name="QueenRestSite" type="Node2D"]
+position = Vector2(-31, 33)
+scale = Vector2(1.200006, 1.200006)
+
+[node name="ControlRoot" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 17.499914
+offset_top = -143.33263
+offset_right = 17.499914
+offset_bottom = -143.33263
+scale = Vector2(0.5322133, 0.5322133)
+metadata/_edit_use_anchors_ = true
+
+[node name="SelectionReticle" parent="ControlRoot" instance=ExtResource("3_6yex7")]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = -344.65717
+offset_top = -408.37314
+offset_right = 340.99994
+offset_bottom = 408.99997
+metadata/_edit_use_anchors_ = true
+
+[node name="Hitbox" type="Control" parent="ControlRoot"]
+unique_name_in_owner = true
+anchors_preset = 0
+offset_left = -332.8152
+offset_top = -388.63644
+offset_right = 333.0
+offset_bottom = 382.00003
+pivot_offset = Vector2(296, 415.948)
+metadata/_edit_use_anchors_ = true
+
+[node name="ThoughtBubbleRight" type="Control" parent="ControlRoot"]
+unique_name_in_owner = true
+anchors_preset = 0
+offset_left = 143.497
+offset_top = -278.111
+offset_right = 143.497
+offset_bottom = -278.111
+metadata/_edit_use_anchors_ = true
+
+[node name="ThoughtBubbleLeft" type="Control" parent="ControlRoot"]
+unique_name_in_owner = true
+anchors_preset = 0
+offset_left = -194.658
+offset_top = -259.69
+offset_right = -194.658
+offset_bottom = -259.69
+metadata/_edit_use_anchors_ = true
+
+[node name="Sprite" type="Sprite2D" parent="ControlRoot"]
+position = Vector2(59.51769, 35.70749)
+rotation = 0.045428555
+scale = Vector2(2.2522073, 2.2522073)
+texture = ExtResource("4_pgg53")
+
+[node name="eyeSlot" type="SpineSlotNode" parent="ControlRoot/Sprite"]
+slot_name = "eye 1"
+position = Vector2(-33.110058, -149.68568)
+rotation = -1.5707964
+scale = Vector2(0.25000006, 0.15000002)
+
+[node name="eye_fire" type="ColorRect" parent="ControlRoot/Sprite/eyeSlot"]
+material = SubResource("ShaderMaterial_rp0ll")
+offset_left = 266.538
+offset_top = -73.5151
+offset_right = 416.538
+offset_bottom = 281.485
+rotation = 1.5708
+color = Color(0.1992226, 0.65186286, 0.525357, 1)
+
+[node name="eye_fire_inner_glow" type="ColorRect" parent="ControlRoot/Sprite/eyeSlot"]
+material = SubResource("ShaderMaterial_rai71")
+offset_left = 266.538
+offset_top = -73.5151
+offset_right = 416.538
+offset_bottom = 281.485
+rotation = 1.5708
+
+[node name="eyeSlot2" type="SpineSlotNode" parent="ControlRoot/Sprite"]
+slot_name = "eye 2"
+position = Vector2(-10.87752, -134.45421)
+rotation = -1.5676117
+scale = Vector2(0.25000003, 0.15000004)
+
+[node name="eye_fire" type="ColorRect" parent="ControlRoot/Sprite/eyeSlot2"]
+material = SubResource("ShaderMaterial_pj6p5")
+offset_left = 261.237
+offset_top = -70.2332
+offset_right = 411.237
+offset_bottom = 284.767
+rotation = 1.5708
+
+[node name="eye_fire2_inner_glow" type="ColorRect" parent="ControlRoot/Sprite/eyeSlot2"]
+material = SubResource("ShaderMaterial_hpb5h")
+offset_left = 260.1466
+offset_top = -64.914604
+offset_right = 410.1466
+offset_bottom = 290.08557
+rotation = 1.5708

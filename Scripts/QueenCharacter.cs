@@ -41,9 +41,9 @@ public class QueenCharacter : ModCharacterTemplate<QueenCardPool, QueenRelicPool
     // 人物头像2号。
     public override string CustomIconPath => "res://TheQueen/scenes/ui/queen_icon.tscn";
     // 能量表盘tscn路径。要自定义见下。
-    //public override string CustomEnergyCounterPath => "res://test/scenes/test_energy_counter.tscn";
+    public override string CustomEnergyCounterPath => "res://TheQueen/scenes/ui/queen_energy_counter.tscn";
     // 篝火休息场景。
-    // public override string CustomRestSiteAnimPath => "res://scenes/rest_site/characters/ironclad_rest_site.tscn";
+    public override string CustomRestSiteAnimPath => "res://TheQueen/scenes/creature_visuals/queen_rest_site.tscn";
     // 商店人物场景。
     public override string CustomMerchantAnimPath => "res://TheQueen/scenes/creature_visuals/queen_character_merchant.tscn";
     // 多人模式-手指。

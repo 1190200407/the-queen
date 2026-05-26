@@ -26,7 +26,7 @@ public sealed class Rejuvenate : QueenCardModel, KnowledgeDemon.IChoosable
 
     public override bool CanBeGeneratedInCombat => false;
 
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new EnergyVar(1)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new EnergyVar(2)];
 
     public Rejuvenate()
         : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)

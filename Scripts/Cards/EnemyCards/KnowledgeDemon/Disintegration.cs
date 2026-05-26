@@ -30,7 +30,7 @@ public sealed class Disintegration : QueenCardModel, KnowledgeDemon.IChoosable
 
 	public override bool CanBeGeneratedInCombat => false;
 
-	protected override IEnumerable<DynamicVar> CanonicalVars => [new PowerVar<DisintegrationPower>(6m)];
+	protected override IEnumerable<DynamicVar> CanonicalVars => [new PowerVar<DisintegrationPower>(12m)];
 
     public Disintegration()
         : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)

@@ -1,13 +1,11 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models.Afflictions;
 using MegaCrit.Sts2.Core.Models.CardPools;
-using MegaCrit.Sts2.Core.ValueProps;
 
 using STS2RitsuLib.Interop.AutoRegistration;
 
@@ -23,11 +21,11 @@ public sealed class HundredHandsBanquet : QueenCardModel
 	private const TargetType targetType = TargetType.Self;
 	private const bool shouldShowInCardLibrary = true;
 
-	protected override bool HasEnergyCostX => true;
-
-    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [
-		HoverTipFactory.FromCard<BloodthirstScratch>(upgrade: base.IsUpgraded),
-		.. HoverTipFactory.FromAffliction<Bound>()
+	protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+	[
+		HoverTipFactory.FromCard<HandOfSeizure>(upgrade: base.IsUpgraded),
+		HoverTipFactory.FromCard<HandOfRefusal>(upgrade: base.IsUpgraded),
+		.. HoverTipFactory.FromAffliction<Bound>(),
 	];
 
 	public HundredHandsBanquet()
@@ -37,22 +35,13 @@ public sealed class HundredHandsBanquet : QueenCardModel
 
 	protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
 	{
-		if (base.CombatState == null || base.Owner?.Creature == null)
+		if (base.CombatState == null || base.Owner == null)
 		{
 			return;
 		}
 
-		int x = ResolveEnergyXValue();
-		if (x <= 0)
-		{
-			return;
-		}
-
-		for (int i = 0; i < x; i++)
-		{
-			await QueenCardCmd.CreateInHand<BloodthirstScratch>(base.Owner, base.CombatState, base.IsUpgraded);
-		}
-
-		await QueenCardCmd.AddSoulLamp(choiceContext, base.Owner, x);
+		bool upgraded = base.IsUpgraded;
+		await QueenCardCmd.CreateInHand<HandOfSeizure>(base.Owner, base.CombatState, upgraded);
+		await QueenCardCmd.CreateInHand<HandOfRefusal>(base.Owner, base.CombatState, upgraded);
 	}
 }

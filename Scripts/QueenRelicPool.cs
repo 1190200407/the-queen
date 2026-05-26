@@ -9,6 +9,6 @@ public class QueenRelicPool : TypeListRelicPoolModel
     // tooltip和卡牌左上角的能量图标。大小为74x74。
     public override string? BigEnergyIconPath => "res://TheQueen/images/charui/big_energy.png";
     public override string EnergyColorName => "Queen";
-    // #814390
-    public override Color LabOutlineColor => new(161f/255f, 67f/255f, 144f/255f);
+    //rgb(155, 86, 205)
+    public override Color LabOutlineColor => new(155f/255f, 86f/255f, 205f/255f);
 }

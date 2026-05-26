@@ -60,7 +60,7 @@ public sealed class TimeTrick : QueenCardModel
 			choiceContext,
 			owner,
 			new CardSelectorPrefs(new LocString("cards", "STS2_COMICCHESS_THEQUEEN_CARD_TIME_TRICK.selectionPrompt"), 0, maxMark),
-			c => c != this,
+			c => c != this && c.Type != CardType.Power,
 			this);
 
 		IReadOnlyList<CardModel> handSnapshot = PileType.Hand.GetPile(owner).Cards;
@@ -104,6 +104,11 @@ public sealed class TimeTrick : QueenCardModel
 		CardModel? card)
 	{
 		if (card == null || !ReferenceEquals(card.Owner, expectedOwner) || card.Owner?.Creature == null)
+		{
+			return false;
+		}
+
+		if (card.Type == CardType.Power)
 		{
 			return false;
 		}

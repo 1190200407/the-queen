@@ -43,7 +43,10 @@ public sealed class SoulLampPower : QueenPowerModel
 		return card.EnergyCost.GetWithModifiers(CostModifiers.All) == 0;
 	}
 
-	public override PowerType Type => PowerType.Buff;
+	public override PowerType Type => PowerType.None;
+
+	// 女王在能量指示器上显示魂灯；其他角色仍走能力栏。
+	protected override bool IsVisibleInternal => base.Owner?.Player?.Character is not QueenCharacter;
 
 	public override PowerStackType StackType => PowerStackType.Counter;
 
@@ -119,6 +122,8 @@ public sealed class SoulLampPower : QueenPowerModel
 		{
 			await MagicTimePower.TryAutoRefillSoulLamp(player);
 		}
+
+		NQueenEnergyCounter.TryRefresh(player);
 	}
 
     public override async Task BeforeCardPlayed(CardPlay cardPlay)

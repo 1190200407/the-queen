@@ -1,0 +1,192 @@
+[gd_scene load_steps=14 format=3 uid="uid://0x37uehu4fpq"]
+
+[ext_resource type="Script" uid="uid://dyp78wnko3y6k" path="res://Scripts/Nodes/NQueenEnergyCounter.cs" id="1_86ayx"]
+[ext_resource type="PackedScene" uid="uid://bmqyupu3scxx5" path="res://TheQueen/scenes/ui/queen_energy_vfx_back.tscn" id="2_86ayx"]
+[ext_resource type="Texture2D" uid="uid://50i65rwjbssk" path="res://TheQueen/images/ui/silent_orb_layer_1.png" id="2_jap0b"]
+[ext_resource type="FontVariation" uid="uid://bg85h22rkxs6g" path="res://TheQueen/themes/kreon_bold_shared.tres" id="3_hrdbh"]
+[ext_resource type="Texture2D" uid="uid://bm00fpsjefujk" path="res://TheQueen/images/ui/silent_orb_layer_2.png" id="3_y6b8j"]
+[ext_resource type="Texture2D" uid="uid://lda0yqc4jji2" path="res://TheQueen/images/ui/silent_orb_layer_3.png" id="4_1niea"]
+[ext_resource type="Script" uid="uid://lvfs6rx60655" path="res://Scripts/Nodes/NewMegaLabel.cs" id="4_cnddh"]
+[ext_resource type="Texture2D" uid="uid://de0uuyd2drs5m" path="res://TheQueen/images/ui/silent_orb_layer_4.png" id="5_0vkvw"]
+[ext_resource type="Texture2D" uid="uid://d3qjeidla4hcq" path="res://TheQueen/images/ui/silent_orb_layer_5.png" id="6_cn5yq"]
+[ext_resource type="PackedScene" uid="uid://begu2n2ulqy56" path="res://TheQueen/scenes/ui/queen_energy_vfx_front.tscn" id="9_ymfry"]
+[ext_resource type="Texture2D" uid="uid://bxq206fo8lgs6" path="res://TheQueen/images/powers/soul_lamp.png" id="11_86ayx"]
+
+[sub_resource type="FontVariation" id="FontVariation_86ayx"]
+base_font = ExtResource("3_hrdbh")
+spacing_glyph = 2
+
+[sub_resource type="FontVariation" id="FontVariation_x0k5t"]
+base_font = ExtResource("3_hrdbh")
+spacing_glyph = 2
+
+[node name="QueenEnergyCounter" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 128.0
+offset_bottom = 128.0
+pivot_offset = Vector2(64, 64)
+script = ExtResource("1_86ayx")
+metadata/_edit_lock_ = true
+metadata/_edit_group_ = true
+
+[node name="EnergyVfxBack" parent="." instance=ExtResource("2_86ayx")]
+unique_name_in_owner = true
+position = Vector2(64, 64)
+
+[node name="Layers" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Layer1" type="TextureRect" parent="Layers"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_jap0b")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="RotationLayers" type="Control" parent="Layers"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Layer2" type="TextureRect" parent="Layers/RotationLayers"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(64, 64)
+mouse_filter = 2
+texture = ExtResource("3_y6b8j")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Layer3" type="TextureRect" parent="Layers/RotationLayers"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(64, 64)
+mouse_filter = 2
+texture = ExtResource("4_1niea")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Layer4" type="TextureRect" parent="Layers"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("5_0vkvw")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Layer5" type="TextureRect" parent="Layers"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("6_cn5yq")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="EnergyVfxFront" parent="." instance=ExtResource("9_ymfry")]
+unique_name_in_owner = true
+position = Vector2(64, 64)
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 32.0
+offset_top = 39.0
+offset_right = -31.0
+offset_bottom = -42.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 0.964706, 0.886275, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.188235)
+theme_override_colors/font_outline_color = Color(0, 0.309804, 0.0156863, 1)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 2
+theme_override_constants/outline_size = 16
+theme_override_constants/shadow_outline_size = 16
+theme_override_fonts/font = SubResource("FontVariation_86ayx")
+theme_override_font_sizes/font_size = 36
+text = "3/3"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("4_cnddh")
+
+[node name="SoulLampLayer" type="Control" parent="."]
+anchors_preset = 0
+offset_left = 115.0
+offset_top = 103.0
+offset_right = 173.0
+offset_bottom = 157.0
+
+[node name="SoulLamp" type="Sprite2D" parent="SoulLampLayer"]
+position = Vector2(11.999998, 5.999998)
+scale = Vector2(1.4140625, 1.4140625)
+texture = ExtResource("11_86ayx")
+
+[node name="SoulLampLabel" type="Label" parent="SoulLampLayer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -3.0
+offset_top = -1.0
+offset_right = -6.578949
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 0.964706, 0.886275, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.188235)
+theme_override_colors/font_outline_color = Color(0, 0.309804, 0.0156863, 1)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 2
+theme_override_constants/outline_size = 16
+theme_override_constants/shadow_outline_size = 16
+theme_override_fonts/font = SubResource("FontVariation_x0k5t")
+theme_override_font_sizes/font_size = 36
+text = "3"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("4_cnddh")
+theme_override_colors/font_color = Color(1, 0.964706, 0.886275, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.188235)
+theme_override_colors/font_outline_color = Color(0, 0.309804, 0.0156863, 1)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 2
+theme_override_constants/outline_size = 16
+theme_override_constants/shadow_outline_size = 16
+theme_override_fonts/font = SubResource("FontVariation_x0k5t")
+theme_override_font_sizes/font_size = 36
