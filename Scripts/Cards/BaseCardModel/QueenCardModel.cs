@@ -27,14 +27,14 @@ public abstract class QueenCardModel : ModCardTemplate
     {
         get
         {
-            string portraitPath = $"res://TheQueen/images/card_portraits/{Id.Entry.ToLowerInvariant().Replace("sts2_comicchess_thequeen_card_", "")}.png";
+            string portraitPath = $"res://TheQueen/images/card_portraits/{Id.Entry.ToLowerInvariant().Replace("the_queen_card_", "")}.png";
             if (ResourceLoader.Exists(portraitPath))
             {
                 return portraitPath;
             }
             else
             {
-                portraitPath = $"res://TheQueen/images/card_portraits/monsters/{Id.Entry.ToLowerInvariant().Replace("sts2_comicchess_thequeen_card_", "")}.png";
+                portraitPath = $"res://TheQueen/images/card_portraits/monsters/{Id.Entry.ToLowerInvariant().Replace("the_queen_card_", "")}.png";
                 if (ResourceLoader.Exists(portraitPath))
                 {
                     return portraitPath;

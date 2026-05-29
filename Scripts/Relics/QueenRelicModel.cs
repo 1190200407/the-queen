@@ -37,7 +37,7 @@ public abstract class QueenRelicModel : ModRelicTemplate
 
     private string ResolveRelicIconKey()
     {
-        string key = Id.Entry.ToLowerInvariant().Replace("sts2_comicchess_thequeen_relic_", "");
+        string key = Id.Entry.ToLowerInvariant().Replace("the_queen_relic_", "");
         if (key.EndsWith("_relic"))
         {
             key = key[..^"_relic".Length];

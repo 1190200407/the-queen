@@ -3,5 +3,5 @@ namespace ComicChess.TheQueen;
 
 public abstract class QueenEnchantmentModel : ModEnchantmentTemplate
 {
-    public override string? CustomIconPath => $"res://TheQueen/images/enchantments/{Id.Entry.ToLowerInvariant().Replace("sts2_comicchess_thequeen_enchantment_", "")}.png";
+    public override string? CustomIconPath => $"res://TheQueen/images/enchantments/{Id.Entry.ToLowerInvariant().Replace("the_queen_enchantment_", "")}.png";
 }

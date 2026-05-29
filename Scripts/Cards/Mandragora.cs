@@ -51,7 +51,7 @@ public sealed class Mandragora : QueenCardModel
         IEnumerable<CardModel> selected = await CardSelectCmd.FromHand(
             choiceContext,
             base.Owner,
-            new CardSelectorPrefs(new LocString("cards", "STS2_COMICCHESS_THEQUEEN_CARD_MANDRAGORA.selectionPrompt"), 1),
+            new CardSelectorPrefs(new LocString("cards", "THE_QUEEN_CARD_MANDRAGORA.selectionPrompt"), 1),
             CanEnchant,
             this);
 

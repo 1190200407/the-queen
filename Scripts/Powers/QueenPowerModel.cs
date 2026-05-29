@@ -29,7 +29,7 @@ public abstract class QueenPowerModel : ModPowerTemplate
 
     private string ResolvePowerIconKey()
     {
-        string key = Id.Entry.ToLowerInvariant().Replace("sts2_comicchess_thequeen_power_", "");
+        string key = Id.Entry.ToLowerInvariant().Replace("the_queen_power_", "");
         if (key.EndsWith("_power"))
         {
             key = key[..^"_power".Length];

@@ -87,7 +87,7 @@ public sealed class AdmissionTicket : QueenCardModel
 		CardModel? selected = (await CardSelectCmd.FromHand(
 			choiceContext,
 			base.Owner,
-			new CardSelectorPrefs(new LocString("cards", "STS2_COMICCHESS_THEQUEEN_CARD_ADMISSION_TICKET.selectionPrompt"), 1),
+			new CardSelectorPrefs(new LocString("cards", "THE_QUEEN_CARD_ADMISSION_TICKET.selectionPrompt"), 1),
 			static _ => true,
 			this
 		)).FirstOrDefault();

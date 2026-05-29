@@ -27,5 +27,5 @@ public abstract class QueenPotionModel : ModPotionTemplate
     }
 
     private string ResolvePotionAssetKey() =>
-        Id.Entry.ToLowerInvariant().Replace("sts2_comicchess_thequeen_potion_", "");
+        Id.Entry.ToLowerInvariant().Replace("the_queen_potion_", "");
 }

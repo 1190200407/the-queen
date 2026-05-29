@@ -54,7 +54,7 @@ public sealed class QuickAdaptation : QueenCardModel
         }
 
         CardSelectorPrefs prefs = new(
-            new LocString("cards", "STS2_COMICCHESS_THEQUEEN_CARD_QUICK_ADAPTATION.selectionPrompt"),
+            new LocString("cards", "THE_QUEEN_CARD_QUICK_ADAPTATION.selectionPrompt"),
             pick,
             pick);
         IEnumerable<CardModel> selected = await CardSelectCmd.FromSimpleGrid(choiceContext, candidates, base.Owner, prefs);

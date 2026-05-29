@@ -45,7 +45,7 @@ public sealed class Reminisce : QueenCardModel
 		{
 			int pick = Math.Min(wantPick, boundInExhaust.Count);
 			CardSelectorPrefs prefs = new(
-				new LocString("cards", "STS2_COMICCHESS_THEQUEEN_CARD_REMINISCE.selectionPrompt"),
+				new LocString("cards", "THE_QUEEN_CARD_REMINISCE.selectionPrompt"),
 				pick,
 				pick
 			);
