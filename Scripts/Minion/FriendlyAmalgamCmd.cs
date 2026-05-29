@@ -422,8 +422,19 @@ public static class FriendlyAmalgamCmd
     /// 合并意图的<strong>唯一入口</strong>：取友方聚合体；若当前生命为 0 则先 <see cref="Summon"/> 补至可行动再写入。
     /// 卡牌/能力侧<strong>不要</strong>先 <see cref="GetExisting"/> 再以 <c>IsAlive</c> 短路，否则 0 血尸体态永远进不来这里。
     /// </summary>
-    public static async Task CombineIntent(PlayerChoiceContext choiceContext, Player owner, AmalgamActionModel? intent, AbstractModel? source, string? compositeIndexKey)
+    public static async Task CombineIntent(
+        PlayerChoiceContext choiceContext,
+        Player owner,
+        AmalgamActionModel? intent,
+        AbstractModel? source,
+        AmalgamCompositeKey compositeKey)
     {
+        if (compositeKey == AmalgamCompositeKey.None)
+        {
+            await LearnIntent(choiceContext, owner, intent, source);
+            return;
+        }
+
         if (intent == null)
         {
             return;
@@ -446,8 +457,8 @@ public static class FriendlyAmalgamCmd
             await Summon(choiceContext, owner, 1m, source);
         }
 
-        await amalgamModel.CombineIntentAsync(choiceContext, intent, compositeIndexKey);
-        await FriendlyAmalgamHook.AfterCombineIntent(combatState, choiceContext, owner, amalgamCreature, intent, source, compositeIndexKey);
+        await amalgamModel.CombineIntentAsync(choiceContext, intent, compositeKey);
+        await FriendlyAmalgamHook.AfterCombineIntent(combatState, choiceContext, owner, amalgamCreature, intent, source, compositeKey);
     }
 
     /// <summary>将 <see cref="FriendlyAmalgam"/> 三槽意图与 <see cref="NewNAmalgamVfx"/> 小火同步（无节点时静默跳过）。</summary>

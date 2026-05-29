@@ -88,7 +88,7 @@ public interface IAmalgamEventListener
         Creature amalgam,
         AmalgamActionModel intent,
         AbstractModel? source,
-        string? compositeIndexKey)
+        AmalgamCompositeKey compositeKey)
     {
         return Task.CompletedTask;
     }

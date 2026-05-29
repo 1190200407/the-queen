@@ -28,8 +28,7 @@ public sealed class SplitVulnerablePower : ModPowerTemplate
 	public override PowerType Type => PowerType.Debuff;
 
 	public override PowerStackType StackType => PowerStackType.Counter;
-
-	public override PowerAssetProfile AssetProfile => VanillaAssets;
+    public override PowerAssetProfile AssetProfile => VanillaAssets;
 
 	public override string? CustomIconPath => VanillaAssets.IconPath;
 

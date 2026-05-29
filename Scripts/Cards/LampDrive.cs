@@ -1,18 +1,19 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
-using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.CardPools;
+using MegaCrit.Sts2.Core.Models.Powers;
 
 using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
-
+/// <summary>灯驱：抽牌；本回合每获得 1 点魂灯，聚合体按灯驱层数执行行动。</summary>
 [RegisterCard(typeof(QueenCardPool))]
 public sealed class LampDrive : QueenCardModel
 {
@@ -22,7 +23,13 @@ public sealed class LampDrive : QueenCardModel
     private const TargetType targetType = TargetType.Self;
     private const bool shouldShowInCardLibrary = true;
 
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new CardsVar(1)];
+
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        HoverTipFactory.FromPower<LampDrivePower>(),
+        HoverTipFactory.FromPower<SoulLampPower>(),
+    ];
 
     public LampDrive()
         : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
@@ -32,44 +39,13 @@ public sealed class LampDrive : QueenCardModel
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         _ = cardPlay;
-        int consumedSoulLamp = 0;
-        SoulLampPower? lamp = base.Owner.Creature.GetPower<SoulLampPower>();
-        if (lamp != null && lamp.Amount > 0)
-        {
-            consumedSoulLamp = (int)lamp.Amount;
-            await PowerCmd.ModifyAmount(choiceContext, lamp, -1m - consumedSoulLamp, base.Owner.Creature, this);
-        }
-
-        if (consumedSoulLamp <= 0)
-        {
-            return;
-        }
-
-        ICombatState? combatState = base.Owner.Creature.CombatState;
-        if (combatState == null)
-        {
-            return;
-        }
-
-        Creature? amalgamCreature = FriendlyAmalgamCmd.GetExisting(combatState, base.Owner);
-        if (amalgamCreature?.Monster is not FriendlyAmalgam amalgam || !amalgamCreature.IsAlive)
-        {
-            return;
-        }
-
-        for (int i = 0; i < consumedSoulLamp; i++)
-        {
-            if (!amalgamCreature.IsAlive)
-            {
-                break;
-            }
-
-            await amalgam.ActCurrentIntentImmediatelyAsync(choiceContext);
-        }
+        await CardPileCmd.Draw(choiceContext, base.DynamicVars.Cards.IntValue, base.Owner);
+        await PowerCmd.Apply<LampDrivePower>(choiceContext, base.Owner.Creature, 1m, base.Owner.Creature, this);
+        await CreatureCmd.TriggerAnim(base.Owner.Creature, "Cast", base.Owner.Character.CastAnimDelay);
     }
 
     protected override void OnUpgrade()
     {
-        RemoveKeyword(CardKeyword.Exhaust);
+        base.DynamicVars.Cards.UpgradeValueBy(1m);
     }
 }

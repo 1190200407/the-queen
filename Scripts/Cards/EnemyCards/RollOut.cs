@@ -13,16 +13,12 @@ using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
 using STS2RitsuLib.Cards.DynamicVars;
 using STS2RitsuLib.Interop.AutoRegistration;
-using STS2RitsuLib.Keywords;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>翻滚：召唤；聚合体沉睡；两次 <see cref="FriendlyAmalgamCmd.CombineIntent"/> 学习伤害与力量。消耗�?/summary>
 [RegisterCard(typeof(EnemyCardPool))]
 public sealed class RollOut : LearnIntentCardModel
 {
-    public const string SlumberingBeetleCompositeKey = "BOWLBUG";
-
     private const decimal summon = 7m;
     private const decimal learnIntentDamage = 16m;
     private const decimal learnIntentStrength = 2m;
@@ -32,7 +28,7 @@ public sealed class RollOut : LearnIntentCardModel
     private const TargetType targetType = TargetType.Self;
     private const bool shouldShowInCardLibrary = true;
 
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust, ModKeywordRegistry.GetCardKeyword(QueenKeyword.AmalgamComposite)];
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
     public override int MaxUpgradeLevel => 0;
 
@@ -45,14 +41,14 @@ public sealed class RollOut : LearnIntentCardModel
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
-        QueenHoverTips.LearnIntent,
-        ModKeywordRegistry.CreateHoverTip(QueenKeyword.AmalgamComposite),
+        ..base.AdditionalHoverTips,
         HoverTipFactory.FromPower<StrengthPower>(),
     ];
 
     public RollOut()
         : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
     {
+        CompositeKey = AmalgamCompositeKey.Bowlbug;
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
@@ -74,18 +70,7 @@ public sealed class RollOut : LearnIntentCardModel
         decimal damage = AmalgamLearnIntentDamageVar.GetEffectiveFlatForOffenseIntent(this, "LearnIntentDamage");
         decimal strength = base.DynamicVars["LearnIntentStrength"].BaseValue;
 
-        await FriendlyAmalgamCmd.CombineIntent(
-            choiceContext,
-            base.Owner,
-            new AmalgamOffenseIntentAction(damage),
-            this,
-            SlumberingBeetleCompositeKey);
-
-        await FriendlyAmalgamCmd.CombineIntent(
-            choiceContext,
-            base.Owner,
-            new AmalgamGainStrengthIntentAction(strength),
-            this,
-            SlumberingBeetleCompositeKey);
+        await ApplyLearnOrCombineIntentAsync(choiceContext, new AmalgamOffenseIntentAction(damage));
+        await ApplyLearnOrCombineIntentAsync(choiceContext, new AmalgamGainStrengthIntentAction(strength));
     }
 }

@@ -147,13 +147,13 @@ public static class FriendlyAmalgamHook
         Creature amalgam,
         AmalgamActionModel intent,
         AbstractModel? source,
-        string? compositeIndexKey)
+        AmalgamCompositeKey compositeKey)
     {
         foreach (AbstractModel item in combatState.IterateHookListeners())
         {
             if (item is IAmalgamEventListener listener)
             {
-                await listener.AfterCombineIntent(combatState, choiceContext, amalgamOwner, amalgam, intent, source, compositeIndexKey);
+                await listener.AfterCombineIntent(combatState, choiceContext, amalgamOwner, amalgam, intent, source, compositeKey);
             }
         }
     }

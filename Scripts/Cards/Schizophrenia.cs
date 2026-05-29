@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 using MegaCrit.Sts2.Core.Commands;
@@ -16,7 +17,7 @@ using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>精神分裂：施加易伤与虚弱，再分别将易伤/类易伤、虚弱/类虚弱各层数平分（仅 1 层时不分割）；消耗。</summary>
+/// <summary>精神分裂：施加易伤与虚弱，再将目标该 debuff 的总层数固定拆成「原版 + 类」两份并均分；消耗。</summary>
 [RegisterCard(typeof(QueenCardPool))]
 public sealed class Schizophrenia : QueenCardModel
 {
@@ -37,7 +38,9 @@ public sealed class Schizophrenia : QueenCardModel
 	protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
 	[
 		HoverTipFactory.FromPower<VulnerablePower>(),
-		HoverTipFactory.FromPower<WeakPower>()
+		HoverTipFactory.FromPower<WeakPower>(),
+		HoverTipFactory.FromPower<SplitVulnerablePower>(),
+		HoverTipFactory.FromPower<SplitWeakPower>(),
 	];
 
 	public Schizophrenia()
@@ -57,8 +60,8 @@ public sealed class Schizophrenia : QueenCardModel
 
 		await PowerCmd.Apply<VulnerablePower>(choiceContext, target, vulnerableStacks, applier, this);
 		await PowerCmd.Apply<WeakPower>(choiceContext, target, weakStacks, applier, this);
-		await SplitDebuff<VulnerablePower, SplitVulnerablePower>(choiceContext, target, applier, this);
-		await SplitDebuff<WeakPower, SplitWeakPower>(choiceContext, target, applier, this);
+		await RedistributeIntoTwoParts<VulnerablePower, SplitVulnerablePower>(choiceContext, target, applier, this);
+		await RedistributeIntoTwoParts<WeakPower, SplitWeakPower>(choiceContext, target, applier, this);
 	}
 
 	protected override void OnUpgrade()
@@ -67,8 +70,8 @@ public sealed class Schizophrenia : QueenCardModel
 		base.DynamicVars.Weak.UpgradeValueBy(2m);
 	}
 
-	/// <summary>易伤/类易伤、虚弱/类虚弱各自独立平分；单条 debuff 仅 1 层时不分割。</summary>
-	private static async Task SplitDebuff<TOriginal, TSplit>(
+	/// <summary>汇总原版与类 debuff 总层数，清空后固定拆成两份并均分（原版向上取整，类 debuff 向下取整）。</summary>
+	private static async Task RedistributeIntoTwoParts<TOriginal, TSplit>(
 		PlayerChoiceContext choiceContext,
 		Creature target,
 		Creature applier,
@@ -76,42 +79,38 @@ public sealed class Schizophrenia : QueenCardModel
 		where TOriginal : PowerModel
 		where TSplit : PowerModel
 	{
-		await SplitOneSide<TOriginal, TSplit>(choiceContext, target, applier, cardSource);
-		await SplitOneSide<TSplit, TSplit>(choiceContext, target, applier, cardSource);
-	}
+		int total = target.GetPowerAmount<TOriginal>();
+		foreach (TSplit split in target.GetPowerInstances<TSplit>())
+		{
+			total += split.Amount;
+		}
 
-	private static async Task SplitOneSide<TFrom, TTo>(
-		PlayerChoiceContext choiceContext,
-		Creature target,
-		Creature applier,
-		CardModel? cardSource)
-		where TFrom : PowerModel
-		where TTo : PowerModel
-	{
-		int amount = target.GetPowerAmount<TFrom>();
-		if (amount < 2)
+		if (total <= 0)
 		{
 			return;
 		}
 
-		int kept = (amount + 1) / 2;
-		int removed = amount / 2;
-
-		TFrom? from = target.GetPower<TFrom>();
-		if (from == null)
+		foreach (TOriginal original in target.GetPowerInstances<TOriginal>().ToList())
 		{
-			return;
+			await PowerCmd.Remove(original);
 		}
 
-		await PowerCmd.Remove(from);
-		if (kept > 0)
+		foreach (TSplit split in target.GetPowerInstances<TSplit>().ToList())
 		{
-			await PowerCmd.Apply<TFrom>(choiceContext, target, kept, applier, cardSource);
+			await PowerCmd.Remove(split);
 		}
 
-		if (removed > 0)
+		int originalStacks = (total + 1) / 2;
+		int splitStacks = total / 2;
+
+		if (originalStacks > 0)
 		{
-			await PowerCmd.Apply<TTo>(choiceContext, target, removed, applier, cardSource);
+			await PowerCmd.Apply<TOriginal>(choiceContext, target, originalStacks, applier, cardSource);
+		}
+
+		if (splitStacks > 0)
+		{
+			await PowerCmd.Apply<TSplit>(choiceContext, target, splitStacks, applier, cardSource);
 		}
 	}
 }

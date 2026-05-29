@@ -10,11 +10,9 @@ using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Models.Powers;
 using STS2RitsuLib.Cards.DynamicVars;
 using STS2RitsuLib.Interop.AutoRegistration;
-using STS2RitsuLib.Keywords;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>剧毒唾液：召唤；<see cref="FriendlyAmalgamCmd.CombineIntent"/> 学习虚弱（与盛碗虫系共用 <see cref="Headbutt.BowlbugRockCompositeKey"/>）。消耗�?/summary>
 [RegisterCard(typeof(EnemyCardPool))]
 public sealed class ToxicSpit : LearnIntentCardModel
 {
@@ -26,7 +24,7 @@ public sealed class ToxicSpit : LearnIntentCardModel
     private const TargetType targetType = TargetType.Self;
     private const bool shouldShowInCardLibrary = true;
 
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust, ModKeywordRegistry.GetCardKeyword(QueenKeyword.AmalgamComposite)];
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
     public override int MaxUpgradeLevel => 0;
 
@@ -38,14 +36,14 @@ public sealed class ToxicSpit : LearnIntentCardModel
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
-        QueenHoverTips.LearnIntent,
-        ModKeywordRegistry.CreateHoverTip(QueenKeyword.AmalgamComposite),
+        ..base.AdditionalHoverTips,
         HoverTipFactory.FromPower<WeakPower>(),
     ];
 
     public ToxicSpit()
         : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
     {
+        CompositeKey = AmalgamCompositeKey.Bowlbug;
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
@@ -54,11 +52,6 @@ public sealed class ToxicSpit : LearnIntentCardModel
         await FriendlyAmalgamCmd.Summon(choiceContext, base.Owner, base.DynamicVars.Summon.BaseValue, this);
 
         decimal weak = base.DynamicVars["LearnIntentWeak"].BaseValue;
-        await FriendlyAmalgamCmd.CombineIntent(
-            choiceContext,
-            base.Owner,
-            new AmalgamApplyWeakIntentAction(weak),
-            this,
-            Headbutt.BowlbugRockCompositeKey);
+        await ApplyLearnOrCombineIntentAsync(choiceContext, new AmalgamApplyWeakIntentAction(weak));
     }
 }

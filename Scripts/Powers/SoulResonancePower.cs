@@ -82,7 +82,7 @@ public sealed class SoulResonancePower : QueenPowerModel, IAmalgamEventListener
 		Creature amalgam,
 		AmalgamActionModel intent,
 		AbstractModel? source,
-		string? compositeIndexKey)
+		AmalgamCompositeKey compositeKey)
 	{
 		if (base.Owner.Player != amalgamOwner)
 		{
@@ -114,7 +114,7 @@ public sealed class SoulResonancePower : QueenPowerModel, IAmalgamEventListener
 					continue;
 				}
 
-				await FriendlyAmalgamCmd.CombineIntent(choiceContext, other, intent.Clone(), source, compositeIndexKey);
+				await FriendlyAmalgamCmd.CombineIntent(choiceContext, other, intent.Clone(), source, compositeKey);
 			}
 		}
 		finally

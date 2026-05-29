@@ -35,12 +35,12 @@ public class Entry
 				"res://TheQueen/images/charui/queen_boss.png",
 				ModKeywordCardDescriptionPlacement.BeforeCardDescription,
 				includeInCardHoverTip: true)
-			// 聚合：描述块显示在卡牌正文之后。
 			.CardKeywordOwnedByLocNamespace(
-				"AmalgamComposite",
-				"res://TheQueen/images/charui/queen_boss.png",
-				ModKeywordCardDescriptionPlacement.AfterCardDescription,
+				nameof(QueenKeyword.AmalgamComposite),
+				QueenKeyword.CompositeKeywordIconPath,
+				ModKeywordCardDescriptionPlacement.None,
 				includeInCardHoverTip: true)
+			.Custom(static ctx => QueenKeyword.RegisterCompositeKeywords(ctx.Keywords))
 			// 魂灯免费出牌时，为对应手牌加描边。
 			.CardHandOutline<CardModel>(
 				static card => SoulLampPower.IsCardFreeBySoulLamp(card) ? SoulLampFreeGlow : null,

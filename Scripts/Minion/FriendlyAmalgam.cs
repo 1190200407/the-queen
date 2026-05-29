@@ -315,9 +315,9 @@ public class FriendlyAmalgam : QueenMinionModel
         foreach (AbstractIntent intent in moveState.Intents)
         {
             HoverTip hoverTip = intent.GetHoverTip(targets, amalgamCreature);
-            if (action is AmalgamCompositeIntentAction)
+            if (action is AmalgamCompositeIntentAction compositeAction)
             {
-                LocString titleLoc = new("intents", "COMPOSITE_INTENT_TITLE");
+                LocString titleLoc = new("intents", QueenKeyword.GetCompositeIntentTitleLocKey(compositeAction.CompositeKey));
                 titleLoc.Add("Title", hoverTip.Title ?? string.Empty);
                 hoverTip = new HoverTip(titleLoc, hoverTip.Description, hoverTip.Icon);
             }
@@ -559,6 +559,58 @@ public class FriendlyAmalgam : QueenMinionModel
         FriendlyAmalgamCmd.TryRefreshIntentTorchVisuals(self);
     }
 
+    /// <summary>移除所有非 <see cref="AmalgamCompositeIntentAction"/> 灯槽意图，返回其克隆（按槽位 0→2 顺序）。</summary>
+    public async Task<IReadOnlyList<AmalgamActionModel>> ForgetAllNonCompositeTorchIntentsAsync()
+    {
+        Creature self = Creature;
+        if (!self.IsAlive)
+        {
+            return [];
+        }
+
+        List<AmalgamActionModel> forgotten = [];
+        for (int i = 0; i < TorchSlotCount; i++)
+        {
+            AmalgamActionModel? action = _intentByTorchSlot[i];
+            if (action is null or AmalgamCompositeIntentAction)
+            {
+                continue;
+            }
+
+            forgotten.Add(action.Clone());
+            _intentByTorchSlot[i] = null;
+        }
+
+        if (forgotten.Count == 0)
+        {
+            return forgotten;
+        }
+
+        bool anyIntentLeft = false;
+        for (int i = 0; i < TorchSlotCount; i++)
+        {
+            if (_intentByTorchSlot[i] != null)
+            {
+                anyIntentLeft = true;
+                break;
+            }
+        }
+
+        if (!anyIntentLeft)
+        {
+            _currentTorchSlotIndex = 0;
+            await FallAsleep(SleepReason.NoLearnedAction);
+        }
+        else
+        {
+            SyncCurrentTorchSlotIfNeeded();
+        }
+
+        RefreshDisplayedIntent();
+        FriendlyAmalgamCmd.TryRefreshIntentTorchVisuals(self);
+        return forgotten;
+    }
+
     public async Task LearnIntent(PlayerChoiceContext choiceContext, AmalgamActionModel intent)
     {
         int emptySlot = FirstEmptyTorchSlotIndex();
@@ -594,23 +646,16 @@ public class FriendlyAmalgam : QueenMinionModel
     }
 
     /// <summary>
-    /// 按 <paramref name="compositeIndexKey"/> 合并意图：若某灯槽已有同键的 <see cref="AmalgamCompositeIntentAction"/>，则把 <paramref name="intent"/> 追加到该条组合内；
+    /// 按 <paramref name="compositeKey"/> 合并意图：若某灯槽已有同键的 <see cref="AmalgamCompositeIntentAction"/>，则把 <paramref name="intent"/> 追加到该条组合内；
     /// 否则无空槽时走 <see cref="LearnIntent"/>（三槽满时与单次学习相同：当场执行且不写入）；
     /// 有空槽则新建一条组合意图并 <see cref="LearnIntent"/>。
     /// </summary>
-    public async Task CombineIntentAsync(PlayerChoiceContext choiceContext, AmalgamActionModel intent, string? compositeIndexKey)
+    public async Task CombineIntentAsync(PlayerChoiceContext choiceContext, AmalgamActionModel intent, AmalgamCompositeKey compositeKey)
     {
-        if (string.IsNullOrWhiteSpace(compositeIndexKey))
-        {
-            await LearnIntent(choiceContext, intent);
-            return;
-        }
-
-        string key = compositeIndexKey.Trim();
         for (int i = 0; i < TorchSlotCount; i++)
         {
             if (_intentByTorchSlot[i] is AmalgamCompositeIntentAction composite &&
-                string.Equals(composite.CompositeIndexKey, key, StringComparison.OrdinalIgnoreCase))
+                composite.CompositeKey == compositeKey)
             {
                 composite.AddPart(intent);
                 RefreshDisplayedIntent();
@@ -625,7 +670,7 @@ public class FriendlyAmalgam : QueenMinionModel
             return;
         }
 
-        AmalgamCompositeIntentAction bundle = new(key, intent);
+        AmalgamCompositeIntentAction bundle = new(compositeKey, intent);
         await LearnIntent(choiceContext, bundle);
     }
 

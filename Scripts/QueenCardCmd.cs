@@ -87,8 +87,9 @@ public static class QueenCardCmd
 			await PowerCmd.ModifyAmount(choiceContext, existing, amount, owner.Creature, null);
 		}
 
+		//TODO 改成Hook
 		await NightLightRelic.NotifySoulLampGained(owner, amount);
-	}
+	}	
 
 	private static readonly QueenTriadDebuffKind[] TriadDebuffKinds =
 	[

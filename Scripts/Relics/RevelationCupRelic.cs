@@ -77,14 +77,14 @@ public sealed class RevelationCupRelic : QueenRelicModel, IAmalgamEventListener
 		Creature amalgam,
 		AmalgamActionModel intent,
 		AbstractModel? source,
-		string? compositeIndexKey)
+		AmalgamCompositeKey compositeKey)
 	{
 		if (!TryClaimFirstIntentLearn(amalgamOwner, source))
 		{
 			return;
 		}
 
-		await FriendlyAmalgamCmd.CombineIntent(choiceContext, amalgamOwner, intent.Clone(), source, compositeIndexKey);
+		await FriendlyAmalgamCmd.CombineIntent(choiceContext, amalgamOwner, intent.Clone(), source, compositeKey);
 	}
 
 	private bool TryClaimFirstIntentLearn(Player amalgamOwner, AbstractModel? source)

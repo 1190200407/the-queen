@@ -12,7 +12,7 @@ using STS2RitsuLib.Keywords;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>力量之舞：爪�?token，学习意图为获得力量�?/summary>
+/// <summary>力量之舞：爪�?token，学习意图为获得力量�?/summary>
 [RegisterCard(typeof(TokenCardPool))]
 public sealed class PowerDance : LearnIntentCardModel
 {
@@ -35,6 +35,7 @@ public sealed class PowerDance : LearnIntentCardModel
     public PowerDance()
         : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
     {
+        //CompositeKey = AmalgamCompositeKey.Kin;
     }
 
     protected override Task<IReadOnlyList<AmalgamActionModel?>> CreateLearnIntentsAsync(PlayerChoiceContext choiceContext, CardPlay cardPlay)

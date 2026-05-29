@@ -22,8 +22,6 @@ public sealed class Vanguard : QueenCardModel
     private const TargetType targetType = TargetType.Self;
     private const bool shouldShowInCardLibrary = true;
 
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Ethereal];
-
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
         .. HoverTipFactory.FromAffliction<Bound>()
@@ -46,6 +44,6 @@ public sealed class Vanguard : QueenCardModel
 
     protected override void OnUpgrade()
     {
-        RemoveKeyword(CardKeyword.Ethereal);
+        AddKeyword(CardKeyword.Innate);
     }
 }
