@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dn8kmsnmevy28"
-path="res://.godot/imported/evolutions_law.png-5d5c7a33037ac80fbc2a64569df46990.ctex"
+uid="uid://dusqdgkldse4l"
+path="res://.godot/imported/cataclysm.png-84765b7787b4b5fc320c3f45aeea473c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://TheQueen/images/card_portraits/evolutions_law.png"
-dest_files=["res://.godot/imported/evolutions_law.png-5d5c7a33037ac80fbc2a64569df46990.ctex"]
+source_file="res://TheQueen/images/card_portraits/cataclysm.png"
+dest_files=["res://.godot/imported/cataclysm.png-84765b7787b4b5fc320c3f45aeea473c.ctex"]
 
 [params]
 

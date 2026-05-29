@@ -13,9 +13,9 @@ using STS2RitsuLib.Keywords;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>断念：聚合体遗忘当前意图。消逝衍生牌。</summary>
+/// <summary>续念：聚合体立刻行动 1 次。消逝衍生牌。</summary>
 [RegisterCard(typeof(TokenCardPool))]
-public sealed class RenounceIntent : QueenCardModel
+public sealed class ContinueIntent : QueenCardModel
 {
     private const int energyCost = 0;
     private const CardType type = CardType.Skill;
@@ -29,19 +29,15 @@ public sealed class RenounceIntent : QueenCardModel
         [ModKeywordRegistry.GetCardKeyword(QueenKeyword.Fade)];
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
-    [
-        QueenHoverTips.ForgetIntent,
-        ModKeywordRegistry.CreateHoverTip(QueenKeyword.Fade),
-    ];
+        [ModKeywordRegistry.CreateHoverTip(QueenKeyword.Fade)];
 
-    public RenounceIntent()
+    public ContinueIntent()
         : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
     {
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        _ = choiceContext;
         _ = cardPlay;
         ICombatState? combatState = base.Owner.Creature.CombatState;
         if (combatState == null)
@@ -55,6 +51,6 @@ public sealed class RenounceIntent : QueenCardModel
             return;
         }
 
-        await amalgam.ForgetCurrentTorchSlotIntentAsync();
+        await amalgam.ActCurrentIntentImmediatelyAsync(choiceContext);
     }
 }

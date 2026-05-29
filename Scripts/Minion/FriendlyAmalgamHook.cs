@@ -64,6 +64,18 @@ public static class FriendlyAmalgamHook
         }
     }
 
+    /// <summary>聚合体进入沉睡时触发。</summary>
+    public static async Task AfterFallAsleep(ICombatState combatState, Creature amalgam)
+    {
+        foreach (AbstractModel item in combatState.IterateHookListeners())
+        {
+            if (item is IAmalgamEventListener listener)
+            {
+                await listener.OnAmalgamFallAsleepAsync(combatState, amalgam);
+            }
+        }
+    }
+
     /// <summary>聚合体逃跑后触发。</summary>
     public static async Task OnEscape(ICombatState combatState, Creature amalgam)
     {

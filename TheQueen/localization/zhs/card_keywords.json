@@ -1,12 +1,12 @@
 {
-    "THE_QUEEN_KEYWORD_FADE.description": "当这张牌进入你的[gold]弃牌堆[/gold]时被[gold]消耗[/gold]。",
-    "THE_QUEEN_KEYWORD_FADE.title": "消逝",
-    "THE_QUEEN_KEYWORD_AMALGAM_COMPOSITE.description": "所有带相同聚合名的意图在学习时记入同一盏[gold]灯[/gold]。同一盏灯内记录的多个意图在执行时各算作一次行动。",
-    "THE_QUEEN_KEYWORD_AMALGAM_COMPOSITE.title": "聚合",
-    "THE_QUEEN_KEYWORD_AMALGAM_COMPOSITE1.description": "所有带[gold]聚合-虫虫[/gold]的意图在学习时记入同一盏[gold]灯[/gold]。同一盏灯内记录的多个意图在执行时各算作一次行动。",
-    "THE_QUEEN_KEYWORD_AMALGAM_COMPOSITE1.title": "聚合-虫虫",
-    "THE_QUEEN_KEYWORD_AMALGAM_COMPOSITE2.description": "所有带[gold]聚合-同族[/gold]的意图在学习时记入同一盏[gold]灯[/gold]。同一盏灯内记录的多个意图在执行时各算作一次行动。",
-    "THE_QUEEN_KEYWORD_AMALGAM_COMPOSITE2.title": "聚合-同族",
-    "THE_QUEEN_KEYWORD_AMALGAM_COMPOSITE3.description": "所有带[gold]聚合-进化[/gold]的意图在学习时记入同一盏[gold]灯[/gold]。同一盏灯内记录的多个意图在执行时各算作一次行动。",
-    "THE_QUEEN_KEYWORD_AMALGAM_COMPOSITE3.title": "聚合-进化"
+    "STS2_COMICCHESS_THEQUEEN_KEYWORD_FADE.description": "当这张牌进入你的[gold]弃牌堆[/gold]时被[gold]消耗[/gold]。",
+    "STS2_COMICCHESS_THEQUEEN_KEYWORD_FADE.title": "消逝",
+    "STS2_COMICCHESS_THEQUEEN_KEYWORD_AMALGAM_COMPOSITE.description": "所有带相同聚合名的意图在学习时记入同一盏[gold]灯[/gold]。同一盏灯内记录的多个意图在执行时各算作一次行动。",
+    "STS2_COMICCHESS_THEQUEEN_KEYWORD_AMALGAM_COMPOSITE.title": "聚合",
+    "STS2_COMICCHESS_THEQUEEN_KEYWORD_AMALGAM_COMPOSITE1.description": "所有带[gold]聚合-虫虫[/gold]的意图在学习时记入同一盏[gold]灯[/gold]。同一盏灯内记录的多个意图在执行时各算作一次行动。",
+    "STS2_COMICCHESS_THEQUEEN_KEYWORD_AMALGAM_COMPOSITE1.title": "聚合-虫虫",
+    "STS2_COMICCHESS_THEQUEEN_KEYWORD_AMALGAM_COMPOSITE2.description": "所有带[gold]聚合-同族[/gold]的意图在学习时记入同一盏[gold]灯[/gold]。同一盏灯内记录的多个意图在执行时各算作一次行动。",
+    "STS2_COMICCHESS_THEQUEEN_KEYWORD_AMALGAM_COMPOSITE2.title": "聚合-同族",
+    "STS2_COMICCHESS_THEQUEEN_KEYWORD_AMALGAM_COMPOSITE3.description": "所有带[gold]聚合-进化[/gold]的意图在学习时记入同一盏[gold]灯[/gold]。同一盏灯内记录的多个意图在执行时各算作一次行动。",
+    "STS2_COMICCHESS_THEQUEEN_KEYWORD_AMALGAM_COMPOSITE3.title": "聚合-进化"
 }

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dsjsrj4vqxpgf"
-path="res://.godot/imported/gui_yu_chen_tu.png-c55a67b981ca3213b5cb870818161b94.ctex"
+uid="uid://bmnturdmuadwf"
+path="res://.godot/imported/cataclysm.png-233c044a0fdd7e5819c10dc868d349ed.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://TheQueen/images/card_portraits/gui_yu_chen_tu.png"
-dest_files=["res://.godot/imported/gui_yu_chen_tu.png-c55a67b981ca3213b5cb870818161b94.ctex"]
+source_file="res://TheQueen/images/powers/cataclysm.png"
+dest_files=["res://.godot/imported/cataclysm.png-233c044a0fdd7e5819c10dc868d349ed.ctex"]
 
 [params]
 

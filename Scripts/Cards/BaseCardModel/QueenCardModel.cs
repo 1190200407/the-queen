@@ -7,6 +7,7 @@ using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Afflictions;
+using MegaCrit.Sts2.Core.Models.CardPools;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
 
@@ -27,23 +28,35 @@ public abstract class QueenCardModel : ModCardTemplate
     {
         get
         {
-            string portraitPath = $"res://TheQueen/images/card_portraits/{Id.Entry.ToLowerInvariant().Replace("the_queen_card_", "")}.png";
-            if (ResourceLoader.Exists(portraitPath))
+            string key = ResolvePortraitKey();
+            return Pool switch
             {
-                return portraitPath;
-            }
-            else
-            {
-                portraitPath = $"res://TheQueen/images/card_portraits/monsters/{Id.Entry.ToLowerInvariant().Replace("the_queen_card_", "")}.png";
-                if (ResourceLoader.Exists(portraitPath))
-                {
-                    return portraitPath;
-                }
-            }
-
-            return "res://TheQueen/images/card_portraits/card.png";
+                EnemyCardPool => PortraitPathForMonsters(key),
+                TokenCardPool => ResolveTokenPortraitPath(key),
+                _ => PortraitPathForQueen(key),
+            };
         }
     }
+
+    private static string PortraitPathForQueen(string key) =>
+        $"res://TheQueen/images/card_portraits/{key}.png";
+
+    private static string PortraitPathForMonsters(string key) =>
+        $"res://TheQueen/images/card_portraits/monsters/{key}.png";
+
+    private static string ResolveTokenPortraitPath(string key)
+    {
+        string queenPath = PortraitPathForQueen(key);
+        if (ResourceLoader.Exists(queenPath))
+        {
+            return queenPath;
+        }
+
+        return PortraitPathForMonsters(key);
+    }
+
+    private string ResolvePortraitKey() =>
+        Id.Entry.ToLowerInvariant().Replace("the_queen_card_", "");
 
     /// <summary>
     /// 图鉴、抽牌预览等使用不可变原型，没有 <see cref="CardModel.Affliction"/>。

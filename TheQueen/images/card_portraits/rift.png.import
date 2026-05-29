@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bir44gfk63gvm"
-path="res://.godot/imported/luo_ye_gui_gen.png-280395d31dcf977f4b54b2c6dad403fa.ctex"
+uid="uid://dalohfej133j"
+path="res://.godot/imported/rift.png-f9b967b9b79823681c91d8692ce58687.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://TheQueen/images/card_portraits/luo_ye_gui_gen.png"
-dest_files=["res://.godot/imported/luo_ye_gui_gen.png-280395d31dcf977f4b54b2c6dad403fa.ctex"]
+source_file="res://TheQueen/images/card_portraits/rift.png"
+dest_files=["res://.godot/imported/rift.png-f9b967b9b79823681c91d8692ce58687.ctex"]
 
 [params]
 

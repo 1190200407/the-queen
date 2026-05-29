@@ -18,7 +18,7 @@ using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>不得无礼！：将你的易伤、虚弱、脆弱转移至目标，获得格挡（9，升级 12）。</summary>
+/// <summary>不得无礼！：获得格挡（9，升级 12），再将你的易伤、虚弱、脆弱转移至目标。</summary>
 [RegisterCard(typeof(QueenCardPool))]
 public sealed class MindYourManners : QueenCardModel
 {
@@ -51,11 +51,11 @@ public sealed class MindYourManners : QueenCardModel
 		Creature self = base.Owner.Creature;
 		Creature enemy = cardPlay.Target;
 
+		await CreatureCmd.GainBlock(self, base.DynamicVars.Block, cardPlay);
+
 		await TransferPower<VulnerablePower>(choiceContext, self, enemy);
 		await TransferPower<WeakPower>(choiceContext, self, enemy);
 		await TransferPower<FrailPower>(choiceContext, self, enemy);
-
-		await CreatureCmd.GainBlock(self, base.DynamicVars.Block, cardPlay);
 	}
 
 	protected override void OnUpgrade()

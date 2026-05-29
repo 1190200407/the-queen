@@ -1,31 +1,16 @@
 
 using MegaCrit.Sts2.Core.Entities.Cards;
-using Godot;
 using STS2RitsuLib.Scaffolding.Content;
 
 namespace ComicChess.TheQueen;
 
 public abstract class QueenPowerModel : ModPowerTemplate
 {
-    public override string? CustomBigIconPath
-    {
-        get
-        {
-            string key = ResolvePowerIconKey();
-            string custom = $"res://TheQueen/images/powers/big/{key}.png";
-            return ResourceLoader.Exists(custom) ? custom : "res://TheQueen/images/powers/big/power.png";
-        }
-    }
+    public override string? CustomBigIconPath =>
+        $"res://TheQueen/images/powers/big/{ResolvePowerIconKey()}.png";
 
-    public override string? CustomIconPath
-    {
-        get
-        {
-            string key = ResolvePowerIconKey();
-            string custom = $"res://TheQueen/images/powers/{key}.png";
-            return ResourceLoader.Exists(custom) ? custom : "res://TheQueen/images/powers/power.png";
-        }
-    }
+    public override string? CustomIconPath =>
+        $"res://TheQueen/images/powers/{ResolvePowerIconKey()}.png";
 
     private string ResolvePowerIconKey()
     {

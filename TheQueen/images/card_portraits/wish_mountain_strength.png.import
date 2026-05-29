@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bwuu8is45l2we"
-path="res://.godot/imported/rift_scratch.png-064130314f1942798876aff0a9b18c55.ctex"
+uid="uid://civpo2r4c8bxh"
+path="res://.godot/imported/wish_mountain_strength.png-1b96fbbbf154890498fa3d4031734a83.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://TheQueen/images/card_portraits/rift_scratch.png"
-dest_files=["res://.godot/imported/rift_scratch.png-064130314f1942798876aff0a9b18c55.ctex"]
+source_file="res://TheQueen/images/card_portraits/wish_mountain_strength.png"
+dest_files=["res://.godot/imported/wish_mountain_strength.png-1b96fbbbf154890498fa3d4031734a83.ctex"]
 
 [params]
 

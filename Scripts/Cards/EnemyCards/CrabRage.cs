@@ -17,7 +17,7 @@ using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>蟹之怒：召唤并获得蟹之怒之力（聚合体死亡时获得力量与格挡）。</summary>
+/// <summary>蟹之怒：召唤并获得蟹之怒之力（聚合体沉睡时获得力量与格挡）。</summary>
 [RegisterCard(typeof(EnemyCardPool))]
 public sealed class CrabRage : QueenCardModel
 {

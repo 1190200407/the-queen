@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cxmtjtvww2h33"
-path="res://.godot/imported/bloodthirst_scratch.png-b36dc7370a5ba4da8cc9f8a768666c63.ctex"
+uid="uid://c88grqtbh2bmh"
+path="res://.godot/imported/gluttonous_feast.png-f0618b45cea2cc0c61cfdb62aa01c114.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://TheQueen/images/card_portraits/bloodthirst_scratch.png"
-dest_files=["res://.godot/imported/bloodthirst_scratch.png-b36dc7370a5ba4da8cc9f8a768666c63.ctex"]
+source_file="res://TheQueen/images/card_portraits/gluttonous_feast.png"
+dest_files=["res://.godot/imported/gluttonous_feast.png-f0618b45cea2cc0c61cfdb62aa01c114.ctex"]
 
 [params]
 

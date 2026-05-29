@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d0yrlke646e54"
-path="res://.godot/imported/gluttons_feast.png-2f5fd122ae2cae821674f0ad544fc770.ctex"
+uid="uid://t8wtbukhyivg"
+path="res://.godot/imported/amalgam_evolutionary_theory_pending.png-a9eb492c8afe30b787c489c03039529b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://TheQueen/images/card_portraits/gluttons_feast.png"
-dest_files=["res://.godot/imported/gluttons_feast.png-2f5fd122ae2cae821674f0ad544fc770.ctex"]
+source_file="res://TheQueen/images/powers/amalgam_evolutionary_theory_pending.png"
+dest_files=["res://.godot/imported/amalgam_evolutionary_theory_pending.png-a9eb492c8afe30b787c489c03039529b.ctex"]
 
 [params]
 

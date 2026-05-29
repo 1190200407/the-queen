@@ -110,10 +110,15 @@ public class FriendlyAmalgam : QueenMinionModel
             await BeginForcedAction(new AmalgamEmergencySleepForcedActionModel(0m));
         }
 
+        bool wasSleeping = IsSleeping();
         sleepReason |= reason;
         if (IsSleeping())
         {
             await CreatureCmd.TriggerAnim(Creature, "Sleep", 0f);
+            if (!wasSleeping && Creature.CombatState is { } combatState)
+            {
+                await FriendlyAmalgamHook.AfterFallAsleep(combatState, Creature);
+            }
         }
     }
 

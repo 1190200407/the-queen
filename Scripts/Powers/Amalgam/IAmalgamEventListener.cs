@@ -32,6 +32,11 @@ public interface IAmalgamEventListener
         return Task.CompletedTask;
     }
 
+    Task OnAmalgamFallAsleepAsync(ICombatState combatState, Creature amalgam)
+    {
+        return Task.CompletedTask;
+    }
+
     Task OnAmalgamEscapeAsync(ICombatState combatState, Creature amalgam)
     {
         return Task.CompletedTask;
