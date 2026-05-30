@@ -1,9 +1,9 @@
 {
     "THE_QUEEN_RELIC_FIRST_GIFT_RELIC.title":"First Gift",
-    "THE_QUEEN_RELIC_FIRST_GIFT_RELIC.description":"At the start of combat, gain {Cards} [aqua]Soul Lamp[/aqua].",
+    "THE_QUEEN_RELIC_FIRST_GIFT_RELIC.description":"At the start of your first turn, gain {Cards} [aqua]Soul Lamp[/aqua].",
     "THE_QUEEN_RELIC_FIRST_GIFT_RELIC.flavor":"[red]Details for this relic will be revealed later...[/red]",
     "THE_QUEEN_RELIC_QUEENS_GRACE_RELIC.title":"Queen's Grace",
-    "THE_QUEEN_RELIC_QUEENS_GRACE_RELIC.description":"At the start of combat, gain {Cards} [aqua]Soul Lamp[/aqua].",
+    "THE_QUEEN_RELIC_QUEENS_GRACE_RELIC.description":"At the start of your first turn, gain {Cards} [aqua]Soul Lamp[/aqua].",
     "THE_QUEEN_RELIC_QUEENS_GRACE_RELIC.flavor":"[red]Details for this relic will be revealed later...[/red]",
     "THE_QUEEN_RELIC_PAPER_CUTS_RELIC.title":"Paper Cuts",
     "THE_QUEEN_RELIC_PAPER_CUTS_RELIC.description":"At the start of combat, all enemies lose Max HP.",

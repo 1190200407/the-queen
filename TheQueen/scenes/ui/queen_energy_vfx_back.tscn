@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://bmqyupu3scxx5"]
 
-[ext_resource type="Script" uid="uid://fxenl86y28hu" path="res://Scripts/Nodes/NQueenParticlesContainer.cs" id="1_tp40b"]
+[ext_resource type="Script" uid="uid://c1gkwdie4x136" path="res://Scripts/Nodes/NQueenParticlesContainer.cs" id="1_tp40b"]
 [ext_resource type="PackedScene" uid="uid://cq0m6037hbecy" path="res://TheQueen/scenes/ui/vfx_common_glow.tscn" id="2_ic545"]
 
 [sub_resource type="Curve" id="Curve_k5mkh"]

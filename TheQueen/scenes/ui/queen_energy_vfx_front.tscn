@@ -1,6 +1,6 @@
 [gd_scene load_steps=22 format=3 uid="uid://begu2n2ulqy56"]
 
-[ext_resource type="Script" uid="uid://fxenl86y28hu" path="res://Scripts/Nodes/NQueenParticlesContainer.cs" id="1_skqcr"]
+[ext_resource type="Script" uid="uid://c1gkwdie4x136" path="res://Scripts/Nodes/NQueenParticlesContainer.cs" id="1_skqcr"]
 [ext_resource type="PackedScene" uid="uid://0vk581j1pecs" path="res://TheQueen/scenes/ui/vfx_common_ring_polar_a.tscn" id="2_ca08c"]
 [ext_resource type="PackedScene" uid="uid://chqoe33c4gm6a" path="res://TheQueen/scenes/ui/vfx_common_specks.tscn" id="6_3jr1f"]
 [ext_resource type="Texture2D" uid="uid://c4p1oduwv7m1j" path="res://TheQueen/images/vfx/common_speck.png" id="7_afm41"]
