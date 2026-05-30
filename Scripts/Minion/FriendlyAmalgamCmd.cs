@@ -82,36 +82,33 @@ public static class FriendlyAmalgamCmd
     /// 对齐原版 <see cref="NCombatRoom.AddCreature"/> 奥斯提分支（本地主控）：<c>player.Position + GetOstyOffsetFromPlayer(pet)</c> 与 <c>MoveChild(p, player.GetIndex())</c>。
     /// 不用 <see cref="NCreature.OstyScaleToSize"/>：随后 <see cref="TryRefreshAmalgamScaleFromMaxHp"/> 的 <see cref="NCreature.ScaleTo"/> 会 Kill 同一 <c>_scaleTween</c>，打断奥斯提位移 tween。
     /// 联机里非本地玩家不调用本逻辑，保留 <c>AddCreature</c> 已为随从算好的脚边一行（<c>Y+10</c>）。
-    /// 延迟一帧应用，避免 <c>Hitbox.Size</c> 尚未就绪导致 <see cref="NCreature.GetOstyOffsetFromPlayer"/> 偏差。
     /// </summary>
-    private static void PlaceAmalgamByQueen(Player owner, Creature pet, ICombatState? combatState)
+    internal static void ApplyLocalAmalgamSlot(Player owner, Creature pet, ICombatState? combatState)
     {
         if (!IsLayoutLocalPlayer(owner, combatState))
         {
             return;
         }
 
-        void ApplyLocalAmalgamSlot()
+        if (NCombatRoom.Instance is not { } room)
         {
-            if (NCombatRoom.Instance is not { } room)
-            {
-                return;
-            }
-
-            NCreature? o = room.GetCreatureNode(owner.Creature);
-            NCreature? p = room.GetCreatureNode(pet);
-            if (o == null || p == null || !GodotObject.IsInstanceValid(o) || !GodotObject.IsInstanceValid(p))
-            {
-                return;
-            }
-
-            p.Position = o.Position + NCreature.GetOstyOffsetFromPlayer(pet);
-            p.GetParent().MoveChild(p, o.GetIndex());
-            p.ToggleIsInteractable(true);
+            return;
         }
 
-        Callable.From(ApplyLocalAmalgamSlot).CallDeferred();
+        NCreature? o = room.GetCreatureNode(owner.Creature);
+        NCreature? p = room.GetCreatureNode(pet);
+        if (o == null || p == null || !GodotObject.IsInstanceValid(o) || !GodotObject.IsInstanceValid(p))
+        {
+            return;
+        }
+
+        p.Position = o.Position + NCreature.GetOstyOffsetFromPlayer(pet);
+        p.GetParent().MoveChild(p, o.GetIndex());
+        p.ToggleIsInteractable(true);
     }
+
+    private static void PlaceAmalgamByQueen(Player owner, Creature pet, ICombatState? combatState) =>
+        ApplyLocalAmalgamSlot(owner, pet, combatState);
 
     /// <summary>按 <see cref="Creature.MaxHp"/> 更新聚合体显示缩放（与奥斯提相同 <see cref="Osty.ScaleRange"/> 与 150 参考生命）；用 <see cref="NCreature.ScaleTo"/>，不移动节点位置。体型只增不减（当前血量变小时保持已有显示倍率）。</summary>
     public static void TryRefreshAmalgamScaleFromMaxHp(Creature amalgamCreature, float durationSeconds = AmalgamScaleTweenOnHpChange)

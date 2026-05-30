@@ -28,6 +28,7 @@ internal sealed class QueenModPatches : IModPatches
 		patcher.RegisterPatch<MindControlCreatureCmdDamagePatch>();
 		patcher.RegisterPatch<MindControlAttackIntentGetSingleDamagePatch>();
 		patcher.RegisterPatch<QueenSummonOnCombatStartPatch>();
+		patcher.RegisterPatch<NCombatRoomAddCreatureFriendlyAmalgamPatch>();
 		patcher.RegisterPatch<OstyAmalgamSummonCrossRedirectPatch>();
 		patcher.RegisterPatch<CreatureCmdHealNullGuardPatch>();
 		patcher.RegisterPatch<PersonalHivePowerAmalgamDealerTransferPatch>();
