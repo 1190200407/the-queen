@@ -24,7 +24,7 @@ public sealed class AmalgamSleepPower : QueenPowerModel, IAmalgamEventListener
 
     private bool appliedSleep = false;
 
-    public override async Task AfterPowerAmountChanged(PlayerChoiceContext choiceContext, PowerModel power, decimal amount, Creature? applier, CardModel? cardSource)
+    public override async Task AfterPowerAmountChanged(PowerModel power, decimal amount, Creature? applier, CardModel? cardSource)
     {
         _ = amount;
         _ = applier;

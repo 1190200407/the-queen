@@ -67,13 +67,17 @@ public sealed class AmalgamShriekPower : QueenPowerModel
         await PowerCmd.Remove(this);
     }
 
-    public override async Task AfterPowerAmountChanged(PlayerChoiceContext choiceContext, PowerModel power, decimal amount, Creature? applier, CardModel? cardSource)
+    public override async Task AfterPowerAmountChanged(PowerModel power, decimal amount, Creature? applier, CardModel? cardSource)
     {
+        _ = power;
+        _ = amount;
+        _ = applier;
+        _ = cardSource;
         if (Amount <= 0m)
         {
             return;
         }
-        await CheckShriek(choiceContext);
+        await CheckShriek(new ThrowingPlayerChoiceContext());
     }
 
     public override async Task AfterDamageGiven(PlayerChoiceContext choiceContext, Creature? dealer, DamageResult result, ValueProp props, Creature target, CardModel? cardSource)

@@ -115,7 +115,7 @@ public sealed class SoulLampPower : QueenPowerModel
 		return player?.Character is QueenCharacter && LocalContext.IsMe(player);
 	}
 
-    public override async Task AfterPowerAmountChanged(PlayerChoiceContext choiceContext, PowerModel power, decimal amount, Creature? applier, CardModel? cardSource)
+    public override async Task AfterPowerAmountChanged(PowerModel power, decimal amount, Creature? applier, CardModel? cardSource)
     {
 		if (power != this || amount == 0m)
 		{
@@ -131,7 +131,13 @@ public sealed class SoulLampPower : QueenPowerModel
 		CombatState? combatState = player.Creature.CombatState;
 		if (combatState != null)
 		{
-			await SoulLampHook.AfterAmountChanged(combatState, choiceContext, player, amount, applier, cardSource);
+			await SoulLampHook.AfterAmountChanged(
+				combatState,
+				new ThrowingPlayerChoiceContext(),
+				player,
+				amount,
+				applier,
+				cardSource);
 		}
 
 		NQueenEnergyCounter.TryRefresh(player);

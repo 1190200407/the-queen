@@ -25,7 +25,6 @@ public sealed class LampDrivePower : QueenPowerModel
     ];
 
     public override async Task AfterPowerAmountChanged(
-        PlayerChoiceContext choiceContext,
         PowerModel power,
         decimal amount,
         Creature? applier,
@@ -68,7 +67,7 @@ public sealed class LampDrivePower : QueenPowerModel
                 break;
             }
 
-            await amalgam.ActCurrentIntentImmediatelyAsync(choiceContext);
+            await amalgam.ActCurrentIntentImmediatelyAsync(new ThrowingPlayerChoiceContext());
         }
     }
 
