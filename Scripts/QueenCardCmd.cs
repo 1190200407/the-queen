@@ -1,6 +1,11 @@
 using System.Threading.Tasks;
+
+using Godot;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Context;
+using MegaCrit.Sts2.Core.Helpers;
+using STS2RitsuLib.Audio;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
@@ -15,6 +20,10 @@ namespace ComicChess.TheQueen;
 
 public static class QueenCardCmd
 {
+	private const string SoulLampGainSfx = "event:/sfx/characters/regent/regent_forge";
+	private const float SoulLampGainSfxVolume = 1.2f;
+	private const float SoulLampGainSfxPitch = 2f;
+
 	/// <summary>
 	/// 施加魂缚：战斗内走 <see cref="CardCmd.Afflict"/>；战斗外仅允许已在主牌组中的牌，直接 <see cref="CardModel.AfflictInternal"/>（商店改牌等）。
 	/// </summary>
@@ -71,25 +80,49 @@ public static class QueenCardCmd
 			return;
 		}
 
+		bool silent = owner.Character is QueenCharacter && LocalContext.IsMe(owner);
+
 		SoulLampPower? existing = owner.Creature.GetPower<SoulLampPower>();
 		if (existing == null)
 		{
-			await PowerCmd.Apply<SoulLampPower>(choiceContext, owner.Creature, amount, owner.Creature, null);
+			await PowerCmd.Apply<SoulLampPower>(choiceContext, owner.Creature, amount, owner.Creature, null, silent);
 		}
 		else if (existing.Amount <= 0)
 		{
 			// SoulLampPower uses -1 as the hidden "display 0" sentinel.
 			// When gaining Soul Lamp from this state, jump directly to gained amount.
-			await PowerCmd.ModifyAmount(choiceContext, existing, amount - existing.Amount, owner.Creature, null);
+			await PowerCmd.ModifyAmount(choiceContext, existing, amount - existing.Amount, owner.Creature, null, silent);
 		}
 		else
 		{
-			await PowerCmd.ModifyAmount(choiceContext, existing, amount, owner.Creature, null);
+			await PowerCmd.ModifyAmount(choiceContext, existing, amount, owner.Creature, null, silent);
 		}
 
-		//TODO 改成Hook
-		await NightLightRelic.NotifySoulLampGained(owner, amount);
-	}	
+		if (LocalContext.IsMe(owner))
+		{
+			PlaySoulLampGainSfx();
+		}
+	}
+
+	private static void PlaySoulLampGainSfx()
+	{
+		if (NonInteractiveMode.IsActive || CombatManager.Instance.IsEnding)
+		{
+			return;
+		}
+
+		GodotObject? instance = FmodStudioEventInstances.TryCreate(SoulLampGainSfx);
+		if (instance is null)
+		{
+			SfxCmd.Play(SoulLampGainSfx, SoulLampGainSfxVolume);
+			return;
+		}
+
+		instance.Call("set_volume", SoulLampGainSfxVolume);
+		instance.Call("set_pitch", SoulLampGainSfxPitch);
+		instance.Call("start");
+		instance.Call("release");
+	}
 
 	private static readonly QueenTriadDebuffKind[] TriadDebuffKinds =
 	[

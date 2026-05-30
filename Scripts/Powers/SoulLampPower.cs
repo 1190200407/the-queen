@@ -1,7 +1,9 @@
 using System;
 using System.Threading.Tasks;
 
+using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Context;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
@@ -43,12 +45,15 @@ public sealed class SoulLampPower : QueenPowerModel
 		return card.EnergyCost.GetWithModifiers(CostModifiers.All) == 0;
 	}
 
+	// 资源类能力：不用 Buff，避免「清除增益」类效果误删魂灯；层数变化走 SoulLampHook。
 	public override PowerType Type => PowerType.None;
 
 	// 女王在能量指示器上显示魂灯；其他角色仍走能力栏。
-	protected override bool IsVisibleInternal => base.Owner?.Player?.Character is not QueenCharacter;
+	protected override bool IsVisibleInternal => !IsLocalQueenOwner();
 
-	public override PowerStackType StackType => PowerStackType.Counter;
+	public override bool ShouldPlayVfx => !IsLocalQueenOwner();
+
+    public override PowerStackType StackType => PowerStackType.Counter;
 
     public override string? CustomBigIconPath => "res://TheQueen/images/powers/big/soul_lamp.png";
 	public override string? CustomIconPath => "res://TheQueen/images/powers/soul_lamp.png";
@@ -104,6 +109,12 @@ public sealed class SoulLampPower : QueenPowerModel
 		return card.Pile?.Type is PileType.Hand or PileType.Play;
 	}
 
+	private bool IsLocalQueenOwner()
+	{
+		Player? player = base.Owner?.Player;
+		return player?.Character is QueenCharacter && LocalContext.IsMe(player);
+	}
+
     public override async Task AfterPowerAmountChanged(PlayerChoiceContext choiceContext, PowerModel power, decimal amount, Creature? applier, CardModel? cardSource)
     {
 		if (power != this || amount == 0m)
@@ -117,10 +128,10 @@ public sealed class SoulLampPower : QueenPowerModel
 			return;
 		}
 
-		await QueenCardModel.BroadcastSoulLampAmountChange(player, amount, applier, cardSource);
-		if (amount < 0m)
+		ICombatState? combatState = player.Creature.CombatState;
+		if (combatState != null)
 		{
-			await MagicTimePower.TryAutoRefillSoulLamp(player);
+			await SoulLampHook.AfterAmountChanged(combatState, choiceContext, player, amount, applier, cardSource);
 		}
 
 		NQueenEnergyCounter.TryRefresh(player);
@@ -156,15 +167,17 @@ public sealed class SoulLampPower : QueenPowerModel
 			}
 			if (base.Amount > 0)
 			{
+				bool silent = base.Owner.Player?.Character is QueenCharacter;
+				PlayerChoiceContext ctx = new ThrowingPlayerChoiceContext();
 				// 避免 Amount 直接变成 0 导致 Power 被移除：
 				// 从 1 -> -1（offset -2）并保持在状态栏显示 0。
 				if (base.Amount == 1)
 				{
-					await PowerCmd.ModifyAmount(new ThrowingPlayerChoiceContext(), this, -2m, null, null);
+					await PowerCmd.ModifyAmount(ctx, this, -2m, null, null, silent);
 				}
 				else
 				{
-					await PowerCmd.Decrement(this);
+					await PowerCmd.ModifyAmount(ctx, this, -1m, null, null, silent);
 				}
 			}
 		}

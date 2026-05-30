@@ -11,9 +11,11 @@ public class QueenCardPool : TypeListCardPoolModel
     public override string? TextEnergyIconPath => "res://TheQueen/images/charui/text_energy.png";
     public override string? BigEnergyIconPath => "res://TheQueen/images/charui/big_energy.png";
     public override bool IsColorless => false;
-    // 紫色rgb(112, 42, 112)
-    public override Color DeckEntryCardColor => new(69f/255f, 42f/255f, 112f/255f);
+    // 紫色rgb(123, 57, 144)
+    public override Color DeckEntryCardColor => new(123f/255f, 57f/255f, 144f/255f);
+    // 能量图标轮廓颜色rgb(44, 97, 24)
+    public override Color EnergyOutlineColor => new(44f/255f, 97f/255f, 24f/255f);
 
-    private static readonly Material? _poolFrameMaterial = MaterialUtils.CreateRgbShaderMaterial(69f/255f, 42f/255f, 112f/255f);
+    private static readonly Material? _poolFrameMaterial = MaterialUtils.CreateRgbShaderMaterial(123f/255f, 57f/255f, 144f/255f);
     public override Material? PoolFrameMaterial => _poolFrameMaterial;
 }

@@ -17,7 +17,7 @@ namespace ComicChess.TheQueen;
 
 /// <summary>裂隙：0 费攻击；魂灯每层使本牌耗能 +1。</summary>
 [RegisterCard(typeof(QueenCardPool))]
-public sealed class Rift : QueenCardModel
+public sealed class Rift : QueenCardModel, ISoulLampEventListener
 {
     private const int energyCost = 0;
     private const CardType type = CardType.Attack;
@@ -54,8 +54,17 @@ public sealed class Rift : QueenCardModel
         return base.AfterCardEnteredCombat(card);
     }
 
-    public override Task OnSoulLampAmountChange(Player player, decimal delta, Creature? applier, CardModel? cardSource)
+    public Task OnSoulLampAmountChanged(
+        PlayerChoiceContext choiceContext,
+        Player player,
+        decimal delta,
+        Creature? applier,
+        CardModel? cardSource)
     {
+        _ = choiceContext;
+        _ = delta;
+        _ = applier;
+        _ = cardSource;
         if (player == base.Owner)
         {
             RefreshEnergyCostDisplay();

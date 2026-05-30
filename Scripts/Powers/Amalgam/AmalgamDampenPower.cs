@@ -31,7 +31,7 @@ public sealed class AmalgamDampenPower : QueenPowerModel
         CardModel? toDowngrade = (await CardSelectCmd.FromHand(
                 choiceContext,
                 player,
-                new CardSelectorPrefs(new LocString("powers", "COMICCHESS-AMALGAM_DAMPEN_POWER.selectionPrompt"), 1),
+                new CardSelectorPrefs(new LocString("powers", "AMALGAM_DAMPEN_POWER.selectionPrompt"), 1),
                 c => c.IsUpgraded,
                 source: this))
             .FirstOrDefault();

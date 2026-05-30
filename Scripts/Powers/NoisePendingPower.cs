@@ -17,13 +17,11 @@ public sealed class NoisePendingPower : QueenPowerModel
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Counter;
 
-    public override LocString Title => new("powers", "COMICCHESS-NOISE_PENDING_POWER.title");
-
     public override LocString Description
     {
         get
         {
-            LocString d = new("powers", "COMICCHESS-NOISE_PENDING_POWER.description");
+            LocString d = new("powers", "NOISE_PENDING_POWER.description");
             d.Add("Draw", base.Amount);
             return d;
         }

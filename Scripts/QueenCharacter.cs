@@ -17,13 +17,12 @@ namespace ComicChess.TheQueen;
 [RegisterCharacter]
 public class QueenCharacter : ModCharacterTemplate<QueenCardPool, QueenRelicPool, QueenPotionPool>
 {
-    // 角色名称颜色 #814390
+    // 角色名称颜色rgb(161, 67, 144)
     public override Color NameColor => new(161f/255f, 67f/255f, 144f/255f);
-    // 能量图标轮廓颜色rgb(161, 67, 144)
-    public override Color EnergyLabelOutlineColor => new(161f/255f, 67f/255f, 144f/255f);
-    // 能量图标轮廓颜色rgb(161, 67, 144)
+    // 能量图标轮廓颜色rgb(44, 97, 24)
+    public override Color EnergyLabelOutlineColor => new(44f/255f, 97f/255f, 24f/255f);
+    // 地图绘画颜色rgb(161, 67, 144)
     public override Color MapDrawingColor => new(161f/255f, 67f/255f, 144f/255f);
-
 
     // 人物性别（男女中立）
     public override CharacterGender Gender => CharacterGender.Feminine;
@@ -64,15 +63,15 @@ public class QueenCharacter : ModCharacterTemplate<QueenCardPool, QueenRelicPool
     // 人物选择过渡动画。
     // public override string CustomCharacterSelectTransitionPath => "res://materials/transitions/ironclad_transition_mat.tres";
     // 地图上的角色标记图标、表情轮盘上的角色头像
-    //public override string CustomMapMarkerPath => "res://TheQueen/images/charui/queen_boss.png";
+    public override string CustomMapMarkerPath => "res://TheQueen/images/charui/queen_map_marker.png";
     // 攻击音效
     // public override string CustomAttackSfx => null;
     // 施法音效
-    // public override string CustomCastSfx => null;
+    public override string CustomCastSfx => "event:/sfx/enemy/enemy_attacks/queen/queen_cast";
     // 死亡音效
-    // public override string CustomDeathSfx => null;
+    public override string CustomDeathSfx => "event:/sfx/enemy/enemy_attacks/queen/queen_die";
     // 角色选择音效
-    // public override string CharacterSelectSfx => null;
+    public override string CharacterSelectSfx => "event:/sfx/enemy/enemy_attacks/queen/queen_cast";
     // 过渡音效。这个不能删。
     public override string CharacterTransitionSfx => "event:/sfx/ui/wipe_ironclad";
 

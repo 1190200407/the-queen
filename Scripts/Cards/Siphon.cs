@@ -18,7 +18,7 @@ using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>虹吸：伤害；目标每有 1 个负面能力（Debuff），�?1 张牌�?/summary>
+/// <summary>?????????? 1 ??????Debuff??�?1 ??�?/summary>
 
 [RegisterCard(typeof(QueenCardPool))]
 public sealed class Siphon : QueenCardModel
@@ -36,9 +36,7 @@ public sealed class Siphon : QueenCardModel
 		new CalculationBaseVar(0m),
 		new CalculationExtraVar(1m),
 		new CalculatedVar("CalculatedDraw").WithMultiplier(static (CardModel card, Creature? target) =>
-		{
-			return target?.Powers.Count(static p => p.Type == PowerType.Debuff) ?? 0;
-		}),
+			target == null ? 0m : QueenDebuffUtil.CountDebuffPowers(target)),
 	];
 
 	public Siphon()
@@ -55,7 +53,7 @@ public sealed class Siphon : QueenCardModel
 			return;
 		}
 
-		int debuffKinds = target.Powers.Count(static p => p.Type == PowerType.Debuff);
+		int debuffKinds = QueenDebuffUtil.CountDebuffPowers(target);
 
 		await DamageCmd.Attack(base.DynamicVars.Damage.BaseValue)
 			.FromCard(this)

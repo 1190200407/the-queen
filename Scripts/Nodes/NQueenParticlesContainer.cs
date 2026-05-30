@@ -1,4 +1,6 @@
+using System.Reflection;
 using Godot;
+using Godot.Collections;
 using MegaCrit.Sts2.Core.Nodes.Vfx.Utilities;
 
 namespace ComicChess.TheQueen;
@@ -9,4 +11,18 @@ namespace ComicChess.TheQueen;
 /// 因此必须继承原版类，而不是复制成独立的 <see cref="Godot.Node2D"/>。
 /// </summary>
 [GlobalClass]
-public partial class NQueenParticlesContainer : NParticlesContainer;
+public partial class NQueenParticlesContainer : NParticlesContainer
+{
+	private static readonly FieldInfo BaseParticlesField =
+		typeof(NParticlesContainer).GetField("_particles", BindingFlags.Instance | BindingFlags.NonPublic)!;
+
+	// Godot C# 无法把场景导出写进基类的 private [Export]，子类必须再声明一份并在 _Ready 同步。
+	[Export]
+	private Array<GpuParticles2D>? _particles;
+
+	public override void _Ready()
+	{
+		BaseParticlesField.SetValue(this, _particles);
+		base._Ready();
+	}
+}

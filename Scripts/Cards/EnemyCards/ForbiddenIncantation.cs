@@ -10,7 +10,6 @@ using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.CardPools;
-using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.Nodes.Vfx;
 using STS2RitsuLib.Cards.DynamicVars;
 using STS2RitsuLib.Interop.AutoRegistration;
@@ -35,12 +34,12 @@ public sealed class ForbiddenIncantation : QueenCardModel
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new SummonVar(10m).WithSharedTooltip("QUEEN_SUMMON_DYNAMIC"),
-        new PowerVar<RitualPower>(3m),
+        new PowerVar<AmalgamRitualPower>(3m),
     ];
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
-        HoverTipFactory.FromPower<RitualPower>(),
+        HoverTipFactory.FromPower<AmalgamRitualPower>(),
     ];
 
     public override int MaxUpgradeLevel => 0;
@@ -67,7 +66,7 @@ public sealed class ForbiddenIncantation : QueenCardModel
             return;
         }
 
-        decimal ritual = base.DynamicVars.Power<RitualPower>().BaseValue;
+        decimal ritual = base.DynamicVars.Power<AmalgamRitualPower>().BaseValue;
         if (ritual > 0m)
         {
             SfxCmd.Play($"event:/sfx/enemy/enemy_attacks/devoted_sculptor/devoted_sculptor_cast");
@@ -78,7 +77,7 @@ public sealed class ForbiddenIncantation : QueenCardModel
             VfxCmd.PlayOnCreatureCenter(amalgam, "vfx/vfx_scream");
             TalkCmd.Play(_forbiddenIncantationDialogue, amalgam, VfxColor.Blue, VfxDuration.Long);
 
-            await PowerCmd.Apply<RitualPower>(choiceContext, amalgam, ritual, base.Owner.Creature, this);
+            await PowerCmd.Apply<AmalgamRitualPower>(choiceContext, amalgam, ritual, base.Owner.Creature, this);
         }
     }
 }

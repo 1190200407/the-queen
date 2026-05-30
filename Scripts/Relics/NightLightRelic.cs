@@ -1,12 +1,15 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Relics;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.RelicPools;
 using MegaCrit.Sts2.Core.Saves.Runs;
 using MegaCrit.Sts2.Core.ValueProps;
@@ -15,9 +18,8 @@ using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>小夜灯：每累计 {SoulLampPerTrigger} 层魂灯，获得 {Block} 点格挡（经 <see cref="QueenCardCmd.AddSoulLamp"/>；余数跨获得保留）。</summary>
-
-public sealed class NightLightRelic : QueenRelicModel
+/// <summary>小夜灯：每累计 {SoulLampPerTrigger} 层魂灯，获得 {Block} 点格挡（余数跨获得保留）。</summary>
+public sealed class NightLightRelic : QueenRelicModel, ISoulLampEventListener
 {
 	public override RelicRarity Rarity => RelicRarity.Common;
 
@@ -37,26 +39,28 @@ public sealed class NightLightRelic : QueenRelicModel
 	[SavedProperty]
 	public int SoulLampTowardNightLight { get; private set; }
 
-	internal static async Task NotifySoulLampGained(Player owner, int lampAmount)
+	public async Task OnSoulLampAmountChanged(
+		PlayerChoiceContext choiceContext,
+		Player player,
+		decimal delta,
+		Creature? applier,
+		CardModel? cardSource)
 	{
-		if (lampAmount <= 0 || owner.PlayerCombatState == null || !owner.Creature.IsAlive)
+		_ = choiceContext;
+		_ = applier;
+		_ = cardSource;
+		if (delta <= 0m || player != base.Owner || player.PlayerCombatState == null || !player.Creature.IsAlive)
 		{
 			return;
 		}
 
-		NightLightRelic? relic = owner.Relics.OfType<NightLightRelic>().FirstOrDefault();
-		if (relic == null)
-		{
-			return;
-		}
-
-		await relic.ApplySoulLampBlock(owner, lampAmount);
+		await ApplySoulLampBlock(player, (int)delta);
 	}
 
 	private async Task ApplySoulLampBlock(Player owner, int lampAmount)
 	{
 		int perTrigger = base.DynamicVars["SoulLampPerTrigger"].IntValue;
-		if (perTrigger <= 0)
+		if (perTrigger <= 0 || lampAmount <= 0)
 		{
 			return;
 		}

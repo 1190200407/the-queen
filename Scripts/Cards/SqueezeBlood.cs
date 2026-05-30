@@ -66,5 +66,5 @@ public sealed class SqueezeBlood : QueenCardModel
         CountTargetDebuffs(target) >= debuffThreshold;
 
     private static int CountTargetDebuffs(Creature target) =>
-        target.Powers.Count(static p => p.Type == PowerType.Debuff);
+        QueenDebuffUtil.CountDebuffPowers(target, excludeTemporary: true);
 }

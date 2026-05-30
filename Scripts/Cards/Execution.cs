@@ -42,7 +42,7 @@ public sealed class Execution : QueenCardModel, ICanMonsterCapture
         new CalculationBaseVar(10m),
         new ExtraDamageVar(4m),
         new CalculatedDamageVar(ValueProp.Move).WithMultiplier(static (CardModel card, Creature? target) =>
-            target?.Powers.Count(static p => p.Type == PowerType.Debuff) ?? 0),
+            target == null ? 0m : QueenDebuffUtil.CountDebuffPowers(target, excludeTemporary: true)),
     ];
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>

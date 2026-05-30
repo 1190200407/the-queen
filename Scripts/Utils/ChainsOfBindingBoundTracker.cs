@@ -60,6 +60,7 @@ internal static class ChainsOfBindingBoundTracker
 		GetOrCreate(player.NetId).AppliedThisTurn++;
 	}
 
+
 	/// <summary>在已成功调用 <see cref="CardCmd.AfflictAndPreview{T}"/> 后登记该牌。</summary>
 	internal static void RegisterChainsBoundCard(Player? player, CardModel card)
 	{

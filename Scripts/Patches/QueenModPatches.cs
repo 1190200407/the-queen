@@ -59,6 +59,7 @@ internal sealed class QueenModPatches : IModPatches
 		patcher.RegisterPatch<NCardInfectionCurseOverlayPatch>();
 		patcher.RegisterPatch<NCardRewardSelectionScreenSelectCardGuardPatch>();
 		patcher.RegisterPatch<NCreatureAnimDisableUiFriendlyAmalgamPatch>();
+		patcher.RegisterPatch<NCreatureOnPowerIncreasedShouldPlayVfxPatch>();
 		patcher.RegisterPatch<NCreatureStateDisplayTrackBlockStatusPatch>();
 		patcher.RegisterPatch<NIntentAmalgamBlockValueLabelPatch>();
 		patcher.RegisterPatch<BigMushroomGrowScalePatch>();

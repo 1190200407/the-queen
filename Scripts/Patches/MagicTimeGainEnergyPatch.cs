@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Players;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Helpers;
 using STS2RitsuLib.Patching.Models;
 
@@ -24,7 +25,13 @@ internal sealed class MagicTimeGainEnergyPatch : IPatchMethod
 			return;
 		}
 
-		Task task = MagicTimePower.TryAutoRefillSoulLamp(player);
+		MagicTimePower? magicTime = player.Creature.GetPower<MagicTimePower>();
+		if (magicTime == null)
+		{
+			return;
+		}
+
+		Task task = magicTime.TryRefillIfNeeded(new ThrowingPlayerChoiceContext(), player);
 		TaskHelper.RunSafely(task);
 	}
 }

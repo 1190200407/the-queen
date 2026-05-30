@@ -33,7 +33,7 @@ internal sealed class UnfinishedCalamityPowerPatch : IPatchMethod
 			return;
 		}
 
-		if (power.Type != PowerType.Debuff)
+		if (!QueenDebuffUtil.IsDebuff(power))
 		{
 			return;
 		}

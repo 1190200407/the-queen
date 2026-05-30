@@ -39,7 +39,7 @@ public sealed class TearSpace : QueenCardModel
 		new CalculatedVar("BattlefieldDebuffCount").WithMultiplier(static (CardModel card, Creature? _) =>
 		{
 			ICombatState? cs = card.Owner?.Creature?.CombatState;
-			return cs == null ? 0m : CountBattlefieldDebuffs(cs);
+			return cs == null ? 0m : QueenDebuffUtil.CountBattlefieldDebuffs(cs);
 		}),
 	];
 
@@ -54,7 +54,7 @@ public sealed class TearSpace : QueenCardModel
 			}
 
 			int threshold = (int)base.DynamicVars[PlayThresholdKey].BaseValue;
-			return CountBattlefieldDebuffs(combatState) >= threshold;
+			return QueenDebuffUtil.CountBattlefieldDebuffs(combatState) >= threshold;
 		}
 	}
 
@@ -81,27 +81,5 @@ public sealed class TearSpace : QueenCardModel
 	protected override void OnUpgrade()
 	{
 		base.DynamicVars[PlayThresholdKey].UpgradeValueBy(-2m);
-	}
-
-	private static int CountBattlefieldDebuffs(ICombatState combatState)
-	{
-		int n = 0;
-		foreach (Creature creature in combatState.Creatures)
-		{
-			if (!creature.IsAlive)
-			{
-				continue;
-			}
-
-			foreach (PowerModel power in creature.Powers)
-			{
-				if (power.Type == PowerType.Debuff)
-				{
-					n++;
-				}
-			}
-		}
-
-		return n;
 	}
 }

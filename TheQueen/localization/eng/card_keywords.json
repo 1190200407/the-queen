@@ -1,12 +1,12 @@
-﻿{
-    "THE_QUEEN_KEYWORD_FADE.description": "When this card enters your [gold]Discard pile[/gold], it is [gold]Exhausted[/gold].",
-    "THE_QUEEN_KEYWORD_FADE.title": "Fade",
-    "THE_QUEEN_KEYWORD_AMALGAM_COMPOSITE.description": "All intents with the same [gold]Composite[/gold] name are learned into the same [gold]torch slot[/gold]. Multiple intents in one slot each resolve as a separate action when executed.",
-    "THE_QUEEN_KEYWORD_AMALGAM_COMPOSITE.title": "Composite",
-    "THE_QUEEN_KEYWORD_AMALGAM_COMPOSITE1.description": "All intents with [gold]Composite-Bug[/gold] are learned into the same [gold]torch slot[/gold]. Multiple intents in one slot each resolve as a separate action when executed.",
-    "THE_QUEEN_KEYWORD_AMALGAM_COMPOSITE1.title": "Composite-Bug",
-    "THE_QUEEN_KEYWORD_AMALGAM_COMPOSITE2.description": "All intents with [gold]Composite-Kinship[/gold] are learned into the same [gold]torch slot[/gold]. Multiple intents in one slot each resolve as a separate action when executed.",
-    "THE_QUEEN_KEYWORD_AMALGAM_COMPOSITE2.title": "Composite-Kinship",
-    "THE_QUEEN_KEYWORD_AMALGAM_COMPOSITE3.description": "All intents with [gold]Composite-Evolution[/gold] are learned into the same [gold]torch slot[/gold]. Multiple intents in one slot each resolve as a separate action when executed.",
-    "THE_QUEEN_KEYWORD_AMALGAM_COMPOSITE3.title": "Composite-Evolution"
+{
+    "STS2_COMICCHESS_THEQUEEN_KEYWORD_FADE.description":"When this card enters your [gold]Discard pile[/gold], it is [gold]Exhausted[/gold].",
+    "STS2_COMICCHESS_THEQUEEN_KEYWORD_FADE.title":"Fade",
+    "STS2_COMICCHESS_THEQUEEN_KEYWORD_AMALGAM_COMPOSITE.description":"All intents with the same [gold]Composite[/gold] name are learned into the same [gold]torch slot[/gold]. Multiple intents in one slot each resolve as a separate action when executed.",
+    "STS2_COMICCHESS_THEQUEEN_KEYWORD_AMALGAM_COMPOSITE.title":"Composite",
+    "STS2_COMICCHESS_THEQUEEN_KEYWORD_AMALGAM_COMPOSITE1.description":"All intents with [gold]Composite-Bug[/gold] are learned into the same [gold]torch slot[/gold]. Multiple intents in one slot each resolve as a separate action when executed.",
+    "STS2_COMICCHESS_THEQUEEN_KEYWORD_AMALGAM_COMPOSITE1.title":"Composite-Bug",
+    "STS2_COMICCHESS_THEQUEEN_KEYWORD_AMALGAM_COMPOSITE2.description":"All intents with [gold]Composite-Kinship[/gold] are learned into the same [gold]torch slot[/gold]. Multiple intents in one slot each resolve as a separate action when executed.",
+    "STS2_COMICCHESS_THEQUEEN_KEYWORD_AMALGAM_COMPOSITE2.title":"Composite-Kinship",
+    "STS2_COMICCHESS_THEQUEEN_KEYWORD_AMALGAM_COMPOSITE3.description":"All intents with [gold]Composite-Evolution[/gold] are learned into the same [gold]torch slot[/gold]. Multiple intents in one slot each resolve as a separate action when executed.",
+    "STS2_COMICCHESS_THEQUEEN_KEYWORD_AMALGAM_COMPOSITE3.title":"Composite-Evolution"
 }

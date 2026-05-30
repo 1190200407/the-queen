@@ -1,4 +1,3 @@
-using System.Linq;
 using System.Threading.Tasks;
 using Godot;
 using MegaCrit.Sts2.Core.Commands;
@@ -15,15 +14,6 @@ namespace ComicChess.TheQueen;
 
 public abstract class QueenCardModel : ModCardTemplate
 {
-	private static readonly PileType[] PilesForSoulLampBroadcast =
-	[
-		PileType.Hand,
-		PileType.Draw,
-		PileType.Discard,
-		PileType.Exhaust,
-		PileType.Play
-	];
-
     public override string PortraitPath
     {
         get
@@ -90,36 +80,6 @@ public abstract class QueenCardModel : ModCardTemplate
     public override Task AfterCardEnteredCombat(CardModel card)
     {
         return TryApplySelfBound(card);
-    }
-
-    /// <summary>
-    /// 拥有此牌的玩家的 <see cref="SoulLampPower"/> 层数变化时由引擎路径广播（见 <see cref="BroadcastSoulLampAmountChange"/>）。
-    /// <paramref name="delta"/> &gt; 0 为获得魂灯，&lt; 0 为失去（如打出魂缚牌消耗）。
-    /// </summary>
-    public virtual Task OnSoulLampAmountChange(Player player, decimal delta, Creature? applier, CardModel? cardSource) =>
-        Task.CompletedTask;
-
-    /// <summary>
-    /// <see cref="SoulLampPower"/> 在层数变化时调用：对该玩家各牌堆中的 <see cref="QueenCardModel"/> 逐个派发。
-    /// </summary>
-    internal static async Task BroadcastSoulLampAmountChange(Player player, decimal delta, Creature? applier, CardModel? cardSource)
-    {
-        foreach (PileType pileType in PilesForSoulLampBroadcast)
-        {
-            CardPile pile = pileType.GetPile(player);
-            foreach (CardModel card in pile.Cards.ToList())
-            {
-                if (card.Owner != player)
-                {
-                    continue;
-                }
-
-                if (card is QueenCardModel queen)
-                {
-                    await queen.OnSoulLampAmountChange(player, delta, applier, cardSource);
-                }
-            }
-        }
     }
 
     /// <summary>
