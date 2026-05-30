@@ -1,15 +1,28 @@
-[gd_scene load_steps=13 format=3 uid="uid://cavy2ics1exgf"]
+[gd_scene load_steps=18 format=3 uid="uid://cavy2ics1exgf"]
 
+[ext_resource type="Script" uid="uid://ckj0e11fciv6e" path="res://Scripts/Nodes/NQueenRestSiteCharacter.cs" id="1_rest"]
 [ext_resource type="PackedScene" uid="uid://sdok1yfxsmi8" path="res://TheQueen/scenes/ui/selection_reticle.tscn" id="3_6yex7"]
 [ext_resource type="Shader" uid="uid://b3mjsdna22bkv" path="res://TheQueen/shaders/vfx/fire_shader_1.tres" id="3_tdf15"]
-[ext_resource type="Texture2D" uid="uid://fengwprb5t82" path="res://TheQueen/images/charui/queen_rest_site.png" id="4_pgg53"]
+[ext_resource type="Texture2D" uid="uid://b4fsrmiwu7any" path="res://TheQueen/images/charui/queen_rest_site_base.png" id="4_base"]
+[ext_resource type="Texture2D" uid="uid://dux018gsp5hl1" path="res://TheQueen/images/charui/queen_rest_site_light_mask.png" id="4_mask"]
+[ext_resource type="Shader" path="res://TheQueen/shaders/rest_site_light_shader.gdshader" id="4_light_shader"]
+[ext_resource type="Texture2D" path="res://TheQueen/shaders/light_noise_curve.tres" id="4_noise"]
+[ext_resource type="Texture2D" path="res://TheQueen/shaders/light_ramp_gradient.tres" id="4_ramp"]
 [ext_resource type="Texture2D" uid="uid://coh5st6ot143t" path="res://TheQueen/images/vfx/tileable_noise_4.png" id="4_wx8ir"]
 [ext_resource type="Texture2D" uid="uid://dyf81bnux60no" path="res://TheQueen/images/vfx/tileable_noise_1.png" id="5_150fg"]
 [ext_resource type="Texture2D" uid="uid://b3m3d67snv22n" path="res://TheQueen/images/vfx/tileable_noise_2.png" id="6_gqubk"]
 [ext_resource type="Texture2D" uid="uid://jvscsy87jgm3" path="res://TheQueen/images/vfx/fire_shape_1.png" id="7_uxyth"]
 [ext_resource type="Texture2D" uid="uid://c1j4r03q72038" path="res://TheQueen/images/vfx/basic_fire_gradient.png" id="8_0v8d5"]
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_body_light"]
+resource_local_to_scene = true
+shader = ExtResource("4_light_shader")
+shader_parameter/pixel_offset = Vector2(1, 2)
+shader_parameter/noise_texture = ExtResource("4_noise")
+shader_parameter/ramp_texture = ExtResource("4_ramp")
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_rp0ll"]
+resource_local_to_scene = true
 shader = ExtResource("3_tdf15")
 shader_parameter/ColorParameter = Color(0.6479158, 1, 0.57077026, 1)
 shader_parameter/Smooth_Step = Vector2(0.81, 0.89)
@@ -29,6 +42,7 @@ shader_parameter/MaskNoiseTexture = ExtResource("4_wx8ir")
 shader_parameter/Shape_Mask = ExtResource("7_uxyth")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_rai71"]
+resource_local_to_scene = true
 shader = ExtResource("3_tdf15")
 shader_parameter/ColorParameter = Color(0.7921399, 0.9768372, 0.83003885, 1)
 shader_parameter/Smooth_Step = Vector2(0.925, 0.99)
@@ -48,6 +62,7 @@ shader_parameter/MaskNoiseTexture = ExtResource("4_wx8ir")
 shader_parameter/Shape_Mask = ExtResource("7_uxyth")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_pj6p5"]
+resource_local_to_scene = true
 shader = ExtResource("3_tdf15")
 shader_parameter/ColorParameter = Color(0.72156864, 1, 0, 1)
 shader_parameter/Smooth_Step = Vector2(0.81, 0.9)
@@ -67,6 +82,7 @@ shader_parameter/MaskNoiseTexture = ExtResource("4_wx8ir")
 shader_parameter/Shape_Mask = ExtResource("7_uxyth")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_hpb5h"]
+resource_local_to_scene = true
 shader = ExtResource("3_tdf15")
 shader_parameter/ColorParameter = Color(0.7921569, 0.9764706, 0.83137256, 1)
 shader_parameter/Smooth_Step = Vector2(0.84, 0.995)
@@ -88,6 +104,7 @@ shader_parameter/Shape_Mask = ExtResource("7_uxyth")
 [node name="QueenRestSite" type="Node2D"]
 position = Vector2(-31, 33)
 scale = Vector2(1.200006, 1.200006)
+script = ExtResource("1_rest")
 
 [node name="ControlRoot" type="Control" parent="."]
 layout_mode = 3
@@ -136,19 +153,28 @@ offset_right = -194.658
 offset_bottom = -259.69
 metadata/_edit_use_anchors_ = true
 
-[node name="Sprite" type="Sprite2D" parent="ControlRoot"]
+[node name="CharacterVisual" type="Node2D" parent="ControlRoot"]
+unique_name_in_owner = true
 position = Vector2(59.51769, 35.70749)
 rotation = 0.045428555
 scale = Vector2(2.2522073, 2.2522073)
-texture = ExtResource("4_pgg53")
 
-[node name="eyeSlot" type="SpineSlotNode" parent="ControlRoot/Sprite"]
+[node name="Base" type="Sprite2D" parent="ControlRoot/CharacterVisual"]
+texture = ExtResource("4_base")
+
+[node name="BodyFireLight" type="Sprite2D" parent="ControlRoot/CharacterVisual"]
+unique_name_in_owner = true
+self_modulate = Color(0.192157, 1, 0.243137, 0.5)
+material = SubResource("ShaderMaterial_body_light")
+texture = ExtResource("4_mask")
+
+[node name="eyeSlot" type="SpineSlotNode" parent="ControlRoot/CharacterVisual"]
 slot_name = "eye 1"
 position = Vector2(-33.110058, -149.68568)
 rotation = -1.5707964
 scale = Vector2(0.25000006, 0.15000002)
 
-[node name="eye_fire" type="ColorRect" parent="ControlRoot/Sprite/eyeSlot"]
+[node name="eye_fire" type="ColorRect" parent="ControlRoot/CharacterVisual/eyeSlot"]
 material = SubResource("ShaderMaterial_rp0ll")
 offset_left = 266.538
 offset_top = -73.5151
@@ -157,7 +183,7 @@ offset_bottom = 281.485
 rotation = 1.5708
 color = Color(0.1992226, 0.65186286, 0.525357, 1)
 
-[node name="eye_fire_inner_glow" type="ColorRect" parent="ControlRoot/Sprite/eyeSlot"]
+[node name="eye_fire_inner_glow" type="ColorRect" parent="ControlRoot/CharacterVisual/eyeSlot"]
 material = SubResource("ShaderMaterial_rai71")
 offset_left = 266.538
 offset_top = -73.5151
@@ -165,13 +191,13 @@ offset_right = 416.538
 offset_bottom = 281.485
 rotation = 1.5708
 
-[node name="eyeSlot2" type="SpineSlotNode" parent="ControlRoot/Sprite"]
+[node name="eyeSlot2" type="SpineSlotNode" parent="ControlRoot/CharacterVisual"]
 slot_name = "eye 2"
 position = Vector2(-10.87752, -134.45421)
 rotation = -1.5676117
 scale = Vector2(0.25000003, 0.15000004)
 
-[node name="eye_fire" type="ColorRect" parent="ControlRoot/Sprite/eyeSlot2"]
+[node name="eye_fire" type="ColorRect" parent="ControlRoot/CharacterVisual/eyeSlot2"]
 material = SubResource("ShaderMaterial_pj6p5")
 offset_left = 261.237
 offset_top = -70.2332
@@ -179,7 +205,7 @@ offset_right = 411.237
 offset_bottom = 284.767
 rotation = 1.5708
 
-[node name="eye_fire2_inner_glow" type="ColorRect" parent="ControlRoot/Sprite/eyeSlot2"]
+[node name="eye_fire2_inner_glow" type="ColorRect" parent="ControlRoot/CharacterVisual/eyeSlot2"]
 material = SubResource("ShaderMaterial_hpb5h")
 offset_left = 260.1466
 offset_top = -64.914604

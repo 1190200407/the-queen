@@ -64,5 +64,6 @@ internal sealed class QueenModPatches : IModPatches
 		patcher.RegisterPatch<NIntentAmalgamBlockValueLabelPatch>();
 		patcher.RegisterPatch<BigMushroomGrowScalePatch>();
 		patcher.RegisterPatch<SurroundedPowerQueenFacingPatch>();
+		patcher.RegisterPatch<QueenRestSiteHideFlameGlowPatch>();
 	}
 }
