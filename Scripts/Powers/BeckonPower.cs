@@ -29,7 +29,7 @@ public sealed class BeckonPower : QueenPowerModel
 
     public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
     {
-        if (player != base.Owner.Player || base.CombatState is not ICombatState combatState)
+        if (player != base.Owner.Player || base.CombatState is not CombatState combatState)
         {
             return;
         }

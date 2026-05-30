@@ -81,7 +81,7 @@ internal static class BindingOathPatchState
 		BoundCardPlayedThisTurn[owner.NetId] = true;
 	}
 
-	internal static void ResetPerTurnFlags(ICombatState combatState)
+	internal static void ResetPerTurnFlags(CombatState combatState)
 	{
 		foreach (Player p in combatState.Players)
 		{
@@ -107,7 +107,7 @@ internal sealed class BindingOathHookShouldPlayPatch : IPatchMethod
 	];
 
 	public static void Postfix(
-		ICombatState combatState,
+		CombatState combatState,
 		CardModel card,
 		ref AbstractModel? preventer,
 		AutoPlayType autoPlayType,
@@ -129,7 +129,7 @@ internal sealed class BindingOathHookBeforeCardPlayedPatch : IPatchMethod
 		new(typeof(Hook), nameof(Hook.BeforeCardPlayed)),
 	];
 
-	public static async Task Postfix(Task __result, ICombatState combatState, CardPlay cardPlay)
+	public static async Task Postfix(Task __result, CombatState combatState, CardPlay cardPlay)
 	{
 		_ = combatState;
 		await __result;
@@ -148,7 +148,7 @@ internal sealed class BindingOathHookBeforeTurnEndPatch : IPatchMethod
 		new(typeof(Hook), nameof(Hook.BeforeTurnEnd)),
 	];
 
-	public static async Task Postfix(Task __result, ICombatState combatState, CombatSide side)
+	public static async Task Postfix(Task __result, CombatState combatState, CombatSide side)
 	{
 		_ = side;
 		await __result;
@@ -167,7 +167,7 @@ internal sealed class BindingOathHookBeforeCombatStartPatch : IPatchMethod
 		new(typeof(Hook), nameof(Hook.BeforeCombatStart)),
 	];
 
-	public static async Task Postfix(Task __result, IRunState runState, ICombatState? combatState)
+	public static async Task Postfix(Task __result, IRunState runState, CombatState? combatState)
 	{
 		_ = runState;
 		_ = combatState;

@@ -34,7 +34,7 @@ public static class QueenCardCmd
 			return false;
 		}
 
-		ICombatState? cs = card.CombatState ?? card.Owner?.Creature?.CombatState;
+		CombatState? cs = card.CombatState ?? card.Owner?.Creature?.CombatState;
 		if (cs != null && card.Owner?.RunState?.CurrentRoom is CombatRoom)
 		{
 			AfflictionModel? applied = await CardCmd.Afflict<Bound>(card, amount);
@@ -57,7 +57,7 @@ public static class QueenCardCmd
 		return true;
 	}
 
-	public static async Task CreateInHand<T>(Player owner, ICombatState combatState, bool isUpgraded = false) where T : CardModel
+	public static async Task CreateInHand<T>(Player owner, CombatState combatState, bool isUpgraded = false) where T : CardModel
 	{
 		CardModel card = combatState.CreateCard<T>(owner);
 		await CreateInHandInternal(card, isUpgraded, owner);

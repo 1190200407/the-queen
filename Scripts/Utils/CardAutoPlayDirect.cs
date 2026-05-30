@@ -34,13 +34,13 @@ internal static class CardAutoPlayDirect
 		}
 
 		Player? owner = card.Owner;
-		ICombatState? combatStateOrNull = card.CombatState ?? owner?.Creature?.CombatState;
+		CombatState? combatStateOrNull = card.CombatState ?? owner?.Creature?.CombatState;
 		if (owner == null || combatStateOrNull == null)
 		{
 			return;
 		}
 
-		ICombatState combatState = combatStateOrNull;
+		CombatState combatState = combatStateOrNull;
 		if (card.Keywords.Contains(CardKeyword.Unplayable))
 		{
 			await MoveToResultPileWithoutPlayingAsync(choiceContext, card);

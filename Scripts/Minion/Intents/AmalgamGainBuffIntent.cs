@@ -38,7 +38,7 @@ public sealed class AmalgamGainBuffIntent : AbstractIntent
     protected override LocString GetIntentDescription(IEnumerable<Creature> targets, Creature owner)
     {
         LocString d = new("intents", IntentPrefix + ".description");
-        ICombatState? combatState = owner.CombatState;
+        CombatState? combatState = owner.CombatState;
         d.Add("IsMultiplayer", combatState != null && combatState.RunState.Players.Count > 1);
         d.Add("Stacks", _stacks);
         d.Add("BuffName", new LocString("powers", _buffEntryId + ".title"));

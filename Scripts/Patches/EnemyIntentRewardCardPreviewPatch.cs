@@ -44,7 +44,7 @@ internal static class CaptureSingleTargetPreviewEntry
 		}
 
 		Player? owner = card.Owner;
-		ICombatState? combat= card.CombatState;
+		CombatState? combat= card.CombatState;
 		if (owner is null || combat is null)
 		{
 			return;
@@ -179,7 +179,7 @@ internal sealed class EnemyIntentRewardCardPreview_Hook_AfterCombatEnd_Patch : I
 		new(typeof(Hook), nameof(Hook.AfterCombatEnd)),
 	];
 
-	public static async Task Postfix(Task __result, IRunState runState, ICombatState? combatState, CombatRoom room)
+	public static async Task Postfix(Task __result, IRunState runState, CombatState? combatState, CombatRoom room)
 	{
 		_ = runState;
 		_ = combatState;

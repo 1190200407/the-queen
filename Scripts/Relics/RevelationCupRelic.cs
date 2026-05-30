@@ -55,7 +55,7 @@ public sealed class RevelationCupRelic : QueenRelicModel, IAmalgamEventListener
 	}
 
 	public async Task AfterLearnIntent(
-		ICombatState combatState,
+		CombatState combatState,
 		PlayerChoiceContext choiceContext,
 		Player amalgamOwner,
 		Creature amalgam,
@@ -71,7 +71,7 @@ public sealed class RevelationCupRelic : QueenRelicModel, IAmalgamEventListener
 	}
 
 	public async Task AfterCombineIntent(
-		ICombatState combatState,
+		CombatState combatState,
 		PlayerChoiceContext choiceContext,
 		Player amalgamOwner,
 		Creature amalgam,

@@ -38,7 +38,7 @@ public sealed class AmalgamStrengthDownIntentAction : AmalgamActionModel
 
     protected override async Task OnExecute(PlayerChoiceContext choiceContext, Creature amalgam)
     {
-        ICombatState? combatState = amalgam.CombatState;
+        CombatState? combatState = amalgam.CombatState;
         if (combatState == null || amalgam.PetOwner is not Player queen || !queen.Creature.IsAlive || Amount <= 0m)
         {
             return;

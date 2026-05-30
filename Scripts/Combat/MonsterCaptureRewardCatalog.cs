@@ -17,7 +17,7 @@ namespace ComicChess.TheQueen;
 public static class MonsterCaptureRewardCatalog
 {
     /// <summary>当前战斗遭遇的房间类型（普通 / 精英 / 首领等）。</summary>
-    public static RoomType? GetEncounterRoomType(ICombatState? combatState) =>
+    public static RoomType? GetEncounterRoomType(CombatState? combatState) =>
         combatState?.Encounter?.RoomType;
 
     /// <summary>原版 <see cref="MegaCrit.Sts2.Core.Models.Monsters.Flyconid"/> 的 Id。</summary>

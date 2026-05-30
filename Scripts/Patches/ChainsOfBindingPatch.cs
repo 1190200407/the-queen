@@ -27,7 +27,7 @@ internal sealed class ChainsOfBindingHookBeforeCombatStartPatch : IPatchMethod
 		new(typeof(Hook), nameof(Hook.BeforeCombatStart)),
 	];
 
-	public static async Task Postfix(Task __result, IRunState runState, ICombatState? combatState)
+	public static async Task Postfix(Task __result, IRunState runState, CombatState? combatState)
 	{
 		_ = runState;
 		_ = combatState;

@@ -28,7 +28,7 @@ public sealed class AmalgamHeistPower : QueenPowerModel, IAmalgamEventListener
     public override string? CustomIconPath => "res://images/atlases/power_atlas.sprites/heist_power.tres";
     public override string? CustomBigIconPath => "res://images/powers/heist_power.png";
 
-    public Task OnAmalgamEscapeAsync(ICombatState combatState, Creature amalgam)
+    public Task OnAmalgamEscapeAsync(CombatState combatState, Creature amalgam)
     {
         _ = combatState;
         if (amalgam != base.Owner || Amount <= 0m)

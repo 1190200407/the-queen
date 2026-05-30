@@ -15,7 +15,7 @@ using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Keywords;
 namespace ComicChess.TheQueen;
 
-/// <summary>代劳：你失去所有力量，聚合体获得等量力量�?/summary>
+/// <summary>代劳：你失去所有力量，聚合体获得等量力量�?/summary>
 [RegisterCard(typeof(TokenCardPool))]
 public sealed class DelegateLabor : QueenCardModel
 {
@@ -47,7 +47,7 @@ public sealed class DelegateLabor : QueenCardModel
 		_ = choiceContext;
 		_ = cardPlay;
 		Creature self = base.Owner.Creature;
-		ICombatState? cs = self.CombatState;
+		CombatState? cs = self.CombatState;
 		Creature? amalgam = cs != null ? FriendlyAmalgamCmd.GetExisting(cs, base.Owner) : null;
 		if (amalgam is not { IsAlive: true })
 		{

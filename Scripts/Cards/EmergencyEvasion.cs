@@ -39,7 +39,7 @@ public sealed class EmergencyEvasion : QueenCardModel
 	protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
 	{
 		_ = cardPlay;
-		ICombatState? combatState = base.Owner.Creature.CombatState;
+		CombatState? combatState = base.Owner.Creature.CombatState;
 		if (combatState == null)
 		{
 			return;

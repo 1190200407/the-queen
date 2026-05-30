@@ -25,7 +25,7 @@ internal static class EcosphereBottleTargetingPreview
 	{
 		End();
 
-		ICombatState? combat= owner.Creature.CombatState;
+		CombatState? combat= owner.Creature.CombatState;
 		if (combat == null)
 		{
 			return;

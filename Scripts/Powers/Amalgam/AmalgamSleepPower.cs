@@ -49,7 +49,7 @@ public sealed class AmalgamSleepPower : QueenPowerModel, IAmalgamEventListener
         }
     }
 
-    public async Task AfterAmalgamTurnEnd(ICombatState combatState, Creature amalgam)
+    public async Task AfterAmalgamTurnEnd(CombatState combatState, Creature amalgam)
     {
         await PowerCmd.Decrement(this);
     }

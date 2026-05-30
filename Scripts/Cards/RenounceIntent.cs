@@ -43,7 +43,7 @@ public sealed class RenounceIntent : QueenCardModel
     {
         _ = choiceContext;
         _ = cardPlay;
-        ICombatState? combatState = base.Owner.Creature.CombatState;
+        CombatState? combatState = base.Owner.Creature.CombatState;
         if (combatState == null)
         {
             return;

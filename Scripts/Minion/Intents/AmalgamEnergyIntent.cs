@@ -27,7 +27,7 @@ public sealed class AmalgamEnergyIntent : AbstractIntent
     protected override LocString GetIntentDescription(IEnumerable<Creature> targets, Creature owner)
     {
         LocString d = new("intents", "AMALGAM_ENERGY.description");
-        ICombatState? combatState = owner.CombatState;
+        CombatState? combatState = owner.CombatState;
         d.Add("IsMultiplayer", combatState != null && combatState.RunState.Players.Count > 1);
         AmalgamIntentEnergyLoc.AddEnergyPrefixFromPetOwner(d, owner);
         return d;

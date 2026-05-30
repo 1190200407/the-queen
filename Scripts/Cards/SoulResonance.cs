@@ -44,7 +44,7 @@ public sealed class SoulResonance : QueenCardModel
 		_ = cardPlay;
 		await CreatureCmd.TriggerAnim(base.Owner.Creature, "Cast", base.Owner.Character.CastAnimDelay);
 
-		ICombatState? combatState = base.Owner.Creature.CombatState;
+		CombatState? combatState = base.Owner.Creature.CombatState;
 		if (combatState != null)
 		{
 			decimal summonAmount = base.DynamicVars.Summon.BaseValue;

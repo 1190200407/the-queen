@@ -17,15 +17,15 @@ public static class AmalgamFledSummonBlock
         public readonly Dictionary<Player, bool> ByOwner = new();
     }
 
-    private static readonly ConditionalWeakTable<ICombatState, Row> s_rows = new();
+    private static readonly ConditionalWeakTable<CombatState, Row> s_rows = new();
 
-    public static void MarkAmalgamFled(ICombatState combatState, Player amalgamOwner)
+    public static void MarkAmalgamFled(CombatState combatState, Player amalgamOwner)
     {
         Row row = s_rows.GetValue(combatState, _ => new Row());
         row.ByOwner[amalgamOwner] = true;
     }
 
-    public static bool IsSummonBlocked(ICombatState combatState, Player owner) =>
+    public static bool IsSummonBlocked(CombatState combatState, Player owner) =>
         s_rows.TryGetValue(combatState, out Row? row)
         && row.ByOwner.TryGetValue(owner, out bool fled)
         && fled;

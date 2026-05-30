@@ -51,7 +51,7 @@ public sealed class UnfinishedCalamity : QueenCardModel
 	{
 		_ = choiceContext;
 		_ = cardPlay;
-		if (base.CombatState is not ICombatState combatState)
+		if (base.CombatState is not CombatState combatState)
 		{
 			return;
 		}

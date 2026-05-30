@@ -128,7 +128,7 @@ public sealed class SoulLampPower : QueenPowerModel
 			return;
 		}
 
-		ICombatState? combatState = player.Creature.CombatState;
+		CombatState? combatState = player.Creature.CombatState;
 		if (combatState != null)
 		{
 			await SoulLampHook.AfterAmountChanged(combatState, choiceContext, player, amount, applier, cardSource);

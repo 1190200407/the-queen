@@ -31,7 +31,7 @@ public sealed class Marionette : QueenCardModel, ICanMonsterCapture
     private const TargetType targetType = TargetType.AnyEnemy;
     private const bool shouldShowInCardLibrary = true;
 
-    public bool CanCapture(MonsterModel monster, ICombatState combatState) =>
+    public bool CanCapture(MonsterModel monster, CombatState combatState) =>
         monster is not null && combatState is not null;
 
     public Marionette()

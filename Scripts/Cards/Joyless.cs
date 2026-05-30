@@ -51,7 +51,7 @@ public sealed class Joyless : QueenCardModel
             .Execute(choiceContext);
 
         Player? owner = base.Owner;
-        ICombatState? combat = base.CombatState;
+        CombatState? combat = base.CombatState;
         if (owner == null || combat == null || owner.Creature is not { IsAlive: true })
         {
             return;
@@ -86,7 +86,7 @@ public sealed class Joyless : QueenCardModel
 
     private static bool IsValidHandDiscard(
         Player expectedOwner,
-        ICombatState currentCombat,
+        CombatState currentCombat,
         IReadOnlyList<CardModel> hand,
         CardModel? card)
     {
@@ -100,7 +100,7 @@ public sealed class Joyless : QueenCardModel
             return false;
         }
 
-        ICombatState? resolved = card.Owner.Creature.CombatState ?? card.CombatState;
+        CombatState? resolved = card.Owner.Creature.CombatState ?? card.CombatState;
         return resolved != null && ReferenceEquals(resolved, currentCombat);
     }
 }

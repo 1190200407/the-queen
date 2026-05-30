@@ -23,7 +23,7 @@ public sealed class AmalgamPersonalHivePower : QueenPowerModel, IAmalgamEventLis
     public override string? CustomBigIconPath => "res://images/powers/personal_hive_power.png";
     protected override IEnumerable<IHoverTip> AdditionalHoverTips => [..HoverTipFactory.FromEnchantment<Dazed>()];
 
-    public async Task OnAmalgamHitAsync(ICombatState combatState, Creature amalgam, decimal unblockedDamage, ValueProp props, Creature? dealer, CardModel? cardSource)
+    public async Task OnAmalgamHitAsync(CombatState combatState, Creature amalgam, decimal unblockedDamage, ValueProp props, Creature? dealer, CardModel? cardSource)
     {
         if (amalgam != base.Owner || Amount <= 0m)
         {

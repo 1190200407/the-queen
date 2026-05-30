@@ -26,7 +26,7 @@ public sealed class AmalgamRitualPower : QueenPowerModel, IAmalgamEventListener
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips => [HoverTipFactory.FromPower<StrengthPower>()];
 
-    public async Task AfterAmalgamTurnEnd(ICombatState combatState, Creature amalgam)
+    public async Task AfterAmalgamTurnEnd(CombatState combatState, Creature amalgam)
     {
         _ = combatState;
         if (amalgam != base.Owner || !amalgam.IsAlive || Amount <= 0m)

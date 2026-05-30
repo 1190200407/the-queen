@@ -57,7 +57,7 @@ public sealed class AmalgamAttackAndStrengthIntentAction : AmalgamActionModel
 
     private async Task ExecuteOffensePart(PlayerChoiceContext choiceContext, Creature amalgam)
     {
-        ICombatState? combatState = amalgam.CombatState;
+        CombatState? combatState = amalgam.CombatState;
         if (combatState == null || amalgam.PetOwner is not Player queen)
         {
             return;

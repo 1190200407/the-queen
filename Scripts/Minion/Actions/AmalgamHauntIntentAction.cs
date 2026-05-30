@@ -49,7 +49,7 @@ public sealed class AmalgamHauntIntentAction : AmalgamActionModel
     protected override async Task OnExecute(PlayerChoiceContext choiceContext, Creature amalgam)
     {
         _ = choiceContext;
-        ICombatState? combatState = amalgam.CombatState;
+        CombatState? combatState = amalgam.CombatState;
         if (combatState == null || amalgam.PetOwner is not Player queen || !queen.Creature.IsAlive)
         {
             return;

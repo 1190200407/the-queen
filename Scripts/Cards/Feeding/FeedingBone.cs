@@ -20,7 +20,7 @@ using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Keywords;
 namespace ComicChess.TheQueen;
 
-/// <summary>喂食根骨：消�?张牌，聚合体获得力量。消逝、魂缚（<see cref="HasSelfBound"/>）�?/summary>
+/// <summary>喂食根骨：消�?张牌，聚合体获得力量。消逝、魂缚（<see cref="HasSelfBound"/>）�?/summary>
 [RegisterCard(typeof(TokenCardPool))]
 public sealed class FeedingBone : QueenCardModel
 {
@@ -52,7 +52,7 @@ public sealed class FeedingBone : QueenCardModel
 	protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
 	{
 		_ = cardPlay;
-		ICombatState? cs = base.Owner.Creature.CombatState;
+		CombatState? cs = base.Owner.Creature.CombatState;
 		if (cs == null)
 		{
 			return;

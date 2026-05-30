@@ -34,7 +34,7 @@ public sealed class FightForMe : QueenCardModel
     {
         get
         {
-            ICombatState? combatState = base.Owner.Creature.CombatState;
+            CombatState? combatState = base.Owner.Creature.CombatState;
             if (combatState == null)
             {
                 return false;
@@ -66,7 +66,7 @@ public sealed class FightForMe : QueenCardModel
             .WithHitFx("vfx/vfx_attack_blunt")
             .Execute(choiceContext);
 
-        ICombatState? combatState = base.Owner.Creature.CombatState;
+        CombatState? combatState = base.Owner.Creature.CombatState;
         if (combatState == null)
         {
             return;

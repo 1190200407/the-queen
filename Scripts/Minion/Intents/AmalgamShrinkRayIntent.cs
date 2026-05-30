@@ -36,7 +36,7 @@ public sealed class AmalgamShrinkRayIntent : AbstractIntent
     protected override LocString GetIntentDescription(IEnumerable<Creature> targets, Creature owner)
     {
         LocString d = new("intents", "AMALGAM_SHRINK_RAY.description");
-        ICombatState? combatState = owner.CombatState;
+        CombatState? combatState = owner.CombatState;
         d.Add("IsMultiplayer", combatState != null && combatState.RunState.Players.Count > 1);
         d.Add("Stacks", _turns);
         return d;

@@ -13,7 +13,7 @@ namespace ComicChess.TheQueen;
 public interface IAmalgamEventListener
 {
     Task OnAmalgamDamagedCreatureAsync(
-        ICombatState combatState,
+        CombatState combatState,
         PlayerChoiceContext choiceContext,
         Creature amalgam,
         Creature damagedEnemy,
@@ -22,22 +22,22 @@ public interface IAmalgamEventListener
         return Task.CompletedTask;
     }
 
-    Task OnAmalgamActAsync(ICombatState combatState, PlayerChoiceContext choiceContext, Creature amalgam)
+    Task OnAmalgamActAsync(CombatState combatState, PlayerChoiceContext choiceContext, Creature amalgam)
     {
         return Task.CompletedTask;
     }
 
-    Task OnAmalgamWakeFromSleepAsync(ICombatState combatState, Creature amalgam)
+    Task OnAmalgamWakeFromSleepAsync(CombatState combatState, Creature amalgam)
     {
         return Task.CompletedTask;
     }
 
-    Task OnAmalgamFallAsleepAsync(ICombatState combatState, Creature amalgam)
+    Task OnAmalgamFallAsleepAsync(CombatState combatState, Creature amalgam)
     {
         return Task.CompletedTask;
     }
 
-    Task OnAmalgamEscapeAsync(ICombatState combatState, Creature amalgam)
+    Task OnAmalgamEscapeAsync(CombatState combatState, Creature amalgam)
     {
         return Task.CompletedTask;
     }
@@ -46,7 +46,7 @@ public interface IAmalgamEventListener
     /// 聚合体被命中（产生未格挡伤害）时触发。用于“胆小”等需要在被命中瞬间响应的能力。
     /// </summary>
     Task OnAmalgamHitAsync(
-        ICombatState combatState,
+        CombatState combatState,
         Creature amalgam,
         decimal unblockedDamage,
         ValueProp props,
@@ -56,7 +56,7 @@ public interface IAmalgamEventListener
         return Task.CompletedTask;
     }
 
-    Task AfterAmalgamTurnEnd(ICombatState combatState, Creature amalgam)
+    Task AfterAmalgamTurnEnd(CombatState combatState, Creature amalgam)
     {
         return Task.CompletedTask;
     }
@@ -65,7 +65,7 @@ public interface IAmalgamEventListener
     /// 友方聚合体在战斗中完成一次「基准最大生命」写入后（开场壳或召唤/复活 <see cref="CreatureCmd.SetMaxHp"/>），用于叠加跨局加成等。
     /// </summary>
     Task OnAmalgamEnterCombat(
-        ICombatState combatState,
+        CombatState combatState,
         PlayerChoiceContext? choiceContext,
         Player owner,
         Creature amalgam)
@@ -75,7 +75,7 @@ public interface IAmalgamEventListener
 
     /// <summary><see cref="FriendlyAmalgamCmd.LearnIntent"/> 完成写入之后。</summary>
     Task AfterLearnIntent(
-        ICombatState combatState,
+        CombatState combatState,
         PlayerChoiceContext choiceContext,
         Player amalgamOwner,
         Creature amalgam,
@@ -87,7 +87,7 @@ public interface IAmalgamEventListener
 
     /// <summary><see cref="FriendlyAmalgamCmd.CombineIntent"/> 完成写入之后。</summary>
     Task AfterCombineIntent(
-        ICombatState combatState,
+        CombatState combatState,
         PlayerChoiceContext choiceContext,
         Player amalgamOwner,
         Creature amalgam,

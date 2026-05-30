@@ -34,7 +34,7 @@ public sealed class AmalgamCrabRagePower : QueenPowerModel, IAmalgamEventListene
         new BlockVar(30m, ValueProp.Unpowered),
     ];
 
-    public async Task OnAmalgamFallAsleepAsync(ICombatState combatState, Creature amalgam)
+    public async Task OnAmalgamFallAsleepAsync(CombatState combatState, Creature amalgam)
     {
         _ = combatState;
         if (!base.Owner.IsAlive || amalgam.PetOwner != base.Owner.Player || amalgam.Monster is not FriendlyAmalgam)

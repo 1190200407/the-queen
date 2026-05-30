@@ -48,7 +48,7 @@ public sealed class AmalgamMultiHitOffenseAndWeakIntentAction : AmalgamActionMod
 
     protected override async Task OnExecute(PlayerChoiceContext choiceContext, Creature amalgam)
     {
-        ICombatState? combatState = amalgam.CombatState;
+        CombatState? combatState = amalgam.CombatState;
         if (combatState == null || amalgam.PetOwner is not Player queen || !queen.Creature.IsAlive)
         {
             return;

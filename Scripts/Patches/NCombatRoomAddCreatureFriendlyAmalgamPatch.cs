@@ -28,7 +28,7 @@ internal sealed class NCombatRoomAddCreatureFriendlyAmalgamPatch : IPatchMethod
 			return;
 		}
 
-		ICombatState? combatState = owner.Creature.CombatState;
+		CombatState? combatState = owner.Creature.CombatState;
 		if (combatState == null)
 		{
 			return;

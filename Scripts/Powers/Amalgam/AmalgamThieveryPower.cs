@@ -27,7 +27,7 @@ public sealed class AmalgamThieveryPower : QueenPowerModel, IAmalgamEventListene
     public override string? CustomBigIconPath => "res://images/powers/thievery_power.png";
 
     public async Task OnAmalgamDamagedCreatureAsync(
-        ICombatState combatState,
+        CombatState combatState,
         PlayerChoiceContext choiceContext,
         Creature amalgam,
         Creature damagedEnemy,

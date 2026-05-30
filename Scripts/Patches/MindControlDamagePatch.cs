@@ -77,7 +77,7 @@ internal sealed class MindControlHookBeforeAttackPatch : IPatchMethod
 	];
 
 	[HarmonyPriority(Priority.First)]
-	public static void Prefix(ICombatState combatState, AttackCommand command)
+	public static void Prefix(CombatState combatState, AttackCommand command)
 	{
 		_ = combatState;
 		MindControlDamagePatchState.EnterMonsterAttack(command);
@@ -96,7 +96,7 @@ internal sealed class MindControlHookAfterAttackPatch : IPatchMethod
 	];
 
 	[HarmonyPriority(Priority.Last)]
-	public static void Postfix(ICombatState combatState, AttackCommand command)
+	public static void Postfix(CombatState combatState, AttackCommand command)
 	{
 		_ = combatState;
 		MindControlDamagePatchState.ExitMonsterAttack(command);
@@ -144,7 +144,7 @@ internal sealed class MindControlCreatureCmdDamagePatch : IPatchMethod
 			return;
 		}
 
-		ICombatState? combatState = dealer.CombatState ?? list[0].CombatState;
+		CombatState? combatState = dealer.CombatState ?? list[0].CombatState;
 		if (combatState is null)
 		{
 			return;

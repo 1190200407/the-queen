@@ -21,7 +21,7 @@ public sealed class AmalgamImbalancedPower : QueenPowerModel, IAmalgamEventListe
     public override string? CustomBigIconPath => "res://images/powers/imbalanced_power.png";
 
     public async Task OnAmalgamDamagedCreatureAsync(
-        ICombatState combatState,
+        CombatState combatState,
         PlayerChoiceContext choiceContext,
         Creature amalgam,
         Creature damagedEnemy,

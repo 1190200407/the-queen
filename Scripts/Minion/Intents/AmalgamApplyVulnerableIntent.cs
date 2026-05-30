@@ -38,7 +38,7 @@ public sealed class AmalgamApplyVulnerableIntent : AbstractIntent
     {
         string descKey = IntentPrefix + ResolveDescriptionSuffix(owner);
         LocString d = new("intents", descKey);
-        ICombatState? combatState = owner.CombatState;
+        CombatState? combatState = owner.CombatState;
         d.Add("IsMultiplayer", combatState != null && combatState.RunState.Players.Count > 1);
         d.Add("Stacks", _stacks);
         return d;

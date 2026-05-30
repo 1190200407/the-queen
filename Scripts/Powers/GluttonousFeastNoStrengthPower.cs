@@ -51,7 +51,7 @@ public sealed class GluttonousFeastNoStrengthPower : QueenPowerModel
         PlayerChoiceContext choiceContext,
         CombatSide side,
         IReadOnlyList<Creature> participants,
-        ICombatState combatState)
+        CombatState combatState)
     {
         _ = choiceContext;
         _ = participants;

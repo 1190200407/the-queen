@@ -89,7 +89,7 @@ public sealed class MindControlPower : QueenPowerModel
 	private void TryRefreshOwnerMonsterIntent()
 	{
 		Creature? owner = base.Owner;
-		if (owner?.CombatState is not ICombatState combatState || !owner.IsEnemy || owner.Monster == null || !owner.IsAlive)
+		if (owner?.CombatState is not CombatState combatState || !owner.IsEnemy || owner.Monster == null || !owner.IsAlive)
 		{
 			return;
 		}
@@ -105,7 +105,7 @@ public sealed class MindControlPower : QueenPowerModel
 	/// <summary>由 <see cref="MindControlDamagePatch"/> 在 <see cref="CreatureCmd.Damage"/> 前缀中调用。</summary>
 	internal static bool TryApplyRedirectToTargets(
 		List<Creature> targets,
-		ICombatState combatState,
+		CombatState combatState,
 		Creature dealer,
 		ValueProp props,
 		CardModel? cardSource,
@@ -222,7 +222,7 @@ public sealed class MindControlPower : QueenPowerModel
 		TaskHelper.RunSafely(decrementAll);
 	}
 
-	private static Creature ResolveSharedRedirect(ICombatState combatState, Creature dealer, Creature rngSourceApplier)
+	private static Creature ResolveSharedRedirect(CombatState combatState, Creature dealer, Creature rngSourceApplier)
 	{
 		List<Creature> candidates = combatState.HittableEnemies.Where(e => e != dealer && e.IsAlive).ToList();
 		if (candidates.Count == 0)

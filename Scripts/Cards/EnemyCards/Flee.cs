@@ -34,7 +34,7 @@ public sealed class Flee : QueenCardModel
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         _ = cardPlay;
-        ICombatState? combatState = base.Owner?.Creature?.CombatState;
+        CombatState? combatState = base.Owner?.Creature?.CombatState;
         if (combatState is null || base.Owner is null)
         {
             return;
@@ -50,7 +50,7 @@ public sealed class Flee : QueenCardModel
         RemoveFromCombatWithoutEscapeFlag(combatState, amalgam);
     }
 
-    internal static void RemoveFromCombatWithoutEscapeFlag(ICombatState combatState, Creature creature)
+    internal static void RemoveFromCombatWithoutEscapeFlag(CombatState combatState, Creature creature)
     {
         if (creature.IsDead)
         {

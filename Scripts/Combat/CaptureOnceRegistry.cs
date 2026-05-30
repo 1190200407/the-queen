@@ -15,12 +15,12 @@ internal static class CaptureOnceRegistry
         public int GetHashCode(Creature obj) => RuntimeHelpers.GetHashCode(obj);
     }
 
-    private static readonly ConditionalWeakTable<ICombatState, HashSet<Creature>> CapturedByCombat = new();
+    private static readonly ConditionalWeakTable<CombatState, HashSet<Creature>> CapturedByCombat = new();
 
     /// <summary>
     /// 若该 <paramref name="victim"/> 在本场战斗中尚未捕获，则标记为已捕获并返回 true；否则返回 false。
     /// </summary>
-    public static bool TryMarkCaptured(Creature victim, ICombatState cs)
+    public static bool TryMarkCaptured(Creature victim, CombatState cs)
     {
         HashSet<Creature> set = CapturedByCombat.GetValue(cs, static _ => new HashSet<Creature>(RefComparer.Instance));
         return set.Add(victim);

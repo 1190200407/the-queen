@@ -40,7 +40,7 @@ public static class FriendlyAmalgamCmd
     /// 仍在本场 <paramref name="combatState"/> 中的友方聚合体。逃跑等会 <c>RemoveCreature</c> 并清空 <c>Creature.CombatState</c>，
     /// 但原版不会从 <see cref="MegaCrit.Sts2.Core.Entities.Players.PlayerCombatState.Pets"/> 移除，故必须过滤，否则 <see cref="GetExisting"/> 会命中僵尸引用。
     /// </summary>
-    public static Creature? GetExisting(ICombatState combatState, Player owner)
+    public static Creature? GetExisting(CombatState combatState, Player owner)
     {
         return owner.Creature.Pets.FirstOrDefault(c =>
             c.Monster is FriendlyAmalgam && ReferenceEquals(c.CombatState, combatState));
@@ -62,7 +62,7 @@ public static class FriendlyAmalgamCmd
     }
 
     /// <summary>与原版 <see cref="NCombatRoom.AddCreature"/> 里奥斯提分支一致：仅「本地视角下的该玩家」用右上偏移 + sibling 顺序；联机里其他玩家保持 <c>AddCreature</c> 已为随从排好的脚边一行。</summary>
-    private static bool IsLayoutLocalPlayer(Player owner, ICombatState? combatState)
+    private static bool IsLayoutLocalPlayer(Player owner, CombatState? combatState)
     {
         if (LocalContext.IsMe(owner))
         {
@@ -83,7 +83,7 @@ public static class FriendlyAmalgamCmd
     /// 不用 <see cref="NCreature.OstyScaleToSize"/>：随后 <see cref="TryRefreshAmalgamScaleFromMaxHp"/> 的 <see cref="NCreature.ScaleTo"/> 会 Kill 同一 <c>_scaleTween</c>，打断奥斯提位移 tween。
     /// 联机里非本地玩家不调用本逻辑，保留 <c>AddCreature</c> 已为随从算好的脚边一行（<c>Y+10</c>）。
     /// </summary>
-    internal static void ApplyLocalAmalgamSlot(Player owner, Creature pet, ICombatState? combatState)
+    internal static void ApplyLocalAmalgamSlot(Player owner, Creature pet, CombatState? combatState)
     {
         if (!IsLayoutLocalPlayer(owner, combatState))
         {
@@ -107,7 +107,7 @@ public static class FriendlyAmalgamCmd
         p.ToggleIsInteractable(true);
     }
 
-    private static void PlaceAmalgamByQueen(Player owner, Creature pet, ICombatState? combatState) =>
+    private static void PlaceAmalgamByQueen(Player owner, Creature pet, CombatState? combatState) =>
         ApplyLocalAmalgamSlot(owner, pet, combatState);
 
     /// <summary>按 <see cref="Creature.MaxHp"/> 更新聚合体显示缩放（与奥斯提相同 <see cref="Osty.ScaleRange"/> 与 150 参考生命）；用 <see cref="NCreature.ScaleTo"/>，不移动节点位置。体型只增不减（当前血量变小时保持已有显示倍率）。</summary>
@@ -189,7 +189,7 @@ public static class FriendlyAmalgamCmd
 
     public static async Task Summon(PlayerChoiceContext choiceContext, Player owner, decimal amount, AbstractModel? source)
     {
-        ICombatState? combatState = owner.Creature.CombatState;
+        CombatState? combatState = owner.Creature.CombatState;
         if (combatState == null)
         {
             return;
@@ -257,7 +257,7 @@ public static class FriendlyAmalgamCmd
     /// <summary>击倒沉睡回合末：最大生命设为 1，当前生命置为 1。</summary>
     internal static async Task ApplyDeathSleepReviveStatsAsync(Creature creature)
     {
-        ICombatState? cs = creature.CombatState;
+        CombatState? cs = creature.CombatState;
         if (cs == null)
         {
             return;
@@ -302,7 +302,7 @@ public static class FriendlyAmalgamCmd
     /// <summary>战斗开场：仅生成 0 血的聚合体壳并写入固定最大生命，不治疗、不占召唤历史。</summary>
     public static async Task EnsureAmalgamCombatStartShellAsync(PlayerChoiceContext choiceContext, Player owner)
     {
-        ICombatState? combatState = owner.Creature.CombatState;
+        CombatState? combatState = owner.Creature.CombatState;
         if (combatState == null)
         {
             return;
@@ -393,7 +393,7 @@ public static class FriendlyAmalgamCmd
             return;
         }
 
-        ICombatState? combatState = owner.Creature.CombatState;
+        CombatState? combatState = owner.Creature.CombatState;
         if (combatState == null)
         {
             return;
@@ -437,7 +437,7 @@ public static class FriendlyAmalgamCmd
             return;
         }
 
-        ICombatState? combatState = owner.Creature.CombatState;
+        CombatState? combatState = owner.Creature.CombatState;
         if (combatState == null)
         {
             return;
@@ -538,7 +538,7 @@ public static class FriendlyAmalgamCmd
             return;
         }
 
-        ICombatState? combatState = attacker.CombatState;
+        CombatState? combatState = attacker.CombatState;
         if (combatState == null || attacker.PetOwner is not Player queen)
         {
             return;

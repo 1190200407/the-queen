@@ -40,7 +40,7 @@ public sealed class CarefulPick : QueenCardModel
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         Creature target = cardPlay.Target ?? throw new InvalidOperationException("CarefulPick requires a target.");
-        ICombatState? combatState = base.Owner.Creature.CombatState;
+        CombatState? combatState = base.Owner.Creature.CombatState;
         if (combatState == null)
         {
             return;

@@ -26,7 +26,7 @@ public sealed class AmalgamCurlUpPower : QueenPowerModel, IAmalgamEventListener
     public override string? CustomBigIconPath => "res://images/powers/curl_up_power.png";
 
     public async Task OnAmalgamHitAsync(
-        ICombatState combatState,
+        CombatState combatState,
         Creature amalgam,
         decimal unblockedDamage,
         ValueProp props,

@@ -50,7 +50,7 @@ internal sealed class OstyAmalgamSummonCrossRedirectPatch : IPatchMethod
 		AbstractModel? source)
 	{
 		await FriendlyAmalgamCmd.Summon(choiceContext, summoner, amount, source);
-		ICombatState? cs = summoner.Creature.CombatState;
+		CombatState? cs = summoner.Creature.CombatState;
 		Creature? amalgam = cs == null ? null : FriendlyAmalgamCmd.GetExisting(cs, summoner);
 		return new SummonResult(amalgam, amount);
 	}

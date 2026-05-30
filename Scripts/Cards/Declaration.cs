@@ -30,7 +30,7 @@ public sealed class Declaration : QueenCardModel, ICanMonsterCapture
     private const TargetType targetType = TargetType.AnyEnemy;
     private const bool shouldShowInCardLibrary = true;
 
-    public bool CanCapture(MonsterModel monster, ICombatState combatState) =>
+    public bool CanCapture(MonsterModel monster, CombatState combatState) =>
         monster is not null && combatState is not null
         && MonsterCaptureRewardCatalog.GetEncounterRoomType(combatState) switch
         {
@@ -56,7 +56,7 @@ public sealed class Declaration : QueenCardModel, ICanMonsterCapture
         Creature target = cardPlay.Target;
 
 
-        ICombatState? combatState = target.CombatState ?? base.Owner.Creature.CombatState;
+        CombatState? combatState = target.CombatState ?? base.Owner.Creature.CombatState;
         if (target.Monster is not null && combatState is not null && CanCapture(target.Monster, combatState))
         {
             _ = await PowerCmd.Apply<DeclarationCaptureMarkPower>(choiceContext, 

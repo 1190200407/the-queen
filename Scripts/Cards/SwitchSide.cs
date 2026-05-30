@@ -30,7 +30,7 @@ public sealed class SwitchSide : QueenCardModel
         new CalculationExtraVar(1m),
         new CalculatedVar("IsLeft").WithMultiplier((CardModel card, Creature? _) => 
         {
-            ICombatState? combatState = card.Owner.Creature.CombatState;
+            CombatState? combatState = card.Owner.Creature.CombatState;
             if (combatState is null)
             {
                 return -1m;

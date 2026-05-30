@@ -50,7 +50,7 @@ public sealed class YourJoueneyEndsHere : QueenCardModel
         _ = cardPlay;
         await FriendlyAmalgamCmd.Summon(choiceContext, base.Owner, base.DynamicVars.Summon.BaseValue, this);
 
-        ICombatState? combatState = base.Owner.Creature.CombatState;
+        CombatState? combatState = base.Owner.Creature.CombatState;
         Creature? amalgamCreature = combatState != null ? FriendlyAmalgamCmd.GetExisting(combatState, base.Owner) : null;
         if (amalgamCreature is { IsAlive: true, Monster: FriendlyAmalgam amalgam })
         {

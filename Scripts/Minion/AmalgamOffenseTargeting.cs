@@ -21,7 +21,7 @@ public enum AmalgamOffenseTargetingMode
 public static class AmalgamOffenseTargeting
 {
     /// <summary>万灵破军优先于锁定：有能力时始终按全体结算与预览。</summary>
-    public static AmalgamOffenseTargetingMode ResolveMode(ICombatState combatState, Player queen)
+    public static AmalgamOffenseTargetingMode ResolveMode(CombatState combatState, Player queen)
     {
         if (queen.Creature.GetPower<AmalgamArmyBreakPower>() != null)
         {
@@ -36,11 +36,11 @@ public static class AmalgamOffenseTargeting
         return AmalgamOffenseTargetingMode.RandomAliveEnemy;
     }
 
-    public static Creature? FindMarkedEnemy(ICombatState combatState) =>
+    public static Creature? FindMarkedEnemy(CombatState combatState) =>
         combatState.Enemies.FirstOrDefault(e => e.IsAlive && e.GetPower<AmalgamPickLockPower>() != null);
 
     /// <summary>与 <see cref="AmalgamIntentDamagePreview.PreviewOutgoingConsensusAmongReceivers"/> 的候选承伤者一致。</summary>
-    public static Creature[] GetPreviewReceiverPool(ICombatState combatState, Player queen)
+    public static Creature[] GetPreviewReceiverPool(CombatState combatState, Player queen)
     {
         Creature[] alive = combatState.Enemies.Where(e => e.IsAlive).ToArray();
         return ResolveMode(combatState, queen) switch

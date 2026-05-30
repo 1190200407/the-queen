@@ -36,7 +36,7 @@ public sealed class LampDrivePower : QueenPowerModel
             return;
         }
 
-        if (base.CombatState is not ICombatState combatState)
+        if (base.CombatState is not CombatState combatState)
         {
             return;
         }

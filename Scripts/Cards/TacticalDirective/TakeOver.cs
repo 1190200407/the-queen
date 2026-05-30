@@ -15,7 +15,7 @@ using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Keywords;
 namespace ComicChess.TheQueen;
 
-/// <summary>接手：聚合体失去所有力量，你获得等量力量�?/summary>
+/// <summary>接手：聚合体失去所有力量，你获得等量力量�?/summary>
 [RegisterCard(typeof(TokenCardPool))]
 public sealed class TakeOver : QueenCardModel
 {
@@ -47,7 +47,7 @@ public sealed class TakeOver : QueenCardModel
 		_ = choiceContext;
 		_ = cardPlay;
 		Creature self = base.Owner.Creature;
-		ICombatState? cs = self.CombatState;
+		CombatState? cs = self.CombatState;
 		Creature? amalgam = cs != null ? FriendlyAmalgamCmd.GetExisting(cs, base.Owner) : null;
 		if (amalgam is not { IsAlive: true })
 		{

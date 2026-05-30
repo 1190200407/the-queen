@@ -44,7 +44,7 @@ public sealed class AmalgamYourJoueneyEndsHerePendingPower : QueenPowerModel, IA
         base.DynamicVars["StrengthToGain"].BaseValue = strengthToGain;
     }
 
-    public async Task AfterAmalgamTurnEnd(ICombatState combatState, Creature amalgam)
+    public async Task AfterAmalgamTurnEnd(CombatState combatState, Creature amalgam)
     {
         await PowerCmd.Decrement(this);
         if (Amount > 0m)

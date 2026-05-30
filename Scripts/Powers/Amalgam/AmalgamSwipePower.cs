@@ -34,7 +34,7 @@ public sealed class AmalgamSwipePower : QueenPowerModel, IAmalgamEventListener
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips => _stolenCard == null ? [] : [HoverTipFactory.FromCard(_stolenCard)];
 
-    public async Task OnAmalgamEscapeAsync(ICombatState combatState, Creature amalgam)
+    public async Task OnAmalgamEscapeAsync(CombatState combatState, Creature amalgam)
     {
         _ = combatState;
         if (amalgam != base.Owner)

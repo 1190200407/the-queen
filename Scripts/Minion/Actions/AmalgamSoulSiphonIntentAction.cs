@@ -36,7 +36,7 @@ public sealed class AmalgamSoulSiphonIntentAction : AmalgamActionModel
 
     protected override async Task OnExecute(PlayerChoiceContext choiceContext, Creature amalgam)
     {
-        ICombatState? combatState = amalgam.CombatState;
+        CombatState? combatState = amalgam.CombatState;
         if (combatState == null || amalgam.PetOwner is not Player queen || !queen.Creature.IsAlive || _stacks <= 0m)
         {
             return;

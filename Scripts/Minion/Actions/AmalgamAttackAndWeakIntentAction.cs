@@ -54,7 +54,7 @@ public sealed class AmalgamAttackAndWeakIntentAction : AmalgamActionModel
 
     private async Task ExecuteOffensePart(PlayerChoiceContext choiceContext, Creature amalgam)
     {
-        ICombatState? combatState = amalgam.CombatState;
+        CombatState? combatState = amalgam.CombatState;
         if (combatState == null || amalgam.PetOwner is not Player queen)
         {
             return;
@@ -116,7 +116,7 @@ public sealed class AmalgamAttackAndWeakIntentAction : AmalgamActionModel
     private async Task ExecuteWeakPart(PlayerChoiceContext choiceContext, Creature amalgam)
     {
         _ = choiceContext;
-        ICombatState? combatState = amalgam.CombatState;
+        CombatState? combatState = amalgam.CombatState;
         if (combatState == null || amalgam.PetOwner is not Player queen || !queen.Creature.IsAlive)
         {
             return;

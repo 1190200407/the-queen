@@ -22,7 +22,7 @@ public sealed class TerminusFormPower : QueenPowerModel
             return Task.CompletedTask;
         }
 
-        ICombatState? combatState = base.CombatState;
+        CombatState? combatState = base.CombatState;
         Player? player = base.Owner.Player;
         if (combatState == null || player == null)
         {

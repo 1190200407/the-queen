@@ -29,7 +29,7 @@ public sealed class Swipe : QueenCardModel, ICanMonsterCapture
     private const bool shouldShowInCardLibrary = true;
     private const decimal escapeTurns = 3m;
 
-    public bool CanCapture(MonsterModel monster, ICombatState combatState) =>
+    public bool CanCapture(MonsterModel monster, CombatState combatState) =>
         monster is not null && combatState is not null;
 
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];

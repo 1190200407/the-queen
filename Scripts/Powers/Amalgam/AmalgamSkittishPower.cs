@@ -48,7 +48,7 @@ public sealed class AmalgamSkittishPower : QueenPowerModel, IAmalgamEventListene
     }
 
     public async Task OnAmalgamHitAsync(
-        ICombatState combatState,
+        CombatState combatState,
         Creature amalgam,
         decimal unblockedDamage,
         ValueProp props,

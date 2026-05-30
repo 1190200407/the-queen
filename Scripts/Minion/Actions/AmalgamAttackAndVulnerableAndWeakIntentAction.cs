@@ -63,11 +63,11 @@ public sealed class AmalgamAttackAndVulnerableAndWeakIntentAction : AmalgamActio
         }
     }
 
-    private static Creature[] GetAliveEnemies(ICombatState combatState) => combatState.Enemies.Where(e => e.IsAlive).ToArray();
+    private static Creature[] GetAliveEnemies(CombatState combatState) => combatState.Enemies.Where(e => e.IsAlive).ToArray();
 
     private async Task ExecuteOffensePart(PlayerChoiceContext choiceContext, Creature amalgam)
     {
-        ICombatState? combatState = amalgam.CombatState;
+        CombatState? combatState = amalgam.CombatState;
         if (combatState == null || amalgam.PetOwner is not Player queen)
         {
             return;
@@ -128,7 +128,7 @@ public sealed class AmalgamAttackAndVulnerableAndWeakIntentAction : AmalgamActio
 
     private async Task ExecuteVulnerablePart(Creature amalgam)
     {
-        ICombatState? combatState = amalgam.CombatState;
+        CombatState? combatState = amalgam.CombatState;
         if (combatState == null || amalgam.PetOwner is not Player queen || !queen.Creature.IsAlive)
         {
             return;
@@ -177,7 +177,7 @@ public sealed class AmalgamAttackAndVulnerableAndWeakIntentAction : AmalgamActio
 
     private async Task ExecuteWeakPart(Creature amalgam)
     {
-        ICombatState? combatState = amalgam.CombatState;
+        CombatState? combatState = amalgam.CombatState;
         if (combatState == null || amalgam.PetOwner is not Player queen || !queen.Creature.IsAlive)
         {
             return;

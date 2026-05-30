@@ -44,7 +44,7 @@ internal sealed class UnfinishedCalamityPowerPatch : IPatchMethod
 			return;
 		}
 
-		ICombatState? combatState = victim.CombatState;
+		CombatState? combatState = victim.CombatState;
 		if (combatState == null)
 		{
 			return;

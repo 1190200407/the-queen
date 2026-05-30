@@ -39,7 +39,7 @@ public sealed class Disintegration : QueenCardModel, KnowledgeDemon.IChoosable
 
 	public async Task OnChosen()
 	{
-        ICombatState? combatState = base.Owner.Creature.CombatState;
+        CombatState? combatState = base.Owner.Creature.CombatState;
         if (combatState is null)
         {
             return;

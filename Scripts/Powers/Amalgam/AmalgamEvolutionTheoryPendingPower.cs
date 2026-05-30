@@ -30,7 +30,7 @@ public sealed class AmalgamEvolutionTheoryPendingPower : QueenPowerModel
         }
     }
 
-    public override async Task AfterSideTurnStartLate(CombatSide side, IReadOnlyList<Creature> participants, ICombatState combatState)
+    public override async Task AfterSideTurnStartLate(CombatSide side, IReadOnlyList<Creature> participants, CombatState combatState)
     {
         _ = participants;
         _ = combatState;

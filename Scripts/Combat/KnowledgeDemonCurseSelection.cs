@@ -15,7 +15,7 @@ namespace ComicChess.TheQueen;
 /// <summary>知识恶魔诅咒：从 <see cref="Rejuvenate"/> / <see cref="MindClarity"/> / <see cref="Disintegration"/> 三选一并执行。</summary>
 internal static class KnowledgeDemonCurseSelection
 {
-	internal static List<CardModel> CreateCandidateCards(ICombatState combatState, Player player)
+	internal static List<CardModel> CreateCandidateCards(CombatState combatState, Player player)
 	{
 		List<CardModel> cards =
 		[
@@ -28,7 +28,7 @@ internal static class KnowledgeDemonCurseSelection
 	}
 
 	internal static async Task ChooseAndExecuteAsync(
-		ICombatState combatState,
+		CombatState combatState,
 		Player player,
 		PlayerChoiceContext? choiceContext = null)
 	{

@@ -14,7 +14,7 @@ public sealed class DormantRebirthPower : QueenPowerModel, IAmalgamEventListener
 
     public override PowerStackType StackType => PowerStackType.Counter;
 
-    public async Task OnAmalgamWakeFromSleepAsync(ICombatState combatState, Creature amalgam)
+    public async Task OnAmalgamWakeFromSleepAsync(CombatState combatState, Creature amalgam)
     {
         if (base.Owner.Player is not Player queen)
         {
