@@ -399,9 +399,9 @@ public class FriendlyAmalgam : QueenMinionModel
         await ClearTorchSlots();
     }
 
-    public override async Task AfterSideTurnEnd(PlayerChoiceContext choiceContext, CombatSide side, IEnumerable<Creature> participants)
+    public override async Task AfterTurnEnd(PlayerChoiceContext choiceContext, CombatSide side)
     {
-        await base.AfterSideTurnEnd(choiceContext, side, participants);
+        await base.AfterTurnEnd(choiceContext, side);
         if (side != CombatSide.Player)
         {
             return;

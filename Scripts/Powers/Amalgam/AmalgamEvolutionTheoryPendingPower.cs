@@ -30,9 +30,8 @@ public sealed class AmalgamEvolutionTheoryPendingPower : QueenPowerModel
         }
     }
 
-    public override async Task AfterSideTurnStartLate(CombatSide side, IReadOnlyList<Creature> participants, CombatState combatState)
+    public override async Task AfterSideTurnStart(CombatSide side, CombatState combatState)
     {
-        _ = participants;
         _ = combatState;
 
         if (!base.Owner.IsAlive || side != base.Owner.Side || PendingIntents.Count == 0)

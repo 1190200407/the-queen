@@ -50,11 +50,9 @@ public sealed class GluttonousFeastNoStrengthPower : QueenPowerModel
     public override async Task BeforeSideTurnStart(
         PlayerChoiceContext choiceContext,
         CombatSide side,
-        IReadOnlyList<Creature> participants,
         CombatState combatState)
     {
         _ = choiceContext;
-        _ = participants;
         _ = combatState;
 
         if (base.Applier is not { } applier || side != applier.Side)

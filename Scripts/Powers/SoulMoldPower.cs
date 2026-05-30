@@ -76,7 +76,7 @@ public sealed class SoulMoldPower : QueenPowerModel
 		}
 	}
 
-    public override Task BeforeSideTurnEnd(PlayerChoiceContext choiceContext, CombatSide side, IEnumerable<Creature> participants)
+    public override Task BeforeTurnEnd(PlayerChoiceContext choiceContext, CombatSide side)
     {
 		if (side == base.Owner.Side)
 		{

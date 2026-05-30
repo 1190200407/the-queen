@@ -16,7 +16,7 @@ public sealed class AmalgamNextRoundAttackPower : QueenPowerModel
     public override PowerStackType StackType => PowerStackType.Counter;
     public override bool IsInstanced => true;
 
-    public override async Task AfterSideTurnStart(CombatSide side, IReadOnlyList<Creature> participants, CombatState combatState)
+    public override async Task AfterSideTurnStart(CombatSide side, CombatState combatState)
     {
         if (!base.Owner.IsAlive)
         {

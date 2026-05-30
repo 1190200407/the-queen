@@ -42,7 +42,7 @@ public sealed class SkillCostMinusOneThisTurnPower : QueenPowerModel
         return modifiedCost != originalCost;
     }
 
-    public override async Task AfterSideTurnEnd(PlayerChoiceContext choiceContext, CombatSide side, IEnumerable<Creature> participants)
+    public override async Task AfterTurnEnd(PlayerChoiceContext choiceContext, CombatSide side)
     {
         _ = choiceContext;
         if (side == base.Owner.Side)

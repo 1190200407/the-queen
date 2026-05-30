@@ -72,10 +72,9 @@ public sealed class LampDrivePower : QueenPowerModel
         }
     }
 
-    public override async Task AfterSideTurnEnd(PlayerChoiceContext choiceContext, CombatSide side, IEnumerable<Creature> participants)
+    public override async Task AfterTurnEnd(PlayerChoiceContext choiceContext, CombatSide side)
     {
         _ = choiceContext;
-        _ = participants;
         if (side == base.Owner.Side)
         {
             await PowerCmd.Remove(this);

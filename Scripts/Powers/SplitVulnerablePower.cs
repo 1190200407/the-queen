@@ -73,7 +73,7 @@ public sealed class SplitVulnerablePower : ModPowerTemplate
 		return multiplier;
 	}
 
-	public override async Task AfterSideTurnEnd(PlayerChoiceContext choiceContext, CombatSide side, IEnumerable<Creature> participants)
+	public override async Task AfterTurnEnd(PlayerChoiceContext choiceContext, CombatSide side)
 	{
 		if (side == CombatSide.Enemy)
 		{
