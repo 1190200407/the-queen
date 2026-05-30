@@ -51,7 +51,7 @@ public sealed class AmalgamAttackAndStrengthIntentAction : AmalgamActionModel
             && owner.IsAlive)
         {
             await CreatureCmd.TriggerAnim(amalgam, "Buff", AmalgamGainStrengthIntentAction.CastAnimDelay);
-            await PowerCmd.Apply<StrengthPower>(choiceContext, amalgam, _strength, owner, null);
+            await PowerCmd.Apply<StrengthPower>(amalgam, _strength, owner, null);
         }
     }
 

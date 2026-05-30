@@ -59,7 +59,7 @@ public sealed class DelegateLabor : QueenCardModel
 		if (transfer > 0m)
 		{
 			await PowerCmd.Remove<StrengthPower>(self);
-			await PowerCmd.Apply<StrengthPower>(choiceContext, amalgam, transfer, self, this);
+			await PowerCmd.Apply<StrengthPower>(amalgam, transfer, self, this);
 		}
 
 		await CreatureCmd.TriggerAnim(self, "Cast", base.Owner.Character.CastAnimDelay);

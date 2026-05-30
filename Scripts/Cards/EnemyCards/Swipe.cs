@@ -93,7 +93,7 @@ public sealed class Swipe : QueenCardModel, ICanMonsterCapture
         AmalgamSwipePower? swipe = amalgam.GetPower<AmalgamSwipePower>();
         if (swipe == null)
         {
-            await PowerCmd.Apply<AmalgamSwipePower>(choiceContext, amalgam, 1m, base.Owner.Creature, this);
+            await PowerCmd.Apply<AmalgamSwipePower>(amalgam, 1m, base.Owner.Creature, this);
             swipe = amalgam.GetPower<AmalgamSwipePower>();
         }
 
@@ -106,6 +106,6 @@ public sealed class Swipe : QueenCardModel, ICanMonsterCapture
             }
         }
 
-        await PowerCmd.Apply<AmalgamEscapePower>(choiceContext, amalgam, escapeTurns, base.Owner.Creature, this);
+        await PowerCmd.Apply<AmalgamEscapePower>(amalgam, escapeTurns, base.Owner.Creature, this);
     }
 }

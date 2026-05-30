@@ -38,7 +38,7 @@ public sealed class Vanguard : QueenCardModel
     {
         _ = choiceContext;
         _ = cardPlay;
-        await PowerCmd.Apply<VanguardPower>(choiceContext, base.Owner.Creature, 1m, base.Owner.Creature, this);
+        await PowerCmd.Apply<VanguardPower>(base.Owner.Creature, 1m, base.Owner.Creature, this);
         await CreatureCmd.TriggerAnim(base.Owner.Creature, "Cast", base.Owner.Character.CastAnimDelay);
     }
 

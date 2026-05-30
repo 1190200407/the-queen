@@ -56,7 +56,7 @@ public sealed class PredatoryAssimilation : QueenCardModel, ICanMonsterCapture
 			return;
 		}
 
-		PredatoryAssimilationPower? predatoryAssimilation = await PowerCmd.Apply<PredatoryAssimilationPower>(choiceContext, base.Owner.Creature, 1m, base.Owner.Creature, this);
+		PredatoryAssimilationPower? predatoryAssimilation = await PowerCmd.Apply<PredatoryAssimilationPower>(base.Owner.Creature, 1m, base.Owner.Creature, this);
 		if (predatoryAssimilation is not null)
 		{
 			predatoryAssimilation.ConfigureIsUpgraded(base.IsUpgraded);

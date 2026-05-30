@@ -39,7 +39,7 @@ public sealed class LocalMaterials : QueenCardModel
         _ = choiceContext;
         _ = cardPlay;
         int threshold = (int)base.DynamicVars["GenerateThreshold"].BaseValue;
-        LocalMaterialsPower? power = await PowerCmd.Apply<LocalMaterialsPower>(choiceContext, base.Owner.Creature, threshold, base.Owner.Creature, this);
+        LocalMaterialsPower? power = await PowerCmd.Apply<LocalMaterialsPower>(base.Owner.Creature, threshold, base.Owner.Creature, this);
         if (power != null)
         {
             power.ConfigureThresholdAsync(threshold, base.Owner.Creature, null);

@@ -70,7 +70,7 @@ public static class QueenCardCmd
 			CardCmd.Upgrade(card);
 		}
 
-		await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Hand, creator);
+		await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Hand, addedByPlayer: true);
 	}
 
 	public static async Task AddSoulLamp(PlayerChoiceContext choiceContext, Player owner, int amount = 1)
@@ -85,17 +85,17 @@ public static class QueenCardCmd
 		SoulLampPower? existing = owner.Creature.GetPower<SoulLampPower>();
 		if (existing == null)
 		{
-			await PowerCmd.Apply<SoulLampPower>(choiceContext, owner.Creature, amount, owner.Creature, null, silent);
+			await PowerCmd.Apply<SoulLampPower>(owner.Creature, amount, owner.Creature, null, silent);
 		}
 		else if (existing.Amount <= 0)
 		{
 			// SoulLampPower uses -1 as the hidden "display 0" sentinel.
 			// When gaining Soul Lamp from this state, jump directly to gained amount.
-			await PowerCmd.ModifyAmount(choiceContext, existing, amount - existing.Amount, owner.Creature, null, silent);
+			await PowerCmd.ModifyAmount(existing, amount - existing.Amount, owner.Creature, null, silent);
 		}
 		else
 		{
-			await PowerCmd.ModifyAmount(choiceContext, existing, amount, owner.Creature, null, silent);
+			await PowerCmd.ModifyAmount(existing, amount, owner.Creature, null, silent);
 		}
 
 		if (LocalContext.IsMe(owner))
@@ -164,13 +164,13 @@ public static class QueenCardCmd
 		switch (kind)
 		{
 			case QueenTriadDebuffKind.Poison:
-				await PowerCmd.Apply<PoisonPower>(choiceContext, target, amount, applier, cardSource);
+				await PowerCmd.Apply<PoisonPower>(target, amount, applier, cardSource);
 				break;
 			case QueenTriadDebuffKind.Doom:
-				await PowerCmd.Apply<DoomPower>(choiceContext, target, amount, applier, cardSource);
+				await PowerCmd.Apply<DoomPower>(target, amount, applier, cardSource);
 				break;
 			default:
-				await PowerCmd.Apply<DemisePower>(choiceContext, target, amount, applier, cardSource);
+				await PowerCmd.Apply<DemisePower>(target, amount, applier, cardSource);
 				break;
 		}
 	}

@@ -373,12 +373,12 @@ public static class FriendlyAmalgamCmd
         // 顺序固定：先 DieForYou。0 血壳上第二段 Apply 依赖 AmalgamDieForYouPower.ShouldAllowHitting 在「尚无渴血」时对尸体短暂放行（见该处注释）。
         if (minion.GetPower<AmalgamDieForYouPower>() == null)
         {
-            await PowerCmd.Apply<AmalgamDieForYouPower>(new ThrowingPlayerChoiceContext(), minion, 1m, null, null);
+            await PowerCmd.Apply<AmalgamDieForYouPower>(minion, 1m, null, null);
         }
 
         if (minion.GetPower<AmalgamEvolutionaryThirstPower>() == null)
         {
-            await PowerCmd.Apply<AmalgamEvolutionaryThirstPower>(new ThrowingPlayerChoiceContext(), minion, 1m, null, null);
+            await PowerCmd.Apply<AmalgamEvolutionaryThirstPower>(minion, 1m, null, null);
         }
     }
 

@@ -65,15 +65,15 @@ public sealed class VitalSpark : QueenCardModel
             }
         }
 
-        await PowerCmd.Apply<VitalSparkPower>(choiceContext, base.Owner.Creature, vitalSparkStacks, base.Owner.Creature, this);
+        await PowerCmd.Apply<VitalSparkPower>(base.Owner.Creature, vitalSparkStacks, base.Owner.Creature, this);
         QueenContagionPower? contagionPower = base.Owner.Creature.GetPower<QueenContagionPower>();
         if (contagionPower is not null)
         {
-            await PowerCmd.ModifyAmount(choiceContext, contagionPower, contagionPower.Amount, base.Owner.Creature, this);
+            await PowerCmd.ModifyAmount(contagionPower, contagionPower.Amount, base.Owner.Creature, this);
         }
         else
         {
-            await PowerCmd.Apply<QueenContagionPower>(choiceContext, base.Owner.Creature, 2m, base.Owner.Creature, this);
+            await PowerCmd.Apply<QueenContagionPower>(base.Owner.Creature, 2m, base.Owner.Creature, this);
         }
     }
 }

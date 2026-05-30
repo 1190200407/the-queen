@@ -42,6 +42,6 @@ public sealed class AmalgamImbalancedPower : QueenPowerModel, IAmalgamEventListe
         }
 
         Flash();
-        await PowerCmd.Apply<AmalgamSleepPower>(choiceContext, base.Owner, 1m, base.Owner, null);
+        await PowerCmd.Apply<AmalgamSleepPower>(base.Owner, 1m, base.Owner, null);
     }
 }

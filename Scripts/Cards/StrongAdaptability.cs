@@ -34,7 +34,7 @@ public sealed class StrongAdaptability : QueenCardModel
 
 	protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
 	{
-		await PowerCmd.Apply<StrongAdaptabilityPower>(choiceContext, base.Owner.Creature, 1m, base.Owner.Creature, this);
+		await PowerCmd.Apply<StrongAdaptabilityPower>(base.Owner.Creature, 1m, base.Owner.Creature, this);
 		await CreatureCmd.TriggerAnim(base.Owner.Creature, "Cast", base.Owner.Character.CastAnimDelay);
 	}
 

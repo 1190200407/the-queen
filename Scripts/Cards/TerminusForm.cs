@@ -43,6 +43,6 @@ public sealed class TerminusForm : QueenCardModel
         await CreatureCmd.TriggerAnim(base.Owner.Creature, "Cast", base.Owner.Character.CastAnimDelay);
         await FriendlyAmalgamCmd.Summon(choiceContext, base.Owner, base.DynamicVars.Summon.BaseValue, this);
         decimal terminusStacks = IsUpgraded ? 2m : 1m;
-        await PowerCmd.Apply<TerminusFormPower>(choiceContext, base.Owner.Creature, terminusStacks, base.Owner.Creature, this);
+        await PowerCmd.Apply<TerminusFormPower>(base.Owner.Creature, terminusStacks, base.Owner.Creature, this);
     }
 }

@@ -58,7 +58,7 @@ public sealed class LocalMaterialsPower : QueenPowerModel
         if (data.cardGeneratedCount >= data.triggerCount)
         {
             Flash();
-            await QueenCardCmd.AddSoulLamp(new ThrowingPlayerChoiceContext(), creator, 1);
+            await QueenCardCmd.AddSoulLamp(new ThrowingPlayerChoiceContext(), card.Owner!, 1);
             data.cardGeneratedCount = 0;
         }
         InvokeDisplayAmountChanged();

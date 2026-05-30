@@ -49,8 +49,8 @@ public sealed class Smoggy : LearnIntentCardModel
             execute: async (PlayerChoiceContext _, Creature amalgam, Creature owner) =>
             {
                 await CreatureCmd.TriggerAnim(amalgam, "Cast", AmalgamSpecialIntentAction.CastAnimDelay);
-                await PowerCmd.Apply<SmoggyPower>(choiceContext, owner, 1m, applier: amalgam, cardSource: null);
-                await PowerCmd.Apply<BurstPower>(choiceContext, owner, 2m, applier: amalgam, cardSource: null);
+                await PowerCmd.Apply<SmoggyPower>(owner, 1m, applier: amalgam, cardSource: null);
+                await PowerCmd.Apply<BurstPower>(owner, 2m, applier: amalgam, cardSource: null);
             });
 
         return Task.FromResult<IReadOnlyList<AmalgamActionModel?>>([intent]);

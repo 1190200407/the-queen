@@ -76,7 +76,7 @@ public sealed class LiquifyGround : LearnIntentCardModel
         decimal sandpitToGain = base.DynamicVars.Power<AmalgamSandpitPower>().BaseValue;
         if (base.Owner.Creature.GetPower<AmalgamSandpitPower>() == null)
         {
-            await PowerCmd.Apply<AmalgamSandpitPower>(choiceContext, base.Owner.Creature, sandpitToGain, base.Owner.Creature, this);
+            await PowerCmd.Apply<AmalgamSandpitPower>(base.Owner.Creature, sandpitToGain, base.Owner.Creature, this);
         }
         await FriendlyAmalgamCmd.Summon(choiceContext, base.Owner, summon, this);
 

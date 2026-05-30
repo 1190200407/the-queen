@@ -87,7 +87,7 @@ public sealed class TimeTrick : QueenCardModel
 		}
 		else
 		{
-			pending = await PowerCmd.Apply<TimeTrickReturnPendingPower>(choiceContext, owner.Creature, 1m, owner.Creature, this);
+			pending = await PowerCmd.Apply<TimeTrickReturnPendingPower>(owner.Creature, 1m, owner.Creature, this);
 			pending?.CardsToReturn.AddRange(toMark);
 		}
 	}

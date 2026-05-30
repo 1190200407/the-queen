@@ -43,7 +43,7 @@ public sealed class GazeNextTurnStrengthLossPower : QueenPowerModel
 			return;
 		}
 
-		await PowerCmd.Apply<GazeEnemyStrengthPower>(choiceContext, base.Owner, base.Amount, applier, null);
+		await PowerCmd.Apply<GazeEnemyStrengthPower>(base.Owner, base.Amount, applier, null);
 		await PowerCmd.Remove(this);
 	}
 }

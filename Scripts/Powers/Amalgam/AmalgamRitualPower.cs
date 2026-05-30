@@ -35,9 +35,7 @@ public sealed class AmalgamRitualPower : QueenPowerModel, IAmalgamEventListener
         }
 
         Flash();
-        await PowerCmd.Apply<StrengthPower>(
-            new ThrowingPlayerChoiceContext(),
-            base.Owner,
+        await PowerCmd.Apply<StrengthPower>(base.Owner,
             base.Amount,
             base.Owner,
             null);

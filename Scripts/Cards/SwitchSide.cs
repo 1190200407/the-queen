@@ -74,18 +74,18 @@ public sealed class SwitchSide : QueenCardModel
             if (enemy.GetPower<BackAttackQueenPower>() is { } queenBackAttack)
             {
                 await PowerCmd.Remove(queenBackAttack);
-                await PowerCmd.Apply<BackAttackAmalgamPower>(choiceContext, enemy, 1m, applier, this);
+                await PowerCmd.Apply<BackAttackAmalgamPower>(enemy, 1m, applier, this);
                 continue;
             }
             if (enemy.GetPower<BackAttackAmalgamPower>() is { } amalgamBackAttack)
             {
                 await PowerCmd.Remove(amalgamBackAttack);
-                await PowerCmd.Apply<BackAttackQueenPower>(choiceContext, enemy, 1m, applier, this);
+                await PowerCmd.Apply<BackAttackQueenPower>(enemy, 1m, applier, this);
                 continue;
             }
 
             // 没有任何后方攻击时：默认设为“受你造成的伤害 +50%”。
-            await PowerCmd.Apply<BackAttackQueenPower>(choiceContext, enemy, 1m, applier, this);
+            await PowerCmd.Apply<BackAttackQueenPower>(enemy, 1m, applier, this);
         }
     }
 }

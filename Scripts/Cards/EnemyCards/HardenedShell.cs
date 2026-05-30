@@ -62,7 +62,7 @@ public sealed class HardenedShell : QueenCardModel
             decimal amount = base.DynamicVars.Power<AmalgamHardenedShellPower>().BaseValue;
             if (amount > 0m)
             {
-                await PowerCmd.Apply<AmalgamHardenedShellPower>(choiceContext, amalgam, amount, base.Owner.Creature, this);
+                await PowerCmd.Apply<AmalgamHardenedShellPower>(amalgam, amount, base.Owner.Creature, this);
             }
         }
     }

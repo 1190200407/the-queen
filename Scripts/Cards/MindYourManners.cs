@@ -74,6 +74,6 @@ public sealed class MindYourManners : QueenCardModel
 
 		decimal amount = power.Amount;
 		await PowerCmd.Remove(power);
-		await PowerCmd.Apply<T>(choiceContext, to, amount, from, this);
+		await PowerCmd.Apply<T>(to, amount, from, this);
 	}
 }

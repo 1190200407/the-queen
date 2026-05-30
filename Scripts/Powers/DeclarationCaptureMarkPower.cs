@@ -57,8 +57,7 @@ public sealed class DeclarationCaptureMarkPower : QueenPowerModel
 		if (reward is { } rewardCard)
 		{
 			combatRoom.AddExtraReward(capturer, new SpecialCardReward(rewardCard, capturer));
-			CaptureSuccessPower? applied = await PowerCmd.Apply<CaptureSuccessPower>(choiceContext, 
-				capturer.Creature,
+			CaptureSuccessPower? applied = await PowerCmd.Apply<CaptureSuccessPower>(capturer.Creature,
 				1m,
 				capturer.Creature,
 				null);

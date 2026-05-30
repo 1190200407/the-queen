@@ -69,9 +69,7 @@ public sealed class EvolutionTheory : QueenCardModel
         AmalgamEvolutionTheoryPendingPower? pending = amalgamCreature.GetPower<AmalgamEvolutionTheoryPendingPower>();
         if (pending == null)
         {
-            pending = await PowerCmd.Apply<AmalgamEvolutionTheoryPendingPower>(
-                choiceContext,
-                amalgamCreature,
+            pending = await PowerCmd.Apply<AmalgamEvolutionTheoryPendingPower>(amalgamCreature,
                 1m,
                 base.Owner.Creature,
                 this);

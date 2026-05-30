@@ -48,11 +48,10 @@ public sealed class EmergencyEvasion : QueenCardModel
 		Creature? amalgamCreature = FriendlyAmalgamCmd.GetExisting(combatState, base.Owner);
 		if (amalgamCreature?.Monster is FriendlyAmalgam)
 		{
-			await PowerCmd.Apply<AmalgamSleepPower>(choiceContext, amalgamCreature, 1m, base.Owner.Creature, this);
+			await PowerCmd.Apply<AmalgamSleepPower>(amalgamCreature, 1m, base.Owner.Creature, this);
 		}
 
-		await PowerCmd.Apply<NextTurnAmalgamSummonPendingPower>(choiceContext,
-			base.Owner.Creature,
+		await PowerCmd.Apply<NextTurnAmalgamSummonPendingPower>(base.Owner.Creature,
 			base.DynamicVars.Summon.BaseValue,
 			base.Owner.Creature,
 			this);

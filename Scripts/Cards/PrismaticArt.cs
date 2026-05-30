@@ -26,7 +26,7 @@ public sealed class PrismaticArt : QueenCardModel
 
 	protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
 	{
-		await PowerCmd.Apply<PrismaticArtPower>(choiceContext, base.Owner.Creature, 1m, base.Owner.Creature, this);
+		await PowerCmd.Apply<PrismaticArtPower>(base.Owner.Creature, 1m, base.Owner.Creature, this);
 		await CreatureCmd.TriggerAnim(base.Owner.Creature, "Cast", base.Owner.Character.CastAnimDelay);
 	}
 

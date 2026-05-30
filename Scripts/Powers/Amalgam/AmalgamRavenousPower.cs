@@ -75,8 +75,8 @@ public sealed class AmalgamRavenousPower : QueenPowerModel
         FriendlyAmalgam? amalgamModel = base.Owner.Monster as FriendlyAmalgam;
         if (amalgamModel != null)
         {
-            await PowerCmd.Apply<AmalgamSleepPower>(choiceContext, base.Owner, 1m, applier: base.Owner.PetOwner?.Creature, cardSource: null);
-            await PowerCmd.Apply<StrengthPower>(choiceContext, base.Owner, Amount, base.Owner, null);
+            await PowerCmd.Apply<AmalgamSleepPower>(base.Owner, 1m, applier: base.Owner.PetOwner?.Creature, cardSource: null);
+            await PowerCmd.Apply<StrengthPower>(base.Owner, Amount, base.Owner, null);
         }
     }
 }

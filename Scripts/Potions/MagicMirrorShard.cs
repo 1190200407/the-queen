@@ -59,7 +59,7 @@ public sealed class MagicMirrorShard : QueenPotionModel
 		MagicMirrorShardPendingPower? pending = owner.Creature.GetPower<MagicMirrorShardPendingPower>();
 		if (pending == null)
 		{
-			pending = await PowerCmd.Apply<MagicMirrorShardPendingPower>(choiceContext, owner.Creature, 1m, owner.Creature, null);
+			pending = await PowerCmd.Apply<MagicMirrorShardPendingPower>(owner.Creature, 1m, owner.Creature, null);
 		}
 
 		pending?.EnqueueSnapshot(snapshot, picked.Title);

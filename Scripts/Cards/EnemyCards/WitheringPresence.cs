@@ -45,9 +45,7 @@ public sealed class WitheringPresence : QueenCardModel
 		_ = cardPlay;
 		await FriendlyAmalgamCmd.Summon(choiceContext, base.Owner, base.DynamicVars.Summon.BaseValue, this);
 
-		QueenWitheringPresencePower? power = await PowerCmd.Apply<QueenWitheringPresencePower>(
-			choiceContext,
-			base.Owner.Creature,
+		QueenWitheringPresencePower? power = await PowerCmd.Apply<QueenWitheringPresencePower>(base.Owner.Creature,
 			1m,
 			base.Owner.Creature,
 			this);

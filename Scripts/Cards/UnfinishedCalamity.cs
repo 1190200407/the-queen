@@ -65,7 +65,7 @@ public sealed class UnfinishedCalamity : QueenCardModel
 				continue;
 			}
 
-			await PowerCmd.Apply<UnfinishedCalamityPower>(choiceContext, enemy, base.DynamicVars[TriadStacksOnTriggerKey].BaseValue, applier, this);
+			await PowerCmd.Apply<UnfinishedCalamityPower>(enemy, base.DynamicVars[TriadStacksOnTriggerKey].BaseValue, applier, this);
 		}
 
 		await CreatureCmd.TriggerAnim(applier, "Cast", player.Character.CastAnimDelay);

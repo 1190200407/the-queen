@@ -179,11 +179,11 @@ public sealed class SoulLampPower : QueenPowerModel
 				// 从 1 -> -1（offset -2）并保持在状态栏显示 0。
 				if (base.Amount == 1)
 				{
-					await PowerCmd.ModifyAmount(ctx, this, -2m, null, null, silent);
+					await PowerCmd.ModifyAmount(this, -2m, null, null, silent);
 				}
 				else
 				{
-					await PowerCmd.ModifyAmount(ctx, this, -1m, null, null, silent);
+					await PowerCmd.ModifyAmount(this, -1m, null, null, silent);
 				}
 			}
 		}

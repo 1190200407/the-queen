@@ -137,7 +137,7 @@ public sealed class AmalgamAttackAndWeakIntentAction : AmalgamActionModel
         {
             foreach (Creature enemy in alive)
             {
-                await PowerCmd.Apply<WeakPower>(choiceContext, enemy, _weak, applier, null);
+                await PowerCmd.Apply<WeakPower>(enemy, _weak, applier, null);
             }
 
             return;
@@ -148,7 +148,7 @@ public sealed class AmalgamAttackAndWeakIntentAction : AmalgamActionModel
             Creature? marked = AmalgamOffenseTargeting.FindMarkedEnemy(combatState);
             if (marked is { IsAlive: true })
             {
-                await PowerCmd.Apply<WeakPower>(choiceContext, marked, _weak, applier, null);
+                await PowerCmd.Apply<WeakPower>(marked, _weak, applier, null);
             }
 
             return;
@@ -160,7 +160,7 @@ public sealed class AmalgamAttackAndWeakIntentAction : AmalgamActionModel
             return;
         }
 
-        await PowerCmd.Apply<WeakPower>(choiceContext, randomEnemy, _weak, applier, null);
+        await PowerCmd.Apply<WeakPower>(randomEnemy, _weak, applier, null);
     }
 }
 

@@ -55,12 +55,11 @@ public sealed class YourJoueneyEndsHere : QueenCardModel
         if (amalgamCreature is { IsAlive: true, Monster: FriendlyAmalgam amalgam })
         {
             const decimal sleepTurns = 2m;
-            await PowerCmd.Apply<AmalgamSleepPower>(choiceContext, amalgamCreature, sleepTurns, base.Owner.Creature, this);
+            await PowerCmd.Apply<AmalgamSleepPower>(amalgamCreature, sleepTurns, base.Owner.Creature, this);
             LocString line = MonsterModel.L10NMonsterLookup("FRIENDLY_AMALGAM.YOUR_JOURNEY_ENDS_HERE.speakLine1");
             ThinkCmd.Play(line, amalgamCreature);
 
-            AmalgamYourJoueneyEndsHerePendingPower? pending = await PowerCmd.Apply<AmalgamYourJoueneyEndsHerePendingPower>(choiceContext, 
-                amalgamCreature,
+            AmalgamYourJoueneyEndsHerePendingPower? pending = await PowerCmd.Apply<AmalgamYourJoueneyEndsHerePendingPower>(amalgamCreature,
                 sleepTurns,
                 base.Owner.Creature,
                 this);

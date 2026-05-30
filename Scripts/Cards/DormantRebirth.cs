@@ -40,7 +40,7 @@ public sealed class DormantRebirth : QueenCardModel
         _ = choiceContext;
         _ = cardPlay;
         await CreatureCmd.TriggerAnim(base.Owner.Creature, "Cast", base.Owner.Character.CastAnimDelay);
-        await PowerCmd.Apply<DormantRebirthPower>(choiceContext, base.Owner.Creature, base.DynamicVars.Summon.BaseValue, base.Owner.Creature, this);
+        await PowerCmd.Apply<DormantRebirthPower>(base.Owner.Creature, base.DynamicVars.Summon.BaseValue, base.Owner.Creature, this);
     }
 
     protected override void OnUpgrade()

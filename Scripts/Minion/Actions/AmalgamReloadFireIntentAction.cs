@@ -53,7 +53,7 @@ public sealed class AmalgamReloadFireIntentAction : AmalgamActionModel
 
         if (_damage > 0m)
         {
-            await PowerCmd.Apply<AmalgamNextRoundAttackPower>(choiceContext, amalgam, _damage, applier: queen, cardSource: null, silent: true);
+            await PowerCmd.Apply<AmalgamNextRoundAttackPower>(amalgam, _damage, applier: queen, cardSource: null, silent: true);
         }
     }
 }

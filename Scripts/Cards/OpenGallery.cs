@@ -55,7 +55,7 @@ public sealed class OpenGallery : QueenCardModel
 				CardCmd.Upgrade(ticket);
 			}
 
-			await CardPileCmd.AddGeneratedCardToCombat(ticket, PileType.Hand, base.Owner);
+			await CardPileCmd.AddGeneratedCardToCombat(ticket, PileType.Hand, addedByPlayer: true);
 		}
 	}
 }

@@ -82,6 +82,6 @@ public sealed class AmalgamSkittishPower : QueenPowerModel, IAmalgamEventListene
 
         data.triggeredThisTurn = true;
         Flash();
-        await PowerCmd.Apply<BlockNextTurnPower>(new ThrowingPlayerChoiceContext(), queen, Amount, base.Owner, null);
+        await PowerCmd.Apply<BlockNextTurnPower>(queen, Amount, base.Owner, null);
     }
 }

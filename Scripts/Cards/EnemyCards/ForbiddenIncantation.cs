@@ -77,7 +77,7 @@ public sealed class ForbiddenIncantation : QueenCardModel
             VfxCmd.PlayOnCreatureCenter(amalgam, "vfx/vfx_scream");
             TalkCmd.Play(_forbiddenIncantationDialogue, amalgam, VfxColor.Blue, VfxDuration.Long);
 
-            await PowerCmd.Apply<AmalgamRitualPower>(choiceContext, amalgam, ritual, base.Owner.Creature, this);
+            await PowerCmd.Apply<AmalgamRitualPower>(amalgam, ritual, base.Owner.Creature, this);
         }
     }
 }

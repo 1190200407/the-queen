@@ -18,5 +18,5 @@ internal static class QueenDamageResults
 		results?.Any(static r => r.WasTargetKilled) ?? false;
 
 	public static int CountTargetKilled(AttackCommand attackCommand) =>
-		attackCommand.Results.Sum(static batch => batch.Count(static r => r.WasTargetKilled));
+		attackCommand.Results.Count(static r => r.WasTargetKilled);
 }

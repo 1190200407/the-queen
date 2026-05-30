@@ -79,11 +79,11 @@ public sealed class YouAreMine : QueenCardModel
 
 			if (base.Owner.RunState.Rng.CombatCardSelection.NextItem(new List<int> { 0, 1 }) == 0)
 			{
-				await PowerCmd.Apply<VulnerablePower>(choiceContext, target, 1m, base.Owner.Creature, this);
+				await PowerCmd.Apply<VulnerablePower>(target, 1m, base.Owner.Creature, this);
 			}
 			else
 			{
-				await PowerCmd.Apply<WeakPower>(choiceContext, target, 1m, base.Owner.Creature, this);
+				await PowerCmd.Apply<WeakPower>(target, 1m, base.Owner.Creature, this);
 			}
 		}
 	}

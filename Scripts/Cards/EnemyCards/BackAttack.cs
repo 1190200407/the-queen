@@ -68,7 +68,7 @@ public sealed class BackAttack : QueenCardModel
             {
                 continue;
             }
-            await PowerCmd.Apply<BackAttackQueenPower>(choiceContext, enemy, 1m, applier, this);
+            await PowerCmd.Apply<BackAttackQueenPower>(enemy, 1m, applier, this);
         }
     }
 }

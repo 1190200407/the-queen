@@ -68,9 +68,9 @@ public sealed class AmalgamHauntIntentAction : AmalgamActionModel
 
         async Task ApplyAll(Creature target)
         {
-            await PowerCmd.Apply<WeakPower>(choiceContext, target, _weak, applier, null);
-            await PowerCmd.Apply<VulnerablePower>(choiceContext, target, _vulnerable, applier, null);
-            await PowerCmd.Apply<AmalgamIntentStrengthDownPower>(choiceContext, target, _strengthLoss, applier, null);
+            await PowerCmd.Apply<WeakPower>(target, _weak, applier, null);
+            await PowerCmd.Apply<VulnerablePower>(target, _vulnerable, applier, null);
+            await PowerCmd.Apply<AmalgamIntentStrengthDownPower>(target, _strengthLoss, applier, null);
         }
 
         if (_forcedTarget is { IsAlive: true } forcedTarget && alive.Contains(forcedTarget))

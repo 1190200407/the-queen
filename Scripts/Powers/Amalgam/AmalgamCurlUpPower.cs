@@ -53,7 +53,7 @@ public sealed class AmalgamCurlUpPower : QueenPowerModel, IAmalgamEventListener
         }
 
         Flash();
-        await PowerCmd.Apply<BlockNextTurnPower>(new ThrowingPlayerChoiceContext(), queen, Amount, base.Owner, null);
+        await PowerCmd.Apply<BlockNextTurnPower>(queen, Amount, base.Owner, null);
         await PowerCmd.Remove(this);
     }
 }

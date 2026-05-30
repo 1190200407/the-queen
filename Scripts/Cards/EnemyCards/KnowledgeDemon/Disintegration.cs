@@ -46,7 +46,7 @@ public sealed class Disintegration : QueenCardModel, KnowledgeDemon.IChoosable
         }
         foreach (Creature enemy in combatState.Enemies)
         {
-            await PowerCmd.Apply<DisintegrationPower>(new ThrowingPlayerChoiceContext(), enemy, base.DynamicVars["DisintegrationPower"].BaseValue, base.Owner.Creature, this);
+            await PowerCmd.Apply<DisintegrationPower>(enemy, base.DynamicVars["DisintegrationPower"].BaseValue, base.Owner.Creature, this);
         }
 	}
 }

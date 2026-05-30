@@ -36,7 +36,7 @@ public sealed class BeckonPower : QueenPowerModel
 
         CardModel beckon = combatState.CreateCard<MegaCrit.Sts2.Core.Models.Cards.Beckon>(player);
         Flash();
-        await CardPileCmd.AddGeneratedCardToCombat(beckon, PileType.Hand, player);
+        await CardPileCmd.AddGeneratedCardToCombat(beckon, PileType.Hand, addedByPlayer: true);
     }
 
     public override async Task AfterTurnEnd(PlayerChoiceContext choiceContext, CombatSide side)
@@ -54,6 +54,6 @@ public sealed class BeckonPower : QueenPowerModel
         }
 
         Flash();
-        await PowerCmd.Apply<IntangiblePower>(new ThrowingPlayerChoiceContext(), base.Owner, 1m, base.Owner, null);
+        await PowerCmd.Apply<IntangiblePower>(base.Owner, 1m, base.Owner, null);
     }
 }

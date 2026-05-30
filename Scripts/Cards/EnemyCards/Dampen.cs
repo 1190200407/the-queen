@@ -40,7 +40,7 @@ public sealed class Dampen : QueenCardModel
     {
         _ = choiceContext;
         _ = cardPlay;
-        await PowerCmd.Apply<AmalgamDampenPower>(choiceContext, base.Owner.Creature, stacks, base.Owner.Creature, this);
+        await PowerCmd.Apply<AmalgamDampenPower>(base.Owner.Creature, stacks, base.Owner.Creature, this);
         await CreatureCmd.TriggerAnim(base.Owner.Creature, "Cast", base.Owner.Character.CastAnimDelay);
     }
 }

@@ -43,6 +43,6 @@ public sealed class Territorial : QueenCardModel
     {
         _ = cardPlay;
         await FriendlyAmalgamCmd.Summon(choiceContext, base.Owner, base.DynamicVars.Summon.BaseValue, this);
-        await PowerCmd.Apply<AmalgamTerritorialAwarenessPower>(choiceContext, base.Owner.Creature, 1m, base.Owner.Creature, this);
+        await PowerCmd.Apply<AmalgamTerritorialAwarenessPower>(base.Owner.Creature, 1m, base.Owner.Creature, this);
     }
 }

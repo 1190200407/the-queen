@@ -81,7 +81,7 @@ internal static class MysticChantStrengthenVfx
 		PileType targetPileType = strengthenedCard.Pile?.Type ?? pileType;
 		Vector2 targetPosition = targetPileType.GetTargetPosition(previewNode);
 		string trailPath = strengthenedCard.Owner.Character.TrailPath ?? string.Empty;
-		NCardFlyVfx? fly = NCardFlyVfx.Create(previewNode, PileType.None, isAddingToPile: false, trailPath);
+		NCardFlyVfx? fly = NCardFlyVfx.Create(previewNode, targetPosition, isAddingToPile: false, trailPath);
 		if (fly != null && flyParent != null)
 		{
 			// 与 CardCmd.Preview 的飞回演出一致，但不阻塞出牌逻辑：飞行动画在后台播完即可。

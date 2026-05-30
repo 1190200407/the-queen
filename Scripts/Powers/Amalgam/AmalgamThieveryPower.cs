@@ -60,11 +60,11 @@ public sealed class AmalgamThieveryPower : QueenPowerModel, IAmalgamEventListene
         AmalgamHeistPower? heist = amalgam.GetPower<AmalgamHeistPower>();
         if (heist is null)
         {
-            await PowerCmd.Apply<AmalgamHeistPower>(choiceContext, amalgam, stolen, applier, cardSource: null);
+            await PowerCmd.Apply<AmalgamHeistPower>(amalgam, stolen, applier, cardSource: null);
         }
         else
         {
-            await PowerCmd.ModifyAmount(choiceContext, heist, stolen, applier, cardSource: null);
+            await PowerCmd.ModifyAmount(heist, stolen, applier, cardSource: null);
         }
     }
 }

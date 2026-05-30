@@ -59,7 +59,7 @@ public sealed class CurlUp : LearnIntentCardModel
             decimal amount = base.DynamicVars.Power<AmalgamCurlUpPower>().BaseValue;
             if (amount > 0m)
             {
-                await PowerCmd.Apply<AmalgamCurlUpPower>(choiceContext, amalgam, amount, base.Owner.Creature, this);
+                await PowerCmd.Apply<AmalgamCurlUpPower>(amalgam, amount, base.Owner.Creature, this);
             }
         }
 

@@ -58,7 +58,7 @@ public sealed class SoulResonance : QueenCardModel
 				await FriendlyAmalgamCmd.Summon(choiceContext, player, summonAmount, this);
 			}
 		}
-		await PowerCmd.Apply<SoulResonancePower>(choiceContext, base.Owner.Creature, 1m, base.Owner.Creature, this);
+		await PowerCmd.Apply<SoulResonancePower>(base.Owner.Creature, 1m, base.Owner.Creature, this);
 	}
 
 	protected override void OnUpgrade()

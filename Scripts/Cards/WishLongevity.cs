@@ -44,9 +44,7 @@ public sealed class WishLongevity : QueenCardModel
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         _ = cardPlay;
-        await PowerCmd.Apply<PlatingPower>(
-            choiceContext,
-            base.Owner.Creature,
+        await PowerCmd.Apply<PlatingPower>(base.Owner.Creature,
             base.DynamicVars.Power<PlatingPower>().BaseValue,
             base.Owner.Creature,
             this);

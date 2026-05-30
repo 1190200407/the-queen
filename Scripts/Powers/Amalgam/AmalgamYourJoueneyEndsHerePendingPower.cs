@@ -59,7 +59,7 @@ public sealed class AmalgamYourJoueneyEndsHerePendingPower : QueenPowerModel, IA
             if (amalgamCreature is { IsAlive: true } && data.StrengthToGain > 0m)
             {
                 Flash();
-                await PowerCmd.Apply<StrengthPower>(new ThrowingPlayerChoiceContext(), amalgamCreature, data.StrengthToGain, base.Owner, null);
+                await PowerCmd.Apply<StrengthPower>(amalgamCreature, data.StrengthToGain, base.Owner, null);
                 
                 LocString line = MonsterModel.L10NMonsterLookup("FRIENDLY_AMALGAM.YOUR_JOURNEY_ENDS_HERE.speakLine2");
                 ThinkCmd.Play(line, amalgamCreature);

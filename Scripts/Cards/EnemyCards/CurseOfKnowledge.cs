@@ -54,6 +54,6 @@ public sealed class CurseOfKnowledge : QueenCardModel
 
         await CreatureCmd.TriggerAnim(base.Owner.Creature, "Cast", base.Owner.Character.CastAnimDelay);
         await FriendlyAmalgamCmd.Summon(choiceContext, base.Owner, base.DynamicVars.Summon.BaseValue, this);
-        await PowerCmd.Apply<KnowledgeDemonPower>(choiceContext, base.Owner.Creature, 1m, base.Owner.Creature, this);
+        await PowerCmd.Apply<KnowledgeDemonPower>(base.Owner.Creature, 1m, base.Owner.Creature, this);
     }
 }

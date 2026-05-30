@@ -53,11 +53,11 @@ public sealed class AmalgamSoulSiphonIntentAction : AmalgamActionModel
         // 永久减力量：直接施加负数 Strength。
         foreach (Creature enemy in alive)
         {
-            await PowerCmd.Apply<StrengthPower>(choiceContext, enemy, -_stacks, queen.Creature, null);
+            await PowerCmd.Apply<StrengthPower>(enemy, -_stacks, queen.Creature, null);
         }
 
-        await PowerCmd.Apply<StrengthPower>(choiceContext, queen.Creature, _stacks, queen.Creature, null);
-        await PowerCmd.Apply<DexterityPower>(choiceContext, queen.Creature, _stacks, queen.Creature, null);
+        await PowerCmd.Apply<StrengthPower>(queen.Creature, _stacks, queen.Creature, null);
+        await PowerCmd.Apply<DexterityPower>(queen.Creature, _stacks, queen.Creature, null);
     }
 }
 

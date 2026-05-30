@@ -58,7 +58,7 @@ public sealed class WillfulPower : QueenPowerModel
 		foreach (CardModel item in forCombat)
 		{
 			item.SetToFreeThisCombat();
-			await CardPileCmd.AddGeneratedCardToCombat(item, PileType.Hand, player);
+			await CardPileCmd.AddGeneratedCardToCombat(item, PileType.Hand, addedByPlayer: true);
 			if (_grantUpgradedGeneratedCard && item.IsUpgradable && !item.IsUpgraded)
 			{
 				CardCmd.Upgrade(item, CardPreviewStyle.None);

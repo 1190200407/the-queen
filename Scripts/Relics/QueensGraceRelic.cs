@@ -20,7 +20,7 @@ public sealed class QueensGraceRelic : QueenRelicModel
 
 	public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
 	{
-		if (player != base.Owner || player.PlayerCombatState.TurnNumber != 1)
+		if (player != base.Owner || player.Creature.CombatState?.RoundNumber != 1)
 		{
 			return;
 		}

@@ -51,7 +51,7 @@ public sealed class AmalgamShrinkRayIntentAction : AmalgamActionModel
         }
 
         await CreatureCmd.TriggerAnim(amalgam, "Cast", CastAnimDelay);
-        await PowerCmd.Apply<ShrinkPower>(choiceContext, targets, Amount, queen.Creature, null);
+        await PowerCmd.Apply<ShrinkPower>(targets, Amount, queen.Creature, null);
     }
 }
 

@@ -75,8 +75,7 @@ public sealed class FeedingBone : QueenCardModel
 		Creature? amalgam = FriendlyAmalgamCmd.GetExisting(cs, base.Owner);
 		if (amalgam is { IsAlive: true })
 		{
-			await PowerCmd.Apply<StrengthPower>(choiceContext, 
-				amalgam,
+			await PowerCmd.Apply<StrengthPower>(amalgam,
 				base.DynamicVars.Strength.BaseValue,
 				base.Owner.Creature,
 				this);

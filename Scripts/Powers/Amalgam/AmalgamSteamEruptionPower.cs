@@ -29,9 +29,7 @@ public sealed class AmalgamSteamEruptionPower : QueenPowerModel, IAmalgamEventLi
 
         const decimal gainPerAct = 3m;
         Flash();
-        await PowerCmd.Apply<AmalgamSteamEruptionPower>(
-            choiceContext,
-            amalgam,
+        await PowerCmd.Apply<AmalgamSteamEruptionPower>(amalgam,
             gainPerAct,
             applier: amalgam.PetOwner?.Creature,
             cardSource: null,

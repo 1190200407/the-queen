@@ -68,7 +68,7 @@ public sealed class BeastCry : LearnIntentCardModel
                     }
                 }
 
-                await PowerCmd.Apply<AmalgamSleepPower>(choiceContext, amalgam, 2m, applier: owner, cardSource: null);
+                await PowerCmd.Apply<AmalgamSleepPower>(amalgam, 2m, applier: owner, cardSource: null);
                 await Cmd.Wait(0.75f);
             });
 

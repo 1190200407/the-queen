@@ -60,7 +60,7 @@ public sealed class SteamEruption : QueenCardModel
             decimal amount = base.DynamicVars.Power<AmalgamSteamEruptionPower>().BaseValue;
             if (amount > 0m)
             {
-                await PowerCmd.Apply<AmalgamSteamEruptionPower>(choiceContext, amalgam, amount, base.Owner.Creature, this);
+                await PowerCmd.Apply<AmalgamSteamEruptionPower>(amalgam, amount, base.Owner.Creature, this);
             }
         }
     }

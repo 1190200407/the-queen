@@ -62,7 +62,7 @@ public sealed class Shriek : QueenCardModel
             return;
         }
 
-        await PowerCmd.Apply<AmalgamShriekPower>(choiceContext, amalgam, threshold, applier: base.Owner.Creature, cardSource: this);
+        await PowerCmd.Apply<AmalgamShriekPower>(amalgam, threshold, applier: base.Owner.Creature, cardSource: this);
     }
 }
 

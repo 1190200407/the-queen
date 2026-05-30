@@ -43,9 +43,7 @@ public sealed class AmalgamCrabRagePower : QueenPowerModel, IAmalgamEventListene
         }
 
         Flash();
-        await PowerCmd.Apply<StrengthPower>(
-            new ThrowingPlayerChoiceContext(),
-            base.Owner,
+        await PowerCmd.Apply<StrengthPower>(base.Owner,
             base.DynamicVars.Strength.IntValue,
             base.Owner,
             null);

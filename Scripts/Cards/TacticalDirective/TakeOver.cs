@@ -59,7 +59,7 @@ public sealed class TakeOver : QueenCardModel
 		if (transfer > 0m)
 		{
 			await PowerCmd.Remove<StrengthPower>(amalgam);
-			await PowerCmd.Apply<StrengthPower>(choiceContext, self, transfer, self, this);
+			await PowerCmd.Apply<StrengthPower>(self, transfer, self, this);
 		}
 
 		await CreatureCmd.TriggerAnim(self, "Cast", base.Owner.Character.CastAnimDelay);

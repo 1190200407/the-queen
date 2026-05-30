@@ -68,10 +68,6 @@ public sealed class AmalgamHardenedShellPower : QueenPowerModel
     public override async Task AfterModifyingHpLostAfterOsty()
     {
         Flash();
-        if (GetInternalData<Data>().Remaining <= 0m)
-		{
-			base.Owner.HpDisplay = HpDisplay.InfiniteWithNumbers;
-		}
         await Task.CompletedTask;
     }
 
@@ -86,7 +82,6 @@ public sealed class AmalgamHardenedShellPower : QueenPowerModel
         Data data = GetInternalData<Data>();
         data.Remaining = Amount;
         data.InitializedThisTurn = true;
-		base.Owner.HpDisplay = HpDisplay.Normal;
         InvokeDisplayAmountChanged();
         await Task.CompletedTask;
     }

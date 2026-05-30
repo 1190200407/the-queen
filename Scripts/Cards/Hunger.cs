@@ -41,7 +41,7 @@ public sealed class Hunger : QueenCardModel
 		}
 
 		await QueenCardCmd.CreateInHand<Devour>(base.Owner, base.CombatState, isUpgraded: base.IsUpgraded);
-		await PowerCmd.Apply<QueenHungerPower>(choiceContext, base.Owner.Creature, 1m, base.Owner.Creature, this);
+		await PowerCmd.Apply<QueenHungerPower>(base.Owner.Creature, 1m, base.Owner.Creature, this);
 		await CreatureCmd.TriggerAnim(base.Owner.Creature, "Cast", base.Owner.Character.CastAnimDelay);
 	}
 }

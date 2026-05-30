@@ -60,7 +60,7 @@ public sealed class MagicTime : QueenCardModel
 			await CardCmd.Afflict<Bound>(card, 1m);
 		}
 
-		await PowerCmd.Apply<MagicTimePower>(choiceContext, base.Owner.Creature, 1m, base.Owner.Creature, this);
+		await PowerCmd.Apply<MagicTimePower>(base.Owner.Creature, 1m, base.Owner.Creature, this);
 		await CreatureCmd.TriggerAnim(base.Owner.Creature, "Cast", base.Owner.Character.CastAnimDelay);
 	}
 

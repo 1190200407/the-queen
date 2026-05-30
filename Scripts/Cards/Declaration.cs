@@ -59,16 +59,14 @@ public sealed class Declaration : QueenCardModel, ICanMonsterCapture
         CombatState? combatState = target.CombatState ?? base.Owner.Creature.CombatState;
         if (target.Monster is not null && combatState is not null && CanCapture(target.Monster, combatState))
         {
-            _ = await PowerCmd.Apply<DeclarationCaptureMarkPower>(choiceContext, 
-                target,
+            _ = await PowerCmd.Apply<DeclarationCaptureMarkPower>(target,
                 2m,
                 base.Owner.Creature,
                 this);
         }
         else
         {
-            _ = await PowerCmd.Apply<DeclarationCaptureMarkNoPower>(choiceContext, 
-                target,
+            _ = await PowerCmd.Apply<DeclarationCaptureMarkNoPower>(target,
                 2m,
                 base.Owner.Creature,
                 this);

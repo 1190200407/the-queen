@@ -64,7 +64,7 @@ public sealed class AmalgamSuckPower : QueenPowerModel, IAmalgamEventListener
         }
 
         Flash();
-        await PowerCmd.Apply<StrengthPower>(choiceContext, amalgam, Amount * hitCount, amalgam, null);
+        await PowerCmd.Apply<StrengthPower>(amalgam, Amount * hitCount, amalgam, null);
     }
 
     public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)

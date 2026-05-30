@@ -49,8 +49,8 @@ public sealed class DeathElixir : QueenPotionModel
 		Creature enemy = target!;
 		NCombatRoom.Instance?.PlaySplashVfx(enemy, SplashTint);
 		Creature applier = base.Owner.Creature;
-		await PowerCmd.Apply<PoisonPower>(choiceContext, enemy, 3m, applier, null);
-		await PowerCmd.Apply<DoomPower>(choiceContext, enemy, 3m, applier, null);
-		await PowerCmd.Apply<DemisePower>(choiceContext, enemy, 3m, applier, null);
+		await PowerCmd.Apply<PoisonPower>(enemy, 3m, applier, null);
+		await PowerCmd.Apply<DoomPower>(enemy, 3m, applier, null);
+		await PowerCmd.Apply<DemisePower>(enemy, 3m, applier, null);
 	}
 }

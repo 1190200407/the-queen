@@ -51,7 +51,7 @@ public sealed class Cataclysm : QueenCardModel
 		}
 
 		decimal triggerCount = base.IsUpgraded ? 2m : 1m;
-		await PowerCmd.Apply<CataclysmPower>(choiceContext, target, triggerCount, applier, this);
+		await PowerCmd.Apply<CataclysmPower>(target, triggerCount, applier, this);
 		await CreatureCmd.TriggerAnim(applier, "Cast", base.Owner.Character.CastAnimDelay);
 	}
 }

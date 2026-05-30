@@ -7,6 +7,8 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
+using MegaCrit.Sts2.Core.Nodes.Combat;
+using MegaCrit.Sts2.Core.Nodes.Rooms;
 using MegaCrit.Sts2.Core.ValueProps;
 
 namespace ComicChess.TheQueen;
@@ -52,18 +54,21 @@ public sealed class AmalgamShriekPower : QueenPowerModel
 		SfxCmd.Play("event:/sfx/enemy/enemy_attacks/terror_eel/terror_eel_debuff");
 		await CreatureCmd.TriggerAnim(base.Owner, "Cast", 0f);
 		await Cmd.Wait(0.3f);
-		VfxCmd.PlayVfx(base.Owner.GetCreatureNode().VfxSpawnPosition, "vfx/vfx_scream", base.Owner.GetVfxContainer());
+		if (NCombatRoom.Instance?.GetCreatureNode(base.Owner) is { } creatureNode)
+		{
+			VfxCmd.PlayVfx(creatureNode.VfxSpawnPosition, "vfx/vfx_scream");
+		}
 		await Cmd.CustomScaledWait(0.1f, 0.3f);
         foreach (var enemy in base.Owner.CombatState.Enemies)
         {
             if (enemy.IsAlive)
             {
-                await PowerCmd.Apply<VulnerablePower>(choiceContext, enemy, _vulnerableStacks, base.Owner, null);
+                await PowerCmd.Apply<VulnerablePower>(enemy, _vulnerableStacks, base.Owner, null);
             }
         }
         await Cmd.Wait(0.5f);
         
-        await PowerCmd.Apply<AmalgamSleepPower>(choiceContext, base.Owner, 1m, applier: base.Owner, cardSource: null);
+        await PowerCmd.Apply<AmalgamSleepPower>(base.Owner, 1m, applier: base.Owner, cardSource: null);
         await PowerCmd.Remove(this);
     }
 

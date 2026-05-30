@@ -41,7 +41,7 @@ public sealed class PathOfPain : QueenCardModel
 		_ = choiceContext;
 		_ = cardPlay;
 		Player player = base.Owner;
-		await PowerCmd.Apply<PathOfPainPower>(choiceContext, player.Creature, 1m, player.Creature, this);
+		await PowerCmd.Apply<PathOfPainPower>(player.Creature, 1m, player.Creature, this);
 		await CreatureCmd.TriggerAnim(player.Creature, "Cast", player.Character.CastAnimDelay);
 	}
 

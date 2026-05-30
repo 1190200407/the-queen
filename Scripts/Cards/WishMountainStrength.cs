@@ -44,9 +44,7 @@ public sealed class WishMountainStrength : QueenCardModel
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         _ = cardPlay;
-        await PowerCmd.Apply<StrengthPower>(
-            choiceContext,
-            base.Owner.Creature,
+        await PowerCmd.Apply<StrengthPower>(base.Owner.Creature,
             base.DynamicVars.Strength.BaseValue,
             base.Owner.Creature,
             this);

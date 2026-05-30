@@ -48,8 +48,8 @@ public sealed class Gaze : QueenCardModel
 			return;
 		}
 
-		await PowerCmd.Apply<GazeEnemyStrengthPower>(choiceContext, target, strengthLoss, applier, this);
-		await PowerCmd.Apply<GazeNextTurnStrengthLossPower>(choiceContext, target, strengthLoss, applier, this);
+		await PowerCmd.Apply<GazeEnemyStrengthPower>(target, strengthLoss, applier, this);
+		await PowerCmd.Apply<GazeNextTurnStrengthLossPower>(target, strengthLoss, applier, this);
 	}
 
 	protected override void OnUpgrade()

@@ -52,7 +52,7 @@ public sealed class GluttonousFeast : QueenCardModel
         }
 
         await QueenCardCmd.AddSoulLamp(choiceContext, base.Owner, soulLampGain);
-        await PowerCmd.Apply<GluttonousFeastNoStrengthPower>(choiceContext, target, 1m, applier, this);
+        await PowerCmd.Apply<GluttonousFeastNoStrengthPower>(target, 1m, applier, this);
     }
 
     protected override void OnUpgrade()

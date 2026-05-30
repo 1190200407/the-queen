@@ -31,7 +31,7 @@ public sealed class Raid : QueenCardModel
     {
         _ = choiceContext;
         _ = cardPlay;
-        RaidPower? power = await PowerCmd.Apply<RaidPower>(choiceContext, base.Owner.Creature, 1m, base.Owner.Creature, this);
+        RaidPower? power = await PowerCmd.Apply<RaidPower>(base.Owner.Creature, 1m, base.Owner.Creature, this);
         if (power != null && base.IsUpgraded)
         {
             power.GeneratesUpgradedTackle = true;

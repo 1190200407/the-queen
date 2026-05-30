@@ -34,9 +34,9 @@ public class CaptureSuccessPower : QueenPowerModel
     {
         CaptureSuccessPower? applied = MonsterCaptureRewardCatalog.GetEncounterRoomType(owner.Creature.CombatState) switch
         {
-            RoomType.Boss => await PowerCmd.Apply<CaptureSuccessBossPower>(new ThrowingPlayerChoiceContext(), owner.Creature, 1m, owner.Creature, captureSourceCard),
-            RoomType.Elite => await PowerCmd.Apply<CaptureSuccessElitePower>(new ThrowingPlayerChoiceContext(), owner.Creature, 1m, owner.Creature, captureSourceCard),
-            _ => await PowerCmd.Apply<CaptureSuccessPower>(new ThrowingPlayerChoiceContext(), owner.Creature, 1m, owner.Creature, captureSourceCard),
+            RoomType.Boss => await PowerCmd.Apply<CaptureSuccessBossPower>(owner.Creature, 1m, owner.Creature, captureSourceCard),
+            RoomType.Elite => await PowerCmd.Apply<CaptureSuccessElitePower>(owner.Creature, 1m, owner.Creature, captureSourceCard),
+            _ => await PowerCmd.Apply<CaptureSuccessPower>(owner.Creature, 1m, owner.Creature, captureSourceCard),
         };
         if (applied is not null)
         {

@@ -68,7 +68,7 @@ public sealed class Incantation : QueenCardModel
 		        SfxCmd.Play("event:/sfx/enemy/enemy_attacks/cultists/cultists_buff_damp");
                 await CreatureCmd.TriggerAnim(amalgam, "Cast", 0.45f);
                 TalkCmd.Play(_cawCawDialogue, amalgam, VfxColor.Swamp, VfxDuration.Long);
-                await PowerCmd.Apply<AmalgamRitualPower>(choiceContext, amalgam, ritual, base.Owner.Creature, this);
+                await PowerCmd.Apply<AmalgamRitualPower>(amalgam, ritual, base.Owner.Creature, this);
             }
         }
     }

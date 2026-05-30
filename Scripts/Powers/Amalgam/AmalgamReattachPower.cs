@@ -37,7 +37,7 @@ public sealed class AmalgamReattachPower : QueenPowerModel
         {
             return;
         }
-        await PowerCmd.Apply<NextTurnAmalgamSummonPendingPower>(new ThrowingPlayerChoiceContext(), queen, halfMaxHp, queen, null);
+        await PowerCmd.Apply<NextTurnAmalgamSummonPendingPower>(queen, halfMaxHp, queen, null);
     }
 }
 
