@@ -6,6 +6,7 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 
@@ -22,9 +23,9 @@ public sealed class UnfinishedCalamityPower : QueenPowerModel
 
 	public override PowerStackType StackType => PowerStackType.Counter;
 
-	public override bool IsInstanced => true;
+	public override PowerInstanceType InstanceType => PowerInstanceType.Instanced;
 
-	internal static async Task TryApplyAfterEnemyDebuffRemoved(CombatState combatState, Creature victim, PowerModel removedPower)
+	internal static async Task TryApplyAfterEnemyDebuffRemoved(ICombatState combatState, Creature victim, PowerModel removedPower)
 	{
 		if (removedPower is UnfinishedCalamityPower)
 		{
@@ -57,7 +58,7 @@ public sealed class UnfinishedCalamityPower : QueenPowerModel
 			}
 
 			calamity.Flash();
-			await QueenCardCmd.ApplyRandomTriadDebuff(player, victim, dealer, null, calamity.Amount);
+			await QueenCardCmd.ApplyRandomTriadDebuff(new ThrowingPlayerChoiceContext(), player, victim, dealer, null, calamity.Amount);
 		}
 	}
 }

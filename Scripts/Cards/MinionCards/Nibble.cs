@@ -13,6 +13,8 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 using STS2RitsuLib.Interop.AutoRegistration;
 
+using STS2RitsuLib.Keywords;
+
 namespace ComicChess.TheQueen;
 
 [RegisterCard(typeof(TokenCardPool))]
@@ -28,18 +30,18 @@ public sealed class Nibble : QueenCardModel
 
     public override int MaxUpgradeLevel => 0;
 
-    protected override IEnumerable<string> RegisteredKeywordIds => [QueenKeyword.Fade];
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [ModKeywordRegistry.GetCardKeyword(QueenKeyword.Fade)];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new AmalgamLearnIntentDamageVar(damage, ValueProp.Move),
     ];
 
-    /// <summary>无友方聚合体或 <see cref="FriendlyAmalgam.BlocksDirectOffenseFromHand"/> 时手牌红高亮（与 <see cref="Stock"/> 等一致）。</summary>
+    /// <summary>无友方聚合体�?<see cref="FriendlyAmalgamBlockActionFromSleepd"/> 时手牌红高亮（与 <see cref="Stock"/> 等一致）�?/summary>
     protected override bool ShouldGlowRedInternal =>
         (base.Owner?.Creature?.CombatState is { } combatState
             && (FriendlyAmalgamCmd.GetExisting(combatState, base.Owner) is not { Monster: FriendlyAmalgam amalgam }
-                || amalgam.BlocksDirectOffenseFromHand))
+                || amalgam.BlockActionFromSleep))
         || base.ShouldGlowRedInternal;
 
     public Nibble()
@@ -61,7 +63,7 @@ public sealed class Nibble : QueenCardModel
         }
 
         if (FriendlyAmalgamCmd.GetExisting(combatState, base.Owner) is not { Monster: FriendlyAmalgam fam } amalgam
-            || fam.BlocksDirectOffenseFromHand)
+            || fam.BlockActionFromSleep)
         {
             return;
         }

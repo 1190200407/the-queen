@@ -34,7 +34,7 @@ public sealed class AmalgamFabricateIntentAction : AmalgamActionModel
         await CreateOneOffensive(queen, combatState);
     }
 
-    private static async Task CreateOneDefensive(Player owner, CombatState combatState)
+    private static async Task CreateOneDefensive(Player owner, ICombatState combatState)
     {
         int roll = owner.RunState.Rng.CombatCardSelection.NextItem([0, 1]);
         switch (roll)
@@ -48,7 +48,7 @@ public sealed class AmalgamFabricateIntentAction : AmalgamActionModel
         }
     }
 
-    private static async Task CreateOneOffensive(Player owner, CombatState combatState)
+    private static async Task CreateOneOffensive(Player owner, ICombatState combatState)
     {
         int roll = owner.RunState.Rng.CombatCardSelection.NextItem([0, 1]);
         switch (roll)

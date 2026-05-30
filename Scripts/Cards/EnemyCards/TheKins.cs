@@ -43,8 +43,6 @@ public sealed class TheKins : LearnIntentCardModel
     [
         ..base.AdditionalHoverTips,
         HoverTipFactory.FromCard<PowerDance>(),
-        HoverTipFactory.FromPower<WeakPower>(),
-        HoverTipFactory.FromPower<StrengthPower>(),
     ];
 
     public override int MaxUpgradeLevel => 0;
@@ -54,6 +52,7 @@ public sealed class TheKins : LearnIntentCardModel
     public TheKins()
         : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
     {
+        //CompositeKey = AmalgamCompositeKey.Kin;
     }
 
     protected override async Task AfterSummonBeforeLearnIntentsAsync(PlayerChoiceContext choiceContext, CardPlay cardPlay)

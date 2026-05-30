@@ -4,6 +4,7 @@ using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 
 namespace ComicChess.TheQueen;
 
@@ -14,14 +15,14 @@ public sealed class TerminusFormPower : QueenPowerModel
 
     public override PowerStackType StackType => PowerStackType.Counter;
 
-    public override Task AfterPowerAmountChanged(PowerModel power, decimal amount, Creature? applier, CardModel? cardSource)
+    public override Task AfterPowerAmountChanged(PlayerChoiceContext choiceContext, PowerModel power, decimal amount, Creature? applier, CardModel? cardSource)
     {
         if (power != this)
         {
             return Task.CompletedTask;
         }
 
-        CombatState? combatState = base.CombatState;
+        ICombatState? combatState = base.CombatState;
         Player? player = base.Owner.Player;
         if (combatState == null || player == null)
         {

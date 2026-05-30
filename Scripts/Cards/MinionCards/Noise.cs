@@ -9,6 +9,8 @@ using MegaCrit.Sts2.Core.Models.CardPools;
 
 using STS2RitsuLib.Interop.AutoRegistration;
 
+using STS2RitsuLib.Keywords;
+
 namespace ComicChess.TheQueen;
 
 /// <summary>噪音：衍生牌（防御型），学习意图为抽牌并附魔晕眩；消逝�?/summary>
@@ -23,7 +25,7 @@ public sealed class Noise : LearnIntentCardModel
     private const decimal drawNow = 1m;
     private const decimal drawNextTurn = 1m;
 
-    protected override IEnumerable<string> RegisteredKeywordIds => [QueenKeyword.Fade];
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [ModKeywordRegistry.GetCardKeyword(QueenKeyword.Fade)];
 
     public override int MaxUpgradeLevel => 0;
 

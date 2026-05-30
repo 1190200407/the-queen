@@ -13,11 +13,11 @@ using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>灵魂虹吸：召唤并学习「全体敌人失去力�?+ 你获得力量与敏捷」�?/summary>
+/// <summary>灵魂虹吸：召唤并学习「全体敌人失去力量 你获得力量与敏捷」/summary>
 [RegisterCard(typeof(EnemyCardPool))]
 public sealed class SoulSiphon : LearnIntentCardModel
 {
-private const int energyCost = 3;
+    private const int energyCost = 3;
     private const CardType type = CardType.Skill;
     private const CardRarity rarity = CardRarity.Rare;
     private const TargetType targetType = TargetType.Self;

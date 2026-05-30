@@ -23,7 +23,7 @@ using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>处决：基础伤害 + 目标负面加成；斩杀时捕获目标�?/summary>
+/// <summary>处决：基础伤害 + 目标负面加成；斩杀时捕获目标�?/summary>
 
 [RegisterCard(typeof(QueenCardPool))]
 public sealed class Execution : QueenCardModel, ICanMonsterCapture
@@ -34,7 +34,7 @@ public sealed class Execution : QueenCardModel, ICanMonsterCapture
     private const TargetType targetType = TargetType.AnyEnemy;
     private const bool shouldShowInCardLibrary = true;
 
-    public bool CanCapture(MonsterModel monster, CombatState combatState) =>
+    public bool CanCapture(MonsterModel monster, ICombatState combatState) =>
         monster is not null && combatState is not null;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
@@ -42,7 +42,7 @@ public sealed class Execution : QueenCardModel, ICanMonsterCapture
         new CalculationBaseVar(10m),
         new ExtraDamageVar(4m),
         new CalculatedDamageVar(ValueProp.Move).WithMultiplier(static (CardModel card, Creature? target) =>
-            target?.Powers.Count(static p => p.Type == PowerType.Debuff) ?? 0),
+            target == null ? 0m : QueenDebuffUtil.CountDebuffPowers(target, excludeTemporary: true)),
     ];
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
@@ -73,10 +73,10 @@ public sealed class Execution : QueenCardModel, ICanMonsterCapture
         {
             return;
         }
-        Log.Info($"Execution: shouldTriggerFatal: {shouldTriggerFatal}, attackCommand.Results: {attackCommand.Results.Count(static r => r.WasTargetKilled)}");
+        Log.Info($"Execution: shouldTriggerFatal: {shouldTriggerFatal}, killedHits: {QueenDamageResults.CountTargetKilled(attackCommand)}");
 
         if (shouldTriggerFatal
-            && attackCommand.Results.Any(static r => r.WasTargetKilled)
+            && QueenDamageResults.AnyTargetKilled(attackCommand)
             && base.CombatState?.RunState.CurrentRoom is CombatRoom)
         {
             Log.Info($"Execution: Capturing target: {target.Name}");

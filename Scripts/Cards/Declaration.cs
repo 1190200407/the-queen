@@ -19,7 +19,7 @@ using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>宣告：造成伤害并施�?2 回合内死亡可捕获的标记�?/summary>
+/// <summary>宣告：造成伤害并施�?2 回合内死亡可捕获的标记�?/summary>
 
 [RegisterCard(typeof(QueenCardPool))]
 public sealed class Declaration : QueenCardModel, ICanMonsterCapture
@@ -30,14 +30,14 @@ public sealed class Declaration : QueenCardModel, ICanMonsterCapture
     private const TargetType targetType = TargetType.AnyEnemy;
     private const bool shouldShowInCardLibrary = true;
 
-    public bool CanCapture(MonsterModel monster, CombatState combatState) =>
+    public bool CanCapture(MonsterModel monster, ICombatState combatState) =>
         monster is not null && combatState is not null
-        && (combatState.Encounter?.RoomType switch
+        && MonsterCaptureRewardCatalog.GetEncounterRoomType(combatState) switch
         {
             RoomType.Boss => false,
             RoomType.Elite => IsUpgraded,
             _ => true,
-        });
+        };
 
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
@@ -56,10 +56,10 @@ public sealed class Declaration : QueenCardModel, ICanMonsterCapture
         Creature target = cardPlay.Target;
 
 
-        CombatState? combatState = target.CombatState ?? base.Owner.Creature.CombatState;
+        ICombatState? combatState = target.CombatState ?? base.Owner.Creature.CombatState;
         if (target.Monster is not null && combatState is not null && CanCapture(target.Monster, combatState))
         {
-            _ = await PowerCmd.Apply<DeclarationCaptureMarkPower>(
+            _ = await PowerCmd.Apply<DeclarationCaptureMarkPower>(choiceContext, 
                 target,
                 2m,
                 base.Owner.Creature,
@@ -67,7 +67,7 @@ public sealed class Declaration : QueenCardModel, ICanMonsterCapture
         }
         else
         {
-            _ = await PowerCmd.Apply<DeclarationCaptureMarkNoPower>(
+            _ = await PowerCmd.Apply<DeclarationCaptureMarkNoPower>(choiceContext, 
                 target,
                 2m,
                 base.Owner.Creature,

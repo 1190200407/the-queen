@@ -9,6 +9,8 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 using STS2RitsuLib.Interop.AutoRegistration;
 
+using STS2RitsuLib.Keywords;
+
 namespace ComicChess.TheQueen;
 
 /// <summary>电击：衍生牌（输出型），学习意图为单体伤害；消逝�?/summary>
@@ -22,7 +24,7 @@ public sealed class Zap : LearnIntentCardModel
     private const bool shouldShowInCardLibrary = false;
     private const decimal learnIntentDamage = 14m;
 
-    protected override IEnumerable<string> RegisteredKeywordIds => [QueenKeyword.Fade];
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [ModKeywordRegistry.GetCardKeyword(QueenKeyword.Fade)];
 
     public override int MaxUpgradeLevel => 0;
 

@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
+using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Logging;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Rooms;
 
 namespace ComicChess.TheQueen;
 
@@ -14,6 +16,10 @@ namespace ComicChess.TheQueen;
 /// </summary>
 public static class MonsterCaptureRewardCatalog
 {
+    /// <summary>当前战斗遭遇的房间类型（普通 / 精英 / 首领等）。</summary>
+    public static RoomType? GetEncounterRoomType(ICombatState? combatState) =>
+        combatState?.Encounter?.RoomType;
+
     /// <summary>原版 <see cref="MegaCrit.Sts2.Core.Models.Monsters.Flyconid"/> 的 Id。</summary>
     public const string Flyconid = "FLYCONID";
     public const string BruteRubyRaider = "BRUTE_RUBY_RAIDER";
@@ -106,6 +112,7 @@ public static class MonsterCaptureRewardCatalog
     public const string TheLost = "THE_LOST";
     public const string TurretOperator = "TURRET_OPERATOR";
     public const string KnowledgeDemon = "KNOWLEDGE_DEMON";
+    public const string Aeonglass = "AEONGLASS";
 
     private static readonly Dictionary<string, Func<Player, CardModel>> RewardCreators =
         new(StringComparer.OrdinalIgnoreCase)
@@ -197,10 +204,11 @@ public static class MonsterCaptureRewardCatalog
             { SlumberingBeetle, static owner => owner.RunState!.CreateCard<RollOut>(owner) },
             { SoulNexus, static owner => owner.RunState!.CreateCard<DrainLife>(owner) },
             { SpectralKnight, static owner => owner.RunState!.CreateCard<Hex>(owner) },
-            { TheForgotten, static owner => owner.RunState!.CreateCard<DebilitatingSmog>(owner) },
-            { TheLost, static owner => owner.RunState!.CreateCard<Miasma>(owner) },
+            { TheForgotten, static owner => owner.RunState!.CreateCard<Miasma>(owner) },
+            { TheLost, static owner => owner.RunState!.CreateCard<DebilitatingSmog>(owner) },
             { TurretOperator, static owner => owner.RunState!.CreateCard<Unload>(owner) },
             { KnowledgeDemon, static owner => owner.RunState!.CreateCard<CurseOfKnowledge>(owner) },
+            { Aeonglass, static owner => owner.RunState!.CreateCard<WitheringPresence>(owner) },
         };
 
     /// <summary>为捕获预览或 <see cref="CaptureSuccessPower"/> 创建奖励牌实例；无配置时返回 <c>null</c>。</summary>

@@ -33,7 +33,7 @@ internal sealed class UnfinishedCalamityPowerPatch : IPatchMethod
 			return;
 		}
 
-		if (power.Type != PowerType.Debuff)
+		if (!QueenDebuffUtil.IsDebuff(power))
 		{
 			return;
 		}
@@ -44,7 +44,7 @@ internal sealed class UnfinishedCalamityPowerPatch : IPatchMethod
 			return;
 		}
 
-		CombatState? combatState = victim.CombatState;
+		ICombatState? combatState = victim.CombatState;
 		if (combatState == null)
 		{
 			return;

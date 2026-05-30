@@ -64,12 +64,12 @@ public sealed class Gimme : QueenCardModel
             decimal stacks = base.DynamicVars.Power<AmalgamThieveryPower>().BaseValue;
             if (stacks > 0m)
             {
-                await PowerCmd.Apply<AmalgamThieveryPower>(amalgam, stacks, base.Owner.Creature, this);
+                await PowerCmd.Apply<AmalgamThieveryPower>(choiceContext, amalgam, stacks, base.Owner.Creature, this);
             }
             decimal escape = base.DynamicVars.Power<AmalgamEscapePower>().BaseValue;
             if (escape > 0m)
             {
-                await PowerCmd.Apply<AmalgamEscapePower>(amalgam, escape, base.Owner.Creature, this);
+                await PowerCmd.Apply<AmalgamEscapePower>(choiceContext, amalgam, escape, base.Owner.Creature, this);
             }
         }
     }

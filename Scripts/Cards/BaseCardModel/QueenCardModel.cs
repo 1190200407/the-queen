@@ -1,4 +1,3 @@
-using System.Linq;
 using System.Threading.Tasks;
 using Godot;
 using MegaCrit.Sts2.Core.Commands;
@@ -7,6 +6,7 @@ using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Afflictions;
+using MegaCrit.Sts2.Core.Models.CardPools;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
 
@@ -14,36 +14,39 @@ namespace ComicChess.TheQueen;
 
 public abstract class QueenCardModel : ModCardTemplate
 {
-	private static readonly PileType[] PilesForSoulLampBroadcast =
-	[
-		PileType.Hand,
-		PileType.Draw,
-		PileType.Discard,
-		PileType.Exhaust,
-		PileType.Play
-	];
-
     public override string PortraitPath
     {
         get
         {
-            string portraitPath = $"res://TheQueen/images/card_portraits/{Id.Entry.ToLowerInvariant().Replace("sts2_comicchess_thequeen_card_", "")}.png";
-            if (ResourceLoader.Exists(portraitPath))
+            string key = ResolvePortraitKey();
+            return Pool switch
             {
-                return portraitPath;
-            }
-            else
-            {
-                portraitPath = $"res://TheQueen/images/card_portraits/monsters/{Id.Entry.ToLowerInvariant().Replace("sts2_comicchess_thequeen_card_", "")}.png";
-                if (ResourceLoader.Exists(portraitPath))
-                {
-                    return portraitPath;
-                }
-            }
-
-            return "res://TheQueen/images/card_portraits/card.png";
+                EnemyCardPool => PortraitPathForMonsters(key),
+                TokenCardPool => ResolveTokenPortraitPath(key),
+                _ => PortraitPathForQueen(key),
+            };
         }
     }
+
+    private static string PortraitPathForQueen(string key) =>
+        $"res://TheQueen/images/card_portraits/{key}.png";
+
+    private static string PortraitPathForMonsters(string key) =>
+        $"res://TheQueen/images/card_portraits/monsters/{key}.png";
+
+    private static string ResolveTokenPortraitPath(string key)
+    {
+        string queenPath = PortraitPathForQueen(key);
+        if (ResourceLoader.Exists(queenPath))
+        {
+            return queenPath;
+        }
+
+        return PortraitPathForMonsters(key);
+    }
+
+    private string ResolvePortraitKey() =>
+        Id.Entry.ToLowerInvariant().Replace("the_queen_card_", "");
 
     /// <summary>
     /// 图鉴、抽牌预览等使用不可变原型，没有 <see cref="CardModel.Affliction"/>。
@@ -80,42 +83,12 @@ public abstract class QueenCardModel : ModCardTemplate
     }
 
     /// <summary>
-    /// 拥有此牌的玩家的 <see cref="SoulLampPower"/> 层数变化时由引擎路径广播（见 <see cref="BroadcastSoulLampAmountChange"/>）。
-    /// <paramref name="delta"/> &gt; 0 为获得魂灯，&lt; 0 为失去（如打出魂缚牌消耗）。
-    /// </summary>
-    public virtual Task OnSoulLampAmountChange(Player player, decimal delta, Creature? applier, CardModel? cardSource) =>
-        Task.CompletedTask;
-
-    /// <summary>
-    /// <see cref="SoulLampPower"/> 在层数变化时调用：对该玩家各牌堆中的 <see cref="QueenCardModel"/> 逐个派发。
-    /// </summary>
-    internal static async Task BroadcastSoulLampAmountChange(Player player, decimal delta, Creature? applier, CardModel? cardSource)
-    {
-        foreach (PileType pileType in PilesForSoulLampBroadcast)
-        {
-            CardPile pile = pileType.GetPile(player);
-            foreach (CardModel card in pile.Cards.ToList())
-            {
-                if (card.Owner != player)
-                {
-                    continue;
-                }
-
-                if (card is QueenCardModel queen)
-                {
-                    await queen.OnSoulLampAmountChange(player, delta, applier, cardSource);
-                }
-            }
-        }
-    }
-
-    /// <summary>
     /// 无战斗上下文（图鉴、预构）仍为 true，由 <see cref="BoundOverlayPreviewPatch"/> 提供魂缚叠层。
     /// 战斗内仅在仍存在 <see cref="Bound"/> 时为 true；清除侵蚀后须为 false，否则 <see cref="MegaCrit.Sts2.Core.Nodes.Cards.NCard"/> 的
     /// <c>ReloadOverlay</c> 会在 <c>Affliction == null</c> 时仍走内置叠层分支，看起来像清不掉。
     /// </summary>
     public override bool HasBuiltInOverlay =>
-        HasSelfBound && (CombatState == null || Affliction is Bound);
+        (HasSelfBound || Enchantment is SoulLight) && (CombatState == null || Affliction is Bound);
 
     public QueenCardModel(int energyCost, CardType type, CardRarity rarity, TargetType targetType, bool shouldShowInCardLibrary) : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
     {

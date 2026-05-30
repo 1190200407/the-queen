@@ -20,7 +20,7 @@ public sealed class EcosphereCaptureMarkPower : QueenPowerModel
 
 	public override PowerStackType StackType => PowerStackType.Single;
 
-	public override bool IsInstanced => true;
+	public override PowerInstanceType InstanceType => PowerInstanceType.Instanced;
 
 	protected override IEnumerable<IHoverTip> AdditionalHoverTips => [QueenHoverTips.Capture];
 
@@ -40,12 +40,6 @@ public sealed class EcosphereCaptureMarkPower : QueenPowerModel
 		}
 
 		if (!creature.Powers.All(static p => p.ShouldOwnerDeathTriggerFatal()))
-		{
-			return;
-		}
-
-		RoomType? roomType = creature.CombatState?.Encounter?.RoomType;
-		if (roomType is not (RoomType.Monster or RoomType.Event or RoomType.Elite))
 		{
 			return;
 		}

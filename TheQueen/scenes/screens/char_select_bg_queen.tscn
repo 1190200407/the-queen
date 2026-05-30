@@ -1,0 +1,23 @@
+[gd_scene load_steps=2 format=3 uid="uid://bssty6pyq5o1u"]
+
+[ext_resource type="Texture2D" uid="uid://cpidrj3vtiqt6" path="res://TheQueen/images/charui/char_select_queen_bg.jpg" id="1_6mvrm"]
+
+[node name="QueenBg" type="Control"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -576.0
+offset_top = -324.0
+offset_right = -576.0
+offset_bottom = -324.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CharSelectQueenBg" type="Sprite2D" parent="."]
+position = Vector2(663, 421.00003)
+scale = Vector2(1.577945, 1.386281)
+texture = ExtResource("1_6mvrm")
+flip_h = true

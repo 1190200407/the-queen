@@ -47,13 +47,17 @@ public sealed class BeastCry : LearnIntentCardModel
             intentDescriptionKey: "AMALGAM_SPECIAL_BEAST_CRY.description",
             execute: async (PlayerChoiceContext _, Creature amalgam, Creature owner) =>
             {
-                CombatState? cs = amalgam.CombatState;
+                ICombatState? cs = amalgam.CombatState;
                 if (cs == null)
                 {
                     return;
                 }
 
+                SfxCmd.Play("event:/sfx/enemy/enemy_attacks/ceremonial_beast/ceremonial_beast_shrill");
                 await CreatureCmd.TriggerAnim(amalgam, "Cast", 0f);
+                await Cmd.Wait(0.3f);
+                VfxCmd.PlayOnCreatureCenter(amalgam, "vfx/vfx_scream");
+                await Cmd.Wait(0.75f);
 
                 Creature[] alive = cs.Enemies.Where(e => e.IsAlive).ToArray();
                 if (alive.Length > 0)
@@ -64,8 +68,8 @@ public sealed class BeastCry : LearnIntentCardModel
                     }
                 }
 
-                await Cmd.CustomScaledWait(1.5f, 2f);
-                await PowerCmd.Apply<AmalgamSleepPower>(amalgam, 2m, applier: owner, cardSource: null);
+                await PowerCmd.Apply<AmalgamSleepPower>(choiceContext, amalgam, 2m, applier: owner, cardSource: null);
+                await Cmd.Wait(0.75f);
             });
 
         return Task.FromResult<IReadOnlyList<AmalgamActionModel?>>([intent]);

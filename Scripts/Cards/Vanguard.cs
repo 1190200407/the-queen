@@ -22,8 +22,6 @@ public sealed class Vanguard : QueenCardModel
     private const TargetType targetType = TargetType.Self;
     private const bool shouldShowInCardLibrary = true;
 
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Ethereal];
-
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
         .. HoverTipFactory.FromAffliction<Bound>()
@@ -40,12 +38,12 @@ public sealed class Vanguard : QueenCardModel
     {
         _ = choiceContext;
         _ = cardPlay;
-        await PowerCmd.Apply<VanguardPower>(base.Owner.Creature, 1m, base.Owner.Creature, this);
+        await PowerCmd.Apply<VanguardPower>(choiceContext, base.Owner.Creature, 1m, base.Owner.Creature, this);
         await CreatureCmd.TriggerAnim(base.Owner.Creature, "Cast", base.Owner.Character.CastAnimDelay);
     }
 
     protected override void OnUpgrade()
     {
-        RemoveKeyword(CardKeyword.Ethereal);
+        AddKeyword(CardKeyword.Innate);
     }
 }

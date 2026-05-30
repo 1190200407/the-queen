@@ -9,6 +9,8 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 using STS2RitsuLib.Interop.AutoRegistration;
 
+using STS2RitsuLib.Keywords;
+
 namespace ComicChess.TheQueen;
 
 [RegisterCard(typeof(TokenCardPool))]
@@ -20,7 +22,7 @@ public class SoulStrike : QueenCardModel
     private const TargetType targetType = TargetType.AnyEnemy;
     private const bool shouldShowInCardLibrary = false;
 
-    protected override IEnumerable<string> RegisteredKeywordIds => [QueenKeyword.Fade];
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [ModKeywordRegistry.GetCardKeyword(QueenKeyword.Fade)];
     protected override HashSet<CardTag> CanonicalTags => new HashSet<CardTag> { CardTag.Strike };
 
 	protected override IEnumerable<DynamicVar> CanonicalVars => new List<DynamicVar> { new DamageVar(14m, ValueProp.Move) };

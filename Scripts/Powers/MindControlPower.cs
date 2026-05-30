@@ -16,31 +16,31 @@ using MegaCrit.Sts2.Core.Platform;
 using MegaCrit.Sts2.Core.Random;
 using MegaCrit.Sts2.Core.Runs;
 using MegaCrit.Sts2.Core.ValueProps;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>单次怪物 <see cref="MegaCrit.Sts2.Core.Commands.Builders.AttackCommand"/> 内多段 <see cref="CreatureCmd.Damage"/> 共用：转移目标、推迟到 <see cref="MegaCrit.Sts2.Core.Hooks.Hook.AfterAttack"/> 再移除能力。</summary>
+/// <summary>单次怪物 <see cref="MegaCrit.Sts2.Core.Commands.Builders.AttackCommand"/> 内多段 <see cref="CreatureCmd.Damage"/> 共用：转移目标、推迟到 <see cref="MegaCrit.Sts2.Core.Hooks.Hook.AfterAttack"/> 再减层。</summary>
 internal sealed class MindControlAttackFrame
 {
 	internal Creature? RedirectDealer;
 	internal Creature? SharedRedirect;
-	internal readonly HashSet<Creature> AppliersConsumed = [];
-	internal readonly List<MindControlPower> PowersToRemove = [];
+	internal readonly List<MindControlPower> PowersToDecrement = [];
 
-	internal void FlushRemovals()
+	internal void FlushDecrements()
 	{
-		if (PowersToRemove.Count == 0)
+		if (PowersToDecrement.Count == 0)
 		{
 			return;
 		}
 
-		Task removeAll = Task.WhenAll(PowersToRemove.Select(static p => PowerCmd.Remove(p)));
-		TaskHelper.RunSafely(removeAll);
+		Task decrementAll = Task.WhenAll(PowersToDecrement.Select(static p => PowerCmd.Decrement(p)));
+		TaskHelper.RunSafely(decrementAll);
 	}
 }
 
 /// <summary>
-/// 精神控制：挂在<strong>被施加精神控制的敌人</strong>上，<see cref="IsInstanced"/> 可叠多条；
+/// 精神控制：挂在<strong>被施加精神控制的敌人</strong>上，<see cref="PowerInstanceType.InstancedPerApplier"/> 每名玩家各一条；
 /// <see cref="AfterApplied"/> 与 <see cref="AfterPowerAmountChanged"/> 会刷新宿主怪物意图，便于意图数字与 <see cref="MindControlAttackIntentGetSingleDamagePatch"/> 等在能力变化后及时更新。
 /// </summary>
 public sealed class MindControlPower : QueenPowerModel
@@ -49,9 +49,9 @@ public sealed class MindControlPower : QueenPowerModel
 
 	public override PowerType Type => PowerType.Debuff;
 
-	public override PowerStackType StackType => PowerStackType.Single;
+	public override PowerStackType StackType => PowerStackType.Counter;
 
-	public override bool IsInstanced => true;
+	public override PowerInstanceType InstanceType => PowerInstanceType.InstancedPerApplier;
 
 	protected override IEnumerable<DynamicVar> CanonicalVars => [new StringVar(ApplierPlayerNameKey)];
 
@@ -71,7 +71,7 @@ public sealed class MindControlPower : QueenPowerModel
 	}
 
 	/// <summary>宿主身上任意能力层数变化时由 <c>Hook.AfterPowerAmountChanged</c> 广播；用于刷新意图（含依赖 <c>targets</c> 的预览）。</summary>
-	public override Task AfterPowerAmountChanged(PowerModel power, decimal amount, Creature? applier, CardModel? cardSource)
+	public override Task AfterPowerAmountChanged(PlayerChoiceContext choiceContext, PowerModel power, decimal amount, Creature? applier, CardModel? cardSource)
 	{
 		_ = amount;
 		_ = applier;
@@ -89,7 +89,7 @@ public sealed class MindControlPower : QueenPowerModel
 	private void TryRefreshOwnerMonsterIntent()
 	{
 		Creature? owner = base.Owner;
-		if (owner?.CombatState is not CombatState combatState || !owner.IsEnemy || owner.Monster == null || !owner.IsAlive)
+		if (owner?.CombatState is not ICombatState combatState || !owner.IsEnemy || owner.Monster == null || !owner.IsAlive)
 		{
 			return;
 		}
@@ -105,7 +105,7 @@ public sealed class MindControlPower : QueenPowerModel
 	/// <summary>由 <see cref="MindControlDamagePatch"/> 在 <see cref="CreatureCmd.Damage"/> 前缀中调用。</summary>
 	internal static bool TryApplyRedirectToTargets(
 		List<Creature> targets,
-		CombatState combatState,
+		ICombatState combatState,
 		Creature dealer,
 		ValueProp props,
 		CardModel? cardSource,
@@ -132,13 +132,17 @@ public sealed class MindControlPower : QueenPowerModel
 			return false;
 		}
 
-		HashSet<Creature>? appliersInTargets = CollectAppliersInTargets(targets, allInstances);
-		if (appliersInTargets is null || appliersInTargets.Count == 0)
+		List<MindControlPower> matchingInstances = GetMatchingInstances(targets, allInstances);
+		if (matchingInstances.Count == 0)
 		{
 			return false;
 		}
 
-		// 同一 AttackCommand 内后续段：复用首段随机出的转移目标，且推迟移除到 AfterAttack。
+		HashSet<Creature> appliersInTargets = matchingInstances
+			.Select(static p => p.Applier!)
+			.ToHashSet();
+
+		// 同一 AttackCommand 内后续段：复用首段随机出的转移目标，且推迟减层到 AfterAttack。
 		if (attackFrame?.SharedRedirect is { } cached
 		    && ReferenceEquals(attackFrame.RedirectDealer, dealer))
 		{
@@ -147,11 +151,11 @@ public sealed class MindControlPower : QueenPowerModel
 				return false;
 			}
 
-			QueueDeferredRemovals(attackFrame, allInstances, appliersInTargets);
+			QueueDeferredDecrements(attackFrame, matchingInstances);
 			return true;
 		}
 
-		Creature? rngSourceApplier = targets.FirstOrDefault(appliersInTargets.Contains);
+		Creature? rngSourceApplier = matchingInstances[0].Applier;
 		if (rngSourceApplier is null)
 		{
 			return false;
@@ -167,34 +171,19 @@ public sealed class MindControlPower : QueenPowerModel
 		{
 			attackFrame.RedirectDealer = dealer;
 			attackFrame.SharedRedirect = sharedRedirect;
-			QueueDeferredRemovals(attackFrame, allInstances, appliersInTargets);
+			QueueDeferredDecrements(attackFrame, matchingInstances);
 			return true;
 		}
 
-		// 无帧时（理论上不应在受控攻击内发生）仍立即移除，避免能力泄漏。
-		ImmediateRemoveOnePowerPerApplier(dealer, appliersInTargets);
+		// 无帧时（理论上不应在受控攻击内发生）仍立即减层，避免能力泄漏。
+		ImmediateDecrementMatchingInstances(matchingInstances);
 		return true;
 	}
 
-	private static HashSet<Creature>? CollectAppliersInTargets(List<Creature> targets, List<MindControlPower> allInstances)
-	{
-		HashSet<Creature> appliersInTargets = [];
-		foreach (MindControlPower p in allInstances)
-		{
-			Creature? a = p.Applier;
-			if (a is null || !a.IsAlive)
-			{
-				continue;
-			}
-
-			if (targets.Contains(a))
-			{
-				appliersInTargets.Add(a);
-			}
-		}
-
-		return appliersInTargets.Count == 0 ? null : appliersInTargets;
-	}
+	private static List<MindControlPower> GetMatchingInstances(List<Creature> targets, List<MindControlPower> allInstances) =>
+		allInstances
+			.Where(p => p.Applier is { IsAlive: true } applier && targets.Contains(applier))
+			.ToList();
 
 	private static bool ApplySharedRedirectToTargets(List<Creature> targets, HashSet<Creature> appliersInTargets, Creature sharedRedirect)
 	{
@@ -211,43 +200,29 @@ public sealed class MindControlPower : QueenPowerModel
 		return changed;
 	}
 
-	private static void QueueDeferredRemovals(MindControlAttackFrame frame, List<MindControlPower> allInstances, HashSet<Creature> appliersInTargets)
+	private static void QueueDeferredDecrements(MindControlAttackFrame frame, List<MindControlPower> matchingInstances)
 	{
-		foreach (Creature applier in appliersInTargets)
+		foreach (MindControlPower power in matchingInstances)
 		{
-			if (!frame.AppliersConsumed.Add(applier))
+			if (!frame.PowersToDecrement.Contains(power))
 			{
-				continue;
-			}
-
-			MindControlPower? one = allInstances.FirstOrDefault(p => p.Applier == applier);
-			if (one is not null)
-			{
-				frame.PowersToRemove.Add(one);
+				frame.PowersToDecrement.Add(power);
 			}
 		}
 	}
 
-	private static void ImmediateRemoveOnePowerPerApplier(Creature dealer, HashSet<Creature> appliersInTargets)
+	private static void ImmediateDecrementMatchingInstances(List<MindControlPower> matchingInstances)
 	{
-		List<MindControlPower> toRemove = [];
-		foreach (Creature applier in appliersInTargets)
+		if (matchingInstances.Count == 0)
 		{
-			MindControlPower? one = dealer.GetPowerInstances<MindControlPower>().FirstOrDefault(p => p.Applier == applier);
-			if (one is not null)
-			{
-				toRemove.Add(one);
-			}
+			return;
 		}
 
-		if (toRemove.Count > 0)
-		{
-			Task removeAll = Task.WhenAll(toRemove.Select(static p => PowerCmd.Remove(p)));
-			TaskHelper.RunSafely(removeAll);
-		}
+		Task decrementAll = Task.WhenAll(matchingInstances.Select(static p => PowerCmd.Decrement(p)));
+		TaskHelper.RunSafely(decrementAll);
 	}
 
-	private static Creature ResolveSharedRedirect(CombatState combatState, Creature dealer, Creature rngSourceApplier)
+	private static Creature ResolveSharedRedirect(ICombatState combatState, Creature dealer, Creature rngSourceApplier)
 	{
 		List<Creature> candidates = combatState.HittableEnemies.Where(e => e != dealer && e.IsAlive).ToList();
 		if (candidates.Count == 0)

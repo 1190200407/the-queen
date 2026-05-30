@@ -45,7 +45,7 @@ public sealed class PlayWith : QueenCardModel
 		CardModel? selected = (await CardSelectCmd.FromHand(
 			choiceContext,
 			base.Owner,
-			new CardSelectorPrefs(new LocString("cards", "STS2_COMICCHESS_THEQUEEN_CARD_PLAY_WITH.selectionPrompt"), 1),
+			new CardSelectorPrefs(new LocString("cards", "THE_QUEEN_CARD_PLAY_WITH.selectionPrompt"), 1),
 			c => !c.Keywords.Contains(CardKeyword.Retain),
 			this
 		)).FirstOrDefault();

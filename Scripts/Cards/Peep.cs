@@ -36,7 +36,7 @@ public sealed class Peep : QueenCardModel
 	protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
 	{
 		await CardPileCmd.Draw(choiceContext, base.DynamicVars["Draw"].BaseValue, base.Owner);
-		await QueenCardCmd.AddSoulLamp(base.Owner);
+		await QueenCardCmd.AddSoulLamp(choiceContext, base.Owner);
 	}
 
 	protected override void OnUpgrade()

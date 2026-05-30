@@ -20,7 +20,7 @@ using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Keywords;
 namespace ComicChess.TheQueen;
 
-/// <summary>喂食根骨：消耗1张牌，聚合体获得力量。消逝、魂缚（<see cref="HasSelfBound"/>）。</summary>
+/// <summary>喂食根骨：消�?张牌，聚合体获得力量。消逝、魂缚（<see cref="HasSelfBound"/>）�?/summary>
 [RegisterCard(typeof(TokenCardPool))]
 public sealed class FeedingBone : QueenCardModel
 {
@@ -34,7 +34,7 @@ public sealed class FeedingBone : QueenCardModel
 
 	internal override bool HasSelfBound => true;
 
-	protected override IEnumerable<string> RegisteredKeywordIds => [QueenKeyword.Fade];
+	public override IEnumerable<CardKeyword> CanonicalKeywords => [ModKeywordRegistry.GetCardKeyword(QueenKeyword.Fade)];
 
 	protected override IEnumerable<DynamicVar> CanonicalVars => [new PowerVar<StrengthPower>(1m)];
 
@@ -52,7 +52,7 @@ public sealed class FeedingBone : QueenCardModel
 	protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
 	{
 		_ = cardPlay;
-		CombatState? cs = base.Owner.Creature.CombatState;
+		ICombatState? cs = base.Owner.Creature.CombatState;
 		if (cs == null)
 		{
 			return;
@@ -75,7 +75,7 @@ public sealed class FeedingBone : QueenCardModel
 		Creature? amalgam = FriendlyAmalgamCmd.GetExisting(cs, base.Owner);
 		if (amalgam is { IsAlive: true })
 		{
-			await PowerCmd.Apply<StrengthPower>(
+			await PowerCmd.Apply<StrengthPower>(choiceContext, 
 				amalgam,
 				base.DynamicVars.Strength.BaseValue,
 				base.Owner.Creature,

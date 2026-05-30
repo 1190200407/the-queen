@@ -33,11 +33,11 @@ public sealed class BeetleCharge : QueenCardModel
         new AmalgamLearnIntentDamageVar(damage, ValueProp.Move),
     ];
 
-    /// <summary>无友方聚合体或 <see cref="FriendlyAmalgam.BlocksDirectOffenseFromHand"/> 时手牌红高亮（打出时由聚合体直接对敌伤害）。</summary>
+    /// <summary>无友方聚合体或 <see cref="FriendlyAmalgam.BlockActionFromSleep"/> 时手牌红高亮（打出时由聚合体直接对敌伤害）。</summary>
     protected override bool ShouldGlowRedInternal =>
         (base.Owner?.Creature?.CombatState is { } combatState
             && (FriendlyAmalgamCmd.GetExisting(combatState, base.Owner) is not { Monster: FriendlyAmalgam amalgam }
-                || amalgam.BlocksDirectOffenseFromHand))
+                || amalgam.BlockActionFromSleep))
         || base.ShouldGlowRedInternal;
 
     public override int MaxUpgradeLevel => 0;
@@ -46,7 +46,7 @@ public sealed class BeetleCharge : QueenCardModel
     {
         get
         {
-            CombatState? combatState = base.Owner?.Creature?.CombatState;
+            ICombatState? combatState = base.Owner?.Creature?.CombatState;
             if (combatState == null || base.Owner == null)
             {
                 return true;
@@ -54,7 +54,7 @@ public sealed class BeetleCharge : QueenCardModel
 
             Creature? amalgam = FriendlyAmalgamCmd.GetExisting(combatState, base.Owner);
             if (amalgam is not { Monster: FriendlyAmalgam fam }
-                || fam.BlocksDirectOffenseFromHand
+                || fam.BlockActionFromSleep
                 || amalgam.MaxHp <= 0)
             {
                 return false;
@@ -83,7 +83,7 @@ public sealed class BeetleCharge : QueenCardModel
             return;
         }
 
-        if (amalgamModel.BlocksDirectOffenseFromHand)
+        if (amalgamModel.BlockActionFromSleep)
         {
             return;
         }

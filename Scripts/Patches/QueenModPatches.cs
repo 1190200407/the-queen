@@ -13,6 +13,7 @@ internal sealed class QueenModPatches : IModPatches
 		patcher.RegisterPatch<FadeOnDiscardCardPileAddInternalPatch>();
 		patcher.RegisterPatch<FadeOnDiscardCombatHistoryCardDiscardedPatch>();
 		patcher.RegisterPatch<FadeOnDiscardHookAfterCardDiscardedPatch>();
+		patcher.RegisterPatch<BurningSticksAfterCardExhaustedPatch>();
 		patcher.RegisterPatch<BindingOathHookShouldPlayPatch>();
 		patcher.RegisterPatch<BindingOathHookBeforeCardPlayedPatch>();
 		patcher.RegisterPatch<BindingOathHookBeforeTurnEndPatch>();
@@ -27,7 +28,9 @@ internal sealed class QueenModPatches : IModPatches
 		patcher.RegisterPatch<MindControlCreatureCmdDamagePatch>();
 		patcher.RegisterPatch<MindControlAttackIntentGetSingleDamagePatch>();
 		patcher.RegisterPatch<QueenSummonOnCombatStartPatch>();
+		patcher.RegisterPatch<NCombatRoomAddCreatureFriendlyAmalgamPatch>();
 		patcher.RegisterPatch<OstyAmalgamSummonCrossRedirectPatch>();
+		patcher.RegisterPatch<CreatureCmdHealNullGuardPatch>();
 		patcher.RegisterPatch<PersonalHivePowerAmalgamDealerTransferPatch>();
 		patcher.RegisterPatch<CardCmdDiscardAndDrawPatch>();
 		patcher.RegisterPatch<CardPileCmdAddCrossOwnerHandCleanupPatch>();
@@ -45,6 +48,8 @@ internal sealed class QueenModPatches : IModPatches
 		// UI / 预览 / 表现（可选失败不关停 mod）
 		patcher.RegisterPatch<BoundDescriptionPreviewPatch>();
 		patcher.RegisterPatch<BoundOverlayPreviewPatch>();
+		patcher.RegisterPatch<SoulLightBuiltInOverlayPatch>();
+		patcher.RegisterPatch<NCardSoulLightOverlayRefreshPatch>();
 		patcher.RegisterPatch<EcosphereBottleTargetingPreview_NPotionHolder_TargetNode_Patch>();
 		patcher.RegisterPatch<EcosphereBottleTargetingPreview_NTargetManager_FinishTargeting_Patch>();
 		patcher.RegisterPatch<EnemyIntentRewardCardPreview_NMouseCardPlay_SingleCreatureTargeting_Patch>();
@@ -55,10 +60,11 @@ internal sealed class QueenModPatches : IModPatches
 		patcher.RegisterPatch<NCardInfectionCurseOverlayPatch>();
 		patcher.RegisterPatch<NCardRewardSelectionScreenSelectCardGuardPatch>();
 		patcher.RegisterPatch<NCreatureAnimDisableUiFriendlyAmalgamPatch>();
+		patcher.RegisterPatch<NCreatureOnPowerIncreasedShouldPlayVfxPatch>();
 		patcher.RegisterPatch<NCreatureStateDisplayTrackBlockStatusPatch>();
 		patcher.RegisterPatch<NIntentAmalgamBlockValueLabelPatch>();
-		patcher.RegisterPatch<SoulLampFreeCardGlowPatch>();
 		patcher.RegisterPatch<BigMushroomGrowScalePatch>();
 		patcher.RegisterPatch<SurroundedPowerQueenFacingPatch>();
+		patcher.RegisterPatch<QueenRestSiteHideFlameGlowPatch>();
 	}
 }

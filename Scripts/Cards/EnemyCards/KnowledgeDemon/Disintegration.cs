@@ -30,7 +30,7 @@ public sealed class Disintegration : QueenCardModel, KnowledgeDemon.IChoosable
 
 	public override bool CanBeGeneratedInCombat => false;
 
-	protected override IEnumerable<DynamicVar> CanonicalVars => [new PowerVar<DisintegrationPower>(6m)];
+	protected override IEnumerable<DynamicVar> CanonicalVars => [new PowerVar<DisintegrationPower>(12m)];
 
     public Disintegration()
         : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
@@ -39,14 +39,14 @@ public sealed class Disintegration : QueenCardModel, KnowledgeDemon.IChoosable
 
 	public async Task OnChosen()
 	{
-        CombatState? combatState = base.Owner.Creature.CombatState;
+        ICombatState? combatState = base.Owner.Creature.CombatState;
         if (combatState is null)
         {
             return;
         }
         foreach (Creature enemy in combatState.Enemies)
         {
-            await PowerCmd.Apply<DisintegrationPower>(enemy, base.DynamicVars["DisintegrationPower"].BaseValue, base.Owner.Creature, this);
+            await PowerCmd.Apply<DisintegrationPower>(new ThrowingPlayerChoiceContext(), enemy, base.DynamicVars["DisintegrationPower"].BaseValue, base.Owner.Creature, this);
         }
 	}
 }

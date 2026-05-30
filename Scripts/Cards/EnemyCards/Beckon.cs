@@ -1,57 +1,56 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-
+using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.CardPools;
+using MegaCrit.Sts2.Core.Models.Powers;
 using STS2RitsuLib.Cards.DynamicVars;
 using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>呼唤：召唤并学习「施加呼唤」意图。</summary>
+/// <summary>呼唤：召唤并获得呼唤之力（每回合塞入原版呼唤；回合末无呼唤则你获得无实体）。</summary>
 [RegisterCard(typeof(EnemyCardPool))]
-public sealed class Beckon : LearnIntentCardModel
+public sealed class Beckon : QueenCardModel
 {
     private const int energyCost = 3;
-    private const CardType type = CardType.Skill;
+    private const CardType type = CardType.Power;
     private const CardRarity rarity = CardRarity.Rare;
     private const TargetType targetType = TargetType.Self;
     private const bool shouldShowInCardLibrary = true;
 
+    public override int MaxUpgradeLevel => 0;
+
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        // 怪物牌不可升级：10(14) 落地为 14。
-        new SummonVar(14m).WithSharedTooltip("QUEEN_SUMMON_DYNAMIC"),
-        new IntVar("LearnIntentBeckon", 12m),
+        new SummonVar(15m).WithSharedTooltip("QUEEN_SUMMON_DYNAMIC"),
     ];
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
-        ..base.AdditionalHoverTips,
-        HoverTipFactory.FromPower<BeckonPower>(),
+        HoverTipFactory.FromCard<MegaCrit.Sts2.Core.Models.Cards.Beckon>(),
+        HoverTipFactory.FromPower<IntangiblePower>(),
     ];
-
-    protected override bool ShouldSummonBeforeLearnIntent => true;
-    public override int MaxUpgradeLevel => 0;
 
     public Beckon()
         : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
     {
     }
 
-    protected override Task<IReadOnlyList<AmalgamActionModel?>> CreateLearnIntentsAsync(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        _ = choiceContext;
         _ = cardPlay;
-        decimal stacks = base.DynamicVars["LearnIntentBeckon"].BaseValue;
-        return Task.FromResult<IReadOnlyList<AmalgamActionModel?>>(
-        [
-            new AmalgamApplyDebuffIntentAction<BeckonPower>(stacks, debuffEntryId: "COMICCHESS-BECKON_POWER"),
-        ]);
+        if (base.Owner.Creature.CombatState is not { })
+        {
+            return;
+        }
+
+        await CreatureCmd.TriggerAnim(base.Owner.Creature, "Cast", base.Owner.Character.CastAnimDelay);
+        await FriendlyAmalgamCmd.Summon(choiceContext, base.Owner, base.DynamicVars.Summon.BaseValue, this);
+        await PowerCmd.Apply<BeckonPower>(choiceContext, base.Owner.Creature, 1m, base.Owner.Creature, this);
     }
 }
-

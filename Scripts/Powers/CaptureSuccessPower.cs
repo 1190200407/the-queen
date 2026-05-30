@@ -4,6 +4,7 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Rewards;
@@ -15,12 +16,12 @@ namespace ComicChess.TheQueen;
 /// 通用「捕获成功」：战斗胜利结算时追加一张 <see cref="SpecialCardReward"/>；层数不叠加（<see cref="PowerStackType.Single"/>）。
 /// 捕获牌在斩杀触发后调用 <see cref="ApplyForCapture"/> 并传入奖励用 <see cref="CardModel"/> 实例。
 /// </summary>
-public sealed class CaptureSuccessPower : QueenPowerModel
+public class CaptureSuccessPower : QueenPowerModel
 {
     public override PowerType Type => PowerType.Buff;
 
     public override PowerStackType StackType => PowerStackType.None;
-    public override bool IsInstanced => true;
+    public override PowerInstanceType InstanceType => PowerInstanceType.Instanced;
 
     /// <summary>战斗结束时发放的奖励牌（由捕获牌创建后赋值）。</summary>
     public CardModel? RewardCard { get; set; }
@@ -31,11 +32,18 @@ public sealed class CaptureSuccessPower : QueenPowerModel
     /// <summary>由带「捕获」效果的卡牌在成功触发时调用。</summary>
     internal static async Task ApplyForCapture(Player owner, CardModel rewardCard, CardModel? captureSourceCard)
     {
-        CaptureSuccessPower? applied =
-            await PowerCmd.Apply<CaptureSuccessPower>(owner.Creature, 1m, owner.Creature, captureSourceCard);
+        CaptureSuccessPower? applied = MonsterCaptureRewardCatalog.GetEncounterRoomType(owner.Creature.CombatState) switch
+        {
+            RoomType.Boss => await PowerCmd.Apply<CaptureSuccessBossPower>(new ThrowingPlayerChoiceContext(), owner.Creature, 1m, owner.Creature, captureSourceCard),
+            RoomType.Elite => await PowerCmd.Apply<CaptureSuccessElitePower>(new ThrowingPlayerChoiceContext(), owner.Creature, 1m, owner.Creature, captureSourceCard),
+            _ => await PowerCmd.Apply<CaptureSuccessPower>(new ThrowingPlayerChoiceContext(), owner.Creature, 1m, owner.Creature, captureSourceCard),
+        };
         if (applied is not null)
         {
             applied.RewardCard = rewardCard;
         }
     }
 }
+
+public class CaptureSuccessElitePower : CaptureSuccessPower { }
+public class CaptureSuccessBossPower : CaptureSuccessPower { }

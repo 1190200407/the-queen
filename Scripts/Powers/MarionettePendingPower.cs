@@ -25,7 +25,7 @@ public sealed class MarionettePendingPower : QueenPowerModel
 
     public override PowerStackType StackType => PowerStackType.Counter;
 
-    public override bool IsInstanced => true;
+    public override PowerInstanceType InstanceType => PowerInstanceType.Instanced;
 
     internal void ConfigureMonsterId(string monsterId)
     {

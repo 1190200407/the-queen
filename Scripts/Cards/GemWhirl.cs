@@ -18,7 +18,7 @@ namespace ComicChess.TheQueen;
 
 
 [RegisterCard(typeof(QueenCardPool))]
-public sealed class GemWhirl : QueenCardModel
+public sealed class GemWhirl : QueenCardModel, ISoulLampEventListener
 {
 	private bool _soulLampReturnFromExhaustPending = true;
 
@@ -28,7 +28,7 @@ public sealed class GemWhirl : QueenCardModel
 	private const TargetType targetType = TargetType.Self;
 	private const bool shouldShowInCardLibrary = true;
 
-	protected override IEnumerable<string> RegisteredKeywordIds => [QueenKeyword.Fade];
+	public override IEnumerable<CardKeyword> CanonicalKeywords => [ModKeywordRegistry.GetCardKeyword(QueenKeyword.Fade)];
 
 	protected override IEnumerable<DynamicVar> CanonicalVars => [new IntVar("Draw", 1m)];
 
@@ -58,8 +58,16 @@ public sealed class GemWhirl : QueenCardModel
 		return Task.CompletedTask;
 	}
 
-	public override async Task OnSoulLampAmountChange(Player player, decimal delta, Creature? applier, CardModel? cardSource)
+	public async Task OnSoulLampAmountChanged(
+		PlayerChoiceContext choiceContext,
+		Player player,
+		decimal delta,
+		Creature? applier,
+		CardModel? cardSource)
 	{
+		_ = choiceContext;
+		_ = applier;
+		_ = cardSource;
 		if (delta <= 0m || !_soulLampReturnFromExhaustPending || base.Owner != player || base.Pile?.Type != PileType.Exhaust)
 		{
 			return;

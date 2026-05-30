@@ -13,7 +13,7 @@ using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>开馆：每位联机队友获得一张「入场券」（升级后的开馆生成升级后的入场券）�?/summary>
+/// <summary>开馆：每位联机队友获得一张「入场券」（升级后的开馆生成升级后的入场券）�?/summary>
 
 [RegisterCard(typeof(QueenCardPool))]
 public sealed class OpenGallery : QueenCardModel
@@ -55,7 +55,7 @@ public sealed class OpenGallery : QueenCardModel
 				CardCmd.Upgrade(ticket);
 			}
 
-			await CardPileCmd.AddGeneratedCardToCombat(ticket, PileType.Hand, addedByPlayer: true);
+			await CardPileCmd.AddGeneratedCardToCombat(ticket, PileType.Hand, base.Owner);
 		}
 	}
 }

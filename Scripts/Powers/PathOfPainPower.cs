@@ -28,7 +28,7 @@ public sealed class PathOfPainPower : QueenPowerModel
 		}
 
 		Player? player = base.Owner.Player;
-		if (player == null || base.CombatState is not CombatState combatState)
+		if (player == null || base.CombatState is not ICombatState combatState)
 		{
 			return;
 		}
@@ -50,6 +50,6 @@ public sealed class PathOfPainPower : QueenPowerModel
 			return;
 		}
 
-		await QueenCardCmd.ApplyRandomTriadDebuff(player, target, base.Owner, played, Amount);
+		await QueenCardCmd.ApplyRandomTriadDebuff(choiceContext, player, target, base.Owner, played, Amount);
 	}
 }

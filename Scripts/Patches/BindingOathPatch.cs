@@ -14,7 +14,7 @@ using STS2RitsuLib.Patching.Models;
 namespace ComicChess.TheQueen;
 
 /// <summary>
-/// 女王「魂缚誓约」：每回合最多手动打出 1 张 <see cref="Bound"/> 牌；有魂灯层数时可无视该限制。
+/// 「魂缚誓约」：每名玩家每回合最多手动打出 1 张 <see cref="Bound"/> 牌；有魂灯层数时可无视该限制。
 /// </summary>
 internal static class BindingOathPatchState
 {
@@ -59,7 +59,7 @@ internal static class BindingOathPatchState
 		preventer = BindingOathPreventer;
 	}
 
-	internal static void NoteBoundCardPlayedIfQueen(CardPlay cardPlay)
+	internal static void NoteBoundCardPlayed(CardPlay cardPlay)
 	{
 		CardModel card = cardPlay.Card;
 		if (card.IsDupe)
@@ -68,7 +68,7 @@ internal static class BindingOathPatchState
 		}
 
 		Player? owner = card.Owner;
-		if (owner?.Character is not QueenCharacter || card.Owner.Creature != owner.Creature)
+		if (owner == null || card.Owner.Creature != owner.Creature)
 		{
 			return;
 		}
@@ -81,7 +81,7 @@ internal static class BindingOathPatchState
 		BoundCardPlayedThisTurn[owner.NetId] = true;
 	}
 
-	internal static void ResetQueenFlags(CombatState combatState)
+	internal static void ResetPerTurnFlags(ICombatState combatState)
 	{
 		foreach (Player p in combatState.Players)
 		{
@@ -92,7 +92,6 @@ internal static class BindingOathPatchState
 	internal static void ClearForNewCombat()
 	{
 		BoundCardPlayedThisTurn.Clear();
-		QueenScratchBonusTracker.Reset();
 	}
 }
 
@@ -108,7 +107,7 @@ internal sealed class BindingOathHookShouldPlayPatch : IPatchMethod
 	];
 
 	public static void Postfix(
-		CombatState combatState,
+		ICombatState combatState,
 		CardModel card,
 		ref AbstractModel? preventer,
 		AutoPlayType autoPlayType,
@@ -130,11 +129,11 @@ internal sealed class BindingOathHookBeforeCardPlayedPatch : IPatchMethod
 		new(typeof(Hook), nameof(Hook.BeforeCardPlayed)),
 	];
 
-	public static async Task Postfix(Task __result, CombatState combatState, CardPlay cardPlay)
+	public static async Task Postfix(Task __result, ICombatState combatState, CardPlay cardPlay)
 	{
 		_ = combatState;
 		await __result;
-		BindingOathPatchState.NoteBoundCardPlayedIfQueen(cardPlay);
+		BindingOathPatchState.NoteBoundCardPlayed(cardPlay);
 	}
 }
 
@@ -149,11 +148,11 @@ internal sealed class BindingOathHookBeforeTurnEndPatch : IPatchMethod
 		new(typeof(Hook), nameof(Hook.BeforeTurnEnd)),
 	];
 
-	public static async Task Postfix(Task __result, CombatState combatState, CombatSide side)
+	public static async Task Postfix(Task __result, ICombatState combatState, CombatSide side)
 	{
 		_ = side;
 		await __result;
-		BindingOathPatchState.ResetQueenFlags(combatState);
+		BindingOathPatchState.ResetPerTurnFlags(combatState);
 	}
 }
 
@@ -168,7 +167,7 @@ internal sealed class BindingOathHookBeforeCombatStartPatch : IPatchMethod
 		new(typeof(Hook), nameof(Hook.BeforeCombatStart)),
 	];
 
-	public static async Task Postfix(Task __result, IRunState runState, CombatState? combatState)
+	public static async Task Postfix(Task __result, IRunState runState, ICombatState? combatState)
 	{
 		_ = runState;
 		_ = combatState;

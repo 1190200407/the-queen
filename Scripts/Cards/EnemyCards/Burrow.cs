@@ -59,7 +59,7 @@ public sealed class Burrow : QueenCardModel
         Creature? amalgam = FriendlyAmalgamCmd.GetExisting(combatState, base.Owner);
         if (amalgam is { IsAlive: true })
         {
-            await PowerCmd.Apply<AmalgamBurrowedPower>(amalgam, 1m, base.Owner.Creature, this);
+            await PowerCmd.Apply<AmalgamBurrowedPower>(choiceContext, amalgam, 1m, base.Owner.Creature, this);
         }
 
         await CreatureCmd.GainBlock(base.Owner.Creature, base.DynamicVars.Block, cardPlay);

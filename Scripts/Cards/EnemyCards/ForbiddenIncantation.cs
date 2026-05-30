@@ -7,9 +7,10 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
+using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.CardPools;
-using MegaCrit.Sts2.Core.Models.Powers;
+using MegaCrit.Sts2.Core.Nodes.Vfx;
 using STS2RitsuLib.Cards.DynamicVars;
 using STS2RitsuLib.Interop.AutoRegistration;
 
@@ -25,17 +26,20 @@ public sealed class ForbiddenIncantation : QueenCardModel
     private const TargetType targetType = TargetType.Self;
     private const bool shouldShowInCardLibrary = true;
 
+    private static readonly LocString _forbiddenIncantationDialogue = new LocString("monsters", "DEVOTED_SCULPTOR.moves.FORBIDDEN_INCANTATION.banter");
+
+
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new SummonVar(10m).WithSharedTooltip("QUEEN_SUMMON_DYNAMIC"),
-        new PowerVar<RitualPower>(3m),
+        new PowerVar<AmalgamRitualPower>(3m),
     ];
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
-        HoverTipFactory.FromPower<RitualPower>(),
+        HoverTipFactory.FromPower<AmalgamRitualPower>(),
     ];
 
     public override int MaxUpgradeLevel => 0;
@@ -62,10 +66,18 @@ public sealed class ForbiddenIncantation : QueenCardModel
             return;
         }
 
-        decimal ritual = base.DynamicVars.Power<RitualPower>().BaseValue;
+        decimal ritual = base.DynamicVars.Power<AmalgamRitualPower>().BaseValue;
         if (ritual > 0m)
         {
-            await PowerCmd.Apply<RitualPower>(amalgam, ritual, base.Owner.Creature, this);
+            SfxCmd.Play($"event:/sfx/enemy/enemy_attacks/devoted_sculptor/devoted_sculptor_cast");
+		    await CreatureCmd.TriggerAnim(amalgam, "Cast", 0f);
+		    await Cmd.Wait(0.3f);
+
+            
+            VfxCmd.PlayOnCreatureCenter(amalgam, "vfx/vfx_scream");
+            TalkCmd.Play(_forbiddenIncantationDialogue, amalgam, VfxColor.Blue, VfxDuration.Long);
+
+            await PowerCmd.Apply<AmalgamRitualPower>(choiceContext, amalgam, ritual, base.Owner.Creature, this);
         }
     }
 }

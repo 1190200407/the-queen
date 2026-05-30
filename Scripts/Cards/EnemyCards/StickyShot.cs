@@ -11,7 +11,7 @@ using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>粘性射击：学习意图为抽牌并附魔（黏液）。</summary>
+/// <summary>粘性射击：召唤并学习意图为抽牌并附魔（黏液）。</summary>
 [RegisterCard(typeof(EnemyCardPool))]
 public sealed class StickyShot : LearnIntentCardModel
 {

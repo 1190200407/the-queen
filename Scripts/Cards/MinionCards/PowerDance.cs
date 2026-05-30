@@ -8,6 +8,8 @@ using MegaCrit.Sts2.Core.Models.CardPools;
 
 using STS2RitsuLib.Interop.AutoRegistration;
 
+using STS2RitsuLib.Keywords;
+
 namespace ComicChess.TheQueen;
 
 /// <summary>力量之舞：爪�?token，学习意图为获得力量�?/summary>
@@ -21,7 +23,7 @@ public sealed class PowerDance : LearnIntentCardModel
     private const bool shouldShowInCardLibrary = false;
 
     private const decimal learnIntentStrength = 2m;
-    protected override IEnumerable<string> RegisteredKeywordIds => [QueenKeyword.Fade];
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [ModKeywordRegistry.GetCardKeyword(QueenKeyword.Fade)];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
@@ -33,6 +35,7 @@ public sealed class PowerDance : LearnIntentCardModel
     public PowerDance()
         : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
     {
+        //CompositeKey = AmalgamCompositeKey.Kin;
     }
 
     protected override Task<IReadOnlyList<AmalgamActionModel?>> CreateLearnIntentsAsync(PlayerChoiceContext choiceContext, CardPlay cardPlay)

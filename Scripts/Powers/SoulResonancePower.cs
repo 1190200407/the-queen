@@ -6,6 +6,7 @@ using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Logging;
 using MegaCrit.Sts2.Core.Models;
 
 namespace ComicChess.TheQueen;
@@ -28,7 +29,7 @@ public sealed class SoulResonancePower : QueenPowerModel, IAmalgamEventListener
 	public override PowerStackType StackType => PowerStackType.Single;
 
 	public async Task AfterLearnIntent(
-		CombatState combatState,
+		ICombatState combatState,
 		PlayerChoiceContext choiceContext,
 		Player amalgamOwner,
 		Creature amalgam,
@@ -75,13 +76,13 @@ public sealed class SoulResonancePower : QueenPowerModel, IAmalgamEventListener
 	}
 
 	public async Task AfterCombineIntent(
-		CombatState combatState,
+		ICombatState combatState,
 		PlayerChoiceContext choiceContext,
 		Player amalgamOwner,
 		Creature amalgam,
 		AmalgamActionModel intent,
 		AbstractModel? source,
-		string? compositeIndexKey)
+		AmalgamCompositeKey compositeKey)
 	{
 		if (base.Owner.Player != amalgamOwner)
 		{
@@ -113,7 +114,7 @@ public sealed class SoulResonancePower : QueenPowerModel, IAmalgamEventListener
 					continue;
 				}
 
-				await FriendlyAmalgamCmd.CombineIntent(choiceContext, other, intent.Clone(), source, compositeIndexKey);
+				await FriendlyAmalgamCmd.CombineIntent(choiceContext, other, intent.Clone(), source, compositeKey);
 			}
 		}
 		finally

@@ -17,7 +17,7 @@ using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>æ?¾ç??ï¼?æ?¾èµ·æ?¶é??æ?©å¹¶ç§»é?¤æ??æ?ªå¡ç??ï¼?æ?¬å¡ä¸å? å?¥ç??ç»?ã??/summary>
+/// <summary>ï¿½?ï¿½ï¿½??ï¿½?ï¿½?ï¿½èµ·ï¿½?ï¿½ï¿½??ï¿½?ï¿½å¹¶ç§»ï¿½?ï¿½ï¿½??ï¿½?ï¿½å¡ï¿½??ï¿½?ï¿½?ï¿½å¡ä¸ï¿½?ï¿½ï¿½?ï¿½ï¿½??ï¿½?ï¿½??/summary>
 
 [RegisterCard(typeof(QueenCardPool))]
 public sealed class Release : QueenCardModel
@@ -67,7 +67,7 @@ public sealed class Release : QueenCardModel
 
         int actualPick = enemyCards.Count < pick ? enemyCards.Count : pick;
         CardSelectorPrefs prefs = new(
-            new LocString("cards", "STS2_COMICCHESS_THEQUEEN_CARD_RELEASE.selectionPrompt"),
+            new LocString("cards", "THE_QUEEN_CARD_RELEASE.selectionPrompt"),
             0,
             actualPick);
         IEnumerable<CardModel> selected = await CardSelectCmd.FromSimpleGrid(

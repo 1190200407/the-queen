@@ -24,8 +24,7 @@ public sealed class CloseDoor : QueenCardModel
     private const TargetType targetType = TargetType.Self;
     private const bool shouldShowInCardLibrary = true;
 
-    // 怪物牌不可升级：30(36) -> 36；25(30) -> 30。
-    private const decimal summon = 36m;
+    private const decimal summon = 25m;
     private const decimal shellStacks = 30m;
 
     public override int MaxUpgradeLevel => 0;
@@ -59,7 +58,7 @@ public sealed class CloseDoor : QueenCardModel
         Creature? amalgam = FriendlyAmalgamCmd.GetExisting(combatState, base.Owner);
         if (amalgam is { IsAlive: true })
         {
-            await PowerCmd.Apply<AmalgamDoormakerBossPower>(amalgam, shellStacks, base.Owner.Creature, this);
+            await PowerCmd.Apply<AmalgamDoormakerBossPower>(choiceContext, amalgam, shellStacks, base.Owner.Creature, this);
         }
 
         await CreatureCmd.TriggerAnim(base.Owner.Creature, "Cast", base.Owner.Character.CastAnimDelay);

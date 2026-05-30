@@ -1,57 +1,31 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-
-
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
-using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.CardPools;
-using MegaCrit.Sts2.Core.ValueProps;
-
-using STS2RitsuLib.Cards.DynamicVars;
-
 using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>疯狂撕咬：聚合体对目�?2 连击；按目标负面效果数量召唤�?/summary>
-
+/// <summary>疯狂撕咬：聚合体连续执行若干次行动，随后遗忘所有意图。消耗。</summary>
 [RegisterCard(typeof(QueenCardPool))]
 public sealed class FrenziedBite : QueenCardModel
 {
     private const int energyCost = 2;
-    private const CardType type = CardType.Attack;
+    private const CardType type = CardType.Skill;
     private const CardRarity rarity = CardRarity.Uncommon;
-    private const TargetType targetType = TargetType.AnyEnemy;
+    private const TargetType targetType = TargetType.Self;
     private const bool shouldShowInCardLibrary = true;
-    private const int hitCount = 2;
 
-    protected override IEnumerable<DynamicVar> CanonicalVars =>
-    [
-        new DamageVar(5m, ValueProp.Move),
-        new SummonVar(4m).WithSharedTooltip("QUEEN_SUMMON_DYNAMIC"),
-        new CalculationBaseVar(0m),
-        new CalculationExtraVar(1m),
-        new CalculatedVar("CalculatedSummonTotal").WithMultiplier(static (CardModel card, Creature? target) =>
-        {
-            int debuffCount = target?.Powers.Count(static p => p.Type == PowerType.Debuff) ?? 0;
-            return debuffCount * card.DynamicVars.Summon.BaseValue;
-        }),
-    ];
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
-    internal override bool HasSelfBound => true;
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new IntVar("Actions", 3m)];
 
-    /// <summary>无友方聚合体�?<see cref="FriendlyAmalgam.BlocksDirectOffenseFromHand"/> 时手牌红高亮（打出时由聚合体直接对敌伤害）�?/summary>
-    protected override bool ShouldGlowRedInternal =>
-        (base.Owner?.Creature?.CombatState is { } combatState
-            && (FriendlyAmalgamCmd.GetExisting(combatState, base.Owner) is not { Monster: FriendlyAmalgam amalgam }
-                || amalgam.BlocksDirectOffenseFromHand))
-        || base.ShouldGlowRedInternal;
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [QueenHoverTips.ForgetIntent];
 
     public FrenziedBite()
         : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
@@ -60,46 +34,56 @@ public sealed class FrenziedBite : QueenCardModel
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        Creature? target = cardPlay.Target;
-        CombatState? combatState = base.Owner.Creature.CombatState;
-        if (target == null || combatState == null)
+        _ = cardPlay;
+        if (base.Owner.Creature.CombatState is not ICombatState combatState)
         {
             return;
         }
 
         Creature? amalgamCreature = FriendlyAmalgamCmd.GetExisting(combatState, base.Owner);
-        if (amalgamCreature is { Monster: FriendlyAmalgam fam } && !fam.BlocksDirectOffenseFromHand)
+        if (amalgamCreature?.Monster is not FriendlyAmalgam amalgam || !amalgamCreature.IsAlive)
         {
-            decimal damagePerHit = base.DynamicVars.Damage.BaseValue;
-            for (int i = 0; i < hitCount; i++)
+            return;
+        }
+
+        int actionCount = base.DynamicVars["Actions"].IntValue;
+        for (int i = 0; i < actionCount; i++)
+        {
+            if (!amalgamCreature.IsAlive)
             {
-                if (!target.IsAlive)
-                {
-                    break;
-                }
-
-                await FriendlyAmalgamCmd.ExecuteSingleTargetAttack(
-                    choiceContext,
-                    amalgamCreature,
-                    target,
-                    damagePerHit,
-                    "Attack",
-                    0.6f,
-                    "vfx/vfx_attack_blunt");
+                break;
             }
+
+            await amalgam.ActCurrentIntentImmediatelyAsync(choiceContext);
         }
 
-        int debuffCount = target.Powers.Count(static p => p.Type == PowerType.Debuff);
-        if (debuffCount > 0)
+        if (!amalgamCreature.IsAlive)
         {
-            decimal summonPerDebuff = base.DynamicVars.Summon.BaseValue;
-            await FriendlyAmalgamCmd.Summon(choiceContext, base.Owner, summonPerDebuff * debuffCount, this);
+            return;
         }
+
+        await ForgetAllIntentsAsync(amalgam);
     }
 
     protected override void OnUpgrade()
     {
-        base.DynamicVars.Damage.UpgradeValueBy(2m);
-        base.DynamicVars.Summon.UpgradeValueBy(1m);
+        base.DynamicVars["Actions"].UpgradeValueBy(1m);
+    }
+
+    private static async Task ForgetAllIntentsAsync(FriendlyAmalgam amalgam)
+    {
+        int intentCount = 0;
+        for (int slot = 0; slot < 3; slot++)
+        {
+            if (amalgam.HasIntentInTorchSlot(slot))
+            {
+                intentCount++;
+            }
+        }
+
+        for (int i = 0; i < intentCount; i++)
+        {
+            await amalgam.ForgetCurrentTorchSlotIntentAsync();
+        }
     }
 }

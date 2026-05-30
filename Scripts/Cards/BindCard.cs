@@ -43,7 +43,7 @@ public sealed class BindCard : QueenCardModel
 		IEnumerable<CardModel> selected = await CardSelectCmd.FromHand(
 			choiceContext,
 			base.Owner,
-			new CardSelectorPrefs(new LocString("cards", "STS2_COMICCHESS_THEQUEEN_CARD_BIND_CARD.selectionPrompt"), 1),
+			new CardSelectorPrefs(new LocString("cards", "THE_QUEEN_CARD_BIND_CARD.selectionPrompt"), 1),
 			c => c.Affliction is not Bound,
 			this
 		);

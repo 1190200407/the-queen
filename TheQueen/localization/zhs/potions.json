@@ -1,14 +1,14 @@
 {
-    "STS2_COMICCHESS_THEQUEEN_POTION_LAMP_IN_A_BOTTLE.description": "[aqua]获得1点魂灯。[/aqua]",
-    "STS2_COMICCHESS_THEQUEEN_POTION_LAMP_IN_A_BOTTLE.title": "瓶中灯",
-    "STS2_COMICCHESS_THEQUEEN_POTION_SOURCE_OF_CLARITY.description": "清除一张[gold]手牌[/gold]的[purple]侵蚀[/purple]。",
-    "STS2_COMICCHESS_THEQUEEN_POTION_SOURCE_OF_CLARITY.selectionScreenPrompt": "选择1张手牌清除其侵蚀。",
-    "STS2_COMICCHESS_THEQUEEN_POTION_SOURCE_OF_CLARITY.title": "澄净之源",
-    "STS2_COMICCHESS_THEQUEEN_POTION_MAGIC_MIRROR_SHARD.description": "从[gold]手牌[/gold]中选择1张牌。战斗胜利时将该牌作为[gold]额外卡牌奖励[/gold]加入。",
-    "STS2_COMICCHESS_THEQUEEN_POTION_MAGIC_MIRROR_SHARD.selectionScreenPrompt": "选择1张牌。",
-    "STS2_COMICCHESS_THEQUEEN_POTION_MAGIC_MIRROR_SHARD.title": "魔镜碎片",
-    "STS2_COMICCHESS_THEQUEEN_POTION_DEATH_ELIXIR.description": "给予[blue]{PoisonPower}[/blue]层[gold]中毒[/gold]，[blue]{DoomPower}[/blue]层[gold]灾厄[/gold]和[blue]{DemisePower}[/blue]层[gold]消亡[/gold]。",
-    "STS2_COMICCHESS_THEQUEEN_POTION_DEATH_ELIXIR.title": "死亡合剂",
-    "STS2_COMICCHESS_THEQUEEN_POTION_ECOSPHERE_BOTTLE.description": "目标死亡时，将其[gold]捕获[/gold]。",
-    "STS2_COMICCHESS_THEQUEEN_POTION_ECOSPHERE_BOTTLE.title": "生态箱"
+    "THE_QUEEN_POTION_LAMP_IN_A_BOTTLE.description": "[aqua]获得1点魂灯。[/aqua]",
+    "THE_QUEEN_POTION_LAMP_IN_A_BOTTLE.title": "瓶中灯",
+    "THE_QUEEN_POTION_SOURCE_OF_CLARITY.description": "清除一张[gold]手牌[/gold]的[purple]侵蚀[/purple]。",
+    "THE_QUEEN_POTION_SOURCE_OF_CLARITY.selectionScreenPrompt": "选择1张手牌清除其侵蚀。",
+    "THE_QUEEN_POTION_SOURCE_OF_CLARITY.title": "澄净之源",
+    "THE_QUEEN_POTION_MAGIC_MIRROR_SHARD.description": "从[gold]手牌[/gold]中选择最多3张牌。战斗胜利时将该牌作为[gold]额外卡牌奖励[/gold]加入。",
+    "THE_QUEEN_POTION_MAGIC_MIRROR_SHARD.selectionScreenPrompt": "选择最多3张牌。",
+    "THE_QUEEN_POTION_MAGIC_MIRROR_SHARD.title": "魔镜碎片",
+    "THE_QUEEN_POTION_DEATH_ELIXIR.description": "给予[blue]{PoisonPower}[/blue]层[gold]中毒[/gold]，[blue]{DoomPower}[/blue]层[gold]灾厄[/gold]和[blue]{DemisePower}[/blue]层[gold]消亡[/gold]。",
+    "THE_QUEEN_POTION_DEATH_ELIXIR.title": "死亡合剂",
+    "THE_QUEEN_POTION_ECOSPHERE_BOTTLE.description": "目标死亡时，将其[gold]捕获[/gold]。",
+    "THE_QUEEN_POTION_ECOSPHERE_BOTTLE.title": "生态箱"
 }

@@ -63,7 +63,7 @@ public sealed class AcidGoop : LearnIntentCardModel
             decimal strength = base.DynamicVars.Power<StrengthPower>().BaseValue;
             if (strength > 0m)
             {
-                await PowerCmd.Apply<StrengthPower>(amalgam, strength, base.Owner.Creature, this);
+                await PowerCmd.Apply<StrengthPower>(choiceContext, amalgam, strength, base.Owner.Creature, this);
             }
         }
     }

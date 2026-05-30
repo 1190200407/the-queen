@@ -73,7 +73,7 @@ public sealed class Galvanic : QueenCardModel
         decimal stacks = base.DynamicVars["GalvanicStacks"].BaseValue;
         if (stacks > 0m)
         {
-            await PowerCmd.Apply<GalvanicPower>(base.Owner.Creature, stacks, base.Owner.Creature, this);
+            await PowerCmd.Apply<GalvanicPower>(choiceContext, base.Owner.Creature, stacks, base.Owner.Creature, this);
         }
     }
 }

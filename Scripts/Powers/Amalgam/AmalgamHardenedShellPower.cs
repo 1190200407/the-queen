@@ -27,6 +27,8 @@ public sealed class AmalgamHardenedShellPower : QueenPowerModel
 
     public override PowerStackType StackType => PowerStackType.Counter;
 
+    public override PowerInstanceType InstanceType => PowerInstanceType.Instanced;
+
     public override int DisplayAmount => (int)Math.Max(0, GetInternalData<Data>().Remaining);
 
     // 复用原版 Hardened Shell 的图标资源。
@@ -66,6 +68,10 @@ public sealed class AmalgamHardenedShellPower : QueenPowerModel
     public override async Task AfterModifyingHpLostAfterOsty()
     {
         Flash();
+        if (GetInternalData<Data>().Remaining <= 0m)
+		{
+			base.Owner.HpDisplay = HpDisplay.InfiniteWithNumbers;
+		}
         await Task.CompletedTask;
     }
 
@@ -80,16 +86,13 @@ public sealed class AmalgamHardenedShellPower : QueenPowerModel
         Data data = GetInternalData<Data>();
         data.Remaining = Amount;
         data.InitializedThisTurn = true;
+		base.Owner.HpDisplay = HpDisplay.Normal;
         InvokeDisplayAmountChanged();
         await Task.CompletedTask;
     }
 
-    public override Task AfterPowerAmountChanged(PowerModel power, decimal amount, Creature? applier, CardModel? cardSource)
+    public override Task AfterPowerAmountChanged(PlayerChoiceContext choiceContext, PowerModel power, decimal amount, Creature? applier, CardModel? cardSource)
     {
-        _ = amount;
-        _ = applier;
-        _ = cardSource;
-
         // 在“获得/叠加”时立刻刷新一次显示（让 DisplayAmount 立即生效）。
         if (power == this)
         {

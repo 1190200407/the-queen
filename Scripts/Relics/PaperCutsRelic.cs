@@ -13,15 +13,21 @@ using MegaCrit.Sts2.Core.Models.RelicPools;
 using MegaCrit.Sts2.Core.Saves.Runs;
 
 using STS2RitsuLib.Interop.AutoRegistration;
+using STS2RitsuLib.Scaffolding.Content;
+using STS2RitsuLib.Scaffolding.Content.Patches;
 
 namespace ComicChess.TheQueen;
 
 /// <summary>纸伤难愈：战斗开始时，所有敌人的最大生命值减少 X（X 为遗物计数）。</summary>
 [RegisterRelic(typeof(EventRelicPool))]
-public sealed class PaperCutsRelic : QueenRelicModel
+public sealed class PaperCutsRelic : ModRelicTemplate
 {
-	public override RelicRarity Rarity => RelicRarity.Common;
+	public override RelicRarity Rarity => RelicRarity.Event;
     public override bool ShowCounter => true;
+
+	public override string? CustomIconPath => "res://TheQueen/images/relics/paper_cuts.png";
+    public override string? CustomIconOutlinePath => "res://TheQueen/images/relics/paper_cuts_outline.png";
+    public override string? CustomBigIconPath => "res://TheQueen/images/relics/big/paper_cuts.png";
 
 	[SavedProperty]
 	public int Cuts {get; set;} = 0;
@@ -56,8 +62,8 @@ public sealed class PaperCutsRelic : QueenRelicModel
 		obtained.AddCuts(amount);
 	}
 
-	public override async Task BeforeSideTurnStart(PlayerChoiceContext choiceContext, CombatSide side, CombatState combatState)
-	{
+    public override async Task BeforeSideTurnStart(PlayerChoiceContext choiceContext, CombatSide side, IReadOnlyList<Creature> participants, ICombatState combatState)
+    {
 		if (side == base.Owner.Creature.Side && combatState.RoundNumber <= 1)
 		{
 			Flash();

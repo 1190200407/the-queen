@@ -23,7 +23,7 @@ public sealed class AwakenFear : QueenCardModel
 	private const TargetType targetType = TargetType.AnyEnemy;
 	private const bool shouldShowInCardLibrary = false;
 
-	protected override IEnumerable<string> RegisteredKeywordIds => [QueenKeyword.Fade];
+	public override IEnumerable<CardKeyword> CanonicalKeywords => [ModKeywordRegistry.GetCardKeyword(QueenKeyword.Fade)];
 
 	protected override IEnumerable<IHoverTip> AdditionalHoverTips => [
 		ModKeywordRegistry.CreateHoverTip(QueenKeyword.Fade)
@@ -45,7 +45,7 @@ public sealed class AwakenFear : QueenCardModel
 			return;
 		}
 
-		await PowerCmd.Apply<WeakPower>(cardPlay.Target, base.DynamicVars.Weak.BaseValue, base.Owner.Creature, this);
+		await PowerCmd.Apply<WeakPower>(choiceContext, cardPlay.Target, base.DynamicVars.Weak.BaseValue, base.Owner.Creature, this);
 	}
 
 	protected override void OnUpgrade()

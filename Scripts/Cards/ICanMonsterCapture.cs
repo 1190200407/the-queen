@@ -9,5 +9,5 @@ namespace ComicChess.TheQueen;
 /// </summary>
 public interface ICanMonsterCapture
 {
-	bool CanCapture(MonsterModel monster, CombatState combatState);
+	bool CanCapture(MonsterModel monster, ICombatState combatState);
 }

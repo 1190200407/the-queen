@@ -38,8 +38,8 @@ public sealed class Hex : QueenCardModel
         _ = choiceContext;
         _ = cardPlay;
 
-        await PowerCmd.Apply<HexPower>(base.Owner.Creature, 1m, base.Owner.Creature, this);
-        await PowerCmd.Apply<HexCursePower>(base.Owner.Creature, 1m, base.Owner.Creature, this);
+        await PowerCmd.Apply<HexPower>(choiceContext, base.Owner.Creature, 1m, base.Owner.Creature, this);
+        await PowerCmd.Apply<HexCursePower>(choiceContext, base.Owner.Creature, 1m, base.Owner.Creature, this);
         await CreatureCmd.TriggerAnim(base.Owner.Creature, "Cast", base.Owner.Character.CastAnimDelay);
     }
 }

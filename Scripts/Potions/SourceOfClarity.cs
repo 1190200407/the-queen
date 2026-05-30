@@ -42,7 +42,7 @@ public sealed class SourceOfClarity : QueenPotionModel
 		}
 
 		NCombatRoom.Instance?.PlaySplashVfx(target, SplashTint);
-		CardSelectorPrefs prefs = new(base.SelectionScreenPrompt, 1, 1);
+		CardSelectorPrefs prefs = new(base.SelectionScreenPrompt, 0, 3);
 		CardModel? picked = (await CardSelectCmd.FromHand(
 			choiceContext,
 			recipient,

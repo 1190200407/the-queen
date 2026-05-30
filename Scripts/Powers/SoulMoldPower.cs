@@ -8,6 +8,7 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models.Afflictions;
 using MegaCrit.Sts2.Core.Models;
 using STS2RitsuLib.Keywords;
+using MegaCrit.Sts2.Core.Entities.Creatures;
 
 namespace ComicChess.TheQueen;
 
@@ -63,7 +64,7 @@ public sealed class SoulMoldPower : QueenPowerModel
 		}
 
 		copy.AddModKeyword(QueenKeyword.Fade);
-		await CardPileCmd.AddGeneratedCardToCombat(copy, PileType.Hand, addedByPlayer: true);
+		await CardPileCmd.AddGeneratedCardToCombat(copy, PileType.Hand, player);
 
 		if (copy.Affliction is not null && copy.Affliction is not Bound)
 		{
@@ -75,8 +76,8 @@ public sealed class SoulMoldPower : QueenPowerModel
 		}
 	}
 
-	public override Task BeforeTurnEnd(PlayerChoiceContext choiceContext, CombatSide side)
-	{
+    public override Task BeforeSideTurnEnd(PlayerChoiceContext choiceContext, CombatSide side, IEnumerable<Creature> participants)
+    {
 		if (side == base.Owner.Side)
 		{
 			GetInternalData<Data>().triggeredThisTurn = false;

@@ -3,35 +3,55 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+using MegaCrit.Sts2.Core.Combat;
+using MegaCrit.Sts2.Core.Combat.History.Entries;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Afflictions;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.ValueProps;
+
 using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
 [RegisterCard(typeof(QueenCardPool))]
-public sealed class Scratch : ScratchTaggedCard
+public sealed class Scratch : QueenCardModel
 {
-	private const int energyCost = 1;
+	private const int ScratchBaseHitCount = 1;
+
+	private const int energyCost = 0;
 	private const CardType type = CardType.Attack;
 	private const CardRarity rarity = CardRarity.Common;
 	private const TargetType targetType = TargetType.AnyEnemy;
 	private const bool shouldShowInCardLibrary = true;
 
-	protected override IEnumerable<DynamicVar> CanonicalVars => [
+	private int _extraHitCountFromScratchPlays;
+
+	private int ExtraHitCountFromScratchPlays
+	{
+		get => _extraHitCountFromScratchPlays;
+		set
+		{
+			AssertMutable();
+			_extraHitCountFromScratchPlays = value;
+		}
+	}
+
+	protected override IEnumerable<DynamicVar> CanonicalVars =>
+	[
 		new DamageVar(5m, ValueProp.Move),
 		new RepeatVar(1),
-		new IntVar("IncreaseDamage", 2m)
 	];
 
-	protected override IEnumerable<IHoverTip> AdditionalHoverTips => [
-		.. HoverTipFactory.FromAffliction<Bound>()
+	protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+	[
+		.. HoverTipFactory.FromAffliction<Bound>(),
 	];
 
 	internal override bool HasSelfBound => true;
@@ -39,6 +59,17 @@ public sealed class Scratch : ScratchTaggedCard
 	public Scratch()
 		: base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
 	{
+	}
+
+	public override async Task AfterCardEnteredCombat(CardModel card)
+	{
+		await base.AfterCardEnteredCombat(card);
+		if (card != this || base.IsClone)
+		{
+			return;
+		}
+
+		SyncExtraHitsFromHistory();
 	}
 
 	protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
@@ -54,18 +85,48 @@ public sealed class Scratch : ScratchTaggedCard
 
 		ArgumentNullException.ThrowIfNull(base.Owner);
 		ArgumentNullException.ThrowIfNull(base.Owner.PlayerCombatState);
-		decimal increase = base.DynamicVars["IncreaseDamage"].BaseValue;
-		foreach (ScratchTaggedCard card in base.Owner.PlayerCombatState.AllCards.OfType<ScratchTaggedCard>())
+		foreach (Scratch scratch in base.Owner.PlayerCombatState.AllCards.OfType<Scratch>())
 		{
-			card.BuffFromScratchPlay(increase);
+			scratch.BuffHitCountFromScratchPlay(1);
 		}
-
-		QueenScratchBonusTracker.RecordScratchPlay(base.Owner, increase);
 	}
 
 	protected override void OnUpgrade()
 	{
 		base.DynamicVars.Damage.UpgradeValueBy(2m);
-		base.DynamicVars["IncreaseDamage"].BaseValue += 1m;
+	}
+
+	protected override void AfterDowngraded()
+	{
+		base.AfterDowngraded();
+		SyncRepeatVarToCombatHits();
+	}
+
+	private void SyncExtraHitsFromHistory()
+	{
+		ExtraHitCountFromScratchPlays = CountScratchPlaysThisCombat(base.Owner);
+		SyncRepeatVarToCombatHits();
+	}
+
+	internal void BuffHitCountFromScratchPlay(int delta = 1)
+	{
+		ExtraHitCountFromScratchPlays += delta;
+		SyncRepeatVarToCombatHits();
+	}
+
+	private void SyncRepeatVarToCombatHits()
+	{
+		base.DynamicVars.Repeat.BaseValue = ScratchBaseHitCount + ExtraHitCountFromScratchPlays;
+	}
+
+	private int CountScratchPlaysThisCombat(Player? owner)
+	{
+		if (owner == null)
+		{
+			return 0;
+		}
+
+		return CombatManager.Instance.History.CardPlaysFinished.Count(e =>
+			e.CardPlay.Card is Scratch && e.CardPlay.Card.Owner == owner);
 	}
 }

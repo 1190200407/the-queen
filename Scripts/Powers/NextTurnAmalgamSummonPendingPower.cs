@@ -17,6 +17,9 @@ public sealed class NextTurnAmalgamSummonPendingPower : QueenPowerModel
 
 	public override PowerStackType StackType => PowerStackType.Counter;
 
+	public override string? CustomIconPath => "res://images/atlases/power_atlas.sprites/summon_next_turn_power.tres";
+	public override string? CustomBigIconPath => "res://images/powers/summon_next_turn_power.png";
+
 	public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
 	{
 		if (player.Creature != base.Owner || !base.Owner.IsAlive)
@@ -24,7 +27,7 @@ public sealed class NextTurnAmalgamSummonPendingPower : QueenPowerModel
 			return;
 		}
 
-		CombatState? combatState = base.Owner.CombatState;
+		ICombatState? combatState = base.Owner.CombatState;
 		if (combatState == null)
 		{
 			return;

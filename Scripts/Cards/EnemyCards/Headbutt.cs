@@ -12,17 +12,12 @@ using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.ValueProps;
 using STS2RitsuLib.Cards.DynamicVars;
 using STS2RitsuLib.Interop.AutoRegistration;
-using STS2RitsuLib.Keywords;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>头槌：召唤；聚合体获得失衡；通过 <see cref="FriendlyAmalgamCmd.CombineIntent"/> 学习聚合进攻意图。消耗。</summary>
 [RegisterCard(typeof(EnemyCardPool))]
 public sealed class Headbutt : LearnIntentCardModel
 {
-    /// <summary>与 <see cref="AmalgamCompositeIntentAction"/> 及盛碗虫（石）捕获映射共用。</summary>
-    public const string BowlbugRockCompositeKey = "BOWLBUG";
-
     private const decimal summon = 3m;
     private const decimal learnIntentDamage = 15m;
     private const int energyCost = 2;
@@ -32,7 +27,6 @@ public sealed class Headbutt : LearnIntentCardModel
     private const bool shouldShowInCardLibrary = true;
 
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
-    protected override IEnumerable<string> RegisteredKeywordIds => [QueenKeyword.AmalgamComposite];
 
     public override int MaxUpgradeLevel => 0;
 
@@ -44,14 +38,14 @@ public sealed class Headbutt : LearnIntentCardModel
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
-        QueenHoverTips.LearnIntent,
-        ModKeywordRegistry.CreateHoverTip(QueenKeyword.AmalgamComposite),
+        ..base.AdditionalHoverTips,
         HoverTipFactory.FromPower<AmalgamImbalancedPower>(),
     ];
 
     public Headbutt()
         : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
     {
+        CompositeKey = AmalgamCompositeKey.Bowlbug;
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
@@ -72,15 +66,10 @@ public sealed class Headbutt : LearnIntentCardModel
 
         if (amalgam.GetPower<AmalgamImbalancedPower>() == null)
         {
-            await PowerCmd.Apply<AmalgamImbalancedPower>(amalgam, 1m, base.Owner.Creature, this);
+            await PowerCmd.Apply<AmalgamImbalancedPower>(choiceContext, amalgam, 1m, base.Owner.Creature, this);
         }
 
         decimal damage = AmalgamLearnIntentDamageVar.GetEffectiveFlatForOffenseIntent(this, "LearnIntentDamage");
-        await FriendlyAmalgamCmd.CombineIntent(
-            choiceContext,
-            base.Owner,
-            new AmalgamOffenseIntentAction(damage),
-            this,
-            BowlbugRockCompositeKey);
+        await ApplyLearnOrCombineIntentAsync(choiceContext, new AmalgamOffenseIntentAction(damage));
     }
 }

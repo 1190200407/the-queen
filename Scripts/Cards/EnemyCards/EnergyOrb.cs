@@ -13,7 +13,7 @@ using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>能量球：学习「进攻 + 力量」双意图，并带魂缚。</summary>
+/// <summary>能量球：召唤并学习「进攻 + 力量」双意图，并带魂缚。</summary>
 [RegisterCard(typeof(EnemyCardPool))]
 public sealed class EnergyOrb : LearnIntentCardModel
 {

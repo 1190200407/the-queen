@@ -28,7 +28,7 @@ public sealed class TestSubject : QueenCardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new SummonVar(36m).WithSharedTooltip("QUEEN_SUMMON_DYNAMIC"),
+        new SummonVar(25m).WithSharedTooltip("QUEEN_SUMMON_DYNAMIC"),
         new PowerVar<AmalgamTestSubjectBossPower>(1m),
     ];
 
@@ -61,7 +61,7 @@ public sealed class TestSubject : QueenCardModel
             return;
         }
 
-        await PowerCmd.Apply<AmalgamTestSubjectBossPower>(amalgam, 1m, base.Owner.Creature, this);
+        await PowerCmd.Apply<AmalgamTestSubjectBossPower>(choiceContext, amalgam, 1m, base.Owner.Creature, this);
     }
 }
 

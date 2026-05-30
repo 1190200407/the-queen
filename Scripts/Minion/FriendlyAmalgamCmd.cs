@@ -40,7 +40,7 @@ public static class FriendlyAmalgamCmd
     /// 仍在本场 <paramref name="combatState"/> 中的友方聚合体。逃跑等会 <c>RemoveCreature</c> 并清空 <c>Creature.CombatState</c>，
     /// 但原版不会从 <see cref="MegaCrit.Sts2.Core.Entities.Players.PlayerCombatState.Pets"/> 移除，故必须过滤，否则 <see cref="GetExisting"/> 会命中僵尸引用。
     /// </summary>
-    public static Creature? GetExisting(CombatState combatState, Player owner)
+    public static Creature? GetExisting(ICombatState combatState, Player owner)
     {
         return owner.Creature.Pets.FirstOrDefault(c =>
             c.Monster is FriendlyAmalgam && ReferenceEquals(c.CombatState, combatState));
@@ -62,7 +62,7 @@ public static class FriendlyAmalgamCmd
     }
 
     /// <summary>与原版 <see cref="NCombatRoom.AddCreature"/> 里奥斯提分支一致：仅「本地视角下的该玩家」用右上偏移 + sibling 顺序；联机里其他玩家保持 <c>AddCreature</c> 已为随从排好的脚边一行。</summary>
-    private static bool IsLayoutLocalPlayer(Player owner, CombatState? combatState)
+    private static bool IsLayoutLocalPlayer(Player owner, ICombatState? combatState)
     {
         if (LocalContext.IsMe(owner))
         {
@@ -82,36 +82,33 @@ public static class FriendlyAmalgamCmd
     /// 对齐原版 <see cref="NCombatRoom.AddCreature"/> 奥斯提分支（本地主控）：<c>player.Position + GetOstyOffsetFromPlayer(pet)</c> 与 <c>MoveChild(p, player.GetIndex())</c>。
     /// 不用 <see cref="NCreature.OstyScaleToSize"/>：随后 <see cref="TryRefreshAmalgamScaleFromMaxHp"/> 的 <see cref="NCreature.ScaleTo"/> 会 Kill 同一 <c>_scaleTween</c>，打断奥斯提位移 tween。
     /// 联机里非本地玩家不调用本逻辑，保留 <c>AddCreature</c> 已为随从算好的脚边一行（<c>Y+10</c>）。
-    /// 延迟一帧应用，避免 <c>Hitbox.Size</c> 尚未就绪导致 <see cref="NCreature.GetOstyOffsetFromPlayer"/> 偏差。
     /// </summary>
-    private static void PlaceAmalgamByQueen(Player owner, Creature pet, CombatState? combatState)
+    internal static void ApplyLocalAmalgamSlot(Player owner, Creature pet, ICombatState? combatState)
     {
         if (!IsLayoutLocalPlayer(owner, combatState))
         {
             return;
         }
 
-        void ApplyLocalAmalgamSlot()
+        if (NCombatRoom.Instance is not { } room)
         {
-            if (NCombatRoom.Instance is not { } room)
-            {
-                return;
-            }
-
-            NCreature? o = room.GetCreatureNode(owner.Creature);
-            NCreature? p = room.GetCreatureNode(pet);
-            if (o == null || p == null || !GodotObject.IsInstanceValid(o) || !GodotObject.IsInstanceValid(p))
-            {
-                return;
-            }
-
-            p.Position = o.Position + NCreature.GetOstyOffsetFromPlayer(pet);
-            p.GetParent().MoveChild(p, o.GetIndex());
-            p.ToggleIsInteractable(true);
+            return;
         }
 
-        Callable.From(ApplyLocalAmalgamSlot).CallDeferred();
+        NCreature? o = room.GetCreatureNode(owner.Creature);
+        NCreature? p = room.GetCreatureNode(pet);
+        if (o == null || p == null || !GodotObject.IsInstanceValid(o) || !GodotObject.IsInstanceValid(p))
+        {
+            return;
+        }
+
+        p.Position = o.Position + NCreature.GetOstyOffsetFromPlayer(pet);
+        p.GetParent().MoveChild(p, o.GetIndex());
+        p.ToggleIsInteractable(true);
     }
+
+    private static void PlaceAmalgamByQueen(Player owner, Creature pet, ICombatState? combatState) =>
+        ApplyLocalAmalgamSlot(owner, pet, combatState);
 
     /// <summary>按 <see cref="Creature.MaxHp"/> 更新聚合体显示缩放（与奥斯提相同 <see cref="Osty.ScaleRange"/> 与 150 参考生命）；用 <see cref="NCreature.ScaleTo"/>，不移动节点位置。体型只增不减（当前血量变小时保持已有显示倍率）。</summary>
     public static void TryRefreshAmalgamScaleFromMaxHp(Creature amalgamCreature, float durationSeconds = AmalgamScaleTweenOnHpChange)
@@ -192,7 +189,7 @@ public static class FriendlyAmalgamCmd
 
     public static async Task Summon(PlayerChoiceContext choiceContext, Player owner, decimal amount, AbstractModel? source)
     {
-        CombatState? combatState = owner.Creature.CombatState;
+        ICombatState? combatState = owner.Creature.CombatState;
         if (combatState == null)
         {
             return;
@@ -234,24 +231,19 @@ public static class FriendlyAmalgamCmd
         Creature minion = existing ?? await AddAmalgamPetAsync(
             owner,
             new MinionSummonOptions(Source: source as CardModel));
-        
-        if (isReviving)
-        {
-            owner.PlayerCombatState?.AddPetInternal(minion);
-        }
 
         if (isReviving)
         {
+            owner.PlayerCombatState?.AddPetInternal(minion);
             await CreatureCmd.SetMaxHp(minion, amount);
-            await HealCurrentUpToSummonTargetAsync(minion, amount);
-            await FinishSummonRevivePresentationAsync(minion);
         }
         else
         {
             await CreatureCmd.SetMaxHp(minion, amount);
-            await HealCurrentUpToSummonTargetAsync(minion, amount);
         }
 
+        await HealCurrentUpToSummonTargetAsync(minion, amount);
+        await FinishSummonRevivePresentationAsync(minion);
         await FriendlyAmalgamHook.OnAmalgamEnterCombat(combatState, choiceContext, owner, minion);
         CombatManager.Instance.History.Summoned(combatState, (int)amount, owner);
         await EnsureAmalgamCorePowers(minion);
@@ -265,7 +257,7 @@ public static class FriendlyAmalgamCmd
     /// <summary>击倒沉睡回合末：最大生命设为 1，当前生命置为 1。</summary>
     internal static async Task ApplyDeathSleepReviveStatsAsync(Creature creature)
     {
-        CombatState? cs = creature.CombatState;
+        ICombatState? cs = creature.CombatState;
         if (cs == null)
         {
             return;
@@ -310,7 +302,7 @@ public static class FriendlyAmalgamCmd
     /// <summary>战斗开场：仅生成 0 血的聚合体壳并写入固定最大生命，不治疗、不占召唤历史。</summary>
     public static async Task EnsureAmalgamCombatStartShellAsync(PlayerChoiceContext choiceContext, Player owner)
     {
-        CombatState? combatState = owner.Creature.CombatState;
+        ICombatState? combatState = owner.Creature.CombatState;
         if (combatState == null)
         {
             return;
@@ -381,12 +373,12 @@ public static class FriendlyAmalgamCmd
         // 顺序固定：先 DieForYou。0 血壳上第二段 Apply 依赖 AmalgamDieForYouPower.ShouldAllowHitting 在「尚无渴血」时对尸体短暂放行（见该处注释）。
         if (minion.GetPower<AmalgamDieForYouPower>() == null)
         {
-            await PowerCmd.Apply<AmalgamDieForYouPower>(minion, 1m, null, null);
+            await PowerCmd.Apply<AmalgamDieForYouPower>(new ThrowingPlayerChoiceContext(), minion, 1m, null, null);
         }
 
         if (minion.GetPower<AmalgamEvolutionaryThirstPower>() == null)
         {
-            await PowerCmd.Apply<AmalgamEvolutionaryThirstPower>(minion, 1m, null, null);
+            await PowerCmd.Apply<AmalgamEvolutionaryThirstPower>(new ThrowingPlayerChoiceContext(), minion, 1m, null, null);
         }
     }
 
@@ -401,7 +393,7 @@ public static class FriendlyAmalgamCmd
             return;
         }
 
-        CombatState? combatState = owner.Creature.CombatState;
+        ICombatState? combatState = owner.Creature.CombatState;
         if (combatState == null)
         {
             return;
@@ -427,14 +419,25 @@ public static class FriendlyAmalgamCmd
     /// 合并意图的<strong>唯一入口</strong>：取友方聚合体；若当前生命为 0 则先 <see cref="Summon"/> 补至可行动再写入。
     /// 卡牌/能力侧<strong>不要</strong>先 <see cref="GetExisting"/> 再以 <c>IsAlive</c> 短路，否则 0 血尸体态永远进不来这里。
     /// </summary>
-    public static async Task CombineIntent(PlayerChoiceContext choiceContext, Player owner, AmalgamActionModel? intent, AbstractModel? source, string? compositeIndexKey)
+    public static async Task CombineIntent(
+        PlayerChoiceContext choiceContext,
+        Player owner,
+        AmalgamActionModel? intent,
+        AbstractModel? source,
+        AmalgamCompositeKey compositeKey)
     {
+        if (compositeKey == AmalgamCompositeKey.None)
+        {
+            await LearnIntent(choiceContext, owner, intent, source);
+            return;
+        }
+
         if (intent == null)
         {
             return;
         }
 
-        CombatState? combatState = owner.Creature.CombatState;
+        ICombatState? combatState = owner.Creature.CombatState;
         if (combatState == null)
         {
             return;
@@ -451,8 +454,8 @@ public static class FriendlyAmalgamCmd
             await Summon(choiceContext, owner, 1m, source);
         }
 
-        await amalgamModel.CombineIntentAsync(choiceContext, intent, compositeIndexKey);
-        await FriendlyAmalgamHook.AfterCombineIntent(combatState, choiceContext, owner, amalgamCreature, intent, source, compositeIndexKey);
+        await amalgamModel.CombineIntentAsync(choiceContext, intent, compositeKey);
+        await FriendlyAmalgamHook.AfterCombineIntent(combatState, choiceContext, owner, amalgamCreature, intent, source, compositeKey);
     }
 
     /// <summary>将 <see cref="FriendlyAmalgam"/> 三槽意图与 <see cref="NewNAmalgamVfx"/> 小火同步（无节点时静默跳过）。</summary>
@@ -498,28 +501,45 @@ public static class FriendlyAmalgamCmd
     }
 
     /// <summary>
-    /// 多段进攻：单次 <c>PowerAttack</c> 出手动画 + 光束音效；<c>Visuals/LaserControlBone</c> 固定向友方场侧偏移，随后按 <see cref="AmalgamOffenseTargeting"/> 连打 <paramref name="hitCount"/> 次。
+    /// 多段进攻：先播放一次出手动画，再连打 <paramref name="hitCount"/> 次。
+    /// <paramref name="target"/> 非空时固定攻击该目标；否则按 <see cref="AmalgamOffenseTargeting"/> 选敌。
     /// </summary>
     public static async Task ExecuteMultiHitOffense(
         PlayerChoiceContext choiceContext,
-        Creature amalgam,
+        Creature attacker,
+        Creature? target,
         decimal damagePerHit,
-        int hitCount)
+        int hitCount,
+        string attackerAnimName,
+        float attackerAnimDelay,
+        string hitVfxPath,
+        string attackerSfxPath,
+        Func<Creature, Task>? playHitVfxOnTarget = null)
     {
-        const string beamAnim = "PowerAttack";
-        const float beamAnimDelay = 0.7f;
-        const float damageDelayAfterBeamAnim = 0.3f;
-        const string beamSfx = "event:/sfx/enemy/enemy_attacks/torch_head_amalgam/torch_head_amalgam_beam";
-        const string hitVfxPath = "vfx/vfx_attack_blunt";
+        const float damageDelayAfterAttackAnim = 0.3f;
         const float laserControlBoneFriendlyReach = 10000f;
+
+        async Task PlayHitVfxAsync(Creature hitTarget)
+        {
+            if (playHitVfxOnTarget != null)
+            {
+                await playHitVfxOnTarget(hitTarget);
+                return;
+            }
+
+            if (!string.IsNullOrEmpty(hitVfxPath))
+            {
+                VfxCmd.PlayOnCreatureCenter(hitTarget, hitVfxPath);
+            }
+        }
 
         if (hitCount <= 0 || damagePerHit <= 0m)
         {
             return;
         }
 
-        CombatState? combatState = amalgam.CombatState;
-        if (combatState == null || amalgam.PetOwner is not Player queen)
+        ICombatState? combatState = attacker.CombatState;
+        if (combatState == null || attacker.PetOwner is not Player queen)
         {
             return;
         }
@@ -530,11 +550,18 @@ public static class FriendlyAmalgamCmd
             return;
         }
 
-        TryOffsetMultiHitLaserControlBone(amalgam, laserControlBoneFriendlyReach);
+        if (attackerAnimName == "PowerAttack")
+        {
+            TryOffsetMultiHitLaserControlBone(attacker, laserControlBoneFriendlyReach);
+        }
 
-        SfxCmd.Play(beamSfx);
-        await CreatureCmd.TriggerAnim(amalgam, beamAnim, beamAnimDelay);
-        await Cmd.CustomScaledWait(damageDelayAfterBeamAnim, damageDelayAfterBeamAnim);
+        if (!string.IsNullOrEmpty(attackerSfxPath))
+        {
+            SfxCmd.Play(attackerSfxPath);
+        }
+
+        await CreatureCmd.TriggerAnim(attacker, attackerAnimName, attackerAnimDelay);
+        await Cmd.CustomScaledWait(damageDelayAfterAttackAnim, damageDelayAfterAttackAnim);
 
         for (int i = 0; i < hitCount; i++)
         {
@@ -544,19 +571,28 @@ public static class FriendlyAmalgamCmd
                 return;
             }
 
+            if (target is { IsAlive: true } forcedTarget && alive.Contains(forcedTarget))
+            {
+                await PlayHitVfxAsync(forcedTarget);
+                IEnumerable<DamageResult> damageResults =
+                    await CreatureCmd.Damage(choiceContext, forcedTarget, damagePerHit, ValueProp.Move, attacker, null);
+                await FriendlyAmalgamHook.AfterAmalgamDamagedCreature(combatState, choiceContext, attacker, forcedTarget, damageResults);
+                continue;
+            }
+
             AmalgamOffenseTargetingMode mode = AmalgamOffenseTargeting.ResolveMode(combatState, queen);
             if (mode == AmalgamOffenseTargetingMode.AllAliveEnemies)
             {
                 foreach (Creature enemy in alive)
                 {
-                    VfxCmd.PlayOnCreatureCenter(enemy, hitVfxPath);
+                    await PlayHitVfxAsync(enemy);
                 }
 
                 foreach (Creature enemy in alive)
                 {
                     IEnumerable<DamageResult> damageResults =
-                        await CreatureCmd.Damage(choiceContext, enemy, damagePerHit, ValueProp.Move, amalgam, null);
-                    await FriendlyAmalgamHook.AfterAmalgamDamagedCreature(combatState, choiceContext, amalgam, enemy, damageResults);
+                        await CreatureCmd.Damage(choiceContext, enemy, damagePerHit, ValueProp.Move, attacker, null);
+                    await FriendlyAmalgamHook.AfterAmalgamDamagedCreature(combatState, choiceContext, attacker, enemy, damageResults);
                 }
 
                 continue;
@@ -567,10 +603,10 @@ public static class FriendlyAmalgamCmd
                 Creature? marked = AmalgamOffenseTargeting.FindMarkedEnemy(combatState);
                 if (marked is { IsAlive: true })
                 {
-                    VfxCmd.PlayOnCreatureCenter(marked, hitVfxPath);
+                    await PlayHitVfxAsync(marked);
                     IEnumerable<DamageResult> damageResults =
-                        await CreatureCmd.Damage(choiceContext, marked, damagePerHit, ValueProp.Move, amalgam, null);
-                    await FriendlyAmalgamHook.AfterAmalgamDamagedCreature(combatState, choiceContext, amalgam, marked, damageResults);
+                        await CreatureCmd.Damage(choiceContext, marked, damagePerHit, ValueProp.Move, attacker, null);
+                    await FriendlyAmalgamHook.AfterAmalgamDamagedCreature(combatState, choiceContext, attacker, marked, damageResults);
                     continue;
                 }
             }
@@ -581,10 +617,10 @@ public static class FriendlyAmalgamCmd
                 continue;
             }
 
-            VfxCmd.PlayOnCreatureCenter(randomEnemy, hitVfxPath);
+            await PlayHitVfxAsync(randomEnemy);
             IEnumerable<DamageResult> randomHit =
-                await CreatureCmd.Damage(choiceContext, randomEnemy, damagePerHit, ValueProp.Move, amalgam, null);
-            await FriendlyAmalgamHook.AfterAmalgamDamagedCreature(combatState, choiceContext, amalgam, randomEnemy, randomHit);
+                await CreatureCmd.Damage(choiceContext, randomEnemy, damagePerHit, ValueProp.Move, attacker, null);
+            await FriendlyAmalgamHook.AfterAmalgamDamagedCreature(combatState, choiceContext, attacker, randomEnemy, randomHit);
         }
     }
 

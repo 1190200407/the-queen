@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -11,14 +12,13 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>蟹之怒（女王版）：聚合体死亡时，你获得力量与格挡，然后移除此能力。类名不可为 <c>CrabRagePower</c>（与原版 ModelId 冲突）。</summary>
-public sealed class AmalgamCrabRagePower : QueenPowerModel
+/// <summary>蟹之怒（女王版）：聚合体沉睡时，你获得力量与格挡，然后移除此能力。</summary>
+public sealed class AmalgamCrabRagePower : QueenPowerModel, IAmalgamEventListener
 {
     public override PowerType Type => PowerType.Buff;
 
     public override PowerStackType StackType => PowerStackType.Single;
 
-    // 复用原版 Crab Rage 的图标资源。
     public override string? CustomIconPath => "res://images/atlases/power_atlas.sprites/crab_rage_power.tres";
     public override string? CustomBigIconPath => "res://images/powers/crab_rage_power.png";
 
@@ -34,27 +34,21 @@ public sealed class AmalgamCrabRagePower : QueenPowerModel
         new BlockVar(30m, ValueProp.Unpowered),
     ];
 
-    public override async Task AfterDeath(PlayerChoiceContext choiceContext, Creature creature, bool wasRemovalPrevented, float deathAnimLength)
+    public async Task OnAmalgamFallAsleepAsync(ICombatState combatState, Creature amalgam)
     {
-        _ = choiceContext;
-        _ = deathAnimLength;
-        if (wasRemovalPrevented || !base.Owner.IsAlive)
-        {
-            return;
-        }
-
-        // 仅在聚合体死亡时触发（聚合体是女王的友方随从）。
-        if (creature is not { IsAlive: false } || creature.PetOwner != base.Owner.Player)
-        {
-            return;
-        }
-        if (creature.Monster is not FriendlyAmalgam)
+        _ = combatState;
+        if (!base.Owner.IsAlive || amalgam.PetOwner != base.Owner.Player || amalgam.Monster is not FriendlyAmalgam)
         {
             return;
         }
 
         Flash();
-        await PowerCmd.Apply<StrengthPower>(base.Owner, base.DynamicVars.Strength.IntValue, base.Owner, null);
+        await PowerCmd.Apply<StrengthPower>(
+            new ThrowingPlayerChoiceContext(),
+            base.Owner,
+            base.DynamicVars.Strength.IntValue,
+            base.Owner,
+            null);
         await CreatureCmd.GainBlock(base.Owner, base.DynamicVars.Block, null);
         await PowerCmd.Remove(this);
     }

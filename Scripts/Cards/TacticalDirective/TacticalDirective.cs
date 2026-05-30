@@ -13,7 +13,7 @@ using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>战术指令：生成代劳、接手，获得魂灯；升级减费�?/summary>
+/// <summary>战术指令：生成代劳、接手，获得魂灯；升级减费�?/summary>
 
 [RegisterCard(typeof(QueenCardPool))]
 public sealed class TacticalDirective : QueenCardModel
@@ -49,7 +49,7 @@ public sealed class TacticalDirective : QueenCardModel
 
 		await QueenCardCmd.CreateInHand<DelegateLabor>(base.Owner, base.CombatState, isUpgraded: false);
 		await QueenCardCmd.CreateInHand<TakeOver>(base.Owner, base.CombatState, isUpgraded: false);
-		await QueenCardCmd.AddSoulLamp(base.Owner, 1);
+		await QueenCardCmd.AddSoulLamp(choiceContext, base.Owner, 1);
 	}
 
 	protected override void OnUpgrade()

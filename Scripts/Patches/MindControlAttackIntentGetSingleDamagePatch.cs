@@ -28,7 +28,7 @@ internal sealed class MindControlAttackIntentGetSingleDamagePatch : IPatchMethod
 	public static void Postfix(AttackIntent __instance, IEnumerable<Creature> targets, Creature owner, ref int __result)
 	{
 		_ = targets;
-		if (owner.CombatState is not CombatState combatState || !owner.IsEnemy)
+		if (owner.CombatState is not ICombatState combatState || !owner.IsEnemy)
 		{
 			return;
 		}

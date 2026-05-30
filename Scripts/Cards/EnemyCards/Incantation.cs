@@ -7,9 +7,10 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
+using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.CardPools;
-using MegaCrit.Sts2.Core.Models.Powers;
+using MegaCrit.Sts2.Core.Nodes.Vfx;
 using STS2RitsuLib.Cards.DynamicVars;
 using STS2RitsuLib.Interop.AutoRegistration;
 
@@ -25,17 +26,19 @@ public sealed class Incantation : QueenCardModel
     private const TargetType targetType = TargetType.Self;
     private const bool shouldShowInCardLibrary = true;
 
+	private static readonly LocString _cawCawDialogue = new LocString("monsters", "DAMP_CULTIST.moves.INCANTATION.banter");
+
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new SummonVar(7m).WithSharedTooltip("QUEEN_SUMMON_DYNAMIC"),
-        new PowerVar<RitualPower>(1m),
+        new PowerVar<AmalgamRitualPower>(1m),
     ];
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
-        HoverTipFactory.FromPower<RitualPower>(),
+        HoverTipFactory.FromPower<AmalgamRitualPower>(),
     ];
 
     public override int MaxUpgradeLevel => 0;
@@ -59,10 +62,13 @@ public sealed class Incantation : QueenCardModel
         Creature? amalgam = FriendlyAmalgamCmd.GetExisting(combatState, base.Owner);
         if (amalgam is { IsAlive: true })
         {
-            decimal ritual = base.DynamicVars.Power<RitualPower>().BaseValue;
+            decimal ritual = base.DynamicVars.Power<AmalgamRitualPower>().BaseValue;
             if (ritual > 0m)
             {
-                await PowerCmd.Apply<RitualPower>(amalgam, ritual, base.Owner.Creature, this);
+		        SfxCmd.Play("event:/sfx/enemy/enemy_attacks/cultists/cultists_buff_damp");
+                await CreatureCmd.TriggerAnim(amalgam, "Cast", 0.45f);
+                TalkCmd.Play(_cawCawDialogue, amalgam, VfxColor.Swamp, VfxDuration.Long);
+                await PowerCmd.Apply<AmalgamRitualPower>(choiceContext, amalgam, ritual, base.Owner.Creature, this);
             }
         }
     }

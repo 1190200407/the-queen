@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
 
 namespace ComicChess.TheQueen;
@@ -37,7 +38,7 @@ public sealed class AmalgamBurrowedPower : QueenPowerModel
         }
 
         await PowerCmd.Remove(this);
-        await PowerCmd.Apply<AmalgamSleepPower>(
+        await PowerCmd.Apply<AmalgamSleepPower>(new ThrowingPlayerChoiceContext(), 
             base.Owner,
             1m,
             applier: base.Owner.PetOwner?.Creature,

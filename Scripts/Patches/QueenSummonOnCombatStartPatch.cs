@@ -20,7 +20,7 @@ internal sealed class QueenSummonOnCombatStartPatch : IPatchMethod
 		new(typeof(Hook), nameof(Hook.BeforeCombatStart)),
 	];
 
-	public static async Task Postfix(Task __result, IRunState runState, CombatState? combatState)
+	public static async Task Postfix(Task __result, IRunState runState, ICombatState? combatState)
 	{
 		_ = runState;
 		await __result;

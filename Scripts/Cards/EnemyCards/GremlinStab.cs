@@ -40,11 +40,11 @@ public sealed class GremlinStab : QueenCardModel
     {
     }
 
-    /// <summary>无友方聚合体或 <see cref="FriendlyAmalgam.BlocksDirectOffenseFromHand"/> 时手牌红高亮（打出时由聚合体直接对敌伤害）。</summary>
+    /// <summary>无友方聚合体或 <see cref="FriendlyAmalgam.BlockActionFromSleep"/> 时手牌红高亮（打出时由聚合体直接对敌伤害）。</summary>
     protected override bool ShouldGlowRedInternal =>
         (base.Owner?.Creature?.CombatState is { } combatState
             && (FriendlyAmalgamCmd.GetExisting(combatState, base.Owner) is not { Monster: FriendlyAmalgam amalgam }
-                || amalgam.BlocksDirectOffenseFromHand))
+                || amalgam.BlockActionFromSleep))
         || base.ShouldGlowRedInternal;
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
@@ -62,7 +62,7 @@ public sealed class GremlinStab : QueenCardModel
         }
 
         Creature target = cardPlay.Target;
-        if (amalgam.Monster is FriendlyAmalgam amalgamModel && !amalgamModel.BlocksDirectOffenseFromHand)
+        if (amalgam.Monster is FriendlyAmalgam amalgamModel && !amalgamModel.BlockActionFromSleep)
         {
             decimal damage = base.DynamicVars.Damage.BaseValue;
             AmalgamActionModel? attack = AmalgamActionRegistry.CreateOffense(damage, target);
@@ -79,11 +79,11 @@ public sealed class GremlinStab : QueenCardModel
             Creature? applier = amalgam.PetOwner?.Creature;
             if (heist is null)
             {
-                await PowerCmd.Apply<AmalgamHeistPower>(amalgam, gold, applier, this);
+                await PowerCmd.Apply<AmalgamHeistPower>(choiceContext, amalgam, gold, applier, this);
             }
             else
             {
-                await PowerCmd.ModifyAmount(heist, gold, applier, this);
+                await PowerCmd.ModifyAmount(choiceContext, heist, gold, applier, this);
             }
         }
     }

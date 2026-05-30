@@ -14,7 +14,7 @@ using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>蒸汽喷发：召唤并使聚合体获得蒸汽喷发（行动时叠加）。</summary>
+/// <summary>蒸汽喷发：召唤并使聚合体获得蒸汽喷发（行动时叠加，沉睡时爆发）。</summary>
 [RegisterCard(typeof(EnemyCardPool))]
 public sealed class SteamEruption : QueenCardModel
 {
@@ -27,7 +27,7 @@ public sealed class SteamEruption : QueenCardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new SummonVar(14m).WithSharedTooltip("QUEEN_SUMMON_DYNAMIC"),
+        new SummonVar(15m).WithSharedTooltip("QUEEN_SUMMON_DYNAMIC"),
         new PowerVar<AmalgamSteamEruptionPower>(15m),
     ];
 
@@ -60,7 +60,7 @@ public sealed class SteamEruption : QueenCardModel
             decimal amount = base.DynamicVars.Power<AmalgamSteamEruptionPower>().BaseValue;
             if (amount > 0m)
             {
-                await PowerCmd.Apply<AmalgamSteamEruptionPower>(amalgam, amount, base.Owner.Creature, this);
+                await PowerCmd.Apply<AmalgamSteamEruptionPower>(choiceContext, amalgam, amount, base.Owner.Creature, this);
             }
         }
     }

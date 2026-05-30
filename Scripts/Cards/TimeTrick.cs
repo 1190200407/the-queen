@@ -19,7 +19,7 @@ using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>时间把戝：造戝伤害；至多弃 2 张；下回坈开始时将本次弃掉的牌移回手牌�?/summary>
+/// <summary>时间把戏：造成伤害；至多弃 2 张；下回合开始时将本次弃掉的牌移回手牌�?/summary>
 
 [RegisterCard(typeof(QueenCardPool))]
 public sealed class TimeTrick : QueenCardModel
@@ -30,7 +30,7 @@ public sealed class TimeTrick : QueenCardModel
 	private const TargetType targetType = TargetType.AnyEnemy;
 	private const bool shouldShowInCardLibrary = true;
 
-	private const int maxDiscard = 2;
+	private const int maxMark = 2;
 
 	protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(8m, ValueProp.Move)];
 
@@ -50,36 +50,34 @@ public sealed class TimeTrick : QueenCardModel
 			.Execute(choiceContext);
 
 		Player? owner = base.Owner;
-		CombatState? combat = base.CombatState;
+		ICombatState? combat= base.CombatState;
 		if (owner == null || combat == null)
 		{
 			return;
 		}
 
-		IEnumerable<CardModel> selected = await CardSelectCmd.FromHandForDiscard(
+		IEnumerable<CardModel> selected = await CardSelectCmd.FromHand(
 			choiceContext,
 			owner,
-			new CardSelectorPrefs(new LocString("cards", "STS2_COMICCHESS_THEQUEEN_CARD_TIME_TRICK.selectionPrompt"), 0, maxDiscard),
-			c => c != this,
+			new CardSelectorPrefs(new LocString("cards", "THE_QUEEN_CARD_TIME_TRICK.selectionPrompt"), 0, maxMark),
+			c => c != this && c.Type != CardType.Power,
 			this);
 
 		IReadOnlyList<CardModel> handSnapshot = PileType.Hand.GetPile(owner).Cards;
-		List<CardModel> toDiscard = selected
+		List<CardModel> toMark = selected
 			.Distinct()
-			.Where(c => IsValidHandDiscard(owner, combat, handSnapshot, c))
+			.Where(c => IsValidHandSelection(owner, combat, handSnapshot, c))
 			.ToList();
 
-		if (toDiscard.Count == 0)
+		if (toMark.Count == 0)
 		{
 			return;
 		}
 
-		await CardCmd.Discard(choiceContext, toDiscard);
-
 		TimeTrickReturnPendingPower? pending = owner.Creature.GetPower<TimeTrickReturnPendingPower>();
 		if (pending != null)
 		{
-			foreach (CardModel c in toDiscard)
+			foreach (CardModel c in toMark)
 			{
 				if (!pending.CardsToReturn.Contains(c))
 				{
@@ -89,8 +87,8 @@ public sealed class TimeTrick : QueenCardModel
 		}
 		else
 		{
-			pending = await PowerCmd.Apply<TimeTrickReturnPendingPower>(owner.Creature, 1m, owner.Creature, this);
-			pending?.CardsToReturn.AddRange(toDiscard);
+			pending = await PowerCmd.Apply<TimeTrickReturnPendingPower>(choiceContext, owner.Creature, 1m, owner.Creature, this);
+			pending?.CardsToReturn.AddRange(toMark);
 		}
 	}
 
@@ -99,13 +97,18 @@ public sealed class TimeTrick : QueenCardModel
 		base.DynamicVars.Damage.UpgradeValueBy(4m);
 	}
 
-	private static bool IsValidHandDiscard(
+	private static bool IsValidHandSelection(
 		Player expectedOwner,
-		CombatState currentCombat,
+		ICombatState currentCombat,
 		IReadOnlyList<CardModel> hand,
 		CardModel? card)
 	{
 		if (card == null || !ReferenceEquals(card.Owner, expectedOwner) || card.Owner?.Creature == null)
+		{
+			return false;
+		}
+
+		if (card.Type == CardType.Power)
 		{
 			return false;
 		}
@@ -115,7 +118,7 @@ public sealed class TimeTrick : QueenCardModel
 			return false;
 		}
 
-		CombatState? resolved = card.Owner.Creature.CombatState ?? card.CombatState;
+		ICombatState? resolved = card.Owner.Creature.CombatState ?? card.CombatState;
 		return resolved != null && ReferenceEquals(resolved, currentCombat);
 	}
 }

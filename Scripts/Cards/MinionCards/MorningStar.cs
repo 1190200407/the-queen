@@ -9,9 +9,11 @@ using MegaCrit.Sts2.Core.Models.CardPools;
 
 using STS2RitsuLib.Interop.AutoRegistration;
 
+using STS2RitsuLib.Keywords;
+
 namespace ComicChess.TheQueen;
 
-/// <summary>晨星：魂灯；生成 <see cref="EveningStar"/>；消逝。</summary>
+/// <summary>晨星：魂灯；生成 <see cref="EveningStar"/>；消逝�?/summary>
 [RegisterCard(typeof(TokenCardPool))]
 public sealed class MorningStar : QueenCardModel
 {
@@ -23,7 +25,7 @@ public sealed class MorningStar : QueenCardModel
 
 	public override int MaxUpgradeLevel => 0;
 
-	protected override IEnumerable<string> RegisteredKeywordIds => [QueenKeyword.Fade];
+	public override IEnumerable<CardKeyword> CanonicalKeywords => [ModKeywordRegistry.GetCardKeyword(QueenKeyword.Fade)];
 
 	protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
 	[
@@ -45,7 +47,7 @@ public sealed class MorningStar : QueenCardModel
 			return;
 		}
 
-		await QueenCardCmd.AddSoulLamp(base.Owner, 1);
+		await QueenCardCmd.AddSoulLamp(choiceContext, base.Owner, 1);
 		await QueenCardCmd.CreateInHand<EveningStar>(base.Owner, base.CombatState, isUpgraded: false);
 	}
 }

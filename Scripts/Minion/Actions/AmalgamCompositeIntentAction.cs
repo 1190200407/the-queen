@@ -16,12 +16,10 @@ namespace ComicChess.TheQueen;
 /// </summary>
 public sealed class AmalgamCompositeIntentAction : AmalgamActionModel
 {
-    private readonly string _indexKey;
+    private readonly AmalgamCompositeKey _compositeKey;
     private readonly List<AmalgamActionModel> _parts;
 
-    /// <param name="compositeIndexKey">整合索引，用于本地化与 <see cref="MoveState"/> 的 id 后缀（如 <c>BOWL_BUG</c>）。</param>
-    /// <param name="parts">按顺序合并展示与执行；至少一项。</param>
-    public AmalgamCompositeIntentAction(string compositeIndexKey, params AmalgamActionModel[] parts)
+    public AmalgamCompositeIntentAction(AmalgamCompositeKey compositeKey, params AmalgamActionModel[] parts)
         : base(0m)
     {
         ArgumentNullException.ThrowIfNull(parts);
@@ -30,28 +28,25 @@ public sealed class AmalgamCompositeIntentAction : AmalgamActionModel
             throw new ArgumentException("Composite intent requires at least one sub-action.", nameof(parts));
         }
 
-        if (string.IsNullOrWhiteSpace(compositeIndexKey))
+        if (compositeKey == AmalgamCompositeKey.None)
         {
-            throw new ArgumentException("Composite index key is required.", nameof(compositeIndexKey));
+            throw new ArgumentException("Composite intent requires a composite key.", nameof(compositeKey));
         }
 
-        _indexKey = compositeIndexKey.Trim();
+        _compositeKey = compositeKey;
         _parts = new List<AmalgamActionModel>(parts);
     }
 
-    /// <summary>与本地化键 <c>AMALGAM_COMPOSITE.{整合索引}.*</c> 对应的整合索引。</summary>
-    public string CompositeIndexKey => _indexKey;
+    public AmalgamCompositeKey CompositeKey => _compositeKey;
 
-    /// <summary>子行动顺序（只读视图）。</summary>
     public IReadOnlyList<AmalgamActionModel> Parts => _parts;
 
     public override AmalgamActionModel Clone()
     {
         AmalgamActionModel[] forked = _parts.Select(static p => p.Clone()).ToArray();
-        return new AmalgamCompositeIntentAction(_indexKey, forked);
+        return new AmalgamCompositeIntentAction(_compositeKey, forked);
     }
 
-    /// <summary>在原组合末尾追加子行动，并失效展示用 <see cref="AmalgamActionModel.MoveState"/> 缓存。</summary>
     public void AddPart(AmalgamActionModel part)
     {
         ArgumentNullException.ThrowIfNull(part);
@@ -76,7 +71,7 @@ public sealed class AmalgamCompositeIntentAction : AmalgamActionModel
         }
 
         return new MoveState(
-            $"AMALGAM_COMPOSITE_{_indexKey}",
+            $"AMALGAM_COMPOSITE_{_compositeKey}",
             _ => Task.CompletedTask,
             intents.ToArray());
     }

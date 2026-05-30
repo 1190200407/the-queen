@@ -27,7 +27,7 @@ public sealed class MindClarity : QueenCardModel, KnowledgeDemon.IChoosable
 
     public override bool CanBeGeneratedInCombat => false;
 
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new CardsVar(1)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new CardsVar(2)];
 
     public MindClarity()
         : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
@@ -36,7 +36,7 @@ public sealed class MindClarity : QueenCardModel, KnowledgeDemon.IChoosable
 
     public async Task OnChosen()
     {
-        await CardPileCmd.Draw(new ThrowingPlayerChoiceContext(), 1, base.Owner);
+        await CardPileCmd.Draw(new ThrowingPlayerChoiceContext(), base.DynamicVars.Cards.IntValue, base.Owner);
     }
 }
 

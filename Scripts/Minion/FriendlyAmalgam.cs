@@ -101,7 +101,7 @@ public class FriendlyAmalgam : QueenMinionModel
     /// <summary>
     /// 手牌打出时是否阻断聚合体「直接对敌」攻击：仅含 <see cref="SleepReason.NoLearnedAction"/>（无已学意图）时不阻断；含死亡、能力沉睡等则阻断。
     /// </summary>
-    public bool BlocksDirectOffenseFromHand => (sleepReason & ~SleepReason.NoLearnedAction) != 0;
+    public bool BlockActionFromSleep => (sleepReason & ~SleepReason.NoLearnedAction) != 0;
 
     public async Task FallAsleep(SleepReason reason)
     {
@@ -110,10 +110,15 @@ public class FriendlyAmalgam : QueenMinionModel
             await BeginForcedAction(new AmalgamEmergencySleepForcedActionModel(0m));
         }
 
+        bool wasSleeping = IsSleeping();
         sleepReason |= reason;
         if (IsSleeping())
         {
             await CreatureCmd.TriggerAnim(Creature, "Sleep", 0f);
+            if (!wasSleeping && Creature.CombatState is { } combatState)
+            {
+                await FriendlyAmalgamHook.AfterFallAsleep(combatState, Creature);
+            }
         }
     }
 
@@ -315,9 +320,9 @@ public class FriendlyAmalgam : QueenMinionModel
         foreach (AbstractIntent intent in moveState.Intents)
         {
             HoverTip hoverTip = intent.GetHoverTip(targets, amalgamCreature);
-            if (action is AmalgamCompositeIntentAction)
+            if (action is AmalgamCompositeIntentAction compositeAction)
             {
-                LocString titleLoc = new("intents", "COMPOSITE_INTENT_TITLE");
+                LocString titleLoc = new("intents", QueenKeyword.GetCompositeIntentTitleLocKey(compositeAction.CompositeKey));
                 titleLoc.Add("Title", hoverTip.Title ?? string.Empty);
                 hoverTip = new HoverTip(titleLoc, hoverTip.Description, hoverTip.Icon);
             }
@@ -394,9 +399,9 @@ public class FriendlyAmalgam : QueenMinionModel
         await ClearTorchSlots();
     }
 
-    public override async Task AfterTurnEnd(PlayerChoiceContext choiceContext, CombatSide side)
+    public override async Task AfterSideTurnEnd(PlayerChoiceContext choiceContext, CombatSide side, IEnumerable<Creature> participants)
     {
-        await base.AfterTurnEnd(choiceContext, side);
+        await base.AfterSideTurnEnd(choiceContext, side, participants);
         if (side != CombatSide.Player)
         {
             return;
@@ -464,6 +469,10 @@ public class FriendlyAmalgam : QueenMinionModel
             SyncCurrentTorchSlotIfNeeded();
             AmalgamActionModel? action = LearnedAction;
             if (action == null)
+            {
+                break;
+            }
+            if (BlockActionFromSleep)
             {
                 break;
             }
@@ -555,13 +564,69 @@ public class FriendlyAmalgam : QueenMinionModel
         FriendlyAmalgamCmd.TryRefreshIntentTorchVisuals(self);
     }
 
+    /// <summary>移除所有非 <see cref="AmalgamCompositeIntentAction"/> 灯槽意图，返回其克隆（按槽位 0→2 顺序）。</summary>
+    public async Task<IReadOnlyList<AmalgamActionModel>> ForgetAllNonCompositeTorchIntentsAsync()
+    {
+        Creature self = Creature;
+        if (!self.IsAlive)
+        {
+            return [];
+        }
+
+        List<AmalgamActionModel> forgotten = [];
+        for (int i = 0; i < TorchSlotCount; i++)
+        {
+            AmalgamActionModel? action = _intentByTorchSlot[i];
+            if (action is null or AmalgamCompositeIntentAction)
+            {
+                continue;
+            }
+
+            forgotten.Add(action.Clone());
+            _intentByTorchSlot[i] = null;
+        }
+
+        if (forgotten.Count == 0)
+        {
+            return forgotten;
+        }
+
+        bool anyIntentLeft = false;
+        for (int i = 0; i < TorchSlotCount; i++)
+        {
+            if (_intentByTorchSlot[i] != null)
+            {
+                anyIntentLeft = true;
+                break;
+            }
+        }
+
+        if (!anyIntentLeft)
+        {
+            _currentTorchSlotIndex = 0;
+            await FallAsleep(SleepReason.NoLearnedAction);
+        }
+        else
+        {
+            SyncCurrentTorchSlotIfNeeded();
+        }
+
+        RefreshDisplayedIntent();
+        FriendlyAmalgamCmd.TryRefreshIntentTorchVisuals(self);
+        return forgotten;
+    }
+
     public async Task LearnIntent(PlayerChoiceContext choiceContext, AmalgamActionModel intent)
     {
         int emptySlot = FirstEmptyTorchSlotIndex();
         if (emptySlot < 0)
         {
             // 三槽已满：不写入槽位，当场执行本次要学的意图；不做意图条/小火等意图 UI 同步。
-            await intent.ExecuteAsync(choiceContext, Creature);
+            // 能力/死亡等沉睡（BlockActionFromSleep）时与回合末一致，不执行。
+            if (!BlockActionFromSleep)
+            {
+                await intent.ExecuteAsync(choiceContext, Creature);
+            }
             return;
         }
         bool hadAnyIntentBefore = false;
@@ -586,23 +651,16 @@ public class FriendlyAmalgam : QueenMinionModel
     }
 
     /// <summary>
-    /// 按 <paramref name="compositeIndexKey"/> 合并意图：若某灯槽已有同键的 <see cref="AmalgamCompositeIntentAction"/>，则把 <paramref name="intent"/> 追加到该条组合内；
+    /// 按 <paramref name="compositeKey"/> 合并意图：若某灯槽已有同键的 <see cref="AmalgamCompositeIntentAction"/>，则把 <paramref name="intent"/> 追加到该条组合内；
     /// 否则无空槽时走 <see cref="LearnIntent"/>（三槽满时与单次学习相同：当场执行且不写入）；
     /// 有空槽则新建一条组合意图并 <see cref="LearnIntent"/>。
     /// </summary>
-    public async Task CombineIntentAsync(PlayerChoiceContext choiceContext, AmalgamActionModel intent, string? compositeIndexKey)
+    public async Task CombineIntentAsync(PlayerChoiceContext choiceContext, AmalgamActionModel intent, AmalgamCompositeKey compositeKey)
     {
-        if (string.IsNullOrWhiteSpace(compositeIndexKey))
-        {
-            await LearnIntent(choiceContext, intent);
-            return;
-        }
-
-        string key = compositeIndexKey.Trim();
         for (int i = 0; i < TorchSlotCount; i++)
         {
             if (_intentByTorchSlot[i] is AmalgamCompositeIntentAction composite &&
-                string.Equals(composite.CompositeIndexKey, key, StringComparison.OrdinalIgnoreCase))
+                composite.CompositeKey == compositeKey)
             {
                 composite.AddPart(intent);
                 RefreshDisplayedIntent();
@@ -617,7 +675,7 @@ public class FriendlyAmalgam : QueenMinionModel
             return;
         }
 
-        AmalgamCompositeIntentAction bundle = new(key, intent);
+        AmalgamCompositeIntentAction bundle = new(compositeKey, intent);
         await LearnIntent(choiceContext, bundle);
     }
 

@@ -32,7 +32,7 @@ public sealed class AllSlippery : QueenCardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new SummonVar(10m).WithSharedTooltip("QUEEN_SUMMON_DYNAMIC"),
+        new SummonVar(15m).WithSharedTooltip("QUEEN_SUMMON_DYNAMIC"),
         new IntVar("SlipperyStacks", 4m),
     ];
     public override int MaxUpgradeLevel => 0;
@@ -57,7 +57,7 @@ public sealed class AllSlippery : QueenCardModel
         if (amalgam is { IsAlive: true } && summonStacks > 0m)
         {
             decimal slipperyStacks = base.DynamicVars["SlipperyStacks"].BaseValue;
-            await PowerCmd.Apply<AmalgamSlipperyPower>(amalgam, slipperyStacks, base.Owner.Creature, this);
+            await PowerCmd.Apply<AmalgamSlipperyPower>(choiceContext, amalgam, slipperyStacks, base.Owner.Creature, this);
         }
     }
 }

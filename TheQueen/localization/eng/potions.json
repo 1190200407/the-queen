@@ -1,14 +1,14 @@
 {
-    "COMICCHESS-LAMP_IN_A_BOTTLE.description": "[aqua]Gain [blue]1[/blue] [gold]Soul Lamp[/gold].[/aqua]",
-    "COMICCHESS-LAMP_IN_A_BOTTLE.title": "Lamp in a Bottle",
-    "COMICCHESS-SOURCE_OF_CLARITY.description": "Clear [purple]Affliction[/purple] from a card in [gold]Hand[/gold].",
-    "COMICCHESS-SOURCE_OF_CLARITY.selectionScreenPrompt": "Choose a card in Hand.",
-    "COMICCHESS-SOURCE_OF_CLARITY.title": "Source of Clarity",
-    "COMICCHESS-MAGIC_MIRROR_SHARD.description": "Choose [blue]1[/blue] non-Dupe card from your [gold]Hand[/gold]. At the end of combat, gain it as an additional [gold]card[/gold] reward.",
-    "COMICCHESS-MAGIC_MIRROR_SHARD.selectionScreenPrompt": "Choose a non-Dupe card.",
-    "COMICCHESS-MAGIC_MIRROR_SHARD.title": "Magic Mirror Shard",
-    "COMICCHESS-DEATH_ELIXIR.description": "Apply [blue]{PoisonPower}[/blue] [gold]Poison[/gold], [blue]{DoomPower}[/blue] [gold]Doom[/gold], and [blue]{DemisePower}[/blue] [gold]Demise[/gold].",
-    "COMICCHESS-DEATH_ELIXIR.title": "Death Elixir",
-    "COMICCHESS-ECOSPHERE_BOTTLE.description": "Apply [gold]Capture[/gold] (see keyword). If the enemy dies in combat in a capturable encounter, gain its [gold]capture card[/gold] as an extra reward, like [gold]Declaration[/gold].",
-    "COMICCHESS-ECOSPHERE_BOTTLE.title": "Ecosphere Crate"
+    "THE_QUEEN_POTION_LAMP_IN_A_BOTTLE.description":"[aqua]Gain 1 Soul Lamp.[/aqua]",
+    "THE_QUEEN_POTION_LAMP_IN_A_BOTTLE.title":"Lamp in a Bottle",
+    "THE_QUEEN_POTION_SOURCE_OF_CLARITY.description":"Clear [purple]Affliction[/purple] from 1 card in your [gold]hand[/gold].",
+    "THE_QUEEN_POTION_SOURCE_OF_CLARITY.selectionScreenPrompt":"Choose 1 card in your hand to clear its affliction.",
+    "THE_QUEEN_POTION_SOURCE_OF_CLARITY.title":"Source of Clarity",
+    "THE_QUEEN_POTION_MAGIC_MIRROR_SHARD.description":"Choose at most 3 cards from your [gold]hand[/gold]. When you win this combat, gain it as an additional [gold]card[/gold] reward.",
+    "THE_QUEEN_POTION_MAGIC_MIRROR_SHARD.selectionScreenPrompt":"Choose at most 3 cards.",
+    "THE_QUEEN_POTION_MAGIC_MIRROR_SHARD.title":"Magic Mirror Shard",
+    "THE_QUEEN_POTION_DEATH_ELIXIR.description":"Apply {PoisonPower} [gold]Poison[/gold], {DoomPower} [gold]Doom[/gold], and {DemisePower} [gold]Demise[/gold].",
+    "THE_QUEEN_POTION_DEATH_ELIXIR.title":"Death Elixir",
+    "THE_QUEEN_POTION_ECOSPHERE_BOTTLE.description":"When the target dies, [gold]Capture[/gold] it.",
+    "THE_QUEEN_POTION_ECOSPHERE_BOTTLE.title":"Ecosphere Crate"
 }

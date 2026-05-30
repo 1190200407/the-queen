@@ -1,7 +1,5 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Godot;
-
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -23,16 +21,6 @@ public sealed class FranticTug : QueenCardModel
 
     public override int MaxUpgradeLevel => 0;
 
-    public override string PortraitPath
-    {
-        get
-        {
-            // 尝试复用原版 Frantic Escape 的卡图（若资源存在）。
-            const string vanilla = "res://images/card_portraits/frantic_escape.png";
-            return ResourceLoader.Exists(vanilla) ? vanilla : base.PortraitPath;
-        }
-    }
-
     public FranticTug()
         : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
     {
@@ -52,7 +40,7 @@ public sealed class FranticTug : QueenCardModel
 
         if (self.GetPower<AmalgamSandpitPower>() is { } sandpit)
         {
-            await PowerCmd.ModifyAmount(sandpit, -1m, self, this);
+            await PowerCmd.ModifyAmount(choiceContext, sandpit, -1m, self, this);
         }
 
         // 提高这张牌自己的基础耗能（下次再抽到会更贵）。

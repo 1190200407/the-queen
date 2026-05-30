@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
@@ -11,60 +12,71 @@ namespace ComicChess.TheQueen;
 
 /// <summary>
 /// 魂灯为 0 时消耗 1 点能量并获得 1 点魂灯（含 -1 哨兵视为 0）。
-/// 触发：回合开始、获得能量后、魂灯层数下降后（见 <see cref="MagicTimeGainEnergyPatch"/>、<see cref="SoulLampPower"/>）。
-/// 层数：每层各尝试一次。
+/// 触发：回合开始、获得能量后（<see cref="MagicTimeGainEnergyPatch"/>）、魂灯层数下降（<see cref="ISoulLampEventListener"/>）。
 /// </summary>
-public sealed class MagicTimePower : QueenPowerModel
+public sealed class MagicTimePower : QueenPowerModel, ISoulLampEventListener
 {
 	public override PowerType Type => PowerType.Buff;
 
-	public override PowerStackType StackType => PowerStackType.Counter;
+	public override PowerStackType StackType => PowerStackType.Single;
 
-    public override async Task AfterCardEnteredCombat(CardModel card)
-    {
-		CardCmd.ClearAffliction(card);
-        await CardCmd.Afflict<Bound>(card, 1m);
-    }
-
-    internal static async Task TryAutoRefillSoulLamp(Player player)
+	public override async Task AfterCardEnteredCombat(CardModel card)
 	{
-		if (player?.Creature == null || player.PlayerCombatState == null)
+		CardCmd.ClearAffliction(card);
+		await CardCmd.Afflict<Bound>(card, 1m);
+	}
+
+	public async Task OnSoulLampAmountChanged(
+		PlayerChoiceContext choiceContext,
+		Player player,
+		decimal delta,
+		Creature? applier,
+		CardModel? cardSource)
+	{
+		_ = applier;
+		_ = cardSource;
+		if (delta >= 0m || player != base.Owner?.Player)
 		{
 			return;
 		}
 
-		Creature creature = player.Creature;
-		MagicTimePower? magicTime = creature.GetPower<MagicTimePower>();
-		if (magicTime == null || magicTime.Amount <= 0)
-		{
-			return;
-		}
-
-		for (int i = 0; i < magicTime.Amount; i++)
-		{
-			SoulLampPower? lamp = creature.GetPower<SoulLampPower>();
-			if (lamp != null && lamp.Amount > 0)
-			{
-				return;
-			}
-
-			if (player.PlayerCombatState.Energy < 1)
-			{
-				return;
-			}
-
-			await PlayerCmd.LoseEnergy(1m, player);
-			await QueenCardCmd.AddSoulLamp(player, 1);
-		}
+		await TryRefillIfNeeded(choiceContext, player);
 	}
 
 	public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
 	{
-		_ = choiceContext;
-		if (player != base.Owner.Player)
+		if (player != base.Owner?.Player)
 		{
 			return;
 		}
-		await TryAutoRefillSoulLamp(player);
+
+		await TryRefillIfNeeded(choiceContext, player);
+	}
+
+	internal async Task TryRefillIfNeeded(PlayerChoiceContext choiceContext, Player player)
+	{
+		if (player?.Creature == null || player.PlayerCombatState == null || player != base.Owner?.Player)
+		{
+			return;
+		}
+
+		if (base.Amount <= 0)
+		{
+			return;
+		}
+
+		SoulLampPower? lamp = player.Creature.GetPower<SoulLampPower>();
+		if (lamp != null && lamp.Amount > 0)
+		{
+			return;
+		}
+
+		if (player.PlayerCombatState.Energy < 1)
+		{
+			return;
+		}
+
+		await PlayerCmd.LoseEnergy(1m, player);
+		await QueenCardCmd.AddSoulLamp(choiceContext, player, 1);
 	}
 }

@@ -20,8 +20,6 @@ public sealed class Burn : QueenEnchantmentModel
     public override bool ShowAmount => true;
     public override bool HasExtraCardText => true;
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromKeyword(CardKeyword.Unplayable)];
-
     public override bool CanEnchant(CardModel card)
     {
         if (!base.CanEnchant(card))
@@ -31,7 +29,7 @@ public sealed class Burn : QueenEnchantmentModel
         return card.Enchantment is null;
     }
 
-    public override async Task BeforeTurnEnd(PlayerChoiceContext choiceContext, CombatSide side)
+    public override async Task BeforeSideTurnEnd(PlayerChoiceContext choiceContext, CombatSide side, IEnumerable<Creature> participants)
     {
         if (side != CombatSide.Player)
         {

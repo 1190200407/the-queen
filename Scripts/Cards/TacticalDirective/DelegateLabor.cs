@@ -15,7 +15,7 @@ using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Keywords;
 namespace ComicChess.TheQueen;
 
-/// <summary>代劳：你失去所有力量，聚合体获得等量力量。</summary>
+/// <summary>代劳：你失去所有力量，聚合体获得等量力量�?/summary>
 [RegisterCard(typeof(TokenCardPool))]
 public sealed class DelegateLabor : QueenCardModel
 {
@@ -29,7 +29,7 @@ public sealed class DelegateLabor : QueenCardModel
 
 	internal override bool HasSelfBound => true;
 
-	protected override IEnumerable<string> RegisteredKeywordIds => [QueenKeyword.Fade];
+	public override IEnumerable<CardKeyword> CanonicalKeywords => [ModKeywordRegistry.GetCardKeyword(QueenKeyword.Fade)];
 
 	protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
 	[
@@ -47,7 +47,7 @@ public sealed class DelegateLabor : QueenCardModel
 		_ = choiceContext;
 		_ = cardPlay;
 		Creature self = base.Owner.Creature;
-		CombatState? cs = self.CombatState;
+		ICombatState? cs = self.CombatState;
 		Creature? amalgam = cs != null ? FriendlyAmalgamCmd.GetExisting(cs, base.Owner) : null;
 		if (amalgam is not { IsAlive: true })
 		{
@@ -58,8 +58,8 @@ public sealed class DelegateLabor : QueenCardModel
 		decimal transfer = playerStr?.Amount ?? 0m;
 		if (transfer > 0m)
 		{
-			await PowerCmd.SetAmount<StrengthPower>(self, 0m, self, this);
-			await PowerCmd.Apply<StrengthPower>(amalgam, transfer, self, this);
+			await PowerCmd.Remove<StrengthPower>(self);
+			await PowerCmd.Apply<StrengthPower>(choiceContext, amalgam, transfer, self, this);
 		}
 
 		await CreatureCmd.TriggerAnim(self, "Cast", base.Owner.Character.CastAnimDelay);

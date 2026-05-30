@@ -15,7 +15,7 @@ using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>享用晚餐：造成伤害，在手牌中生成两张吞噬（升级后为吞噬+）�?/summary>
+/// <summary>享用晚餐：造成伤害，在手牌中生成两张吞噬（升级后为吞噬+）�?/summary>
 
 [RegisterCard(typeof(QueenCardPool))]
 public sealed class EnjoyDinner : QueenCardModel
@@ -59,7 +59,7 @@ public sealed class EnjoyDinner : QueenCardModel
 			await QueenCardCmd.CreateInHand<Devour>(base.Owner, base.CombatState, base.IsUpgraded);
 		}
 
-		await QueenCardCmd.AddSoulLamp(base.Owner, 2);
+		await QueenCardCmd.AddSoulLamp(choiceContext, base.Owner, 2);
 	}
 
 	protected override void OnUpgrade()

@@ -65,7 +65,7 @@ public sealed class CorpseSlugHunger : LearnIntentCardModel
         decimal stacks = base.DynamicVars["RavenousStacks"].BaseValue;
         if (stacks > 0m)
         {
-            await PowerCmd.Apply<AmalgamRavenousPower>(amalgam, stacks, base.Owner.Creature, this);
+            await PowerCmd.Apply<AmalgamRavenousPower>(choiceContext, amalgam, stacks, base.Owner.Creature, this);
         }
     }
 

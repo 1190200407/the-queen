@@ -22,18 +22,22 @@ internal sealed class BoundOverlayPreviewPatch : IPatchMethod
 
 	public static bool Prefix(CardModel __instance, ref Control __result)
 	{
-		if (__instance is QueenCardModel queen && queen.HasSelfBound)
-		{
-			if (__instance.CombatState != null && __instance.Affliction is not Bound)
-			{
-				return true;
-			}
+		bool previewBound =
+			(__instance is QueenCardModel queen && queen.HasSelfBound) ||
+			__instance.Enchantment is SoulLight;
 
-			__result = PreloadManager.Cache.GetScene(SceneHelper.GetScenePath(BoundAfflictionOverlayInnerPath))
-				.Instantiate<Control>(PackedScene.GenEditState.Disabled);
-			return false;
+		if (!previewBound)
+		{
+			return true;
 		}
 
-		return true;
+		if (__instance.CombatState != null && __instance.Affliction is not Bound)
+		{
+			return true;
+		}
+
+		__result = PreloadManager.Cache.GetScene(SceneHelper.GetScenePath(BoundAfflictionOverlayInnerPath))
+			.Instantiate<Control>(PackedScene.GenEditState.Disabled);
+		return false;
 	}
 }

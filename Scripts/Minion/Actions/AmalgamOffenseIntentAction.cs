@@ -38,7 +38,7 @@ public sealed class AmalgamOffenseIntentAction : AmalgamActionModel
     /// <remarks>意图条 <c>PerformIntent</c> 仅在回合末执行灯槽记录时由 <see cref="FriendlyAmalgam.BeforeTurnEnd"/> 调用；此处只打出伤害链。</remarks>
     protected override async Task OnExecute(PlayerChoiceContext choiceContext, Creature amalgam)
     {
-        CombatState? combatState = amalgam.CombatState;
+        ICombatState? combatState = amalgam.CombatState;
         if (combatState == null || amalgam.PetOwner is not Player queen)
         {
             return;

@@ -1,17 +1,17 @@
-﻿{
-    "COMICCHESS-QUEEN_CHARACTER.aromaPrinciple": "[sine][purple]...Such an enticing fragrance...[/purple][/sine]",
-    "COMICCHESS-QUEEN_CHARACTER.banter.alive.endTurnPing": "Before I lose my temper...",
-    "COMICCHESS-QUEEN_CHARACTER.banter.dead.endTurnPing": "Come down and keep me company...",
-    "COMICCHESS-QUEEN_CHARACTER.cardsModifierDescription": "The Queen's cards can now appear in rewards and shops.",
-    "COMICCHESS-QUEEN_CHARACTER.cardsModifierTitle": "Queen Cards",
-    "COMICCHESS-QUEEN_CHARACTER.description": "For the [gold]Queen[/gold], climbing the Spire is merely a dull diversion.\nShe excels at creating miracles with [gold]Soul Lamps[/gold].",
-    "COMICCHESS-QUEEN_CHARACTER.eventDeathPrevention": "Tch...",
-    "COMICCHESS-QUEEN_CHARACTER.goldMonologue": "[sine]These will decorate my collection nicely...[/sine]",
-    "COMICCHESS-QUEEN_CHARACTER.possessiveAdjective": "her",
-    "COMICCHESS-QUEEN_CHARACTER.pronounObject": "her",
-    "COMICCHESS-QUEEN_CHARACTER.pronounPossessive": "her",
-    "COMICCHESS-QUEEN_CHARACTER.pronounSubject": "she",
-    "COMICCHESS-QUEEN_CHARACTER.title": "The Queen",
-    "COMICCHESS-QUEEN_CHARACTER.titleObject": "The Queen",
-    "COMICCHESS-QUEEN_CHARACTER.unlockText": "Complete a run as [blue]{Prerequisite}[/blue] to unlock this character."
+{
+    "THE_QUEEN_CHARACTER_QUEEN_CHARACTER.aromaPrinciple":"[sine][purple]...Such an enticing fragrance...[/purple][/sine]",
+    "THE_QUEEN_CHARACTER_QUEEN_CHARACTER.banter.alive.endTurnPing":"Before I lose my temper...",
+    "THE_QUEEN_CHARACTER_QUEEN_CHARACTER.banter.dead.endTurnPing":"Come down and keep me company...",
+    "THE_QUEEN_CHARACTER_QUEEN_CHARACTER.cardsModifierDescription":"The Queen's cards can now appear in rewards and shops.",
+    "THE_QUEEN_CHARACTER_QUEEN_CHARACTER.cardsModifierTitle":"Queen Cards",
+    "THE_QUEEN_CHARACTER_QUEEN_CHARACTER.description":"For the [gold]Queen[/gold], climbing the Spire is merely a dull diversion.\nShe excels at creating miracles with [gold]Soul Lamps[/gold].",
+    "THE_QUEEN_CHARACTER_QUEEN_CHARACTER.eventDeathPrevention":"Tch...",
+    "THE_QUEEN_CHARACTER_QUEEN_CHARACTER.goldMonologue":"[sine]These will decorate my collection nicely...[/sine]",
+    "THE_QUEEN_CHARACTER_QUEEN_CHARACTER.possessiveAdjective":"her",
+    "THE_QUEEN_CHARACTER_QUEEN_CHARACTER.pronounObject":"her",
+    "THE_QUEEN_CHARACTER_QUEEN_CHARACTER.pronounPossessive":"her",
+    "THE_QUEEN_CHARACTER_QUEEN_CHARACTER.pronounSubject":"she",
+    "THE_QUEEN_CHARACTER_QUEEN_CHARACTER.title":"The Queen",
+    "THE_QUEEN_CHARACTER_QUEEN_CHARACTER.titleObject":"The Queen",
+    "THE_QUEEN_CHARACTER_QUEEN_CHARACTER.unlockText":"Complete a run as [blue]{Prerequisite}[/blue] to unlock this character."
 }

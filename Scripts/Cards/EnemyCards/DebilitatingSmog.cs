@@ -33,8 +33,6 @@ public sealed class DebilitatingSmog : QueenCardModel
 
     public override int MaxUpgradeLevel => 0;
 
-    internal override bool HasSelfBound => true;
-
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new IntVar("EnemyStrengthLoss", enemyStrengthLoss),
@@ -43,8 +41,6 @@ public sealed class DebilitatingSmog : QueenCardModel
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
-        ..HoverTipFactory.FromAffliction<Bound>(),
-        HoverTipFactory.FromPower<AmalgamIntentStrengthDownPower>(),
         HoverTipFactory.FromPower<StrengthPower>(),
     ];
 
@@ -68,12 +64,12 @@ public sealed class DebilitatingSmog : QueenCardModel
 
         if (loss > 0m)
         {
-            await PowerCmd.Apply<AmalgamIntentStrengthDownPower>(target, loss, base.Owner.Creature, this);
+            await PowerCmd.Apply<AmalgamIntentStrengthDownPower>(choiceContext, target, loss, base.Owner.Creature, this);
         }
 
         if (grant > 0m && base.Owner.Creature.IsAlive)
         {
-            await PowerCmd.Apply<StrengthPower>(base.Owner.Creature, grant, base.Owner.Creature, this);
+            await PowerCmd.Apply<StrengthPower>(choiceContext, base.Owner.Creature, grant, base.Owner.Creature, this);
         }
     }
 }

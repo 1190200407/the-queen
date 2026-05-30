@@ -1,18 +1,17 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models.Afflictions;
 using MegaCrit.Sts2.Core.Models.CardPools;
-using MegaCrit.Sts2.Core.ValueProps;
 
 using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
-
 
 [RegisterCard(typeof(QueenCardPool))]
 public sealed class HundredHandsBanquet : QueenCardModel
@@ -25,9 +24,12 @@ public sealed class HundredHandsBanquet : QueenCardModel
 
 	protected override bool HasEnergyCostX => true;
 
-    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [
-		HoverTipFactory.FromCard<BloodthirstScratch>(upgrade: base.IsUpgraded),
-		.. HoverTipFactory.FromAffliction<Bound>()
+	protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+	[
+		HoverTipFactory.FromCard<HandOfSeizure>(upgrade: base.IsUpgraded),
+		HoverTipFactory.FromCard<HandOfRefusal>(upgrade: base.IsUpgraded),
+		HoverTipFactory.FromPower<SoulLampPower>(),
+		.. HoverTipFactory.FromAffliction<Bound>(),
 	];
 
 	public HundredHandsBanquet()
@@ -37,22 +39,28 @@ public sealed class HundredHandsBanquet : QueenCardModel
 
 	protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
 	{
-		if (base.CombatState == null || base.Owner?.Creature == null)
+		if (base.CombatState == null || base.Owner == null)
 		{
 			return;
 		}
 
-		int x = ResolveEnergyXValue();
-		if (x <= 0)
+		await CreateInHandInternal(base.Owner, base.CombatState, base.IsUpgraded);
+
+		int soulLampGain = ResolveEnergyXValue();
+		if (soulLampGain > 0)
+		{
+			await QueenCardCmd.AddSoulLamp(choiceContext, base.Owner, soulLampGain);
+		}
+	}
+
+	internal static async Task CreateInHandInternal(Player owner, ICombatState? combatState, bool isUpgraded = false)
+	{
+		if (combatState == null)
 		{
 			return;
 		}
 
-		for (int i = 0; i < x; i++)
-		{
-			await QueenCardCmd.CreateInHand<BloodthirstScratch>(base.Owner, base.CombatState, base.IsUpgraded);
-		}
-
-		await QueenCardCmd.AddSoulLamp(base.Owner, x);
+		await QueenCardCmd.CreateInHand<HandOfSeizure>(owner, combatState, isUpgraded);
+		await QueenCardCmd.CreateInHand<HandOfRefusal>(owner, combatState, isUpgraded);
 	}
 }

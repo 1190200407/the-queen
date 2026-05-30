@@ -67,9 +67,9 @@ public sealed class AmalgamLearnIntentDamageVar : DamageVar
 
 		// CardModel.CombatState 在部分牌堆/瞬间为 null；与 CalculatedDamageVar 一致用玩家生物上的战斗状态。
 		Player? owner = card.Owner;
-		CombatState? fromPile = card.CombatState;
-		CombatState? fromOwnerCreature = owner?.Creature.CombatState;
-		CombatState? combatState = fromPile ?? fromOwnerCreature;
+		ICombatState? fromPile = card.CombatState;
+		ICombatState? fromOwnerCreature = owner?.Creature.CombatState;
+		ICombatState? combatState = fromPile ?? fromOwnerCreature;
 		// 与 NCard 一致：手牌/打出时 runGlobalHooks 为 true；弃牌堆等战斗内牌堆常为 false，但仍应显示当前战斗下的预览。
 		bool inCombat = CombatManager.Instance is { IsInProgress: true };
 

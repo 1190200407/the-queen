@@ -36,7 +36,6 @@ public sealed class Flamethrower : LearnIntentCardModel
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
-        ..base.AdditionalHoverTips,
         ..HoverTipFactory.FromEnchantment<Burn>(3),
     ];
 

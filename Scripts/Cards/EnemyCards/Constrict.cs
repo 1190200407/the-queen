@@ -12,7 +12,7 @@ using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>绞杀：学习紧缠意图（原版 <see cref="ConstrictPower"/>）。</summary>
+/// <summary>绞杀：召唤并学习紧缠意图（原版 <see cref="ConstrictPower"/>）。</summary>
 [RegisterCard(typeof(EnemyCardPool))]
 public sealed class Constrict : LearnIntentCardModel
 {

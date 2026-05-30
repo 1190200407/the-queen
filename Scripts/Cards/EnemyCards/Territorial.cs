@@ -26,7 +26,7 @@ public sealed class Territorial : QueenCardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new SummonVar(15m).WithSharedTooltip("QUEEN_SUMMON_DYNAMIC"),
+        new SummonVar(10m).WithSharedTooltip("QUEEN_SUMMON_DYNAMIC"),
     ];
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips => [HoverTipFactory.FromPower<StrengthPower>()];
@@ -43,6 +43,6 @@ public sealed class Territorial : QueenCardModel
     {
         _ = cardPlay;
         await FriendlyAmalgamCmd.Summon(choiceContext, base.Owner, base.DynamicVars.Summon.BaseValue, this);
-        await PowerCmd.Apply<AmalgamTerritorialAwarenessPower>(base.Owner.Creature, 1m, base.Owner.Creature, this);
+        await PowerCmd.Apply<AmalgamTerritorialAwarenessPower>(choiceContext, base.Owner.Creature, 1m, base.Owner.Creature, this);
     }
 }

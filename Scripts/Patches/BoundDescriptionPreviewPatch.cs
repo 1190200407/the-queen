@@ -44,7 +44,11 @@ internal sealed class BoundDescriptionPreviewPatch : IPatchMethod
 
 	private static void TryAppendBoundPreviewText(CardModel card, ref string description)
 	{
-		if (card is not QueenCardModel queen || !queen.HasSelfBound)
+		bool previewBound =
+			(card is QueenCardModel queen && queen.HasSelfBound) ||
+			card.Enchantment is SoulLight;
+
+		if (!previewBound)
 		{
 			return;
 		}

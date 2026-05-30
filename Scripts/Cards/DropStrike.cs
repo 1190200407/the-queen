@@ -15,7 +15,7 @@ using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>坠击：聚合体对随机敌人造成多段伤害�?/summary>
+/// <summary>坠击：聚合体对随机敌人造成多段伤害�?/summary>
 
 [RegisterCard(typeof(QueenCardPool))]
 public sealed class DropStrike : QueenCardModel
@@ -34,7 +34,7 @@ public sealed class DropStrike : QueenCardModel
         new CalculationExtraVar(1m),
         new CalculatedVar("AttackAll").WithMultiplier((CardModel card, Creature? _) => 
         {
-            CombatState? combatState = card.Owner.Creature.CombatState;
+            ICombatState? combatState = card.Owner.Creature.CombatState;
             if (combatState is null)
             {
                 return 1m;
@@ -48,11 +48,11 @@ public sealed class DropStrike : QueenCardModel
         })
     ];
 
-    /// <summary>无友方聚合体�?<see cref="FriendlyAmalgam.BlocksDirectOffenseFromHand"/> 时手牌红高亮（直接由聚合体结算多段伤害）�?/summary>
+    /// <summary>无友方聚合体�?<see cref="FriendlyAmalgam.BlockActionFromSleep"/> 时手牌红高亮（直接由聚合体结算多段伤害）�?/summary>
     protected override bool ShouldGlowRedInternal =>
         (base.Owner?.Creature?.CombatState is { } combatState
             && (FriendlyAmalgamCmd.GetExisting(combatState, base.Owner) is not { Monster: FriendlyAmalgam amalgam }
-                || amalgam.BlocksDirectOffenseFromHand))
+                || amalgam.BlockActionFromSleep))
         || base.ShouldGlowRedInternal;
 
     public DropStrike()
@@ -74,13 +74,22 @@ public sealed class DropStrike : QueenCardModel
             return;
         }
 
-        if (amalgamModel.BlocksDirectOffenseFromHand)
+        if (amalgamModel.BlockActionFromSleep)
         {
             return;
         }
 
         decimal dmg = AmalgamLearnIntentDamageVar.GetEffectiveFlatForOffenseIntent(this, "LearnIntentDamage");
-        await FriendlyAmalgamCmd.ExecuteMultiHitOffense(choiceContext, amalgam, dmg, hitCount);
+        await FriendlyAmalgamCmd.ExecuteMultiHitOffense(
+            choiceContext,
+            amalgam,
+            target: null,
+            dmg,
+            hitCount,
+            "PowerAttack",
+            0.7f,
+            "vfx/vfx_attack_blunt",
+            "event:/sfx/enemy/enemy_attacks/torch_head_amalgam/torch_head_amalgam_beam");
     }
 
     protected override void OnUpgrade()

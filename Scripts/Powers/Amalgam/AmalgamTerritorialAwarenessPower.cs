@@ -41,6 +41,6 @@ public sealed class AmalgamTerritorialAwarenessPower : QueenPowerModel
         }
 
         Flash();
-        await PowerCmd.Apply<StrengthPower>(amalgam, Amount, base.Owner, null);
+        await PowerCmd.Apply<StrengthPower>(choiceContext, amalgam, Amount, base.Owner, null);
     }
 }

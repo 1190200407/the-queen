@@ -44,11 +44,11 @@ public sealed class RoarClaw : LearnIntentCardModel
         HoverTipFactory.FromPower<VulnerablePower>(),
     ];
 
-    /// <summary>无友方聚合体或 <see cref="FriendlyAmalgam.BlocksDirectOffenseFromHand"/> 时手牌红高亮（打出时先有聚合体对敌易伤再学意图）。</summary>
+    /// <summary>无友方聚合体或 <see cref="FriendlyAmalgam.BlockActionFromSleep"/> 时手牌红高亮（打出时先有聚合体对敌易伤再学意图）。</summary>
     protected override bool ShouldGlowRedInternal =>
         (base.Owner?.Creature?.CombatState is { } combatState
             && (FriendlyAmalgamCmd.GetExisting(combatState, base.Owner) is not { Monster: FriendlyAmalgam amalgam }
-                || amalgam.BlocksDirectOffenseFromHand))
+                || amalgam.sleepReason.HasFlag(FriendlyAmalgam.SleepReason.Power)))
         || base.ShouldGlowRedInternal;
 
     public RoarClaw()
@@ -64,14 +64,14 @@ public sealed class RoarClaw : LearnIntentCardModel
             return;
         }
 
-        CombatState? combatState = base.Owner.Creature.CombatState;
+        ICombatState? combatState = base.Owner.Creature.CombatState;
         if (combatState == null)
         {
             return;
         }
 
         if (FriendlyAmalgamCmd.GetExisting(combatState, base.Owner) is { Monster: FriendlyAmalgam fam, IsAlive: true } amalgamCreature
-            && !fam.BlocksDirectOffenseFromHand)
+            && !fam.BlockActionFromSleep)
         {
             decimal stacks = base.DynamicVars["LearnIntentVulnerable"].BaseValue;
             Creature? selectedEnemy = cardPlay.Target is { IsAlive: true } t ? t : null;

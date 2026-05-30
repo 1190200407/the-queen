@@ -13,7 +13,7 @@ using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>连续冲击：学习「攻击+力量」以及「2 连击攻击」两段意图。</summary>
+/// <summary>连续冲击：召唤并学习「攻击+力量」以及「2 连击攻击」两段意图。</summary>
 [RegisterCard(typeof(EnemyCardPool))]
 public sealed class DoubleBlast : LearnIntentCardModel
 {

@@ -6,10 +6,10 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Models.Powers;
+using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.Models.CardPools;
-using MegaCrit.Sts2.Core.Models.Powers;
 using STS2RitsuLib.Cards.DynamicVars;
 using STS2RitsuLib.Interop.AutoRegistration;
 
@@ -54,8 +54,8 @@ public sealed class GraspingVines : LearnIntentCardModel
             execute: async (PlayerChoiceContext _, Creature amalgam, Creature owner) =>
             {
                 await CreatureCmd.TriggerAnim(amalgam, "Cast", AmalgamSpecialIntentAction.CastAnimDelay);
-                await PowerCmd.Apply<TangledPower>(owner, 1m, applier: amalgam, cardSource: null);
-                await PowerCmd.Apply<SkillCostMinusOneThisTurnPower>(owner, 1m, applier: amalgam, cardSource: null, silent: true);
+                await PowerCmd.Apply<TangledPower>(choiceContext, owner, 1m, applier: amalgam, cardSource: null);
+                await PowerCmd.Apply<SkillCostMinusOneThisTurnPower>(choiceContext, owner, 1m, applier: amalgam, cardSource: null, silent: true);
             });
 
         return Task.FromResult<IReadOnlyList<AmalgamActionModel?>>([intent]);

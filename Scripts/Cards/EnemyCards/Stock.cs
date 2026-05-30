@@ -36,11 +36,11 @@ public sealed class Stock : QueenCardModel
         new AmalgamLearnIntentDamageVar(damage, ValueProp.Move),
     ];
 
-    /// <summary>无友方聚合体或 <see cref="FriendlyAmalgam.BlocksDirectOffenseFromHand"/> 时手牌红高亮（打出时由聚合体直接对敌伤害）。</summary>
+    /// <summary>无友方聚合体或 <see cref="FriendlyAmalgam.BlockActionFromSleep"/> 时手牌红高亮（打出时由聚合体直接对敌伤害）。</summary>
     protected override bool ShouldGlowRedInternal =>
         (base.Owner?.Creature?.CombatState is { } combatState
             && (FriendlyAmalgamCmd.GetExisting(combatState, base.Owner) is not { Monster: FriendlyAmalgam amalgam }
-                || amalgam.BlocksDirectOffenseFromHand))
+                || amalgam.BlockActionFromSleep))
         || base.ShouldGlowRedInternal;
 
     public Stock()
@@ -57,7 +57,7 @@ public sealed class Stock : QueenCardModel
         }
 
         if (FriendlyAmalgamCmd.GetExisting(combatState, base.Owner) is { Monster: FriendlyAmalgam fam } amalgamCreature
-            && !fam.BlocksDirectOffenseFromHand)
+            && !fam.BlockActionFromSleep)
         {
             Creature target = cardPlay.Target;
             decimal dmg = AmalgamLearnIntentDamageVar.GetEffectiveFlatForOffenseIntent(this, "LearnIntentDamage");

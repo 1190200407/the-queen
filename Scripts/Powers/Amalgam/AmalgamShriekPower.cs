@@ -27,13 +27,15 @@ public sealed class AmalgamShriekPower : QueenPowerModel
 
     public override PowerStackType StackType => PowerStackType.Counter;
 
+    private const int _vulnerableStacks = 9;
+
     // 复用原版 SHRIEK_POWER 的图标资源。
     public override string? CustomIconPath => "res://images/atlases/power_atlas.sprites/shriek_power.tres";
     public override string? CustomBigIconPath => "res://images/powers/shriek_power.png";
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips => [HoverTipFactory.FromPower<VigorPower>()];
 
-    private async Task CheckShriek()
+    private async Task CheckShriek(PlayerChoiceContext choiceContext)
     {
         if (base.Owner.CurrentHp > Amount)
         {
@@ -46,19 +48,32 @@ public sealed class AmalgamShriekPower : QueenPowerModel
         GetInternalData<Data>().triggerd = true;
 
         Flash();
-        // 施加 2 层：怪物回合命中后很快进入玩家回合开始，AmalgamSleepPower 会立刻 -1。
-        await PowerCmd.Apply<AmalgamSleepPower>(base.Owner, 1m, applier: base.Owner, cardSource: null);
-        await PowerCmd.Apply<VigorPower>(base.Owner, 7m, base.Owner, null);
+        
+		SfxCmd.Play("event:/sfx/enemy/enemy_attacks/terror_eel/terror_eel_debuff");
+		await CreatureCmd.TriggerAnim(base.Owner, "Cast", 0f);
+		await Cmd.Wait(0.3f);
+		VfxCmd.PlayVfx(base.Owner.GetCreatureNode().VfxSpawnPosition, "vfx/vfx_scream", base.Owner.GetVfxContainer());
+		await Cmd.CustomScaledWait(0.1f, 0.3f);
+        foreach (var enemy in base.Owner.CombatState.Enemies)
+        {
+            if (enemy.IsAlive)
+            {
+                await PowerCmd.Apply<VulnerablePower>(choiceContext, enemy, _vulnerableStacks, base.Owner, null);
+            }
+        }
+        await Cmd.Wait(0.5f);
+        
+        await PowerCmd.Apply<AmalgamSleepPower>(choiceContext, base.Owner, 1m, applier: base.Owner, cardSource: null);
         await PowerCmd.Remove(this);
     }
 
-    public override async Task AfterPowerAmountChanged(PowerModel power, decimal amount, Creature? applier, CardModel? cardSource)
+    public override async Task AfterPowerAmountChanged(PlayerChoiceContext choiceContext, PowerModel power, decimal amount, Creature? applier, CardModel? cardSource)
     {
         if (Amount <= 0m)
         {
             return;
         }
-        await CheckShriek();
+        await CheckShriek(choiceContext);
     }
 
     public override async Task AfterDamageGiven(PlayerChoiceContext choiceContext, Creature? dealer, DamageResult result, ValueProp props, Creature target, CardModel? cardSource)
@@ -67,6 +82,6 @@ public sealed class AmalgamShriekPower : QueenPowerModel
         {
             return;
         }
-        await CheckShriek();
+        await CheckShriek(choiceContext);
     }
 }

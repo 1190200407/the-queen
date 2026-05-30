@@ -40,7 +40,7 @@ public sealed class CarefulPick : QueenCardModel
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         Creature target = cardPlay.Target ?? throw new InvalidOperationException("CarefulPick requires a target.");
-        CombatState? combatState = base.Owner.Creature.CombatState;
+        ICombatState? combatState = base.Owner.Creature.CombatState;
         if (combatState == null)
         {
             return;
@@ -55,7 +55,7 @@ public sealed class CarefulPick : QueenCardModel
             }
         }
 
-        await PowerCmd.Apply<AmalgamPickLockPower>(target, 1m, applier, this);
+        await PowerCmd.Apply<AmalgamPickLockPower>(choiceContext, target, 1m, applier, this);
 
         await DamageCmd.Attack(base.DynamicVars.Damage.BaseValue).FromCard(this).Targeting(target)
             .WithHitFx("vfx/vfx_attack_blunt")

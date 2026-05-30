@@ -1,18 +1,29 @@
 using System.Threading.Tasks;
+
+using Godot;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Context;
+using MegaCrit.Sts2.Core.Helpers;
+using STS2RitsuLib.Audio;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Afflictions;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.Random;
+using MegaCrit.Sts2.Core.Rooms;
 
 namespace ComicChess.TheQueen;
 
 public static class QueenCardCmd
 {
+	private const string SoulLampGainSfx = "event:/sfx/ui/gain_energy";
+	private const float SoulLampGainSfxVolume = 1f;
+	private const float SoulLampGainSfxPitch = 2f;
+
 	/// <summary>
 	/// 施加魂缚：战斗内走 <see cref="CardCmd.Afflict"/>；战斗外仅允许已在主牌组中的牌，直接 <see cref="CardModel.AfflictInternal"/>（商店改牌等）。
 	/// </summary>
@@ -23,8 +34,8 @@ public static class QueenCardCmd
 			return false;
 		}
 
-		CombatState? cs = card.CombatState ?? card.Owner?.Creature?.CombatState;
-		if (cs != null)
+		ICombatState? cs = card.CombatState ?? card.Owner?.Creature?.CombatState;
+		if (cs != null && card.Owner?.RunState?.CurrentRoom is CombatRoom)
 		{
 			AfflictionModel? applied = await CardCmd.Afflict<Bound>(card, amount);
 			return applied != null;
@@ -46,46 +57,71 @@ public static class QueenCardCmd
 		return true;
 	}
 
-	public static async Task CreateInHand<T>(Player owner, CombatState combatState, bool isUpgraded = false) where T : CardModel
+	public static async Task CreateInHand<T>(Player owner, ICombatState combatState, bool isUpgraded = false) where T : CardModel
 	{
 		CardModel card = combatState.CreateCard<T>(owner);
-		await CreateInHandInternal(card, isUpgraded);
+		await CreateInHandInternal(card, isUpgraded, owner);
 	}
 
-	private static async Task CreateInHandInternal(CardModel card, bool isUpgraded = false)
+	private static async Task CreateInHandInternal(CardModel card, bool isUpgraded = false, Player? creator = null)
 	{
 		if (isUpgraded)
 		{
 			CardCmd.Upgrade(card);
 		}
 
-		await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Hand, addedByPlayer: true);
+		await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Hand, creator);
 	}
 
-	public static async Task AddSoulLamp(Player owner, int amount = 1)
+	public static async Task AddSoulLamp(PlayerChoiceContext choiceContext, Player owner, int amount = 1)
 	{
 		if (amount <= 0)
 		{
 			return;
 		}
 
+		bool silent = owner.Character is QueenCharacter && LocalContext.IsMe(owner);
+
 		SoulLampPower? existing = owner.Creature.GetPower<SoulLampPower>();
 		if (existing == null)
 		{
-			await PowerCmd.Apply<SoulLampPower>(owner.Creature, amount, owner.Creature, null);
+			await PowerCmd.Apply<SoulLampPower>(choiceContext, owner.Creature, amount, owner.Creature, null, silent);
 		}
 		else if (existing.Amount <= 0)
 		{
 			// SoulLampPower uses -1 as the hidden "display 0" sentinel.
 			// When gaining Soul Lamp from this state, jump directly to gained amount.
-			await PowerCmd.SetAmount<SoulLampPower>(owner.Creature, amount, owner.Creature, null);
+			await PowerCmd.ModifyAmount(choiceContext, existing, amount - existing.Amount, owner.Creature, null, silent);
 		}
 		else
 		{
-			await PowerCmd.ModifyAmount(existing, amount, owner.Creature, null);
+			await PowerCmd.ModifyAmount(choiceContext, existing, amount, owner.Creature, null, silent);
 		}
 
-		await NightLightRelic.NotifySoulLampGained(owner, amount);
+		if (LocalContext.IsMe(owner))
+		{
+			PlaySoulLampGainSfx();
+		}
+	}
+
+	private static void PlaySoulLampGainSfx()
+	{
+		if (NonInteractiveMode.IsActive || CombatManager.Instance.IsEnding)
+		{
+			return;
+		}
+
+		GodotObject? instance = FmodStudioEventInstances.TryCreate(SoulLampGainSfx);
+		if (instance is null)
+		{
+			SfxCmd.Play(SoulLampGainSfx, SoulLampGainSfxVolume);
+			return;
+		}
+
+		instance.Call("set_volume", SoulLampGainSfxVolume);
+		instance.Call("set_pitch", SoulLampGainSfxPitch);
+		instance.Call("start");
+		instance.Call("release");
 	}
 
 	private static readonly QueenTriadDebuffKind[] TriadDebuffKinds =
@@ -96,6 +132,7 @@ public static class QueenCardCmd
 	];
 
 	public static async Task ApplyRandomTriadDebuff(
+		PlayerChoiceContext choiceContext,
 		Player owner,
 		Creature target,
 		Creature applier,
@@ -103,7 +140,7 @@ public static class QueenCardCmd
 		decimal amount)
 	{
 		QueenTriadDebuffKind kind = PickTriadDebuff(owner, target);
-		await ApplyTriadDebuff(kind, target, applier, cardSource, amount);
+		await ApplyTriadDebuff(choiceContext, kind, target, applier, cardSource, amount);
 	}
 
 	/// <summary>
@@ -117,6 +154,7 @@ public static class QueenCardCmd
 	}
 
 	public static async Task ApplyTriadDebuff(
+		PlayerChoiceContext choiceContext,
 		QueenTriadDebuffKind kind,
 		Creature target,
 		Creature applier,
@@ -126,13 +164,13 @@ public static class QueenCardCmd
 		switch (kind)
 		{
 			case QueenTriadDebuffKind.Poison:
-				await PowerCmd.Apply<PoisonPower>(target, amount, applier, cardSource);
+				await PowerCmd.Apply<PoisonPower>(choiceContext, target, amount, applier, cardSource);
 				break;
 			case QueenTriadDebuffKind.Doom:
-				await PowerCmd.Apply<DoomPower>(target, amount, applier, cardSource);
+				await PowerCmd.Apply<DoomPower>(choiceContext, target, amount, applier, cardSource);
 				break;
 			default:
-				await PowerCmd.Apply<DemisePower>(target, amount, applier, cardSource);
+				await PowerCmd.Apply<DemisePower>(choiceContext, target, amount, applier, cardSource);
 				break;
 		}
 	}

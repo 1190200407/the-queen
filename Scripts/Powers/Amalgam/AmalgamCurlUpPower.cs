@@ -5,6 +5,7 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
@@ -25,7 +26,7 @@ public sealed class AmalgamCurlUpPower : QueenPowerModel, IAmalgamEventListener
     public override string? CustomBigIconPath => "res://images/powers/curl_up_power.png";
 
     public async Task OnAmalgamHitAsync(
-        CombatState combatState,
+        ICombatState combatState,
         Creature amalgam,
         decimal unblockedDamage,
         ValueProp props,
@@ -52,7 +53,7 @@ public sealed class AmalgamCurlUpPower : QueenPowerModel, IAmalgamEventListener
         }
 
         Flash();
-        await PowerCmd.Apply<BlockNextTurnPower>(queen, Amount, base.Owner, null);
+        await PowerCmd.Apply<BlockNextTurnPower>(new ThrowingPlayerChoiceContext(), queen, Amount, base.Owner, null);
         await PowerCmd.Remove(this);
     }
 }

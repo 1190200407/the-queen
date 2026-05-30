@@ -27,7 +27,7 @@ public sealed class Skittish : QueenCardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new SummonVar(7m).WithSharedTooltip("QUEEN_SUMMON_DYNAMIC"),
+        new SummonVar(4m).WithSharedTooltip("QUEEN_SUMMON_DYNAMIC"),
         new PowerVar<AmalgamSkittishPower>(8m),
     ];
 
@@ -60,7 +60,7 @@ public sealed class Skittish : QueenCardModel
             decimal amount = base.DynamicVars.Power<AmalgamSkittishPower>().BaseValue;
             if (amount > 0m)
             {
-                await PowerCmd.Apply<AmalgamSkittishPower>(amalgam, amount, base.Owner.Creature, this);
+                await PowerCmd.Apply<AmalgamSkittishPower>(choiceContext, amalgam, amount, base.Owner.Creature, this);
             }
         }
     }

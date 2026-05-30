@@ -1,0 +1,6 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://b2tsqjbtfnme0"]
+
+[ext_resource type="Shader" uid="uid://cqepwc8gb58iv" path="res://TheQueen/shaders/vfx_ring_polar_shader.gdshader" id="1_gq4bx"]
+
+[resource]
+shader = ExtResource("1_gq4bx")

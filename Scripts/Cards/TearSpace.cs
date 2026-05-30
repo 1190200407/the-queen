@@ -16,7 +16,7 @@ using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>撕裂空间：仅单人可出现；场上负面状态（非临时减益能力）数量不少于阈值时可打出（基础 10，升�?7）；对所有敌人造成伤害�?/summary>
+/// <summary>撕裂空间：仅单人可出现；场上负面状态（非临时减益能力）数量不少于阈值时可打出（基础 10，升�?7）；对所有敌人造成伤害�?/summary>
 
 [RegisterCard(typeof(QueenCardPool))]
 public sealed class TearSpace : QueenCardModel
@@ -32,14 +32,14 @@ public sealed class TearSpace : QueenCardModel
 	public override CardMultiplayerConstraint MultiplayerConstraint => CardMultiplayerConstraint.SingleplayerOnly;
 
 	protected override IEnumerable<DynamicVar> CanonicalVars => [
-		new IntVar(PlayThresholdKey, 9m),
-		new DamageVar(50m, ValueProp.Move),
+		new IntVar(PlayThresholdKey, 7m),
+		new DamageVar(30m, ValueProp.Move),
 		new CalculationBaseVar(0m),
 		new CalculationExtraVar(1m),
 		new CalculatedVar("BattlefieldDebuffCount").WithMultiplier(static (CardModel card, Creature? _) =>
 		{
-			CombatState? cs = card.Owner?.Creature?.CombatState;
-			return cs == null ? 0m : CountBattlefieldDebuffs(cs);
+			ICombatState? cs = card.Owner?.Creature?.CombatState;
+			return cs == null ? 0m : QueenDebuffUtil.CountBattlefieldDebuffs(cs);
 		}),
 	];
 
@@ -47,14 +47,14 @@ public sealed class TearSpace : QueenCardModel
 	{
 		get
 		{
-			CombatState? combatState = base.Owner?.Creature?.CombatState;
+			ICombatState? combatState = base.Owner?.Creature?.CombatState;
 			if (combatState == null || base.Owner == null)
 			{
 				return true;
 			}
 
 			int threshold = (int)base.DynamicVars[PlayThresholdKey].BaseValue;
-			return CountBattlefieldDebuffs(combatState) >= threshold;
+			return QueenDebuffUtil.CountBattlefieldDebuffs(combatState) >= threshold;
 		}
 	}
 
@@ -66,7 +66,7 @@ public sealed class TearSpace : QueenCardModel
 	protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
 	{
 		_ = cardPlay;
-		if (base.CombatState is not CombatState combatState)
+		if (base.CombatState is not ICombatState combatState)
 		{
 			return;
 		}
@@ -81,27 +81,5 @@ public sealed class TearSpace : QueenCardModel
 	protected override void OnUpgrade()
 	{
 		base.DynamicVars[PlayThresholdKey].UpgradeValueBy(-2m);
-	}
-
-	private static int CountBattlefieldDebuffs(CombatState combatState)
-	{
-		int n = 0;
-		foreach (Creature creature in combatState.Creatures)
-		{
-			if (!creature.IsAlive)
-			{
-				continue;
-			}
-
-			foreach (PowerModel power in creature.Powers)
-			{
-				if (power.Type == PowerType.Debuff)
-				{
-					n++;
-				}
-			}
-		}
-
-		return n;
 	}
 }

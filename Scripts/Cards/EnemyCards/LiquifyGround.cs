@@ -56,8 +56,8 @@ public sealed class LiquifyGround : LearnIntentCardModel
     {
     }
 
-	public override Task BeforeSideTurnStart(PlayerChoiceContext choiceContext, CombatSide side, CombatState combatState)
-	{
+    public override Task BeforeSideTurnStart(PlayerChoiceContext choiceContext, CombatSide side, IReadOnlyList<Creature> participants, ICombatState combatState)
+    {
 		if (side == base.Owner.Creature.Side && combatState.RoundNumber <= 1 && combatState.Encounter?.RoomType == RoomType.Boss)
         {
             base.DynamicVars.Power<AmalgamSandpitPower>().BaseValue += 3;
@@ -68,12 +68,15 @@ public sealed class LiquifyGround : LearnIntentCardModel
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         _ = cardPlay;
+        SfxCmd.Play("event:/sfx/enemy/enemy_attacks/the_insatiable/the_insatiable_liquify_ground");
         await CreatureCmd.TriggerAnim(base.Owner.Creature, "Cast", base.Owner.Character.CastAnimDelay);
+		VfxCmd.PlayOnCreatureCenter(base.Owner.Creature, "vfx/vfx_scream");
+		await Cmd.Wait(0.75f);
 
         decimal sandpitToGain = base.DynamicVars.Power<AmalgamSandpitPower>().BaseValue;
         if (base.Owner.Creature.GetPower<AmalgamSandpitPower>() == null)
         {
-            await PowerCmd.Apply<AmalgamSandpitPower>(base.Owner.Creature, sandpitToGain, base.Owner.Creature, this);
+            await PowerCmd.Apply<AmalgamSandpitPower>(choiceContext, base.Owner.Creature, sandpitToGain, base.Owner.Creature, this);
         }
         await FriendlyAmalgamCmd.Summon(choiceContext, base.Owner, summon, this);
 

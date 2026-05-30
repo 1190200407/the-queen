@@ -11,30 +11,32 @@ using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.ValueProps;
 
 using STS2RitsuLib.Interop.AutoRegistration;
+using STS2RitsuLib.Keywords;
 
 namespace ComicChess.TheQueen;
 
-
-[RegisterCard(typeof(QueenCardPool))]
+[RegisterCard(typeof(TokenCardPool))]
 public sealed class HandOfRefusal : QueenCardModel
 {
 	private const int energyCost = 0;
 	private const CardType type = CardType.Skill;
-	private const CardRarity rarity = CardRarity.Rare;
+	private const CardRarity rarity = CardRarity.Token;
 	private const TargetType targetType = TargetType.Self;
-	private const bool shouldShowInCardLibrary = true;
-
-	public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Retain];
+	private const bool shouldShowInCardLibrary = false;
 
 	public override bool GainsBlock => true;
 
+	public override IEnumerable<CardKeyword> CanonicalKeywords =>
+		[ModKeywordRegistry.GetCardKeyword(QueenKeyword.Fade)];
+
 	protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(6m, ValueProp.Move)];
 
-	protected override IEnumerable<IHoverTip> AdditionalHoverTips => [
-		HoverTipFactory.FromKeyword(CardKeyword.Retain),
+	protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+	[
+		ModKeywordRegistry.CreateHoverTip(QueenKeyword.Fade),
+		HoverTipFactory.FromCard<HandOfRefusal>(upgrade: base.IsUpgraded),
 		HoverTipFactory.FromCard<HandOfSeizure>(upgrade: base.IsUpgraded),
 		.. HoverTipFactory.FromAffliction<Bound>(),
-		HoverTipFactory.FromPower<SoulLampPower>()
 	];
 
 	internal override bool HasSelfBound => true;
@@ -47,12 +49,7 @@ public sealed class HandOfRefusal : QueenCardModel
 	protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
 	{
 		await CreatureCmd.GainBlock(base.Owner.Creature, base.DynamicVars.Block, cardPlay);
-		HandOfSeizureNextTurnPower? handsNextTurn = await PowerCmd.Apply<HandOfSeizureNextTurnPower>(base.Owner.Creature, 1m, base.Owner.Creature, this);
-		if (handsNextTurn != null)
-		{
-			handsNextTurn.isUpgraded = base.IsUpgraded;
-		}
-		await QueenCardCmd.AddSoulLamp(base.Owner);
+		await HundredHandsBanquet.CreateInHandInternal(base.Owner, base.CombatState, base.IsUpgraded);
 	}
 
 	protected override void OnUpgrade()

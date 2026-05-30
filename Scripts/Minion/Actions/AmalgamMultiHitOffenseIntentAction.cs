@@ -33,6 +33,15 @@ public sealed class AmalgamMultiHitOffenseIntentAction : AmalgamActionModel
 
 	protected override async Task OnExecute(PlayerChoiceContext choiceContext, Creature amalgam)
 	{
-		await FriendlyAmalgamCmd.ExecuteMultiHitOffense(choiceContext, amalgam, Amount, _hitCount);
+		await FriendlyAmalgamCmd.ExecuteMultiHitOffense(
+			choiceContext,
+			amalgam,
+			target: null,
+			Amount,
+			_hitCount,
+			"PowerAttack",
+			0.7f,
+			"vfx/vfx_attack_blunt",
+			"event:/sfx/enemy/enemy_attacks/torch_head_amalgam/torch_head_amalgam_beam");
 	}
 }
