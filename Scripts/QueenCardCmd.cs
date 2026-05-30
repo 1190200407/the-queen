@@ -20,8 +20,8 @@ namespace ComicChess.TheQueen;
 
 public static class QueenCardCmd
 {
-	private const string SoulLampGainSfx = "event:/sfx/characters/regent/regent_forge";
-	private const float SoulLampGainSfxVolume = 1.2f;
+	private const string SoulLampGainSfx = "event:/sfx/ui/gain_energy";
+	private const float SoulLampGainSfxVolume = 1f;
 	private const float SoulLampGainSfxPitch = 2f;
 
 	/// <summary>
