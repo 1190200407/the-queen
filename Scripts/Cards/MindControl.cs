@@ -55,7 +55,7 @@ public sealed class MindControl : QueenCardModel
 			return;
 		}
 
-		_ = await PowerCmd.Apply<MindControlPower>(choiceContext, cardPlay.Target, 1m, queen, this);
+		_ = await MindControlPower.ApplyToTarget(cardPlay.Target, 1m, queen, this);
 	}
 
 	protected override void OnUpgrade()

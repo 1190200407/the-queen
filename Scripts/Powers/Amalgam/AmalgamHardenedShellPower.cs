@@ -27,7 +27,7 @@ public sealed class AmalgamHardenedShellPower : QueenPowerModel
 
     public override PowerStackType StackType => PowerStackType.Counter;
 
-    public override PowerInstanceType InstanceType => PowerInstanceType.Instanced;
+    public override bool IsInstanced => true;
 
     public override int DisplayAmount => (int)Math.Max(0, GetInternalData<Data>().Remaining);
 

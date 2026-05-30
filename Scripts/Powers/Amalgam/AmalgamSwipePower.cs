@@ -27,7 +27,7 @@ public sealed class AmalgamSwipePower : QueenPowerModel, IAmalgamEventListener
 
     public override PowerStackType StackType => PowerStackType.Single;
 
-    public override PowerInstanceType InstanceType => PowerInstanceType.Instanced;
+    public override bool IsInstanced => true;
 
     public override string? CustomIconPath => "res://images/atlases/power_atlas.sprites/swipe_power.tres";
     public override string? CustomBigIconPath => "res://images/powers/swipe_power.png";

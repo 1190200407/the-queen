@@ -29,7 +29,7 @@ public sealed class MagicMirrorShardPendingPower : QueenPowerModel
 
 	public override PowerStackType StackType => PowerStackType.Single;
 
-	public override PowerInstanceType InstanceType => PowerInstanceType.Instanced;
+	public override bool IsInstanced => true;
 
 	public override LocString Description
 	{

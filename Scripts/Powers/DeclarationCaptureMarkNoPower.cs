@@ -17,7 +17,7 @@ public sealed class DeclarationCaptureMarkNoPower : QueenPowerModel
 
 	public override PowerStackType StackType => PowerStackType.Counter;
 
-	public override PowerInstanceType InstanceType => PowerInstanceType.Instanced;
+	public override bool IsInstanced => true;
 
 	protected override IEnumerable<DynamicVar> CanonicalVars => [
 		new IntVar("Upgraded", 0),

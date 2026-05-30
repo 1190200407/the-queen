@@ -24,7 +24,7 @@ public sealed class LocalMaterialsPower : QueenPowerModel
 
     public override PowerStackType StackType => PowerStackType.Counter;
     
-	public override PowerInstanceType InstanceType => PowerInstanceType.Instanced;
+	public override bool IsInstanced => true;
 
     public override int DisplayAmount => GetInternalData<Data>().triggerCount - GetInternalData<Data>().cardGeneratedCount;
 

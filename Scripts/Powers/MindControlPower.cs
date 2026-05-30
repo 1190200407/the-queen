@@ -16,7 +16,6 @@ using MegaCrit.Sts2.Core.Platform;
 using MegaCrit.Sts2.Core.Random;
 using MegaCrit.Sts2.Core.Runs;
 using MegaCrit.Sts2.Core.ValueProps;
-using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 
 namespace ComicChess.TheQueen;
 
@@ -40,7 +39,7 @@ internal sealed class MindControlAttackFrame
 }
 
 /// <summary>
-/// 精神控制：挂在<strong>被施加精神控制的敌人</strong>上，<see cref="PowerInstanceType.InstancedPerApplier"/> 每名玩家各一条；
+/// 精神控制：挂在<strong>被施加精神控制的敌人</strong>上，每名施加者各一条实例（正式版无 <c>InstancedPerApplier</c>，由 <see cref="ApplyToTarget"/> 按 <see cref="PowerModel.Applier"/> 叠层）；
 /// <see cref="AfterApplied"/> 与 <see cref="AfterPowerAmountChanged"/> 会刷新宿主怪物意图，便于意图数字与 <see cref="MindControlAttackIntentGetSingleDamagePatch"/> 等在能力变化后及时更新。
 /// </summary>
 public sealed class MindControlPower : QueenPowerModel
@@ -51,7 +50,26 @@ public sealed class MindControlPower : QueenPowerModel
 
 	public override PowerStackType StackType => PowerStackType.Counter;
 
-	public override PowerInstanceType InstanceType => PowerInstanceType.InstancedPerApplier;
+	public override bool IsInstanced => true;
+
+	/// <summary>同一施加者再次施加时叠层，不同施加者各保留一条实例。</summary>
+	internal static async Task<MindControlPower?> ApplyToTarget(
+		Creature target,
+		decimal amount,
+		Creature applier,
+		CardModel? cardSource)
+	{
+		MindControlPower? existing = target.GetPowerInstances<MindControlPower>()
+			.FirstOrDefault(p => p.Applier == applier);
+		if (existing is not null)
+		{
+			return await PowerCmd.ModifyAmount(existing, amount, applier, cardSource) == 0
+				? null
+				: existing;
+		}
+
+		return await PowerCmd.Apply<MindControlPower>(target, amount, applier, cardSource);
+	}
 
 	protected override IEnumerable<DynamicVar> CanonicalVars => [new StringVar(ApplierPlayerNameKey)];
 
@@ -71,7 +89,7 @@ public sealed class MindControlPower : QueenPowerModel
 	}
 
 	/// <summary>宿主身上任意能力层数变化时由 <c>Hook.AfterPowerAmountChanged</c> 广播；用于刷新意图（含依赖 <c>targets</c> 的预览）。</summary>
-	public override Task AfterPowerAmountChanged(PlayerChoiceContext choiceContext, PowerModel power, decimal amount, Creature? applier, CardModel? cardSource)
+	public override Task AfterPowerAmountChanged(PowerModel power, decimal amount, Creature? applier, CardModel? cardSource)
 	{
 		_ = amount;
 		_ = applier;

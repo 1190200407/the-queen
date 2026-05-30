@@ -35,7 +35,7 @@ public sealed class AmalgamYourJoueneyEndsHerePendingPower : QueenPowerModel, IA
         new IntVar("StrengthToGain", 0m),
     ];
 
-    public override PowerInstanceType InstanceType => PowerInstanceType.Instanced;
+    public override bool IsInstanced => true;
 
     internal void ConfigureStrength(decimal strengthToGain)
     {

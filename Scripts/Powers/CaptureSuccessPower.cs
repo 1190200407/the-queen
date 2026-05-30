@@ -21,7 +21,7 @@ public class CaptureSuccessPower : QueenPowerModel
     public override PowerType Type => PowerType.Buff;
 
     public override PowerStackType StackType => PowerStackType.None;
-    public override PowerInstanceType InstanceType => PowerInstanceType.Instanced;
+    public override bool IsInstanced => true;
 
     /// <summary>战斗结束时发放的奖励牌（由捕获牌创建后赋值）。</summary>
     public CardModel? RewardCard { get; set; }

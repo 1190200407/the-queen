@@ -20,7 +20,7 @@ public sealed class EcosphereCaptureMarkPower : QueenPowerModel
 
 	public override PowerStackType StackType => PowerStackType.Single;
 
-	public override PowerInstanceType InstanceType => PowerInstanceType.Instanced;
+	public override bool IsInstanced => true;
 
 	protected override IEnumerable<IHoverTip> AdditionalHoverTips => [QueenHoverTips.Capture];
 
