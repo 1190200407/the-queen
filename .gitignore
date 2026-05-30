@@ -19,3 +19,4 @@ mono_crash.*.json
 .cursor/rules/
 
 
+bin/windows/~libspine_godot.windows.editor.x86_64.dll
