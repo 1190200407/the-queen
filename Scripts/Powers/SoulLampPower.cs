@@ -65,7 +65,7 @@ public sealed class SoulLampPower : QueenPowerModel
 
 	public override int DisplayAmount => Math.Max(0, Amount);
 
-	public override bool TryModifyEnergyCostInCombatLate(CardModel card, decimal originalCost, out decimal modifiedCost)
+	public override bool TryModifyEnergyCostInCombat(CardModel card, decimal originalCost, out decimal modifiedCost)
 	{
 		modifiedCost = originalCost;
 		if (!ShouldZeroBoundCardCost(card))

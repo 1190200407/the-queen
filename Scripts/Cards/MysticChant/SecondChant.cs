@@ -55,12 +55,12 @@ public sealed class SecondChant : QueenCardModel
 		}
 	}
 	
-    protected override PileType GetResultPileTypeForCardPlay()
+    protected override PileType GetResultPileType()
     {
-		PileType resultPileTypeForCardPlay = base.GetResultPileTypeForCardPlay();
-		if (resultPileTypeForCardPlay != PileType.Discard && resultPileTypeForCardPlay != PileType.Exhaust)
+		PileType resultPileType = base.GetResultPileType();
+		if (resultPileType != PileType.Discard && resultPileType != PileType.Exhaust)
 		{
-			return resultPileTypeForCardPlay;
+			return resultPileType;
 		}
 		return PileType.Hand;
     }

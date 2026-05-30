@@ -78,9 +78,9 @@ public sealed class PulseStrike : QueenCardModel
 	}
 
 
-    public override async Task AfterCardGeneratedForCombat(CardModel card, Player? creator)
+    public override async Task AfterCardGeneratedForCombat(CardModel card, bool addedByPlayer)
     {
-		if (creator != base.Owner)
+		if (!addedByPlayer || card.Owner != base.Owner)
 		{
 			return;
 		}

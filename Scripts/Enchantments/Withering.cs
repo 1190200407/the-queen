@@ -34,14 +34,9 @@ public sealed class Withering : QueenEnchantmentModel
 		}
 	}
 
-	public override async Task AfterFlush(
-		PlayerChoiceContext choiceContext,
-		Player player,
-		IReadOnlyCollection<CardModel> flushedCards,
-		IReadOnlyCollection<CardModel> retainedCards)
+	public override async Task AfterCardRetained(CardModel card)
 	{
-		_ = flushedCards;
-		if (Card is null || Card.Owner != player || !retainedCards.Contains(Card))
+		if (Card is null || card != Card)
 		{
 			return;
 		}
@@ -60,7 +55,7 @@ public sealed class Withering : QueenEnchantmentModel
 			return;
 		}
 
-		await CardCmd.Exhaust(choiceContext, Card);
+		await CardCmd.Exhaust(new ThrowingPlayerChoiceContext(), Card);
 	}
 
 	private void SyncDeckVersionAmount()

@@ -46,9 +46,9 @@ public sealed class LocalMaterialsPower : QueenPowerModel
         InvokeDisplayAmountChanged();
     }
 
-    public override async Task AfterCardGeneratedForCombat(CardModel card, Player? creator)
+    public override async Task AfterCardGeneratedForCombat(CardModel card, bool addedByPlayer)
     {
-        if (creator == null ||  creator.Creature != base.Owner ||Amount <= 0m)
+        if (!addedByPlayer || card.Owner?.Creature != base.Owner || Amount <= 0m)
         {
             return;
         }
