@@ -401,7 +401,7 @@
     "THE_QUEEN_CARD_CLOSE_DOOR.title":"Close Door",
     "THE_QUEEN_CARD_CLOSE_DOOR.description":"[gold]Summon[/gold] {Summon:diff()}.\nYour [gold]Amalgam[/gold] gains {AmalgamDoormakerBossPower:diff()} [gold]Doormaker Shell[/gold].\n[purple]R.I.P.[/purple]",
     "THE_QUEEN_CARD_VITAL_SPARK.title":"Vital Spark",
-    "THE_QUEEN_CARD_VITAL_SPARK.description":"Gain {VitalSparkPower:diff()} [gold]Vital Spark[/gold].\nWhenever you gain [gold]Contamination[/gold], ALL enemies gain double [gold]Contamination[/gold].",
+    "THE_QUEEN_CARD_VITAL_SPARK.description":"[gold]Summon[/gold] {Summon:diff()}.\nYour [gold]Amalgam[/gold] gains {AmalgamVitalSparkPower:diff()} [gold]Vital Spark[/gold].",
     "THE_QUEEN_CARD_RELOAD_FIRE.title":"Reload Fire",
     "THE_QUEEN_CARD_RELOAD_FIRE.description":"[gold]Summon[/gold] {Summon:diff()}.\n[gold]Learn Intent[/gold]: Gain {LearnIntentBlock:diff()} Block. At the start of next turn, deal {LearnIntentDamage:diff()} damage.",
     "THE_QUEEN_CARD_GRASPING_VINES.title":"Grasping Vines",
