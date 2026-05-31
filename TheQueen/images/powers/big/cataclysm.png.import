@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://t8wtbukhyivg"
-path="res://.godot/imported/amalgam_evolutionary_theory_pending.png-a9eb492c8afe30b787c489c03039529b.ctex"
+uid="uid://bbtroetr5b4yp"
+path="res://.godot/imported/cataclysm.png-6da089b7440f8d7551e538235ef4252c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://TheQueen/images/powers/amalgam_evolutionary_theory_pending.png"
-dest_files=["res://.godot/imported/amalgam_evolutionary_theory_pending.png-a9eb492c8afe30b787c489c03039529b.ctex"]
+source_file="res://TheQueen/images/powers/big/cataclysm.png"
+dest_files=["res://.godot/imported/cataclysm.png-6da089b7440f8d7551e538235ef4252c.ctex"]
 
 [params]
 

@@ -1,7 +1,7 @@
 shader_type canvas_item;
 render_mode blend_mix;
 
-#include "res://shaders/vfx/_util/polar_coordinates.gdshaderinc"
+#include "res://TheQueen/shaders/polar_coordinates.gdshaderinc"
 
 uniform sampler2D erosion_curve;
 uniform float erosion_offset = 0.1;

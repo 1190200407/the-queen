@@ -6,9 +6,9 @@ using MegaCrit.Sts2.Core.Nodes.Vfx.Utilities;
 namespace ComicChess.TheQueen;
 
 /// <summary>
-/// Mod 工程内挂载用，继承原版 <see cref="NParticlesContainer"/>，行为完全一致。
-/// <see cref="NEnergyCounter"/> 通过 <see cref="NParticlesContainer"/> 类型引用调用 <c>Restart()</c> / <c>SetEmitting()</c>，
-/// 因此必须继承原版类，而不是复制成独立的 <see cref="Godot.Node2D"/>。
+/// Mod 工程内挂载用，继承原版 <see cref="NParticlesContainer"/>。
+/// 基类 <see cref="NParticlesContainer.Restart"/> 只读其 private <c>_particles</c> 字段；
+/// 子类必须在运行时把粒子列表写进去（场景导出或从子节点收集）。
 /// </summary>
 [GlobalClass]
 public partial class NQueenParticlesContainer : NParticlesContainer
@@ -16,13 +16,50 @@ public partial class NQueenParticlesContainer : NParticlesContainer
 	private static readonly FieldInfo BaseParticlesField =
 		typeof(NParticlesContainer).GetField("_particles", BindingFlags.Instance | BindingFlags.NonPublic)!;
 
-	// Godot C# 无法把场景导出写进基类的 private [Export]，子类必须再声明一份并在 _Ready 同步。
 	[Export]
-	private Array<GpuParticles2D>? _particles;
+	public Array<GpuParticles2D>? _particles;
+
+	public override void _EnterTree()
+	{
+		SyncBaseParticles();
+		base._EnterTree();
+	}
 
 	public override void _Ready()
 	{
-		BaseParticlesField.SetValue(this, _particles);
+		SyncBaseParticles();
 		base._Ready();
+	}
+
+	private void SyncBaseParticles()
+	{
+		Array<GpuParticles2D> resolved = ResolveParticles();
+		_particles = resolved;
+		BaseParticlesField.SetValue(this, resolved);
+	}
+
+	private Array<GpuParticles2D> ResolveParticles()
+	{
+		if (_particles is { Count: > 0 })
+		{
+			return _particles;
+		}
+
+		Array<GpuParticles2D> collected = [];
+		CollectParticles(this, collected);
+		return collected;
+	}
+
+	private static void CollectParticles(Node node, Array<GpuParticles2D> particles)
+	{
+		foreach (Node child in node.GetChildren())
+		{
+			if (child is GpuParticles2D gpuParticles)
+			{
+				particles.Add(gpuParticles);
+			}
+
+			CollectParticles(child, particles);
+		}
 	}
 }
