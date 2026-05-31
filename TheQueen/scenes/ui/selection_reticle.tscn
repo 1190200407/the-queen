@@ -1,7 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://sdok1yfxsmi8"]
+[gd_scene load_steps=3 format=3]
 
-[ext_resource type="Script" uid="uid://i33cxrcnuxsy" path="res://Scripts/Nodes/NewNSelectionReticle.cs" id="1_yllth"]
-[ext_resource type="Texture2D" uid="uid://tuoudfbtglxw" path="res://TheQueen/images/ui/combat_reticle.png" id="2_31rve"]
+[ext_resource type="Script" path="res://Scripts/Nodes/NewNSelectionReticle.cs" id="1_yllth"]
+[ext_resource type="Texture2D" path="res://TheQueen/images/ui/combat_reticle.png" id="2_31rve"]
 
 [node name="SelectionReticle" type="Control"]
 z_index = 1

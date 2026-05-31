@@ -1,4 +1,4 @@
-[gd_resource type="VisualShader" load_steps=0 format=3 uid="uid://w8px2vgxsa4x"]
+[gd_resource type="VisualShader" load_steps=0 format=3]
 
 [resource]
 code = "shader_type canvas_item;

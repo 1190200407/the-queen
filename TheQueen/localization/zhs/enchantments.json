@@ -17,8 +17,5 @@
     "INFESTED.description":"这张牌的攻击意图数值增加{Amount}。",
     "WITHERING.title":"凋萎",
     "WITHERING.description":"此牌获得[gold]保留[/gold]。被保留{Amount}次后[gold]消耗[/gold]。",
-    "WITHERING.extraCardText":"获得[gold]保留[/gold]。被保留{Amount}次后[gold]消耗[/gold]。",
-    "COMICCHESS-WITHERING.title":"凋萎",
-    "COMICCHESS-WITHERING.description":"此牌获得[gold]保留[/gold]。被保留{Amount}次后[gold]消耗[/gold]。",
-    "COMICCHESS-WITHERING.extraCardText":"被保留{Amount}次后[gold]消耗[/gold]。"
+    "WITHERING.extraCardText":"被保留{Amount}次后[gold]消耗[/gold]。"
 }

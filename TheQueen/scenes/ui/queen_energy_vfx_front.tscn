@@ -1,9 +1,9 @@
-[gd_scene load_steps=22 format=3 uid="uid://begu2n2ulqy56"]
+[gd_scene load_steps=22 format=3]
 
-[ext_resource type="Script" uid="uid://c1gkwdie4x136" path="res://Scripts/Nodes/NQueenParticlesContainer.cs" id="1_skqcr"]
-[ext_resource type="PackedScene" uid="uid://0vk581j1pecs" path="res://TheQueen/scenes/ui/vfx_common_ring_polar_a.tscn" id="2_ca08c"]
-[ext_resource type="PackedScene" uid="uid://chqoe33c4gm6a" path="res://TheQueen/scenes/ui/vfx_common_specks.tscn" id="6_3jr1f"]
-[ext_resource type="Texture2D" uid="uid://c4p1oduwv7m1j" path="res://TheQueen/images/vfx/common_speck.png" id="7_afm41"]
+[ext_resource type="Script" path="res://Scripts/Nodes/NQueenParticlesContainer.cs" id="1_skqcr"]
+[ext_resource type="PackedScene" path="res://TheQueen/scenes/ui/vfx_common_ring_polar_a.tscn" id="2_ca08c"]
+[ext_resource type="PackedScene" path="res://TheQueen/scenes/ui/vfx_common_specks.tscn" id="6_3jr1f"]
+[ext_resource type="Texture2D" path="res://TheQueen/images/vfx/common_speck.png" id="7_afm41"]
 
 [sub_resource type="Curve" id="Curve_ahun0"]
 _data = [Vector2(0, 0.34999996), 0.0, 0.0, 0, 0, Vector2(1, 0), -1.1367823, 0.0, 0, 0]
@@ -101,9 +101,8 @@ turbulence_initial_displacement_min = 1.49012e-06
 turbulence_initial_displacement_max = 1.49012e-06
 turbulence_influence_over_life = SubResource("CurveTexture_hefgp")
 
-[node name="silent_energy_vfx_front" type="Node2D" node_paths=PackedStringArray("_particles")]
+[node name="silent_energy_vfx_front" type="Node2D"]
 script = ExtResource("1_skqcr")
-_particles = [NodePath("vfx_common_ring_polar_a"), NodePath("vfx_common_specks")]
 
 [node name="vfx_common_ring_polar_a" parent="." instance=ExtResource("2_ca08c")]
 self_modulate = Color(0.08567965, 1, 0.2209341, 1)

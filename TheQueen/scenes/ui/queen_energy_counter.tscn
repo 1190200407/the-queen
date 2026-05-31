@@ -1,23 +1,23 @@
-[gd_scene load_steps=38 format=3 uid="uid://0x37uehu4fpq"]
+[gd_scene load_steps=38 format=3]
 
-[ext_resource type="Script" uid="uid://dyp78wnko3y6k" path="res://Scripts/Nodes/NQueenEnergyCounter.cs" id="1_86ayx"]
-[ext_resource type="PackedScene" uid="uid://bmqyupu3scxx5" path="res://TheQueen/scenes/ui/queen_energy_vfx_back.tscn" id="2_86ayx"]
-[ext_resource type="Texture2D" uid="uid://ba8ygr7v44yg3" path="res://TheQueen/images/charui/energy_counter/layer3.png" id="3_7ssa4"]
-[ext_resource type="FontVariation" uid="uid://bg85h22rkxs6g" path="res://TheQueen/themes/kreon_bold_shared.tres" id="3_hrdbh"]
-[ext_resource type="Script" uid="uid://lvfs6rx60655" path="res://Scripts/Nodes/NewMegaLabel.cs" id="4_cnddh"]
-[ext_resource type="Texture2D" uid="uid://bipt3houed4cn" path="res://TheQueen/images/charui/energy_counter/layer2.png" id="4_l1oiu"]
-[ext_resource type="Texture2D" uid="uid://0sswss6tq4ah" path="res://TheQueen/images/charui/energy_counter/lamp_branch_layer.png" id="4_vjtv6"]
-[ext_resource type="Texture2D" uid="uid://dlixdtm43ipm6" path="res://TheQueen/images/charui/energy_counter/wand_layer.png" id="5_7ssa4"]
-[ext_resource type="Texture2D" uid="uid://c2wgqtwqf2a3t" path="res://TheQueen/images/charui/energy_counter/layer1.png" id="5_ork08"]
-[ext_resource type="Texture2D" uid="uid://uqqyb0exnxbl" path="res://TheQueen/images/charui/energy_counter/rotate_layer1.png" id="6_l1oiu"]
-[ext_resource type="Texture2D" uid="uid://eqmkj4gos6a5" path="res://TheQueen/images/charui/energy_counter/rotate_layer2.png" id="7_ork08"]
-[ext_resource type="Texture2D" uid="uid://c3wgdabg3stud" path="res://TheQueen/images/charui/energy_counter/lamp_center_layer.png" id="9_vjtv6"]
-[ext_resource type="PackedScene" uid="uid://begu2n2ulqy56" path="res://TheQueen/scenes/ui/queen_energy_vfx_front.tscn" id="9_ymfry"]
-[ext_resource type="Texture2D" uid="uid://ct6bc5t36422i" path="res://TheQueen/images/vfx/fire_texture_2.png" id="11_vjtv6"]
-[ext_resource type="Material" uid="uid://c4ycqv0gdxvmr" path="res://TheQueen/themes/canvas_item_material_additive_shared.tres" id="12_7ssa4"]
-[ext_resource type="Texture2D" uid="uid://da2cae51rsi5h" path="res://TheQueen/images/vfx/fire_spark.png" id="13_l1oiu"]
-[ext_resource type="Texture2D" uid="uid://bjseapha4xkw7" path="res://TheQueen/images/charui/energy_counter/lamp_frame_center.png" id="13_ork08"]
-[ext_resource type="Texture2D" uid="uid://dm55e5h7xwxjv" path="res://TheQueen/images/vfx/amalgam_spark_particles.png" id="14_ork08"]
+[ext_resource type="Script" path="res://Scripts/Nodes/NQueenEnergyCounter.cs" id="1_86ayx"]
+[ext_resource type="PackedScene" path="res://TheQueen/scenes/ui/queen_energy_vfx_back.tscn" id="2_86ayx"]
+[ext_resource type="Texture2D" path="res://TheQueen/images/charui/energy_counter/layer3.png" id="3_7ssa4"]
+[ext_resource type="FontVariation" path="res://TheQueen/themes/kreon_bold_shared.tres" id="3_hrdbh"]
+[ext_resource type="Script" path="res://Scripts/Nodes/NewMegaLabel.cs" id="4_cnddh"]
+[ext_resource type="Texture2D" path="res://TheQueen/images/charui/energy_counter/layer2.png" id="4_l1oiu"]
+[ext_resource type="Texture2D" path="res://TheQueen/images/charui/energy_counter/lamp_branch_layer.png" id="4_vjtv6"]
+[ext_resource type="Texture2D" path="res://TheQueen/images/charui/energy_counter/wand_layer.png" id="5_7ssa4"]
+[ext_resource type="Texture2D" path="res://TheQueen/images/charui/energy_counter/layer1.png" id="5_ork08"]
+[ext_resource type="Texture2D" path="res://TheQueen/images/charui/energy_counter/rotate_layer1.png" id="6_l1oiu"]
+[ext_resource type="Texture2D" path="res://TheQueen/images/charui/energy_counter/rotate_layer2.png" id="7_ork08"]
+[ext_resource type="Texture2D" path="res://TheQueen/images/charui/energy_counter/lamp_center_layer.png" id="9_vjtv6"]
+[ext_resource type="PackedScene" path="res://TheQueen/scenes/ui/queen_energy_vfx_front.tscn" id="9_ymfry"]
+[ext_resource type="Texture2D" path="res://TheQueen/images/vfx/fire_texture_2.png" id="11_vjtv6"]
+[ext_resource type="Material" path="res://TheQueen/themes/canvas_item_material_additive_shared.tres" id="12_7ssa4"]
+[ext_resource type="Texture2D" path="res://TheQueen/images/vfx/fire_spark.png" id="13_l1oiu"]
+[ext_resource type="Texture2D" path="res://TheQueen/images/charui/energy_counter/lamp_frame_center.png" id="13_ork08"]
+[ext_resource type="Texture2D" path="res://TheQueen/images/vfx/amalgam_spark_particles.png" id="14_ork08"]
 
 [sub_resource type="FontVariation" id="FontVariation_86ayx"]
 base_font = ExtResource("3_hrdbh")
@@ -315,12 +315,13 @@ script = ExtResource("4_cnddh")
 
 [node name="SoulLampLayer" type="Control" parent="."]
 anchors_preset = 0
-offset_left = 118.0
-offset_top = 53.0
-offset_right = 205.0
-offset_bottom = 129.0
+offset_left = 119.0
+offset_top = -12.0
+offset_right = 206.0
+offset_bottom = 64.0
 
 [node name="branch_layer" type="TextureRect" parent="SoulLampLayer"]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -468,13 +469,13 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -187.00002
-offset_top = -74.0
-offset_right = 3.9362946
-offset_bottom = 81.0
+offset_left = -164.0
+offset_top = -109.0
+offset_right = 26.93631
+offset_bottom = 46.0
 grow_horizontal = 2
 grow_vertical = 2
-rotation = -0.37131256
+rotation = -0.18798403
 scale = Vector2(1.0158448, 1.0058196)
 mouse_filter = 2
 texture = ExtResource("13_ork08")
