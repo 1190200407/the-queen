@@ -57,7 +57,7 @@ public sealed class PheromoneSpit : LearnIntentCardModel
         [
             new AmalgamGainBuffAndStrengthIntentAction<AmalgamPersonalHivePower>(
                 hive,
-                buffEntryId: "COMICCHESS-AMALGAM_PERSONAL_HIVE_POWER",
+                buffEntryId: "AMALGAM_PERSONAL_HIVE_POWER",
                 strength),
         ]);
     }

@@ -41,7 +41,7 @@ public sealed class AmalgamFlamethrowerIntentAction : AmalgamActionModel
             "AMALGAM_INTENT_FLAMETHROWER",
             _ => Task.CompletedTask,
             new AmalgamDrawAndEnchantWithAmountIntent<Burn>(_draw, _enchantAmount),
-            new AmalgamGainBuffIntent("COMICCHESS-AMALGAM_NEXT_ROUND_ATTACK_POWER", _nextTurnDamage));
+            new AmalgamGainBuffIntent("AMALGAM_NEXT_ROUND_ATTACK_POWER", _nextTurnDamage));
     }
 
     protected override async Task OnExecute(PlayerChoiceContext choiceContext, Creature amalgam)

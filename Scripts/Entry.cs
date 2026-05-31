@@ -63,6 +63,8 @@ public class Entry
 		// [Register*] attribute 扫描：角色、卡牌、遗物等。
 		ModTypeDiscoveryHub.RegisterModAssembly(ModId, assembly);
 
+		QueenModSettingsBootstrap.Register();
+
 		// Harmony 补丁；Apply 失败则整 mod 禁用。
 		var patcher = RitsuLibFramework.CreatePatcher(ModId, "main", "the-queen");
 		patcher.RegisterPatches<QueenModPatches>();

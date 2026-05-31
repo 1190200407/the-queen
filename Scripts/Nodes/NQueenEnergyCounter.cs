@@ -9,6 +9,7 @@ using MegaCrit.Sts2.Core.Helpers;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Nodes.Combat;
 using MegaCrit.Sts2.Core.Nodes.HoverTips;
+using STS2RitsuLib.Settings;
 
 namespace ComicChess.TheQueen;
 
@@ -34,8 +35,8 @@ public partial class NQueenEnergyCounter : NEnergyCounter
 	private GpuParticles2D? _soulLampConstantParticle;
 	private IHoverTip? _soulLampHoverTip;
 	private int _displayedSoulLampAmount = int.MinValue;
-	private bool _soulLampFireActive;
-	private bool _soulLampConstantActive;
+	private bool _soulLampFireDesiredActive;
+	private bool _soulLampConstantDesiredActive;
 	private bool _soulLampVisualsLit = true;
 
 	/// <summary>本地战斗 UI 中当前活跃的女王能量指示器（战斗结束时会清空）。</summary>
@@ -78,6 +79,11 @@ public partial class NQueenEnergyCounter : NEnergyCounter
 			_soulLampLayer.Connect(Control.SignalName.MouseEntered, Callable.From(OnSoulLampHovered));
 			_soulLampLayer.Connect(Control.SignalName.MouseExited, Callable.From(OnSoulLampUnhovered));
 		}
+
+		ModSettingsBindingWriteEvents.SubscribeValueWrittenWhileNodeAlive(
+			this,
+			_ => ApplySoulLampVfxPresentation());
+		ApplySoulLampVfxPresentation();
 
 		RefreshSoulLampFromOwner();
 	}
@@ -175,7 +181,7 @@ public partial class NQueenEnergyCounter : NEnergyCounter
 
 	private void PlaySoulLampGainParticle()
 	{
-		if (_soulLampGainParticle == null)
+		if (QueenSettingsStore.IsSoulLampIndicatorVfxSimplified() || _soulLampGainParticle == null)
 		{
 			return;
 		}
@@ -188,36 +194,64 @@ public partial class NQueenEnergyCounter : NEnergyCounter
 
 	private void SetSoulLampFireActive(bool active)
 	{
-		if (_soulLampFireActive != active)
-		{
-			_soulLampFireActive = active;
-			if (_soulLampFire != null)
-			{
-				foreach (Node child in _soulLampFire.GetChildren())
-				{
-					if (child is CpuParticles2D cpuParticle)
-					{
-						cpuParticle.Emitting = active;
-						if (active)
-						{
-							cpuParticle.Restart();
-						}
-					}
-				}
-			}
-		}
-
+		_soulLampFireDesiredActive = active;
+		ApplySoulLampFireVisualState();
 		SetSoulLampConstantParticleActive(active);
 	}
 
 	private void SetSoulLampConstantParticleActive(bool active)
 	{
-		if (_soulLampConstantParticle == null || _soulLampConstantActive == active)
+		_soulLampConstantDesiredActive = active;
+		ApplySoulLampConstantParticleVisualState();
+	}
+
+	private void ApplySoulLampVfxPresentation()
+	{
+		bool simplified = QueenSettingsStore.IsSoulLampIndicatorVfxSimplified();
+		if (_soulLampGainParticle != null)
+		{
+			_soulLampGainParticle.Visible = !simplified;
+			if (simplified)
+			{
+				_soulLampGainParticle.Emitting = false;
+			}
+		}
+
+		ApplySoulLampFireVisualState();
+		ApplySoulLampConstantParticleVisualState();
+	}
+
+	private void ApplySoulLampFireVisualState()
+	{
+		bool simplified = QueenSettingsStore.IsSoulLampIndicatorVfxSimplified();
+		bool active = _soulLampFireDesiredActive && !simplified;
+		if (_soulLampFire != null)
+		{
+			_soulLampFire.Visible = !simplified;
+			foreach (Node child in _soulLampFire.GetChildren())
+			{
+				if (child is CpuParticles2D cpuParticle)
+				{
+					cpuParticle.Emitting = active;
+					if (active)
+					{
+						cpuParticle.Restart();
+					}
+				}
+			}
+		}
+	}
+
+	private void ApplySoulLampConstantParticleVisualState()
+	{
+		if (_soulLampConstantParticle == null)
 		{
 			return;
 		}
 
-		_soulLampConstantActive = active;
+		bool simplified = QueenSettingsStore.IsSoulLampIndicatorVfxSimplified();
+		bool active = _soulLampConstantDesiredActive && !simplified;
+		_soulLampConstantParticle.Visible = !simplified;
 		_soulLampConstantParticle.Emitting = active;
 		if (active)
 		{
