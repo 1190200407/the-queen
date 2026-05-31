@@ -1,11 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://fu8h8elqjql8"]
+[gd_scene load_steps=10 format=3]
 
-[ext_resource type="Script" uid="uid://c7oy3xpbjvnr8" path="res://Scripts/Nodes/NIntentSlot.cs" id="1_intent_slot"]
-[ext_resource type="Texture2D" uid="uid://cow0lv37vlj27" path="res://TheQueen/images/ui/empty_orb.png" id="2_dgkbn"]
-[ext_resource type="Script" uid="uid://lvfs6rx60655" path="res://Scripts/Nodes/NewMegaLabel.cs" id="3_pdbv7"]
-[ext_resource type="FontVariation" uid="uid://ux4d708e7mk6" path="res://TheQueen/themes/kreon_bold_glyph_space_one.tres" id="3_rsrg6"]
-[ext_resource type="Shader" uid="uid://b28wpjjnukcnf" path="res://TheQueen/shaders/power_flash_vfx.gdshader" id="5_7gdc3"]
-[ext_resource type="PackedScene" uid="uid://sdok1yfxsmi8" path="res://TheQueen/scenes/ui/selection_reticle.tscn" id="6_aty8u"]
+[ext_resource type="Script" path="res://Scripts/Nodes/NIntentSlot.cs" id="1_intent_slot"]
+[ext_resource type="Texture2D" path="res://TheQueen/images/ui/empty_orb.png" id="2_dgkbn"]
+[ext_resource type="Script" path="res://Scripts/Nodes/NewMegaLabel.cs" id="3_pdbv7"]
+[ext_resource type="FontVariation" path="res://TheQueen/themes/kreon_bold_glyph_space_one.tres" id="3_rsrg6"]
+[ext_resource type="Shader" path="res://TheQueen/shaders/power_flash_vfx.gdshader" id="5_7gdc3"]
+[ext_resource type="PackedScene" path="res://TheQueen/scenes/ui/selection_reticle.tscn" id="6_aty8u"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_fk8os"]
 shader = ExtResource("5_7gdc3")

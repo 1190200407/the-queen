@@ -1,7 +1,7 @@
-[gd_resource type="SpineSkeletonDataResource" load_steps=10 format=3 uid="uid://dsdsl8u50sj6r"]
+[gd_resource type="SpineSkeletonDataResource" load_steps=10 format=3]
 
-[ext_resource type="SpineAtlasResource" uid="uid://ci5an2urvep84" path="res://TheQueen/animations/monsters/amalgam/amalgam.atlas" id="1_otn0t"]
-[ext_resource type="SpineSkeletonFileResource" uid="uid://34tty84vxbb6" path="res://TheQueen/animations/monsters/amalgam/amalgam.skel" id="2_5x1di"]
+[ext_resource type="SpineAtlasResource" path="res://TheQueen/animations/monsters/amalgam/amalgam.atlas" id="1_otn0t"]
+[ext_resource type="SpineSkeletonFileResource" path="res://TheQueen/animations/monsters/amalgam/amalgam.skel" id="2_5x1di"]
 
 [sub_resource type="SpineAnimationMix" id="SpineAnimationMix_7iry6"]
 from = "attack"
