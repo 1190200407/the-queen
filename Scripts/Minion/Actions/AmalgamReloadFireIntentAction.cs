@@ -35,7 +35,7 @@ public sealed class AmalgamReloadFireIntentAction : AmalgamActionModel
             "AMALGAM_INTENT_RELOAD_FIRE",
             _ => Task.CompletedTask,
             new AmalgamGainBlockIntent(_block),
-            new AmalgamGainBuffIntent("COMICCHESS-AMALGAM_NEXT_ROUND_ATTACK_POWER", _damage));
+            new AmalgamGainBuffIntent("AMALGAM_NEXT_ROUND_ATTACK_POWER", _damage));
     }
 
     protected override async Task OnExecute(PlayerChoiceContext choiceContext, Creature amalgam)

@@ -50,7 +50,7 @@ public sealed class Spiken : LearnIntentCardModel
         _ = cardPlay;
         return Task.FromResult<IReadOnlyList<AmalgamActionModel?>>(
         [
-            AmalgamActionRegistry.CreateGainBuff<AmalgamThornPower>(thorns, buffEntryId: "COMICCHESS-AMALGAM_THORN_POWER"),
+            AmalgamActionRegistry.CreateGainBuff<AmalgamThornPower>(thorns, buffEntryId: "AMALGAM_THORN_POWER"),
         ]);
     }
 }

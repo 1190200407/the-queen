@@ -51,7 +51,7 @@ public sealed class ProtrudingSpikes : LearnIntentCardModel
         decimal thorns = base.DynamicVars["LearnIntentThorns"].BaseValue;
         return Task.FromResult<IReadOnlyList<AmalgamActionModel?>>(
         [
-            AmalgamActionRegistry.CreateGainBuff<AmalgamThornPower>(thorns, buffEntryId: "COMICCHESS-AMALGAM_THORN_POWER"),
+            AmalgamActionRegistry.CreateGainBuff<AmalgamThornPower>(thorns, buffEntryId: "AMALGAM_THORN_POWER"),
         ]);
     }
 }
