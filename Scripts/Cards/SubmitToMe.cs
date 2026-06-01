@@ -15,15 +15,15 @@ using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>???????????????????? 2 ?????? 1 ??</summary>
+/// <summary>臣服于我：造成伤害；你的力量每超过目标 1 点，额外造成一次伤害。</summary>
 [RegisterCard(typeof(QueenCardPool))]
 public sealed class SubmitToMe : QueenCardModel
 {
     private const string calculatedHitsKey = "CalculatedHits";
-    private const int strengthDiffPerExtraHit = 2;
+    private const int strengthDiffPerExtraHit = 1;
     private const int energyCost = 1;
     private const CardType type = CardType.Attack;
-    private const CardRarity rarity = CardRarity.Uncommon;
+    private const CardRarity rarity = CardRarity.Rare;
     private const TargetType targetType = TargetType.AnyEnemy;
     private const bool shouldShowInCardLibrary = true;
 

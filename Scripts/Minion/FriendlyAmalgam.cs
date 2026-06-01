@@ -522,6 +522,9 @@ public class FriendlyAmalgam : QueenMinionModel
         }
         RefreshDisplayedIntent();
         FriendlyAmalgamCmd.TryRefreshIntentTorchVisuals(self);
+
+        // 立刻行动可能在 Power hook / 非 GameAction 上下文里斩杀敌人，需主动判胜。
+        await CombatManager.Instance.CheckWinCondition();
     }
 
     /// <summary>清空当前灯槽内意图，将「当前灯」切到下一盏有记录的槽（无则沉睡展示）；用于断念等仅遗忘、或已在外部执行过意图后的遗忘。</summary>

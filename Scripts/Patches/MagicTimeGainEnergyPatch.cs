@@ -2,7 +2,6 @@
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.Helpers;
 using STS2RitsuLib.Patching.Models;
 
 namespace ComicChess.TheQueen;
@@ -18,8 +17,9 @@ internal sealed class MagicTimeGainEnergyPatch : IPatchMethod
 		new(typeof(PlayerCmd), nameof(PlayerCmd.GainEnergy)),
 	];
 
-	public static void Postfix(decimal amount, Player player)
+	public static async Task Postfix(Task __result, decimal amount, Player player)
 	{
+		await __result;
 		if (amount <= 0m || player?.Creature is null)
 		{
 			return;
@@ -31,7 +31,6 @@ internal sealed class MagicTimeGainEnergyPatch : IPatchMethod
 			return;
 		}
 
-		Task task = magicTime.TryRefillIfNeeded(new ThrowingPlayerChoiceContext(), player);
-		TaskHelper.RunSafely(task);
+		await magicTime.TryRefillIfNeeded(new ThrowingPlayerChoiceContext(), player);
 	}
 }

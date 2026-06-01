@@ -168,7 +168,7 @@ public static class MonsterCaptureRewardCatalog
             { PhantasmalGardener, static owner => owner.RunState!.CreateCard<Skittish>(owner) },
             { CrossbowRubyRaider, static owner => owner.RunState!.CreateCard<ReloadFire>(owner) },
             { VineShambler, static owner => owner.RunState!.CreateCard<GraspingVines>(owner) },
-            { LivingFog, static owner => owner.RunState!.CreateCard<Smoggy>(owner) },
+            { LivingFog, static owner => owner.RunState!.CreateCard<AdvancedGas>(owner) },
             { TerrorEel, static owner => owner.RunState!.CreateCard<Shriek>(owner) },
             { Tunneler, static owner => owner.RunState!.CreateCard<Burrow>(owner) },
             { Chomper, static owner => owner.RunState!.CreateCard<Clamp>(owner) },
@@ -218,26 +218,43 @@ public static class MonsterCaptureRewardCatalog
         {
             return null;
         }
-        if (owner.Creature.CombatState is null)
+        if (owner.Creature.CombatState is not { } combatState)
         {
             return null;
         }
 
-        // 预览模式（敌人仍存活）不可产生副作用：不写入「已捕获」。
-        // 仅在真实捕获（敌人已死亡）时做“每战一次”去重。
-        if (!enemy.IsAlive)
+        if (CaptureOnceRegistry.HasPlayerCapturedMonster(owner, monsterId, combatState))
         {
-            if (!CaptureOnceRegistry.TryMarkCaptured(enemy, owner.Creature.CombatState))
-            {
-                return null;
-            }
+            return null;
         }
 
-        return TryCreateCaptureRewardCard(owner, monsterId);
+        // 预览（敌人仍存活）只查配额，不写入；真实捕获时再占用该玩家对该怪物的名额。
+        if (!enemy.IsAlive && !CaptureOnceRegistry.TryMarkPlayerCapturedMonster(owner, monsterId, combatState))
+        {
+            return null;
+        }
+
+        return CreateCaptureRewardCard(owner, monsterId);
     }
 
-    /// <summary>按怪物 Id 直接创建对应敌怪卡；无配置时返回 <c>null</c>。</summary>
+    /// <summary>按怪物 Id 直接创建对应敌怪卡并占用该玩家对该怪物的捕获名额；无配置时返回 <c>null</c>。</summary>
     public static CardModel? TryCreateCaptureRewardCard(Player owner, string monsterId)
+    {
+        if (owner.Creature.CombatState is not { } combatState)
+        {
+            return null;
+        }
+
+        if (CaptureOnceRegistry.HasPlayerCapturedMonster(owner, monsterId, combatState)
+            || !CaptureOnceRegistry.TryMarkPlayerCapturedMonster(owner, monsterId, combatState))
+        {
+            return null;
+        }
+
+        return CreateCaptureRewardCard(owner, monsterId);
+    }
+
+    private static CardModel? CreateCaptureRewardCard(Player owner, string monsterId)
     {
         if (owner.RunState is null
             || !RewardCreators.TryGetValue(monsterId, out Func<Player, CardModel>? create))

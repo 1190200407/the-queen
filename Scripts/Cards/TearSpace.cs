@@ -33,7 +33,7 @@ public sealed class TearSpace : QueenCardModel
 
 	protected override IEnumerable<DynamicVar> CanonicalVars => [
 		new IntVar(PlayThresholdKey, 7m),
-		new DamageVar(30m, ValueProp.Move),
+		new DamageVar(55m, ValueProp.Move),
 		new CalculationBaseVar(0m),
 		new CalculationExtraVar(1m),
 		new CalculatedVar("BattlefieldDebuffCount").WithMultiplier(static (CardModel card, Creature? _) =>

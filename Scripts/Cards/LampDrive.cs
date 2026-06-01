@@ -17,7 +17,7 @@ namespace ComicChess.TheQueen;
 [RegisterCard(typeof(QueenCardPool))]
 public sealed class LampDrive : QueenCardModel
 {
-    private const int energyCost = 0;
+    private const int energyCost = 1;
     private const CardType type = CardType.Skill;
     private const CardRarity rarity = CardRarity.Rare;
     private const TargetType targetType = TargetType.Self;

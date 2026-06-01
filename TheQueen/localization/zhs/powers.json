@@ -236,5 +236,7 @@
     "SPLIT_VULNERABLE_POWER.smartDescription":"[blue]{Amount}[/blue]回合内，受到的攻击伤害增加[blue]{DamageIncrease:percentMore()}%[/blue]。",
     "SPLIT_WEAK_POWER.title":"虚弱",
     "SPLIT_WEAK_POWER.description":"虚弱的生物造成的攻击伤害减少[blue]25%[/blue]。",
-    "SPLIT_WEAK_POWER.smartDescription":"[blue]{Amount}[/blue]回合内，造成的攻击伤害减少[blue]25%[/blue]。"
+    "SPLIT_WEAK_POWER.smartDescription":"[blue]{Amount}[/blue]回合内，造成的攻击伤害减少[blue]25%[/blue]。",
+    "ADVANCED_GAS_SMOGGY_POWER.title":"高级气体",
+    "ADVANCED_GAS_SMOGGY_POWER.description":"回合结束时，被[gold]烟雾弥漫[/gold]侵蚀的牌变化为[gold]爆炸[/gold]。"
 }
