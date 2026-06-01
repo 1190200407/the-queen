@@ -30,7 +30,6 @@ public sealed class SoulDefend : QueenCardModel
 	public override bool GainsBlock => true;
 
     public override IEnumerable<CardKeyword> CanonicalKeywords => [ModKeywordRegistry.GetCardKeyword(QueenKeyword.Fade)];
-	protected override HashSet<CardTag> CanonicalTags => new HashSet<CardTag> { CardTag.Defend };
 
 	protected override IEnumerable<DynamicVar> CanonicalVars => new List<DynamicVar> { new BlockVar(12m, ValueProp.Move) };
 

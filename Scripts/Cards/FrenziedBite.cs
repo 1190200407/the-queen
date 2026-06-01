@@ -23,7 +23,7 @@ public sealed class FrenziedBite : QueenCardModel
 
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new IntVar("Actions", 3m)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new IntVar("Actions", 2m)];
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips => [QueenHoverTips.ForgetIntent];
 

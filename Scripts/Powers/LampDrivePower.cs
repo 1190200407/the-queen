@@ -62,12 +62,17 @@ public sealed class LampDrivePower : QueenPowerModel
         Flash();
         for (int i = 0; i < totalActions; i++)
         {
-            if (!amalgamCreature.IsAlive)
+            if (!amalgamCreature.IsAlive || CombatManager.Instance.IsOverOrEnding)
             {
                 break;
             }
 
             await amalgam.ActCurrentIntentImmediatelyAsync(new ThrowingPlayerChoiceContext());
+
+            if (CombatManager.Instance.IsOverOrEnding)
+            {
+                break;
+            }
         }
     }
 

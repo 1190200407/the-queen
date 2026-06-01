@@ -22,6 +22,11 @@ public sealed class MagicTimePower : QueenPowerModel, ISoulLampEventListener
 
 	public override async Task AfterCardEnteredCombat(CardModel card)
 	{
+		if (card.Owner != base.Owner?.Player)
+		{
+			return;
+		}
+
 		CardCmd.ClearAffliction(card);
 		await CardCmd.Afflict<Bound>(card, 1m);
 	}

@@ -15,7 +15,7 @@ namespace ComicChess.TheQueen;
 [RegisterCard(typeof(QueenCardPool))]
 public sealed class EvolutionTheory : QueenCardModel
 {
-    private const int energyCost = 1;
+    private const int energyCost = 2;
     private const CardType type = CardType.Skill;
     private const CardRarity rarity = CardRarity.Rare;
     private const TargetType targetType = TargetType.Self;

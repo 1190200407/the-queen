@@ -236,5 +236,7 @@
     "SPLIT_VULNERABLE_POWER.smartDescription":"Receive [blue]{DamageIncrease:percentMore()}%[/blue] more damage from Attacks for [blue]{Amount}[/blue] {Amount:plural:turn|turns}.",
     "SPLIT_WEAK_POWER.title":"Weak",
     "SPLIT_WEAK_POWER.description":"Weakened creatures deal [blue]25%[/blue] less damage with Attacks.",
-    "SPLIT_WEAK_POWER.smartDescription":"Attacks deal [blue]25%[/blue] less damage for [blue]{Amount}[/blue] {Amount:plural:turn|turns}."
+    "SPLIT_WEAK_POWER.smartDescription":"Attacks deal [blue]25%[/blue] less damage for [blue]{Amount}[/blue] {Amount:plural:turn|turns}.",
+    "ADVANCED_GAS_SMOGGY_POWER.title":"Advanced Gas",
+    "ADVANCED_GAS_SMOGGY_POWER.description":"At end of turn, cards afflicted with [gold]Smoggy[/gold] transform into [gold]Explode[/gold]."
 }

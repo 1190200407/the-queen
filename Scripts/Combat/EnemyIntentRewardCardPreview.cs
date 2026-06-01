@@ -699,6 +699,8 @@ internal static partial class EnemyIntentRewardCardPreview
 
         NCard card = PreloadManager.Cache.GetScene(CardScenePath).Instantiate<NCard>(PackedScene.GenEditState.Disabled);
         card.Visible = false;
+        // 捕获意图预览：只展示怪物牌面基数，不代入聚合体力量等战斗内动态修正。
+        card.SetForceUnpoweredPreview(true);
         scaleRoot.AddChildSafely(card);
         card.Position = CardPositionInAnchor;
         card.Scale = Vector2.One;

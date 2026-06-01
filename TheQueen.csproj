@@ -22,7 +22,7 @@
       <Private>false</Private>
     </Reference>
 
-    <PackageReference Include=" STS2.RitsuLib.Compat.0.103.2 " Version="0.3.9.0" />
+    <PackageReference Include=" STS2.RitsuLib.Compat.0.103.2 " Version="0.4.2.0" />
 
   </ItemGroup>
 
