@@ -51,7 +51,7 @@ public sealed class MarionettePendingPower : QueenPowerModel
         if (!string.IsNullOrWhiteSpace(data.MonsterId))
         {
             CombatRoom? combatRoom = player.RunState?.CurrentRoom as CombatRoom;
-            CardModel? rewardCard = MonsterCaptureRewardCatalog.TryCreateCaptureRewardCard(player, data.MonsterId);
+            CardModel? rewardCard = MonsterCaptureRewardCatalog.CreateCaptureRewardCard(player, data.MonsterId);
             if (combatRoom != null && rewardCard is not null)
             {
                 combatRoom.AddExtraReward(player, new SpecialCardReward(rewardCard, player));

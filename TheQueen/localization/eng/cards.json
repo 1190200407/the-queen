@@ -406,8 +406,6 @@
     "THE_QUEEN_CARD_RELOAD_FIRE.description":"[gold]Summon[/gold] {Summon:diff()}.\n[gold]Learn Intent[/gold]: Gain {LearnIntentBlock:diff()} Block. At the start of next turn, deal {LearnIntentDamage:diff()} damage.",
     "THE_QUEEN_CARD_GRASPING_VINES.title":"Grasping Vines",
     "THE_QUEEN_CARD_GRASPING_VINES.description":"[gold]Summon[/gold] {Summon:diff()}.\n[gold]Learn Intent[/gold]: You gain [gold]Tangled[/gold] and Skill cards cost -1 until end of turn.",
-    "THE_QUEEN_CARD_SMOGGY.title":"Smoggy",
-    "THE_QUEEN_CARD_SMOGGY.description":"[gold]Learn Intent[/gold]: Next turn, gain Smoggy, and your next 2 Skill cards are played an additional time.",
     "THE_QUEEN_CARD_ADVANCED_GAS.title":"Advanced Gas",
     "THE_QUEEN_CARD_ADVANCED_GAS.description":"Gain [gold]Smoggy[/gold]. At end of turn, [gold]Smog[/gold]-afflicted cards transform into [gold]Explode[/gold].",
     "THE_QUEEN_CARD_EXPLODE.title":"Explode",

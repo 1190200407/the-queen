@@ -62,7 +62,7 @@ public sealed class AmalgamSwipePower : QueenPowerModel, IAmalgamEventListener
     }
 
     /// <summary>
-    /// 按目标敌人的怪物 Id，用 <see cref="MonsterCaptureRewardCatalog"/> 生成对应捕获奖励牌并记入顺走列表（不在牌堆中的新实例直接入表）。
+    /// 按目标敌人的怪物 Id 生成对应敌怪卡并记入顺走列表；不占捕获去重（与提线木偶一致）。
     /// </summary>
     public Task<bool> TryStealMonsterCaptureRewardAsync(Player queen, Creature targetEnemy)
     {
@@ -71,7 +71,7 @@ public sealed class AmalgamSwipePower : QueenPowerModel, IAmalgamEventListener
             return Task.FromResult(false);
         }
 
-        CardModel? card = MonsterCaptureRewardCatalog.TryCreateCaptureRewardCard(queen, monsterId);
+        CardModel? card = MonsterCaptureRewardCatalog.CreateCaptureRewardCard(queen, monsterId);
         if (card == null)
         {
             return Task.FromResult(false);

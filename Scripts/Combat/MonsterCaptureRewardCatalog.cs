@@ -211,7 +211,7 @@ public static class MonsterCaptureRewardCatalog
             { Aeonglass, static owner => owner.RunState!.CreateCard<WitheringPresence>(owner) },
         };
 
-    /// <summary>为捕获预览或 <see cref="CaptureSuccessPower"/> 创建奖励牌实例；无配置时返回 <c>null</c>。</summary>
+    /// <summary>为捕获预览或斩杀捕获创建奖励牌；每名玩家对每个 <see cref="Creature"/> 实例仅一次。无配置时返回 <c>null</c>。</summary>
     public static CardModel? TryCreateCaptureRewardCard(Player owner, Creature enemy)
     {
         if (enemy.Monster?.Id.Entry is not { } monsterId)
@@ -223,30 +223,13 @@ public static class MonsterCaptureRewardCatalog
             return null;
         }
 
-        if (CaptureOnceRegistry.HasPlayerCapturedMonster(owner, monsterId, combatState))
+        if (CaptureOnceRegistry.HasCaptured(owner, enemy, combatState))
         {
             return null;
         }
 
-        // 预览（敌人仍存活）只查配额，不写入；真实捕获时再占用该玩家对该怪物的名额。
-        if (!enemy.IsAlive && !CaptureOnceRegistry.TryMarkPlayerCapturedMonster(owner, monsterId, combatState))
-        {
-            return null;
-        }
-
-        return CreateCaptureRewardCard(owner, monsterId);
-    }
-
-    /// <summary>按怪物 Id 直接创建对应敌怪卡并占用该玩家对该怪物的捕获名额；无配置时返回 <c>null</c>。</summary>
-    public static CardModel? TryCreateCaptureRewardCard(Player owner, string monsterId)
-    {
-        if (owner.Creature.CombatState is not { } combatState)
-        {
-            return null;
-        }
-
-        if (CaptureOnceRegistry.HasPlayerCapturedMonster(owner, monsterId, combatState)
-            || !CaptureOnceRegistry.TryMarkPlayerCapturedMonster(owner, monsterId, combatState))
+        // 预览（敌人仍存活）只查配额，不写入；真实捕获时再占用该玩家对该实例的名额。
+        if (!enemy.IsAlive && !CaptureOnceRegistry.TryMarkCaptured(owner, enemy, combatState))
         {
             return null;
         }
@@ -254,7 +237,8 @@ public static class MonsterCaptureRewardCatalog
         return CreateCaptureRewardCard(owner, monsterId);
     }
 
-    private static CardModel? CreateCaptureRewardCard(Player owner, string monsterId)
+    /// <summary>按怪物 Id 创建对应敌怪卡，不占用捕获去重（如提线木偶）。无配置时返回 <c>null</c>。</summary>
+    public static CardModel? CreateCaptureRewardCard(Player owner, string monsterId)
     {
         if (owner.RunState is null
             || !RewardCreators.TryGetValue(monsterId, out Func<Player, CardModel>? create))

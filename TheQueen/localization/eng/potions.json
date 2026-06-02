@@ -1,9 +1,6 @@
 {
     "THE_QUEEN_POTION_LAMP_IN_A_BOTTLE.description":"[aqua]Gain 1 Soul Lamp.[/aqua]",
     "THE_QUEEN_POTION_LAMP_IN_A_BOTTLE.title":"Lamp in a Bottle",
-    "THE_QUEEN_POTION_SOURCE_OF_CLARITY.description":"Clear [purple]Affliction[/purple] from up to 3 cards in your [gold]hand[/gold].",
-    "THE_QUEEN_POTION_SOURCE_OF_CLARITY.selectionScreenPrompt":"Choose up to 3 cards in your hand to clear their affliction.",
-    "THE_QUEEN_POTION_SOURCE_OF_CLARITY.title":"Source of Clarity",
     "THE_QUEEN_POTION_MAGIC_MIRROR_SHARD.description":"Choose 1 card from your [gold]hand[/gold]. When you win this combat, gain it as an additional [gold]card[/gold] reward.",
     "THE_QUEEN_POTION_MAGIC_MIRROR_SHARD.selectionScreenPrompt":"Choose 1 card.",
     "THE_QUEEN_POTION_MAGIC_MIRROR_SHARD.title":"Magic Mirror Shard",

@@ -67,7 +67,6 @@
     "AMALGAM_RELOAD_FIRE.description":"The Amalgam will grant you [blue]{Block}[/blue] Block, and at the start of next turn deal [blue]{Damage}[/blue] damage.",
     "AMALGAM_SPECIAL.title":"Special",
     "AMALGAM_SPECIAL_GRASPING_VINES.description":"Next turn, you gain [gold]Tangled[/gold]. Your Skill cards cost -1.",
-    "AMALGAM_SPECIAL_SMOGGY.description":"The Amalgam will make you gain [gold]Smoggy[/gold] next turn, and your next 2 Skill cards are played an additional time.",
     "AMALGAM_SPECIAL_BEAST_CRY.description":"Stun all enemies for [blue]1[/blue] turn. Sleep for [blue]2[/blue] turns.",
     "AMALGAM_DRAW_ENCHANT_AMOUNT.title":"Draw",
     "AMALGAM_DRAW_ENCHANT_AMOUNT.description":"The Amalgam will make you draw [blue]{Count}[/blue] card(s) and enchant: [purple]{Enchantment}{EnchantAmount}[/purple].",

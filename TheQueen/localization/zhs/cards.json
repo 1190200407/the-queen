@@ -406,8 +406,6 @@
     "THE_QUEEN_CARD_RELOAD_FIRE.description":"[gold]召唤[/gold]{Summon:diff()}。\n[gold]学习意图[/gold]：获得{LearnIntentBlock:diff()}点格挡，下回合开始时造成{LearnIntentDamage:diff()}点伤害。",
     "THE_QUEEN_CARD_GRASPING_VINES.title":"缠绕藤蔓",
     "THE_QUEEN_CARD_GRASPING_VINES.description":"[gold]召唤[/gold]{Summon:diff()}。\n[gold]学习意图[/gold]：你获得[gold]缠结[/gold]并且技能牌耗能-1,回合结束时解除。",
-    "THE_QUEEN_CARD_SMOGGY.title":"烟雾弥漫",
-    "THE_QUEEN_CARD_SMOGGY.description":"[gold]学习意图[/gold]：下回合获得烟雾弥漫,并使你下2张技能牌多打出一次。",
     "THE_QUEEN_CARD_ADVANCED_GAS.title":"高级气体",
     "THE_QUEEN_CARD_ADVANCED_GAS.description":"获得[gold]烟雾弥漫[/gold]。回合结束时，被[gold]烟雾侵蚀[/gold]的牌变化为[gold]爆炸[/gold]。",
     "THE_QUEEN_CARD_EXPLODE.title":"爆炸",
