@@ -54,6 +54,7 @@ public static class MonsterCaptureRewardCatalog
     public const string TwoTailedRat = "TWO_TAILED_RAT";
     public const string Toadpole = "TOADPOLE";
     public const string CalcifiedCultist = "CALCIFIED_CULTIST";
+    public const string DampCultist = "DAMP_CULTIST";
     public const string FossilStalker = "FOSSIL_STALKER";
     public const string HauntedShip = "HAUNTED_SHIP";
     public const string PunchConstruct = "PUNCH_CONSTRUCT";
@@ -150,6 +151,7 @@ public static class MonsterCaptureRewardCatalog
             { TwoTailedRat, static owner => owner.RunState!.CreateCard<Screech>(owner) },
             { Toadpole, static owner => owner.RunState!.CreateCard<Spiken>(owner) },
             { CalcifiedCultist, static owner => owner.RunState!.CreateCard<Incantation>(owner) },
+            { DampCultist, static owner => owner.RunState!.CreateCard<Incantation>(owner) },
             { FossilStalker, static owner => owner.RunState!.CreateCard<Suck>(owner) },
             { HauntedShip, static owner => owner.RunState!.CreateCard<Haunt>(owner) },
             { PunchConstruct, static owner => owner.RunState!.CreateCard<PunchOff>(owner) },
