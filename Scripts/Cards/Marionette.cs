@@ -96,7 +96,7 @@ public sealed class Marionette : QueenCardModel, ICanMonsterCapture
             return;
         }
 
-        CardModel? enemyCard = MonsterCaptureRewardCatalog.TryCreateCaptureRewardCard(base.Owner, monsterId);
+        CardModel? enemyCard = MonsterCaptureRewardCatalog.CreateCaptureRewardCard(base.Owner, monsterId);
         if (enemyCard is null)
         {
             return;

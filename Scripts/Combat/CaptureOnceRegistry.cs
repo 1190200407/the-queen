@@ -1,41 +1,39 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using MegaCrit.Sts2.Core.Combat;
+using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>战斗内「每名玩家对同一种怪物 Id 只能成功捕获一次」的去重表。</summary>
+/// <summary>战斗内「每名玩家对每个怪物实例（<see cref="Creature"/>）只能成功捕获一次」的去重表。</summary>
 internal static class CaptureOnceRegistry
 {
-    private readonly record struct PlayerMonsterKey(Player Player, string MonsterId);
+    private readonly record struct PlayerCreatureKey(Player Player, Creature Victim);
 
-    private sealed class KeyComparer : IEqualityComparer<PlayerMonsterKey>
+    private sealed class KeyComparer : IEqualityComparer<PlayerCreatureKey>
     {
         public static readonly KeyComparer Instance = new();
 
-        public bool Equals(PlayerMonsterKey x, PlayerMonsterKey y) =>
-            ReferenceEquals(x.Player, y.Player)
-            && string.Equals(x.MonsterId, y.MonsterId, StringComparison.Ordinal);
+        public bool Equals(PlayerCreatureKey x, PlayerCreatureKey y) =>
+            ReferenceEquals(x.Player, y.Player) && ReferenceEquals(x.Victim, y.Victim);
 
-        public int GetHashCode(PlayerMonsterKey obj) =>
-            HashCode.Combine(RuntimeHelpers.GetHashCode(obj.Player), obj.MonsterId);
+        public int GetHashCode(PlayerCreatureKey obj) =>
+            HashCode.Combine(RuntimeHelpers.GetHashCode(obj.Player), RuntimeHelpers.GetHashCode(obj.Victim));
     }
 
-    private static readonly ConditionalWeakTable<ICombatState, HashSet<PlayerMonsterKey>> CapturedByCombat = new();
+    private static readonly ConditionalWeakTable<ICombatState, HashSet<PlayerCreatureKey>> CapturedByCombat = new();
 
-    public static bool HasPlayerCapturedMonster(Player player, string monsterId, ICombatState cs)
-    {
-        return CapturedByCombat.TryGetValue(cs, out HashSet<PlayerMonsterKey>? set)
-            && set.Contains(new PlayerMonsterKey(player, monsterId));
-    }
+    public static bool HasCaptured(Player player, Creature victim, ICombatState cs) =>
+        CapturedByCombat.TryGetValue(cs, out HashSet<PlayerCreatureKey>? set)
+        && set.Contains(new PlayerCreatureKey(player, victim));
 
     /// <summary>
-    /// 若该 <paramref name="player"/> 在本场战斗中尚未捕获过此 <paramref name="monsterId"/>，则标记并返回 true。
+    /// 若该 <paramref name="player"/> 尚未捕获过此 <paramref name="victim"/> 实例，则标记并返回 true。
     /// </summary>
-    public static bool TryMarkPlayerCapturedMonster(Player player, string monsterId, ICombatState cs)
+    public static bool TryMarkCaptured(Player player, Creature victim, ICombatState cs)
     {
-        HashSet<PlayerMonsterKey> set = CapturedByCombat.GetValue(cs, static _ => new HashSet<PlayerMonsterKey>(KeyComparer.Instance));
-        return set.Add(new PlayerMonsterKey(player, monsterId));
+        HashSet<PlayerCreatureKey> set = CapturedByCombat.GetValue(cs, static _ => new HashSet<PlayerCreatureKey>(KeyComparer.Instance));
+        return set.Add(new PlayerCreatureKey(player, victim));
     }
 }

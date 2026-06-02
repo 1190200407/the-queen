@@ -1,9 +1,6 @@
 {
     "THE_QUEEN_POTION_LAMP_IN_A_BOTTLE.description": "[aqua]获得1点魂灯。[/aqua]",
     "THE_QUEEN_POTION_LAMP_IN_A_BOTTLE.title": "瓶中灯",
-    "THE_QUEEN_POTION_SOURCE_OF_CLARITY.description": "清除最多3张[gold]手牌[/gold]的[purple]侵蚀[/purple]。",
-    "THE_QUEEN_POTION_SOURCE_OF_CLARITY.selectionScreenPrompt": "选择最多3张手牌清除其侵蚀。",
-    "THE_QUEEN_POTION_SOURCE_OF_CLARITY.title": "澄净之源",
     "THE_QUEEN_POTION_MAGIC_MIRROR_SHARD.description": "从[gold]手牌[/gold]中选择1张牌。战斗胜利时将该牌作为[gold]额外卡牌奖励[/gold]加入。",
     "THE_QUEEN_POTION_MAGIC_MIRROR_SHARD.selectionScreenPrompt": "选择1张牌。",
     "THE_QUEEN_POTION_MAGIC_MIRROR_SHARD.title": "魔镜碎片",
