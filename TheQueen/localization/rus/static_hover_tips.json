@@ -1,0 +1,21 @@
+{
+    "soul_lamp.title": "Душевный светильник",
+    "soul_lamp.description": "Пока у вас есть Душевный светильник, карты [purple]Оковы[/purple] можно разыгрывать бесплатно и [red]игнорируя ограничения[/red]. Разыгрывание карты [purple]Оковы[/purple] расходует [blue]1[/blue].",
+    "binding_oath.title": "Клятва оков",
+    "binding_oath.description": "Каждый ход можно разыграть только [blue]1[/blue] карту [purple]Оковы[/purple]. [purple]Оковы[/purple] больше не снимаются в конце хода.",
+    "QUEEN_SUMMON_DYNAMIC.description": "[gold]Призывает[/gold] [gold]Амальгаму[/gold] с [blue]{Summon}[/blue] ОЗ.\nЕсли она уже призвана, повышает её макс. ОЗ на [blue]{Summon}[/blue] в этом бою.",
+    "QUEEN_SUMMON_DYNAMIC.title": "Призвать {Summon}",
+    "QUEEN_SUMMON_STATIC.description": "[gold]Призывает[/gold] [gold]Амальгаму[/gold].\nЕсли она уже призвана, повышает её макс. ОЗ в этом бою.",
+    "QUEEN_SUMMON_STATIC.title": "Призыв",
+    "learn_intent.description": "[gold]Амальгама[/gold] зажигает [blue]1[/blue] светильник, записывает соответствующее намерение и переключает текущее намерение на него.\nЕсли все [blue]3[/blue] светильника зажжены, вместо этого немедленно выполняет это действие.",
+    "learn_intent.title": "Изучение",
+    "learn_intent.vfx_title": "Изучение намерения",
+    "forget_intent.description": "Если текущее намерение Амальгамы записано на светильнике, этот светильник гаснет, а текущее намерение переключается на следующее записанное.",
+    "forget_intent.title": "Забывание",
+    "capture.title": "Поимка",
+    "capture.description": "Если цель не [gold]Прислужник[/gold], в конце боя вы получите [blue]1[/blue] дополнительную награду [gold]картой[/gold]. Перетащите эту карту, чтобы увидеть награду поимки.",
+    "fabricate_defensive_derived_cards.title": "Защитные",
+    "fabricate_defensive_derived_cards.description": "[gold]Страж[/gold]: Изучение намерения: получите 10 [gold]Защиты[/gold].\n[gold]Шум[/gold]: Изучение намерения: возьмите 1 карту. В следующем ходу возьмите 1 карту. Зачаруйте обе карты: [purple]Ошеломление[/purple].",
+    "fabricate_offensive_derived_cards.title": "Атакующие",
+    "fabricate_offensive_derived_cards.description": "[gold]Укол[/gold]: Изучение намерения: нанесите 11 урона. Цель теряет 2 [gold]Силы[/gold] в этом ходу.\n[gold]Разряд[/gold]: Изучение намерения: нанесите 14 урона."
+}
