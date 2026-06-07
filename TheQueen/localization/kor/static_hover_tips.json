@@ -1,0 +1,21 @@
+{
+    "soul_lamp.title":"영혼등",
+    "soul_lamp.description":"영혼등을 보유하면 [purple]영혼 속박[/purple] 카드를 비용 없이 내고 [red]제한을 무시[/red]할 수 있습니다. [purple]영혼 속박[/purple] 카드를 내면 [blue]1[/blue]을 소모합니다.",
+    "binding_oath.title":"속박의 맹세",
+    "binding_oath.description":"매 턴 [blue]1[/blue]장의 [purple]영혼 속박[/purple] 카드만 낼 수 있습니다. [purple]영혼 속박[/purple]은 턴 종료 시 더 이상 제거되지 않습니다.",
+    "QUEEN_SUMMON_DYNAMIC.description":"[gold]융합체[/gold]를 [blue]{Summon}[/blue] 체력으로 [gold]소환[/gold]합니다.\n이미 소환되어 있다면, 이번 전투 동안 최대 체력을 [blue]{Summon}[/blue] 증가시킵니다.",
+    "QUEEN_SUMMON_DYNAMIC.title":"소환 {Summon}",
+    "QUEEN_SUMMON_STATIC.description":"[gold]융합체[/gold]를 [gold]소환[/gold]합니다.\n이미 소환되어 있다면, 이번 전투 동안 최대 체력을 증가시킵니다.",
+    "QUEEN_SUMMON_STATIC.title":"소환",
+    "learn_intent.description":"[gold]융합체[/gold]가 등불 [blue]1[/blue]개를 켜 해당 의도를 기록하고, 현재 의도를 그 등불의 의도로 전환합니다.\n등불 [blue]3[/blue]개가 모두 켜져 있으면, 대신 해당 의도 행동을 즉시 실행합니다.",
+    "learn_intent.title":"학습",
+    "learn_intent.vfx_title":"의도 학습",
+    "forget_intent.description":"융합체의 현재 의도가 등불에 기록된 의도라면, 해당 등불이 꺼지고 현재 의도가 다음 기록된 의도로 전환됩니다.",
+    "forget_intent.title":"잊음",
+    "capture.title":"포획",
+    "capture.description":"대상이 [gold]하수인[/gold]이 아니면, 전투 종료 시 추가 [gold]카드[/gold] 보상 [blue]1[/blue]개를 얻습니다. 이 카드를 드래그하면 포획 보상을 미리 볼 수 있습니다.",
+    "fabricate_defensive_derived_cards.title":"방어형",
+    "fabricate_defensive_derived_cards.description":"[gold]경비[/gold]: 의도 학습: [gold]방어도[/gold] 10을 얻습니다.\n[gold]소음[/gold]: 의도 학습: 카드 1장을 뽑습니다. 다음 턴, 카드 1장을 뽑습니다. 두 카드에 부여: [purple]멍함[/purple].",
+    "fabricate_offensive_derived_cards.title":"공격형",
+    "fabricate_offensive_derived_cards.description":"[gold]찌르기[/gold]: 의도 학습: 11 피해를 줍니다. 이번 턴 대상의 [gold]힘[/gold] 2를 잃게 합니다.\n[gold]전격[/gold]: 의도 학습: 14 피해를 줍니다."
+}

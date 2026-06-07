@@ -1,0 +1,17 @@
+{
+    "THE_QUEEN_CHARACTER_QUEEN_CHARACTER.aromaPrinciple":"[sine][purple]…なんと魅惑的な香り…[/purple][/sine]",
+    "THE_QUEEN_CHARACTER_QUEEN_CHARACTER.banter.alive.endTurnPing":"私の機嫌を損ねる前に…",
+    "THE_QUEEN_CHARACTER_QUEEN_CHARACTER.banter.dead.endTurnPing":"下に降りてきて、私に付き合いなさい…",
+    "THE_QUEEN_CHARACTER_QUEEN_CHARACTER.cardsModifierDescription":"女王のカードが報酬やショップに登場するようになる。",
+    "THE_QUEEN_CHARACTER_QUEEN_CHARACTER.cardsModifierTitle":"女王のカード",
+    "THE_QUEEN_CHARACTER_QUEEN_CHARACTER.description":"[gold]女王[/gold]にとって、塔を登ることは退屈な気晴らしに過ぎない。\n彼女は[gold]魂灯[/gold]で奇跡を起こすのが得意だ。",
+    "THE_QUEEN_CHARACTER_QUEEN_CHARACTER.eventDeathPrevention":"ちっ…",
+    "THE_QUEEN_CHARACTER_QUEEN_CHARACTER.goldMonologue":"[sine]これらは私のコレクションを飾るのにちょうどいいわ…[/sine]",
+    "THE_QUEEN_CHARACTER_QUEEN_CHARACTER.possessiveAdjective":"彼女の",
+    "THE_QUEEN_CHARACTER_QUEEN_CHARACTER.pronounObject":"彼女",
+    "THE_QUEEN_CHARACTER_QUEEN_CHARACTER.pronounPossessive":"彼女の",
+    "THE_QUEEN_CHARACTER_QUEEN_CHARACTER.pronounSubject":"彼女",
+    "THE_QUEEN_CHARACTER_QUEEN_CHARACTER.title":"女王",
+    "THE_QUEEN_CHARACTER_QUEEN_CHARACTER.titleObject":"女王",
+    "THE_QUEEN_CHARACTER_QUEEN_CHARACTER.unlockText":"[blue]{Prerequisite}[/blue]で1回クリアすると、このキャラクターが解放される。"
+}

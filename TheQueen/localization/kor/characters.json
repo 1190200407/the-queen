@@ -1,0 +1,17 @@
+{
+    "THE_QUEEN_CHARACTER_QUEEN_CHARACTER.aromaPrinciple":"[sine][purple]...참으로 매혹적인 향기로군...[/purple][/sine]",
+    "THE_QUEEN_CHARACTER_QUEEN_CHARACTER.banter.alive.endTurnPing":"기분이 상하기 전에...",
+    "THE_QUEEN_CHARACTER_QUEEN_CHARACTER.banter.dead.endTurnPing":"내려와서 나와 함께해...",
+    "THE_QUEEN_CHARACTER_QUEEN_CHARACTER.cardsModifierDescription":"여왕의 카드가 보상과 상점에 등장할 수 있습니다.",
+    "THE_QUEEN_CHARACTER_QUEEN_CHARACTER.cardsModifierTitle":"여왕 카드",
+    "THE_QUEEN_CHARACTER_QUEEN_CHARACTER.description":"[gold]여왕[/gold]에게 첨탑 등반은 지루한 오락에 불과합니다.\n그녀는 [gold]영혼등[/gold]으로 기적을 만들어내는 데 능숙합니다.",
+    "THE_QUEEN_CHARACTER_QUEEN_CHARACTER.eventDeathPrevention":"쯧...",
+    "THE_QUEEN_CHARACTER_QUEEN_CHARACTER.goldMonologue":"[sine]내 수집품을 아름답게 장식해 주겠군...[/sine]",
+    "THE_QUEEN_CHARACTER_QUEEN_CHARACTER.possessiveAdjective":"그녀의",
+    "THE_QUEEN_CHARACTER_QUEEN_CHARACTER.pronounObject":"그녀를",
+    "THE_QUEEN_CHARACTER_QUEEN_CHARACTER.pronounPossessive":"그녀의",
+    "THE_QUEEN_CHARACTER_QUEEN_CHARACTER.pronounSubject":"그녀",
+    "THE_QUEEN_CHARACTER_QUEEN_CHARACTER.title":"여왕",
+    "THE_QUEEN_CHARACTER_QUEEN_CHARACTER.titleObject":"여왕",
+    "THE_QUEEN_CHARACTER_QUEEN_CHARACTER.unlockText":"[blue]{Prerequisite}[/blue](으)로 한 번 클리어하면 이 캐릭터를 해금합니다."
+}

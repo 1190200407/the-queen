@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -11,7 +12,13 @@ namespace ComicChess.TheQueen;
 
 public abstract class LearnIntentCardModel : QueenCardModel
 {
+    private const float LearnCombineSpacingSeconds = 0.5f;
+
     private AmalgamCompositeKey _compositeKey = AmalgamCompositeKey.None;
+
+    private PlayerChoiceContext? _learnCombineSpacingContext;
+
+    private int _learnCombineSpacingCount;
 
     protected LearnIntentCardModel(int energyCost, CardType type, CardRarity rarity, TargetType targetType, bool shouldShowInCardLibrary)
         : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
@@ -79,6 +86,19 @@ public abstract class LearnIntentCardModel : QueenCardModel
 
     protected async Task ApplyLearnOrCombineIntentAsync(PlayerChoiceContext choiceContext, AmalgamActionModel intent)
     {
+        if (_learnCombineSpacingContext != choiceContext)
+        {
+            _learnCombineSpacingContext = choiceContext;
+            _learnCombineSpacingCount = 0;
+        }
+
+        if (_learnCombineSpacingCount > 0)
+        {
+            await Cmd.Wait(LearnCombineSpacingSeconds);
+        }
+
+        _learnCombineSpacingCount++;
+
         if (CompositeKey == AmalgamCompositeKey.None)
         {
             await FriendlyAmalgamCmd.LearnIntent(choiceContext, base.Owner, intent, this);

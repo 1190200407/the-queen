@@ -9,6 +9,7 @@
   "QUEEN_SUMMON_STATIC.title": "召唤",
   "learn_intent.description": "[gold]聚合体[/gold]点亮[blue]1[/blue]盏灯，记录对应意图，并将当前意图切换至该灯所记录的意图。\n如果[blue]3[/blue]盏灯都点亮，则效果改为立刻执行该意图动作。",
   "learn_intent.title": "学习",
+  "learn_intent.vfx_title": "学习意图",
   "forget_intent.description": "若[gold]聚合体[/gold]当前意图是由灯记录的意图，则熄灭此灯并切换至下一意图。",
   "forget_intent.title": "遗忘",
   "capture.title": "捕获",

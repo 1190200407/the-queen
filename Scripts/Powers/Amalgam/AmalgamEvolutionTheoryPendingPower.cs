@@ -59,12 +59,17 @@ public sealed class AmalgamEvolutionTheoryPendingPower : QueenPowerModel
 
         Flash();
 
-        foreach (AmalgamActionModel intent in toRelearn)
+        for (int i = 0; i < toRelearn.Count; i++)
         {
+            if (i > 0)
+            {
+                await Cmd.Wait(0.5f);
+            }
+
             await FriendlyAmalgamCmd.CombineIntent(
                 choiceContext,
                 queen,
-                intent,
+                toRelearn[i],
                 source,
                 AmalgamCompositeKey.Evolution);
         }
