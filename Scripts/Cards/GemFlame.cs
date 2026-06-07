@@ -15,7 +15,7 @@ using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>宝石火焰：单体伤害，打出后将此牌侵蚀为魂缚�?/summary>
+/// <summary>宝石睫焰：坕体伤害，打出坎将此牌侵蚀为魂缚�?/summary>
 
 [RegisterCard(typeof(QueenCardPool))]
 public sealed class GemFlame : QueenCardModel
@@ -26,7 +26,7 @@ public sealed class GemFlame : QueenCardModel
 	private const TargetType targetType = TargetType.AnyEnemy;
 	private const bool shouldShowInCardLibrary = true;
 
-	protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(13m, ValueProp.Move)];
+	protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(15m, ValueProp.Move)];
 
 	protected override IEnumerable<IHoverTip> AdditionalHoverTips => [.. HoverTipFactory.FromAffliction<Bound>()];
 

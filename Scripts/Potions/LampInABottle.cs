@@ -12,7 +12,7 @@ namespace ComicChess.TheQueen;
 
 public sealed class LampInABottle : QueenPotionModel
 {
-    public override TargetType TargetType => TargetType.AnyAlly;
+    public override TargetType TargetType => TargetType.AnyPlayer;
     public override PotionRarity Rarity => PotionRarity.Common;
     public override PotionUsage Usage => PotionUsage.CombatOnly;
 

@@ -26,7 +26,7 @@ public sealed class Galvanic : QueenCardModel
     private const TargetType targetType = TargetType.Self;
     private const bool shouldShowInCardLibrary = true;
 
-    private const decimal galvanicStacks = 6m;
+    private const decimal galvanicStacks = 3m;
     private const decimal replay = 1m;
 
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
