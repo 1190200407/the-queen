@@ -52,7 +52,9 @@ public sealed class AmalgamEvolutionTheoryPendingPower : QueenPowerModel
             return;
         }
 
-        CardModel source = ModelDb.Card<EvolutionTheory>();
+        // 勿用 ModelDb.Card<EvolutionTheory>()：那是 canonical 原型，访问 Owner 会抛 CanonicalModelException；
+        // 回合初自动重学不是「打出卡牌」，source 用本能力即可（灵魂同调等只响应 CardModel 来源）。
+        AbstractModel source = this;
         var choiceContext = new ThrowingPlayerChoiceContext();
         IReadOnlyList<AmalgamActionModel> toRelearn = PendingIntents.ToArray();
         PendingIntents.Clear();

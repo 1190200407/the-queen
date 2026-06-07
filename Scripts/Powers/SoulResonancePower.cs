@@ -41,7 +41,7 @@ public sealed class SoulResonancePower : QueenPowerModel, IAmalgamEventListener
 			return;
 		}
 
-		if (source is not CardModel playedCard)
+		if (source is not CardModel playedCard || !playedCard.IsMutable)
 		{
 			return;
 		}
@@ -89,7 +89,7 @@ public sealed class SoulResonancePower : QueenPowerModel, IAmalgamEventListener
 			return;
 		}
 
-		if (source is not CardModel playedCard)
+		if (source is not CardModel playedCard || !playedCard.IsMutable)
 		{
 			return;
 		}

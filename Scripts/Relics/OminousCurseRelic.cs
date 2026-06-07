@@ -41,7 +41,7 @@ public sealed class OminousCurseRelic : QueenRelicModel
 		return Task.CompletedTask;
 	}
 
-	public override decimal ModifyPowerAmountGiven(PowerModel power, Creature giver, decimal amount, Creature? target, CardModel? cardSource)
+    public override decimal ModifyPowerAmountGivenAdditive(PowerModel power, Creature giver, decimal amount, Creature? target, CardModel? cardSource)
 	{
 		if (_firstDebuffBonusConsumed || amount <= 0m)
 		{
