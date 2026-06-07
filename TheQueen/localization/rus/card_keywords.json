@@ -1,0 +1,12 @@
+{
+    "STS2_COMICCHESS_THEQUEEN_KEYWORD_FADE.description": "Когда эта карта попадает в [gold]стопку сброса[/gold], она [gold]Сжигается[/gold].",
+    "STS2_COMICCHESS_THEQUEEN_KEYWORD_FADE.title": "Угасание",
+    "STS2_COMICCHESS_THEQUEEN_KEYWORD_AMALGAM_COMPOSITE.description": "Все намерения с одним именем [gold]Состав[/gold] изучаются в один [gold]слот светильника[/gold]. Несколько намерений в одном слоте выполняются по отдельности.",
+    "STS2_COMICCHESS_THEQUEEN_KEYWORD_AMALGAM_COMPOSITE.title": "Состав",
+    "STS2_COMICCHESS_THEQUEEN_KEYWORD_AMALGAM_COMPOSITE1.description": "Все намерения с [gold]Состав-Жук[/gold] изучаются в один [gold]слот светильника[/gold]. Несколько намерений в одном слоте выполняются по отдельности.",
+    "STS2_COMICCHESS_THEQUEEN_KEYWORD_AMALGAM_COMPOSITE1.title": "Состав-Жук",
+    "STS2_COMICCHESS_THEQUEEN_KEYWORD_AMALGAM_COMPOSITE2.description": "Все намерения с [gold]Состав-Родство[/gold] изучаются в один [gold]слот светильника[/gold]. Несколько намерений в одном слоте выполняются по отдельности.",
+    "STS2_COMICCHESS_THEQUEEN_KEYWORD_AMALGAM_COMPOSITE2.title": "Состав-Родство",
+    "STS2_COMICCHESS_THEQUEEN_KEYWORD_AMALGAM_COMPOSITE3.description": "Все намерения с [gold]Состав-Эволюция[/gold] изучаются в один [gold]слот светильника[/gold]. Несколько намерений в одном слоте выполняются по отдельности.",
+    "STS2_COMICCHESS_THEQUEEN_KEYWORD_AMALGAM_COMPOSITE3.title": "Состав-Эволюция"
+}

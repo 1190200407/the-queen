@@ -1,0 +1,17 @@
+{
+    "THE_QUEEN_CHARACTER_QUEEN_CHARACTER.aromaPrinciple": "[sine][purple]...Какой притягательный аромат...[/purple][/sine]",
+    "THE_QUEEN_CHARACTER_QUEEN_CHARACTER.banter.alive.endTurnPing": "Пока я не рассердилась...",
+    "THE_QUEEN_CHARACTER_QUEEN_CHARACTER.banter.dead.endTurnPing": "Спустись и составь мне компанию...",
+    "THE_QUEEN_CHARACTER_QUEEN_CHARACTER.cardsModifierDescription": "Карты Королевы теперь могут появляться в наградах и магазинах.",
+    "THE_QUEEN_CHARACTER_QUEEN_CHARACTER.cardsModifierTitle": "Карты Королевы",
+    "THE_QUEEN_CHARACTER_QUEEN_CHARACTER.description": "Для [gold]Королевы[/gold] восхождение по Шпилю — лишь скучное развлечение.\nОна искусно творит чудеса с помощью [gold]Душевных светильников[/gold].",
+    "THE_QUEEN_CHARACTER_QUEEN_CHARACTER.eventDeathPrevention": "Чт...",
+    "THE_QUEEN_CHARACTER_QUEEN_CHARACTER.goldMonologue": "[sine]Это украсит мою коллекцию...[/sine]",
+    "THE_QUEEN_CHARACTER_QUEEN_CHARACTER.possessiveAdjective": "её",
+    "THE_QUEEN_CHARACTER_QUEEN_CHARACTER.pronounObject": "её",
+    "THE_QUEEN_CHARACTER_QUEEN_CHARACTER.pronounPossessive": "её",
+    "THE_QUEEN_CHARACTER_QUEEN_CHARACTER.pronounSubject": "она",
+    "THE_QUEEN_CHARACTER_QUEEN_CHARACTER.title": "Королева",
+    "THE_QUEEN_CHARACTER_QUEEN_CHARACTER.titleObject": "Королеву",
+    "THE_QUEEN_CHARACTER_QUEEN_CHARACTER.unlockText": "Завершите забег за [blue]{Prerequisite}[/blue], чтобы открыть этого персонажа."
+}

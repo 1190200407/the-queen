@@ -1,0 +1,11 @@
+{
+    "THE_QUEEN_POTION_LAMP_IN_A_BOTTLE.description": "[aqua]Получите 1 Душевный светильник.[/aqua]",
+    "THE_QUEEN_POTION_LAMP_IN_A_BOTTLE.title": "Светильник в бутылке",
+    "THE_QUEEN_POTION_MAGIC_MIRROR_SHARD.description": "Выберите 1 карту из [gold]руки[/gold]. После победы в этом бою получите её как дополнительную награду [gold]картой[/gold].",
+    "THE_QUEEN_POTION_MAGIC_MIRROR_SHARD.selectionScreenPrompt": "Выберите 1 карту.",
+    "THE_QUEEN_POTION_MAGIC_MIRROR_SHARD.title": "Осколок волшебного зеркала",
+    "THE_QUEEN_POTION_DEATH_ELIXIR.description": "Накладывает {PoisonPower} [gold]Яд[/gold], {DoomPower} [gold]Злой рок[/gold] и {DemisePower} [gold]Обреченность[/gold].",
+    "THE_QUEEN_POTION_DEATH_ELIXIR.title": "Эликсир смерти",
+    "THE_QUEEN_POTION_ECOSPHERE_BOTTLE.description": "Когда цель погибает, [gold]Поимка[/gold] её.",
+    "THE_QUEEN_POTION_ECOSPHERE_BOTTLE.title": "Ящик экосферы"
+}

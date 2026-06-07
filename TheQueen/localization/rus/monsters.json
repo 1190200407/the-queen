@@ -1,0 +1,16 @@
+{
+    "FRIENDLY_AMALGAM.name": "Амальгама со светильниками",
+    "FRIENDLY_AMALGAM.intent_slot_empty.title": "Пустой слот",
+    "FRIENDLY_AMALGAM.intent_slot_empty.description": "В этом слоте светильника ещё не записано намерение.",
+    "FRIENDLY_AMALGAM.CURSE_OF_KNOWLEDGE.doneLine": "Готово...",
+    "FRIENDLY_AMALGAM.YOUR_JOURNEY_ENDS_HERE.speakLine1": "[red][sine]Твой путь... заканчивается здесь...[/sine][/red]",
+    "FRIENDLY_AMALGAM.YOUR_JOURNEY_ENDS_HERE.speakLine2": "...Начнём?",
+    "QUEEN.YOU_ARE_MINE.doneLine": "Ты моя!",
+    "QUEEN.marionetteLine": "...Как ты смеешь!",
+    "QUEEN.ADMISSION_TICKET.giftNotifyQueen_1": "[gold]{CardTitle}[/gold]... Прекрасно. Я запомню твой дар, [gold]{Giver}[/gold].",
+    "QUEEN.ADMISSION_TICKET.giftNotifyQueen_2": "[gold]{CardTitle}[/gold]... Именно то, что я хотела. Спасибо, [gold]{Giver}[/gold].",
+    "QUEEN.ADMISSION_TICKET.giftNotifyQueen_3": "[gold]{CardTitle}[/gold]... Я хорошо это использую. Молодец, [gold]{Giver}[/gold].",
+    "QUEEN.ADMISSION_TICKET.giftNotifyQueen_4": "Приму, [gold]{Giver}[/gold]. Эта [gold]{CardTitle}[/gold] не пропадёт зря.",
+    "QUEEN.ADMISSION_TICKET.giftNotifyQueen_5": "[gold]{CardTitle}[/gold]. Хе... У тебя глаз наметан, [gold]{Giver}[/gold].",
+    "QUEEN.ADMISSION_TICKET.giftNotifyQueen_6": "Я хорошо использую эту [gold]{CardTitle}[/gold]. Твой выбор был верен, [gold]{Giver}[/gold]."
+}
