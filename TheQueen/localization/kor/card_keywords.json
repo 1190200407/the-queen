@@ -1,0 +1,12 @@
+{
+    "STS2_COMICCHESS_THEQUEEN_KEYWORD_FADE.description":"이 카드가 [gold]버림 더미[/gold]에 들어가면 [gold]소멸[/gold]됩니다.",
+    "STS2_COMICCHESS_THEQUEEN_KEYWORD_FADE.title":"페이드",
+    "STS2_COMICCHESS_THEQUEEN_KEYWORD_AMALGAM_COMPOSITE.description":"같은 [gold]복합[/gold] 이름의 모든 의도는 같은 [gold]등불 슬롯[/gold]에 학습됩니다. 한 슬롯에 여러 의도가 있으면 실행 시 각각 별도 행동으로 처리됩니다.",
+    "STS2_COMICCHESS_THEQUEEN_KEYWORD_AMALGAM_COMPOSITE.title":"복합",
+    "STS2_COMICCHESS_THEQUEEN_KEYWORD_AMALGAM_COMPOSITE1.description":"[gold]복합-벌레[/gold]의 모든 의도는 같은 [gold]등불 슬롯[/gold]에 학습됩니다. 한 슬롯에 여러 의도가 있으면 실행 시 각각 별도 행동으로 처리됩니다.",
+    "STS2_COMICCHESS_THEQUEEN_KEYWORD_AMALGAM_COMPOSITE1.title":"복합-벌레",
+    "STS2_COMICCHESS_THEQUEEN_KEYWORD_AMALGAM_COMPOSITE2.description":"[gold]복합-친족[/gold]의 모든 의도는 같은 [gold]등불 슬롯[/gold]에 학습됩니다. 한 슬롯에 여러 의도가 있으면 실행 시 각각 별도 행동으로 처리됩니다.",
+    "STS2_COMICCHESS_THEQUEEN_KEYWORD_AMALGAM_COMPOSITE2.title":"복합-친족",
+    "STS2_COMICCHESS_THEQUEEN_KEYWORD_AMALGAM_COMPOSITE3.description":"[gold]복합-진화[/gold]의 모든 의도는 같은 [gold]등불 슬롯[/gold]에 학습됩니다. 한 슬롯에 여러 의도가 있으면 실행 시 각각 별도 행동으로 처리됩니다.",
+    "STS2_COMICCHESS_THEQUEEN_KEYWORD_AMALGAM_COMPOSITE3.title":"복합-진화"
+}

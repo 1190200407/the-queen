@@ -10,7 +10,7 @@ using MegaCrit.Sts2.Core.Models;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>本回合你的技能牌耗能 -1；回合结束时移除。</summary>
+/// <summary>本回合技能牌耗能降低（减免量 = Amount）；回合结束时移除。</summary>
 public sealed class SkillCostMinusOneThisTurnPower : QueenPowerModel
 {
     public override PowerType Type => PowerType.Buff;
@@ -38,7 +38,7 @@ public sealed class SkillCostMinusOneThisTurnPower : QueenPowerModel
                 return false;
         }
 
-        modifiedCost = Math.Max(0m, originalCost - 1m);
+        modifiedCost = Math.Max(0m, originalCost - base.Amount);
         return modifiedCost != originalCost;
     }
 

@@ -1,0 +1,11 @@
+{
+    "THE_QUEEN_POTION_LAMP_IN_A_BOTTLE.description":"[aqua]魂灯を1得る。[/aqua]",
+    "THE_QUEEN_POTION_LAMP_IN_A_BOTTLE.title":"瓶の中の灯",
+    "THE_QUEEN_POTION_MAGIC_MIRROR_SHARD.description":"[gold]手札[/gold]からカードを1枚選ぶ。この戦闘に勝利したとき、追加の[gold]カード[/gold]報酬として得る。",
+    "THE_QUEEN_POTION_MAGIC_MIRROR_SHARD.selectionScreenPrompt":"カードを1枚選ぶ。",
+    "THE_QUEEN_POTION_MAGIC_MIRROR_SHARD.title":"魔鏡の欠片",
+    "THE_QUEEN_POTION_DEATH_ELIXIR.description":"[gold]毒[/gold]{PoisonPower}、[gold]破滅[/gold]{DoomPower}、[gold]崩御[/gold]{DemisePower}を付与する。",
+    "THE_QUEEN_POTION_DEATH_ELIXIR.title":"死の霊薬",
+    "THE_QUEEN_POTION_ECOSPHERE_BOTTLE.description":"対象が死亡したとき、[gold]捕獲[/gold]する。",
+    "THE_QUEEN_POTION_ECOSPHERE_BOTTLE.title":"生態系の檻"
+}

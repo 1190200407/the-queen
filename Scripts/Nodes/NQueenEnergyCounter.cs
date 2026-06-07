@@ -138,7 +138,7 @@ public partial class NQueenEnergyCounter : NEnergyCounter
 		}
 
 		SoulLampPower? lamp = player.Creature?.GetPower<SoulLampPower>();
-		int amount = lamp?.DisplayAmount ?? 0;
+		int amount = lamp?.Amount ?? 0;
 		ApplySoulLampDisplay(player, amount);
 	}
 

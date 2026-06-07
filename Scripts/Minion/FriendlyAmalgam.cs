@@ -619,7 +619,8 @@ public class FriendlyAmalgam : QueenMinionModel
         return forgotten;
     }
 
-    public async Task LearnIntent(PlayerChoiceContext choiceContext, AmalgamActionModel intent)
+    /// <returns>是否写入灯槽；三槽已满当场执行时返回 <see langword="false"/>。</returns>
+    public async Task<bool> LearnIntent(PlayerChoiceContext choiceContext, AmalgamActionModel intent)
     {
         int emptySlot = FirstEmptyTorchSlotIndex();
         if (emptySlot < 0)
@@ -630,7 +631,7 @@ public class FriendlyAmalgam : QueenMinionModel
             {
                 await intent.ExecuteAsync(choiceContext, Creature);
             }
-            return;
+            return false;
         }
         bool hadAnyIntentBefore = false;
         for (int i = 0; i < TorchSlotCount; i++)
@@ -651,6 +652,7 @@ public class FriendlyAmalgam : QueenMinionModel
             await WakeUp(SleepReason.NoLearnedAction);
         }
         FriendlyAmalgamCmd.TryRefreshIntentTorchVisuals(Creature);
+        return true;
     }
 
     /// <summary>
@@ -658,7 +660,8 @@ public class FriendlyAmalgam : QueenMinionModel
     /// 否则无空槽时走 <see cref="LearnIntent"/>（三槽满时与单次学习相同：当场执行且不写入）；
     /// 有空槽则新建一条组合意图并 <see cref="LearnIntent"/>。
     /// </summary>
-    public async Task CombineIntentAsync(PlayerChoiceContext choiceContext, AmalgamActionModel intent, AmalgamCompositeKey compositeKey)
+    /// <returns>是否写入灯槽或合并进已有组合；三槽已满当场执行时返回 <see langword="false"/>。</returns>
+    public async Task<bool> CombineIntentAsync(PlayerChoiceContext choiceContext, AmalgamActionModel intent, AmalgamCompositeKey compositeKey)
     {
         for (int i = 0; i < TorchSlotCount; i++)
         {
@@ -668,18 +671,17 @@ public class FriendlyAmalgam : QueenMinionModel
                 composite.AddPart(intent);
                 RefreshDisplayedIntent();
                 FriendlyAmalgamCmd.TryRefreshIntentTorchVisuals(Creature);
-                return;
+                return true;
             }
         }
 
         if (FirstEmptyTorchSlotIndex() < 0)
         {
-            await LearnIntent(choiceContext, intent);
-            return;
+            return await LearnIntent(choiceContext, intent);
         }
 
         AmalgamCompositeIntentAction bundle = new(compositeKey, intent);
-        await LearnIntent(choiceContext, bundle);
+        return await LearnIntent(choiceContext, bundle);
     }
 
     private async Task ClearTorchSlots()

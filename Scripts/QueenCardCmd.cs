@@ -87,12 +87,6 @@ public static class QueenCardCmd
 		{
 			await PowerCmd.Apply<SoulLampPower>(owner.Creature, amount, owner.Creature, null, silent);
 		}
-		else if (existing.Amount <= 0)
-		{
-			// SoulLampPower uses -1 as the hidden "display 0" sentinel.
-			// When gaining Soul Lamp from this state, jump directly to gained amount.
-			await PowerCmd.ModifyAmount(existing, amount - existing.Amount, owner.Creature, null, silent);
-		}
 		else
 		{
 			await PowerCmd.ModifyAmount(existing, amount, owner.Creature, null, silent);

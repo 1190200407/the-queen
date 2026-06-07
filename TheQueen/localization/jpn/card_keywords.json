@@ -1,0 +1,12 @@
+{
+    "STS2_COMICCHESS_THEQUEEN_KEYWORD_FADE.description":"このカードが[gold]捨て札[/gold]に入ると、[gold]消耗[/gold]される。",
+    "STS2_COMICCHESS_THEQUEEN_KEYWORD_FADE.title":"フェード",
+    "STS2_COMICCHESS_THEQUEEN_KEYWORD_AMALGAM_COMPOSITE.description":"同じ[gold]複合[/gold]名の意図は、同じ[gold]灯槽[/gold]に学習される。1つの槽に複数の意図がある場合、実行時にそれぞれ別の行動として解決される。",
+    "STS2_COMICCHESS_THEQUEEN_KEYWORD_AMALGAM_COMPOSITE.title":"複合",
+    "STS2_COMICCHESS_THEQUEEN_KEYWORD_AMALGAM_COMPOSITE1.description":"[gold]複合-虫[/gold]の意図は、同じ[gold]灯槽[/gold]に学習される。1つの槽に複数の意図がある場合、実行時にそれぞれ別の行動として解決される。",
+    "STS2_COMICCHESS_THEQUEEN_KEYWORD_AMALGAM_COMPOSITE1.title":"複合-虫",
+    "STS2_COMICCHESS_THEQUEEN_KEYWORD_AMALGAM_COMPOSITE2.description":"[gold]複合-眷属[/gold]の意図は、同じ[gold]灯槽[/gold]に学習される。1つの槽に複数の意図がある場合、実行時にそれぞれ別の行動として解決される。",
+    "STS2_COMICCHESS_THEQUEEN_KEYWORD_AMALGAM_COMPOSITE2.title":"複合-眷属",
+    "STS2_COMICCHESS_THEQUEEN_KEYWORD_AMALGAM_COMPOSITE3.description":"[gold]複合-進化[/gold]の意図は、同じ[gold]灯槽[/gold]に学習される。1つの槽に複数の意図がある場合、実行時にそれぞれ別の行動として解決される。",
+    "STS2_COMICCHESS_THEQUEEN_KEYWORD_AMALGAM_COMPOSITE3.title":"複合-進化"
+}

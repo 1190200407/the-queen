@@ -9,6 +9,7 @@
     "QUEEN_SUMMON_STATIC.title":"Summon",
     "learn_intent.description":"Your [gold]Amalgam[/gold] lights [blue]1[/blue] torch, records the corresponding intent, and switches its current intent to that torch's intent.\nIf all [blue]3[/blue] torches are lit, instead immediately execute that intent action.",
     "learn_intent.title":"Learn",
+    "learn_intent.vfx_title":"Learn Intent",
     "forget_intent.description":"If the Amalgam's current intent is one recorded on a torch, that torch is cleared and the current intent switches to the next recorded intent.",
     "forget_intent.title":"Forget",
     "capture.title":"Capture",

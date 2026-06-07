@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
 
@@ -26,10 +27,12 @@ namespace ComicChess.TheQueen;
 public sealed class Marionette : QueenCardModel, ICanMonsterCapture
 {
     private const int energyCost = 1;
-    private const CardType type = CardType.Power;
+    private const CardType type = CardType.Skill;
     private const CardRarity rarity = CardRarity.Rare;
     private const TargetType targetType = TargetType.AnyEnemy;
     private const bool shouldShowInCardLibrary = true;
+
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
     public bool CanCapture(MonsterModel monster, CombatState combatState) =>
         monster is not null && combatState is not null;

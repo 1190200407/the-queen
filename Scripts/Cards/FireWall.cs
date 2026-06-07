@@ -25,7 +25,7 @@ public sealed class FireWall : QueenCardModel
 
 	public override bool GainsBlock => true;
 
-	protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(5m, ValueProp.Move)];
+	protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(4m, ValueProp.Move)];
 
 	protected override IEnumerable<IHoverTip> AdditionalHoverTips => [HoverTipFactory.FromPower<SoulLampPower>()];
 
@@ -36,10 +36,7 @@ public sealed class FireWall : QueenCardModel
 
 	protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
 	{
-		if (base.IsUpgraded)
-		{
-			await QueenCardCmd.AddSoulLamp(choiceContext, base.Owner, 1);
-		}
+		await QueenCardCmd.AddSoulLamp(choiceContext, base.Owner, 1);
 
 		SoulLampPower? lamp = base.Owner.Creature.GetPower<SoulLampPower>();
 		decimal stacks = lamp?.DisplayAmount ?? 0m;
@@ -47,7 +44,13 @@ public sealed class FireWall : QueenCardModel
 		{
 			return;
 		}
+
 		decimal total = base.DynamicVars.Block.BaseValue * stacks;
 		await CreatureCmd.GainBlock(base.Owner.Creature, total, ValueProp.Move, cardPlay);
+	}
+
+	protected override void OnUpgrade()
+	{
+		base.DynamicVars.Block.UpgradeValueBy(1m);
 	}
 }

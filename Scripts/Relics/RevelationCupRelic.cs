@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
+using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -67,6 +68,7 @@ public sealed class RevelationCupRelic : QueenRelicModel, IAmalgamEventListener
 			return;
 		}
 
+		await Cmd.Wait(0.5f);
 		await FriendlyAmalgamCmd.LearnIntent(choiceContext, amalgamOwner, intent.Clone(), source);
 	}
 
@@ -84,6 +86,7 @@ public sealed class RevelationCupRelic : QueenRelicModel, IAmalgamEventListener
 			return;
 		}
 
+		await Cmd.Wait(0.5f);
 		await FriendlyAmalgamCmd.CombineIntent(choiceContext, amalgamOwner, intent.Clone(), source, compositeKey);
 	}
 

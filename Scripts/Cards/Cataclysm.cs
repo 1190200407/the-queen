@@ -29,7 +29,6 @@ public sealed class Cataclysm : QueenCardModel
 
 	protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
 	[
-		HoverTipFactory.FromPower<CataclysmPower>(),
 		HoverTipFactory.FromPower<PoisonPower>(),
 		HoverTipFactory.FromPower<DoomPower>(),
 		HoverTipFactory.FromPower<DemisePower>(),

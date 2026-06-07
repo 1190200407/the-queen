@@ -1,4 +1,3 @@
-using System;
 using System.Threading.Tasks;
 
 using MegaCrit.Sts2.Core.Combat;
@@ -57,13 +56,6 @@ public sealed class SoulLampPower : QueenPowerModel
 
     public override string? CustomBigIconPath => "res://TheQueen/images/powers/big/soul_lamp.png";
 	public override string? CustomIconPath => "res://TheQueen/images/powers/soul_lamp.png";
-
-    // 引擎默认 Amount == 0 时会移除 Power。
-    // 我们为了让状态栏还能显示“0层”，在最后一层被消耗时把数值跳到 -1，
-    // 并重写 DisplayAmount 让它显示为 0，同时效果在 Amount <= 0 时失效。
-    public override bool AllowNegative => true;
-
-	public override int DisplayAmount => Math.Max(0, Amount);
 
 	public override bool TryModifyEnergyCostInCombat(CardModel card, decimal originalCost, out decimal modifiedCost)
 	{
@@ -174,17 +166,7 @@ public sealed class SoulLampPower : QueenPowerModel
 			if (base.Amount > 0)
 			{
 				bool silent = base.Owner.Player?.Character is QueenCharacter;
-				PlayerChoiceContext ctx = new ThrowingPlayerChoiceContext();
-				// 避免 Amount 直接变成 0 导致 Power 被移除：
-				// 从 1 -> -1（offset -2）并保持在状态栏显示 0。
-				if (base.Amount == 1)
-				{
-					await PowerCmd.ModifyAmount(this, -2m, null, null, silent);
-				}
-				else
-				{
-					await PowerCmd.ModifyAmount(this, -1m, null, null, silent);
-				}
+				await PowerCmd.ModifyAmount(this, -1m, null, null, silent);
 			}
 		}
 	}

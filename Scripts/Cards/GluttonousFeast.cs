@@ -29,7 +29,6 @@ public sealed class GluttonousFeast : QueenCardModel
     [
         HoverTipFactory.FromCard<Devour>(upgrade: base.IsUpgraded),
         HoverTipFactory.FromPower<SoulLampPower>(),
-        HoverTipFactory.FromPower<GluttonousFeastNoStrengthPower>(),
     ];
 
     public GluttonousFeast()

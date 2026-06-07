@@ -29,8 +29,6 @@ public sealed class Siphon : QueenCardModel
 	private const TargetType targetType = TargetType.AnyEnemy;
 	private const bool shouldShowInCardLibrary = true;
 
-	protected override HashSet<CardTag> CanonicalTags => [CardTag.Strike];
-
 	protected override IEnumerable<DynamicVar> CanonicalVars => [
 		new DamageVar(6m, ValueProp.Move),
 		new CalculationBaseVar(0m),

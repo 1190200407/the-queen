@@ -46,8 +46,6 @@ public sealed class Swipe : QueenCardModel, ICanMonsterCapture
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
         ..HoverTipFactory.FromAffliction<Bound>(),
-        HoverTipFactory.FromPower<AmalgamSwipePower>(),
-        HoverTipFactory.FromPower<AmalgamEscapePower>(),
     ];
 
     /// <summary>无友方聚合体或 <see cref="FriendlyAmalgam.BlockActionFromSleep"/> 时手牌红高亮（打出时由聚合体直接对敌伤害）。</summary>

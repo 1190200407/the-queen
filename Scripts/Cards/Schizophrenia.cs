@@ -39,8 +39,6 @@ public sealed class Schizophrenia : QueenCardModel
 	[
 		HoverTipFactory.FromPower<VulnerablePower>(),
 		HoverTipFactory.FromPower<WeakPower>(),
-		HoverTipFactory.FromPower<SplitVulnerablePower>(),
-		HoverTipFactory.FromPower<SplitWeakPower>(),
 	];
 
 	public Schizophrenia()

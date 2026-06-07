@@ -12,36 +12,33 @@ using MegaCrit.Sts2.Core.Models;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>灯驱（可叠加）：本回合每获得 1 点魂灯，聚合体按层数执行行动；回合结束时移除。</summary>
-public sealed class LampDrivePower : QueenPowerModel
+/// <summary>灯驱：本回合每消耗 1 点魂灯，聚合体行动 1 次；回合结束时移除。</summary>
+public sealed class LampDrivePower : QueenPowerModel, ISoulLampEventListener
 {
     public override PowerType Type => PowerType.Buff;
 
-    public override PowerStackType StackType => PowerStackType.Counter;
+    public override PowerStackType StackType => PowerStackType.Single;
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
         HoverTipFactory.FromPower<SoulLampPower>(),
     ];
 
-    public override async Task AfterPowerAmountChanged(
-        PowerModel power,
-        decimal amount,
+    public async Task OnSoulLampAmountChanged(
+        PlayerChoiceContext choiceContext,
+        Player player,
+        decimal delta,
         Creature? applier,
         CardModel? cardSource)
     {
-        if (amount <= 0m || power is not SoulLampPower || power.Owner != base.Owner)
+        _ = applier;
+        _ = cardSource;
+        if (delta >= 0m || player != base.Owner.Player)
         {
             return;
         }
 
         if (base.CombatState is not CombatState combatState)
-        {
-            return;
-        }
-
-        Player? player = base.Owner.Player;
-        if (player == null)
         {
             return;
         }
@@ -52,13 +49,12 @@ public sealed class LampDrivePower : QueenPowerModel
             return;
         }
 
-        int actionsPerSoulLamp = (int)Amount;
-        if (actionsPerSoulLamp <= 0)
+        int totalActions = (int)(-delta);
+        if (totalActions <= 0)
         {
             return;
         }
 
-        int totalActions = (int)amount * actionsPerSoulLamp;
         Flash();
         for (int i = 0; i < totalActions; i++)
         {
@@ -67,7 +63,7 @@ public sealed class LampDrivePower : QueenPowerModel
                 break;
             }
 
-            await amalgam.ActCurrentIntentImmediatelyAsync(new ThrowingPlayerChoiceContext());
+            await amalgam.ActCurrentIntentImmediatelyAsync(choiceContext);
 
             if (CombatManager.Instance.IsOverOrEnding)
             {

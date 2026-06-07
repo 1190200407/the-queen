@@ -1,0 +1,21 @@
+{
+    "soul_lamp.title":"魂灯",
+    "soul_lamp.description":"魂灯を持っている間、[purple]魂縛[/purple]のカードは無料でプレイでき、[red]制限を無視[/red]する。[purple]魂縛[/purple]のカードをプレイすると[blue]1[/blue]消費する。",
+    "binding_oath.title":"縛りの誓い",
+    "binding_oath.description":"毎ターン、[purple]魂縛[/purple]のカードは[blue]1[/blue]枚だけプレイできる。ターン終了時に[purple]魂縛[/purple]は解除されない。",
+    "QUEEN_SUMMON_DYNAMIC.description":"[gold]融合体[/gold]をHP[blue]{Summon}[/blue]で召喚する。\nすでに召喚されている場合、この戦闘中、最大HPを[blue]{Summon}[/blue]増加させる。",
+    "QUEEN_SUMMON_DYNAMIC.title":"召喚{Summon}",
+    "QUEEN_SUMMON_STATIC.description":"[gold]融合体[/gold]を召喚する。\nすでに召喚されている場合、この戦闘中、最大HPを増加させる。",
+    "QUEEN_SUMMON_STATIC.title":"召喚",
+    "learn_intent.description":"[gold]融合体[/gold]が灯を[blue]1[/blue]つ灯し、対応する意図を記録し、現在の意図をその灯槽の意図に切り替える。\n[blue]3[/blue]つの灯がすべて灯っている場合、代わりにその意図行動を即座に実行する。",
+    "learn_intent.title":"学習",
+    "learn_intent.vfx_title":"意図学習",
+    "forget_intent.description":"融合体の現在の意図が灯槽に記録された意図の1つである場合、その灯槽は消去され、現在の意図は次に記録された意図に切り替わる。",
+    "forget_intent.title":"忘却",
+    "capture.title":"捕獲",
+    "capture.description":"対象が[gold]手下[/gold]でない場合、戦闘終了時に追加の[gold]カード[/gold]報酬を[blue]1[/blue]つ得る。このカードをドラッグして捕獲報酬をプレビューできる。",
+    "fabricate_defensive_derived_cards.title":"防御型",
+    "fabricate_defensive_derived_cards.description":"[gold]ガード[/gold]：意図学習：10ブロックを得る。\n[gold]ノイズ[/gold]：意図学習：カードを1枚引く。次のターン、カードを1枚引く。両方のカードに付与：[purple]目眩[/purple]。",
+    "fabricate_offensive_derived_cards.title":"攻撃型",
+    "fabricate_offensive_derived_cards.description":"[gold]刺突[/gold]：意図学習：11ダメージを与える。対象はこのターン[gold]筋力[/gold]2を失う。\n[gold]ザップ[/gold]：意図学習：14ダメージを与える。"
+}

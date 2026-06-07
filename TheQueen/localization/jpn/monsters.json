@@ -1,0 +1,16 @@
+{
+    "FRIENDLY_AMALGAM.name":"灯頭融合体",
+    "FRIENDLY_AMALGAM.intent_slot_empty.title":"空き槽",
+    "FRIENDLY_AMALGAM.intent_slot_empty.description":"この灯槽にはまだ意図が記録されていない。",
+    "FRIENDLY_AMALGAM.CURSE_OF_KNOWLEDGE.doneLine":"…終わった。",
+    "FRIENDLY_AMALGAM.YOUR_JOURNEY_ENDS_HERE.speakLine1":"[red][sine]お前の旅路は…ここで終わる…[/sine][/red]",
+    "FRIENDLY_AMALGAM.YOUR_JOURNEY_ENDS_HERE.speakLine2":"…始めようか？",
+    "QUEEN.YOU_ARE_MINE.doneLine":"お前は私のもの！",
+    "QUEEN.marionetteLine":"…よくもそんなことを！",
+    "QUEEN.ADMISSION_TICKET.giftNotifyQueen_1":"[gold]{CardTitle}[/gold]…とても良い。贈り物を覚えておくわ、[gold]{Giver}[/gold]。",
+    "QUEEN.ADMISSION_TICKET.giftNotifyQueen_2":"[gold]{CardTitle}[/gold]…まさに欲しかったもの。ありがとう、[gold]{Giver}[/gold]。",
+    "QUEEN.ADMISSION_TICKET.giftNotifyQueen_3":"[gold]{CardTitle}[/gold]…有効に使わせてもらうわ。よくやった、[gold]{Giver}[/gold]。",
+    "QUEEN.ADMISSION_TICKET.giftNotifyQueen_4":"受け取るわ、[gold]{Giver}[/gold]。この[gold]{CardTitle}[/gold]、無駄にはしない。",
+    "QUEEN.ADMISSION_TICKET.giftNotifyQueen_5":"[gold]{CardTitle}[/gold]。ふふ…目の肥えた人ね、[gold]{Giver}[/gold]。",
+    "QUEEN.ADMISSION_TICKET.giftNotifyQueen_6":"この[gold]{CardTitle}[/gold]、上手く使わせてもらうわ。見当は正しかった、[gold]{Giver}[/gold]。"
+}

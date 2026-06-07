@@ -11,7 +11,7 @@ using MegaCrit.Sts2.Core.Models.Afflictions;
 namespace ComicChess.TheQueen;
 
 /// <summary>
-/// 魂灯为 0 时消耗 1 点能量并获得 1 点魂灯（含 -1 哨兵视为 0）。
+/// 魂灯为 0 时消耗 1 点能量并获得 1 点魂灯。
 /// 触发：回合开始、获得能量后（<see cref="MagicTimeGainEnergyPatch"/>）、魂灯层数下降（<see cref="ISoulLampEventListener"/>）。
 /// </summary>
 public sealed class MagicTimePower : QueenPowerModel, ISoulLampEventListener

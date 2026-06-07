@@ -411,7 +411,11 @@ public static class FriendlyAmalgamCmd
             await Summon(choiceContext, owner, 1m, source);
         }
 
-        await amalgamModel.LearnIntent(choiceContext, intent);
+        bool storedInSlot = await amalgamModel.LearnIntent(choiceContext, intent);
+        if (storedInSlot)
+        {
+            LearnIntentAppliedVfx.Play(amalgamCreature);
+        }
         await FriendlyAmalgamHook.AfterLearnIntent(combatState, choiceContext, owner, amalgamCreature, intent, source);
     }
 
@@ -454,7 +458,11 @@ public static class FriendlyAmalgamCmd
             await Summon(choiceContext, owner, 1m, source);
         }
 
-        await amalgamModel.CombineIntentAsync(choiceContext, intent, compositeKey);
+        bool storedInSlot = await amalgamModel.CombineIntentAsync(choiceContext, intent, compositeKey);
+        if (storedInSlot)
+        {
+            LearnIntentAppliedVfx.Play(amalgamCreature);
+        }
         await FriendlyAmalgamHook.AfterCombineIntent(combatState, choiceContext, owner, amalgamCreature, intent, source, compositeKey);
     }
 
