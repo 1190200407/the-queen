@@ -16,7 +16,6 @@ internal static class ChainsOfBindingBoundTracker
 {
 	private sealed class State
 	{
-		internal int AppliedThisTurn;
 		internal readonly HashSet<CardModel> ChainsCards = new();
 	}
 
@@ -46,20 +45,8 @@ internal static class ChainsOfBindingBoundTracker
 			return false;
 		}
 
-		return GetOrCreate(player.NetId).AppliedThisTurn < maxCardsPerTurn;
+		return GetOrCreate(player.NetId).ChainsCards.Count < maxCardsPerTurn;
 	}
-
-	/// <summary> 注册抽到的牌 </summary>
-	internal static void RegisterCardDrawn(Player? player)
-	{
-		if (player == null)
-		{
-			return;
-		}
-
-		GetOrCreate(player.NetId).AppliedThisTurn++;
-	}
-
 
 	/// <summary>在已成功调用 <see cref="CardCmd.AfflictAndPreview{T}"/> 后登记该牌。</summary>
 	internal static void RegisterChainsBoundCard(Player? player, CardModel card)
@@ -90,6 +77,5 @@ internal static class ChainsOfBindingBoundTracker
 		}
 
 		s.ChainsCards.Clear();
-		s.AppliedThisTurn = 0;
 	}
 }

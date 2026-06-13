@@ -9,6 +9,7 @@ using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Models.Powers;
+using STS2RitsuLib.Cards.DynamicVars;
 using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
@@ -30,6 +31,7 @@ public sealed class Shrinker : QueenCardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
+        new SummonVar(1m).WithSharedTooltip("QUEEN_SUMMON_DYNAMIC"),
         new PowerVar<ShrinkPower>(shrinkStacks),
     ];
 
@@ -38,11 +40,11 @@ public sealed class Shrinker : QueenCardModel
         HoverTipFactory.FromPower<ShrinkPower>(),
     ];
 
-    /// <summary>无友方聚合体或沉睡时红高亮（打出时由聚合体直接施放缩小射线）。</summary>
+    /// <summary>聚合体处于强制睡眠（<see cref="FriendlyAmalgam.SleepReason.Power"/>）时红高亮（打出时无法施放缩小射线）。</summary>
     protected override bool ShouldGlowRedInternal =>
         (base.Owner?.Creature?.CombatState is { } combatState
-            && (FriendlyAmalgamCmd.GetExisting(combatState, base.Owner) is not { Monster: FriendlyAmalgam amalgam }
-                || amalgam.BlockActionFromSleep))
+            && FriendlyAmalgamCmd.GetExisting(combatState, base.Owner) is { Monster: FriendlyAmalgam amalgam }
+            && amalgam.sleepReason.HasFlag(FriendlyAmalgam.SleepReason.Power))
         || base.ShouldGlowRedInternal;
 
     public Shrinker()
@@ -57,6 +59,8 @@ public sealed class Shrinker : QueenCardModel
         {
             return;
         }
+
+        await FriendlyAmalgamCmd.Summon(choiceContext, base.Owner, base.DynamicVars.Summon.BaseValue, this);
 
         Creature? amalgam = FriendlyAmalgamCmd.GetExisting(combatState, base.Owner);
         if (amalgam is not { IsAlive: true }

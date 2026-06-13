@@ -1,6 +1,5 @@
 using Godot;
 using STS2RitsuLib.Scaffolding.Content;
-using STS2RitsuLib.Utils;
 
 namespace ComicChess.TheQueen;
 
@@ -16,6 +15,6 @@ public class QueenCardPool : TypeListCardPoolModel
     // 能量图标轮廓颜色rgb(44, 97, 24)
     public override Color EnergyOutlineColor => new(44f/255f, 97f/255f, 24f/255f);
 
-    private static readonly Material? _poolFrameMaterial = MaterialUtils.CreateRgbShaderMaterial(123f/255f, 57f/255f, 144f/255f);
+    private static readonly Material? _poolFrameMaterial = QueenPoolFrameMaterials.FromRgb(123, 57, 144);
     public override Material? PoolFrameMaterial => _poolFrameMaterial;
 }

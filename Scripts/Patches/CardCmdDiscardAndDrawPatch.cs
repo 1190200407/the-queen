@@ -94,7 +94,7 @@ internal sealed class CardCmdDiscardAndDrawPatch : IPatchMethod
 				slyCards.Add(card);
 			}
 
-			if (card.HasModKeyword(QueenKeyword.Fade))
+			if (card.HasModKeyword(QueenModKeywords.Fade))
 			{
 				fadeCards.Add(card);
 			}
