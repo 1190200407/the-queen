@@ -9,6 +9,7 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Models.Afflictions;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.ValueProps;
 using STS2RitsuLib.Interop.AutoRegistration;
@@ -83,6 +84,11 @@ public sealed class Rift : QueenCardModel, ISoulLampEventListener
 
         int soulLamp = GetOwnerSoulLampStacks();
         if (soulLamp <= 0)
+        {
+            return false;
+        }
+
+        if (card.Affliction is Bound)
         {
             return false;
         }

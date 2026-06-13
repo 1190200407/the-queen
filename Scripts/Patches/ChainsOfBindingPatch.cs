@@ -106,7 +106,6 @@ internal sealed class ChainsOfBindingPowerAfterCardDrawnPatch : IPatchMethod
 			return;
 		}
 
-		ChainsOfBindingBoundTracker.RegisterCardDrawn(player);
 		if (!ModelDb.Affliction<Bound>().CanAfflict(card))
 		{
 			return;

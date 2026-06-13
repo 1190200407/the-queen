@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Combat.History;
@@ -17,26 +18,7 @@ namespace ComicChess.TheQueen;
 /// </summary>
 internal static class FadeOnDiscardPatchHelpers
 {
-	private static readonly object ExhaustNotifyQueueLock = new();
-	private static Task ExhaustNotifyQueue = Task.CompletedTask;
-
 	internal static bool HasFade(CardModel card) => card.HasModKeyword(QueenKeyword.Fade);
-
-	internal static void EnqueueFadeExhaustNotify(ICombatState combatState, CardModel card)
-	{
-		lock (ExhaustNotifyQueueLock)
-		{
-			ExhaustNotifyQueue = ExhaustNotifyQueue.ContinueWith(
-				_ => NotifyFadeExhausted(combatState, card),
-				TaskScheduler.Default).Unwrap();
-		}
-	}
-
-	private static async Task NotifyFadeExhausted(ICombatState combatState, CardModel card)
-	{
-		CombatManager.Instance.History.CardExhausted(combatState, card);
-		await Hook.AfterCardExhausted(combatState, new BlockingPlayerChoiceContext(), card, causedByEthereal: false);
-	}
 }
 
 internal sealed class FadeOnDiscardCardPileCmdAddPatch : IPatchMethod
@@ -129,7 +111,40 @@ internal sealed class FadeOnDiscardCardPileAddInternalPatch : IPatchMethod
 			return;
 		}
 
-		FadeOnDiscardPatchHelpers.EnqueueFadeExhaustNotify(combatState, card);
+		FadeOnDiscardTracker.DeferExhaustNotify(combatState, card);
+	}
+}
+
+/// <summary>
+/// 在 <see cref="CardPileCmd.Add"/> 返回前同步触发消逝牌的 AfterCardExhausted，避免联机校验和分歧。
+/// </summary>
+internal sealed class FadeOnDiscardCardPileCmdAddFlushPatch : IPatchMethod
+{
+	public static string PatchId => "thequeen_fade_card_pile_cmd_add_flush";
+	public static string Description => "Fade: flush deferred AfterCardExhausted before Add returns";
+	public static bool IsCritical => true;
+
+	public static ModPatchTarget[] GetTargets() =>
+	[
+		new(typeof(CardPileCmd), nameof(CardPileCmd.Add),
+		[
+			typeof(IEnumerable<CardModel>),
+			typeof(CardPile),
+			typeof(CardPilePosition),
+			typeof(AbstractModel),
+			typeof(bool),
+		]),
+	];
+
+	public static void Postfix(ref Task<IReadOnlyList<CardPileAddResult>> __result) =>
+		__result = FlushAfterAddAsync(__result);
+
+	private static async Task<IReadOnlyList<CardPileAddResult>> FlushAfterAddAsync(
+		Task<IReadOnlyList<CardPileAddResult>> originalTask)
+	{
+		IReadOnlyList<CardPileAddResult> result = await originalTask;
+		await FadeOnDiscardTracker.FlushPendingExhaustNotificationsAsync();
+		return result;
 	}
 }
 

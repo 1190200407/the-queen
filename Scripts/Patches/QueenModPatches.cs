@@ -11,6 +11,7 @@ internal sealed class QueenModPatches : IModPatches
 		// 核心战斗 / 卡牌逻辑
 		patcher.RegisterPatch<FadeOnDiscardCardPileCmdAddPatch>();
 		patcher.RegisterPatch<FadeOnDiscardCardPileAddInternalPatch>();
+		patcher.RegisterPatch<FadeOnDiscardCardPileCmdAddFlushPatch>();
 		patcher.RegisterPatch<FadeOnDiscardCombatHistoryCardDiscardedPatch>();
 		patcher.RegisterPatch<FadeOnDiscardHookAfterCardDiscardedPatch>();
 		patcher.RegisterPatch<BurningSticksAfterCardExhaustedPatch>();
