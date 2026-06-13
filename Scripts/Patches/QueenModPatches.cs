@@ -59,6 +59,7 @@ internal sealed class QueenModPatches : IModPatches
 		patcher.RegisterPatch<EnemyIntentRewardCardPreview_NCardPlay_Cleanup_Patch>();
 		patcher.RegisterPatch<EnemyIntentRewardCardPreview_Hook_AfterCombatEnd_Patch>();
 		patcher.RegisterPatch<NCardInfectionCurseOverlayPatch>();
+		patcher.RegisterPatch<NEnchantPreviewStackableEnchantPatch>();
 		patcher.RegisterPatch<NCardRewardSelectionScreenSelectCardGuardPatch>();
 		patcher.RegisterPatch<NCreatureAnimDisableUiFriendlyAmalgamPatch>();
 		patcher.RegisterPatch<NCreatureOnPowerIncreasedShouldPlayVfxPatch>();
