@@ -442,5 +442,11 @@
     "THE_QUEEN_CARD_NIBBLE.title":"Nibble",
     "THE_QUEEN_CARD_NIBBLE.description":"Your [gold]Amalgam[/gold] deals {LearnIntentDamage:diff()} damage.",
     "THE_QUEEN_CARD_SCHIZOPHRENIA.title":"Schizophrenia",
-    "THE_QUEEN_CARD_SCHIZOPHRENIA.description":"Apply {VulnerablePower:diff()} [gold]Vulnerable[/gold] and {WeakPower:diff()} [gold]Weak[/gold]. Split the target's [gold]Vulnerable[/gold] and [gold]Weak[/gold] into 2 and divide their stacks evenly."
+    "THE_QUEEN_CARD_SCHIZOPHRENIA.description":"Apply {VulnerablePower:diff()} [gold]Vulnerable[/gold] and {WeakPower:diff()} [gold]Weak[/gold]. Split the target's [gold]Vulnerable[/gold] and [gold]Weak[/gold] into 2 and divide their stacks evenly.",
+    "THE_QUEEN_CARD_UNKNOWN_SOUL.title":"Unknown Soul",
+    "THE_QUEEN_CARD_UNKNOWN_SOUL.description":"[gold]Summon[/gold] {Summon:diff()}.",
+    "THE_QUEEN_CARD_UNKNOWN_SOUL_UNCOMMON.title":"Unknown Soul",
+    "THE_QUEEN_CARD_UNKNOWN_SOUL_UNCOMMON.description":"[gold]Summon[/gold] {Summon:diff()}.",
+    "THE_QUEEN_CARD_UNKNOWN_SOUL_RARE.title":"Unknown Soul",
+    "THE_QUEEN_CARD_UNKNOWN_SOUL_RARE.description":"[gold]Summon[/gold] {Summon:diff()}."
 }

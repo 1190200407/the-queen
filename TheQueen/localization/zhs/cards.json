@@ -442,5 +442,11 @@
     "THE_QUEEN_CARD_NIBBLE.title":"轻咬",
     "THE_QUEEN_CARD_NIBBLE.description":"[gold]聚合体[/gold]造成{LearnIntentDamage:diff()}点伤害。",
     "THE_QUEEN_CARD_SCHIZOPHRENIA.title":"精神分裂",
-    "THE_QUEEN_CARD_SCHIZOPHRENIA.description":"给予{VulnerablePower:diff()}层[gold]易伤[/gold]与{WeakPower:diff()}层[gold]虚弱[/gold]。将目标身上的[gold]易伤[/gold]、[gold]虚弱[/gold]拆成2个并均分层数。"
+    "THE_QUEEN_CARD_SCHIZOPHRENIA.description":"给予{VulnerablePower:diff()}层[gold]易伤[/gold]与{WeakPower:diff()}层[gold]虚弱[/gold]。将目标身上的[gold]易伤[/gold]、[gold]虚弱[/gold]拆成2个并均分层数。",
+    "THE_QUEEN_CARD_UNKNOWN_SOUL.title":"无名之魂",
+    "THE_QUEEN_CARD_UNKNOWN_SOUL.description":"[gold]召唤[/gold]{Summon:diff()}。",
+    "THE_QUEEN_CARD_UNKNOWN_SOUL_UNCOMMON.title":"无名之魂",
+    "THE_QUEEN_CARD_UNKNOWN_SOUL_UNCOMMON.description":"[gold]召唤[/gold]{Summon:diff()}。",
+    "THE_QUEEN_CARD_UNKNOWN_SOUL_RARE.title":"无名之魂",
+    "THE_QUEEN_CARD_UNKNOWN_SOUL_RARE.description":"[gold]召唤[/gold]{Summon:diff()}。"
 }

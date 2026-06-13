@@ -12,15 +12,32 @@ namespace ComicChess.TheQueen;
 
 /// <summary>
 /// 按怪物 <see cref="AbstractId.Entry"/> 决定「捕获」成功时的额外卡牌奖励类型。
-/// 未配置的怪物返回 <c>null</c>：不展示意图位奖励预览，也不在捕获成功时给予该奖励。
+/// 未登记的非爪牙主怪返回对应稀有度的 <see cref="UnknownSoul"/> 占位牌；黑名单与爪牙怪返回 <c>null</c>。
 /// </summary>
 public static class MonsterCaptureRewardCatalog
 {
+    /// <summary>原版 <see cref="MegaCrit.Sts2.Core.Models.Monsters.Queen"/>。</summary>
+    public const string Queen = "QUEEN";
+
+    public const string BattleFriendV1 = "BATTLE_FRIEND_V1";
+    public const string BattleFriendV2 = "BATTLE_FRIEND_V2";
+    public const string BattleFriendV3 = "BATTLE_FRIEND_V3";
+    public const string FakeMerchantMonster = "FAKE_MERCHANT_MONSTER";
+
     /// <summary>当前战斗遭遇的房间类型（普通 / 精英 / 首领等）。</summary>
     public static RoomType? GetEncounterRoomType(ICombatState? combatState) =>
         combatState?.Encounter?.RoomType;
 
-    /// <summary>原版 <see cref="MegaCrit.Sts2.Core.Models.Monsters.Flyconid"/> 的 Id。</summary>
+    private static readonly HashSet<string> CaptureBlacklist =
+        new(StringComparer.OrdinalIgnoreCase)
+        {
+            Queen,
+            BattleFriendV1,
+            BattleFriendV2,
+            BattleFriendV3,
+            FakeMerchantMonster,
+        };
+
     public const string Flyconid = "FLYCONID";
     public const string BruteRubyRaider = "BRUTE_RUBY_RAIDER";
     public const string AssassinRubyRaider = "ASSASSIN_RUBY_RAIDER";
@@ -114,6 +131,7 @@ public static class MonsterCaptureRewardCatalog
     public const string TurretOperator = "TURRET_OPERATOR";
     public const string KnowledgeDemon = "KNOWLEDGE_DEMON";
     public const string Aeonglass = "AEONGLASS";
+    public const string MYSTERIOUS_KNIGHT = "MYSTERIOUS_KNIGHT";
 
     private static readonly Dictionary<string, Func<Player, CardModel>> RewardCreators =
         new(StringComparer.OrdinalIgnoreCase)
@@ -211,6 +229,7 @@ public static class MonsterCaptureRewardCatalog
             { TurretOperator, static owner => owner.RunState!.CreateCard<Unload>(owner) },
             { KnowledgeDemon, static owner => owner.RunState!.CreateCard<CurseOfKnowledge>(owner) },
             { Aeonglass, static owner => owner.RunState!.CreateCard<WitheringPresence>(owner) },
+            { MYSTERIOUS_KNIGHT, static owner => owner.RunState!.CreateCard<Flail>(owner) },
         };
 
     /// <summary>为捕获预览或斩杀捕获创建奖励牌；每名玩家对每个 <see cref="Creature"/> 实例仅一次。无配置时返回 <c>null</c>。</summary>
@@ -236,18 +255,68 @@ public static class MonsterCaptureRewardCatalog
             return null;
         }
 
-        return CreateCaptureRewardCard(owner, monsterId);
+        return CreateCaptureRewardCard(owner, monsterId, enemy, allowUnknownSoulFallback: true);
     }
 
-    /// <summary>按怪物 Id 创建对应敌怪卡，不占用捕获去重（如提线木偶、偷窃）。无配置时返回 <c>null</c>。</summary>
-    public static CardModel? CreateCaptureRewardCard(Player owner, string monsterId)
+    /// <summary>按怪物 Id 创建对应敌怪卡，不占用捕获去重（如提线木偶、偷窃）。</summary>
+    public static CardModel? CreateCaptureRewardCard(
+        Player owner,
+        string monsterId,
+        Creature? enemy = null,
+        bool allowUnknownSoulFallback = true) =>
+        TryCreateRegisteredOrFallbackReward(owner, monsterId, enemy, allowUnknownSoulFallback);
+
+    private static CardModel? TryCreateRegisteredOrFallbackReward(
+        Player owner,
+        string monsterId,
+        Creature? enemy,
+        bool allowUnknownSoulFallback)
     {
-        if (owner.RunState is null
-            || !RewardCreators.TryGetValue(monsterId, out Func<Player, CardModel>? create))
+        if (owner.RunState is null || IsCaptureBlacklisted(monsterId))
         {
             return null;
         }
 
-        return create(owner);
+        if (RewardCreators.TryGetValue(monsterId, out Func<Player, CardModel>? create))
+        {
+            return create(owner);
+        }
+
+        if (!allowUnknownSoulFallback || !IsEligibleForUnknownSoulFallback(enemy))
+        {
+            return null;
+        }
+
+        return CreateUnknownSoulReward(owner, GetEncounterRoomType(owner.Creature.CombatState));
     }
+
+    private static bool IsCaptureBlacklisted(string monsterId) =>
+        CaptureBlacklist.Contains(monsterId);
+
+    internal static bool CanReceiveUnknownSoulFallback(Creature enemy) =>
+        IsEligibleForUnknownSoulFallback(enemy);
+
+    /// <summary>爪牙（二级敌人 / 友方仆从怪）与无战斗上下文时不发占位牌。</summary>
+    private static bool IsEligibleForUnknownSoulFallback(Creature? enemy)
+    {
+        if (enemy is { IsSecondaryEnemy: true })
+        {
+            return false;
+        }
+
+        if (enemy?.Monster is QueenMinionModel)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    private static CardModel CreateUnknownSoulReward(Player owner, RoomType? roomType) =>
+        roomType switch
+        {
+            RoomType.Elite => owner.RunState!.CreateCard<UnknownSoulUncommon>(owner),
+            RoomType.Boss => owner.RunState!.CreateCard<UnknownSoulRare>(owner),
+            _ => owner.RunState!.CreateCard<UnknownSoul>(owner),
+        };
 }

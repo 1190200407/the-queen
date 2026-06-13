@@ -17,6 +17,7 @@ public sealed class MarionettePendingPower : QueenPowerModel
     private sealed class Data
     {
         public string MonsterId = string.Empty;
+        public bool AllowUnknownSoulFallback = true;
     }
 
     protected override object? InitInternalData() => new Data();
@@ -27,10 +28,11 @@ public sealed class MarionettePendingPower : QueenPowerModel
 
     public override PowerInstanceType InstanceType => PowerInstanceType.Instanced;
 
-    internal void ConfigureMonsterId(string monsterId)
+    internal void ConfigureMonsterId(string monsterId, bool allowUnknownSoulFallback)
     {
         Data data = GetInternalData<Data>();
         data.MonsterId = monsterId;
+        data.AllowUnknownSoulFallback = allowUnknownSoulFallback;
     }
 
     public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
@@ -51,7 +53,10 @@ public sealed class MarionettePendingPower : QueenPowerModel
         if (!string.IsNullOrWhiteSpace(data.MonsterId))
         {
             CombatRoom? combatRoom = player.RunState?.CurrentRoom as CombatRoom;
-            CardModel? rewardCard = MonsterCaptureRewardCatalog.CreateCaptureRewardCard(player, data.MonsterId);
+            CardModel? rewardCard = MonsterCaptureRewardCatalog.CreateCaptureRewardCard(
+                player,
+                data.MonsterId,
+                allowUnknownSoulFallback: data.AllowUnknownSoulFallback);
             if (combatRoom != null && rewardCard is not null)
             {
                 combatRoom.AddExtraReward(player, new SpecialCardReward(rewardCard, player));
