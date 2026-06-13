@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
@@ -12,8 +13,8 @@ using MegaCrit.Sts2.Core.Models;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>灯驱（可叠加）：本回合每获得 1 点魂灯，聚合体按层数执行行动；回合结束时移除。</summary>
-public sealed class LampDrivePower : QueenPowerModel
+/// <summary>灯驱（可叠加）：本回合每消耗 1 点魂灯，聚合体按层数执行行动；回合结束时移除。</summary>
+public sealed class LampDrivePower : QueenPowerModel, ISoulLampEventListener
 {
     public override PowerType Type => PowerType.Buff;
 
@@ -24,25 +25,21 @@ public sealed class LampDrivePower : QueenPowerModel
         HoverTipFactory.FromPower<SoulLampPower>(),
     ];
 
-    public override async Task AfterPowerAmountChanged(
+    public async Task OnSoulLampAmountChanged(
         PlayerChoiceContext choiceContext,
-        PowerModel power,
-        decimal amount,
+        Player player,
+        decimal delta,
         Creature? applier,
         CardModel? cardSource)
     {
-        if (amount <= 0m || power is not SoulLampPower || power.Owner != base.Owner)
+        _ = applier;
+        _ = cardSource;
+        if (delta >= 0m || player != base.Owner?.Player)
         {
             return;
         }
 
         if (base.CombatState is not ICombatState combatState)
-        {
-            return;
-        }
-
-        Player? player = base.Owner.Player;
-        if (player == null)
         {
             return;
         }
@@ -58,8 +55,8 @@ public sealed class LampDrivePower : QueenPowerModel
         {
             return;
         }
-
-        int totalActions = (int)amount * actionsPerSoulLamp;
+        
+        int totalActions = (int)-delta * actionsPerSoulLamp;
         Flash();
         for (int i = 0; i < totalActions; i++)
         {

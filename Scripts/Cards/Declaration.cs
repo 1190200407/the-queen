@@ -41,7 +41,8 @@ public sealed class Declaration : QueenCardModel, ICanMonsterCapture
 
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(7m, ValueProp.Move)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(7m, ValueProp.Move), 
+        new PowerVar<DeclarationCaptureMarkPower>("CaptureMark", 3m)];
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips => [QueenHoverTips.Capture];
 
@@ -55,13 +56,13 @@ public sealed class Declaration : QueenCardModel, ICanMonsterCapture
         ArgumentNullException.ThrowIfNull(cardPlay.Target, nameof(cardPlay.Target));
         Creature target = cardPlay.Target;
 
-
         ICombatState? combatState = target.CombatState ?? base.Owner.Creature.CombatState;
+        decimal captureMarkAmount = base.DynamicVars["CaptureMark"].BaseValue;
         if (target.Monster is not null && combatState is not null && CanCapture(target.Monster, combatState))
         {
             _ = await PowerCmd.Apply<DeclarationCaptureMarkPower>(choiceContext, 
                 target,
-                2m,
+                captureMarkAmount,
                 base.Owner.Creature,
                 this);
         }
@@ -69,7 +70,7 @@ public sealed class Declaration : QueenCardModel, ICanMonsterCapture
         {
             _ = await PowerCmd.Apply<DeclarationCaptureMarkNoPower>(choiceContext, 
                 target,
-                2m,
+                captureMarkAmount,
                 base.Owner.Creature,
                 this);
         }

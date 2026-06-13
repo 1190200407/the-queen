@@ -117,7 +117,7 @@ public sealed class SoulLampPower : QueenPowerModel
 
     public override async Task AfterPowerAmountChanged(PlayerChoiceContext choiceContext, PowerModel power, decimal amount, Creature? applier, CardModel? cardSource)
     {
-		if (power != this || amount == 0m)
+		if (power != this)
 		{
 			return;
 		}
@@ -131,6 +131,11 @@ public sealed class SoulLampPower : QueenPowerModel
 		ICombatState? combatState = player.Creature.CombatState;
 		if (combatState != null)
 		{
+			// 如果是1变成-1，则需要减少一次层数降低。
+			if (amount <= 0m  && base.Amount < 0m)
+			{
+				amount += 1m;
+			}
 			await SoulLampHook.AfterAmountChanged(combatState, choiceContext, player, amount, applier, cardSource);
 		}
 
