@@ -9,8 +9,8 @@ using MegaCrit.Sts2.Core.HoverTips;
 namespace ComicChess.TheQueen;
 
 /// <summary>
-/// 知识恶魔：每场战斗开始时，从 <see cref="Rejuvenate"/> / <see cref="MindClarity"/> / <see cref="Disintegration"/> 中各选 1 张执行；
-/// 层数即开局选择次数。
+/// 知识恶魔：你的回合开始时，从 <see cref="Rejuvenate"/> / <see cref="MindClarity"/> / <see cref="Disintegration"/> 中各选 1 张执行；
+/// 层数即每回合选择次数。
 /// </summary>
 public sealed class KnowledgeDemonPower : QueenPowerModel
 {

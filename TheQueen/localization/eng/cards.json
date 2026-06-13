@@ -427,7 +427,7 @@
     "THE_QUEEN_CARD_BACK_ATTACK.title":"Back Attack",
     "THE_QUEEN_CARD_BACK_ATTACK.description":"[gold]Summon[/gold] {Summon:diff()}.\nCreate 1 [gold]Switch Side[/gold].\nAll enemies gain [gold]Back Attack[/gold].",
     "THE_QUEEN_CARD_CURSE_OF_KNOWLEDGE.title":"Curse of Knowledge",
-    "THE_QUEEN_CARD_CURSE_OF_KNOWLEDGE.description":"[gold]Summon[/gold] {Summon:diff()}. At the start of each combat, choose 1 of [gold]Rejuvenate[/gold], [gold]Mind Clarity[/gold], or [gold]Disintegration[/gold] to execute.",
+    "THE_QUEEN_CARD_CURSE_OF_KNOWLEDGE.description":"[gold]Summon[/gold] {Summon:diff()}. At the start of your turn, choose 1 of [gold]Rejuvenate[/gold], [gold]Mind Clarity[/gold], or [gold]Disintegration[/gold] to execute.",
     "THE_QUEEN_CARD_LIQUIFY_GROUND.title":"Liquify Ground",
     "THE_QUEEN_CARD_LIQUIFY_GROUND.description":"{Sandpit:choose(0):Gain {AmalgamSandpitPower:diff()} [gold]Sandpit[/gold].\n|}{InCombat:|If this is a Boss fight, gain 10 instead.\n}[gold]Summon[/gold] {Summon:diff()}.\n[gold]Learn Intent[/gold]: Create 1 [gold]Frantic Tug[/gold].",
     "THE_QUEEN_CARD_FRANTIC_TUG.title":"Frantic Tug",

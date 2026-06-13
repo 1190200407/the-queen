@@ -10,7 +10,7 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 namespace ComicChess.TheQueen;
 
 /// <summary>
-/// 沙坑（女王版）：倒计时归零时，使所有敌人直接死亡。类名不可为 <c>SandpitPower</c>（与原版 ModelId 冲突）。
+/// 沙坑（女王版）：计数归零时使所有敌人直接死亡；回合结束时计数 -1。类名不可为 <c>SandpitPower</c>（与原版 ModelId 冲突）。
 /// </summary>
 public sealed class AmalgamSandpitPower : QueenPowerModel
 {

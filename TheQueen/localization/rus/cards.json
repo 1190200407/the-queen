@@ -427,7 +427,7 @@
     "THE_QUEEN_CARD_BACK_ATTACK.title": "Обратная атака",
     "THE_QUEEN_CARD_BACK_ATTACK.description": "[gold]Призывает[/gold] {Summon:diff()}.\nСоздайте 1 [gold]Переключить сторону[/gold].\nВсе враги получают [gold] Ответную атаку[/gold].",
     "THE_QUEEN_CARD_CURSE_OF_KNOWLEDGE.title": "Проклятие знаний",
-    "THE_QUEEN_CARD_CURSE_OF_KNOWLEDGE.description": "[gold]Призывает[/gold] {Summon:diff()}. В начале каждого боя выберите 1 из [gold]Rejuvenate[/gold], [gold]Mind Clarity[/gold] или [gold]Disintegration[/gold] для выполнения.",
+    "THE_QUEEN_CARD_CURSE_OF_KNOWLEDGE.description": "[gold]Призывает[/gold] {Summon:diff()}. В начале вашего хода выберите 1 из [gold]Rejuvenate[/gold], [gold]Mind Clarity[/gold] или [gold]Disintegration[/gold] для выполнения.",
     "THE_QUEEN_CARD_LIQUIFY_GROUND.title": "Сжижать землю",
     "THE_QUEEN_CARD_LIQUIFY_GROUND.description": "{Песочница:choose(0):Усиление {AmalgamSandpitPower:diff()} [gold]Песочница[/gold].\n|}{InCombat:|If this is a Boss fight, gain 10 instead.\n}[gold]Призыв[/gold] {Summon:diff()}.\n[gold]Изучение намерения[/gold]: создайте 1 [gold]Неистовый буксир[/gold].",
     "THE_QUEEN_CARD_FRANTIC_TUG.title": "Неистовый буксир",

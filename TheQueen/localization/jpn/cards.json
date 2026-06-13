@@ -427,7 +427,7 @@
     "THE_QUEEN_CARD_BACK_ATTACK.title":"背後攻撃",
     "THE_QUEEN_CARD_BACK_ATTACK.description":"{Summon:diff()} [gold]召喚[/gold]する。\n[gold]入れ替え[/gold]を1枚生成する。\nすべての敵は[gold]背後攻撃[/gold]を得る。",
     "THE_QUEEN_CARD_CURSE_OF_KNOWLEDGE.title":"知識の呪い",
-    "THE_QUEEN_CARD_CURSE_OF_KNOWLEDGE.description":"{Summon:diff()} [gold]召喚[/gold]する。各戦闘開始時、[gold]若返り[/gold]、[gold]心の明晰[/gold]、[gold]崩壊[/gold]のいずれか1つを選んで実行する。",
+    "THE_QUEEN_CARD_CURSE_OF_KNOWLEDGE.description":"{Summon:diff()} [gold]召喚[/gold]する。自分のターン開始時、[gold]若返り[/gold]、[gold]心の明晰[/gold]、[gold]崩壊[/gold]のいずれか1つを選んで実行する。",
     "THE_QUEEN_CARD_LIQUIFY_GROUND.title":"地面液化",
     "THE_QUEEN_CARD_LIQUIFY_GROUND.description":"{Sandpit:choose(0):{AmalgamSandpitPower:diff()} [gold]砂穴[/gold]を得る。\n|}{InCombat:|ボス戦の場合、代わりに10を得る。\n}[gold]召喚[/gold] {Summon:diff()}。\n[gold]意図学習[/gold]：[gold]狂乱の引きずり[/gold]を1枚生成する。",
     "THE_QUEEN_CARD_FRANTIC_TUG.title":"狂乱の引きずり",
