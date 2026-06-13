@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -35,10 +37,10 @@ public sealed class MarionettePendingPower : QueenPowerModel
         data.AllowUnknownSoulFallback = allowUnknownSoulFallback;
     }
 
-    public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
+    public override async Task BeforeSideTurnEnd(PlayerChoiceContext choiceContext, CombatSide side, IEnumerable<Creature> participants)
     {
         _ = choiceContext;
-        if (player != base.Owner.Player || !base.Owner.IsAlive)
+        if (!participants.Contains(base.Owner) || !base.Owner.IsAlive || base.Owner.Player is not Player player)
         {
             return;
         }
@@ -62,7 +64,5 @@ public sealed class MarionettePendingPower : QueenPowerModel
                 combatRoom.AddExtraReward(player, new SpecialCardReward(rewardCard, player));
             }
         }
-
-        await PowerCmd.Remove(this);
     }
 }

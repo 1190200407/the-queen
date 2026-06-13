@@ -44,7 +44,7 @@ public abstract class UnknownSoulCardModel : QueenCardModel
     private readonly decimal _summon;
 
     protected UnknownSoulCardModel(int energyCost, CardRarity rarity, decimal summon)
-        : base(energyCost, CardType.Skill, rarity, TargetType.Self, shouldShowInCardLibrary: true)
+        : base(energyCost, CardType.Skill, rarity, TargetType.Self, shouldShowInCardLibrary: false)
     {
         _summon = summon;
     }

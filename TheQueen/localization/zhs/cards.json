@@ -427,7 +427,7 @@
     "THE_QUEEN_CARD_BACK_ATTACK.title":"背刺",
     "THE_QUEEN_CARD_BACK_ATTACK.description":"[gold]召唤[/gold]{Summon:diff()}。\n生成1张[gold]换边[/gold]。\n所有敌人获得[gold]后方攻击[/gold]。",
     "THE_QUEEN_CARD_CURSE_OF_KNOWLEDGE.title":"知识的诅咒",
-    "THE_QUEEN_CARD_CURSE_OF_KNOWLEDGE.description":"[gold]召唤[/gold]{Summon:diff()}。每场战斗开始时，从[gold]焕发[/gold]、[gold]心灵澄明[/gold]、[gold]瓦解[/gold]中选择1张执行。",
+    "THE_QUEEN_CARD_CURSE_OF_KNOWLEDGE.description":"[gold]召唤[/gold]{Summon:diff()}。你的回合开始时，从[gold]焕发[/gold]、[gold]心灵澄明[/gold]、[gold]瓦解[/gold]中选择1张执行。",
     "THE_QUEEN_CARD_LIQUIFY_GROUND.title":"液化地面",
     "THE_QUEEN_CARD_LIQUIFY_GROUND.description":"{Sandpit:choose(0):获得{AmalgamSandpitPower:diff()}点[gold]沙坑[/gold]。\n|}{InCombat:|如果是首领战，则改为10点。\n}[gold]召唤[/gold]{Summon:diff()}。\n[gold]学习意图[/gold]：生成1张[gold]狂乱牵引[/gold]。",
     "THE_QUEEN_CARD_FRANTIC_TUG.title":"狂乱牵引",
