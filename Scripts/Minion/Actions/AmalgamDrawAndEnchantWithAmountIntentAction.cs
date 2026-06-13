@@ -11,24 +11,49 @@ using MegaCrit.Sts2.Core.MonsterMoves.MonsterMoveStateMachine;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>聚合体意图：抽牌后为抽到的牌附魔指定层数（若可附魔）。</summary>
+/// <summary>聚合体意图：抽牌后为抽到的牌附魔指定层数（若可附魔）�?/summary>
 public sealed class AmalgamDrawAndEnchantWithAmountIntentAction<TEnchantment> : AmalgamActionModel
     where TEnchantment : EnchantmentModel
 {
-    private const string EnchantAmountParam = "enchantAmount";
+    public override string Key => GenericPoolKey("draw_and_enchant_with_amount", typeof(TEnchantment));
 
-    private readonly decimal _enchantAmount;
+    private decimal _enchantAmount;
 
     public static readonly float CastAnimDelay = 1.5f;
 
-    public AmalgamDrawAndEnchantWithAmountIntentAction(decimal drawCount, decimal enchantAmount)
-        : base(new Dictionary<string, decimal>
-        {
-            [AmountParam] = drawCount,
-            [EnchantAmountParam] = enchantAmount,
-        })
+    public AmalgamDrawAndEnchantWithAmountIntentAction()
     {
-        _enchantAmount = GetParameterOrDefault(EnchantAmountParam, 0m);
+    }
+
+    public AmalgamDrawAndEnchantWithAmountIntentAction(decimal drawCount, decimal enchantAmount)
+        : this()
+    {
+        Amount = drawCount;
+        _enchantAmount = enchantAmount;
+    }
+
+    protected override void ResetForInit()
+    {
+        base.ResetForInit();
+        _enchantAmount = 0m;
+    }
+
+    public override bool Init(decimal amount) => false;
+
+    public override bool Init(object[] args)
+    {
+        if (!AmalgamActionArgs.TryGetDecimal(args, 0, out decimal drawCount)
+            || !AmalgamActionArgs.TryGetDecimal(args, 1, out decimal enchantAmount)
+            || !AmalgamActionArgs.IsPositive(drawCount)
+            || !AmalgamActionArgs.IsPositive(enchantAmount))
+        {
+            return false;
+        }
+
+        ResetForInit();
+        Amount = drawCount;
+        _enchantAmount = enchantAmount;
+        return true;
     }
 
     protected override MoveState CreateMoveState()

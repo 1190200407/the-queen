@@ -8,12 +8,23 @@ using MegaCrit.Sts2.Core.MonsterMoves.MonsterMoveStateMachine;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>聚合体意图：聚合体自身获得 <see cref="AmalgamActionModel.Amount"/> 点力量。</summary>
-public sealed class AmalgamGainStrengthIntentAction : AmalgamActionModel
+/// <summary>聚合体意图：聚合体自身获�?<see cref="AmalgamActionModel.Amount"/> 点力量�?/summary>
+public sealed class AmalgamGainStrengthIntentAction : AmalgamSingleDecimalActionModel
 {
-    public AmalgamGainStrengthIntentAction(decimal strength) : base(strength)
+    public override string Key => "strength";
+
+    public AmalgamGainStrengthIntentAction()
     {
     }
+
+    public AmalgamGainStrengthIntentAction(decimal strength)
+        : base(strength)
+    {
+    }
+
+    public override bool Init(decimal amount) => TryInitSingleDecimal(amount);
+
+    public override bool Init(object[] args) => TryInitSingleDecimal(args);
 
     public static readonly float CastAnimDelay = 1.5f;
 

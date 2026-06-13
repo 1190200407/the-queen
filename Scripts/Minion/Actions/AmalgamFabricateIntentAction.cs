@@ -8,9 +8,11 @@ using MegaCrit.Sts2.Core.MonsterMoves.MonsterMoveStateMachine;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>聚合体意图：随机生成 1 张防御衍生牌与 1 张输出衍生牌到手牌。</summary>
+/// <summary>聚合体意图：随机生成 1 张防御衍生牌�?1 张输出衍生牌到手牌�?/summary>
 public sealed class AmalgamFabricateIntentAction : AmalgamActionModel
 {
+    public override string Key => "fabricate";
+
     protected override MoveState CreateMoveState()
     {
         return new MoveState(

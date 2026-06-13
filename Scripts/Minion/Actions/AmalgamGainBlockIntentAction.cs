@@ -8,12 +8,23 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>聚合体意图：为你的角色获得 <see cref="AmalgamActionModel.Amount"/> 点格挡。</summary>
-public sealed class AmalgamGainBlockIntentAction : AmalgamActionModel
+/// <summary>聚合体意图：为你的角色获�?<see cref="AmalgamActionModel.Amount"/> 点格挡�?/summary>
+public sealed class AmalgamGainBlockIntentAction : AmalgamSingleDecimalActionModel
 {
-	public AmalgamGainBlockIntentAction(decimal block) : base(block)
+    public override string Key => "block";
+
+    public AmalgamGainBlockIntentAction()
+    {
+    }
+
+	public AmalgamGainBlockIntentAction(decimal block)
+        : base(block)
 	{
 	}
+
+    public override bool Init(decimal amount) => TryInitSingleDecimal(amount);
+
+    public override bool Init(object[] args) => TryInitSingleDecimal(args);
 
 	public static readonly float CastAnimDelay = 1.5f;
 

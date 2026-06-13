@@ -358,7 +358,7 @@
     "THE_QUEEN_CARD_GIMME.title":"给我！",
     "THE_QUEEN_CARD_GIMME.description":"[gold]召唤[/gold]{Summon:diff()}。\n[gold]聚合体[/gold]获得{AmalgamThieveryPower:diff()}层[gold]偷窃[/gold]。{AmalgamEscapePower:diff()}回合后逃跑。",
     "THE_QUEEN_CARD_GREMLIN_STAB.title":"刺击",
-    "THE_QUEEN_CARD_GREMLIN_STAB.description":"[gold]聚合体[/gold]对目标造成{Damage:diff()}点伤害。偷取{Gold:diff()}点[gold]金币[/gold]。",
+    "THE_QUEEN_CARD_GREMLIN_STAB.description":"[gold]聚合体[/gold]对目标造成{AmalgamDamage:diff()}点伤害。偷取{Gold:diff()}点[gold]金币[/gold]。",
     "THE_QUEEN_CARD_FLEE.title":"逃跑",
     "THE_QUEEN_CARD_FLEE.description":"[gold]聚合体[/gold]脱离战斗，将偷到的[gold]金币[/gold]加入战斗奖励。",
     "THE_QUEEN_CARD_TACTICAL_DIRECTIVE.title":"战术指令",

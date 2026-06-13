@@ -13,25 +13,19 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>聚合体意图：先攻击，再施加易伤与虚弱（同一个 action，包含三个 intents）。</summary>
+/// <summary>?????????????????????? action????? intents??</summary>
 public sealed class AmalgamAttackAndVulnerableAndWeakIntentAction : AmalgamActionModel
 {
-    private const string VulnerableParam = "vulnerable";
-    private const string WeakParam = "weak";
+    public override string Key => "attack_and_vulnerable_and_weak";
 
     private readonly decimal _vulnerable;
     private readonly decimal _weak;
 
     public AmalgamAttackAndVulnerableAndWeakIntentAction(decimal damage, decimal vulnerable, decimal weak)
-        : base(new Dictionary<string, decimal>
-        {
-            [AmountParam] = damage,
-            [VulnerableParam] = vulnerable,
-            [WeakParam] = weak,
-        })
     {
-        _vulnerable = GetParameterOrDefault(VulnerableParam, 0m);
-        _weak = GetParameterOrDefault(WeakParam, 0m);
+        Amount = damage;
+        _vulnerable = vulnerable;
+        _weak = weak;
     }
 
     protected override MoveState CreateMoveState()

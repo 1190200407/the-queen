@@ -34,7 +34,7 @@ public sealed class Nibble : QueenCardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new AmalgamLearnIntentDamageVar(damage, ValueProp.Move),
+        new AmalgamDamageVar("LearnIntentDamage", damage, ValueProp.Move),
     ];
 
     /// <summary>无友方聚合体�?<see cref="FriendlyAmalgamBlockActionFromSleepd"/> 时手牌红高亮（与 <see cref="Stock"/> 等一致）�?/summary>
@@ -74,16 +74,15 @@ public sealed class Nibble : QueenCardModel
             return;
         }
 
-        decimal dmg = AmalgamLearnIntentDamageVar.GetEffectiveFlatForOffenseIntent(this, "LearnIntentDamage");
+        decimal dmg = AmalgamDamageVar.GetEffectiveFlat(this, "LearnIntentDamage");
         if (dmg <= 0m)
         {
             return;
         }
 
-        AmalgamActionModel? attack = AmalgamActionRegistry.CreateOffense(dmg, target);
-        if (attack != null)
-        {
-            await attack.ExecuteAsync(choiceContext, amalgam);
-        }
+        await AmalgamActionRegistry.ExecuteTemporaryAsync(
+            choiceContext,
+            amalgam,
+            AmalgamActionRegistry.CreateOffense(dmg, target));
     }
 }

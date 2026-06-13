@@ -11,22 +11,24 @@ using MegaCrit.Sts2.Core.MonsterMoves.MonsterMoveStateMachine;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>一个意图：多段进攻 + 施加虚弱（只占 1 个意图槽）。</summary>
+/// <summary>????????? + ??????? 1 ??????</summary>
 public sealed class AmalgamMultiHitOffenseAndWeakIntentAction : AmalgamActionModel
 {
-    private const string RepeatParam = "repeat";
-    private readonly int _hitCount;
-    private readonly decimal _weak;
-    private readonly Creature? _forcedTarget;
+    public override string Key => "offense_multi_and_weak";
+
+    private int _hitCount;
+    private decimal _weak;
+    private Creature? _forcedTarget;
+
+    public AmalgamMultiHitOffenseAndWeakIntentAction()
+    {
+    }
 
     public AmalgamMultiHitOffenseAndWeakIntentAction(decimal damagePerHit, int hitCount, decimal weakStacks)
-        : base(new System.Collections.Generic.Dictionary<string, decimal>
-        {
-            [AmountParam] = damagePerHit,
-            [RepeatParam] = hitCount
-        })
+        : this()
     {
-        _hitCount = (int)GetParameterOrDefault(RepeatParam, 0m);
+        Amount = damagePerHit;
+        _hitCount = hitCount;
         _weak = weakStacks;
     }
 
@@ -36,9 +38,39 @@ public sealed class AmalgamMultiHitOffenseAndWeakIntentAction : AmalgamActionMod
         _forcedTarget = forcedTarget;
     }
 
+    protected override void ResetForInit()
+    {
+        base.ResetForInit();
+        _hitCount = 0;
+        _weak = 0m;
+        _forcedTarget = null;
+    }
+
+    public override bool Init(decimal amount) => false;
+
+    public override bool Init(object[] args)
+    {
+        if (!AmalgamActionArgs.TryGetDecimal(args, 0, out decimal damagePerHit)
+            || !AmalgamActionArgs.TryGetInt(args, 1, out int hitCount)
+            || !AmalgamActionArgs.TryGetDecimal(args, 2, out decimal weakStacks)
+            || !AmalgamActionArgs.IsPositive(damagePerHit)
+            || hitCount <= 0
+            || !AmalgamActionArgs.IsPositive(weakStacks))
+        {
+            return false;
+        }
+
+        ResetForInit();
+        Amount = damagePerHit;
+        _hitCount = hitCount;
+        _weak = weakStacks;
+        _forcedTarget = AmalgamActionArgs.TryGetCreature(args, 3);
+        return true;
+    }
+
     protected override MoveState CreateMoveState()
     {
-        // action 合并，但 intent 保留 2 个（进攻 + 虚弱）用于 UI。
+        // action ???? intent ?? 2 ???? + ????? UI?
         return new MoveState(
             "AMALGAM_INTENT_OFFENSE_MULTI_AND_WEAK",
             _ => Task.CompletedTask,
@@ -60,7 +92,7 @@ public sealed class AmalgamMultiHitOffenseAndWeakIntentAction : AmalgamActionMod
             return;
         }
 
-        // 先按现有逻辑打多段伤害（内部会处理目标选择 + 动画）
+        // ????????????????????? + ???
         await FriendlyAmalgamCmd.ExecuteMultiHitOffense(
             choiceContext,
             amalgam,
@@ -72,7 +104,7 @@ public sealed class AmalgamMultiHitOffenseAndWeakIntentAction : AmalgamActionMod
             "vfx/vfx_attack_blunt",
             "event:/sfx/enemy/enemy_attacks/torch_head_amalgam/torch_head_amalgam_beam");
 
-        // 再对同一目标规则施加虚弱（与 ApplyWeakIntentAction 保持一致）
+        // ?????????????? ApplyWeakIntentAction ?????
         AmalgamOffenseTargetingMode mode = AmalgamOffenseTargeting.ResolveMode(combatState, queen);
         Creature applier = queen.Creature;
 
@@ -112,4 +144,3 @@ public sealed class AmalgamMultiHitOffenseAndWeakIntentAction : AmalgamActionMod
         await PowerCmd.Apply<WeakPower>(choiceContext, randomEnemy, _weak, applier, null);
     }
 }
-

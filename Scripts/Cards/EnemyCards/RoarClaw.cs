@@ -75,11 +75,10 @@ public sealed class RoarClaw : LearnIntentCardModel
         {
             decimal stacks = base.DynamicVars["LearnIntentVulnerable"].BaseValue;
             Creature? selectedEnemy = cardPlay.Target is { IsAlive: true } t ? t : null;
-            AmalgamActionModel? vulnerableAction = AmalgamActionRegistry.CreateVulnerable(stacks, selectedEnemy);
-            if (vulnerableAction != null)
-            {
-                await vulnerableAction.ExecuteAsync(choiceContext, amalgamCreature);
-            }
+            await AmalgamActionRegistry.ExecuteTemporaryAsync(
+                choiceContext,
+                amalgamCreature,
+                AmalgamActionRegistry.CreateVulnerable(stacks, selectedEnemy));
         }
     }
 

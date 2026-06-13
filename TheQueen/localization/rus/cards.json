@@ -358,7 +358,7 @@
     "THE_QUEEN_CARD_GIMME.title": "Дай мне",
     "THE_QUEEN_CARD_GIMME.description": "[gold]Призывает[/gold] {Summon:diff()}.\nВаша [gold]Амальгама[/gold] получает {AmalgamThieveryPower:diff()} [gold]Воровство[/gold]. Убегает после {AmalgamEscapePower:diff()} хода.",
     "THE_QUEEN_CARD_GREMLIN_STAB.title": "Удар Гремлина",
-    "THE_QUEEN_CARD_GREMLIN_STAB.description": "Ваша [gold]Амальгама[/gold] наносит цели {Damage:diff()} урона. Украдите {Gold:diff()} [gold]Золото[/gold].",
+    "THE_QUEEN_CARD_GREMLIN_STAB.description": "Ваша [gold]Амальгама[/gold] наносит цели {AmalgamDamage:diff()} урона. Украдите {Gold:diff()} [gold]Золото[/gold].",
     "THE_QUEEN_CARD_FLEE.title": "Бежать",
     "THE_QUEEN_CARD_FLEE.description": "Ваша [gold]Амальгама[/gold] покидает бой. Добавляйте украденное [gold]Золото[/gold] в боевые награды.",
     "THE_QUEEN_CARD_TACTICAL_DIRECTIVE.title": "Тактическая директива",

@@ -9,24 +9,18 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>一个意图：获得格挡 + 下回合开始造成伤害（以能力实现）。</summary>
+/// <summary>一个意图：获得格挡 + 下回合开始造成伤害（以能力实现）�?/summary>
 public sealed class AmalgamReloadFireIntentAction : AmalgamActionModel
 {
-    private const string BlockParam = "block";
-    private const string DamageParam = "damage";
+    public override string Key => "reload_fire";
 
     private readonly decimal _block;
     private readonly decimal _damage;
 
     public AmalgamReloadFireIntentAction(decimal block, decimal nextTurnDamage)
-        : base(new Dictionary<string, decimal>
-        {
-            [BlockParam] = block,
-            [DamageParam] = nextTurnDamage
-        })
     {
-        _block = GetParameterOrDefault(BlockParam, 0m);
-        _damage = GetParameterOrDefault(DamageParam, 0m);
+        _block = block;
+        _damage = nextTurnDamage;
     }
 
     protected override MoveState CreateMoveState()

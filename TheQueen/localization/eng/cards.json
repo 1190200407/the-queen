@@ -358,7 +358,7 @@
     "THE_QUEEN_CARD_GIMME.title":"Gimme",
     "THE_QUEEN_CARD_GIMME.description":"[gold]Summon[/gold] {Summon:diff()}.\nYour [gold]Amalgam[/gold] gains {AmalgamThieveryPower:diff()} [gold]Thievery[/gold]. Flees after {AmalgamEscapePower:diff()} turns.",
     "THE_QUEEN_CARD_GREMLIN_STAB.title":"Gremlin Stab",
-    "THE_QUEEN_CARD_GREMLIN_STAB.description":"Your [gold]Amalgam[/gold] deals {Damage:diff()} damage to the target. Steal {Gold:diff()} [gold]Gold[/gold].",
+    "THE_QUEEN_CARD_GREMLIN_STAB.description":"Your [gold]Amalgam[/gold] deals {AmalgamDamage:diff()} damage to the target. Steal {Gold:diff()} [gold]Gold[/gold].",
     "THE_QUEEN_CARD_FLEE.title":"Flee",
     "THE_QUEEN_CARD_FLEE.description":"Your [gold]Amalgam[/gold] leaves combat. Add stolen [gold]Gold[/gold] to combat rewards.",
     "THE_QUEEN_CARD_TACTICAL_DIRECTIVE.title":"Tactical Directive",

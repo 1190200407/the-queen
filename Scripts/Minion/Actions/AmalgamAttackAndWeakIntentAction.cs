@@ -13,21 +13,46 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>聚合体意图：先攻击，再对敌人施加虚弱。</summary>
+/// <summary>聚合体意图：先攻击，再对敌人施加虚弱�?/summary>
 public sealed class AmalgamAttackAndWeakIntentAction : AmalgamActionModel
 {
-    private const string WeakParam = "weak";
+    public override string Key => "attack_and_weak";
 
-    private readonly decimal _weak;
+    private decimal _weak;
+
+    public AmalgamAttackAndWeakIntentAction()
+    {
+    }
 
     public AmalgamAttackAndWeakIntentAction(decimal damage, decimal weak)
-        : base(new Dictionary<string, decimal>
-        {
-            [AmountParam] = damage,
-            [WeakParam] = weak,
-        })
+        : this()
     {
-        _weak = GetParameterOrDefault(WeakParam, 0m);
+        Amount = damage;
+        _weak = weak;
+    }
+
+    protected override void ResetForInit()
+    {
+        base.ResetForInit();
+        _weak = 0m;
+    }
+
+    public override bool Init(decimal amount) => false;
+
+    public override bool Init(object[] args)
+    {
+        if (!AmalgamActionArgs.TryGetDecimal(args, 0, out decimal damage)
+            || !AmalgamActionArgs.TryGetDecimal(args, 1, out decimal weak)
+            || !AmalgamActionArgs.IsPositive(damage)
+            || !AmalgamActionArgs.IsPositive(weak))
+        {
+            return false;
+        }
+
+        ResetForInit();
+        Amount = damage;
+        _weak = weak;
+        return true;
     }
 
     protected override MoveState CreateMoveState()

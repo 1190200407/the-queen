@@ -78,10 +78,9 @@ public sealed class Shrinker : QueenCardModel
             return;
         }
 
-        AmalgamActionModel? shrinkRay = AmalgamActionRegistry.CreateShrinkRay(stacks);
-        if (shrinkRay != null)
-        {
-            await shrinkRay.ExecuteAsync(choiceContext, amalgam);
-        }
+        await AmalgamActionRegistry.ExecuteTemporaryAsync(
+            choiceContext,
+            amalgam,
+            AmalgamActionRegistry.CreateShrinkRay(stacks));
     }
 }

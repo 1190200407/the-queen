@@ -10,16 +10,26 @@ using MegaCrit.Sts2.Core.MonsterMoves.MonsterMoveStateMachine;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>聚合体意图：抽牌后为抽到的牌附魔（若可附魔）。</summary>
-public sealed class AmalgamDrawAndEnchantIntentAction<TEnchantment> : AmalgamActionModel
+/// <summary>聚合体意图：抽牌后为抽到的牌附魔（若可附魔）�?/summary>
+public sealed class AmalgamDrawAndEnchantIntentAction<TEnchantment> : AmalgamSingleDecimalActionModel
 	where TEnchantment : EnchantmentModel
 {
+    public override string Key => GenericPoolKey("draw_and_enchant", typeof(TEnchantment));
+
 	public static readonly float CastAnimDelay = 1.5f;
+
+    public AmalgamDrawAndEnchantIntentAction()
+    {
+    }
 
 	public AmalgamDrawAndEnchantIntentAction(decimal drawCount)
 		: base(drawCount)
 	{
 	}
+
+    public override bool Init(decimal amount) => TryInitSingleDecimal(amount);
+
+    public override bool Init(object[] args) => TryInitSingleDecimal(args);
 
 	protected override MoveState CreateMoveState()
 	{

@@ -10,10 +10,16 @@ using MegaCrit.Sts2.Core.MonsterMoves.MonsterMoveStateMachine;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>聚合体意图：按 <see cref="AmalgamOffenseTargeting"/> 使敌人本回合失去力量（回合结束恢复）。</summary>
+/// <summary>聚合体意图：�?<see cref="AmalgamOffenseTargeting"/> 使敌人本回合失去力量（回合结束恢复）�?/summary>
 public sealed class AmalgamStrengthDownIntentAction : AmalgamActionModel
 {
-    private readonly Creature? _forcedTarget;
+    public override string Key => "strength_down";
+
+    private Creature? _forcedTarget;
+
+    public AmalgamStrengthDownIntentAction()
+    {
+    }
 
     public AmalgamStrengthDownIntentAction(decimal strengthLoss)
         : base(strengthLoss)
@@ -21,9 +27,35 @@ public sealed class AmalgamStrengthDownIntentAction : AmalgamActionModel
     }
 
     public AmalgamStrengthDownIntentAction(decimal strengthLoss, Creature? forcedTarget)
-        : base(strengthLoss)
+        : this(strengthLoss)
     {
         _forcedTarget = forcedTarget;
+    }
+
+    public override bool Init(decimal amount)
+    {
+        if (!AmalgamActionArgs.IsPositive(amount))
+        {
+            return false;
+        }
+
+        ResetForInit();
+        Amount = amount;
+        _forcedTarget = null;
+        return true;
+    }
+
+    public override bool Init(object[] args)
+    {
+        if (!AmalgamActionArgs.TryGetDecimal(args, 0, out decimal strengthLoss) || !AmalgamActionArgs.IsPositive(strengthLoss))
+        {
+            return false;
+        }
+
+        ResetForInit();
+        Amount = strengthLoss;
+        _forcedTarget = AmalgamActionArgs.TryGetCreature(args, 1);
+        return true;
     }
 
     public static readonly float CastAnimDelay = 1.5f;

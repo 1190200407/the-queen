@@ -11,9 +11,11 @@ using MegaCrit.Sts2.Core.MonsterMoves.MonsterMoveStateMachine;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>灵魂虹吸：一个 action，三个 intent（全体敌人失去力量；你获得力量与敏捷）。</summary>
+/// <summary>??????? action??? intent????????????????????</summary>
 public sealed class AmalgamSoulSiphonIntentAction : AmalgamActionModel
 {
+    public override string Key => "soul_siphon";
+
     private readonly decimal _stacks;
 
     public AmalgamSoulSiphonIntentAction(decimal stacks)
@@ -50,7 +52,7 @@ public sealed class AmalgamSoulSiphonIntentAction : AmalgamActionModel
 
         await CreatureCmd.TriggerAnim(amalgam, "Cast", CastAnimDelay);
 
-        // 永久减力量：直接施加负数 Strength。
+        // ???????????? Strength?
         foreach (Creature enemy in alive)
         {
             await PowerCmd.Apply<StrengthPower>(choiceContext, enemy, -_stacks, queen.Creature, null);

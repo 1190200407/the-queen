@@ -31,7 +31,7 @@ public sealed class GremlinStab : QueenCardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DamageVar(6m, ValueProp.Move),
+        new AmalgamDamageVar(6m, ValueProp.Move),
         new GoldVar(5),
     ];
 
@@ -64,12 +64,11 @@ public sealed class GremlinStab : QueenCardModel
         Creature target = cardPlay.Target;
         if (amalgam.Monster is FriendlyAmalgam amalgamModel && !amalgamModel.BlockActionFromSleep)
         {
-            decimal damage = base.DynamicVars.Damage.BaseValue;
-            AmalgamActionModel? attack = AmalgamActionRegistry.CreateOffense(damage, target);
-            if (attack != null)
-            {
-                await attack.ExecuteAsync(choiceContext, amalgam);
-            }
+            decimal damage = AmalgamDamageVar.GetEffectiveFlat(this, AmalgamDamageVar.DefaultName);
+            await AmalgamActionRegistry.ExecuteTemporaryAsync(
+                choiceContext,
+                amalgam,
+                AmalgamActionRegistry.CreateOffense(damage, target));
         }
 
         decimal gold = base.DynamicVars.Gold.BaseValue;

@@ -12,21 +12,17 @@ using MegaCrit.Sts2.Core.MonsterMoves.MonsterMoveStateMachine;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>聚合体意图：抽 1、下回合再抽 1，并为这两张牌附魔 <see cref="Dazed"/>。</summary>
+/// <summary>聚合体意图：�?1、下回合再抽 1，并为这两张牌附�?<see cref="Dazed"/>�?/summary>
 public sealed class AmalgamNoiseIntentAction : AmalgamActionModel
 {
-    private const string NextTurnDrawParam = "nextTurnDraw";
+    public override string Key => "noise";
 
     private readonly decimal _nextTurnDraw;
 
     public AmalgamNoiseIntentAction(decimal drawNow, decimal drawNextTurn)
-        : base(new Dictionary<string, decimal>
-        {
-            [AmountParam] = drawNow,
-            [NextTurnDrawParam] = drawNextTurn,
-        })
     {
-        _nextTurnDraw = GetParameterOrDefault(NextTurnDrawParam, 0m);
+        Amount = drawNow;
+        _nextTurnDraw = drawNextTurn;
     }
 
     protected override MoveState CreateMoveState()

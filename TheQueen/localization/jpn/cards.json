@@ -358,7 +358,7 @@
     "THE_QUEEN_CARD_GIMME.title":"よこせ！",
     "THE_QUEEN_CARD_GIMME.description":"{Summon:diff()} [gold]召喚[/gold]する。\n[gold]融合体[/gold]は{AmalgamThieveryPower:diff()} [gold]窃盗[/gold]を得る。{AmalgamEscapePower:diff()}ターン後に逃走する。",
     "THE_QUEEN_CARD_GREMLIN_STAB.title":"グレムリンの刺突",
-    "THE_QUEEN_CARD_GREMLIN_STAB.description":"[gold]融合体[/gold]は対象に{Damage:diff()}ダメージを与える。{Gold:diff()} [gold]ゴールド[/gold]を盗む。",
+    "THE_QUEEN_CARD_GREMLIN_STAB.description":"[gold]融合体[/gold]は対象に{AmalgamDamage:diff()}ダメージを与える。{Gold:diff()} [gold]ゴールド[/gold]を盗む。",
     "THE_QUEEN_CARD_FLEE.title":"逃走",
     "THE_QUEEN_CARD_FLEE.description":"[gold]融合体[/gold]は戦闘から離脱する。盗んだ[gold]ゴールド[/gold]を戦闘報酬に加える。",
     "THE_QUEEN_CARD_TACTICAL_DIRECTIVE.title":"戦術指令",
