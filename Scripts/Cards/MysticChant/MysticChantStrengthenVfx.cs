@@ -68,7 +68,9 @@ internal static class MysticChantStrengthenVfx
 			.From(Vector2.Zero)
 			.SetEase(Tween.EaseType.Out)
 			.SetTrans(Tween.TransitionType.Cubic);
-		await room.ToSignal(popTween, Tween.SignalName.Finished);
+			
+		if (fullPresentation)
+			await room.ToSignal(popTween, Tween.SignalName.Finished);
 
 		NCardSmithVfx? smith = NCardSmithVfx.Create(previewNode, playSfx: false);
 		NRun.Instance?.GlobalUi.AboveTopBarVfxContainer.AddChildSafely(smith);

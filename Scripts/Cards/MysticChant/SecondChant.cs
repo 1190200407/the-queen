@@ -45,13 +45,12 @@ public sealed class SecondChant : QueenCardModel
 			return;
 		}
 
-		bool showFullVfx = cardPlay.IsFirstInSeries;
 		foreach (CardModel card in base.Owner.PlayerCombatState.Hand.Cards.ToList())
 		{
 			if (card is FinalChant)
 			{
 				card.DynamicVars["Repeat"].BaseValue += 1m;
-				await MysticChantStrengthenVfx.PlayAfterStrengthen(card, showFullVfx);
+				await MysticChantStrengthenVfx.PlayAfterStrengthen(card, cardPlay.IsLastInSeries);
 			}
 		}
 	}
