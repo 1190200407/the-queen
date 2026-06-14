@@ -268,7 +268,7 @@
     "THE_QUEEN_CARD_HARD_TO_KILL.title":"难以杀灭",
     "THE_QUEEN_CARD_HARD_TO_KILL.description":"[gold]聚合体[/gold]获得[blue]9[/blue]层[gold]难以杀灭[/gold]。持续[blue]1[/blue]回合。",
     "THE_QUEEN_CARD_HEADBUTT.title":"头槌",
-    "THE_QUEEN_CARD_HEADBUTT.description":"[gold]召唤[/gold]{Summon:diff()}。\n[gold]聚合体[/gold]获得[gold]失衡[/gold]。\n[gold]聚合[/gold]意图：造成{LearnIntentDamage:diff()}点伤害。",
+    "THE_QUEEN_CARD_HEADBUTT.description":"[gold]召唤[/gold]{Summon:diff()}。\n[gold]聚合体[/gold]获得[gold]失衡[/gold]。\n[gold]学习意图[/gold]：造成{LearnIntentDamage:diff()}点伤害。",
     "THE_QUEEN_CARD_BITE.title":"撕咬",
     "THE_QUEEN_CARD_BITE.description":"[gold]召唤[/gold]{Summon:diff()}。\n[gold]学习意图[/gold]：造成{LearnIntentDamage:diff()}点伤害，获得{LearnIntentBlock:diff()}点[gold]格挡[/gold]。",
     "THE_QUEEN_CARD_TOXIC_SPIT.title":"剧毒唾液",

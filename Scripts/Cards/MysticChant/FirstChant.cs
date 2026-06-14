@@ -47,12 +47,13 @@ public sealed class FirstChant : QueenCardModel
 			return;
 		}
 
+		bool showFullVfx = cardPlay.IsFirstInSeries;
 		foreach (CardModel card in base.Owner.PlayerCombatState.Hand.Cards.ToList())
 		{
 			if (card is SecondChant second)
 			{
 				second.BaseReplayCount += 1;
-				await MysticChantStrengthenVfx.PlayAfterStrengthen(second);
+				await MysticChantStrengthenVfx.PlayAfterStrengthen(second, showFullVfx);
 			}
 		}
 	}
