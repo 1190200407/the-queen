@@ -45,27 +45,25 @@ public sealed class OminousCurseRelic : QueenRelicModel
 	{
 		if (_firstDebuffBonusConsumed || amount <= 0m)
 		{
-			return amount;
+			return 0;
 		}
 
 		if (power is not WeakPower && power is not VulnerablePower)
 		{
-			return amount;
+			return 0;
 		}
 
 		if (!IsGiverFromRelicOwner(giver) || target?.Side != CombatSide.Enemy)
 		{
-			return amount;
+			return 0;
 		}
 
-		return amount + base.DynamicVars["BonusStacks"].BaseValue;
+		return base.DynamicVars["BonusStacks"].BaseValue;
 	}
 
 	public override Task AfterModifyingPowerAmountGiven(PowerModel power)
 	{
-		ModelId weakId = ModelDb.Power<WeakPower>().Id;
-		ModelId vulnId = ModelDb.Power<VulnerablePower>().Id;
-		if (power.Id != weakId && power.Id != vulnId)
+		if (power is not WeakPower && power is not VulnerablePower)
 		{
 			return Task.CompletedTask;
 		}

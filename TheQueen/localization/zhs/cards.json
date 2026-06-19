@@ -127,7 +127,7 @@
     "THE_QUEEN_CARD_FIRE_WALL.title":"火墙",
     "THE_QUEEN_CARD_FIRE_WALL.description":"[aqua]获得1点魂灯。[/aqua]\n你每有1点[aqua]魂灯[/aqua]，获得{Block:diff()}点[gold]格挡[/gold]。",
     "THE_QUEEN_CARD_HUNDRED_HANDS_BANQUET.title":"百手之宴",
-    "THE_QUEEN_CARD_HUNDRED_HANDS_BANQUET.description":"生成1张[gold]{IfUpgraded:show:夺取之手+|夺取之手}[/gold]和1张[gold]{IfUpgraded:show:拒绝之手+|拒绝之手}[/gold]。\n[aqua]获得X点魂灯。[/aqua]",
+    "THE_QUEEN_CARD_HUNDRED_HANDS_BANQUET.description":"生成X张带[gold]消逝[/gold]的[gold]{IfUpgraded:show:抓挠+|抓挠}[/gold]。\n[aqua]获得X点魂灯。[/aqua]",
     "THE_QUEEN_CARD_HAND_OF_SEIZURE.title":"夺取之手",
     "THE_QUEEN_CARD_HAND_OF_SEIZURE.description":"造成{Damage:diff()}点伤害。生成1张[gold]{IfUpgraded:show:拒绝之手+|拒绝之手}[/gold]和1张[gold]{IfUpgraded:show:夺取之手+|夺取之手}[/gold]。\n[gold]消逝[/gold]",
     "THE_QUEEN_CARD_HAND_OF_REFUSAL.title":"拒绝之手",

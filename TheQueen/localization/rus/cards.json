@@ -127,7 +127,7 @@
     "THE_QUEEN_CARD_FIRE_WALL.title": "Противопожарная стена",
     "THE_QUEEN_CARD_FIRE_WALL.description": "[aqua]Получите 1 Душевный светильник.[/aqua]\nПолучите {Block:diff()} [gold]Защита[/gold] за каждую имеющуюся у вас [aqua]Лампу Души[/aqua].",
     "THE_QUEEN_CARD_HUNDRED_HANDS_BANQUET.title": "Банкет ста рук",
-    "THE_QUEEN_CARD_HUNDRED_HANDS_BANQUET.description": "Создайте 1 [gold]{IfUpgraded:show:Hand of Seizure+|Hand of Seizure}[/gold] и 1 [gold]{IfUpgraded:show:Hand of Refusal+|Hand of Refusal}[/gold].\n[aqua]Получение X Душевных светильников.[/aqua]",
+    "THE_QUEEN_CARD_HUNDRED_HANDS_BANQUET.description": "Создайте X [gold]{IfUpgraded:show:Царапать+|Царапать}[/gold] с [gold]Угасание[/gold].\n[aqua]Получите X Душевных светильников.[/aqua]",
     "THE_QUEEN_CARD_HAND_OF_SEIZURE.title": "Рука захвата",
     "THE_QUEEN_CARD_HAND_OF_SEIZURE.description": "Нанесите {Damage:diff()} урона. Создайте 1 [gold]{IfUpgraded:show:Hand of Refusal+|Hand of Refusal}[/gold] и 1 [gold]{IfUpgraded:show:Hand of Seizure+|Hand of Seizure}[/gold].\n[gold]Выцветание[/gold]",
     "THE_QUEEN_CARD_HAND_OF_REFUSAL.title": "Рука отказа",

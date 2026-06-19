@@ -127,7 +127,7 @@
     "THE_QUEEN_CARD_FIRE_WALL.title":"炎の壁",
     "THE_QUEEN_CARD_FIRE_WALL.description":"[aqua]魂灯を1得る。[/aqua]\n持っている[aqua]魂灯[/aqua]1につき、{Block:diff()} [gold]ブロック[/gold]を得る。",
     "THE_QUEEN_CARD_HUNDRED_HANDS_BANQUET.title":"百手の饗宴",
-    "THE_QUEEN_CARD_HUNDRED_HANDS_BANQUET.description":"[gold]{IfUpgraded:show:掌握の手+|掌握の手}[/gold]を1枚と[gold]{IfUpgraded:show:拒絶の手+|拒絶の手}[/gold]を1枚生成する。\n[aqua]魂灯をX得る。[/aqua]",
+    "THE_QUEEN_CARD_HUNDRED_HANDS_BANQUET.description":"[gold]フェード[/gold]付き[gold]{IfUpgraded:show:引っかき+|引っかき}[/gold]をX枚生成する。\n[aqua]魂灯をX得る。[/aqua]",
     "THE_QUEEN_CARD_HAND_OF_SEIZURE.title":"掌握の手",
     "THE_QUEEN_CARD_HAND_OF_SEIZURE.description":"{Damage:diff()}ダメージを与える。[gold]{IfUpgraded:show:拒絶の手+|拒絶の手}[/gold]を1枚と[gold]{IfUpgraded:show:掌握の手+|掌握の手}[/gold]を1枚生成する。\n[gold]フェード[/gold]",
     "THE_QUEEN_CARD_HAND_OF_REFUSAL.title":"拒絶の手",

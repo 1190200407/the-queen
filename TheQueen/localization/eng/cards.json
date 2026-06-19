@@ -127,7 +127,7 @@
     "THE_QUEEN_CARD_FIRE_WALL.title":"Fire Wall",
     "THE_QUEEN_CARD_FIRE_WALL.description":"[aqua]Gain 1 Soul Lamp.[/aqua]\nGain {Block:diff()} [gold]Block[/gold] for each [aqua]Soul Lamp[/aqua] you have.",
     "THE_QUEEN_CARD_HUNDRED_HANDS_BANQUET.title":"Banquet of Hundred Hands",
-    "THE_QUEEN_CARD_HUNDRED_HANDS_BANQUET.description":"Create 1 [gold]{IfUpgraded:show:Hand of Seizure+|Hand of Seizure}[/gold] and 1 [gold]{IfUpgraded:show:Hand of Refusal+|Hand of Refusal}[/gold].\n[aqua]Gain X Soul Lamp.[/aqua]",
+    "THE_QUEEN_CARD_HUNDRED_HANDS_BANQUET.description":"Create X [gold]{IfUpgraded:show:Scratch+|Scratch}[/gold] with [gold]Fade[/gold].\n[aqua]Gain X Soul Lamp.[/aqua]",
     "THE_QUEEN_CARD_HAND_OF_SEIZURE.title":"Hand of Seizure",
     "THE_QUEEN_CARD_HAND_OF_SEIZURE.description":"Deal {Damage:diff()} damage. Create 1 [gold]{IfUpgraded:show:Hand of Refusal+|Hand of Refusal}[/gold] and 1 [gold]{IfUpgraded:show:Hand of Seizure+|Hand of Seizure}[/gold].\n[gold]Fade[/gold]",
     "THE_QUEEN_CARD_HAND_OF_REFUSAL.title":"Hand of Refusal",
