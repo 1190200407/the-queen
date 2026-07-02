@@ -51,7 +51,7 @@ public sealed class Joyless : QueenCardModel
             .Execute(choiceContext);
 
         Player? owner = base.Owner;
-        CombatState? combat = base.CombatState;
+        ICombatState? combat = base.CombatState;
         if (owner == null || combat == null || owner.Creature is not { IsAlive: true })
         {
             return;
@@ -76,7 +76,7 @@ public sealed class Joyless : QueenCardModel
         }
 
         await CardCmd.Discard(choiceContext, toDiscard);
-        await PowerCmd.Apply<StrengthPower>(owner.Creature, toDiscard.Count, owner.Creature, this);
+        await PowerCmd.Apply<StrengthPower>(choiceContext, owner.Creature, toDiscard.Count, owner.Creature, this);
     }
 
     protected override void OnUpgrade()
@@ -86,7 +86,7 @@ public sealed class Joyless : QueenCardModel
 
     private static bool IsValidHandDiscard(
         Player expectedOwner,
-        CombatState currentCombat,
+        ICombatState currentCombat,
         IReadOnlyList<CardModel> hand,
         CardModel? card)
     {
@@ -100,7 +100,7 @@ public sealed class Joyless : QueenCardModel
             return false;
         }
 
-        CombatState? resolved = card.Owner.Creature.CombatState ?? card.CombatState;
+        ICombatState? resolved = card.Owner.Creature.CombatState ?? card.CombatState;
         return resolved != null && ReferenceEquals(resolved, currentCombat);
     }
 }

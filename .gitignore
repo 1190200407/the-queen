@@ -21,9 +21,6 @@ mono_crash.*.json
 # Local MSBuild overrides (copy from local.props.example)
 local.props
 
-<<<<<<< HEAD
-bin/windows/~libspine_godot.windows.editor.x86_64.dll
-=======
 # Local archives / release packages
 *.zip
 
@@ -31,4 +28,3 @@ bin/windows/~libspine_godot.windows.editor.x86_64.dll
 **/obj/
 **/bin/Debug/
 **/bin/Release/
->>>>>>> beta

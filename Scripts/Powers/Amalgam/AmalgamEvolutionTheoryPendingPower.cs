@@ -18,7 +18,7 @@ public sealed class AmalgamEvolutionTheoryPendingPower : QueenPowerModel
 
     public override PowerStackType StackType => PowerStackType.Single;
 
-    public override bool IsInstanced => true;
+    public override PowerInstanceType InstanceType => PowerInstanceType.Instanced;
 
     public readonly List<AmalgamActionModel> PendingIntents = [];
 
@@ -30,8 +30,9 @@ public sealed class AmalgamEvolutionTheoryPendingPower : QueenPowerModel
         }
     }
 
-    public override async Task AfterSideTurnStart(CombatSide side, CombatState combatState)
+    public override async Task AfterSideTurnStartLate(CombatSide side, IReadOnlyList<Creature> participants, ICombatState combatState)
     {
+        _ = participants;
         _ = combatState;
 
         if (!base.Owner.IsAlive || side != base.Owner.Side || PendingIntents.Count == 0)

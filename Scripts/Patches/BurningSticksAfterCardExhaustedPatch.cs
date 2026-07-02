@@ -66,7 +66,7 @@ internal sealed class BurningSticksAfterCardExhaustedPatch : IPatchMethod
 		}
 
 		CardPile hand = PileType.Hand.GetPile(relic.Owner);
-		return hand.Cards.Count >= CardPile.maxCardsInHand;
+		return hand.Cards.Count >= CardPile.MaxCardsInHand;
 	}
 
 	private static async Task AfterCardExhaustedHandFullImpl(BurningSticks relic, CardModel card)
@@ -76,6 +76,6 @@ internal sealed class BurningSticksAfterCardExhaustedPatch : IPatchMethod
 		relic.Status = RelicStatus.Normal;
 
 		CardModel clone = card.CreateClone();
-		await CardPileCmd.AddGeneratedCardToCombat(clone, PileType.Hand, addedByPlayer: true);
+		await CardPileCmd.AddGeneratedCardToCombat(clone, PileType.Hand, relic.Owner);
 	}
 }

@@ -68,7 +68,7 @@ public sealed class MagicPigment : QueenCardModel
             {
                 CardCmd.Upgrade(card);
             }
-            await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Hand, addedByPlayer: true);
+            await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Hand, base.Owner);
             CardCmd.ClearAffliction(card);
             await CardCmd.Afflict<Bound>(card, 1m);
         }

@@ -27,7 +27,7 @@ public sealed class KnowledgeDemonPower : QueenPowerModel
 
     public override async Task AfterPlayerTurnStartEarly(PlayerChoiceContext choiceContext, Player player)
     {
-		CombatState? combatState = base.Owner.CombatState;
+		ICombatState? combatState = base.Owner.CombatState;
 		if (combatState == null || !base.Owner.IsAlive)
 		{
 			return;

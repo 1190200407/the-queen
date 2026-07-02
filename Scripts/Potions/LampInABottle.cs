@@ -5,7 +5,6 @@ using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Potions;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
-using MegaCrit.Sts2.Core.Models;
 using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
@@ -21,7 +20,10 @@ public sealed class LampInABottle : QueenPotionModel
 
     protected override async Task OnUse(PlayerChoiceContext choiceContext, Creature? target)
     {
-        PotionModel.AssertValidForTargetedPotion(target);
-        await QueenCardCmd.AddSoulLamp(choiceContext, target!.Player!, 1);
+        if (target is null || target.Player is null)
+        {
+            return;
+        }
+        await QueenCardCmd.AddSoulLamp(choiceContext, target.Player, 1);
     }
 }

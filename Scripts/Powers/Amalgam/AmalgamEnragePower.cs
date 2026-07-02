@@ -40,7 +40,7 @@ public sealed class AmalgamEnragePower : QueenPowerModel
 
         Flash();
         await Cmd.Wait(0.5f);
-        await PowerCmd.Apply<StrengthPower>(targetAmalgam, Amount, base.Owner, null);
+        await PowerCmd.Apply<StrengthPower>(new ThrowingPlayerChoiceContext(), targetAmalgam, Amount, base.Owner, null);
     }
 }
 

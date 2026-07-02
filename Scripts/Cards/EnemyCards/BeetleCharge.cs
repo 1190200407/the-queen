@@ -46,7 +46,7 @@ public sealed class BeetleCharge : QueenCardModel
     {
         get
         {
-            CombatState? combatState = base.Owner?.Creature?.CombatState;
+            ICombatState? combatState = base.Owner?.Creature?.CombatState;
             if (combatState == null || base.Owner == null)
             {
                 return true;

@@ -18,11 +18,7 @@ namespace ComicChess.TheQueen;
 /// </summary>
 internal static class FadeOnDiscardPatchHelpers
 {
-<<<<<<< HEAD
-	internal static bool HasFade(CardModel card) => card.HasModKeyword(QueenModKeywords.Fade);
-=======
 	internal static bool HasFade(CardModel card) => card.HasModKeyword(QueenKeyword.Fade);
->>>>>>> beta
 }
 
 internal sealed class FadeOnDiscardCardPileCmdAddPatch : IPatchMethod
@@ -109,7 +105,7 @@ internal sealed class FadeOnDiscardCardPileAddInternalPatch : IPatchMethod
 			return;
 		}
 
-		CombatState? combatState = card.CombatState ?? card.Owner?.Creature.CombatState;
+		ICombatState? combatState = card.CombatState ?? card.Owner?.Creature.CombatState;
 		if (combatState == null || CombatManager.Instance == null)
 		{
 			return;
@@ -163,7 +159,7 @@ internal sealed class FadeOnDiscardCombatHistoryCardDiscardedPatch : IPatchMetho
 		new(typeof(CombatHistory), nameof(CombatHistory.CardDiscarded)),
 	];
 
-	public static bool Prefix(CombatState combatState, CardModel card) =>
+	public static bool Prefix(ICombatState combatState, CardModel card) =>
 		!FadeOnDiscardPatchHelpers.HasFade(card);
 }
 
@@ -178,6 +174,6 @@ internal sealed class FadeOnDiscardHookAfterCardDiscardedPatch : IPatchMethod
 		new(typeof(Hook), nameof(Hook.AfterCardDiscarded)),
 	];
 
-	public static bool Prefix(CombatState combatState, PlayerChoiceContext choiceContext, CardModel card) =>
+	public static bool Prefix(ICombatState combatState, PlayerChoiceContext choiceContext, CardModel card) =>
 		!FadeOnDiscardPatchHelpers.HasFade(card);
 }

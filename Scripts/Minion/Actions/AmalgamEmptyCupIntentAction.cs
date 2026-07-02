@@ -37,6 +37,6 @@ public sealed class AmalgamEmptyCupIntentAction : AmalgamActionModel
         }
 
         await CreatureCmd.TriggerAnim(amalgam, "Cast", CastAnimDelay);
-        await PowerCmd.Apply<EmptyCupPendingPower>(owner, 1m, amalgam, null);
+        await PowerCmd.Apply<EmptyCupPendingPower>(choiceContext, owner, 1m, amalgam, null);
     }
 }

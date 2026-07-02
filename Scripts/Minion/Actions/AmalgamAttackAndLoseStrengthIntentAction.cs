@@ -49,7 +49,7 @@ public sealed class AmalgamAttackAndLoseStrengthIntentAction : AmalgamActionMode
 
     private async Task ExecuteOffensePart(PlayerChoiceContext choiceContext, Creature amalgam)
     {
-        CombatState? combatState = amalgam.CombatState;
+        ICombatState? combatState = amalgam.CombatState;
         if (combatState == null || amalgam.PetOwner is not Player queen)
         {
             return;
@@ -110,7 +110,7 @@ public sealed class AmalgamAttackAndLoseStrengthIntentAction : AmalgamActionMode
 
     private async Task ExecuteLoseStrengthPart(Creature amalgam)
     {
-        CombatState? combatState = amalgam.CombatState;
+        ICombatState? combatState = amalgam.CombatState;
         if (combatState == null || amalgam.PetOwner is not Player queen || !queen.Creature.IsAlive)
         {
             return;
@@ -131,7 +131,7 @@ public sealed class AmalgamAttackAndLoseStrengthIntentAction : AmalgamActionMode
         {
             foreach (Creature enemy in alive)
             {
-                await PowerCmd.Apply<StrengthPower>(enemy, -_strengthLoss, applier, null);
+                await PowerCmd.Apply<StrengthPower>(new ThrowingPlayerChoiceContext(), enemy, -_strengthLoss, applier, null);
             }
 
             return;
@@ -142,7 +142,7 @@ public sealed class AmalgamAttackAndLoseStrengthIntentAction : AmalgamActionMode
             Creature? marked = AmalgamOffenseTargeting.FindMarkedEnemy(combatState);
             if (marked is { IsAlive: true })
             {
-                await PowerCmd.Apply<StrengthPower>(marked, -_strengthLoss, applier, null);
+                await PowerCmd.Apply<StrengthPower>(new ThrowingPlayerChoiceContext(), marked, -_strengthLoss, applier, null);
             }
 
             return;
@@ -154,7 +154,7 @@ public sealed class AmalgamAttackAndLoseStrengthIntentAction : AmalgamActionMode
             return;
         }
 
-        await PowerCmd.Apply<StrengthPower>(randomEnemy, -_strengthLoss, applier, null);
+        await PowerCmd.Apply<StrengthPower>(new ThrowingPlayerChoiceContext(), randomEnemy, -_strengthLoss, applier, null);
     }
 }
 

@@ -44,7 +44,7 @@ public sealed class AmalgamApplyDebuffIntentAction<T> : AmalgamActionModel
 
     protected override async Task OnExecute(PlayerChoiceContext choiceContext, Creature amalgam)
     {
-        CombatState? combatState = amalgam.CombatState;
+        ICombatState? combatState = amalgam.CombatState;
         if (combatState == null || amalgam.PetOwner is not Player queen || !queen.Creature.IsAlive)
         {
             return;
@@ -63,7 +63,7 @@ public sealed class AmalgamApplyDebuffIntentAction<T> : AmalgamActionModel
 
         if (_forcedTarget is { IsAlive: true } forcedTarget && alive.Contains(forcedTarget))
         {
-            await PowerCmd.Apply<T>(forcedTarget, Amount, applier, null);
+            await PowerCmd.Apply<T>(choiceContext, forcedTarget, Amount, applier, null);
             return;
         }
 
@@ -71,7 +71,7 @@ public sealed class AmalgamApplyDebuffIntentAction<T> : AmalgamActionModel
         {
             foreach (Creature enemy in alive)
             {
-                await PowerCmd.Apply<T>(enemy, Amount, applier, null);
+                await PowerCmd.Apply<T>(choiceContext, enemy, Amount, applier, null);
             }
 
             return;
@@ -82,7 +82,7 @@ public sealed class AmalgamApplyDebuffIntentAction<T> : AmalgamActionModel
             Creature? marked = AmalgamOffenseTargeting.FindMarkedEnemy(combatState);
             if (marked is { IsAlive: true })
             {
-                await PowerCmd.Apply<T>(marked, Amount, applier, null);
+                await PowerCmd.Apply<T>(choiceContext, marked, Amount, applier, null);
             }
 
             return;
@@ -94,7 +94,7 @@ public sealed class AmalgamApplyDebuffIntentAction<T> : AmalgamActionModel
             return;
         }
 
-        await PowerCmd.Apply<T>(randomEnemy, Amount, applier, null);
+        await PowerCmd.Apply<T>(choiceContext, randomEnemy, Amount, applier, null);
     }
 }
 

@@ -21,7 +21,7 @@ public class CaptureSuccessPower : QueenPowerModel
     public override PowerType Type => PowerType.Buff;
 
     public override PowerStackType StackType => PowerStackType.None;
-    public override bool IsInstanced => true;
+    public override PowerInstanceType InstanceType => PowerInstanceType.Instanced;
 
     /// <summary>战斗结束时发放的奖励牌（由捕获牌创建后赋值）。</summary>
     public CardModel? RewardCard { get; set; }
@@ -34,9 +34,9 @@ public class CaptureSuccessPower : QueenPowerModel
     {
         CaptureSuccessPower? applied = MonsterCaptureRewardCatalog.GetEncounterRoomType(owner.Creature.CombatState) switch
         {
-            RoomType.Boss => await PowerCmd.Apply<CaptureSuccessBossPower>(owner.Creature, 1m, owner.Creature, captureSourceCard),
-            RoomType.Elite => await PowerCmd.Apply<CaptureSuccessElitePower>(owner.Creature, 1m, owner.Creature, captureSourceCard),
-            _ => await PowerCmd.Apply<CaptureSuccessPower>(owner.Creature, 1m, owner.Creature, captureSourceCard),
+            RoomType.Boss => await PowerCmd.Apply<CaptureSuccessBossPower>(new ThrowingPlayerChoiceContext(), owner.Creature, 1m, owner.Creature, captureSourceCard),
+            RoomType.Elite => await PowerCmd.Apply<CaptureSuccessElitePower>(new ThrowingPlayerChoiceContext(), owner.Creature, 1m, owner.Creature, captureSourceCard),
+            _ => await PowerCmd.Apply<CaptureSuccessPower>(new ThrowingPlayerChoiceContext(), owner.Creature, 1m, owner.Creature, captureSourceCard),
         };
         if (applied is not null)
         {

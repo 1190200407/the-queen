@@ -19,7 +19,7 @@ public static class AmalgamIntentDamagePreview
 	/// 自指牌（如 <c>TargetType.Self</c>）会是<strong>玩家</strong>，若直接当作承伤者会把<strong>玩家身上的易伤</strong>误算进预览。
 	/// </summary>
 	public static Creature? ResolveDamageReceiverForPetAttackPreview(
-		CombatState combatState,
+		ICombatState combatState,
 		Creature? cardContextTarget)
 	{
 		if (cardContextTarget is { Side: CombatSide.Enemy })
@@ -38,7 +38,7 @@ public static class AmalgamIntentDamagePreview
 		CardModel? cardSource,
 		CardPreviewMode previewMode)
 	{
-		CombatState? combatState = amalgamDealer.CombatState;
+		ICombatState? combatState = amalgamDealer.CombatState;
 		IRunState runState = IRunState.GetFrom(new[] { amalgamDealer });
 		return Hook.ModifyDamage(
 			runState,

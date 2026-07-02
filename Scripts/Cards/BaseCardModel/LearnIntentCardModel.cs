@@ -1,10 +1,8 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Combat;
-using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
@@ -50,8 +48,6 @@ public abstract class LearnIntentCardModel : QueenCardModel
             && amalgam.HasAllTorchSlotsFilled
             && !amalgam.BlockActionFromSleep);
 
-    [Obsolete(
-        "Use CardModel.CanonicalKeywords with CardKeyword values instead. Registered mod keyword ids can be converted with ModKeywordRegistry.GetCardKeyword(id) or id.GetModCardKeyword().")]
     protected override IEnumerable<string> RegisteredKeywordIds
     {
         get
@@ -144,16 +140,14 @@ public abstract class LearnIntentCardModel : QueenCardModel
             return;
         }
 
-        if (oldKey != AmalgamCompositeKey.None
-            && ModKeywordRegistry.TryGetCardKeyword(QueenKeyword.GetAmalgamCompositeKeywordId(oldKey), out CardKeyword oldKeyword))
+        if (oldKey != AmalgamCompositeKey.None)
         {
-            this.RemoveModKeyword(oldKeyword);
+            this.RemoveModKeyword(QueenKeyword.GetAmalgamCompositeKeywordId(oldKey));
         }
 
-        if (newKey != AmalgamCompositeKey.None
-            && ModKeywordRegistry.TryGetCardKeyword(QueenKeyword.GetAmalgamCompositeKeywordId(newKey), out CardKeyword newKeyword))
+        if (newKey != AmalgamCompositeKey.None)
         {
-            this.AddModKeyword(newKeyword);
+            this.AddModKeyword(QueenKeyword.GetAmalgamCompositeKeywordId(newKey));
         }
     }
 }

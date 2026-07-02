@@ -61,7 +61,7 @@ public sealed class TestSubject : QueenCardModel
             return;
         }
 
-        await PowerCmd.Apply<AmalgamTestSubjectBossPower>(amalgam, 1m, base.Owner.Creature, this);
+        await PowerCmd.Apply<AmalgamTestSubjectBossPower>(choiceContext, amalgam, 1m, base.Owner.Creature, this);
     }
 }
 

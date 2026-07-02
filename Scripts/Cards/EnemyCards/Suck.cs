@@ -57,7 +57,7 @@ public sealed class Suck : QueenCardModel
         Creature? amalgam = FriendlyAmalgamCmd.GetExisting(combatState, base.Owner);
         if (amalgam is { IsAlive: true })
         {
-            await PowerCmd.Apply<AmalgamSuckPower>(amalgam, suckStacks, base.Owner.Creature, this);
+            await PowerCmd.Apply<AmalgamSuckPower>(choiceContext, amalgam, suckStacks, base.Owner.Creature, this);
         }
     }
 }

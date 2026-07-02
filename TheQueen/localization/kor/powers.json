@@ -21,11 +21,7 @@
     "STRONG_ADAPTABILITY_POWER.title":"강한 적응력",
     "STRONG_ADAPTABILITY_POWER.description":"턴 시작 시, [gold]손[/gold]에서 카드 1장을 선택해 강화합니다.",
     "KNOWLEDGE_DEMON_POWER.title":"지식의 저주",
-<<<<<<< HEAD
-    "KNOWLEDGE_DEMON_POWER.description":"매 전투 시작 시, [gold]회춘[/gold], [gold]정신 명료[/gold], [gold]분해[/gold] 중 1가지를 선택해 실행합니다.",
-=======
     "KNOWLEDGE_DEMON_POWER.description":"당신의 턴 시작 시, [gold]회춘[/gold], [gold]정신 명료[/gold], [gold]분해[/gold] 중 1가지를 선택해 실행합니다.",
->>>>>>> beta
     "WILLFUL_POWER.title":"고집",
     "WILLFUL_POWER.description":"턴 시작 시, 무작위 {GrantUpgradedCard:choose(0):|강화된 }카드 1장을 [gold]손[/gold]에 추가하고 [purple]영혼 속박[/purple]으로 부식한 뒤, [aqua]영혼등 1을 얻습니다.[/aqua]",
     "WILLFUL_POWER.smartDescription":"턴 시작 시, 해금된 카드 풀에서 무작위 {GrantUpgradedCard:choose(0):|강화된 }카드 1장을 [gold]손[/gold]에 추가하고 [purple]영혼 속박[/purple]을 부여한 뒤, [aqua]영혼등 1을 얻습니다.[/aqua]",
@@ -84,13 +80,8 @@
     "BACK_ATTACK_QUEEN_POWER.title":"등 뒤 공격",
     "BACK_ATTACK_QUEEN_POWER.description":"플레이어에게 받는 피해가 [gold]50%[/gold] 증가합니다.",
     "AMALGAM_SANDPIT_POWER.title":"모래함정",
-<<<<<<< HEAD
-    "AMALGAM_SANDPIT_POWER.description":"카운터가 0이 되면, 모든 적이 즉시 사망합니다.",
-    "AMALGAM_SANDPIT_POWER.smartDescription":"[blue]{Amount}[/blue]턴 후, 모든 적이 즉시 사망합니다.",
-=======
     "AMALGAM_SANDPIT_POWER.description":"카운터가 0이 되면, 모든 적이 즉시 사망합니다. 턴 종료 시 카운터-1.",
     "AMALGAM_SANDPIT_POWER.smartDescription":"카운터가 0이 되면, 모든 적이 즉시 사망합니다. 턴 종료 시 카운터-1.",
->>>>>>> beta
     "AMALGAM_IMBALANCED_POWER.title":"불균형",
     "AMALGAM_IMBALANCED_POWER.description":"[gold]융합체[/gold]의 공격이 완전히 막히면, [blue]1[/blue]턴 동안 [gold]수면[/gold] 상태가 됩니다.",
     "HEX_PLANS_BEFORE_TURN_END_POWER.title":"저주의 축복",

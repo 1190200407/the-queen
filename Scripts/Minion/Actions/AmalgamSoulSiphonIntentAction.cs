@@ -38,7 +38,7 @@ public sealed class AmalgamSoulSiphonIntentAction : AmalgamActionModel
 
     protected override async Task OnExecute(PlayerChoiceContext choiceContext, Creature amalgam)
     {
-        CombatState? combatState = amalgam.CombatState;
+        ICombatState? combatState = amalgam.CombatState;
         if (combatState == null || amalgam.PetOwner is not Player queen || !queen.Creature.IsAlive || _stacks <= 0m)
         {
             return;
@@ -55,11 +55,11 @@ public sealed class AmalgamSoulSiphonIntentAction : AmalgamActionModel
         // ???????????? Strength?
         foreach (Creature enemy in alive)
         {
-            await PowerCmd.Apply<StrengthPower>(enemy, -_stacks, queen.Creature, null);
+            await PowerCmd.Apply<StrengthPower>(choiceContext, enemy, -_stacks, queen.Creature, null);
         }
 
-        await PowerCmd.Apply<StrengthPower>(queen.Creature, _stacks, queen.Creature, null);
-        await PowerCmd.Apply<DexterityPower>(queen.Creature, _stacks, queen.Creature, null);
+        await PowerCmd.Apply<StrengthPower>(choiceContext, queen.Creature, _stacks, queen.Creature, null);
+        await PowerCmd.Apply<DexterityPower>(choiceContext, queen.Creature, _stacks, queen.Creature, null);
     }
 }
 

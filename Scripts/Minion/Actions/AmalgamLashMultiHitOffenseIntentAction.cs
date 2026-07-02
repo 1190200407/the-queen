@@ -1,9 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
-using MegaCrit.Sts2.Core.Nodes.Combat;
-using MegaCrit.Sts2.Core.Nodes.Rooms;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Helpers;
 using MegaCrit.Sts2.Core.MonsterMoves.MonsterMoveStateMachine;
@@ -82,7 +79,7 @@ public sealed class AmalgamLashMultiHitOffenseIntentAction : AmalgamActionModel
 		NWormyImpactVfx? vfx = NWormyImpactVfx.Create(target);
 		if (vfx != null)
 		{
-			NCombatRoom.Instance?.CombatVfxContainer.AddChildSafely(vfx);
+			target.GetVfxContainer()?.AddChildSafely(vfx);
 		}
 
 		return Task.CompletedTask;

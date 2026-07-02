@@ -32,7 +32,7 @@ public sealed class AllSoulSlash : QueenCardModel
 		new CalculationBaseVar(6m),
 		new ExtraDamageVar(2m),
 		new CalculatedDamageVar(ValueProp.Move).WithMultiplier((CardModel card, Creature? _) =>
-			PileType.Exhaust.GetPile(card.Owner).Cards.Count(c => c.HasModKeyword(QueenModKeywords.Fade)))
+			PileType.Exhaust.GetPile(card.Owner).Cards.Count(c => c.HasModKeyword(QueenKeyword.Fade)))
 	];
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips => [ModKeywordRegistry.CreateHoverTip(QueenKeyword.Fade)];

@@ -1,35 +1,22 @@
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-<<<<<<< HEAD
-=======
 
->>>>>>> beta
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-<<<<<<< HEAD
-using MegaCrit.Sts2.Core.Models.CardPools;
-using MegaCrit.Sts2.Core.Models.Powers;
-=======
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Models.Powers;
 
->>>>>>> beta
 using STS2RitsuLib.Cards.DynamicVars;
 using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
-<<<<<<< HEAD
-/// <summary>缩小射线：聚合体使所有敌人缩小；消耗。</summary>
-=======
 /// <summary>缩小射线：召唤；聚合体使所有敌人缩小；消耗。</summary>
->>>>>>> beta
 [RegisterCard(typeof(EnemyCardPool))]
 public sealed class Shrinker : QueenCardModel
 {
@@ -91,17 +78,9 @@ public sealed class Shrinker : QueenCardModel
             return;
         }
 
-<<<<<<< HEAD
-        AmalgamActionModel? shrinkRay = AmalgamActionRegistry.CreateShrinkRay(stacks);
-        if (shrinkRay != null)
-        {
-            await shrinkRay.ExecuteAsync(choiceContext, amalgam);
-        }
-=======
         await AmalgamActionRegistry.ExecuteTemporaryAsync(
             choiceContext,
             amalgam,
             AmalgamActionRegistry.CreateShrinkRay(stacks));
->>>>>>> beta
     }
 }

@@ -31,7 +31,7 @@ public sealed class SoulLockCasket : QueenCardModel, ICanMonsterCapture
     private const TargetType targetType = TargetType.AnyEnemy;
     private const bool shouldShowInCardLibrary = true;
 
-    public bool CanCapture(MonsterModel monster, CombatState combatState) =>
+    public bool CanCapture(MonsterModel monster, ICombatState combatState) =>
         monster is not null && combatState is not null
         && MonsterCaptureRewardCatalog.GetEncounterRoomType(combatState) != RoomType.Boss;
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(7m, ValueProp.Move)];

@@ -2,13 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-<<<<<<< HEAD:TheQueen/images/card_portraits/big/clamp.png.import
-uid="uid://chhy0qc0yfw3m"
-path="res://.godot/imported/clamp.png-03e3be09d1fa9c2e6dda9b7444ff4c05.ctex"
-=======
 uid="uid://sbknxn646exs"
 path="res://.godot/imported/noise_pending.png-415c5407c7abe8eafc28fa0742ebe6cb.ctex"
->>>>>>> beta:TheQueen/images/powers/big/noise_pending.png.import
 metadata={
 "vram_texture": false
 }

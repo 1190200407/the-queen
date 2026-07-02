@@ -39,6 +39,8 @@ public sealed class Schizophrenia : QueenCardModel
 	[
 		HoverTipFactory.FromPower<VulnerablePower>(),
 		HoverTipFactory.FromPower<WeakPower>(),
+		HoverTipFactory.FromPower<SplitVulnerablePower>(),
+		HoverTipFactory.FromPower<SplitWeakPower>(),
 	];
 
 	public Schizophrenia()
@@ -56,8 +58,8 @@ public sealed class Schizophrenia : QueenCardModel
 		decimal vulnerableStacks = base.DynamicVars.Vulnerable.BaseValue;
 		decimal weakStacks = base.DynamicVars.Weak.BaseValue;
 
-		await PowerCmd.Apply<VulnerablePower>(target, vulnerableStacks, applier, this);
-		await PowerCmd.Apply<WeakPower>(target, weakStacks, applier, this);
+		await PowerCmd.Apply<VulnerablePower>(choiceContext, target, vulnerableStacks, applier, this);
+		await PowerCmd.Apply<WeakPower>(choiceContext, target, weakStacks, applier, this);
 		await RedistributeIntoTwoParts<VulnerablePower, SplitVulnerablePower>(choiceContext, target, applier, this);
 		await RedistributeIntoTwoParts<WeakPower, SplitWeakPower>(choiceContext, target, applier, this);
 	}
@@ -103,12 +105,12 @@ public sealed class Schizophrenia : QueenCardModel
 
 		if (originalStacks > 0)
 		{
-			await PowerCmd.Apply<TOriginal>(target, originalStacks, applier, cardSource);
+			await PowerCmd.Apply<TOriginal>(choiceContext, target, originalStacks, applier, cardSource);
 		}
 
 		if (splitStacks > 0)
 		{
-			await PowerCmd.Apply<TSplit>(target, splitStacks, applier, cardSource);
+			await PowerCmd.Apply<TSplit>(choiceContext, target, splitStacks, applier, cardSource);
 		}
 	}
 }

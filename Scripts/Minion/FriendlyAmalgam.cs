@@ -401,9 +401,6 @@ public class FriendlyAmalgam : QueenMinionModel
         await ClearTorchSlots();
     }
 
-<<<<<<< HEAD
-    public override async Task AfterTurnEnd(PlayerChoiceContext choiceContext, CombatSide side)
-=======
     public override Task AfterCombatEnd(CombatRoom room)
     {
         _ = room;
@@ -412,9 +409,8 @@ public class FriendlyAmalgam : QueenMinionModel
     }
 
     public override async Task AfterSideTurnEnd(PlayerChoiceContext choiceContext, CombatSide side, IEnumerable<Creature> participants)
->>>>>>> beta
     {
-        await base.AfterTurnEnd(choiceContext, side);
+        await base.AfterSideTurnEnd(choiceContext, side, participants);
         if (side != CombatSide.Player)
         {
             return;
@@ -645,14 +641,11 @@ public class FriendlyAmalgam : QueenMinionModel
             {
                 await AmalgamActionRegistry.ExecuteTemporaryAsync(choiceContext, Creature, intent);
             }
-<<<<<<< HEAD
-=======
             else
             {
                 ReturnTorchSlotIntent(intent);
             }
 
->>>>>>> beta
             return false;
         }
         bool hadAnyIntentBefore = false;

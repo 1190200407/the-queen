@@ -42,7 +42,7 @@ public sealed class SelfDestruct : QueenCardModel
     {
         get
         {
-            CombatState? combatState = base.Owner?.Creature?.CombatState;
+            ICombatState? combatState = base.Owner?.Creature?.CombatState;
             if (combatState == null || base.Owner == null)
             {
                 return base.IsPlayable;
@@ -60,7 +60,7 @@ public sealed class SelfDestruct : QueenCardModel
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         _ = cardPlay;
-        if (base.Owner.Creature.CombatState is not CombatState combatState)
+        if (base.Owner.Creature.CombatState is not ICombatState combatState)
         {
             return;
         }
@@ -94,7 +94,7 @@ public sealed class SelfDestruct : QueenCardModel
 
     private static decimal GetAmalgamCurrentHp(CardModel card)
     {
-        CombatState? combatState = card.Owner?.Creature?.CombatState;
+        ICombatState? combatState = card.Owner?.Creature?.CombatState;
         if (combatState == null || card.Owner == null)
         {
             return 0m;
@@ -104,7 +104,7 @@ public sealed class SelfDestruct : QueenCardModel
         return amalgam?.Monster is FriendlyAmalgam ? amalgam.CurrentHp : 0m;
     }
 
-    private static bool HasAmalgam(CombatState combatState, Player owner)
+    private static bool HasAmalgam(ICombatState combatState, Player owner)
     {
         Creature? amalgam = FriendlyAmalgamCmd.GetExisting(combatState, owner);
         return amalgam?.Monster is FriendlyAmalgam;

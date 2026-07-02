@@ -34,7 +34,7 @@ public sealed class DropStrike : QueenCardModel
         new CalculationExtraVar(1m),
         new CalculatedVar("AttackAll").WithMultiplier((CardModel card, Creature? _) => 
         {
-            CombatState? combatState = card.Owner.Creature.CombatState;
+            ICombatState? combatState = card.Owner.Creature.CombatState;
             if (combatState is null)
             {
                 return 1m;

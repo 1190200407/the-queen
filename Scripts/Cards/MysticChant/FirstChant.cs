@@ -58,12 +58,12 @@ public sealed class FirstChant : QueenCardModel
 		}
 	}
 
-    protected override PileType GetResultPileType()
+    protected override PileType GetResultPileTypeForCardPlay()
     {
-		PileType resultPileType = base.GetResultPileType();
-		if (resultPileType != PileType.Discard && resultPileType != PileType.Exhaust)
+		PileType resultPileTypeForCardPlay = base.GetResultPileTypeForCardPlay();
+		if (resultPileTypeForCardPlay != PileType.Discard && resultPileTypeForCardPlay != PileType.Exhaust)
 		{
-			return resultPileType;
+			return resultPileTypeForCardPlay;
 		}
 		return PileType.Hand;
     }

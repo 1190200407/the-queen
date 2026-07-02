@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://crke1i3866lmr"
-path="res://.godot/imported/hex.png-d0a0c97742690cab0d3c6aae38d5c1c0.ctex"
+uid="uid://cx8jehucmrn3j"
+path="res://.godot/imported/smoggy.png-54ff03e6f1cbd435201a24c0bed703b2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://TheQueen/images/card_portraits/big/hex.png"
-dest_files=["res://.godot/imported/hex.png-d0a0c97742690cab0d3c6aae38d5c1c0.ctex"]
+source_file="res://TheQueen/images/card_portraits/monsters/smoggy.png"
+dest_files=["res://.godot/imported/smoggy.png-54ff03e6f1cbd435201a24c0bed703b2.ctex"]
 
 [params]
 

@@ -33,7 +33,7 @@ public sealed class AshenWall : QueenCardModel
 
 	protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
 	{
-		await PowerCmd.Apply<AshenWallPower>(base.Owner.Creature, base.DynamicVars["BlockOnFadeExhaust"].BaseValue, base.Owner.Creature, this);
+		await PowerCmd.Apply<AshenWallPower>(choiceContext, base.Owner.Creature, base.DynamicVars["BlockOnFadeExhaust"].BaseValue, base.Owner.Creature, this);
 		await CreatureCmd.TriggerAnim(base.Owner.Creature, "Cast", base.Owner.Character.CastAnimDelay);
 	}
 

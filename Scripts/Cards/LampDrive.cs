@@ -13,7 +13,7 @@ using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>灯驱：抽牌；本回合每消耗 1 点魂灯，聚合体行动 1 次。</summary>
+/// <summary>灯驱：抽牌；本回合每获得 1 点魂灯，聚合体按灯驱层数执行行动。</summary>
 [RegisterCard(typeof(QueenCardPool))]
 public sealed class LampDrive : QueenCardModel
 {
@@ -27,6 +27,7 @@ public sealed class LampDrive : QueenCardModel
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
+        HoverTipFactory.FromPower<LampDrivePower>(),
         HoverTipFactory.FromPower<SoulLampPower>(),
     ];
 
@@ -39,7 +40,7 @@ public sealed class LampDrive : QueenCardModel
     {
         _ = cardPlay;
         await CardPileCmd.Draw(choiceContext, base.DynamicVars.Cards.IntValue, base.Owner);
-        await PowerCmd.Apply<LampDrivePower>(base.Owner.Creature, 1m, base.Owner.Creature, this);
+        await PowerCmd.Apply<LampDrivePower>(choiceContext, base.Owner.Creature, 1m, base.Owner.Creature, this);
         await CreatureCmd.TriggerAnim(base.Owner.Creature, "Cast", base.Owner.Character.CastAnimDelay);
     }
 

@@ -21,7 +21,7 @@ using STS2RitsuLib.Cards.DynamicVars;
 using STS2RitsuLib.Keywords;
 namespace ComicChess.TheQueen;
 
-/// <summary>喂食血肉：消�?张牌，召唤。消逝、魂缚（<see cref="HasSelfBound"/>）�?/summary>
+/// <summary>喂食血肉：消�?张牌，召唤。消逝、魂缚（<see cref="HasSelfBound"/>）�?/summary>
 [RegisterCard(typeof(TokenCardPool))]
 public sealed class FeedingFlesh : QueenCardModel
 {
@@ -49,7 +49,7 @@ public sealed class FeedingFlesh : QueenCardModel
 	protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
 	{
 		_ = cardPlay;
-		CombatState? cs = base.Owner.Creature.CombatState;
+		ICombatState? cs = base.Owner.Creature.CombatState;
 		if (cs == null)
 		{
 			return;

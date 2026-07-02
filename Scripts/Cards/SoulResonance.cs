@@ -44,7 +44,7 @@ public sealed class SoulResonance : QueenCardModel
 		_ = cardPlay;
 		await CreatureCmd.TriggerAnim(base.Owner.Creature, "Cast", base.Owner.Character.CastAnimDelay);
 
-		CombatState? combatState = base.Owner.Creature.CombatState;
+		ICombatState? combatState = base.Owner.Creature.CombatState;
 		if (combatState != null)
 		{
 			decimal summonAmount = base.DynamicVars.Summon.BaseValue;
@@ -58,7 +58,7 @@ public sealed class SoulResonance : QueenCardModel
 				await FriendlyAmalgamCmd.Summon(choiceContext, player, summonAmount, this);
 			}
 		}
-		await PowerCmd.Apply<SoulResonancePower>(base.Owner.Creature, 1m, base.Owner.Creature, this);
+		await PowerCmd.Apply<SoulResonancePower>(choiceContext, base.Owner.Creature, 1m, base.Owner.Creature, this);
 	}
 
 	protected override void OnUpgrade()

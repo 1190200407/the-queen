@@ -66,7 +66,7 @@ public sealed class Rampart : QueenCardModel
         decimal stacks = base.DynamicVars.Power<AmalgamRampartPower>().BaseValue;
         if (stacks > 0m)
         {
-            await PowerCmd.Apply<AmalgamRampartPower>(amalgam, stacks, base.Owner.Creature, this);
+            await PowerCmd.Apply<AmalgamRampartPower>(choiceContext, amalgam, stacks, base.Owner.Creature, this);
         }
     }
 }

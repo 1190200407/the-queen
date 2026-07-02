@@ -107,11 +107,7 @@
     "THE_QUEEN_CARD_REMINISCE.description":"[gold]消耗札[/gold]から[purple]魂縛[/purple]のカードを{Pick:diff()}枚選び、手札に戻す。\n[aqua]魂灯を1得る。[/aqua]",
     "THE_QUEEN_CARD_REMINISCE.selectionPrompt":"[gold]消耗札[/gold]から[purple]魂縛[/purple]のカードを{Amount}枚選び、手札に戻す。",
     "THE_QUEEN_CARD_STRONG_ADAPTABILITY.title":"強い適応力",
-<<<<<<< HEAD
-    "THE_QUEEN_CARD_STRONG_ADAPTABILITY.description":"{IfUpgraded:show:直ちに手札のカードを1枚選んでアップグレードする。|}ターン開始時、手札のカードを1枚選んでアップグレードする。",
-=======
     "THE_QUEEN_CARD_STRONG_ADAPTABILITY.description":"{IfUpgraded:show:手札のカードを1枚選んでアップグレードする。|}ターン開始時、手札のカードを1枚選んでアップグレードする。",
->>>>>>> beta
     "THE_QUEEN_CARD_TASTE.title":"味わい",
     "THE_QUEEN_CARD_TASTE.description":"[gold]{IfUpgraded:show:貪食+|貪食}[/gold]を3枚生成する。このターン[gold]貪食[/gold]をプレイするたび、カードを1枚引く。\n[aqua]魂灯を3得る。[/aqua]",
     "THE_QUEEN_CARD_WILLFUL.title":"気まま",
@@ -131,11 +127,7 @@
     "THE_QUEEN_CARD_FIRE_WALL.title":"炎の壁",
     "THE_QUEEN_CARD_FIRE_WALL.description":"[aqua]魂灯を1得る。[/aqua]\n持っている[aqua]魂灯[/aqua]1につき、{Block:diff()} [gold]ブロック[/gold]を得る。",
     "THE_QUEEN_CARD_HUNDRED_HANDS_BANQUET.title":"百手の饗宴",
-<<<<<<< HEAD
-    "THE_QUEEN_CARD_HUNDRED_HANDS_BANQUET.description":"[gold]{IfUpgraded:show:掌握の手+|掌握の手}[/gold]を1枚と[gold]{IfUpgraded:show:拒絶の手+|拒絶の手}[/gold]を1枚生成する。\n[aqua]魂灯をX得る。[/aqua]",
-=======
     "THE_QUEEN_CARD_HUNDRED_HANDS_BANQUET.description":"[gold]フェード[/gold]付き[gold]{IfUpgraded:show:引っかき+|引っかき}[/gold]をX枚生成する。\n[aqua]魂灯をX得る。[/aqua]",
->>>>>>> beta
     "THE_QUEEN_CARD_HAND_OF_SEIZURE.title":"掌握の手",
     "THE_QUEEN_CARD_HAND_OF_SEIZURE.description":"{Damage:diff()}ダメージを与える。[gold]{IfUpgraded:show:拒絶の手+|拒絶の手}[/gold]を1枚と[gold]{IfUpgraded:show:掌握の手+|掌握の手}[/gold]を1枚生成する。\n[gold]フェード[/gold]",
     "THE_QUEEN_CARD_HAND_OF_REFUSAL.title":"拒絶の手",
@@ -366,11 +358,7 @@
     "THE_QUEEN_CARD_GIMME.title":"よこせ！",
     "THE_QUEEN_CARD_GIMME.description":"{Summon:diff()} [gold]召喚[/gold]する。\n[gold]融合体[/gold]は{AmalgamThieveryPower:diff()} [gold]窃盗[/gold]を得る。{AmalgamEscapePower:diff()}ターン後に逃走する。",
     "THE_QUEEN_CARD_GREMLIN_STAB.title":"グレムリンの刺突",
-<<<<<<< HEAD
-    "THE_QUEEN_CARD_GREMLIN_STAB.description":"[gold]融合体[/gold]は対象に{Damage:diff()}ダメージを与える。{Gold:diff()} [gold]ゴールド[/gold]を盗む。",
-=======
     "THE_QUEEN_CARD_GREMLIN_STAB.description":"[gold]融合体[/gold]は対象に{AmalgamDamage:diff()}ダメージを与える。{Gold:diff()} [gold]ゴールド[/gold]を盗む。",
->>>>>>> beta
     "THE_QUEEN_CARD_FLEE.title":"逃走",
     "THE_QUEEN_CARD_FLEE.description":"[gold]融合体[/gold]は戦闘から離脱する。盗んだ[gold]ゴールド[/gold]を戦闘報酬に加える。",
     "THE_QUEEN_CARD_TACTICAL_DIRECTIVE.title":"戦術指令",
@@ -413,11 +401,7 @@
     "THE_QUEEN_CARD_CLOSE_DOOR.title":"扉を閉じる",
     "THE_QUEEN_CARD_CLOSE_DOOR.description":"{Summon:diff()} [gold]召喚[/gold]する。\n[gold]融合体[/gold]は{AmalgamDoormakerBossPower:diff()} [gold]扉番の殻[/gold]を得る。\n[purple]R.I.P.[/purple]",
     "THE_QUEEN_CARD_VITAL_SPARK.title":"生命の火花",
-<<<<<<< HEAD
-    "THE_QUEEN_CARD_VITAL_SPARK.description":"{Summon:diff()} [gold]召喚[/gold]する。\n[gold]融合体[/gold]は{AmalgamVitalSparkPower:diff()} [gold]生命の火花[/gold]を得る。",
-=======
     "THE_QUEEN_CARD_VITAL_SPARK.description":"[gold]生命の火花[/gold]を2得る。[gold]汚染[/gold]を得るたび、すべての敵は2倍の[gold]汚染[/gold]を得る。",
->>>>>>> beta
     "THE_QUEEN_CARD_RELOAD_FIRE.title":"再装填",
     "THE_QUEEN_CARD_RELOAD_FIRE.description":"{Summon:diff()} [gold]召喚[/gold]する。\n[gold]意図学習[/gold]：{LearnIntentBlock:diff()}ブロックを得る。次のターン開始時、{LearnIntentDamage:diff()}ダメージを与える。",
     "THE_QUEEN_CARD_GRASPING_VINES.title":"絡みつく蔓",
@@ -443,11 +427,7 @@
     "THE_QUEEN_CARD_BACK_ATTACK.title":"背後攻撃",
     "THE_QUEEN_CARD_BACK_ATTACK.description":"{Summon:diff()} [gold]召喚[/gold]する。\n[gold]入れ替え[/gold]を1枚生成する。\nすべての敵は[gold]背後攻撃[/gold]を得る。",
     "THE_QUEEN_CARD_CURSE_OF_KNOWLEDGE.title":"知識の呪い",
-<<<<<<< HEAD
-    "THE_QUEEN_CARD_CURSE_OF_KNOWLEDGE.description":"{Summon:diff()} [gold]召喚[/gold]する。各戦闘開始時、[gold]若返り[/gold]、[gold]心の明晰[/gold]、[gold]崩壊[/gold]のいずれか1つを選んで実行する。",
-=======
     "THE_QUEEN_CARD_CURSE_OF_KNOWLEDGE.description":"{Summon:diff()} [gold]召喚[/gold]する。自分のターン開始時、[gold]若返り[/gold]、[gold]心の明晰[/gold]、[gold]崩壊[/gold]のいずれか1つを選んで実行する。",
->>>>>>> beta
     "THE_QUEEN_CARD_LIQUIFY_GROUND.title":"地面液化",
     "THE_QUEEN_CARD_LIQUIFY_GROUND.description":"{Sandpit:choose(0):{AmalgamSandpitPower:diff()} [gold]砂穴[/gold]を得る。\n|}{InCombat:|ボス戦の場合、代わりに10を得る。\n}[gold]召喚[/gold] {Summon:diff()}。\n[gold]意図学習[/gold]：[gold]狂乱の引きずり[/gold]を1枚生成する。",
     "THE_QUEEN_CARD_FRANTIC_TUG.title":"狂乱の引きずり",
@@ -462,9 +442,6 @@
     "THE_QUEEN_CARD_NIBBLE.title":"軽い噛み",
     "THE_QUEEN_CARD_NIBBLE.description":"[gold]融合体[/gold]は{LearnIntentDamage:diff()}ダメージを与える。",
     "THE_QUEEN_CARD_SCHIZOPHRENIA.title":"統合失調",
-<<<<<<< HEAD
-    "THE_QUEEN_CARD_SCHIZOPHRENIA.description":"{VulnerablePower:diff()} [gold]脆弱[/gold]と{WeakPower:diff()} [gold]弱体[/gold]を付与する。対象の[gold]脆弱[/gold]と[gold]弱体[/gold]を2つに分割し、スタックを均等に分配する。"
-=======
     "THE_QUEEN_CARD_SCHIZOPHRENIA.description":"{VulnerablePower:diff()} [gold]脆弱[/gold]と{WeakPower:diff()} [gold]弱体[/gold]を付与する。対象の[gold]脆弱[/gold]と[gold]弱体[/gold]を2つに分割し、スタックを均等に分配する。",
     "THE_QUEEN_CARD_UNKNOWN_SOUL.title":"名無しの魂",
     "THE_QUEEN_CARD_UNKNOWN_SOUL.description":"[gold]融合体[/gold]を{Summon:diff()} [gold]召喚[/gold]する。",
@@ -472,5 +449,4 @@
     "THE_QUEEN_CARD_UNKNOWN_SOUL_UNCOMMON.description":"[gold]融合体[/gold]を{Summon:diff()} [gold]召喚[/gold]する。",
     "THE_QUEEN_CARD_UNKNOWN_SOUL_RARE.title":"名無しの魂",
     "THE_QUEEN_CARD_UNKNOWN_SOUL_RARE.description":"[gold]融合体[/gold]を{Summon:diff()} [gold]召喚[/gold]する。"
->>>>>>> beta
 }

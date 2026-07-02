@@ -43,7 +43,7 @@ public sealed class PredatoryAssimilationPower : QueenPowerModel, IAmalgamEventL
 		}
     }
 
-	public async Task OnAmalgamDamagedCreatureAsync(CombatState combatState, PlayerChoiceContext choiceContext, Creature amalgam, Creature damagedEnemy, IEnumerable<DamageResult> damageResults)
+	public async Task OnAmalgamDamagedCreatureAsync(ICombatState combatState, PlayerChoiceContext choiceContext, Creature amalgam, Creature damagedEnemy, IEnumerable<DamageResult> damageResults)
 	{
 		if (amalgam.PetOwner is not Player queen)
 		{

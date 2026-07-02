@@ -26,7 +26,7 @@ public static class QueenDebuffUtil
 	public static int CountDebuffPowers(Creature creature, bool excludeTemporary = false) =>
 		CountDebuffPowers(creature.Powers, excludeTemporary);
 
-	public static int CountBattlefieldDebuffs(CombatState combatState, bool excludeTemporary = true)
+	public static int CountBattlefieldDebuffs(ICombatState combatState, bool excludeTemporary = true)
 	{
 		int n = 0;
 		foreach (Creature creature in combatState.Creatures)

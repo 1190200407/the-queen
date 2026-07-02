@@ -59,7 +59,7 @@ public sealed class AmalgamFlamethrowerIntentAction : AmalgamActionModel
 
         if (_nextTurnDamage > 0m)
         {
-            await PowerCmd.Apply<AmalgamNextRoundAttackPower>(amalgam, _nextTurnDamage, applier: queenCreature, cardSource: null, silent: true);
+            await PowerCmd.Apply<AmalgamNextRoundAttackPower>(choiceContext, amalgam, _nextTurnDamage, applier: queenCreature, cardSource: null, silent: true);
         }
     }
 }

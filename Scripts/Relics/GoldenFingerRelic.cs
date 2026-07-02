@@ -41,7 +41,7 @@ public sealed class GoldenFingerRelic : QueenRelicModel
 		return Task.CompletedTask;
 	}
 
-    public override Task BeforeSideTurnStart(PlayerChoiceContext choiceContext, CombatSide side, CombatState combatState)
+    public override Task BeforeSideTurnStart(PlayerChoiceContext choiceContext, CombatSide side, IReadOnlyList<Creature> participants, ICombatState combatState)
     {
 		if (side == base.Owner.Creature.Side)
 		{

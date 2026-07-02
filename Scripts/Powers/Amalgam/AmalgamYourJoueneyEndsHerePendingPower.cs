@@ -35,7 +35,7 @@ public sealed class AmalgamYourJoueneyEndsHerePendingPower : QueenPowerModel, IA
         new IntVar("StrengthToGain", 0m),
     ];
 
-    public override bool IsInstanced => true;
+    public override PowerInstanceType InstanceType => PowerInstanceType.Instanced;
 
     internal void ConfigureStrength(decimal strengthToGain)
     {
@@ -44,7 +44,7 @@ public sealed class AmalgamYourJoueneyEndsHerePendingPower : QueenPowerModel, IA
         base.DynamicVars["StrengthToGain"].BaseValue = strengthToGain;
     }
 
-    public async Task AfterAmalgamTurnEnd(CombatState combatState, Creature amalgam)
+    public async Task AfterAmalgamTurnEnd(ICombatState combatState, Creature amalgam)
     {
         await PowerCmd.Decrement(this);
         if (Amount > 0m)
@@ -59,7 +59,7 @@ public sealed class AmalgamYourJoueneyEndsHerePendingPower : QueenPowerModel, IA
             if (amalgamCreature is { IsAlive: true } && data.StrengthToGain > 0m)
             {
                 Flash();
-                await PowerCmd.Apply<StrengthPower>(amalgamCreature, data.StrengthToGain, base.Owner, null);
+                await PowerCmd.Apply<StrengthPower>(new ThrowingPlayerChoiceContext(), amalgamCreature, data.StrengthToGain, base.Owner, null);
                 
                 LocString line = MonsterModel.L10NMonsterLookup("FRIENDLY_AMALGAM.YOUR_JOURNEY_ENDS_HERE.speakLine2");
                 ThinkCmd.Play(line, amalgamCreature);

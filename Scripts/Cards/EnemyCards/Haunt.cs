@@ -40,6 +40,7 @@ public sealed class Haunt : LearnIntentCardModel
         ..base.AdditionalHoverTips,
         HoverTipFactory.FromPower<WeakPower>(),
         HoverTipFactory.FromPower<VulnerablePower>(),
+        HoverTipFactory.FromPower<AmalgamIntentStrengthDownPower>(),
     ];
 
     public Haunt()

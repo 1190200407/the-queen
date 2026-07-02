@@ -79,7 +79,7 @@ public sealed class AmalgamAttackAndWeakIntentAction : AmalgamActionModel
 
     private async Task ExecuteOffensePart(PlayerChoiceContext choiceContext, Creature amalgam)
     {
-        CombatState? combatState = amalgam.CombatState;
+        ICombatState? combatState = amalgam.CombatState;
         if (combatState == null || amalgam.PetOwner is not Player queen)
         {
             return;
@@ -141,7 +141,7 @@ public sealed class AmalgamAttackAndWeakIntentAction : AmalgamActionModel
     private async Task ExecuteWeakPart(PlayerChoiceContext choiceContext, Creature amalgam)
     {
         _ = choiceContext;
-        CombatState? combatState = amalgam.CombatState;
+        ICombatState? combatState = amalgam.CombatState;
         if (combatState == null || amalgam.PetOwner is not Player queen || !queen.Creature.IsAlive)
         {
             return;
@@ -162,7 +162,7 @@ public sealed class AmalgamAttackAndWeakIntentAction : AmalgamActionModel
         {
             foreach (Creature enemy in alive)
             {
-                await PowerCmd.Apply<WeakPower>(enemy, _weak, applier, null);
+                await PowerCmd.Apply<WeakPower>(choiceContext, enemy, _weak, applier, null);
             }
 
             return;
@@ -173,7 +173,7 @@ public sealed class AmalgamAttackAndWeakIntentAction : AmalgamActionModel
             Creature? marked = AmalgamOffenseTargeting.FindMarkedEnemy(combatState);
             if (marked is { IsAlive: true })
             {
-                await PowerCmd.Apply<WeakPower>(marked, _weak, applier, null);
+                await PowerCmd.Apply<WeakPower>(choiceContext, marked, _weak, applier, null);
             }
 
             return;
@@ -185,7 +185,7 @@ public sealed class AmalgamAttackAndWeakIntentAction : AmalgamActionModel
             return;
         }
 
-        await PowerCmd.Apply<WeakPower>(randomEnemy, _weak, applier, null);
+        await PowerCmd.Apply<WeakPower>(choiceContext, randomEnemy, _weak, applier, null);
     }
 }
 

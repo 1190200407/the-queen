@@ -13,16 +13,12 @@ using MegaCrit.Sts2.Core.Models;
 
 namespace ComicChess.TheQueen;
 
-<<<<<<< HEAD
-/// <summary>灯驱：本回合每消耗 1 点魂灯，聚合体行动 1 次；回合结束时移除。</summary>
-=======
 /// <summary>灯驱（可叠加）：本回合每消耗 1 点魂灯，聚合体按层数执行行动；回合结束时移除。</summary>
->>>>>>> beta
 public sealed class LampDrivePower : QueenPowerModel, ISoulLampEventListener
 {
     public override PowerType Type => PowerType.Buff;
 
-    public override PowerStackType StackType => PowerStackType.Single;
+    public override PowerStackType StackType => PowerStackType.Counter;
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
@@ -38,20 +34,12 @@ public sealed class LampDrivePower : QueenPowerModel, ISoulLampEventListener
     {
         _ = applier;
         _ = cardSource;
-<<<<<<< HEAD
-        if (delta >= 0m || player != base.Owner.Player)
-=======
         if (delta >= 0m || player != base.Owner?.Player)
->>>>>>> beta
         {
             return;
         }
 
-<<<<<<< HEAD
-        if (base.CombatState is not CombatState combatState)
-=======
         if (base.CombatState is not ICombatState combatState)
->>>>>>> beta
         {
             return;
         }
@@ -62,17 +50,13 @@ public sealed class LampDrivePower : QueenPowerModel, ISoulLampEventListener
             return;
         }
 
-        int totalActions = (int)(-delta);
-        if (totalActions <= 0)
+        int actionsPerSoulLamp = (int)Amount;
+        if (actionsPerSoulLamp <= 0)
         {
             return;
         }
-<<<<<<< HEAD
-
-=======
         
         int totalActions = (int)-delta * actionsPerSoulLamp;
->>>>>>> beta
         Flash();
         for (int i = 0; i < totalActions; i++)
         {
@@ -90,9 +74,10 @@ public sealed class LampDrivePower : QueenPowerModel, ISoulLampEventListener
         }
     }
 
-    public override async Task AfterTurnEnd(PlayerChoiceContext choiceContext, CombatSide side)
+    public override async Task AfterSideTurnEnd(PlayerChoiceContext choiceContext, CombatSide side, IEnumerable<Creature> participants)
     {
         _ = choiceContext;
+        _ = participants;
         if (side == base.Owner.Side)
         {
             await PowerCmd.Remove(this);

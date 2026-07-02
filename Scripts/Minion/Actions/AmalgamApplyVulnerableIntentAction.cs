@@ -71,7 +71,7 @@ public sealed class AmalgamApplyVulnerableIntentAction : AmalgamActionModel
 
     protected override async Task OnExecute(PlayerChoiceContext choiceContext, Creature amalgam)
     {
-        CombatState? combatState = amalgam.CombatState;
+        ICombatState? combatState = amalgam.CombatState;
         if (combatState == null || amalgam.PetOwner is not Player queen || !queen.Creature.IsAlive)
         {
             return;
@@ -90,7 +90,7 @@ public sealed class AmalgamApplyVulnerableIntentAction : AmalgamActionModel
 
         if (_forcedTarget is { IsAlive: true } forcedTarget && alive.Contains(forcedTarget))
         {
-            await PowerCmd.Apply<VulnerablePower>(forcedTarget, Amount, applier, null);
+            await PowerCmd.Apply<VulnerablePower>(choiceContext, forcedTarget, Amount, applier, null);
             return;
         }
 
@@ -98,7 +98,7 @@ public sealed class AmalgamApplyVulnerableIntentAction : AmalgamActionModel
         {
             foreach (Creature enemy in alive)
             {
-                await PowerCmd.Apply<VulnerablePower>(enemy, Amount, applier, null);
+                await PowerCmd.Apply<VulnerablePower>(choiceContext, enemy, Amount, applier, null);
             }
 
             return;
@@ -109,7 +109,7 @@ public sealed class AmalgamApplyVulnerableIntentAction : AmalgamActionModel
             Creature? marked = AmalgamOffenseTargeting.FindMarkedEnemy(combatState);
             if (marked is { IsAlive: true })
             {
-                await PowerCmd.Apply<VulnerablePower>(marked, Amount, applier, null);
+                await PowerCmd.Apply<VulnerablePower>(choiceContext, marked, Amount, applier, null);
             }
 
             return;
@@ -121,6 +121,6 @@ public sealed class AmalgamApplyVulnerableIntentAction : AmalgamActionModel
             return;
         }
 
-        await PowerCmd.Apply<VulnerablePower>(randomEnemy, Amount, applier, null);
+        await PowerCmd.Apply<VulnerablePower>(choiceContext, randomEnemy, Amount, applier, null);
     }
 }

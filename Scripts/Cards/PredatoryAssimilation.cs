@@ -25,7 +25,7 @@ public sealed class PredatoryAssimilation : QueenCardModel, ICanMonsterCapture
 	private const TargetType targetType = TargetType.AnyEnemy;
 	private const bool shouldShowInCardLibrary = true;
 
-	public bool CanCapture(MonsterModel monster, CombatState combatState) =>
+	public bool CanCapture(MonsterModel monster, ICombatState combatState) =>
 		monster is not null && combatState is not null
 		&& MonsterCaptureRewardCatalog.GetEncounterRoomType(combatState) switch
 		{
@@ -56,7 +56,7 @@ public sealed class PredatoryAssimilation : QueenCardModel, ICanMonsterCapture
 			return;
 		}
 
-		PredatoryAssimilationPower? predatoryAssimilation = await PowerCmd.Apply<PredatoryAssimilationPower>(base.Owner.Creature, 1m, base.Owner.Creature, this);
+		PredatoryAssimilationPower? predatoryAssimilation = await PowerCmd.Apply<PredatoryAssimilationPower>(choiceContext, base.Owner.Creature, 1m, base.Owner.Creature, this);
 		if (predatoryAssimilation is not null)
 		{
 			predatoryAssimilation.ConfigureIsUpgraded(base.IsUpgraded);

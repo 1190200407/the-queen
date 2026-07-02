@@ -107,11 +107,7 @@
     "THE_QUEEN_CARD_REMINISCE.description": "[gold]소멸 더미[/gold]에서 [purple]영혼 속박[/purple] 카드 {Pick:diff()}장을 선택해 손으로 되돌립니다.\n[aqua]영혼등 1개를 얻습니다.[/aqua]",
     "THE_QUEEN_CARD_REMINISCE.selectionPrompt": "[gold]소멸 더미[/gold]에서 손으로 되돌릴 [purple]영혼 속박[/purple] 카드 {Amount}장을 선택합니다.",
     "THE_QUEEN_CARD_STRONG_ADAPTABILITY.title": "강한 적응력",
-<<<<<<< HEAD
-    "THE_QUEEN_CARD_STRONG_ADAPTABILITY.description": "{IfUpgraded:show:즉시 손에 있는 카드 1장을 선택해 업그레이드합니다.|}턴 시작 시, 손에 있는 카드 1장을 선택해 업그레이드합니다.",
-=======
     "THE_QUEEN_CARD_STRONG_ADAPTABILITY.description": "{IfUpgraded:show:손에 있는 카드 1장을 선택해 업그레이드합니다.|}턴 시작 시, 손에 있는 카드 1장을 선택해 업그레이드합니다.",
->>>>>>> beta
     "THE_QUEEN_CARD_TASTE.title": "맛보기",
     "THE_QUEEN_CARD_TASTE.description": "[gold]{IfUpgraded:show:삼키기+|삼키기}[/gold] 3장을 생성합니다. 이번 턴 [gold]삼키기[/gold]를 플레이할 때마다, 카드 1장을 뽑습니다.\n[aqua]영혼등 3개를 얻습니다.[/aqua]",
     "THE_QUEEN_CARD_WILLFUL.title": "고집",
@@ -131,11 +127,7 @@
     "THE_QUEEN_CARD_FIRE_WALL.title": "화염 벽",
     "THE_QUEEN_CARD_FIRE_WALL.description": "[aqua]영혼등 1개를 얻습니다.[/aqua]\n보유한 [aqua]영혼등[/aqua]마다 [gold]방어도[/gold]를 {Block:diff()} 얻습니다.",
     "THE_QUEEN_CARD_HUNDRED_HANDS_BANQUET.title": "백수 연회",
-<<<<<<< HEAD
-    "THE_QUEEN_CARD_HUNDRED_HANDS_BANQUET.description": "[gold]{IfUpgraded:show:포획의 손+|포획의 손}[/gold] 1장과 [gold]{IfUpgraded:show:거부의 손+|거부의 손}[/gold] 1장을 생성합니다.\n[aqua]영혼등 X개를 얻습니다.[/aqua]",
-=======
     "THE_QUEEN_CARD_HUNDRED_HANDS_BANQUET.description": "[gold]페이드[/gold]가 있는 [gold]{IfUpgraded:show:할퀴기+|할퀴기}[/gold] X장을 생성합니다.\n[aqua]영혼등 X개를 얻습니다.[/aqua]",
->>>>>>> beta
     "THE_QUEEN_CARD_HAND_OF_SEIZURE.title": "포획의 손",
     "THE_QUEEN_CARD_HAND_OF_SEIZURE.description": "피해를 {Damage:diff()} 줍니다. [gold]{IfUpgraded:show:거부의 손+|거부의 손}[/gold] 1장과 [gold]{IfUpgraded:show:포획의 손+|포획의 손}[/gold] 1장을 생성합니다.\n[gold]페이드[/gold]",
     "THE_QUEEN_CARD_HAND_OF_REFUSAL.title": "거부의 손",
@@ -234,11 +226,7 @@
     "THE_QUEEN_CARD_CONSTRICT.title": "조이기",
     "THE_QUEEN_CARD_CONSTRICT.description": "{Summon:diff()} [gold]소환[/gold]합니다.\n[gold]의도 학습[/gold]: {LearnIntentConstrict:diff()} [gold]조이기[/gold]를 부여합니다.",
     "THE_QUEEN_CARD_SHRINKER.title": "축소 광선",
-<<<<<<< HEAD
-    "THE_QUEEN_CARD_SHRINKER.description": "[gold]소환[/gold] {Summon:diff()}. [gold]융합체[/gold]가 모든 적을 {ShrinkPower:diff()}턴 동안 축소합니다.",
-=======
     "THE_QUEEN_CARD_SHRINKER.description": "{Summon:diff()} [gold]소환[/gold]합니다. [gold]융합체[/gold]가 모든 적을 {ShrinkPower:diff()}턴 동안 축소합니다.",
->>>>>>> beta
     "THE_QUEEN_CARD_SCREECH.title": "비명",
     "THE_QUEEN_CARD_SCREECH.description": "{Summon:diff()} [gold]소환[/gold]합니다.\n[gold]의도 학습[/gold]: 대상이 이번 턴에 [gold]힘[/gold]을 {LearnIntentStrengthLoss:diff()} 잃습니다. [gold]비명[/gold] 1장을 생성합니다.",
     "THE_QUEEN_CARD_PLATING.title": "판금",
@@ -370,11 +358,7 @@
     "THE_QUEEN_CARD_GIMME.title": "내놔",
     "THE_QUEEN_CARD_GIMME.description": "{Summon:diff()} [gold]소환[/gold]합니다.\n[gold]융합체[/gold]가 [gold]절도[/gold]를 {AmalgamThieveryPower:diff()} 얻습니다. {AmalgamEscapePower:diff()}턴 후 도주합니다.",
     "THE_QUEEN_CARD_GREMLIN_STAB.title": "그렘린 찌르기",
-<<<<<<< HEAD
-    "THE_QUEEN_CARD_GREMLIN_STAB.description": "[gold]융합체[/gold]가 대상에게 {Damage:diff()} 피해를 줍니다. [gold]금[/gold] {Gold:diff()}를 훔칩니다.",
-=======
     "THE_QUEEN_CARD_GREMLIN_STAB.description": "[gold]융합체[/gold]가 대상에게 {AmalgamDamage:diff()} 피해를 줍니다. [gold]금[/gold] {Gold:diff()}를 훔칩니다.",
->>>>>>> beta
     "THE_QUEEN_CARD_FLEE.title": "도주",
     "THE_QUEEN_CARD_FLEE.description": "[gold]융합체[/gold]가 전투를 떠납니다. 훔친 [gold]금[/gold]을 전투 보상에 추가합니다.",
     "THE_QUEEN_CARD_TACTICAL_DIRECTIVE.title": "전술 지령",
@@ -417,11 +401,7 @@
     "THE_QUEEN_CARD_CLOSE_DOOR.title": "문 닫기",
     "THE_QUEEN_CARD_CLOSE_DOOR.description": "{Summon:diff()} [gold]소환[/gold]합니다.\n[gold]융합체[/gold]가 [gold]문지기 껍질[/gold]을 {AmalgamDoormakerBossPower:diff()} 얻습니다.\n[purple]R.I.P.[/purple]",
     "THE_QUEEN_CARD_VITAL_SPARK.title": "활력의 불꽃",
-<<<<<<< HEAD
-    "THE_QUEEN_CARD_VITAL_SPARK.description": "{Summon:diff()} [gold]소환[/gold]합니다.\n[gold]융합체[/gold]가 [gold]활력의 불꽃[/gold]을 {AmalgamVitalSparkPower:diff()} 얻습니다.",
-=======
     "THE_QUEEN_CARD_VITAL_SPARK.description": "[gold]활력의 불꽃[/gold] 2을 얻습니다. [gold]오염[/gold]을 얻을 때마다, 모든 적이 [gold]오염[/gold]을 2배 얻습니다.",
->>>>>>> beta
     "THE_QUEEN_CARD_RELOAD_FIRE.title": "재장전 사격",
     "THE_QUEEN_CARD_RELOAD_FIRE.description": "{Summon:diff()} [gold]소환[/gold]합니다.\n[gold]의도 학습[/gold]: [gold]방어도[/gold]를 {LearnIntentBlock:diff()} 얻습니다. 다음 턴 시작 시, {LearnIntentDamage:diff()} 피해를 줍니다.",
     "THE_QUEEN_CARD_GRASPING_VINES.title": "휘감는 덩굴",
@@ -447,11 +427,7 @@
     "THE_QUEEN_CARD_BACK_ATTACK.title": "등 뒤 공격",
     "THE_QUEEN_CARD_BACK_ATTACK.description": "{Summon:diff()} [gold]소환[/gold]합니다.\n[gold]측면 전환[/gold] 1장을 생성합니다.\n모든 적이 [gold]등 뒤 공격[/gold]을 얻습니다.",
     "THE_QUEEN_CARD_CURSE_OF_KNOWLEDGE.title": "지식의 저주",
-<<<<<<< HEAD
-    "THE_QUEEN_CARD_CURSE_OF_KNOWLEDGE.description": "{Summon:diff()} [gold]소환[/gold]합니다. 매 전투 시작 시, [gold]회춘[/gold], [gold]정신 명료[/gold], [gold]분해[/gold] 중 1개를 선택해 실행합니다.",
-=======
     "THE_QUEEN_CARD_CURSE_OF_KNOWLEDGE.description": "{Summon:diff()} [gold]소환[/gold]합니다. 당신의 턴 시작 시, [gold]회춘[/gold], [gold]정신 명료[/gold], [gold]분해[/gold] 중 1개를 선택해 실행합니다.",
->>>>>>> beta
     "THE_QUEEN_CARD_LIQUIFY_GROUND.title": "땅 액화",
     "THE_QUEEN_CARD_LIQUIFY_GROUND.description": "{Sandpit:choose(0):[gold]모래함정[/gold]을 {AmalgamSandpitPower:diff()} 얻습니다.\n|}{InCombat:|보스 전투면 대신 10을 얻습니다.\n}{Summon:diff()} [gold]소환[/gold]합니다.\n[gold]의도 학습[/gold]: [gold]격렬한 당김[/gold] 1장을 생성합니다.",
     "THE_QUEEN_CARD_FRANTIC_TUG.title": "격렬한 당김",
@@ -466,9 +442,6 @@
     "THE_QUEEN_CARD_NIBBLE.title": "갉아먹기",
     "THE_QUEEN_CARD_NIBBLE.description": "[gold]융합체[/gold]가 {LearnIntentDamage:diff()} 피해를 줍니다.",
     "THE_QUEEN_CARD_SCHIZOPHRENIA.title": "분열",
-<<<<<<< HEAD
-    "THE_QUEEN_CARD_SCHIZOPHRENIA.description": "{VulnerablePower:diff()} [gold]취약[/gold]과 {WeakPower:diff()} [gold]약화[/gold]를 부여합니다. 대상의 [gold]취약[/gold]과 [gold]약화[/gold]를 2개로 나누고 중첩을 균등 분배합니다."
-=======
     "THE_QUEEN_CARD_SCHIZOPHRENIA.description": "{VulnerablePower:diff()} [gold]취약[/gold]과 {WeakPower:diff()} [gold]약화[/gold]를 부여합니다. 대상의 [gold]취약[/gold]과 [gold]약화[/gold]를 2개로 나누고 중첩을 균등 분배합니다.",
     "THE_QUEEN_CARD_UNKNOWN_SOUL.title": "이름 없는 영혼",
     "THE_QUEEN_CARD_UNKNOWN_SOUL.description": "[gold]융합체[/gold]를 {Summon:diff()} [gold]소환[/gold]합니다.",
@@ -476,5 +449,4 @@
     "THE_QUEEN_CARD_UNKNOWN_SOUL_UNCOMMON.description": "[gold]융합체[/gold]를 {Summon:diff()} [gold]소환[/gold]합니다.",
     "THE_QUEEN_CARD_UNKNOWN_SOUL_RARE.title": "이름 없는 영혼",
     "THE_QUEEN_CARD_UNKNOWN_SOUL_RARE.description": "[gold]융합체[/gold]를 {Summon:diff()} [gold]소환[/gold]합니다."
->>>>>>> beta
 }

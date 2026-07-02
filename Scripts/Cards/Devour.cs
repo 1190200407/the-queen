@@ -60,7 +60,7 @@ public sealed class Devour : QueenCardModel
         }
 
         decimal strengthLoss = base.DynamicVars.Strength.BaseValue;
-        await PowerCmd.Apply<DevourEnemyStrengthPower>(target, strengthLoss, applier, this);
+        await PowerCmd.Apply<DevourEnemyStrengthPower>(choiceContext, target, strengthLoss, applier, this);
 
         if (base.Owner.Creature.GetPower<QueenHungerPower>() is { Amount: > 0 } hunger)
         {

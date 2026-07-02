@@ -36,7 +36,7 @@ public sealed class HexCursePower : QueenPowerModel
 
     public override PowerStackType StackType => PowerStackType.Counter;
 
-    public override bool IsInstanced => true;
+    public override PowerInstanceType InstanceType => PowerInstanceType.Instanced;
 
     public override int DisplayAmount => Threshold - GetInternalData<Data>().EtherealExhaustedSinceLastTrigger;
 
@@ -80,7 +80,7 @@ public sealed class HexCursePower : QueenPowerModel
 
         Rng rng = player.RunState.Rng.CombatCardGeneration;
         CardModel random = CardFactory.GetDistinctForCombat(player, allUnlocked, 1, rng).First();
-        await CardPileCmd.AddGeneratedCardToCombat(random, PileType.Hand, addedByPlayer: true);
+        await CardPileCmd.AddGeneratedCardToCombat(random, PileType.Hand, player);
     }
 }
 

@@ -59,7 +59,7 @@ internal sealed class CardCmdDiscardAndDrawPatch : IPatchMethod
 		}
 
 		Player primaryOwner = anchor.Owner;
-		CombatState? combatState = anchor.CombatState ?? primaryOwner.Creature?.CombatState;
+		ICombatState? combatState = anchor.CombatState ?? primaryOwner.Creature?.CombatState;
 		if (combatState == null)
 		{
 			return;
@@ -76,7 +76,7 @@ internal sealed class CardCmdDiscardAndDrawPatch : IPatchMethod
 				continue;
 			}
 
-			CombatState? resolvedCombat = card.CombatState ?? owner.Creature.CombatState;
+			ICombatState? resolvedCombat = card.CombatState ?? owner.Creature.CombatState;
 			if (resolvedCombat == null || !resolvedCombat.ContainsCard(card))
 			{
 				continue;
@@ -94,7 +94,7 @@ internal sealed class CardCmdDiscardAndDrawPatch : IPatchMethod
 				slyCards.Add(card);
 			}
 
-			if (card.HasModKeyword(QueenModKeywords.Fade))
+			if (card.HasModKeyword(QueenKeyword.Fade))
 			{
 				fadeCards.Add(card);
 			}

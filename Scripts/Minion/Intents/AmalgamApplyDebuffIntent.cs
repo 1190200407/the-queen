@@ -40,7 +40,7 @@ public sealed class AmalgamApplyDebuffIntent : AbstractIntent
     {
         string descKey = IntentPrefix + ResolveDescriptionSuffix(owner);
         LocString d = new("intents", descKey);
-        CombatState? combatState = owner.CombatState;
+        ICombatState? combatState = owner.CombatState;
         d.Add("IsMultiplayer", combatState != null && combatState.RunState.Players.Count > 1);
         d.Add("Stacks", _stacks);
         d.Add("DebuffName", new LocString("powers", _debuffEntryId + ".title"));

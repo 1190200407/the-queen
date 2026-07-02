@@ -78,11 +78,11 @@ public sealed class GremlinStab : QueenCardModel
             Creature? applier = amalgam.PetOwner?.Creature;
             if (heist is null)
             {
-                await PowerCmd.Apply<AmalgamHeistPower>(amalgam, gold, applier, this);
+                await PowerCmd.Apply<AmalgamHeistPower>(choiceContext, amalgam, gold, applier, this);
             }
             else
             {
-                await PowerCmd.ModifyAmount(heist, gold, applier, this);
+                await PowerCmd.ModifyAmount(choiceContext, heist, gold, applier, this);
             }
         }
     }

@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
 
@@ -27,14 +26,12 @@ namespace ComicChess.TheQueen;
 public sealed class Marionette : QueenCardModel, ICanMonsterCapture
 {
     private const int energyCost = 1;
-    private const CardType type = CardType.Skill;
+    private const CardType type = CardType.Power;
     private const CardRarity rarity = CardRarity.Rare;
     private const TargetType targetType = TargetType.AnyEnemy;
     private const bool shouldShowInCardLibrary = true;
 
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
-
-    public bool CanCapture(MonsterModel monster, CombatState combatState) =>
+    public bool CanCapture(MonsterModel monster, ICombatState combatState) =>
         monster is not null && combatState is not null;
 
     public Marionette()
@@ -99,11 +96,7 @@ public sealed class Marionette : QueenCardModel, ICanMonsterCapture
             return;
         }
 
-<<<<<<< HEAD
-        CardModel? enemyCard = MonsterCaptureRewardCatalog.CreateCaptureRewardCard(base.Owner, monsterId);
-=======
         CardModel? enemyCard = MonsterCaptureRewardCatalog.CreateCaptureRewardCard(base.Owner, monsterId, target);
->>>>>>> beta
         if (enemyCard is null)
         {
             return;
@@ -114,9 +107,10 @@ public sealed class Marionette : QueenCardModel, ICanMonsterCapture
             return;
         }
 
-        await CardPileCmd.AddGeneratedCardToCombat(enemyCard, PileType.Hand, addedByPlayer: true);
+        await CardPileCmd.AddGeneratedCardToCombat(enemyCard, PileType.Hand, base.Owner);
 
-        MarionettePendingPower? pending = await PowerCmd.Apply<MarionettePendingPower>(base.Owner.Creature,
+        MarionettePendingPower? pending = await PowerCmd.Apply<MarionettePendingPower>(choiceContext, 
+            base.Owner.Creature,
             3m,
             base.Owner.Creature,
             this);

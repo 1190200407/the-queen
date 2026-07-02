@@ -64,7 +64,7 @@ public sealed class RoarClaw : LearnIntentCardModel
             return;
         }
 
-        CombatState? combatState = base.Owner.Creature.CombatState;
+        ICombatState? combatState = base.Owner.Creature.CombatState;
         if (combatState == null)
         {
             return;

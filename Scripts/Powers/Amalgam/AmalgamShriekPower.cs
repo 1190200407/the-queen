@@ -12,11 +12,7 @@ using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.Nodes.Combat;
-<<<<<<< HEAD
-using MegaCrit.Sts2.Core.Nodes.Rooms;
-=======
 using MegaCrit.Sts2.Core.TestSupport;
->>>>>>> beta
 using MegaCrit.Sts2.Core.ValueProps;
 
 namespace ComicChess.TheQueen;
@@ -123,48 +119,6 @@ public sealed class AmalgamShriekPower : QueenPowerModel
 		SfxCmd.Play("event:/sfx/enemy/enemy_attacks/terror_eel/terror_eel_debuff");
 		await CreatureCmd.TriggerAnim(base.Owner, "Cast", 0f);
 		await Cmd.Wait(0.3f);
-<<<<<<< HEAD
-		if (NCombatRoom.Instance?.GetCreatureNode(base.Owner) is { } creatureNode)
-		{
-			VfxCmd.PlayVfx(creatureNode.VfxSpawnPosition, "vfx/vfx_scream");
-		}
-		await Cmd.CustomScaledWait(0.1f, 0.3f);
-        foreach (var enemy in base.Owner.CombatState.Enemies)
-        {
-            if (enemy.IsAlive)
-            {
-                await PowerCmd.Apply<VulnerablePower>(enemy, _vulnerableStacks, base.Owner, null);
-            }
-        }
-        await Cmd.Wait(0.5f);
-        
-        await PowerCmd.Apply<AmalgamSleepPower>(base.Owner, 1m, applier: base.Owner, cardSource: null);
-        await PowerCmd.Remove(this);
-    }
-
-    public override async Task AfterPowerAmountChanged(PowerModel power, decimal amount, Creature? applier, CardModel? cardSource)
-    {
-        _ = power;
-        _ = amount;
-        _ = applier;
-        _ = cardSource;
-        if (Amount <= 0m)
-        {
-            return;
-        }
-        await CheckShriek(new ThrowingPlayerChoiceContext());
-    }
-
-    public override async Task AfterDamageGiven(PlayerChoiceContext choiceContext, Creature? dealer, DamageResult result, ValueProp props, Creature target, CardModel? cardSource)
-    {
-        if (target != base.Owner || !base.Owner.IsAlive)
-        {
-            return;
-        }
-        await CheckShriek(choiceContext);
-    }
-}
-=======
 
 		NCreature? node = base.Owner.GetCreatureNode();
 		Control? vfxContainer = base.Owner.GetVfxContainer();
@@ -177,4 +131,3 @@ public sealed class AmalgamShriekPower : QueenPowerModel
 		await Cmd.Wait(0.5f);
 	}
 }
->>>>>>> beta

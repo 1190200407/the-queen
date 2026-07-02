@@ -44,11 +44,7 @@ public sealed class Explode : QueenCardModel
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         _ = cardPlay;
-<<<<<<< HEAD
-        if (base.CombatState is not CombatState combatState)
-=======
         if (base.CombatState is not ICombatState combatState)
->>>>>>> beta
         {
             return;
         }

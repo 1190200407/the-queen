@@ -16,7 +16,7 @@ using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>裂隙：0 费群体攻击；魂灯每层使本牌耗能 +1。</summary>
+/// <summary>裂隙：0 费攻击；魂灯每层使本牌耗能 +1。</summary>
 [RegisterCard(typeof(QueenCardPool))]
 public sealed class Rift : QueenCardModel, ISoulLampEventListener
 {
@@ -87,11 +87,6 @@ public sealed class Rift : QueenCardModel, ISoulLampEventListener
         {
             return false;
         }
-        // 魂缚的牌不能耗能
-        if (card.Affliction is Bound)
-        {
-            return false;
-        }
 
         if (card.Affliction is Bound)
         {
@@ -105,11 +100,7 @@ public sealed class Rift : QueenCardModel, ISoulLampEventListener
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         _ = cardPlay;
-<<<<<<< HEAD
-        if (base.CombatState is not CombatState combatState)
-=======
         if (base.CombatState is not ICombatState combatState)
->>>>>>> beta
         {
             return;
         }

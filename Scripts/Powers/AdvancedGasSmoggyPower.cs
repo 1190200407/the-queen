@@ -15,28 +15,17 @@ using MegaCrit.Sts2.Core.Nodes.CommonUi;
 
 namespace ComicChess.TheQueen;
 
-<<<<<<< HEAD
-/// <summary>高级气体：回合结束时被烟雾侵蚀的牌变为爆炸。</summary>
-=======
 /// <summary>高级气体：打出技能时侵蚀技能牌；回合结束时变为爆炸。</summary>
->>>>>>> beta
 public sealed class AdvancedGasSmoggyPower : QueenPowerModel
 {
     public override PowerType Type => PowerType.Debuff;
 
     public override PowerStackType StackType => PowerStackType.Single;
 
-<<<<<<< HEAD
-    public override async Task BeforeTurnEnd(PlayerChoiceContext choiceContext, CombatSide side)
-    {
-        _ = choiceContext;
-        if (side != base.Owner.Side)
-=======
     public override async Task BeforeSideTurnEnd(PlayerChoiceContext choiceContext, CombatSide side, IEnumerable<Creature> participants)
     {
         _ = choiceContext;
         if (!participants.Contains(base.Owner))
->>>>>>> beta
         {
             return;
         }

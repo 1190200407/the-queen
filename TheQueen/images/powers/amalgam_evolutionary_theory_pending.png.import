@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://co62kabnqscgj"
-path="res://.godot/imported/beast_cry.png-f684045ae580d6b591e56c356c1eec9b.ctex"
+uid="uid://t8wtbukhyivg"
+path="res://.godot/imported/amalgam_evolutionary_theory_pending.png-a9eb492c8afe30b787c489c03039529b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://TheQueen/images/card_portraits/big/beast_cry.png"
-dest_files=["res://.godot/imported/beast_cry.png-f684045ae580d6b591e56c356c1eec9b.ctex"]
+source_file="res://TheQueen/images/powers/amalgam_evolutionary_theory_pending.png"
+dest_files=["res://.godot/imported/amalgam_evolutionary_theory_pending.png-a9eb492c8afe30b787c489c03039529b.ctex"]
 
 [params]
 

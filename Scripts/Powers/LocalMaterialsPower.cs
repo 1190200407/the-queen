@@ -24,7 +24,7 @@ public sealed class LocalMaterialsPower : QueenPowerModel
 
     public override PowerStackType StackType => PowerStackType.Counter;
     
-	public override bool IsInstanced => true;
+	public override PowerInstanceType InstanceType => PowerInstanceType.Instanced;
 
     public override int DisplayAmount => GetInternalData<Data>().triggerCount - GetInternalData<Data>().cardGeneratedCount;
 
@@ -46,9 +46,9 @@ public sealed class LocalMaterialsPower : QueenPowerModel
         InvokeDisplayAmountChanged();
     }
 
-    public override async Task AfterCardGeneratedForCombat(CardModel card, bool addedByPlayer)
+    public override async Task AfterCardGeneratedForCombat(CardModel card, Player? creator)
     {
-        if (!addedByPlayer || card.Owner?.Creature != base.Owner || Amount <= 0m)
+        if (creator == null ||  creator.Creature != base.Owner ||Amount <= 0m)
         {
             return;
         }
@@ -58,7 +58,7 @@ public sealed class LocalMaterialsPower : QueenPowerModel
         if (data.cardGeneratedCount >= data.triggerCount)
         {
             Flash();
-            await QueenCardCmd.AddSoulLamp(new ThrowingPlayerChoiceContext(), card.Owner!, 1);
+            await QueenCardCmd.AddSoulLamp(new ThrowingPlayerChoiceContext(), creator, 1);
             data.cardGeneratedCount = 0;
         }
         InvokeDisplayAmountChanged();

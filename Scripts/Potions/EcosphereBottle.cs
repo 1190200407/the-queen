@@ -37,6 +37,6 @@ public sealed class EcosphereBottle : QueenPotionModel
 			return;
 		}
 
-		await PowerCmd.Apply<EcosphereCaptureMarkPower>(enemy, 1m, owner.Creature, null);
+		await PowerCmd.Apply<EcosphereCaptureMarkPower>(choiceContext, enemy, 1m, owner.Creature, null);
 	}
 }

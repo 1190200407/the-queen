@@ -26,18 +26,11 @@ public sealed class AmalgamSandpitPower : QueenPowerModel
     public override string? CustomIconPath => "res://images/atlases/power_atlas.sprites/sandpit_power.tres";
     public override string? CustomBigIconPath => "res://images/powers/sandpit_power.png";
 
-<<<<<<< HEAD
-    public override async Task BeforeTurnEnd(PlayerChoiceContext choiceContext, CombatSide side)
-    {
-        _ = choiceContext;
-        if (side != base.Owner.Side || !base.Owner.IsAlive || Amount <= 0m)
-=======
     public override async Task BeforeSideTurnEnd(PlayerChoiceContext choiceContext, CombatSide side, IEnumerable<Creature> participants)
     {
         _ = choiceContext;
         _ = participants;
         if (side != base.Owner.Side || Amount <= 0m)
->>>>>>> beta
         {
             return;
         }
@@ -45,8 +38,6 @@ public sealed class AmalgamSandpitPower : QueenPowerModel
         await PowerCmd.Decrement(this);
     }
 
-<<<<<<< HEAD
-=======
     public override Task AfterPowerAmountChanged(PlayerChoiceContext choiceContext, PowerModel power, decimal amount, Creature? applier, CardModel? cardSource)
     {
         _ = choiceContext;
@@ -61,7 +52,6 @@ public sealed class AmalgamSandpitPower : QueenPowerModel
         return Task.CompletedTask;
     }
 
->>>>>>> beta
     public override async Task AfterRemoved(Creature oldOwner)
     {
         if (oldOwner.IsDead || !_triggerExecuteWhenRemoved)

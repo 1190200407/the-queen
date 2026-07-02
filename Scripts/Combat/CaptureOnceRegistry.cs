@@ -22,26 +22,16 @@ internal static class CaptureOnceRegistry
             HashCode.Combine(RuntimeHelpers.GetHashCode(obj.Player), RuntimeHelpers.GetHashCode(obj.Victim));
     }
 
-<<<<<<< HEAD
-    private static readonly ConditionalWeakTable<CombatState, HashSet<PlayerCreatureKey>> CapturedByCombat = new();
-
-    public static bool HasCaptured(Player player, Creature victim, CombatState cs) =>
-=======
     private static readonly ConditionalWeakTable<ICombatState, HashSet<PlayerCreatureKey>> CapturedByCombat = new();
 
     public static bool HasCaptured(Player player, Creature victim, ICombatState cs) =>
->>>>>>> beta
         CapturedByCombat.TryGetValue(cs, out HashSet<PlayerCreatureKey>? set)
         && set.Contains(new PlayerCreatureKey(player, victim));
 
     /// <summary>
     /// 若该 <paramref name="player"/> 尚未捕获过此 <paramref name="victim"/> 实例，则标记并返回 true。
     /// </summary>
-<<<<<<< HEAD
-    public static bool TryMarkCaptured(Player player, Creature victim, CombatState cs)
-=======
     public static bool TryMarkCaptured(Player player, Creature victim, ICombatState cs)
->>>>>>> beta
     {
         HashSet<PlayerCreatureKey> set = CapturedByCombat.GetValue(cs, static _ => new HashSet<PlayerCreatureKey>(KeyComparer.Instance));
         return set.Add(new PlayerCreatureKey(player, victim));

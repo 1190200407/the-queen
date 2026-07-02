@@ -28,7 +28,7 @@ public sealed class AshenWallPower : QueenPowerModel
 		{
 			return;
 		}
-		if (!card.HasModKeyword(QueenModKeywords.Fade))
+		if (!card.HasModKeyword(QueenKeyword.Fade))
 		{
 			return;
 		}

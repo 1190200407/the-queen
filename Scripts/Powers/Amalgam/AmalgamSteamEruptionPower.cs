@@ -19,7 +19,7 @@ public sealed class AmalgamSteamEruptionPower : QueenPowerModel, IAmalgamEventLi
     public override string? CustomIconPath => "res://images/atlases/power_atlas.sprites/steam_eruption_power.tres";
     public override string? CustomBigIconPath => "res://images/powers/steam_eruption_power.png";
 
-    public async Task OnAmalgamActAsync(CombatState combatState, PlayerChoiceContext choiceContext, Creature amalgam)
+    public async Task OnAmalgamActAsync(ICombatState combatState, PlayerChoiceContext choiceContext, Creature amalgam)
     {
         _ = combatState;
         if (amalgam != base.Owner || !amalgam.IsAlive)
@@ -29,14 +29,16 @@ public sealed class AmalgamSteamEruptionPower : QueenPowerModel, IAmalgamEventLi
 
         const decimal gainPerAct = 3m;
         Flash();
-        await PowerCmd.Apply<AmalgamSteamEruptionPower>(amalgam,
+        await PowerCmd.Apply<AmalgamSteamEruptionPower>(
+            choiceContext,
+            amalgam,
             gainPerAct,
             applier: amalgam.PetOwner?.Creature,
             cardSource: null,
             silent: true);
     }
 
-    public async Task OnAmalgamFallAsleepAsync(CombatState combatState, Creature amalgam)
+    public async Task OnAmalgamFallAsleepAsync(ICombatState combatState, Creature amalgam)
     {
         if (amalgam != base.Owner || Amount <= 0m)
         {

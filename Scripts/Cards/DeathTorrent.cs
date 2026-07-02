@@ -43,7 +43,7 @@ public sealed class DeathTorrent : QueenCardModel
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         _ = cardPlay;
-        if (base.CombatState is not CombatState combatState || base.Owner.Creature is not { IsAlive: true } applier)
+        if (base.CombatState is not ICombatState combatState || base.Owner.Creature is not { IsAlive: true } applier)
         {
             return;
         }

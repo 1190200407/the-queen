@@ -51,7 +51,7 @@ public sealed class UnfinishedCalamity : QueenCardModel
 	{
 		_ = choiceContext;
 		_ = cardPlay;
-		if (base.CombatState is not CombatState combatState)
+		if (base.CombatState is not ICombatState combatState)
 		{
 			return;
 		}
@@ -65,7 +65,7 @@ public sealed class UnfinishedCalamity : QueenCardModel
 				continue;
 			}
 
-			await PowerCmd.Apply<UnfinishedCalamityPower>(enemy, base.DynamicVars[TriadStacksOnTriggerKey].BaseValue, applier, this);
+			await PowerCmd.Apply<UnfinishedCalamityPower>(choiceContext, enemy, base.DynamicVars[TriadStacksOnTriggerKey].BaseValue, applier, this);
 		}
 
 		await CreatureCmd.TriggerAnim(applier, "Cast", player.Character.CastAnimDelay);

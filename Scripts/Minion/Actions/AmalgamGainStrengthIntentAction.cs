@@ -45,6 +45,6 @@ public sealed class AmalgamGainStrengthIntentAction : AmalgamSingleDecimalAction
         }
 
         await CreatureCmd.TriggerAnim(amalgam, "Buff", CastAnimDelay);
-        await PowerCmd.Apply<StrengthPower>(amalgam, Amount, owner, null);
+        await PowerCmd.Apply<StrengthPower>(choiceContext, amalgam, Amount, owner, null);
     }
 }

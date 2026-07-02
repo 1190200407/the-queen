@@ -58,7 +58,7 @@ public sealed class CloseDoor : QueenCardModel
         Creature? amalgam = FriendlyAmalgamCmd.GetExisting(combatState, base.Owner);
         if (amalgam is { IsAlive: true })
         {
-            await PowerCmd.Apply<AmalgamDoormakerBossPower>(amalgam, shellStacks, base.Owner.Creature, this);
+            await PowerCmd.Apply<AmalgamDoormakerBossPower>(choiceContext, amalgam, shellStacks, base.Owner.Creature, this);
         }
 
         await CreatureCmd.TriggerAnim(base.Owner.Creature, "Cast", base.Owner.Character.CastAnimDelay);

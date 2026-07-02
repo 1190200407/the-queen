@@ -8,11 +8,11 @@ using MegaCrit.Sts2.Core.Models;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>魂灯层数变化时，经 <see cref="CombatState.IterateHookListeners"/> 派发给 <see cref="ISoulLampEventListener"/>。</summary>
+/// <summary>魂灯层数变化时，经 <see cref="ICombatState.IterateHookListeners"/> 派发给 <see cref="ISoulLampEventListener"/>。</summary>
 public static class SoulLampHook
 {
 	public static async Task AfterAmountChanged(
-		CombatState combatState,
+		ICombatState combatState,
 		PlayerChoiceContext choiceContext,
 		Player player,
 		decimal delta,

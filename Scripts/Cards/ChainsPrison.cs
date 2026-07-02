@@ -50,7 +50,8 @@ public sealed class ChainsPrison : QueenCardModel
 			.WithHitFx("vfx/vfx_attack_blunt")
 			.Execute(choiceContext);
 
-		await PowerCmd.Apply<ChainsPrisonPower>(cardPlay.Target,
+		await PowerCmd.Apply<ChainsPrisonPower>(choiceContext, 
+			cardPlay.Target,
 			base.DynamicVars["SoulLampDamage"].BaseValue,
 			base.Owner.Creature,
 			this

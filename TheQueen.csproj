@@ -25,8 +25,7 @@
       <Private>false</Private>
     </Reference>
 
-    <PackageReference Include=" STS2.RitsuLib.Compat.0.103.2 " Version="0.4.20.0" />
-
+    <PackageReference Include="STS2.RitsuLib" Version="*" />
   </ItemGroup>
 
   <Target Name="ValidateSts2References" BeforeTargets="CoreCompile">

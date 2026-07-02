@@ -46,7 +46,7 @@ public sealed class AwakenPain : QueenCardModel
 			return;
 		}
 
-		await PowerCmd.Apply<VulnerablePower>(cardPlay.Target, base.DynamicVars.Vulnerable.BaseValue, base.Owner.Creature, this);
+		await PowerCmd.Apply<VulnerablePower>(choiceContext, cardPlay.Target, base.DynamicVars.Vulnerable.BaseValue, base.Owner.Creature, this);
 	}
 
 	protected override void OnUpgrade()

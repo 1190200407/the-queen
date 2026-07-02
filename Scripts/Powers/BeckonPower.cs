@@ -29,23 +29,20 @@ public sealed class BeckonPower : QueenPowerModel
 
     public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
     {
-        if (player != base.Owner.Player || base.CombatState is not CombatState combatState)
+        if (player != base.Owner.Player || base.CombatState is not ICombatState combatState)
         {
             return;
         }
 
         CardModel beckon = combatState.CreateCard<MegaCrit.Sts2.Core.Models.Cards.Beckon>(player);
         Flash();
-        await CardPileCmd.AddGeneratedCardToCombat(beckon, PileType.Hand, addedByPlayer: true);
+        await CardPileCmd.AddGeneratedCardToCombat(beckon, PileType.Hand, player);
     }
 
-<<<<<<< HEAD
-    public override async Task BeforeTurnEnd(PlayerChoiceContext choiceContext, CombatSide side)
-=======
     public override async Task BeforeSideTurnEnd(PlayerChoiceContext choiceContext, CombatSide side, IEnumerable<Creature> participants)
->>>>>>> beta
     {
         _ = choiceContext;
+        _ = participants;
         if (side != base.Owner.Side || !base.Owner.IsAlive)
         {
             return;
@@ -58,6 +55,6 @@ public sealed class BeckonPower : QueenPowerModel
         }
 
         Flash();
-        await PowerCmd.Apply<IntangiblePower>(base.Owner, 1m, base.Owner, null);
+        await PowerCmd.Apply<IntangiblePower>(new ThrowingPlayerChoiceContext(), base.Owner, 1m, base.Owner, null);
     }
 }

@@ -29,6 +29,7 @@ public sealed class GluttonousFeast : QueenCardModel
     [
         HoverTipFactory.FromCard<Devour>(upgrade: base.IsUpgraded),
         HoverTipFactory.FromPower<SoulLampPower>(),
+        HoverTipFactory.FromPower<GluttonousFeastNoStrengthPower>(),
     ];
 
     public GluttonousFeast()
@@ -51,7 +52,7 @@ public sealed class GluttonousFeast : QueenCardModel
         }
 
         await QueenCardCmd.AddSoulLamp(choiceContext, base.Owner, soulLampGain);
-        await PowerCmd.Apply<GluttonousFeastNoStrengthPower>(target, 1m, applier, this);
+        await PowerCmd.Apply<GluttonousFeastNoStrengthPower>(choiceContext, target, 1m, applier, this);
     }
 
     protected override void OnUpgrade()

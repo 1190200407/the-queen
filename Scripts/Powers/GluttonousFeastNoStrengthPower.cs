@@ -18,7 +18,7 @@ public sealed class GluttonousFeastNoStrengthPower : QueenPowerModel
 
     public override PowerStackType StackType => PowerStackType.Single;
 
-    public override bool IsInstanced => true;
+    public override PowerInstanceType InstanceType => PowerInstanceType.Instanced;
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips => [HoverTipFactory.FromPower<StrengthPower>()];
 
@@ -50,9 +50,11 @@ public sealed class GluttonousFeastNoStrengthPower : QueenPowerModel
     public override async Task BeforeSideTurnStart(
         PlayerChoiceContext choiceContext,
         CombatSide side,
-        CombatState combatState)
+        IReadOnlyList<Creature> participants,
+        ICombatState combatState)
     {
         _ = choiceContext;
+        _ = participants;
         _ = combatState;
 
         if (base.Applier is not { } applier || side != applier.Side)

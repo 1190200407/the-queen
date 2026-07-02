@@ -66,7 +66,7 @@ public sealed class Headbutt : LearnIntentCardModel
 
         if (amalgam.GetPower<AmalgamImbalancedPower>() == null)
         {
-            await PowerCmd.Apply<AmalgamImbalancedPower>(amalgam, 1m, base.Owner.Creature, this);
+            await PowerCmd.Apply<AmalgamImbalancedPower>(choiceContext, amalgam, 1m, base.Owner.Creature, this);
         }
 
         decimal damage = AmalgamLearnIntentDamageVar.GetEffectiveFlatForOffenseIntent(this, "LearnIntentDamage");

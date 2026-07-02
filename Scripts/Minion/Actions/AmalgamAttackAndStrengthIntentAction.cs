@@ -76,13 +76,13 @@ public sealed class AmalgamAttackAndStrengthIntentAction : AmalgamActionModel
             && owner.IsAlive)
         {
             await CreatureCmd.TriggerAnim(amalgam, "Buff", AmalgamGainStrengthIntentAction.CastAnimDelay);
-            await PowerCmd.Apply<StrengthPower>(amalgam, _strength, owner, null);
+            await PowerCmd.Apply<StrengthPower>(choiceContext, amalgam, _strength, owner, null);
         }
     }
 
     private async Task ExecuteOffensePart(PlayerChoiceContext choiceContext, Creature amalgam)
     {
-        CombatState? combatState = amalgam.CombatState;
+        ICombatState? combatState = amalgam.CombatState;
         if (combatState == null || amalgam.PetOwner is not Player queen)
         {
             return;

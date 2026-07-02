@@ -28,7 +28,7 @@ public sealed class PathOfPainPower : QueenPowerModel
 		}
 
 		Player? player = base.Owner.Player;
-		if (player == null || base.CombatState is not CombatState combatState)
+		if (player == null || base.CombatState is not ICombatState combatState)
 		{
 			return;
 		}

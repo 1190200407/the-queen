@@ -48,7 +48,7 @@ public sealed class EvolutionTheory : QueenCardModel
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         _ = cardPlay;
-        CombatState? combatState = base.Owner.Creature.CombatState;
+        ICombatState? combatState = base.Owner.Creature.CombatState;
         if (combatState == null)
         {
             return;
@@ -69,7 +69,9 @@ public sealed class EvolutionTheory : QueenCardModel
         AmalgamEvolutionTheoryPendingPower? pending = amalgamCreature.GetPower<AmalgamEvolutionTheoryPendingPower>();
         if (pending == null)
         {
-            pending = await PowerCmd.Apply<AmalgamEvolutionTheoryPendingPower>(amalgamCreature,
+            pending = await PowerCmd.Apply<AmalgamEvolutionTheoryPendingPower>(
+                choiceContext,
+                amalgamCreature,
                 1m,
                 base.Owner.Creature,
                 this);

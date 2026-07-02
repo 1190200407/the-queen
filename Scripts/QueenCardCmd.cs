@@ -34,7 +34,7 @@ public static class QueenCardCmd
 			return false;
 		}
 
-		CombatState? cs = card.CombatState ?? card.Owner?.Creature?.CombatState;
+		ICombatState? cs = card.CombatState ?? card.Owner?.Creature?.CombatState;
 		if (cs != null && card.Owner?.RunState?.CurrentRoom is CombatRoom)
 		{
 			AfflictionModel? applied = await CardCmd.Afflict<Bound>(card, amount);
@@ -57,7 +57,7 @@ public static class QueenCardCmd
 		return true;
 	}
 
-	public static async Task CreateInHand<T>(Player owner, CombatState combatState, bool isUpgraded = false) where T : CardModel
+	public static async Task CreateInHand<T>(Player owner, ICombatState combatState, bool isUpgraded = false) where T : CardModel
 	{
 		CardModel card = combatState.CreateCard<T>(owner);
 		await CreateInHandInternal(card, isUpgraded, owner);
@@ -70,7 +70,7 @@ public static class QueenCardCmd
 			CardCmd.Upgrade(card);
 		}
 
-		await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Hand, addedByPlayer: true);
+		await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Hand, creator);
 	}
 
 	public static async Task AddSoulLamp(PlayerChoiceContext choiceContext, Player owner, int amount = 1)
@@ -85,11 +85,17 @@ public static class QueenCardCmd
 		SoulLampPower? existing = owner.Creature.GetPower<SoulLampPower>();
 		if (existing == null)
 		{
-			await PowerCmd.Apply<SoulLampPower>(owner.Creature, amount, owner.Creature, null, silent);
+			await PowerCmd.Apply<SoulLampPower>(choiceContext, owner.Creature, amount, owner.Creature, null, silent);
+		}
+		else if (existing.Amount <= 0)
+		{
+			// SoulLampPower uses -1 as the hidden "display 0" sentinel.
+			// When gaining Soul Lamp from this state, jump directly to gained amount.
+			await PowerCmd.ModifyAmount(choiceContext, existing, amount - existing.Amount, owner.Creature, null, silent);
 		}
 		else
 		{
-			await PowerCmd.ModifyAmount(existing, amount, owner.Creature, null, silent);
+			await PowerCmd.ModifyAmount(choiceContext, existing, amount, owner.Creature, null, silent);
 		}
 
 		if (LocalContext.IsMe(owner))
@@ -158,13 +164,13 @@ public static class QueenCardCmd
 		switch (kind)
 		{
 			case QueenTriadDebuffKind.Poison:
-				await PowerCmd.Apply<PoisonPower>(target, amount, applier, cardSource);
+				await PowerCmd.Apply<PoisonPower>(choiceContext, target, amount, applier, cardSource);
 				break;
 			case QueenTriadDebuffKind.Doom:
-				await PowerCmd.Apply<DoomPower>(target, amount, applier, cardSource);
+				await PowerCmd.Apply<DoomPower>(choiceContext, target, amount, applier, cardSource);
 				break;
 			default:
-				await PowerCmd.Apply<DemisePower>(target, amount, applier, cardSource);
+				await PowerCmd.Apply<DemisePower>(choiceContext, target, amount, applier, cardSource);
 				break;
 		}
 	}

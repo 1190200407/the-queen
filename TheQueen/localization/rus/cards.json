@@ -107,11 +107,7 @@
     "THE_QUEEN_CARD_REMINISCE.description": "Выберите {Pick:diff()} [purple]Оковы[/purple] карты из своей [gold]Стопки[/gold] и верните их в руку.\n[aqua]Получите 1 Душевный светильник.[/aqua]",
     "THE_QUEEN_CARD_REMINISCE.selectionPrompt": "Выберите {Amount} [purple]Связанную[/purple] карту(ы) из вашей [gold]Выхлопной стопки[/gold], чтобы вернуть ее в руку.",
     "THE_QUEEN_CARD_STRONG_ADAPTABILITY.title": "Сильная адаптируемость",
-<<<<<<< HEAD
-    "THE_QUEEN_CARD_STRONG_ADAPTABILITY.description": "{IfUpgraded:show:Немедленно выберите карту в руке для улучшения.|}В начале своего хода выберите карту в руке для улучшения.",
-=======
     "THE_QUEEN_CARD_STRONG_ADAPTABILITY.description": "{IfUpgraded:show:Выберите карту в руке для улучшения.|}В начале своего хода выберите карту в руке для улучшения.",
->>>>>>> beta
     "THE_QUEEN_CARD_TASTE.title": "Вкус",
     "THE_QUEEN_CARD_TASTE.description": "Создайте 3 [gold]{IfUpgraded:show:Пожирание+|Пожирание}[/gold]. Каждый раз, когда вы разыгрываете [gold]Пожирание[/gold] в этом ходу, возьмите 1 карту.\n[aqua]Получите 3 Душевных светильника.[/aqua]",
     "THE_QUEEN_CARD_WILLFUL.title": "своенравный",
@@ -131,11 +127,7 @@
     "THE_QUEEN_CARD_FIRE_WALL.title": "Противопожарная стена",
     "THE_QUEEN_CARD_FIRE_WALL.description": "[aqua]Получите 1 Душевный светильник.[/aqua]\nПолучите {Block:diff()} [gold]Защита[/gold] за каждую имеющуюся у вас [aqua]Лампу Души[/aqua].",
     "THE_QUEEN_CARD_HUNDRED_HANDS_BANQUET.title": "Банкет ста рук",
-<<<<<<< HEAD
-    "THE_QUEEN_CARD_HUNDRED_HANDS_BANQUET.description": "Создайте 1 [gold]{IfUpgraded:show:Hand of Seizure+|Hand of Seizure}[/gold] и 1 [gold]{IfUpgraded:show:Hand of Refusal+|Hand of Refusal}[/gold].\n[aqua]Получение X Душевных светильников.[/aqua]",
-=======
     "THE_QUEEN_CARD_HUNDRED_HANDS_BANQUET.description": "Создайте X [gold]{IfUpgraded:show:Царапать+|Царапать}[/gold] с [gold]Угасание[/gold].\n[aqua]Получите X Душевных светильников.[/aqua]",
->>>>>>> beta
     "THE_QUEEN_CARD_HAND_OF_SEIZURE.title": "Рука захвата",
     "THE_QUEEN_CARD_HAND_OF_SEIZURE.description": "Нанесите {Damage:diff()} урона. Создайте 1 [gold]{IfUpgraded:show:Hand of Refusal+|Hand of Refusal}[/gold] и 1 [gold]{IfUpgraded:show:Hand of Seizure+|Hand of Seizure}[/gold].\n[gold]Выцветание[/gold]",
     "THE_QUEEN_CARD_HAND_OF_REFUSAL.title": "Рука отказа",
@@ -234,11 +226,7 @@
     "THE_QUEEN_CARD_CONSTRICT.title": "Сдавление",
     "THE_QUEEN_CARD_CONSTRICT.description": "[gold]Призывает[/gold] {Summon:diff()}.\n[gold]Изучение намерения[/gold]: применить {LearnIntentConstrict:diff()} [gold]Сдавление[/gold].",
     "THE_QUEEN_CARD_SHRINKER.title": "Луч уменьшения",
-<<<<<<< HEAD
-    "THE_QUEEN_CARD_SHRINKER.description": "[gold]Призыв[/gold] {Summon:diff()}. [gold]Амальгама[/gold] уменьшает всех врагов на {ShrinkPower:diff()} ходов.",
-=======
     "THE_QUEEN_CARD_SHRINKER.description": "[gold]Призывает[/gold] {Summon:diff()}. [gold]Амальгама[/gold] уменьшает всех врагов на {ShrinkPower:diff()} ходов.",
->>>>>>> beta
     "THE_QUEEN_CARD_SCREECH.title": "Визг",
     "THE_QUEEN_CARD_SCREECH.description": "[gold]Призывает[/gold] {Summon:diff()}.\n[gold]Изучение намерения[/gold]: цель теряет {LearnIntentStrengthLoss:diff()} [gold]Сила[/gold] в этом ходу. Создайте 1 [gold]Визг[/gold].",
     "THE_QUEEN_CARD_PLATING.title": "Покрытие",
@@ -370,11 +358,7 @@
     "THE_QUEEN_CARD_GIMME.title": "Дай мне",
     "THE_QUEEN_CARD_GIMME.description": "[gold]Призывает[/gold] {Summon:diff()}.\nВаша [gold]Амальгама[/gold] получает {AmalgamThieveryPower:diff()} [gold]Воровство[/gold]. Убегает после {AmalgamEscapePower:diff()} хода.",
     "THE_QUEEN_CARD_GREMLIN_STAB.title": "Удар Гремлина",
-<<<<<<< HEAD
-    "THE_QUEEN_CARD_GREMLIN_STAB.description": "Ваша [gold]Амальгама[/gold] наносит цели {Damage:diff()} урона. Украдите {Gold:diff()} [gold]Золото[/gold].",
-=======
     "THE_QUEEN_CARD_GREMLIN_STAB.description": "Ваша [gold]Амальгама[/gold] наносит цели {AmalgamDamage:diff()} урона. Украдите {Gold:diff()} [gold]Золото[/gold].",
->>>>>>> beta
     "THE_QUEEN_CARD_FLEE.title": "Бежать",
     "THE_QUEEN_CARD_FLEE.description": "Ваша [gold]Амальгама[/gold] покидает бой. Добавляйте украденное [gold]Золото[/gold] в боевые награды.",
     "THE_QUEEN_CARD_TACTICAL_DIRECTIVE.title": "Тактическая директива",
@@ -417,11 +401,7 @@
     "THE_QUEEN_CARD_CLOSE_DOOR.title": "Закрыть дверь",
     "THE_QUEEN_CARD_CLOSE_DOOR.description": "[gold]Призывает[/gold] {Summon:diff()}.\nВаша [gold]Амальгама[/gold] получает {AmalgamDoormakerBossPower:diff()} [gold]Шелл дверного мастера[/gold].\n[purple]RIP[/purple]",
     "THE_QUEEN_CARD_VITAL_SPARK.title": "Жизненная Искра",
-<<<<<<< HEAD
-    "THE_QUEEN_CARD_VITAL_SPARK.description": "[gold]Призывает[/gold] {Summon:diff()}.\nВаша [gold]Амальгама[/gold] получает {AmalgamVitalSparkPower:diff()} [gold]Жизненную Искру[/gold].",
-=======
     "THE_QUEEN_CARD_VITAL_SPARK.description": "Получите 2 [gold]Жизненной Искры[/gold]. Каждый раз, когда вы получаете [gold]Заражение[/gold], ВСЕ враги получают вдвое больше [gold]Заражения[/gold].",
->>>>>>> beta
     "THE_QUEEN_CARD_RELOAD_FIRE.title": "Перезарядка огня",
     "THE_QUEEN_CARD_RELOAD_FIRE.description": "[gold]Призывает[/gold] {Summon:diff()}.\n[gold]Изучение намерения[/gold]: получите {LearnIntentBlock:diff()} блок. В начале следующего хода нанесите {LearnIntentDamage:diff()} урона.",
     "THE_QUEEN_CARD_GRASPING_VINES.title": "Цепляющиеся лозы",
@@ -447,11 +427,7 @@
     "THE_QUEEN_CARD_BACK_ATTACK.title": "Обратная атака",
     "THE_QUEEN_CARD_BACK_ATTACK.description": "[gold]Призывает[/gold] {Summon:diff()}.\nСоздайте 1 [gold]Переключить сторону[/gold].\nВсе враги получают [gold] Ответную атаку[/gold].",
     "THE_QUEEN_CARD_CURSE_OF_KNOWLEDGE.title": "Проклятие знаний",
-<<<<<<< HEAD
-    "THE_QUEEN_CARD_CURSE_OF_KNOWLEDGE.description": "[gold]Призывает[/gold] {Summon:diff()}. В начале каждого боя выберите 1 из [gold]Rejuvenate[/gold], [gold]Mind Clarity[/gold] или [gold]Disintegration[/gold] для выполнения.",
-=======
     "THE_QUEEN_CARD_CURSE_OF_KNOWLEDGE.description": "[gold]Призывает[/gold] {Summon:diff()}. В начале вашего хода выберите 1 из [gold]Rejuvenate[/gold], [gold]Mind Clarity[/gold] или [gold]Disintegration[/gold] для выполнения.",
->>>>>>> beta
     "THE_QUEEN_CARD_LIQUIFY_GROUND.title": "Сжижать землю",
     "THE_QUEEN_CARD_LIQUIFY_GROUND.description": "{Песочница:choose(0):Усиление {AmalgamSandpitPower:diff()} [gold]Песочница[/gold].\n|}{InCombat:|If this is a Boss fight, gain 10 instead.\n}[gold]Призыв[/gold] {Summon:diff()}.\n[gold]Изучение намерения[/gold]: создайте 1 [gold]Неистовый буксир[/gold].",
     "THE_QUEEN_CARD_FRANTIC_TUG.title": "Неистовый буксир",
@@ -466,9 +442,6 @@
     "THE_QUEEN_CARD_NIBBLE.title": "Клев",
     "THE_QUEEN_CARD_NIBBLE.description": "Ваша [gold]Амальгама[/gold] наносит {LearnIntentDamage:diff()} урона.",
     "THE_QUEEN_CARD_SCHIZOPHRENIA.title": "Шизофрения",
-<<<<<<< HEAD
-    "THE_QUEEN_CARD_SCHIZOPHRENIA.description": "Примените {VulnerablePower:diff()} [gold]Уязвимый[/gold] и {WeakPower:diff()} [gold]Слабый[/gold]. Разделите [gold]Уязвимость[/gold] и [gold]Слабость[/gold] цели на 2 и разделите их заряды поровну."
-=======
     "THE_QUEEN_CARD_SCHIZOPHRENIA.description": "Примените {VulnerablePower:diff()} [gold]Уязвимый[/gold] и {WeakPower:diff()} [gold]Слабый[/gold]. Разделите [gold]Уязвимость[/gold] и [gold]Слабость[/gold] цели на 2 и разделите их заряды поровну.",
     "THE_QUEEN_CARD_UNKNOWN_SOUL.title": "Безымянная душа",
     "THE_QUEEN_CARD_UNKNOWN_SOUL.description": "[gold]Призовите[/gold] [gold]Амальгаму[/gold] на {Summon:diff()}.",
@@ -476,5 +449,4 @@
     "THE_QUEEN_CARD_UNKNOWN_SOUL_UNCOMMON.description": "[gold]Призовите[/gold] [gold]Амальгаму[/gold] на {Summon:diff()}.",
     "THE_QUEEN_CARD_UNKNOWN_SOUL_RARE.title": "Безымянная душа",
     "THE_QUEEN_CARD_UNKNOWN_SOUL_RARE.description": "[gold]Призовите[/gold] [gold]Амальгаму[/gold] на {Summon:diff()}."
->>>>>>> beta
 }

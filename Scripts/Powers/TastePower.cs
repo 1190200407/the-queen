@@ -38,7 +38,7 @@ public sealed class TastePower : QueenPowerModel
 		}
 	}
 
-    public override async Task AfterTurnEnd(PlayerChoiceContext choiceContext, CombatSide side)
+    public override async Task AfterSideTurnEnd(PlayerChoiceContext choiceContext, CombatSide side, IEnumerable<Creature> participants)
     {
 		_ = choiceContext;
 		if (side == base.Owner.Side)

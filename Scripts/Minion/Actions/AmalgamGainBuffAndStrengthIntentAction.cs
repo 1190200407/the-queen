@@ -49,12 +49,12 @@ public sealed class AmalgamGainBuffAndStrengthIntentAction<TPower> : AmalgamActi
 
         if (Amount > 0m)
         {
-            await PowerCmd.Apply<TPower>(amalgam, Amount, owner, null);
+            await PowerCmd.Apply<TPower>(choiceContext, amalgam, Amount, owner, null);
         }
 
         if (_strength > 0m)
         {
-            await PowerCmd.Apply<StrengthPower>(amalgam, _strength, owner, null);
+            await PowerCmd.Apply<StrengthPower>(choiceContext, amalgam, _strength, owner, null);
         }
     }
 }

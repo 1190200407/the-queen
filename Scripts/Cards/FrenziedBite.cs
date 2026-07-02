@@ -35,7 +35,7 @@ public sealed class FrenziedBite : QueenCardModel
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         _ = cardPlay;
-        if (base.Owner.Creature.CombatState is not CombatState combatState)
+        if (base.Owner.Creature.CombatState is not ICombatState combatState)
         {
             return;
         }

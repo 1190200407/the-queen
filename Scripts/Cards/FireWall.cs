@@ -27,9 +27,6 @@ public sealed class FireWall : QueenCardModel
 
 	public override bool GainsBlock => true;
 
-<<<<<<< HEAD
-	protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(4m, ValueProp.Move)];
-=======
 	protected override IEnumerable<DynamicVar> CanonicalVars =>
 	[
 		new BlockVar(4m, ValueProp.Move),
@@ -41,7 +38,6 @@ public sealed class FireWall : QueenCardModel
 			return lamp?.DisplayAmount ?? 0m;
 		}),
 	];
->>>>>>> beta
 
 	protected override IEnumerable<IHoverTip> AdditionalHoverTips => [HoverTipFactory.FromPower<SoulLampPower>()];
 
@@ -60,10 +56,6 @@ public sealed class FireWall : QueenCardModel
 			return;
 		}
 
-<<<<<<< HEAD
-		decimal total = base.DynamicVars.Block.BaseValue * stacks;
-		await CreatureCmd.GainBlock(base.Owner.Creature, total, ValueProp.Move, cardPlay);
-=======
 		await CreatureCmd.GainBlock(
 			base.Owner.Creature,
 			block,
@@ -75,11 +67,5 @@ public sealed class FireWall : QueenCardModel
 	{
 		base.DynamicVars.Block.UpgradeValueBy(1m);
 		base.DynamicVars.CalculationExtra.UpgradeValueBy(1m);
->>>>>>> beta
-	}
-
-	protected override void OnUpgrade()
-	{
-		base.DynamicVars.Block.UpgradeValueBy(1m);
 	}
 }

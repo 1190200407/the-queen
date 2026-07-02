@@ -36,7 +36,7 @@ public sealed class AmalgamSkittishPower : QueenPowerModel, IAmalgamEventListene
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
         [HoverTipFactory.FromPower<BlockNextTurnPower>()];
 
-    public override Task AfterTurnEnd(PlayerChoiceContext choiceContext, CombatSide side)
+    public override Task AfterSideTurnEnd(PlayerChoiceContext choiceContext, CombatSide side, IEnumerable<Creature> participants)
     {
         _ = choiceContext;
         if (side != base.Owner.Side)
@@ -48,7 +48,7 @@ public sealed class AmalgamSkittishPower : QueenPowerModel, IAmalgamEventListene
     }
 
     public async Task OnAmalgamHitAsync(
-        CombatState combatState,
+        ICombatState combatState,
         Creature amalgam,
         decimal unblockedDamage,
         ValueProp props,
@@ -82,6 +82,6 @@ public sealed class AmalgamSkittishPower : QueenPowerModel, IAmalgamEventListene
 
         data.triggeredThisTurn = true;
         Flash();
-        await PowerCmd.Apply<BlockNextTurnPower>(queen, Amount, base.Owner, null);
+        await PowerCmd.Apply<BlockNextTurnPower>(new ThrowingPlayerChoiceContext(), queen, Amount, base.Owner, null);
     }
 }

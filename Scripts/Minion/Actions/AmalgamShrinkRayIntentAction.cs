@@ -42,7 +42,7 @@ public sealed class AmalgamShrinkRayIntentAction : AmalgamSingleDecimalActionMod
 
     protected override async Task OnExecute(PlayerChoiceContext choiceContext, Creature amalgam)
     {
-        CombatState? combatState = amalgam.CombatState;
+        ICombatState? combatState = amalgam.CombatState;
         if (combatState == null || amalgam.PetOwner is not Player queen || !queen.Creature.IsAlive)
         {
             return;
@@ -61,7 +61,7 @@ public sealed class AmalgamShrinkRayIntentAction : AmalgamSingleDecimalActionMod
         }
 
         await CreatureCmd.TriggerAnim(amalgam, "Cast", CastAnimDelay);
-        await PowerCmd.Apply<ShrinkPower>(targets, Amount, queen.Creature, null);
+        await PowerCmd.Apply<ShrinkPower>(choiceContext, targets, Amount, queen.Creature, null);
     }
 }
 

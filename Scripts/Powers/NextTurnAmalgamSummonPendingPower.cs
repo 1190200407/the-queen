@@ -27,7 +27,7 @@ public sealed class NextTurnAmalgamSummonPendingPower : QueenPowerModel
 			return;
 		}
 
-		CombatState? combatState = base.Owner.CombatState;
+		ICombatState? combatState = base.Owner.CombatState;
 		if (combatState == null)
 		{
 			return;

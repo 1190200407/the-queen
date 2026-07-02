@@ -30,7 +30,7 @@ public sealed class Declaration : QueenCardModel, ICanMonsterCapture
     private const TargetType targetType = TargetType.AnyEnemy;
     private const bool shouldShowInCardLibrary = true;
 
-    public bool CanCapture(MonsterModel monster, CombatState combatState) =>
+    public bool CanCapture(MonsterModel monster, ICombatState combatState) =>
         monster is not null && combatState is not null
         && MonsterCaptureRewardCatalog.GetEncounterRoomType(combatState) switch
         {
@@ -56,14 +56,6 @@ public sealed class Declaration : QueenCardModel, ICanMonsterCapture
         ArgumentNullException.ThrowIfNull(cardPlay.Target, nameof(cardPlay.Target));
         Creature target = cardPlay.Target;
 
-<<<<<<< HEAD
-
-        CombatState? combatState = target.CombatState ?? base.Owner.Creature.CombatState;
-        if (target.Monster is not null && combatState is not null && CanCapture(target.Monster, combatState))
-        {
-            _ = await PowerCmd.Apply<DeclarationCaptureMarkPower>(target,
-                2m,
-=======
         ICombatState? combatState = target.CombatState ?? base.Owner.Creature.CombatState;
         decimal captureMarkAmount = base.DynamicVars["CaptureMark"].BaseValue;
         if (target.Monster is not null && combatState is not null && CanCapture(target.Monster, combatState))
@@ -71,20 +63,14 @@ public sealed class Declaration : QueenCardModel, ICanMonsterCapture
             _ = await PowerCmd.Apply<DeclarationCaptureMarkPower>(choiceContext, 
                 target,
                 captureMarkAmount,
->>>>>>> beta
                 base.Owner.Creature,
                 this);
         }
         else
         {
-<<<<<<< HEAD
-            _ = await PowerCmd.Apply<DeclarationCaptureMarkNoPower>(target,
-                2m,
-=======
             _ = await PowerCmd.Apply<DeclarationCaptureMarkNoPower>(choiceContext, 
                 target,
                 captureMarkAmount,
->>>>>>> beta
                 base.Owner.Creature,
                 this);
         }

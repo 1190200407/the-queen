@@ -25,7 +25,7 @@ public static class MonsterCaptureRewardCatalog
     public const string FakeMerchantMonster = "FAKE_MERCHANT_MONSTER";
 
     /// <summary>当前战斗遭遇的房间类型（普通 / 精英 / 首领等）。</summary>
-    public static RoomType? GetEncounterRoomType(CombatState? combatState) =>
+    public static RoomType? GetEncounterRoomType(ICombatState? combatState) =>
         combatState?.Encounter?.RoomType;
 
     private static readonly HashSet<string> CaptureBlacklist =
@@ -255,13 +255,6 @@ public static class MonsterCaptureRewardCatalog
             return null;
         }
 
-<<<<<<< HEAD
-        return CreateCaptureRewardCard(owner, monsterId);
-    }
-
-    /// <summary>按怪物 Id 创建对应敌怪卡，不占用捕获去重（如提线木偶）。无配置时返回 <c>null</c>。</summary>
-    public static CardModel? CreateCaptureRewardCard(Player owner, string monsterId)
-=======
         return CreateCaptureRewardCard(owner, monsterId, enemy, allowUnknownSoulFallback: true);
     }
 
@@ -278,7 +271,6 @@ public static class MonsterCaptureRewardCatalog
         string monsterId,
         Creature? enemy,
         bool allowUnknownSoulFallback)
->>>>>>> beta
     {
         if (owner.RunState is null || IsCaptureBlacklisted(monsterId))
         {

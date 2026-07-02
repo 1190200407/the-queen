@@ -24,7 +24,7 @@ public sealed class AmalgamSuckPower : QueenPowerModel, IAmalgamEventListener
     public override string? CustomBigIconPath => "res://images/powers/suck_power.png";
 
     public async Task OnAmalgamDamagedCreatureAsync(
-        CombatState combatState,
+        ICombatState combatState,
         PlayerChoiceContext choiceContext,
         Creature amalgam,
         Creature damagedEnemy,
@@ -64,7 +64,7 @@ public sealed class AmalgamSuckPower : QueenPowerModel, IAmalgamEventListener
         }
 
         Flash();
-        await PowerCmd.Apply<StrengthPower>(amalgam, Amount * hitCount, amalgam, null);
+        await PowerCmd.Apply<StrengthPower>(choiceContext, amalgam, Amount * hitCount, amalgam, null);
     }
 
     public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)

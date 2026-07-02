@@ -38,7 +38,7 @@ public sealed class TearSpace : QueenCardModel
 		new CalculationExtraVar(1m),
 		new CalculatedVar("BattlefieldDebuffCount").WithMultiplier(static (CardModel card, Creature? _) =>
 		{
-			CombatState? cs = card.Owner?.Creature?.CombatState;
+			ICombatState? cs = card.Owner?.Creature?.CombatState;
 			return cs == null ? 0m : QueenDebuffUtil.CountBattlefieldDebuffs(cs);
 		}),
 	];
@@ -47,7 +47,7 @@ public sealed class TearSpace : QueenCardModel
 	{
 		get
 		{
-			CombatState? combatState = base.Owner?.Creature?.CombatState;
+			ICombatState? combatState = base.Owner?.Creature?.CombatState;
 			if (combatState == null || base.Owner == null)
 			{
 				return true;
@@ -66,7 +66,7 @@ public sealed class TearSpace : QueenCardModel
 	protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
 	{
 		_ = cardPlay;
-		if (base.CombatState is not CombatState combatState)
+		if (base.CombatState is not ICombatState combatState)
 		{
 			return;
 		}

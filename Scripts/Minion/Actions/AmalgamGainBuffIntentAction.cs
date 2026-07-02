@@ -67,7 +67,7 @@ public sealed class AmalgamGainBuffIntentAction<T> : AmalgamActionModel
         }
 
         await CreatureCmd.TriggerAnim(amalgam, "Buff", CastAnimDelay);
-        await PowerCmd.Apply<T>(amalgam, Amount, owner, null);
+        await PowerCmd.Apply<T>(choiceContext, amalgam, Amount, owner, null);
     }
 }
 

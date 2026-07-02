@@ -63,8 +63,8 @@ public sealed class SoulMoldPower : QueenPowerModel
 			copy.Owner = player;
 		}
 
-		copy.AddModKeyword(QueenModKeywords.Fade);
-		await CardPileCmd.AddGeneratedCardToCombat(copy, PileType.Hand, addedByPlayer: true);
+		copy.AddModKeyword(QueenKeyword.Fade);
+		await CardPileCmd.AddGeneratedCardToCombat(copy, PileType.Hand, player);
 
 		if (copy.Affliction is not null && copy.Affliction is not Bound)
 		{
@@ -76,7 +76,7 @@ public sealed class SoulMoldPower : QueenPowerModel
 		}
 	}
 
-    public override Task BeforeTurnEnd(PlayerChoiceContext choiceContext, CombatSide side)
+    public override Task BeforeSideTurnEnd(PlayerChoiceContext choiceContext, CombatSide side, IEnumerable<Creature> participants)
     {
 		if (side == base.Owner.Side)
 		{

@@ -75,7 +75,7 @@ public sealed class HundredHandsBanquet : QueenCardModel
 		}
 	}
 
-	internal static async Task CreateInHandInternal(Player owner, CombatState? combatState, bool isUpgraded = false)
+	internal static async Task CreateInHandInternal(Player owner, ICombatState? combatState, bool isUpgraded = false)
 	{
 		if (combatState == null)
 		{

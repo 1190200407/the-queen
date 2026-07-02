@@ -12,7 +12,7 @@ namespace ComicChess.TheQueen;
 
 /// <summary>
 /// 仪式（聚合体版）：<see cref="FriendlyAmalgam"/> 在玩家回合末完成行动序列后，获得等同于层数的 <see cref="StrengthPower"/>。
-/// 不用 <see cref="PowerModel.AfterTurnEnd"/>：该 hook 在 <see cref="FriendlyAmalgam.AfterTurnEnd"/> 执行意图<strong>之前</strong>就会跑到聚合体上的 Power。
+/// 不用 <see cref="PowerModel.AfterSideTurnEnd"/>：该 hook 在 <see cref="FriendlyAmalgam.AfterSideTurnEnd"/> 执行意图<strong>之前</strong>就会跑到聚合体上的 Power。
 /// </summary>
 public sealed class AmalgamRitualPower : QueenPowerModel, IAmalgamEventListener
 {
@@ -26,7 +26,7 @@ public sealed class AmalgamRitualPower : QueenPowerModel, IAmalgamEventListener
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips => [HoverTipFactory.FromPower<StrengthPower>()];
 
-    public async Task AfterAmalgamTurnEnd(CombatState combatState, Creature amalgam)
+    public async Task AfterAmalgamTurnEnd(ICombatState combatState, Creature amalgam)
     {
         _ = combatState;
         if (amalgam != base.Owner || !amalgam.IsAlive || Amount <= 0m)
@@ -35,7 +35,9 @@ public sealed class AmalgamRitualPower : QueenPowerModel, IAmalgamEventListener
         }
 
         Flash();
-        await PowerCmd.Apply<StrengthPower>(base.Owner,
+        await PowerCmd.Apply<StrengthPower>(
+            new ThrowingPlayerChoiceContext(),
+            base.Owner,
             base.Amount,
             base.Owner,
             null);

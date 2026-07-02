@@ -29,7 +29,7 @@ public sealed class SoulResonancePower : QueenPowerModel, IAmalgamEventListener
 	public override PowerStackType StackType => PowerStackType.Single;
 
 	public async Task AfterLearnIntent(
-		CombatState combatState,
+		ICombatState combatState,
 		PlayerChoiceContext choiceContext,
 		Player amalgamOwner,
 		Creature amalgam,
@@ -76,7 +76,7 @@ public sealed class SoulResonancePower : QueenPowerModel, IAmalgamEventListener
 	}
 
 	public async Task AfterCombineIntent(
-		CombatState combatState,
+		ICombatState combatState,
 		PlayerChoiceContext choiceContext,
 		Player amalgamOwner,
 		Creature amalgam,

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models.CardPools;
 
 using STS2RitsuLib.Interop.AutoRegistration;
@@ -20,6 +21,8 @@ public sealed class AmalgamArmyBreak : QueenCardModel
     private const TargetType targetType = TargetType.Self;
     private const bool shouldShowInCardLibrary = true;
 
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [HoverTipFactory.FromPower<AmalgamArmyBreakPower>()];
+
     public AmalgamArmyBreak()
         : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
     {
@@ -28,7 +31,7 @@ public sealed class AmalgamArmyBreak : QueenCardModel
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         _ = cardPlay;
-        await PowerCmd.Apply<AmalgamArmyBreakPower>(base.Owner.Creature, 1m, base.Owner.Creature, this);
+        await PowerCmd.Apply<AmalgamArmyBreakPower>(choiceContext, base.Owner.Creature, 1m, base.Owner.Creature, this);
         await CreatureCmd.TriggerAnim(base.Owner.Creature, "Cast", base.Owner.Character.CastAnimDelay);
     }
 

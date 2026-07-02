@@ -61,7 +61,8 @@ public sealed class BurnBrightForMe : QueenCardModel
 			Creature? amalgam = FriendlyAmalgamCmd.GetExisting(combatState, base.Owner);
 			if (amalgam is { IsAlive: true })
 			{
-				await PowerCmd.Apply<StrengthPower>(amalgam,
+				await PowerCmd.Apply<StrengthPower>(choiceContext, 
+					amalgam,
 					base.DynamicVars.Strength.BaseValue,
 					base.Owner.Creature,
 					this);

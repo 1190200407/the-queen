@@ -77,7 +77,7 @@ public sealed class AmalgamDoormakerBossPower : QueenPowerModel
             return;
         }
 
-        await PowerCmd.ModifyAmount(this, -consume, base.Owner, null);
+        await PowerCmd.ModifyAmount(new ThrowingPlayerChoiceContext(), this, -consume, base.Owner, null);
     }
 }
 
