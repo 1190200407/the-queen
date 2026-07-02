@@ -18,13 +18,21 @@ namespace ComicChess.TheQueen;
 internal static class FadeOnDiscardTracker
 {
 	private static readonly HashSet<CardModel> _pendingExhaustNotify = new();
+<<<<<<< HEAD
 	private static readonly List<(CombatState CombatState, CardModel Card)> _deferredNotifications = new();
+=======
+	private static readonly List<(ICombatState CombatState, CardModel Card)> _deferredNotifications = new();
+>>>>>>> beta
 
 	internal static void MarkPendingExhaustNotify(CardModel card) => _pendingExhaustNotify.Add(card);
 
 	internal static bool ConsumePendingExhaustNotify(CardModel card) => _pendingExhaustNotify.Remove(card);
 
+<<<<<<< HEAD
 	internal static void DeferExhaustNotify(CombatState combatState, CardModel card) =>
+=======
+	internal static void DeferExhaustNotify(ICombatState combatState, CardModel card) =>
+>>>>>>> beta
 		_deferredNotifications.Add((combatState, card));
 
 	internal static async Task FlushPendingExhaustNotificationsAsync()
@@ -34,10 +42,17 @@ internal static class FadeOnDiscardTracker
 			return;
 		}
 
+<<<<<<< HEAD
 		(CombatState CombatState, CardModel Card)[] pending = _deferredNotifications.ToArray();
 		_deferredNotifications.Clear();
 
 		foreach ((CombatState combatState, CardModel card) in pending)
+=======
+		(ICombatState CombatState, CardModel Card)[] pending = _deferredNotifications.ToArray();
+		_deferredNotifications.Clear();
+
+		foreach ((ICombatState combatState, CardModel card) in pending)
+>>>>>>> beta
 		{
 			if (CombatManager.Instance == null || CombatManager.Instance.IsOverOrEnding)
 			{

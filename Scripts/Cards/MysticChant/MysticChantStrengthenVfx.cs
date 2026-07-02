@@ -26,7 +26,7 @@ internal static class MysticChantStrengthenVfx
 	/// <summary>与 <see cref="CardCmd.Preview"/> 默认一致：弹出后展示时长再飞回。</summary>
 	private const float PreviewHoldSeconds = 0.6f;
 
-	public static async Task PlayAfterStrengthen(CardModel strengthenedCard)
+	public static async Task PlayAfterStrengthen(CardModel strengthenedCard, bool fullPresentation = true)
 	{
 		NCombatRoom? room = NCombatRoom.Instance;
 		if (TestMode.IsOn
@@ -68,12 +68,15 @@ internal static class MysticChantStrengthenVfx
 			.From(Vector2.Zero)
 			.SetEase(Tween.EaseType.Out)
 			.SetTrans(Tween.TransitionType.Cubic);
-		await room.ToSignal(popTween, Tween.SignalName.Finished);
+			
+		if (fullPresentation)
+			await room.ToSignal(popTween, Tween.SignalName.Finished);
 
 		NCardSmithVfx? smith = NCardSmithVfx.Create(previewNode, playSfx: false);
 		NRun.Instance?.GlobalUi.AboveTopBarVfxContainer.AddChildSafely(smith);
 
-		await Cmd.CustomScaledWait(PreviewHoldSeconds * 0.5f, PreviewHoldSeconds);
+		if (fullPresentation)
+			await Cmd.CustomScaledWait(PreviewHoldSeconds * 0.5f, PreviewHoldSeconds);
 
 		Node? flyParent = pileType != PileType.Deck
 			? room.CombatVfxContainer

@@ -15,6 +15,8 @@ using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.MonsterMoves.Intents;
 using MegaCrit.Sts2.Core.MonsterMoves.MonsterMoveStateMachine;
+using MegaCrit.Sts2.Core.Rooms;
+
 namespace ComicChess.TheQueen;
 
 public class FriendlyAmalgam : QueenMinionModel
@@ -399,7 +401,18 @@ public class FriendlyAmalgam : QueenMinionModel
         await ClearTorchSlots();
     }
 
+<<<<<<< HEAD
     public override async Task AfterTurnEnd(PlayerChoiceContext choiceContext, CombatSide side)
+=======
+    public override Task AfterCombatEnd(CombatRoom room)
+    {
+        _ = room;
+        ReturnAllTorchSlotIntentsToPool();
+        return Task.CompletedTask;
+    }
+
+    public override async Task AfterSideTurnEnd(PlayerChoiceContext choiceContext, CombatSide side, IEnumerable<Creature> participants)
+>>>>>>> beta
     {
         await base.AfterTurnEnd(choiceContext, side);
         if (side != CombatSide.Player)
@@ -543,7 +556,9 @@ public class FriendlyAmalgam : QueenMinionModel
             return;
         }
 
+        AmalgamActionModel? removed = _intentByTorchSlot[_currentTorchSlotIndex];
         _intentByTorchSlot[_currentTorchSlotIndex] = null;
+        ReturnTorchSlotIntent(removed);
 
         bool foundNext = false;
         for (int step = 1; step <= TorchSlotCount; step++)
@@ -586,6 +601,7 @@ public class FriendlyAmalgam : QueenMinionModel
             }
 
             forgotten.Add(action.Clone());
+            ReturnTorchSlotIntent(action);
             _intentByTorchSlot[i] = null;
         }
 
@@ -625,12 +641,18 @@ public class FriendlyAmalgam : QueenMinionModel
         int emptySlot = FirstEmptyTorchSlotIndex();
         if (emptySlot < 0)
         {
-            // 三槽已满：不写入槽位，当场执行本次要学的意图；不做意图条/小火等意图 UI 同步。
-            // 能力/死亡等沉睡（BlockActionFromSleep）时与回合末一致，不执行。
             if (!BlockActionFromSleep)
             {
-                await intent.ExecuteAsync(choiceContext, Creature);
+                await AmalgamActionRegistry.ExecuteTemporaryAsync(choiceContext, Creature, intent);
             }
+<<<<<<< HEAD
+=======
+            else
+            {
+                ReturnTorchSlotIntent(intent);
+            }
+
+>>>>>>> beta
             return false;
         }
         bool hadAnyIntentBefore = false;
@@ -689,6 +711,7 @@ public class FriendlyAmalgam : QueenMinionModel
         _forcedAction = null;
         for (int i = 0; i < TorchSlotCount; i++)
         {
+            ReturnTorchSlotIntent(_intentByTorchSlot[i]);
             _intentByTorchSlot[i] = null;
         }
 
@@ -697,6 +720,21 @@ public class FriendlyAmalgam : QueenMinionModel
         FriendlyAmalgamCmd.TryRefreshIntentTorchVisuals(Creature);
         await FallAsleep(SleepReason.NoLearnedAction);
     }
+
+    private void ReturnAllTorchSlotIntentsToPool()
+    {
+        _forcedAction = null;
+        for (int i = 0; i < TorchSlotCount; i++)
+        {
+            ReturnTorchSlotIntent(_intentByTorchSlot[i]);
+            _intentByTorchSlot[i] = null;
+        }
+
+        _currentTorchSlotIndex = 0;
+    }
+
+    private static void ReturnTorchSlotIntent(AmalgamActionModel? action) =>
+        AmalgamActionRegistry.Return(action);
 
     private int FirstEmptyTorchSlotIndex()
     {

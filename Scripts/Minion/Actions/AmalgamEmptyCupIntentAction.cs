@@ -7,9 +7,11 @@ using MegaCrit.Sts2.Core.MonsterMoves.MonsterMoveStateMachine;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>聚合体意图：回合末每执行一次为女王叠 <strong>1</strong> 层 <see cref="EmptyCupPendingPower"/>。</summary>
+/// <summary>聚合体意图：回合末每执行一次为女王�?<strong>1</strong> �?<see cref="EmptyCupPendingPower"/>�?/summary>
 public sealed class AmalgamEmptyCupIntentAction : AmalgamActionModel
 {
+    public override string Key => "empty_cup";
+
     public AmalgamEmptyCupIntentAction()
         : base()
     {

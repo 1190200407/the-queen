@@ -11,10 +11,12 @@ using MegaCrit.Sts2.Core.MonsterMoves.MonsterMoveStateMachine;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>通用聚合体 Debuff 意图：对敌人施加若干层某种 Debuff（Power）。</summary>
+/// <summary>通用聚合�?Debuff 意图：对敌人施加若干层某�?Debuff（Power）�?/summary>
 public sealed class AmalgamApplyDebuffIntentAction<T> : AmalgamActionModel
     where T : PowerModel
 {
+    public override string Key => GenericPoolKey("apply_debuff", typeof(T));
+
     private readonly Creature? _forcedTarget;
     private readonly string _debuffEntryId;
 

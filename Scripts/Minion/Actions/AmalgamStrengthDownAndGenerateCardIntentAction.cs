@@ -14,10 +14,12 @@ using MegaCrit.Sts2.Core.MonsterMoves.MonsterMoveStateMachine;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>聚合体意图：目标本回合失去力量 + 在手牌中加入指定卡牌（合并为一个 ActionModel）。</summary>
+/// <summary>????????????????+ ?????????????????ActionModel???/summary>
 public sealed class AmalgamStrengthDownAndGenerateCardIntentAction<T> : AmalgamActionModel
     where T : QueenCardModel
 {
+    public override string Key => GenericPoolKey("strength_down_and_generate_card", typeof(T));
+
     private const string StrengthLossParam = "strength_loss";
     private const string CardCountParam = "card_count";
 
@@ -27,19 +29,12 @@ public sealed class AmalgamStrengthDownAndGenerateCardIntentAction<T> : AmalgamA
     private readonly string _cardNameForIntent;
 
     public AmalgamStrengthDownAndGenerateCardIntentAction(decimal strengthLoss, decimal cardCount, Creature? forcedTarget = null)
-        : base(new System.Collections.Generic.Dictionary<string, decimal>
-        {
-            [StrengthLossParam] = strengthLoss,
-            [CardCountParam] = cardCount,
-        })
     {
         _forcedTarget = forcedTarget;
-        _strengthLoss = GetParameterOrDefault(StrengthLossParam, 0m);
-        _cardCount = Math.Max(0, (int)GetParameterOrDefault(CardCountParam, 0m));
+        _strengthLoss = strengthLoss;
+        _cardCount = Math.Max(0, (int)cardCount);
         _cardNameForIntent = ResolveCardName();
     }
-
-    private AmalgamStrengthDownIntentAction _strengthDownIntentAction;
 
     protected override MoveState CreateMoveState()
     {
@@ -60,8 +55,10 @@ public sealed class AmalgamStrengthDownAndGenerateCardIntentAction<T> : AmalgamA
 
         if (_strengthLoss > 0m)
         {
-            _strengthDownIntentAction = _strengthDownIntentAction ?? new AmalgamStrengthDownIntentAction(_strengthLoss, _forcedTarget);
-            await _strengthDownIntentAction.ExecuteAsync(choiceContext, amalgam);
+            AmalgamActionModel? strDown = _forcedTarget is { } forcedTarget
+                ? AmalgamActionRegistry.Rent<AmalgamStrengthDownIntentAction>(_strengthLoss, forcedTarget)
+                : AmalgamActionRegistry.Rent<AmalgamStrengthDownIntentAction>(_strengthLoss);
+            await AmalgamActionRegistry.ExecuteTemporaryAsync(choiceContext, amalgam, strDown);
         }
 
         if (_cardCount <= 0)

@@ -11,9 +11,11 @@ using MegaCrit.Sts2.Core.MonsterMoves.MonsterMoveStateMachine;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>hauntAction：三个意图合成一个 action（虚弱 + 易伤 + 本回合失去力量）。</summary>
+/// <summary>hauntAction????????? action??? + ?? + ?????????</summary>
 public sealed class AmalgamHauntIntentAction : AmalgamActionModel
 {
+    public override string Key => "haunt";
+
     private readonly decimal _weak;
     private readonly decimal _vulnerable;
     private readonly decimal _strengthLoss;
@@ -37,7 +39,7 @@ public sealed class AmalgamHauntIntentAction : AmalgamActionModel
 
     protected override MoveState CreateMoveState()
     {
-        // 注意：action 合并，但 intent 仍保留 3 个（用于 UI 类型/图标/文案）。
+        // ???action ???? intent ??? 3 ???? UI ??/??/????
         return new MoveState(
             "AMALGAM_INTENT_HAUNT",
             _ => Task.CompletedTask,
@@ -109,4 +111,3 @@ public sealed class AmalgamHauntIntentAction : AmalgamActionModel
         await ApplyAll(randomEnemy);
     }
 }
-

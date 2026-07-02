@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
 	"pck_name": "TheQueen", 
 	"name": "TheQueen",
 	"author": "ComicChess",
@@ -12,3 +13,21 @@
 	"affects_gameplay": true
   }
   
+=======
+  "id": "TheQueen",
+  "pck_name": "TheQueen",
+  "name": "TheQueen",
+  "author": "ComicChess",
+  "description": "\u6dfb\u52a0\u53ef\u64cd\u63a7\u89d2\u8272\u5973\u738b",
+  "version": "1.1",
+  "has_pck": true,
+  "has_dll": true,
+  "dependencies": [
+    {
+      "id": "STS2-RitsuLib",
+      "min_version": "0.4.20"
+    }
+  ],
+  "affects_gameplay": true
+}
+>>>>>>> beta

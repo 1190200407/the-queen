@@ -30,7 +30,7 @@ public sealed class BeetleCharge : QueenCardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new AmalgamLearnIntentDamageVar(damage, ValueProp.Move),
+        new AmalgamDamageVar("LearnIntentDamage", damage, ValueProp.Move),
     ];
 
     /// <summary>无友方聚合体或 <see cref="FriendlyAmalgam.BlockActionFromSleep"/> 时手牌红高亮（打出时由聚合体直接对敌伤害）。</summary>
@@ -89,14 +89,13 @@ public sealed class BeetleCharge : QueenCardModel
         }
 
         Creature target = cardPlay.Target;
-        decimal dmg = AmalgamLearnIntentDamageVar.GetEffectiveFlatForOffenseIntent(this, "LearnIntentDamage");
+        decimal dmg = AmalgamDamageVar.GetEffectiveFlat(this, "LearnIntentDamage");
         if (target.IsAlive && dmg > 0m)
         {
-            AmalgamActionModel? attack = AmalgamActionRegistry.CreateOffense(dmg, target);
-            if (attack != null)
-            {
-                await attack.ExecuteAsync(choiceContext, amalgam);
-            }
+            await AmalgamActionRegistry.ExecuteTemporaryAsync(
+                choiceContext,
+                amalgam,
+                AmalgamActionRegistry.CreateOffense(dmg, target));
         }
     }
 }

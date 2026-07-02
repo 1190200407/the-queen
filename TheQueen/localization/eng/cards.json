@@ -107,7 +107,11 @@
     "THE_QUEEN_CARD_REMINISCE.description":"Choose {Pick:diff()} [purple]Bound[/purple] cards from your [gold]Exhaust pile[/gold] and return them to your hand.\n[aqua]Gain 1 Soul Lamp.[/aqua]",
     "THE_QUEEN_CARD_REMINISCE.selectionPrompt":"Choose {Amount} [purple]Bound[/purple] card(s) from your [gold]Exhaust pile[/gold] to return to your hand.",
     "THE_QUEEN_CARD_STRONG_ADAPTABILITY.title":"Strong Adaptability",
+<<<<<<< HEAD
     "THE_QUEEN_CARD_STRONG_ADAPTABILITY.description":"{IfUpgraded:show:Choose a card in your hand to upgrade immediately.|}At the start of your turn, choose a card in your hand to upgrade.",
+=======
+    "THE_QUEEN_CARD_STRONG_ADAPTABILITY.description":"{IfUpgraded:show:Choose a card in your hand to upgrade.|}At the start of your turn, choose a card in your hand to upgrade.",
+>>>>>>> beta
     "THE_QUEEN_CARD_TASTE.title":"Taste",
     "THE_QUEEN_CARD_TASTE.description":"Create 3 [gold]{IfUpgraded:show:Devour+|Devour}[/gold]. Whenever you play [gold]Devour[/gold] this turn, draw 1 card.\n[aqua]Gain 3 Soul Lamps.[/aqua]",
     "THE_QUEEN_CARD_WILLFUL.title":"Willful",
@@ -127,7 +131,7 @@
     "THE_QUEEN_CARD_FIRE_WALL.title":"Fire Wall",
     "THE_QUEEN_CARD_FIRE_WALL.description":"[aqua]Gain 1 Soul Lamp.[/aqua]\nGain {Block:diff()} [gold]Block[/gold] for each [aqua]Soul Lamp[/aqua] you have.",
     "THE_QUEEN_CARD_HUNDRED_HANDS_BANQUET.title":"Banquet of Hundred Hands",
-    "THE_QUEEN_CARD_HUNDRED_HANDS_BANQUET.description":"Create 1 [gold]{IfUpgraded:show:Hand of Seizure+|Hand of Seizure}[/gold] and 1 [gold]{IfUpgraded:show:Hand of Refusal+|Hand of Refusal}[/gold].\n[aqua]Gain X Soul Lamp.[/aqua]",
+    "THE_QUEEN_CARD_HUNDRED_HANDS_BANQUET.description":"Create X [gold]{IfUpgraded:show:Scratch+|Scratch}[/gold] with [gold]Fade[/gold].\n[aqua]Gain X Soul Lamp.[/aqua]",
     "THE_QUEEN_CARD_HAND_OF_SEIZURE.title":"Hand of Seizure",
     "THE_QUEEN_CARD_HAND_OF_SEIZURE.description":"Deal {Damage:diff()} damage. Create 1 [gold]{IfUpgraded:show:Hand of Refusal+|Hand of Refusal}[/gold] and 1 [gold]{IfUpgraded:show:Hand of Seizure+|Hand of Seizure}[/gold].\n[gold]Fade[/gold]",
     "THE_QUEEN_CARD_HAND_OF_REFUSAL.title":"Hand of Refusal",
@@ -358,7 +362,7 @@
     "THE_QUEEN_CARD_GIMME.title":"Gimme",
     "THE_QUEEN_CARD_GIMME.description":"[gold]Summon[/gold] {Summon:diff()}.\nYour [gold]Amalgam[/gold] gains {AmalgamThieveryPower:diff()} [gold]Thievery[/gold]. Flees after {AmalgamEscapePower:diff()} turns.",
     "THE_QUEEN_CARD_GREMLIN_STAB.title":"Gremlin Stab",
-    "THE_QUEEN_CARD_GREMLIN_STAB.description":"Your [gold]Amalgam[/gold] deals {Damage:diff()} damage to the target. Steal {Gold:diff()} [gold]Gold[/gold].",
+    "THE_QUEEN_CARD_GREMLIN_STAB.description":"Your [gold]Amalgam[/gold] deals {AmalgamDamage:diff()} damage to the target. Steal {Gold:diff()} [gold]Gold[/gold].",
     "THE_QUEEN_CARD_FLEE.title":"Flee",
     "THE_QUEEN_CARD_FLEE.description":"Your [gold]Amalgam[/gold] leaves combat. Add stolen [gold]Gold[/gold] to combat rewards.",
     "THE_QUEEN_CARD_TACTICAL_DIRECTIVE.title":"Tactical Directive",
@@ -401,7 +405,11 @@
     "THE_QUEEN_CARD_CLOSE_DOOR.title":"Close Door",
     "THE_QUEEN_CARD_CLOSE_DOOR.description":"[gold]Summon[/gold] {Summon:diff()}.\nYour [gold]Amalgam[/gold] gains {AmalgamDoormakerBossPower:diff()} [gold]Doormaker Shell[/gold].\n[purple]R.I.P.[/purple]",
     "THE_QUEEN_CARD_VITAL_SPARK.title":"Vital Spark",
+<<<<<<< HEAD
     "THE_QUEEN_CARD_VITAL_SPARK.description":"[gold]Summon[/gold] {Summon:diff()}.\nYour [gold]Amalgam[/gold] gains {AmalgamVitalSparkPower:diff()} [gold]Vital Spark[/gold].",
+=======
+    "THE_QUEEN_CARD_VITAL_SPARK.description":"Gain 2 [gold]Vital Spark[/gold]. Whenever you gain [gold]Contamination[/gold], ALL enemies gain double [gold]Contamination[/gold].",
+>>>>>>> beta
     "THE_QUEEN_CARD_RELOAD_FIRE.title":"Reload Fire",
     "THE_QUEEN_CARD_RELOAD_FIRE.description":"[gold]Summon[/gold] {Summon:diff()}.\n[gold]Learn Intent[/gold]: Gain {LearnIntentBlock:diff()} Block. At the start of next turn, deal {LearnIntentDamage:diff()} damage.",
     "THE_QUEEN_CARD_GRASPING_VINES.title":"Grasping Vines",
@@ -427,7 +435,7 @@
     "THE_QUEEN_CARD_BACK_ATTACK.title":"Back Attack",
     "THE_QUEEN_CARD_BACK_ATTACK.description":"[gold]Summon[/gold] {Summon:diff()}.\nCreate 1 [gold]Switch Side[/gold].\nAll enemies gain [gold]Back Attack[/gold].",
     "THE_QUEEN_CARD_CURSE_OF_KNOWLEDGE.title":"Curse of Knowledge",
-    "THE_QUEEN_CARD_CURSE_OF_KNOWLEDGE.description":"[gold]Summon[/gold] {Summon:diff()}. At the start of each combat, choose 1 of [gold]Rejuvenate[/gold], [gold]Mind Clarity[/gold], or [gold]Disintegration[/gold] to execute.",
+    "THE_QUEEN_CARD_CURSE_OF_KNOWLEDGE.description":"[gold]Summon[/gold] {Summon:diff()}. At the start of your turn, choose 1 of [gold]Rejuvenate[/gold], [gold]Mind Clarity[/gold], or [gold]Disintegration[/gold] to execute.",
     "THE_QUEEN_CARD_LIQUIFY_GROUND.title":"Liquify Ground",
     "THE_QUEEN_CARD_LIQUIFY_GROUND.description":"{Sandpit:choose(0):Gain {AmalgamSandpitPower:diff()} [gold]Sandpit[/gold].\n|}{InCombat:|If this is a Boss fight, gain 10 instead.\n}[gold]Summon[/gold] {Summon:diff()}.\n[gold]Learn Intent[/gold]: Create 1 [gold]Frantic Tug[/gold].",
     "THE_QUEEN_CARD_FRANTIC_TUG.title":"Frantic Tug",
@@ -442,5 +450,11 @@
     "THE_QUEEN_CARD_NIBBLE.title":"Nibble",
     "THE_QUEEN_CARD_NIBBLE.description":"Your [gold]Amalgam[/gold] deals {LearnIntentDamage:diff()} damage.",
     "THE_QUEEN_CARD_SCHIZOPHRENIA.title":"Schizophrenia",
-    "THE_QUEEN_CARD_SCHIZOPHRENIA.description":"Apply {VulnerablePower:diff()} [gold]Vulnerable[/gold] and {WeakPower:diff()} [gold]Weak[/gold]. Split the target's [gold]Vulnerable[/gold] and [gold]Weak[/gold] into 2 and divide their stacks evenly."
+    "THE_QUEEN_CARD_SCHIZOPHRENIA.description":"Apply {VulnerablePower:diff()} [gold]Vulnerable[/gold] and {WeakPower:diff()} [gold]Weak[/gold]. Split the target's [gold]Vulnerable[/gold] and [gold]Weak[/gold] into 2 and divide their stacks evenly.",
+    "THE_QUEEN_CARD_UNKNOWN_SOUL.title":"Unknown Soul",
+    "THE_QUEEN_CARD_UNKNOWN_SOUL.description":"[gold]Summon[/gold] {Summon:diff()}.",
+    "THE_QUEEN_CARD_UNKNOWN_SOUL_UNCOMMON.title":"Unknown Soul",
+    "THE_QUEEN_CARD_UNKNOWN_SOUL_UNCOMMON.description":"[gold]Summon[/gold] {Summon:diff()}.",
+    "THE_QUEEN_CARD_UNKNOWN_SOUL_RARE.title":"Unknown Soul",
+    "THE_QUEEN_CARD_UNKNOWN_SOUL_RARE.description":"[gold]Summon[/gold] {Summon:diff()}."
 }

@@ -11,10 +11,16 @@ using MegaCrit.Sts2.Core.MonsterMoves.MonsterMoveStateMachine;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>聚合体意图：按 <see cref="AmalgamOffenseTargeting"/> 对敌人施加 <see cref="AmalgamActionModel.Amount"/> 层虚弱。</summary>
+/// <summary>聚合体意图：�?<see cref="AmalgamOffenseTargeting"/> 对敌人施�?<see cref="AmalgamActionModel.Amount"/> 层虚弱�?/summary>
 public sealed class AmalgamApplyWeakIntentAction : AmalgamActionModel
 {
-    private readonly Creature? _forcedTarget;
+    public override string Key => "weak";
+
+    private Creature? _forcedTarget;
+
+    public AmalgamApplyWeakIntentAction()
+    {
+    }
 
     public AmalgamApplyWeakIntentAction(decimal weakStacks)
         : base(weakStacks)
@@ -22,9 +28,35 @@ public sealed class AmalgamApplyWeakIntentAction : AmalgamActionModel
     }
 
     public AmalgamApplyWeakIntentAction(decimal weakStacks, Creature? forcedTarget)
-        : base(weakStacks)
+        : this(weakStacks)
     {
         _forcedTarget = forcedTarget;
+    }
+
+    public override bool Init(decimal amount)
+    {
+        if (!AmalgamActionArgs.IsPositive(amount))
+        {
+            return false;
+        }
+
+        ResetForInit();
+        Amount = amount;
+        _forcedTarget = null;
+        return true;
+    }
+
+    public override bool Init(object[] args)
+    {
+        if (!AmalgamActionArgs.TryGetDecimal(args, 0, out decimal stacks) || !AmalgamActionArgs.IsPositive(stacks))
+        {
+            return false;
+        }
+
+        ResetForInit();
+        Amount = stacks;
+        _forcedTarget = AmalgamActionArgs.TryGetCreature(args, 1);
+        return true;
     }
 
     public static readonly float CastAnimDelay = 1.5f;

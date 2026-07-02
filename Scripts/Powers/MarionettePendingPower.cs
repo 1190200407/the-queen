@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -17,6 +19,7 @@ public sealed class MarionettePendingPower : QueenPowerModel
     private sealed class Data
     {
         public string MonsterId = string.Empty;
+        public bool AllowUnknownSoulFallback = true;
     }
 
     protected override object? InitInternalData() => new Data();
@@ -27,16 +30,17 @@ public sealed class MarionettePendingPower : QueenPowerModel
 
     public override bool IsInstanced => true;
 
-    internal void ConfigureMonsterId(string monsterId)
+    internal void ConfigureMonsterId(string monsterId, bool allowUnknownSoulFallback)
     {
         Data data = GetInternalData<Data>();
         data.MonsterId = monsterId;
+        data.AllowUnknownSoulFallback = allowUnknownSoulFallback;
     }
 
-    public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
+    public override async Task BeforeSideTurnEnd(PlayerChoiceContext choiceContext, CombatSide side, IEnumerable<Creature> participants)
     {
         _ = choiceContext;
-        if (player != base.Owner.Player || !base.Owner.IsAlive)
+        if (!participants.Contains(base.Owner) || !base.Owner.IsAlive || base.Owner.Player is not Player player)
         {
             return;
         }
@@ -51,13 +55,18 @@ public sealed class MarionettePendingPower : QueenPowerModel
         if (!string.IsNullOrWhiteSpace(data.MonsterId))
         {
             CombatRoom? combatRoom = player.RunState?.CurrentRoom as CombatRoom;
+<<<<<<< HEAD
             CardModel? rewardCard = MonsterCaptureRewardCatalog.CreateCaptureRewardCard(player, data.MonsterId);
+=======
+            CardModel? rewardCard = MonsterCaptureRewardCatalog.CreateCaptureRewardCard(
+                player,
+                data.MonsterId,
+                allowUnknownSoulFallback: data.AllowUnknownSoulFallback);
+>>>>>>> beta
             if (combatRoom != null && rewardCard is not null)
             {
                 combatRoom.AddExtraReward(player, new SpecialCardReward(rewardCard, player));
             }
         }
-
-        await PowerCmd.Remove(this);
     }
 }

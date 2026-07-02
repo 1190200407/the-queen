@@ -28,6 +28,8 @@ public abstract class AmalgamForcedActionModel : AmalgamActionModel
 /// <summary>紧急避险：强制沉睡展示并跳过本回合末灯槽执行。</summary>
 public sealed class AmalgamEmergencySleepForcedActionModel : AmalgamForcedActionModel
 {
+    public override string Key => "emergency_sleep";
+
     public AmalgamEmergencySleepForcedActionModel(decimal amount) : base(amount)
     {
     }

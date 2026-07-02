@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -11,28 +10,20 @@ using MegaCrit.Sts2.Core.MonsterMoves.MonsterMoveStateMachine;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>一个意图：抽牌并附魔（灼烧），并在下回合开始造成伤害（以能力实现）。</summary>
+/// <summary>一个意图：抽牌并附魔（灼烧），并在下回合开始造成伤害（以能力实现）�?/summary>
 public sealed class AmalgamFlamethrowerIntentAction : AmalgamActionModel
 {
-    private const string DrawParam = "draw";
-    private const string EnchantAmountParam = "enchantAmount";
-    private const string NextTurnDamageParam = "nextTurnDamage";
+    public override string Key => "flamethrower";
 
     private readonly decimal _draw;
     private readonly decimal _enchantAmount;
     private readonly decimal _nextTurnDamage;
 
     public AmalgamFlamethrowerIntentAction(decimal draw, decimal enchantAmount, decimal nextTurnDamage)
-        : base(new Dictionary<string, decimal>
-        {
-            [DrawParam] = draw,
-            [EnchantAmountParam] = enchantAmount,
-            [NextTurnDamageParam] = nextTurnDamage,
-        })
     {
-        _draw = GetParameterOrDefault(DrawParam, 0m);
-        _enchantAmount = GetParameterOrDefault(EnchantAmountParam, 0m);
-        _nextTurnDamage = GetParameterOrDefault(NextTurnDamageParam, 0m);
+        _draw = draw;
+        _enchantAmount = enchantAmount;
+        _nextTurnDamage = nextTurnDamage;
     }
 
     protected override MoveState CreateMoveState()

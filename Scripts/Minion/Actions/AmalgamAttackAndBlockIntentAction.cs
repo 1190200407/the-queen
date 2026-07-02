@@ -12,21 +12,46 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>聚合体意图：先攻击，再为玩家获得格挡。</summary>
+/// <summary>聚合体意图：先攻击，再为玩家获得格挡�?/summary>
 public sealed class AmalgamAttackAndBlockIntentAction : AmalgamActionModel
 {
-    private const string BlockParam = "block";
+    public override string Key => "attack_and_block";
 
-    private readonly decimal _block;
+    private decimal _block;
+
+    public AmalgamAttackAndBlockIntentAction()
+    {
+    }
 
     public AmalgamAttackAndBlockIntentAction(decimal damage, decimal block)
-        : base(new Dictionary<string, decimal>
-        {
-            [AmountParam] = damage,
-            [BlockParam] = block,
-        })
+        : this()
     {
-        _block = GetParameterOrDefault(BlockParam, 0m);
+        Amount = damage;
+        _block = block;
+    }
+
+    protected override void ResetForInit()
+    {
+        base.ResetForInit();
+        _block = 0m;
+    }
+
+    public override bool Init(decimal amount) => false;
+
+    public override bool Init(object[] args)
+    {
+        if (!AmalgamActionArgs.TryGetDecimal(args, 0, out decimal damage)
+            || !AmalgamActionArgs.TryGetDecimal(args, 1, out decimal block)
+            || !AmalgamActionArgs.IsPositive(damage)
+            || !AmalgamActionArgs.IsPositive(block))
+        {
+            return false;
+        }
+
+        ResetForInit();
+        Amount = damage;
+        _block = block;
+        return true;
     }
 
     protected override MoveState CreateMoveState()

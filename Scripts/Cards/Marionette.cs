@@ -99,7 +99,11 @@ public sealed class Marionette : QueenCardModel, ICanMonsterCapture
             return;
         }
 
+<<<<<<< HEAD
         CardModel? enemyCard = MonsterCaptureRewardCatalog.CreateCaptureRewardCard(base.Owner, monsterId);
+=======
+        CardModel? enemyCard = MonsterCaptureRewardCatalog.CreateCaptureRewardCard(base.Owner, monsterId, target);
+>>>>>>> beta
         if (enemyCard is null)
         {
             return;
@@ -116,7 +120,9 @@ public sealed class Marionette : QueenCardModel, ICanMonsterCapture
             3m,
             base.Owner.Creature,
             this);
-        pending?.ConfigureMonsterId(monsterId);
+        pending?.ConfigureMonsterId(
+            monsterId,
+            MonsterCaptureRewardCatalog.CanReceiveUnknownSoulFallback(target));
     }
 
     protected override void OnUpgrade()

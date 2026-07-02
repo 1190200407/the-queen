@@ -416,6 +416,10 @@ public static class FriendlyAmalgamCmd
         {
             LearnIntentAppliedVfx.Play(amalgamCreature);
         }
+<<<<<<< HEAD
+=======
+
+>>>>>>> beta
         await FriendlyAmalgamHook.AfterLearnIntent(combatState, choiceContext, owner, amalgamCreature, intent, source);
     }
 
@@ -463,6 +467,10 @@ public static class FriendlyAmalgamCmd
         {
             LearnIntentAppliedVfx.Play(amalgamCreature);
         }
+<<<<<<< HEAD
+=======
+
+>>>>>>> beta
         await FriendlyAmalgamHook.AfterCombineIntent(combatState, choiceContext, owner, amalgamCreature, intent, source, compositeKey);
     }
 

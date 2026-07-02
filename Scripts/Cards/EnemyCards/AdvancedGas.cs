@@ -40,8 +40,13 @@ public sealed class AdvancedGas : QueenCardModel
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         _ = cardPlay;
+<<<<<<< HEAD
         await PowerCmd.Apply<SmoggyPower>(base.Owner.Creature, 1m, base.Owner.Creature, this);
         await PowerCmd.Apply<AdvancedGasSmoggyPower>(base.Owner.Creature, 1m, base.Owner.Creature, this);
+=======
+        await PowerCmd.Apply<SmoggyPower>(choiceContext, base.Owner.Creature, 1m, base.Owner.Creature, this);
+        await PowerCmd.Apply<AdvancedGasSmoggyPower>(choiceContext, base.Owner.Creature, 1m, base.Owner.Creature, this);
+>>>>>>> beta
         await CreatureCmd.TriggerAnim(base.Owner.Creature, "Cast", base.Owner.Character.CastAnimDelay);
     }
 }

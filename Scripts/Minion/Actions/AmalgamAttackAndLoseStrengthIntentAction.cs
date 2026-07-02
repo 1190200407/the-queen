@@ -12,21 +12,17 @@ using MegaCrit.Sts2.Core.MonsterMoves.MonsterMoveStateMachine;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>聚合体意图：先攻击，再使目标永久失去力量（负数 Strength）。</summary>
+/// <summary>聚合体意图：先攻击，再使目标永久失去力量（负�?Strength）�?/summary>
 public sealed class AmalgamAttackAndLoseStrengthIntentAction : AmalgamActionModel
 {
-    private const string StrengthLossParam = "strengthLoss";
+    public override string Key => "attack_and_lose_strength";
 
     private readonly decimal _strengthLoss;
 
     public AmalgamAttackAndLoseStrengthIntentAction(decimal damage, decimal strengthLoss)
-        : base(new Dictionary<string, decimal>
-        {
-            [AmountParam] = damage,
-            [StrengthLossParam] = strengthLoss,
-        })
     {
-        _strengthLoss = GetParameterOrDefault(StrengthLossParam, 0m);
+        Amount = damage;
+        _strengthLoss = strengthLoss;
     }
 
     protected override MoveState CreateMoveState()

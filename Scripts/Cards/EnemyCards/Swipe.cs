@@ -39,7 +39,7 @@ public sealed class Swipe : QueenCardModel, ICanMonsterCapture
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new AmalgamLearnIntentDamageVar(17m, ValueProp.Move),
+        new AmalgamDamageVar("LearnIntentDamage", 17m, ValueProp.Move),
         new PowerVar<AmalgamEscapePower>(escapeTurns),
     ];
 
@@ -77,14 +77,13 @@ public sealed class Swipe : QueenCardModel, ICanMonsterCapture
         Creature target = cardPlay.Target;
         if (amalgam.Monster is FriendlyAmalgam fam && !fam.BlockActionFromSleep)
         {
-            decimal damage = AmalgamLearnIntentDamageVar.GetEffectiveFlatForOffenseIntent(this, "LearnIntentDamage");
+            decimal damage = AmalgamDamageVar.GetEffectiveFlat(this, "LearnIntentDamage");
             if (target.IsAlive && damage > 0m)
             {
-                AmalgamActionModel? attack = AmalgamActionRegistry.CreateOffense(damage, target);
-                if (attack != null)
-                {
-                    await attack.ExecuteAsync(choiceContext, amalgam);
-                }
+                await AmalgamActionRegistry.ExecuteTemporaryAsync(
+                    choiceContext,
+                    amalgam,
+                    AmalgamActionRegistry.CreateOffense(damage, target));
             }
         }
 

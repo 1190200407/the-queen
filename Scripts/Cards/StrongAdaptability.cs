@@ -43,7 +43,11 @@ public sealed class StrongAdaptability : QueenCardModel
 			}
 		}
 
+<<<<<<< HEAD
 		await PowerCmd.Apply<StrongAdaptabilityPower>(base.Owner.Creature, 1m, base.Owner.Creature, this);
+=======
+		await PowerCmd.Apply<StrongAdaptabilityPower>(choiceContext, base.Owner.Creature, 1m, base.Owner.Creature, this);
+>>>>>>> beta
 		await CreatureCmd.TriggerAnim(base.Owner.Creature, "Cast", base.Owner.Character.CastAnimDelay);
 	}
 }

@@ -10,24 +10,20 @@ using MegaCrit.Sts2.Core.MonsterMoves.MonsterMoveStateMachine;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>聚合体意图：同一个行动占位，展示为「获得某 Buff + 获得力量」。</summary>
+/// <summary>聚合体意图：同一个行动占位，展示为「获得某 Buff + 获得力量」�?/summary>
 public sealed class AmalgamGainBuffAndStrengthIntentAction<TPower> : AmalgamActionModel
     where TPower : PowerModel
 {
-    private const string StrengthParam = "strength";
+    public override string Key => GenericPoolKey("gain_buff_and_strength", typeof(TPower));
 
     private readonly string _buffEntryId;
     private readonly decimal _strength;
 
     public AmalgamGainBuffAndStrengthIntentAction(decimal buffStacks, string buffEntryId, decimal strengthStacks)
-        : base(new Dictionary<string, decimal>
-        {
-            [AmountParam] = buffStacks,
-            [StrengthParam] = strengthStacks,
-        })
     {
+        Amount = buffStacks;
         _buffEntryId = buffEntryId;
-        _strength = GetParameterOrDefault(StrengthParam, 0m);
+        _strength = strengthStacks;
     }
 
     public static readonly float CastAnimDelay = 1.5f;

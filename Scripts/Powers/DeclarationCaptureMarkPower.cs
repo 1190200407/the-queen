@@ -24,11 +24,11 @@ public sealed class DeclarationCaptureMarkPower : QueenPowerModel
 	{
 		_ = choiceContext;
 		_ = player;
-		await PowerCmd.Decrement(this);
-		if (Amount <= 0m)
+		if (player.Creature != base.Applier)
 		{
-			await PowerCmd.Remove(this);
+			return;
 		}
+		await PowerCmd.Decrement(this);
 	}
 
 	public override async Task AfterDeath(PlayerChoiceContext choiceContext, Creature creature, bool wasRemovalPrevented, float deathAnimLength)

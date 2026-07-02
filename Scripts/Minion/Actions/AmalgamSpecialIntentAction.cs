@@ -6,9 +6,13 @@ using MegaCrit.Sts2.Core.MonsterMoves.MonsterMoveStateMachine;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>特殊意图行动：展示 unknown 意图，并执行自定义逻辑。</summary>
+/// <summary>特殊意图行动：展�?unknown 意图，并执行自定义逻辑�?/summary>
 public sealed class AmalgamSpecialIntentAction : AmalgamActionModel
 {
+    public override string Key => _moveId;
+
+    internal override bool PoolWhenReturned => false;
+
     private readonly string _moveId;
     private readonly string _intentDescriptionKey;
     private readonly Func<PlayerChoiceContext, Creature, Creature, Task> _execute;

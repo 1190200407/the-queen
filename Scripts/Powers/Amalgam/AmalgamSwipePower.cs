@@ -71,7 +71,11 @@ public sealed class AmalgamSwipePower : QueenPowerModel, IAmalgamEventListener
             return Task.FromResult(false);
         }
 
+<<<<<<< HEAD
         CardModel? card = MonsterCaptureRewardCatalog.CreateCaptureRewardCard(queen, monsterId);
+=======
+        CardModel? card = MonsterCaptureRewardCatalog.CreateCaptureRewardCard(queen, monsterId, targetEnemy);
+>>>>>>> beta
         if (card == null)
         {
             return Task.FromResult(false);

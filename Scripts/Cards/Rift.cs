@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using MegaCrit.Sts2.Core.Combat;
@@ -94,6 +93,11 @@ public sealed class Rift : QueenCardModel, ISoulLampEventListener
             return false;
         }
 
+        if (card.Affliction is Bound)
+        {
+            return false;
+        }
+
         modifiedCost = originalCost + soulLamp;
         return true;
     }
@@ -101,7 +105,11 @@ public sealed class Rift : QueenCardModel, ISoulLampEventListener
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         _ = cardPlay;
+<<<<<<< HEAD
         if (base.CombatState is not CombatState combatState)
+=======
+        if (base.CombatState is not ICombatState combatState)
+>>>>>>> beta
         {
             return;
         }

@@ -12,23 +12,47 @@ using MegaCrit.Sts2.Core.Nodes.Vfx;
 namespace ComicChess.TheQueen;
 
 /// <summary>
-/// 甩动式多段进攻：对齐原版 Phrog Parasite Lash（Attack 动画×1、虫噬命中 VFX、寄生蛙音效）。
-/// </summary>
+/// 甩动式多段进攻：对齐原版 Phrog Parasite Lash（Attack 动画×1、虫噬命�?VFX、寄生蛙音效）�?/// </summary>
 public sealed class AmalgamLashMultiHitOffenseIntentAction : AmalgamActionModel
 {
-	private const string RepeatParam = "repeat";
+    public override string Key => "lash_offense_multi";
 
-	private readonly int _hitCount;
+	private int _hitCount;
+
+    public AmalgamLashMultiHitOffenseIntentAction()
+    {
+    }
 
 	public AmalgamLashMultiHitOffenseIntentAction(decimal damagePerHit, int hitCount)
-		: base(new Dictionary<string, decimal>
-		{
-			[AmountParam] = damagePerHit,
-			[RepeatParam] = hitCount,
-		})
+        : this()
 	{
-		_hitCount = (int)GetParameterOrDefault(RepeatParam, 0m);
+        Amount = damagePerHit;
+		_hitCount = hitCount;
 	}
+
+    protected override void ResetForInit()
+    {
+        base.ResetForInit();
+        _hitCount = 0;
+    }
+
+    public override bool Init(decimal amount) => false;
+
+    public override bool Init(object[] args)
+    {
+        if (!AmalgamActionArgs.TryGetDecimal(args, 0, out decimal damagePerHit)
+            || !AmalgamActionArgs.TryGetInt(args, 1, out int hitCount)
+            || !AmalgamActionArgs.IsPositive(damagePerHit)
+            || hitCount <= 0)
+        {
+            return false;
+        }
+
+        ResetForInit();
+        Amount = damagePerHit;
+        _hitCount = hitCount;
+        return true;
+    }
 
 	protected override MoveState CreateMoveState()
 	{

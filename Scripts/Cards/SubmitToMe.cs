@@ -40,7 +40,11 @@ public sealed class SubmitToMe : QueenCardModel
             }
 
             int diff = SubmitToMe.GetStrength(owner) - SubmitToMe.GetStrength(target);
+<<<<<<< HEAD
             return diff > 0 ? diff / strengthDiffPerExtraHit : 0;
+=======
+            return diff > 0 ? diff / strengthDiffPerExtraHit: 0;
+>>>>>>> beta
         }),
     ];
 

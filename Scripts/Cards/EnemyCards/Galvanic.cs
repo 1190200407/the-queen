@@ -66,6 +66,10 @@ public sealed class Galvanic : QueenCardModel
         {
             foreach (CardModel c in base.Owner.PlayerCombatState.AllCards.Where(c => c.Type == CardType.Power).ToList())
             {
+                if (c.Affliction == null)
+                {
+                    await CardCmd.Afflict<Galvanized>(c, galvanicStacks);
+                }
                 c.BaseReplayCount += r;
             }
         }

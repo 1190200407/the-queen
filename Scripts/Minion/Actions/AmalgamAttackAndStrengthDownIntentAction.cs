@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -6,21 +5,16 @@ using MegaCrit.Sts2.Core.MonsterMoves.MonsterMoveStateMachine;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>聚合体意图：先攻击，再使敌人本回合失去力量（回合结束恢复）。</summary>
 public sealed class AmalgamAttackAndStrengthDownIntentAction : AmalgamActionModel
 {
-    private const string StrengthLossParam = "strengthLoss";
+    public override string Key => "attack_and_strength_down";
 
     private readonly decimal _strengthLoss;
 
     public AmalgamAttackAndStrengthDownIntentAction(decimal damage, decimal strengthLoss)
-        : base(new Dictionary<string, decimal>
-        {
-            [AmountParam] = damage,
-            [StrengthLossParam] = strengthLoss,
-        })
     {
-        _strengthLoss = GetParameterOrDefault(StrengthLossParam, 0m);
+        Amount = damage;
+        _strengthLoss = strengthLoss;
     }
 
     protected override MoveState CreateMoveState()
@@ -36,21 +30,18 @@ public sealed class AmalgamAttackAndStrengthDownIntentAction : AmalgamActionMode
     {
         if (Amount > 0m)
         {
-            AmalgamActionModel? offense = AmalgamActionRegistry.CreateOffense(Amount);
-            if (offense != null)
-            {
-                await offense.ExecuteAsync(choiceContext, amalgam);
-            }
+            await AmalgamActionRegistry.ExecuteTemporaryAsync(
+                choiceContext,
+                amalgam,
+                AmalgamActionRegistry.CreateOffense(Amount));
         }
 
         if (_strengthLoss > 0m)
         {
-            AmalgamActionModel? strDown = AmalgamActionRegistry.Create(AmalgamActionRegistry.StrengthDown, _strengthLoss);
-            if (strDown != null)
-            {
-                await strDown.ExecuteAsync(choiceContext, amalgam);
-            }
+            await AmalgamActionRegistry.ExecuteTemporaryAsync(
+                choiceContext,
+                amalgam,
+                AmalgamActionRegistry.Rent<AmalgamStrengthDownIntentAction>(_strengthLoss));
         }
     }
 }
-

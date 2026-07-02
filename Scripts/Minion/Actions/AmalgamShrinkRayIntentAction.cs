@@ -12,13 +12,23 @@ using MegaCrit.Sts2.Core.MonsterMoves.MonsterMoveStateMachine;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>聚合体意图：对所有敌方单位施加若干回合的缩小（原版 <see cref="ShrinkPower"/>）。</summary>
-public sealed class AmalgamShrinkRayIntentAction : AmalgamActionModel
+/// <summary>聚合体意图：对所有敌方单位施加若干回合的缩小（原�?<see cref="ShrinkPower"/>）�?/summary>
+public sealed class AmalgamShrinkRayIntentAction : AmalgamSingleDecimalActionModel
 {
+    public override string Key => "shrink_ray";
+
+    public AmalgamShrinkRayIntentAction()
+    {
+    }
+
     public AmalgamShrinkRayIntentAction(decimal turns)
         : base(turns)
     {
     }
+
+    public override bool Init(decimal amount) => TryInitSingleDecimal(amount);
+
+    public override bool Init(object[] args) => TryInitSingleDecimal(args);
 
     public static readonly float CastAnimDelay = 1.5f;
 

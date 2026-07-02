@@ -18,5 +18,17 @@ mono_crash.*.json
 # Cursor local rules (local memory, do not commit)
 .cursor/rules/
 
+# Local MSBuild overrides (copy from local.props.example)
+local.props
 
+<<<<<<< HEAD
 bin/windows/~libspine_godot.windows.editor.x86_64.dll
+=======
+# Local archives / release packages
+*.zip
+
+# .NET build caches
+**/obj/
+**/bin/Debug/
+**/bin/Release/
+>>>>>>> beta

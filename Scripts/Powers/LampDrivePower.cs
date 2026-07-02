@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
@@ -12,7 +13,11 @@ using MegaCrit.Sts2.Core.Models;
 
 namespace ComicChess.TheQueen;
 
+<<<<<<< HEAD
 /// <summary>灯驱：本回合每消耗 1 点魂灯，聚合体行动 1 次；回合结束时移除。</summary>
+=======
+/// <summary>灯驱（可叠加）：本回合每消耗 1 点魂灯，聚合体按层数执行行动；回合结束时移除。</summary>
+>>>>>>> beta
 public sealed class LampDrivePower : QueenPowerModel, ISoulLampEventListener
 {
     public override PowerType Type => PowerType.Buff;
@@ -33,12 +38,20 @@ public sealed class LampDrivePower : QueenPowerModel, ISoulLampEventListener
     {
         _ = applier;
         _ = cardSource;
+<<<<<<< HEAD
         if (delta >= 0m || player != base.Owner.Player)
+=======
+        if (delta >= 0m || player != base.Owner?.Player)
+>>>>>>> beta
         {
             return;
         }
 
+<<<<<<< HEAD
         if (base.CombatState is not CombatState combatState)
+=======
+        if (base.CombatState is not ICombatState combatState)
+>>>>>>> beta
         {
             return;
         }
@@ -54,7 +67,12 @@ public sealed class LampDrivePower : QueenPowerModel, ISoulLampEventListener
         {
             return;
         }
+<<<<<<< HEAD
 
+=======
+        
+        int totalActions = (int)-delta * actionsPerSoulLamp;
+>>>>>>> beta
         Flash();
         for (int i = 0; i < totalActions; i++)
         {

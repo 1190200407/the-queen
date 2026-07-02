@@ -10,17 +10,16 @@ using MegaCrit.Sts2.Core.MonsterMoves.MonsterMoveStateMachine;
 namespace ComicChess.TheQueen;
 
 /// <summary>
-/// 将多个 <see cref="AmalgamActionModel"/> 合并为单条已学意图：
-/// 意图条上按顺序展示各子模型在 <see cref="AmalgamActionModel.GetMoveStateForDisplay"/> 中的全部 <see cref="AbstractIntent"/>；
-/// 执行时按同一顺序对子模型调用 <see cref="AmalgamActionModel.ExecuteAsync"/>（每个子行动各自走完含 <see cref="FriendlyAmalgamHook.AfterAct"/> 的完整流程）。
-/// </summary>
+/// 将多�?<see cref="AmalgamActionModel"/> 合并为单条已学意图：
+/// 意图条上按顺序展示各子模型在 <see cref="AmalgamActionModel.GetMoveStateForDisplay"/> 中的全部 <see cref="AbstractIntent"/>�?/// 执行时按同一顺序对子模型调用 <see cref="AmalgamActionModel.ExecuteAsync"/>（每个子行动各自走完�?<see cref="FriendlyAmalgamHook.AfterAct"/> 的完整流程）�?/// </summary>
 public sealed class AmalgamCompositeIntentAction : AmalgamActionModel
 {
+    public override string Key => _compositeKey.ToString();
+
     private readonly AmalgamCompositeKey _compositeKey;
     private readonly List<AmalgamActionModel> _parts;
 
     public AmalgamCompositeIntentAction(AmalgamCompositeKey compositeKey, params AmalgamActionModel[] parts)
-        : base(0m)
     {
         ArgumentNullException.ThrowIfNull(parts);
         if (parts.Length == 0)
@@ -40,6 +39,16 @@ public sealed class AmalgamCompositeIntentAction : AmalgamActionModel
     public AmalgamCompositeKey CompositeKey => _compositeKey;
 
     public IReadOnlyList<AmalgamActionModel> Parts => _parts;
+
+    internal override bool PoolWhenReturned => false;
+
+    protected override void ReturnChildrenToPool()
+    {
+        foreach (AmalgamActionModel part in _parts)
+        {
+            AmalgamActionRegistry.Return(part);
+        }
+    }
 
     public override AmalgamActionModel Clone()
     {

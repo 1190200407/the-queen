@@ -14,9 +14,12 @@ using MegaCrit.Sts2.Core.MonsterMoves.MonsterMoveStateMachine;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>聚合体意图：在手牌中加入指定卡牌。</summary>
-public sealed class AmalgamGenerateCardIntentAction<T> : AmalgamActionModel where T : QueenCardModel
+/// <summary>聚合体意图：在手牌中加入指定卡牌�?/summary>
+public sealed class AmalgamGenerateCardIntentAction<T> : AmalgamSingleDecimalActionModel
+    where T : QueenCardModel
 {
+    public override string Key => GenericPoolKey("generate_card", typeof(T));
+
     private static readonly MethodInfo CreateInHandGeneric = typeof(QueenCardCmd)
         .GetMethods(BindingFlags.Public | BindingFlags.Static)
         .First(m =>
@@ -24,14 +27,42 @@ public sealed class AmalgamGenerateCardIntentAction<T> : AmalgamActionModel wher
             && m.IsGenericMethodDefinition
             && m.GetParameters().Length == 3);
 
-    private readonly bool _generateUpgradedCard;
-    private readonly string _cardNameForIntent;
+    private static readonly string CardNameForIntent = ResolveCardName();
+
+    private bool _generateUpgradedCard;
+
+    public AmalgamGenerateCardIntentAction()
+    {
+    }
 
     public AmalgamGenerateCardIntentAction(decimal count, bool generateUpgradedCard = false)
         : base(count)
     {
         _generateUpgradedCard = generateUpgradedCard;
-        _cardNameForIntent = ResolveCardName();
+    }
+
+    public override bool Init(decimal amount)
+    {
+        if (!TryInitSingleDecimal(amount))
+        {
+            return false;
+        }
+
+        _generateUpgradedCard = false;
+        return true;
+    }
+
+    public override bool Init(object[] args)
+    {
+        if (!AmalgamActionArgs.TryGetDecimal(args, 0, out decimal count) || !AmalgamActionArgs.IsPositive(count))
+        {
+            return false;
+        }
+
+        ResetForInit();
+        Amount = count;
+        _generateUpgradedCard = AmalgamActionArgs.TryGetBool(args, 1, out bool upgraded) && upgraded;
+        return true;
     }
 
     public static readonly float CastAnimDelay = 1.5f;
@@ -41,7 +72,7 @@ public sealed class AmalgamGenerateCardIntentAction<T> : AmalgamActionModel wher
         return new MoveState(
             "AMALGAM_INTENT_GENERATE_CARD",
             _ => Task.CompletedTask,
-            new AmalgamGenerateCardIntent(Amount, _cardNameForIntent));
+            new AmalgamGenerateCardIntent(Amount, CardNameForIntent));
     }
 
     protected override async Task OnExecute(PlayerChoiceContext choiceContext, Creature amalgam)

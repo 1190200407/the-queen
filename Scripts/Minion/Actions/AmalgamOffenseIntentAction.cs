@@ -10,11 +10,16 @@ using MegaCrit.Sts2.Core.MonsterMoves.MonsterMoveStateMachine;
 namespace ComicChess.TheQueen;
 
 /// <summary>
-/// 聚合体意图：造成 <see cref="AmalgamActionModel.Amount"/> 点伤害；选敌由 <see cref="AmalgamOffenseTargetingMode"/> 决定。
-/// </summary>
+/// 聚合体意图：造成 <see cref="AmalgamActionModel.Amount"/> 点伤害；选敌�?<see cref="AmalgamOffenseTargetingMode"/> 决定�?/// </summary>
 public sealed class AmalgamOffenseIntentAction : AmalgamActionModel
 {
-    private readonly Creature? _forcedTarget;
+    public override string Key => "offense";
+
+    private Creature? _forcedTarget;
+
+    public AmalgamOffenseIntentAction()
+    {
+    }
 
     public AmalgamOffenseIntentAction(decimal damage)
         : base(damage)
@@ -27,6 +32,32 @@ public sealed class AmalgamOffenseIntentAction : AmalgamActionModel
         _forcedTarget = forcedTarget;
     }
 
+    public override bool Init(decimal amount)
+    {
+        if (!AmalgamActionArgs.IsPositive(amount))
+        {
+            return false;
+        }
+
+        ResetForInit();
+        Amount = amount;
+        _forcedTarget = null;
+        return true;
+    }
+
+    public override bool Init(object[] args)
+    {
+        if (!AmalgamActionArgs.TryGetDecimal(args, 0, out decimal damage) || !AmalgamActionArgs.IsPositive(damage))
+        {
+            return false;
+        }
+
+        ResetForInit();
+        Amount = damage;
+        _forcedTarget = AmalgamActionArgs.TryGetCreature(args, 1);
+        return true;
+    }
+
     protected override MoveState CreateMoveState()
     {
         return new MoveState(
@@ -35,7 +66,7 @@ public sealed class AmalgamOffenseIntentAction : AmalgamActionModel
             new AmalgamSingleAttackIntent(Amount));
     }
 
-    /// <remarks>意图条 <c>PerformIntent</c> 仅在回合末执行灯槽记录时由 <see cref="FriendlyAmalgam.BeforeTurnEnd"/> 调用；此处只打出伤害链。</remarks>
+    /// <remarks>意图�?<c>PerformIntent</c> 仅在回合末执行灯槽记录时�?<see cref="FriendlyAmalgam.BeforeTurnEnd"/> 调用；此处只打出伤害链�?/remarks>
     protected override async Task OnExecute(PlayerChoiceContext choiceContext, Creature amalgam)
     {
         CombatState? combatState = amalgam.CombatState;
@@ -110,4 +141,3 @@ public sealed class AmalgamOffenseIntentAction : AmalgamActionModel
             "vfx/vfx_attack_blunt");
     }
 }
-

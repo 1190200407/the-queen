@@ -75,7 +75,6 @@ public sealed class GemWhirl : QueenCardModel, ISoulLampEventListener
 
 		_soulLampReturnFromExhaustPending = false;
 		await CardPileCmd.Add(this, PileType.Hand);
-		CardCmd.Preview(this);
 	}
 
 	protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)

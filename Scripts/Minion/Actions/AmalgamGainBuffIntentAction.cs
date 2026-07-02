@@ -9,16 +9,43 @@ using MegaCrit.Sts2.Core.MonsterMoves.MonsterMoveStateMachine;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>通用聚合体 Buff 意图：聚合体自身获得若干层某种 Buff（Power）。</summary>
+/// <summary>通用聚合�?Buff 意图：聚合体自身获得若干层某�?Buff（Power）�?/summary>
 public sealed class AmalgamGainBuffIntentAction<T> : AmalgamActionModel
     where T : PowerModel
 {
-    private readonly string _buffEntryId;
+    public override string Key => GenericPoolKey("gain_buff", typeof(T));
+
+    private string _buffEntryId = string.Empty;
+
+    public AmalgamGainBuffIntentAction()
+    {
+    }
 
     public AmalgamGainBuffIntentAction(decimal stacks, string buffEntryId)
         : base(stacks)
     {
         _buffEntryId = buffEntryId;
+    }
+
+    public override bool Init(decimal amount) => false;
+
+    public override bool Init(object[] args)
+    {
+        if (!AmalgamActionArgs.TryGetDecimal(args, 0, out decimal stacks) || !AmalgamActionArgs.IsPositive(stacks))
+        {
+            return false;
+        }
+
+        string? buffEntryId = AmalgamActionArgs.TryGetString(args, 1);
+        if (buffEntryId == null)
+        {
+            return false;
+        }
+
+        ResetForInit();
+        Amount = stacks;
+        _buffEntryId = buffEntryId;
+        return true;
     }
 
     public static readonly float CastAnimDelay = 1.5f;

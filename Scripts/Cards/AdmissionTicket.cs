@@ -12,6 +12,7 @@ using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.CardPools;
+using MegaCrit.Sts2.Core.Nodes.Vfx;
 using MegaCrit.Sts2.Core.Platform;
 using MegaCrit.Sts2.Core.Runs;
 using STS2RitsuLib.Interop.AutoRegistration;
@@ -116,7 +117,7 @@ public sealed class AdmissionTicket : QueenCardModel
 		LocString notify = new LocString("monsters", notifyKey);
 		notify.Add("Giver", giverName);
 		notify.Add("CardTitle", cardTitleFormatted);
-		ThinkCmd.Play(notify, queen.Creature, 2.5);
+		TalkCmd.Play(notify, queen.Creature, VfxColor.Purple, VfxDuration.Standard);
 	}
 
 	protected override void OnUpgrade()

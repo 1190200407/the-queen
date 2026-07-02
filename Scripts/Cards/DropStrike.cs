@@ -29,7 +29,7 @@ public sealed class DropStrike : QueenCardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new AmalgamLearnIntentDamageVar(5m, ValueProp.Move),
+        new AmalgamDamageVar("LearnIntentDamage", 5m, ValueProp.Move),
         new CalculationBaseVar(0m),
         new CalculationExtraVar(1m),
         new CalculatedVar("AttackAll").WithMultiplier((CardModel card, Creature? _) => 
@@ -79,17 +79,11 @@ public sealed class DropStrike : QueenCardModel
             return;
         }
 
-        decimal dmg = AmalgamLearnIntentDamageVar.GetEffectiveFlatForOffenseIntent(this, "LearnIntentDamage");
-        await FriendlyAmalgamCmd.ExecuteMultiHitOffense(
+        decimal dmg = AmalgamDamageVar.GetEffectiveFlat(this, "LearnIntentDamage");
+        await AmalgamActionRegistry.ExecuteTemporaryAsync(
             choiceContext,
             amalgam,
-            target: null,
-            dmg,
-            hitCount,
-            "PowerAttack",
-            0.7f,
-            "vfx/vfx_attack_blunt",
-            "event:/sfx/enemy/enemy_attacks/torch_head_amalgam/torch_head_amalgam_beam");
+            AmalgamActionRegistry.CreateOffenseMulti(dmg, hitCount));
     }
 
     protected override void OnUpgrade()

@@ -39,7 +39,11 @@ public sealed class BeckonPower : QueenPowerModel
         await CardPileCmd.AddGeneratedCardToCombat(beckon, PileType.Hand, addedByPlayer: true);
     }
 
+<<<<<<< HEAD
     public override async Task BeforeTurnEnd(PlayerChoiceContext choiceContext, CombatSide side)
+=======
+    public override async Task BeforeSideTurnEnd(PlayerChoiceContext choiceContext, CombatSide side, IEnumerable<Creature> participants)
+>>>>>>> beta
     {
         _ = choiceContext;
         if (side != base.Owner.Side || !base.Owner.IsAlive)
