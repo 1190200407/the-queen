@@ -21,4 +21,10 @@ mono_crash.*.json
 # Local MSBuild overrides (copy from local.props.example)
 local.props
 
+# Local archives / release packages
+*.zip
 
+# .NET build caches
+**/obj/
+**/bin/Debug/
+**/bin/Release/

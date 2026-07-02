@@ -35,7 +35,12 @@ public sealed class SoulLockCasket : QueenCardModel, ICanMonsterCapture
         monster is not null && combatState is not null
         && MonsterCaptureRewardCatalog.GetEncounterRoomType(combatState) != RoomType.Boss;
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(7m, ValueProp.Move)];
-
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        HoverTipFactory.Static(StaticHoverTip.Fatal),
+        QueenHoverTips.Capture,
+    ];
+    
     public SoulLockCasket()
         : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
     {

@@ -24,6 +24,10 @@ public sealed class DeclarationCaptureMarkPower : QueenPowerModel
 	{
 		_ = choiceContext;
 		_ = player;
+		if (player.Creature != base.Applier)
+		{
+			return;
+		}
 		await PowerCmd.Decrement(this);
 	}
 

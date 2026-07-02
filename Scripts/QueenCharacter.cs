@@ -37,6 +37,7 @@ public class QueenCharacter : ModCharacterTemplate<QueenCardPool, QueenRelicPool
     public override string CustomTrailPath => "res://scenes/vfx/card_trail_silent.tscn";
     // 人物头像路径。
     public override string CustomIconTexturePath => "res://TheQueen/images/charui/queen_boss.png";
+    public override string? CustomIconOutlineTexturePath => "res://TheQueen/images/charui/queen_boss_2.png";
     // 人物头像2号。
     public override string CustomIconPath => "res://TheQueen/scenes/ui/queen_icon.tscn";
     // 能量表盘tscn路径。要自定义见下。
