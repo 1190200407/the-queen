@@ -14,7 +14,7 @@ using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>自爆：聚合体失去所有当前生命，对所有敌人造成等量伤害。聚合体已死亡时仍可打出但无效果。消耗（升级后不再消耗）。</summary>
+/// <summary>自爆：聚合体失去所有当前生命，对所有敌人造成等量伤害。聚合体已死亡时仍可打出但无效果。消耗（升级后不再消耗）�?/summary>
 [RegisterCard(typeof(QueenCardPool))]
 public sealed class SelfDestruct : QueenCardModel
 {
@@ -77,7 +77,7 @@ public sealed class SelfDestruct : QueenCardModel
         }
 
         await DamageCmd.Attack(base.DynamicVars.CalculatedDamage)
-            .FromCard(this)
+            .FromCard(this, cardPlay)
             .Unpowered()
             .WithNoAttackerAnim()
             .TargetingAllOpponents(combatState)

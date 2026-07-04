@@ -55,7 +55,7 @@ public sealed class FinalChant : QueenCardModel
 		await DamageCmd.Attack(base.DynamicVars.Damage.BaseValue)
 			.WithHitCount(base.DynamicVars["Repeat"].IntValue)
 			.OnlyPlayAnimOnce()
-			.FromCard(this)
+			.FromCard(this, cardPlay)
 			.TargetingAllOpponents(base.CombatState)
 			.WithHitFx("vfx/vfx_attack_blunt")
 			.Execute(choiceContext);

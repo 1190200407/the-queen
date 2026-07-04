@@ -48,6 +48,7 @@ public static class AmalgamIntentDamagePreview
 			baseDamage,
 			props,
 			cardSource,
+			null,
 			ModifyDamageHookType.All,
 			previewMode,
 			out IEnumerable<AbstractModel> _);

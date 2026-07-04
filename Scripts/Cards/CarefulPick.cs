@@ -57,7 +57,7 @@ public sealed class CarefulPick : QueenCardModel
 
         await PowerCmd.Apply<AmalgamPickLockPower>(choiceContext, target, 1m, applier, this);
 
-        await DamageCmd.Attack(base.DynamicVars.Damage.BaseValue).FromCard(this).Targeting(target)
+        await DamageCmd.Attack(base.DynamicVars.Damage.BaseValue).FromCard(this, cardPlay).Targeting(target)
             .WithHitFx("vfx/vfx_attack_blunt")
             .Execute(choiceContext);
     }

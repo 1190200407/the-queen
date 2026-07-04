@@ -68,6 +68,7 @@ internal sealed class MindControlAttackIntentGetSingleDamagePatch : IPatchMethod
 				baseDamage,
 				ValueProp.Move,
 				null,
+				null,
 				ModifyDamageHookType.All,
 				CardPreviewMode.None,
 				out _);

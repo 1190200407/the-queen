@@ -67,6 +67,7 @@ public sealed class AmalgamSteamEruptionPower : QueenPowerModel, IAmalgamEventLi
             Amount,
             ValueProp.Unpowered,
             dealer,
+            null,
             null);
     }
 }

@@ -54,7 +54,7 @@ public sealed class SoulCalmCasket : QueenCardModel, ICanMonsterCapture
     {
     }
 
-    public override decimal ModifyDamageMultiplicative(Creature? target, decimal amount, ValueProp props, Creature? dealer, CardModel? cardSource)
+    public override decimal ModifyDamageMultiplicative(Creature? target, decimal amount, ValueProp props, Creature? dealer, CardModel? cardSource, CardPlay? cardPlay)
     {
         if (dealer != base.Owner.Creature)
             return 1m;
@@ -73,7 +73,7 @@ public sealed class SoulCalmCasket : QueenCardModel, ICanMonsterCapture
         bool shouldTriggerFatal = target.Powers.All(static p => p.ShouldOwnerDeathTriggerFatal());
 
         AttackCommand attackCommand = await DamageCmd.Attack(damage)
-            .FromCard(this)
+            .FromCard(this, cardPlay)
             .Targeting(target)
             .WithHitFx("vfx/vfx_attack_blunt")
             .Execute(choiceContext);

@@ -19,7 +19,7 @@ using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>锁魂匣：保留；斩杀�?see cref="StaticHoverTip.Fatal"/>）；捕获�?<see cref="QueenHoverTips.Capture"/>；成功时�?<see cref="MonsterCaptureRewardCatalog"/> 施加 <see cref="CaptureSuccessPower"/>（无配置则无奖励）�?/summary>
+/// <summary>锁魂匣：保留；斩杀�?see cref="StaticHoverTip.Fatal"/>）；捕获�?<see cref="QueenHoverTips.Capture"/>；成功时�?<see cref="MonsterCaptureRewardCatalog"/> 施加 <see cref="CaptureSuccessPower"/>（无配置则无奖励）�?/summary>
 [RegisterCharacterStarterCard(typeof(QueenCharacter), 1)]
 [RegisterArchaicToothTranscendence(typeof(SoulCalmCasket))]
 [RegisterCard(typeof(QueenCardPool))]
@@ -57,7 +57,7 @@ public sealed class SoulLockCasket : QueenCardModel, ICanMonsterCapture
         Creature target = cardPlay.Target;
         bool shouldTriggerFatal = target.Powers.All(static p => p.ShouldOwnerDeathTriggerFatal());
         AttackCommand attackCommand = await DamageCmd.Attack(base.DynamicVars.Damage.BaseValue)
-            .FromCard(this)
+            .FromCard(this, cardPlay)
             .Targeting(target)
             .WithHitFx("vfx/vfx_attack_blunt")
             .Execute(choiceContext);

@@ -503,7 +503,7 @@ public static class FriendlyAmalgamCmd
         await CreatureCmd.TriggerAnim(attacker, attackerAnimName, attackerAnimDelay);
         VfxCmd.PlayOnCreatureCenter(target, hitVfxPath);
         IEnumerable<DamageResult> damageResults =
-            await CreatureCmd.Damage(choiceContext, target, damage, ValueProp.Move, attacker, null);
+            await CreatureCmd.Damage(choiceContext, target, damage, ValueProp.Move, attacker, null, null);
         if (attacker.CombatState is { } combatState)
         {
             await FriendlyAmalgamHook.AfterAmalgamDamagedCreature(combatState, choiceContext, attacker, target, damageResults);
@@ -585,7 +585,7 @@ public static class FriendlyAmalgamCmd
             {
                 await PlayHitVfxAsync(forcedTarget);
                 IEnumerable<DamageResult> damageResults =
-                    await CreatureCmd.Damage(choiceContext, forcedTarget, damagePerHit, ValueProp.Move, attacker, null);
+                    await CreatureCmd.Damage(choiceContext, forcedTarget, damagePerHit, ValueProp.Move, attacker, null, null);
                 await FriendlyAmalgamHook.AfterAmalgamDamagedCreature(combatState, choiceContext, attacker, forcedTarget, damageResults);
                 continue;
             }
@@ -601,7 +601,7 @@ public static class FriendlyAmalgamCmd
                 foreach (Creature enemy in alive)
                 {
                     IEnumerable<DamageResult> damageResults =
-                        await CreatureCmd.Damage(choiceContext, enemy, damagePerHit, ValueProp.Move, attacker, null);
+                        await CreatureCmd.Damage(choiceContext, enemy, damagePerHit, ValueProp.Move, attacker, null, null);
                     await FriendlyAmalgamHook.AfterAmalgamDamagedCreature(combatState, choiceContext, attacker, enemy, damageResults);
                 }
 
@@ -615,7 +615,7 @@ public static class FriendlyAmalgamCmd
                 {
                     await PlayHitVfxAsync(marked);
                     IEnumerable<DamageResult> damageResults =
-                        await CreatureCmd.Damage(choiceContext, marked, damagePerHit, ValueProp.Move, attacker, null);
+                        await CreatureCmd.Damage(choiceContext, marked, damagePerHit, ValueProp.Move, attacker, null, null);
                     await FriendlyAmalgamHook.AfterAmalgamDamagedCreature(combatState, choiceContext, attacker, marked, damageResults);
                     continue;
                 }
@@ -629,7 +629,7 @@ public static class FriendlyAmalgamCmd
 
             await PlayHitVfxAsync(randomEnemy);
             IEnumerable<DamageResult> randomHit =
-                await CreatureCmd.Damage(choiceContext, randomEnemy, damagePerHit, ValueProp.Move, attacker, null);
+                await CreatureCmd.Damage(choiceContext, randomEnemy, damagePerHit, ValueProp.Move, attacker, null, null);
             await FriendlyAmalgamHook.AfterAmalgamDamagedCreature(combatState, choiceContext, attacker, randomEnemy, randomHit);
         }
     }
@@ -675,7 +675,7 @@ public static class FriendlyAmalgamCmd
         foreach (Creature enemy in aliveEnemies)
         {
             IEnumerable<DamageResult> damageResults =
-                await CreatureCmd.Damage(choiceContext, enemy, damagePerEnemy, ValueProp.Move, amalgam, null);
+                await CreatureCmd.Damage(choiceContext, enemy, damagePerEnemy, ValueProp.Move, amalgam, null, null);
             if (amalgam.CombatState is { } combatState)
             {
                 await FriendlyAmalgamHook.AfterAmalgamDamagedCreature(combatState, choiceContext, amalgam, enemy, damageResults);

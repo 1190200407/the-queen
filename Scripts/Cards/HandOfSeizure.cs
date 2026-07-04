@@ -49,7 +49,7 @@ public sealed class HandOfSeizure : QueenCardModel
 		if (cardPlay.Target != null)
 		{
 			await DamageCmd.Attack(base.DynamicVars.Damage.BaseValue)
-				.FromCard(this)
+				.FromCard(this, cardPlay)
 				.Targeting(cardPlay.Target)
 				.WithHitFx("vfx/vfx_attack_blunt")
 				.Execute(choiceContext);

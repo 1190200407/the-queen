@@ -17,7 +17,7 @@ public sealed class BackAttackAmalgamPower : QueenPowerModel
     public override string? CustomIconPath => "res://images/atlases/power_atlas.sprites/back_attack_right_power.tres";
     public override string? CustomBigIconPath => "res://images/powers/back_attack_right_power.png";
 
-    public override decimal ModifyDamageMultiplicative(Creature? target, decimal amount, ValueProp props, Creature? dealer, CardModel? cardSource)
+    public override decimal ModifyDamageMultiplicative(Creature? target, decimal amount, ValueProp props, Creature? dealer, CardModel? cardSource, MegaCrit.Sts2.Core.Entities.Cards.CardPlay? cardPlay)
     {
         _ = amount;
         _ = props;
@@ -31,4 +31,3 @@ public sealed class BackAttackAmalgamPower : QueenPowerModel
         return dealer.Monster is FriendlyAmalgam ? 1.5m : 1m;
     }
 }
-

@@ -45,7 +45,7 @@ public sealed class GemFlame : QueenCardModel
 		}
 
 		await DamageCmd.Attack(base.DynamicVars.Damage.BaseValue)
-			.FromCard(this)
+			.FromCard(this, cardPlay)
 			.Targeting(target)
 			.WithHitFx("vfx/vfx_attack_blunt")
 			.Execute(choiceContext);

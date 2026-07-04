@@ -133,6 +133,7 @@ internal sealed class FadeOnDiscardCardPileCmdAddFlushPatch : IPatchMethod
 			typeof(CardPilePosition),
 			typeof(AbstractModel),
 			typeof(bool),
+			typeof(bool),
 		]),
 	];
 

@@ -19,7 +19,7 @@ using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>宣告：造成伤害并施�?2 回合内死亡可捕获的标记�?/summary>
+/// <summary>宣告：造成伤害并施�?2 回合内死亡可捕获的标记�?/summary>
 
 [RegisterCard(typeof(QueenCardPool))]
 public sealed class Declaration : QueenCardModel, ICanMonsterCapture
@@ -76,7 +76,7 @@ public sealed class Declaration : QueenCardModel, ICanMonsterCapture
         }
 
         AttackCommand attackCommand = await DamageCmd.Attack(base.DynamicVars.Damage.BaseValue)
-            .FromCard(this)
+            .FromCard(this, cardPlay)
             .Targeting(target)
             .WithHitFx("vfx/vfx_attack_blunt")
             .Execute(choiceContext);

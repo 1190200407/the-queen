@@ -16,7 +16,7 @@ using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>裂隙：0 费攻击；魂灯每层使本牌耗能 +1。</summary>
+/// <summary>裂隙�? 费攻击；魂灯每层使本牌耗能 +1�?/summary>
 [RegisterCard(typeof(QueenCardPool))]
 public sealed class Rift : QueenCardModel, ISoulLampEventListener
 {
@@ -106,7 +106,7 @@ public sealed class Rift : QueenCardModel, ISoulLampEventListener
         }
 
         await DamageCmd.Attack(base.DynamicVars.Damage.BaseValue)
-            .FromCard(this)
+            .FromCard(this, cardPlay)
             .TargetingAllOpponents(combatState)
             .WithHitFx("vfx/vfx_attack_slash")
             .Execute(choiceContext);

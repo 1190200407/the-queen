@@ -145,7 +145,7 @@ internal sealed class BindingOathHookBeforeTurnEndPatch : IPatchMethod
 
 	public static ModPatchTarget[] GetTargets() =>
 	[
-		new(typeof(Hook), nameof(Hook.BeforeTurnEnd)),
+		new(typeof(Hook), nameof(Hook.BeforeSideTurnEnd)),
 	];
 
 	public static async Task Postfix(Task __result, ICombatState combatState, CombatSide side)

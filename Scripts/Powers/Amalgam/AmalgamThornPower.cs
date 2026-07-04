@@ -42,6 +42,6 @@ public sealed class AmalgamThornPower : QueenPowerModel
         if (amalgam == null || amalgam.IsSleeping())
             return;
         
-        await CreatureCmd.Damage(choiceContext, dealer, base.Amount, ValueProp.Unpowered | ValueProp.SkipHurtAnim, base.Owner, null);
+        await CreatureCmd.Damage(choiceContext, dealer, base.Amount, ValueProp.Unpowered | ValueProp.SkipHurtAnim, base.Owner, null, null);
     }
 }

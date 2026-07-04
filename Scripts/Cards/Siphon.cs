@@ -18,7 +18,7 @@ using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>?????????? 1 ??????Debuff???1 ???/summary>
+/// <summary>?????????? 1 ??????Debuff???1 ???/summary>
 
 [RegisterCard(typeof(QueenCardPool))]
 public sealed class Siphon : QueenCardModel
@@ -56,7 +56,7 @@ public sealed class Siphon : QueenCardModel
 		int debuffKinds = QueenDebuffUtil.CountDebuffPowers(target);
 
 		await DamageCmd.Attack(base.DynamicVars.Damage.BaseValue)
-			.FromCard(this)
+			.FromCard(this, cardPlay)
 			.Targeting(target)
 			.WithHitFx("vfx/vfx_attack_blunt")
 			.Execute(choiceContext);

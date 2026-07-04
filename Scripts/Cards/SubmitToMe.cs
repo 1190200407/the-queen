@@ -15,7 +15,7 @@ using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>臣服于我：造成伤害；你的力量每超过目标 1 点，额外造成一次伤害。</summary>
+/// <summary>臣服于我：造成伤害；你的力量每超过目标 1 点，额外造成一次伤害�?/summary>
 [RegisterCard(typeof(QueenCardPool))]
 public sealed class SubmitToMe : QueenCardModel
 {
@@ -62,7 +62,7 @@ public sealed class SubmitToMe : QueenCardModel
         int hitCount = (int)((CalculatedVar)base.DynamicVars[calculatedHitsKey]).Calculate(cardPlay.Target);
         await DamageCmd.Attack(base.DynamicVars.Damage.BaseValue)
             .WithHitCount(hitCount)
-            .FromCard(this)
+            .FromCard(this, cardPlay)
             .Targeting(cardPlay.Target)
             .WithHitFx("vfx/vfx_attack_blunt")
             .Execute(choiceContext);

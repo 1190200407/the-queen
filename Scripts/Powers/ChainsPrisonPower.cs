@@ -29,7 +29,8 @@ public sealed class ChainsPrisonPower : QueenPowerModel
 			base.Amount,
 			ValueProp.Unpowered,
 			applier ?? power.Owner,
-			cardSource
+			cardSource,
+			null
 		);
 	}
 }

@@ -36,7 +36,7 @@ public sealed class SplitVulnerablePower : ModPowerTemplate
 
 	protected override IEnumerable<DynamicVar> CanonicalVars => [new DynamicVar(DamageIncreaseKey, 1.5m)];
 
-	public override decimal ModifyDamageMultiplicative(Creature? target, decimal amount, ValueProp props, Creature? dealer, CardModel? cardSource)
+	public override decimal ModifyDamageMultiplicative(Creature? target, decimal amount, ValueProp props, Creature? dealer, CardModel? cardSource, MegaCrit.Sts2.Core.Entities.Cards.CardPlay? cardPlay)
 	{
 		if (target != base.Owner)
 		{

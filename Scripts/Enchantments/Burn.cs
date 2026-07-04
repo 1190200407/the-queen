@@ -65,7 +65,7 @@ public sealed class Burn : QueenEnchantmentModel
             base.Amount,
             ValueProp.Unpowered | ValueProp.SkipHurtAnim,
             base.Card.Owner.Creature,
-            base.Card);
+            base.Card,
+            null);
     }
 }
-

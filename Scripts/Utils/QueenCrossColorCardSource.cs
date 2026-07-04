@@ -23,17 +23,12 @@ internal static class QueenCrossColorCardSource
 			return options;
 		}
 
-		if (options.CustomCardPool != null)
-		{
-			return options;
-		}
-
 		if (options.CardPools.All(static p => p.IsColorless))
 		{
 			return options;
 		}
 
-		return options.WithCardPools(OtherCharacterPools(player), options.CardPoolFilter);
+		return options.WithCardPools(OtherCharacterPools(player)).WithFilter(options.CardPoolFilter);
 	}
 
 	public static List<CardModel> GetOtherCharacterUnlockedCards(Player player) =>

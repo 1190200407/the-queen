@@ -13,7 +13,7 @@ using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>爆炸：对所有敌人造成8点固定伤害。抽1张牌。消耗。</summary>
+/// <summary>爆炸：对所有敌人造成8点固定伤害。抽1张牌。消耗�?/summary>
 [RegisterCard(typeof(TokenCardPool))]
 public sealed class Explode : QueenCardModel
 {
@@ -50,7 +50,7 @@ public sealed class Explode : QueenCardModel
         }
 
         await DamageCmd.Attack(base.DynamicVars.Damage.BaseValue)
-            .FromCard(this)
+            .FromCard(this, cardPlay)
             .Unpowered()
             .TargetingAllOpponents(combatState)
             .WithHitFx("vfx/vfx_attack_blunt")

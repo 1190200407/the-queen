@@ -19,7 +19,7 @@ using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>压迫感：造成基础伤害；目标本场战斗每失去过 1 点力量，额外造成伤害。</summary>
+/// <summary>压迫感：造成基础伤害；目标本场战斗每失去�?1 点力量，额外造成伤害�?/summary>
 [RegisterCard(typeof(QueenCardPool))]
 public sealed class OppressivePresence : QueenCardModel
 {
@@ -48,7 +48,7 @@ public sealed class OppressivePresence : QueenCardModel
 		ArgumentNullException.ThrowIfNull(cardPlay.Target, nameof(cardPlay.Target));
 
 		await DamageCmd.Attack(base.DynamicVars.CalculatedDamage)
-			.FromCard(this)
+			.FromCard(this, cardPlay)
 			.Targeting(cardPlay.Target)
 			.WithHitFx("vfx/vfx_attack_blunt")
 			.Execute(choiceContext);

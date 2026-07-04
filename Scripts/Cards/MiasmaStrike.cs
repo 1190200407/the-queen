@@ -14,7 +14,7 @@ using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>瘴气打击：伤�?+ 随机施加中毒、灾厄或消亡其中一�?3 层�?/summary>
+/// <summary>瘴气打击：伤�?+ 随机施加中毒、灾厄或消亡其中一�?3 层�?/summary>
 
 [RegisterCard(typeof(QueenCardPool))]
 public sealed class MiasmaStrike : QueenCardModel
@@ -50,7 +50,7 @@ public sealed class MiasmaStrike : QueenCardModel
 		}
 
 		await DamageCmd.Attack(base.DynamicVars.Damage.BaseValue)
-			.FromCard(this)
+			.FromCard(this, cardPlay)
 			.Targeting(target)
 			.WithHitFx("vfx/vfx_attack_blunt")
 			.Execute(choiceContext);

@@ -93,7 +93,11 @@ public sealed class PeachHeartWoodenSwordRelic : QueenRelicModel
 			return false;
 		}
 
-		CardCreationOptions rollOptions = new CardCreationOptions(pickFrom, CardCreationSource.Other, creationOptions.RarityOdds)
+		CardCreationOptions rollOptions = new CardCreationOptions(
+				[ModelDb.CardPool<EnemyCardPool>()],
+				CardCreationSource.Other,
+				creationOptions.RarityOdds,
+				c => pickFrom.Any(p => p.Id == c.Id))
 			.WithFlags(CardCreationFlags.NoModifyHooks | CardCreationFlags.NoCardPoolModifications);
 		CardModel? cardModel = CardFactory.CreateForReward(base.Owner, 1, rollOptions).FirstOrDefault()?.Card;
 		if (cardModel != null)

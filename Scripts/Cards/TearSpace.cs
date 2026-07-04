@@ -16,7 +16,7 @@ using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>撕裂空间：仅单人可出现；场上负面状态（非临时减益能力）数量不少于阈值时可打出（基础 10，升�?7）；对所有敌人造成伤害�?/summary>
+/// <summary>撕裂空间：仅单人可出现；场上负面状态（非临时减益能力）数量不少于阈值时可打出（基础 10，升�?7）；对所有敌人造成伤害�?/summary>
 
 [RegisterCard(typeof(QueenCardPool))]
 public sealed class TearSpace : QueenCardModel
@@ -72,7 +72,7 @@ public sealed class TearSpace : QueenCardModel
 		}
 
 		await DamageCmd.Attack(base.DynamicVars.Damage.BaseValue)
-			.FromCard(this)
+			.FromCard(this, cardPlay)
 			.TargetingAllOpponents(combatState)
 			.WithHitFx("vfx/vfx_attack_blunt")
 			.Execute(choiceContext);

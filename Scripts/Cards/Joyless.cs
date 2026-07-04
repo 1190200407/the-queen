@@ -19,7 +19,7 @@ using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>……无趣：造成伤害；可弃任意张手牌，每张获得 1 点力量。消耗。</summary>
+/// <summary>……无趣：造成伤害；可弃任意张手牌，每张获�?1 点力量。消耗�?/summary>
 [RegisterCard(typeof(QueenCardPool))]
 public sealed class Joyless : QueenCardModel
 {
@@ -45,7 +45,7 @@ public sealed class Joyless : QueenCardModel
         ArgumentNullException.ThrowIfNull(cardPlay.Target, nameof(cardPlay.Target));
 
         await DamageCmd.Attack(base.DynamicVars.Damage.BaseValue)
-            .FromCard(this)
+            .FromCard(this, cardPlay)
             .Targeting(cardPlay.Target)
             .WithHitFx("vfx/vfx_attack_blunt")
             .Execute(choiceContext);

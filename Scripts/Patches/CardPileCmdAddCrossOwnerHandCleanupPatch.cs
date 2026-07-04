@@ -31,6 +31,7 @@ internal sealed class CardPileCmdAddCrossOwnerHandCleanupPatch : IPatchMethod
 			typeof(CardPilePosition),
 			typeof(AbstractModel),
 			typeof(bool),
+			typeof(bool),
 		}),
 	];
 
