@@ -9,7 +9,7 @@ namespace ComicChess.TheQueen;
 
 internal sealed class BoundOverlayPreviewPatch : IPatchMethod
 {
-	private const string BoundAfflictionOverlayInnerPath = "cards/overlays/afflictions/bound";
+	private const string BoundAfflictionOverlayInnerPath = "vfx/ui/card/afflictions/bound/vfx_ui_card_affliction_bound";
 
 	public static string PatchId => "thequeen_bound_overlay_preview";
 	public static string Description => "Self-bound queen cards use bound affliction overlay";

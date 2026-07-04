@@ -29,11 +29,10 @@ public sealed class SoulScattered : QueenCardModel, ICanMonsterCapture
 	private const TargetType targetType = TargetType.AnyEnemy;
 	private const bool shouldShowInCardLibrary = true;
 
-	public override string PortraitPath => "res://TheQueen/images/card_portraits/soul_lock_casket.png";
-
 	public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
+    public override CardMultiplayerConstraint MultiplayerConstraint => CardMultiplayerConstraint.MultiplayerOnly;
 
-	public bool CanCapture(MonsterModel monster, ICombatState combatState) =>
+    public bool CanCapture(MonsterModel monster, ICombatState combatState) =>
 		monster is not null && combatState is not null
 		&& MonsterCaptureRewardCatalog.GetEncounterRoomType(combatState) != RoomType.Boss;
 

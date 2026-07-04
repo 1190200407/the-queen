@@ -17,6 +17,7 @@ public sealed class LifeArt : QueenCardModel
 	private const CardRarity rarity = CardRarity.Rare;
 	private const TargetType targetType = TargetType.Self;
 	private const bool shouldShowInCardLibrary = true;
+	public override CardMultiplayerConstraint MultiplayerConstraint => CardMultiplayerConstraint.MultiplayerOnly;
 
 	protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
 	[
