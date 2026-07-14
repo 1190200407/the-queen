@@ -24,6 +24,7 @@ internal sealed class QueenModPatches : IModPatches
 		patcher.RegisterPatch<ChainsOfBindingPowerBeforeCardPlayedPatch>();
 		patcher.RegisterPatch<ChainsOfBindingPowerAfterCardDrawnPatch>();
 		patcher.RegisterPatch<ChainsOfBindingPowerBeforeTurnEndPatch>();
+		patcher.RegisterPatch<ChainsOfBindingCardClonePatch>();
 		patcher.RegisterPatch<MindControlHookBeforeAttackPatch>();
 		patcher.RegisterPatch<MindControlHookAfterAttackPatch>();
 		patcher.RegisterPatch<MindControlCreatureCmdDamagePatch>();
