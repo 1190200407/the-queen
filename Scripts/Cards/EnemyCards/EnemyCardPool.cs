@@ -19,6 +19,6 @@ public sealed class EnemyCardPool : TypeListCardPoolModel
     // 能量图标轮廓颜色rgb(44, 97, 24)
     public override Color EnergyOutlineColor => new(44f/255f, 97f/255f, 24f/255f);
 
-    private static readonly Material? _poolFrameMaterial = MaterialUtils.CreateRgbShaderMaterial(72f/255f, 79f/255f, 177f/255f);
+    private static readonly Material? _poolFrameMaterial = MaterialUtils.CreateHsvShaderMaterial(0.65555555f, 0.59322035f, 177f/255f);
     public override Material? PoolFrameMaterial => _poolFrameMaterial;
 }

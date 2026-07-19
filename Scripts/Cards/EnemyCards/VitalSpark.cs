@@ -27,17 +27,17 @@ public sealed class VitalSpark : QueenCardModel
     private const CardRarity rarity = CardRarity.Uncommon;
     private const TargetType targetType = TargetType.Self;
     private const bool shouldShowInCardLibrary = true;
-    private const decimal vitalSparkStacks = 2m;
-    private const decimal galvanizedStacks = 2m;
+    private const decimal vitalSparkStacks = 1m;
+    private const decimal contagionMultiplier = 3m;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new PowerVar<VitalSparkPower>(vitalSparkStacks),
+        new PowerVar<QueenVitalSparkPower>(vitalSparkStacks),
     ];
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
-        HoverTipFactory.FromPower<VitalSparkPower>(),
+        HoverTipFactory.FromPower<QueenVitalSparkPower>(),
         HoverTipFactory.FromPower<TaintedPower>(),
     ];
 
@@ -60,20 +60,23 @@ public sealed class VitalSpark : QueenCardModel
         {
             foreach (CardModel card in playerCombatState.AllCards.ToList())
             {
-                if (card.Affliction is null || card.Affliction is Tainted)
-                    await CardCmd.Afflict<Tainted>(card, galvanizedStacks);
+                if (card.Type == CardType.Skill && (card.Affliction is null || card.Affliction is Tainted))
+                {
+                    await CardCmd.Afflict<Tainted>(card, vitalSparkStacks);
+                }
             }
         }
 
-        await PowerCmd.Apply<VitalSparkPower>(choiceContext, base.Owner.Creature, vitalSparkStacks, base.Owner.Creature, this);
+        await PowerCmd.Apply<QueenVitalSparkPower>(choiceContext, base.Owner.Creature, vitalSparkStacks, base.Owner.Creature, this);
+
         QueenContagionPower? contagionPower = base.Owner.Creature.GetPower<QueenContagionPower>();
         if (contagionPower is not null)
         {
-            await PowerCmd.ModifyAmount(choiceContext, contagionPower, contagionPower.Amount, base.Owner.Creature, this);
+            await PowerCmd.ModifyAmount(choiceContext, contagionPower, contagionPower.Amount * (contagionMultiplier - 1m), base.Owner.Creature, this);
         }
         else
         {
-            await PowerCmd.Apply<QueenContagionPower>(choiceContext, base.Owner.Creature, 2m, base.Owner.Creature, this);
+            await PowerCmd.Apply<QueenContagionPower>(choiceContext, base.Owner.Creature, contagionMultiplier, base.Owner.Creature, this);
         }
     }
 }

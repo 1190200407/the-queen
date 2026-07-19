@@ -66,6 +66,7 @@
     "AMALGAM_RELOAD_FIRE.title":"再装填",
     "AMALGAM_RELOAD_FIRE.description":"融合体は[blue]{Block}[/blue]ブロックを与え、次のターン開始時に[blue]{Damage}[/blue]ダメージを与える。",
     "AMALGAM_SPECIAL.title":"特殊",
+    "AMALGAM_SPECIAL_LIQUIFY_GROUND_FRANTIC_TUG.description":"融合体は各プレイヤーの手札に[gold]狂乱の引きずり[/gold]を1枚加える。",
     "AMALGAM_SPECIAL_GRASPING_VINES.description":"次のターン、[gold]絡みつき[/gold]を得る。スキルのコストが-1になる。",
     "AMALGAM_SPECIAL_BEAST_CRY.description":"すべての敵を[blue]1[/blue]ターンスタンさせ、[blue]2[/blue]ターン睡眠する。",
     "AMALGAM_DRAW_ENCHANT_AMOUNT.title":"ドロー",

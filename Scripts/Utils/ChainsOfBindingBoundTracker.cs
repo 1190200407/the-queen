@@ -17,6 +17,7 @@ internal static class ChainsOfBindingBoundTracker
 	private sealed class State
 	{
 		internal readonly HashSet<CardModel> ChainsCards = new();
+		internal int AppliedCardCount;
 	}
 
 	private static readonly Dictionary<ulong, State> _byPlayerNetId = new();
@@ -45,7 +46,7 @@ internal static class ChainsOfBindingBoundTracker
 			return false;
 		}
 
-		return GetOrCreate(player.NetId).ChainsCards.Count < maxCardsPerTurn;
+		return GetOrCreate(player.NetId).AppliedCardCount < maxCardsPerTurn;
 	}
 
 	/// <summary>在已成功调用 <see cref="CardCmd.AfflictAndPreview{T}"/> 后登记该牌。</summary>
@@ -57,7 +58,26 @@ internal static class ChainsOfBindingBoundTracker
 		}
 
 		State s = GetOrCreate(player.NetId);
-		s.ChainsCards.Add(card);
+		if (s.ChainsCards.Add(card))
+		{
+			s.AppliedCardCount++;
+		}
+	}
+
+	internal static void RegisterCloneIfSourceTracked(CardModel? source, CardModel? clone)
+	{
+		if (source == null || clone == null || ReferenceEquals(source, clone))
+		{
+			return;
+		}
+
+		foreach (State s in _byPlayerNetId.Values)
+		{
+			if (s.ChainsCards.Contains(source))
+			{
+				s.ChainsCards.Add(clone);
+			}
+		}
 	}
 
 	/// <summary>回合结束：仅移除锁链本回合加在「非消耗堆」牌上的魂缚，并清空计数。</summary>
@@ -77,5 +97,6 @@ internal static class ChainsOfBindingBoundTracker
 		}
 
 		s.ChainsCards.Clear();
+		s.AppliedCardCount = 0;
 	}
 }

@@ -65,7 +65,7 @@ public sealed class HundredHandsBanquet : QueenCardModel
 		for (int i = 0; i < count; i++)
 		{
 			CardModel scratch = combatState.CreateCard<Scratch>(owner);
-			scratch.AddModKeyword(fadeKeyword);
+			scratch.AddKeyword(fadeKeyword);
 			if (isUpgraded)
 			{
 				CardCmd.Upgrade(scratch);

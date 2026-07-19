@@ -75,9 +75,9 @@ public sealed class Mandragora : QueenCardModel
 
     private static void ApplyEnchantments(CardModel card)
     {
-        if (!card.HasModKeyword(FadeKeyword))
+        if (!card.Keywords.Contains(FadeKeyword))
         {
-            card.AddModKeyword(FadeKeyword);
+            card.AddKeyword(FadeKeyword);
         }
 
         card.BaseReplayCount += replayGain;

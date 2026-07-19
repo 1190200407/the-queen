@@ -66,6 +66,7 @@
     "AMALGAM_RELOAD_FIRE.title":"Reload Fire",
     "AMALGAM_RELOAD_FIRE.description":"The Amalgam will grant you [blue]{Block}[/blue] Block, and at the start of next turn deal [blue]{Damage}[/blue] damage.",
     "AMALGAM_SPECIAL.title":"Special",
+    "AMALGAM_SPECIAL_LIQUIFY_GROUND_FRANTIC_TUG.description":"The Amalgam will add 1 [gold]Frantic Tug[/gold] to each player's hand.",
     "AMALGAM_SPECIAL_GRASPING_VINES.description":"Next turn, you gain [gold]Tangled[/gold]. Your Skill cards cost -1.",
     "AMALGAM_SPECIAL_BEAST_CRY.description":"Stun all enemies for [blue]1[/blue] turn. Sleep for [blue]2[/blue] turns.",
     "AMALGAM_DRAW_ENCHANT_AMOUNT.title":"Draw",

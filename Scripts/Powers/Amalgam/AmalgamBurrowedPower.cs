@@ -30,8 +30,9 @@ public sealed class AmalgamBurrowedPower : QueenPowerModel
         return false;
     }
 
-    public override async Task AfterBlockBroken(Creature creature)
+    public override async Task AfterBlockBroken(PlayerChoiceContext choiceContext, Creature target, Creature? breaker)
     {
+        Creature creature = target;
         if (creature != base.Owner.PetOwner?.Creature)
         {
             return;
@@ -43,10 +44,5 @@ public sealed class AmalgamBurrowedPower : QueenPowerModel
             1m,
             applier: base.Owner.PetOwner?.Creature,
             cardSource: null);
-    }
-
-    public override async Task AfterRemoved(Creature oldOwner)
-    {
-        await CreatureCmd.LoseBlock(oldOwner, 999m);
     }
 }

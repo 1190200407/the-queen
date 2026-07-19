@@ -9,7 +9,6 @@ using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Hooks;
 using MegaCrit.Sts2.Core.Models;
-using STS2RitsuLib.Keywords;
 using STS2RitsuLib.Patching.Models;
 
 namespace ComicChess.TheQueen;
@@ -94,7 +93,7 @@ internal sealed class CardCmdDiscardAndDrawPatch : IPatchMethod
 				slyCards.Add(card);
 			}
 
-			if (card.HasModKeyword(QueenKeyword.Fade))
+			if (FadeOnDiscardPatchHelpers.HasFade(card))
 			{
 				fadeCards.Add(card);
 			}

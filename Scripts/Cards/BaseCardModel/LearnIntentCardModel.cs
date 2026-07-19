@@ -48,19 +48,6 @@ public abstract class LearnIntentCardModel : QueenCardModel
             && amalgam.HasAllTorchSlotsFilled
             && !amalgam.BlockActionFromSleep);
 
-    protected override IEnumerable<string> RegisteredKeywordIds
-    {
-        get
-        {
-            if (CompositeKey == AmalgamCompositeKey.None)
-            {
-                yield break;
-            }
-
-            yield return QueenKeyword.GetAmalgamCompositeKeywordId(CompositeKey);
-        }
-    }
-
     protected override IEnumerable<IHoverTip> AdditionalHoverTips
     {
         get
@@ -133,6 +120,9 @@ public abstract class LearnIntentCardModel : QueenCardModel
         await PlayLearnIntentsFromCreateAsync(choiceContext, cardPlay);
     }
 
+    private static CardKeyword GetCompositeKeyword(AmalgamCompositeKey key) =>
+        ModKeywordRegistry.GetCardKeyword(QueenKeyword.GetAmalgamCompositeKeywordId(key));
+
     private void SyncCompositeKeyword(AmalgamCompositeKey oldKey, AmalgamCompositeKey newKey)
     {
         if (!IsMutable)
@@ -142,12 +132,16 @@ public abstract class LearnIntentCardModel : QueenCardModel
 
         if (oldKey != AmalgamCompositeKey.None)
         {
-            this.RemoveModKeyword(QueenKeyword.GetAmalgamCompositeKeywordId(oldKey));
+            RemoveKeyword(GetCompositeKeyword(oldKey));
         }
 
         if (newKey != AmalgamCompositeKey.None)
         {
-            this.AddModKeyword(QueenKeyword.GetAmalgamCompositeKeywordId(newKey));
+            CardKeyword newKeyword = GetCompositeKeyword(newKey);
+            if (!Keywords.Contains(newKeyword))
+            {
+                AddKeyword(newKeyword);
+            }
         }
     }
 }

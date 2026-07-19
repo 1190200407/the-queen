@@ -54,14 +54,14 @@ public sealed class SecondChant : QueenCardModel
 			}
 		}
 	}
-	
-    protected override (PileType, CardPilePosition) GetResultPileTypeAndPositionForCardPlay()
+
+    protected override CardLocation GetResultLocationForCardPlay()
     {
-		(PileType pileType, CardPilePosition position) = base.GetResultPileTypeAndPositionForCardPlay();
-		if (pileType != PileType.Discard && pileType != PileType.Exhaust)
+		CardLocation location = base.GetResultLocationForCardPlay();
+		if (location.pileType != PileType.Discard && location.pileType != PileType.Exhaust)
 		{
-			return (pileType, position);
+			return location;
 		}
-		return (PileType.Hand, position);
+		return new CardLocation(location.player, PileType.Hand, location.position);
     }
 }

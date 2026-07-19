@@ -18,7 +18,9 @@ namespace ComicChess.TheQueen;
 /// </summary>
 internal static class FadeOnDiscardPatchHelpers
 {
-	internal static bool HasFade(CardModel card) => card.HasModKeyword(QueenKeyword.Fade);
+	private static readonly CardKeyword FadeKeyword = ModKeywordRegistry.GetCardKeyword(QueenKeyword.Fade);
+
+	internal static bool HasFade(CardModel card) => card.Keywords.Contains(FadeKeyword);
 }
 
 internal sealed class FadeOnDiscardCardPileCmdAddPatch : IPatchMethod

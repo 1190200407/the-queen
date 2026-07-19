@@ -66,6 +66,7 @@
     "AMALGAM_RELOAD_FIRE.title":"재장전 사격",
     "AMALGAM_RELOAD_FIRE.description":"융합체가 [blue]{Block}[/blue] [gold]방어도[/gold]를 부여하고, 다음 턴 시작 시 [blue]{Damage}[/blue] 피해를 줍니다.",
     "AMALGAM_SPECIAL.title":"특수",
+    "AMALGAM_SPECIAL_LIQUIFY_GROUND_FRANTIC_TUG.description":"융합체가 모든 플레이어의 손에 [gold]격렬한 당김[/gold] 1장을 넣습니다.",
     "AMALGAM_SPECIAL_GRASPING_VINES.description":"다음 턴, [gold]얽힘[/gold]을 얻습니다. [gold]스킬[/gold] 카드 비용이 -1이 됩니다.",
     "AMALGAM_SPECIAL_BEAST_CRY.description":"모든 적을 [blue]1[/blue]턴 기절시킵니다. [blue]2[/blue]턴 동안 잠듭니다.",
     "AMALGAM_DRAW_ENCHANT_AMOUNT.title":"뽑기",

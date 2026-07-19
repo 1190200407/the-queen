@@ -6,6 +6,7 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
 
 namespace ComicChess.TheQueen;
@@ -21,6 +22,8 @@ public sealed class AmalgamSandpitPower : QueenPowerModel
     public override PowerType Type => PowerType.Buff;
 
     public override PowerStackType StackType => PowerStackType.Counter;
+
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [HoverTipFactory.FromCard<FranticTug>()];
 
     // 复用原版 Sandpit 的图标资源。
     public override string? CustomIconPath => "res://images/atlases/power_atlas.sprites/sandpit_power.tres";

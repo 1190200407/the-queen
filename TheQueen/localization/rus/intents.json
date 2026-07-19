@@ -66,6 +66,7 @@
     "AMALGAM_RELOAD_FIRE.title": "Перезарядка огня",
     "AMALGAM_RELOAD_FIRE.description": "Амальгама даст вам [blue]{Block}[/blue] Block, а в начале следующего хода нанесет [blue]{Damage}[/blue] урон.",
     "AMALGAM_SPECIAL.title": "Особенный",
+    "AMALGAM_SPECIAL_LIQUIFY_GROUND_FRANTIC_TUG.description": "Амальгама добавит 1 [gold]Неистовый буксир[/gold] в руку каждого игрока.",
     "AMALGAM_SPECIAL_GRASPING_VINES.description": "На следующем ходу вы получаете [золото]Рапунцель[/gold]. Ваши карты навыков стоят -1.",
     "AMALGAM_SPECIAL_BEAST_CRY.description": "Оглушите всех врагов на [blue]1[/blue] ход. Спите [blue]2[/blue] хода.",
     "AMALGAM_DRAW_ENCHANT_AMOUNT.title": "Рисовать",

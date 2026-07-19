@@ -66,6 +66,7 @@
     "AMALGAM_RELOAD_FIRE.title":"填装射击",
     "AMALGAM_RELOAD_FIRE.description":"这个聚合体将要使你获得[blue]{Block}[/blue]点格挡，并在下回合开始时造成[blue]{Damage}[/blue]点伤害。",
     "AMALGAM_SPECIAL.title":"特殊",
+    "AMALGAM_SPECIAL_LIQUIFY_GROUND_FRANTIC_TUG.description":"这个聚合体将要在所有玩家的手牌中塞入1张[gold]狂乱牵引[/gold]。",
     "AMALGAM_SPECIAL_GRASPING_VINES.description":"这个聚合体将要使你获得[gold]缠结[/gold]，你的技能牌耗能-1。",
     "AMALGAM_SPECIAL_BEAST_CRY.description":"这个聚合体将要使所有敌人晕眩[blue]1[/blue]回合，并沉睡[blue]2[/blue]回合。",
     "AMALGAM_DRAW_ENCHANT_AMOUNT.title":"抽牌",

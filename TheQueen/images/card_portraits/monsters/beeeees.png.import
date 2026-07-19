@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://lpgdulbbrpec"
-path="res://.godot/imported/pheromone_spit.png-835d6899882bdbe8ef606beafd074b37.ctex"
+uid="uid://duip10air0fw4"
+path="res://.godot/imported/beeeees.png-b8e055b173b10fc32b9803b4be250324.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://TheQueen/images/card_portraits/monsters/pheromone_spit.png"
-dest_files=["res://.godot/imported/pheromone_spit.png-835d6899882bdbe8ef606beafd074b37.ctex"]
+source_file="res://TheQueen/images/card_portraits/monsters/beeeees.png"
+dest_files=["res://.godot/imported/beeeees.png-b8e055b173b10fc32b9803b4be250324.ctex"]
 
 [params]
 

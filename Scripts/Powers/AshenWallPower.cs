@@ -13,6 +13,8 @@ namespace ComicChess.TheQueen;
 
 public sealed class AshenWallPower : QueenPowerModel
 {
+	private static readonly CardKeyword FadeKeyword = ModKeywordRegistry.GetCardKeyword(QueenKeyword.Fade);
+
 	public override PowerType Type => PowerType.Buff;
 
 	public override PowerStackType StackType => PowerStackType.Counter;
@@ -28,7 +30,7 @@ public sealed class AshenWallPower : QueenPowerModel
 		{
 			return;
 		}
-		if (!card.HasModKeyword(QueenKeyword.Fade))
+		if (!card.Keywords.Contains(FadeKeyword))
 		{
 			return;
 		}

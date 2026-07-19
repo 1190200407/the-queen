@@ -204,7 +204,7 @@ public static class MonsterCaptureRewardCatalog
             { DecimillipedeSegmentFront, static owner => owner.RunState!.CreateCard<Reattach>(owner) },
             { DecimillipedeSegmentMiddle, static owner => owner.RunState!.CreateCard<Reattach>(owner) },
             { DevotedSculptor, static owner => owner.RunState!.CreateCard<ForbiddenIncantation>(owner) },
-            { Entomancer, static owner => owner.RunState!.CreateCard<PheromoneSpit>(owner) },
+            { Entomancer, static owner => owner.RunState!.CreateCard<Beeeees>(owner) },
             { InfestedPrism, static owner => owner.RunState!.CreateCard<VitalSpark>(owner) },
             { Doormaker, static owner => owner.RunState!.CreateCard<CloseDoor>(owner) },
             { TestSubject, static owner => owner.RunState!.CreateCard<TestSubject>(owner) },
