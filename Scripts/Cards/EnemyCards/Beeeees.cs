@@ -23,7 +23,7 @@ public sealed class Beeeees : LearnIntentCardModel
     private const decimal learnIntentDamagePerHit = 3m;
     private const int learnIntentHitCount = 7;
     private const int energyCost = 2;
-    private const CardType type = CardType.Power;
+    private const CardType type = CardType.Skill;
     private const CardRarity rarity = CardRarity.Uncommon;
     private const TargetType targetType = TargetType.Self;
     private const bool shouldShowInCardLibrary = true;
