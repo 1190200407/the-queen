@@ -22,6 +22,8 @@ namespace ComicChess.TheQueen;
 [RegisterCard(typeof(QueenCardPool))]
 public sealed class AllSoulSlash : QueenCardModel
 {
+	private static readonly CardKeyword FadeKeyword = ModKeywordRegistry.GetCardKeyword(QueenKeyword.Fade);
+
 	private const int energyCost = 1;
 	private const CardType type = CardType.Attack;
 	private const CardRarity rarity = CardRarity.Uncommon;
@@ -32,7 +34,7 @@ public sealed class AllSoulSlash : QueenCardModel
 		new CalculationBaseVar(6m),
 		new ExtraDamageVar(2m),
 		new CalculatedDamageVar(ValueProp.Move).WithMultiplier((CardModel card, Creature? _) =>
-			PileType.Exhaust.GetPile(card.Owner).Cards.Count(c => c.HasModKeyword(QueenKeyword.Fade)))
+			PileType.Exhaust.GetPile(card.Owner).Cards.Count(c => c.HasModKeyword(FadeKeyword)))
 	];
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips => [ModKeywordRegistry.CreateHoverTip(QueenKeyword.Fade)];

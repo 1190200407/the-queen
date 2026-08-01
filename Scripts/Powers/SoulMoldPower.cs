@@ -14,6 +14,8 @@ namespace ComicChess.TheQueen;
 
 public sealed class SoulMoldPower : QueenPowerModel
 {
+	private static readonly CardKeyword FadeKeyword = ModKeywordRegistry.GetCardKeyword(QueenKeyword.Fade);
+
 	private sealed class Data
 	{
 		public bool triggeredThisTurn;
@@ -63,7 +65,7 @@ public sealed class SoulMoldPower : QueenPowerModel
 			copy.Owner = player;
 		}
 
-		copy.AddModKeyword(QueenKeyword.Fade);
+		copy.AddModKeyword(FadeKeyword);
 		await CardPileCmd.AddGeneratedCardToCombat(copy, PileType.Hand, player);
 
 		if (copy.Affliction is not null && copy.Affliction is not Bound)

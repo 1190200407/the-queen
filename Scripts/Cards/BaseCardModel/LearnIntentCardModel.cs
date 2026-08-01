@@ -142,12 +142,12 @@ public abstract class LearnIntentCardModel : QueenCardModel
 
         if (oldKey != AmalgamCompositeKey.None)
         {
-            this.RemoveModKeyword(QueenKeyword.GetAmalgamCompositeKeywordId(oldKey));
+            this.RemoveModKeyword(ModKeywordRegistry.GetCardKeyword(QueenKeyword.GetAmalgamCompositeKeywordId(oldKey)));
         }
 
         if (newKey != AmalgamCompositeKey.None)
         {
-            this.AddModKeyword(QueenKeyword.GetAmalgamCompositeKeywordId(newKey));
+            this.AddModKeyword(ModKeywordRegistry.GetCardKeyword(QueenKeyword.GetAmalgamCompositeKeywordId(newKey)));
         }
     }
 }

@@ -16,6 +16,8 @@ namespace ComicChess.TheQueen;
 
 internal sealed class CardCmdDiscardAndDrawPatch : IPatchMethod
 {
+	private static readonly CardKeyword FadeKeyword = ModKeywordRegistry.GetCardKeyword(QueenKeyword.Fade);
+
 	public static string PatchId => "thequeen_card_cmd_discard_and_draw";
 	public static string Description => "Replace DiscardAndDraw with snapshot-safe fade/sly flow";
 	public static bool IsCritical => true;
@@ -94,7 +96,7 @@ internal sealed class CardCmdDiscardAndDrawPatch : IPatchMethod
 				slyCards.Add(card);
 			}
 
-			if (card.HasModKeyword(QueenKeyword.Fade))
+			if (card.HasModKeyword(FadeKeyword))
 			{
 				fadeCards.Add(card);
 			}
