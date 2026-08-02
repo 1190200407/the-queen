@@ -20,6 +20,9 @@ public sealed class AmalgamEscapePower : QueenPowerModel
 
     public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
     {
+        if (base.Owner.PetOwner is not Player amalgamOwner)
+            return;
+
         await PowerCmd.Decrement(this);
         if (Amount > 0)
             return;
@@ -27,11 +30,7 @@ public sealed class AmalgamEscapePower : QueenPowerModel
         // 聚合体逃跑（与打出 Flee 相同；显式登记，避免仅依赖 Remove 内部顺序或 PetOwner 时机）
         if (base.CombatState is { } combatState)
         {
-            if (base.Owner.PetOwner is Player amalgamOwner)
-            {
-                AmalgamFledSummonBlock.MarkAmalgamFled(combatState, amalgamOwner);
-            }
-
+            AmalgamFledSummonBlock.MarkAmalgamFled(combatState, amalgamOwner);
             await FriendlyAmalgamHook.OnEscape(combatState, base.Owner);
             Flee.RemoveFromCombatWithoutEscapeFlag(combatState, base.Owner);
         }
