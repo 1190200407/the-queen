@@ -28,3 +28,4 @@ local.props
 **/obj/
 **/bin/Debug/
 **/bin/Release/
+bin/windows/~libspine_godot.windows.editor.x86_64.dll
