@@ -25,13 +25,18 @@
       <Private>false</Private>
     </Reference>
 
-    <PackageReference Include="STS2.RitsuLib" Version="*" />
+    <PackageReference Include="STS2.RitsuLib" Version="0.5.18" />
   </ItemGroup>
+
+  <PropertyGroup>
+    <_Sts2GameVersion>0.107.1</_Sts2GameVersion>
+  </PropertyGroup>
 
   <Target Name="ValidateSts2References" BeforeTargets="CoreCompile">
     <Error
       Condition="!Exists('$(Sts2DataDir)/sts2.dll')"
       Text="sts2.dll not found at '$(Sts2DataDir)'. Install Slay the Spire 2 or set Sts2Dir / Sts2DataDir in local.props (see local.props.example)." />
+
   </Target>
 
   <!--
@@ -42,13 +47,16 @@
   <Target Name="Copy Mod" AfterTargets="PostBuildEvent" Condition="Exists('$(Sts2DataDir)/sts2.dll')">
     <PropertyGroup>
       <_ModDir>$(Sts2Dir)/mods/$(MSBuildProjectName)</_ModDir>
+      <_ModLibDir>$(_ModDir)/lib/$(_Sts2GameVersion)</_ModLibDir>
       <_ModPck>$(MSBuildProjectDirectory)/$(MSBuildProjectName).pck</_ModPck>
       <_StaleLooseDir>$(_ModDir)/TheQueen</_StaleLooseDir>
     </PropertyGroup>
 
-    <Message Text="Copying mod to $(_ModDir)..." Importance="high" />
+    <Message Text="Copying mod to $(_ModDir) and $(_ModLibDir)..." Importance="high" />
     <MakeDir Directories="$(_ModDir)/" />
-    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(_ModDir)/" />
+    <MakeDir Directories="$(_ModLibDir)/" />
+    <Copy SourceFiles="$(TargetPath)" DestinationFiles="$(_ModLibDir)/TheQueen.dll" />
+    <Copy SourceFiles="$(TargetDir)$(AssemblyName).pdb" DestinationFiles="$(_ModLibDir)/TheQueen.pdb" Condition="Exists('$(TargetDir)$(AssemblyName).pdb')" />
     <Copy SourceFiles="$(MSBuildProjectName).json" DestinationFolder="$(_ModDir)/" />
     <Copy
       SourceFiles="$(_ModPck)"

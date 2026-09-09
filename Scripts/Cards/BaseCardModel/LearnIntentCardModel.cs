@@ -48,18 +48,6 @@ public abstract class LearnIntentCardModel : QueenCardModel
             && amalgam.HasAllTorchSlotsFilled
             && !amalgam.BlockActionFromSleep);
 
-    protected override IEnumerable<string> RegisteredKeywordIds
-    {
-        get
-        {
-            if (CompositeKey == AmalgamCompositeKey.None)
-            {
-                yield break;
-            }
-
-            yield return QueenKeyword.GetAmalgamCompositeKeywordId(CompositeKey);
-        }
-    }
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips
     {
