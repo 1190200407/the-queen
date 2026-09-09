@@ -404,6 +404,8 @@
     "THE_QUEEN_CARD_DRAIN_LIFE.description":"[gold]召唤[/gold]{Summon:diff()}。\n[gold]学习意图[/gold]：造成{LearnIntentDamage:diff()}点伤害，给予{LearnIntentVulnerable:diff()}层[gold]易伤[/gold]和{LearnIntentWeak:diff()}层[gold]虚弱[/gold]。",
     "THE_QUEEN_CARD_BEEEEES.title":"蜜——蜂——！",
     "THE_QUEEN_CARD_BEEEEES.description":"[gold]召唤[/gold]{Summon:diff()}。\n[gold]聚合体[/gold]获得{AmalgamPersonalHivePower:diff()}层[gold]人体蜂房[/gold]。\n[gold]学习意图[/gold]：造成{LearnIntentDamage:diff()}点伤害7次。",
+    "THE_QUEEN_CARD_PHEROMONE_SPIT.title":"信息素喷射",
+    "THE_QUEEN_CARD_PHEROMONE_SPIT.description":"[gold]召唤[/gold]{Summon:diff()}。\n[gold]学习意图[/gold]：获得1层[gold]人体蜂房[/gold]和1点[gold]力量[/gold]。",
     "THE_QUEEN_CARD_CLOSE_DOOR.title":"关门",
     "THE_QUEEN_CARD_CLOSE_DOOR.description":"[gold]召唤[/gold]{Summon:diff()}。\n[gold]聚合体[/gold]获得{AmalgamDoormakerBossPower:diff()}层[gold]门扉外壳[/gold]。[purple]\nR.I.P.[/purple]",
     "THE_QUEEN_CARD_VITAL_SPARK.title":"活力火花",
