@@ -404,6 +404,8 @@
     "THE_QUEEN_CARD_DRAIN_LIFE.description":"[gold]Summon[/gold] {Summon:diff()}.\n[gold]Learn Intent[/gold]: Deal {LearnIntentDamage:diff()} damage. Apply {LearnIntentVulnerable:diff()} [gold]Vulnerable[/gold] and {LearnIntentWeak:diff()} [gold]Weak[/gold].",
     "THE_QUEEN_CARD_BEEEEES.title":"Beeeees!",
     "THE_QUEEN_CARD_BEEEEES.description":"[gold]Summon[/gold] {Summon:diff()}.\nYour [gold]Amalgam[/gold] gains {AmalgamPersonalHivePower:diff()} [gold]Personal Hive[/gold].\n[gold]Learn Intent[/gold]: Deal {LearnIntentDamage:diff()} damage 7 times.",
+    "THE_QUEEN_CARD_PHEROMONE_SPIT.title":"Pheromone Spit",
+    "THE_QUEEN_CARD_PHEROMONE_SPIT.description":"[gold]Summon[/gold] {Summon:diff()}.\n[gold]Learn Intent[/gold]: Gain [blue]1[/blue] [gold]Personal Hive[/gold] and [blue]1[/blue] [gold]Strength[/gold].",
     "THE_QUEEN_CARD_CLOSE_DOOR.title":"Close Door",
     "THE_QUEEN_CARD_CLOSE_DOOR.description":"[gold]Summon[/gold] {Summon:diff()}.\nYour [gold]Amalgam[/gold] gains {AmalgamDoormakerBossPower:diff()} [gold]Doormaker Shell[/gold].\n[purple]R.I.P.[/purple]",
     "THE_QUEEN_CARD_VITAL_SPARK.title":"Vital Spark",
