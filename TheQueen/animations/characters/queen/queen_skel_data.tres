@@ -1,7 +1,7 @@
-[gd_resource type="SpineSkeletonDataResource" load_steps=5 format=3]
+[gd_resource type="SpineSkeletonDataResource" load_steps=5 format=3 uid="uid://hb0mpvunmdhj"]
 
-[ext_resource type="SpineAtlasResource" path="res://TheQueen/animations/characters/queen/imported/queen.atlas-9a5d0abe5b1411f67c001405b24f602b.spatlas" id="1_ehjj2"]
-[ext_resource type="SpineSkeletonFileResource" path="res://TheQueen/animations/characters/queen/imported/queen.skel-4440892e33c027e9b55a12fdd26cc0b7.spskel" id="2_a1qmc"]
+[ext_resource type="SpineAtlasResource" uid="uid://c5ir3jk2fpxug" path="res://TheQueen/animations/characters/queen/imported/queen.atlas-9a5d0abe5b1411f67c001405b24f602b.spatlas" id="1_ehjj2"]
+[ext_resource type="SpineSkeletonFileResource" uid="uid://cce3l7gkxw2t6" path="res://TheQueen/animations/characters/queen/imported/queen.skel-4440892e33c027e9b55a12fdd26cc0b7.spskel" id="2_a1qmc"]
 
 [sub_resource type="SpineAnimationMix" id="SpineAnimationMix_58vjy"]
 from = "idle_loop"
