@@ -26,7 +26,7 @@ public sealed class Lash : LearnIntentCardModel
     private const TargetType targetType = TargetType.Self;
     private const bool shouldShowInCardLibrary = true;
     protected override IEnumerable<IHoverTip> AdditionalHoverTips => [..HoverTipFactory.FromEnchantment<Infested>()];
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [..base.CanonicalKeywords, CardKeyword.Exhaust];
 
     protected override bool ShouldSummonBeforeLearnIntent => true;
 

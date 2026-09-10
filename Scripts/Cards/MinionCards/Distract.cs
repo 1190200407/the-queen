@@ -12,7 +12,7 @@ using STS2RitsuLib.Keywords;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>干扰：学习意图为抽牌�?/summary>
+/// <summary>干扰：学习意图为抽牌�?/summary>
 [RegisterCard(typeof(TokenCardPool))]
 public sealed class Distract : LearnIntentCardModel
 {
@@ -23,7 +23,7 @@ public sealed class Distract : LearnIntentCardModel
     private const TargetType targetType = TargetType.Self;
     private const bool shouldShowInCardLibrary = false;
 
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [ModKeywordRegistry.GetCardKeyword(QueenKeyword.Fade)];
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [..base.CanonicalKeywords, ModKeywordRegistry.GetCardKeyword(QueenKeyword.Fade)];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [

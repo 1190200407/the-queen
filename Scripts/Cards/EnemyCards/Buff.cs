@@ -22,7 +22,7 @@ public sealed class Buff : LearnIntentCardModel
     private const TargetType targetType = TargetType.Self;
     private const bool shouldShowInCardLibrary = true;
 
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [..base.CanonicalKeywords, CardKeyword.Exhaust];
     public override int MaxUpgradeLevel => 0;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>

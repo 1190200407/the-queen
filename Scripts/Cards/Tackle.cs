@@ -29,7 +29,7 @@ public sealed class Tackle : LearnIntentCardModel
         new AmalgamLearnIntentDamageVar(learnIntentDamage, ValueProp.Move)
     ];
 
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [ModKeywordRegistry.GetCardKeyword(QueenKeyword.Fade)];
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [..base.CanonicalKeywords, ModKeywordRegistry.GetCardKeyword(QueenKeyword.Fade)];
     protected override IEnumerable<IHoverTip> AdditionalHoverTips => [QueenHoverTips.LearnIntent];
 
     public Tackle()

@@ -23,7 +23,7 @@ public sealed class Screech : LearnIntentCardModel
     private const TargetType targetType = TargetType.Self;
     private const bool shouldShowInCardLibrary = true;
 
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [ModKeywordRegistry.GetCardKeyword(QueenKeyword.Fade)];
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [..base.CanonicalKeywords, ModKeywordRegistry.GetCardKeyword(QueenKeyword.Fade)];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [

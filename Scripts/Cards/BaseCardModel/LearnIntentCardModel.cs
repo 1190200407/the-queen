@@ -41,6 +41,14 @@ public abstract class LearnIntentCardModel : QueenCardModel
         }
     }
 
+    public override IEnumerable<CardKeyword> CanonicalKeywords
+    {
+        get
+        {
+            yield return ModKeywordRegistry.GetCardKeyword(QueenKeyword.GetAmalgamCompositeKeywordId(CompositeKey));
+        }
+    }
+
     protected override bool ShouldGlowGoldInternal =>
         (base.Owner?.Creature?.CombatState is { } combatState
             && FriendlyAmalgamCmd.GetExisting(combatState, base.Owner) is { Monster: FriendlyAmalgam amalgam }

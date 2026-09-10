@@ -25,7 +25,7 @@ public sealed class Noise : LearnIntentCardModel
     private const decimal drawNow = 1m;
     private const decimal drawNextTurn = 1m;
 
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [ModKeywordRegistry.GetCardKeyword(QueenKeyword.Fade)];
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [..base.CanonicalKeywords, ModKeywordRegistry.GetCardKeyword(QueenKeyword.Fade)];
 
     public override int MaxUpgradeLevel => 0;
 

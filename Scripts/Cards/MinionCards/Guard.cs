@@ -24,7 +24,7 @@ public sealed class Guard : LearnIntentCardModel
     private const bool shouldShowInCardLibrary = false;
     private const decimal learnIntentBlock = 10m;
 
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [ModKeywordRegistry.GetCardKeyword(QueenKeyword.Fade)];
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [..base.CanonicalKeywords, ModKeywordRegistry.GetCardKeyword(QueenKeyword.Fade)];
 
     public override int MaxUpgradeLevel => 0;
 

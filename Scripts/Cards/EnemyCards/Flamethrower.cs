@@ -32,7 +32,7 @@ public sealed class Flamethrower : LearnIntentCardModel
         new AmalgamLearnIntentDamageVar(40m, ValueProp.Move),
     ];
 
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [..base.CanonicalKeywords, CardKeyword.Exhaust];
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
