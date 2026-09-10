@@ -45,7 +45,8 @@ public abstract class LearnIntentCardModel : QueenCardModel
     {
         get
         {
-            yield return ModKeywordRegistry.GetCardKeyword(QueenKeyword.GetAmalgamCompositeKeywordId(CompositeKey));
+            if (CompositeKey != AmalgamCompositeKey.None)
+                yield return ModKeywordRegistry.GetCardKeyword(QueenKeyword.GetAmalgamCompositeKeywordId(CompositeKey));
         }
     }
 
