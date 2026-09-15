@@ -23,6 +23,17 @@ public static class SoulLampResources
             largeIconPath: "res://TheQueen/images/charui/soul_lamp.png"
         ));
         SoulLampId = SoulLampDefinition.Id;
+        registry.RegisterMultiplayerPlayerStateUi(
+            SoulLampDefinition.LocalId,
+            static _ => 
+            {
+                var style = new SecondaryResourceCounterStyle
+                {
+                    FormatAmount = (amount, _) => amount.ToString(),
+                };
+                return NSecondaryResourceCounter.Create(SoulLampDefinition, style);
+            },
+            static ctx => ctx.Node.Refresh(ctx.Player));
     }
 
     public static int GetAmount(Player? player)
