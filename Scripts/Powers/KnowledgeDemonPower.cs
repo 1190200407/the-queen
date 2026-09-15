@@ -36,7 +36,7 @@ public sealed class KnowledgeDemonPower : QueenPowerModel
 		int selections = (int)base.Amount;
 		for (int i = 0; i < selections; i++)
 		{
-			await KnowledgeDemonCurseSelection.ChooseAndExecuteAsync(combatState, player);
+			await KnowledgeDemonCurseSelection.ChooseAndExecuteAsync(combatState, player, choiceContext);
 			if (!base.Owner.IsAlive)
 			{
 				break;
