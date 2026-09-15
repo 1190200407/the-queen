@@ -30,8 +30,7 @@ public sealed class DarkVeil : QueenCardModel
 	{
 		get
 		{
-			SoulLampPower? lamp = base.Owner?.Creature?.GetPower<SoulLampPower>();
-			if (lamp == null || lamp.Amount <= 0)
+			if (!SoulLampResources.HasAny(base.Owner))
 			{
 				return true;
 			}
@@ -56,8 +55,7 @@ public sealed class DarkVeil : QueenCardModel
 	{
 		await CreatureCmd.GainBlock(base.Owner.Creature, base.DynamicVars.Block, cardPlay);
 
-		SoulLampPower? lamp = base.Owner.Creature.GetPower<SoulLampPower>();
-		if (lamp == null || lamp.Amount <= 0)
+		if (!SoulLampResources.HasAny(base.Owner))
 		{
 			await CreatureCmd.GainBlock(base.Owner.Creature, (BlockVar)base.DynamicVars["BonusBlock"], cardPlay);
 		}

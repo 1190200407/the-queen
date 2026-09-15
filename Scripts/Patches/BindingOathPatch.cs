@@ -43,9 +43,7 @@ internal static class BindingOathPatchState
 			return;
 		}
 
-		Creature creature = owner.Creature;
-		SoulLampPower? lamp = creature.GetPower<SoulLampPower>();
-		if (lamp != null && lamp.Amount > 0)
+		if (SoulLampResources.HasAny(owner))
 		{
 			return;
 		}

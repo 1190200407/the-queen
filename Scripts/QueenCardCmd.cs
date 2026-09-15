@@ -6,6 +6,7 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Context;
 using MegaCrit.Sts2.Core.Helpers;
 using STS2RitsuLib.Audio;
+using STS2RitsuLib.Combat.SecondaryResources;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
@@ -75,30 +76,16 @@ public static class QueenCardCmd
 
 	public static async Task AddSoulLamp(PlayerChoiceContext choiceContext, Player owner, int amount = 1)
 	{
+		_ = choiceContext;
 		if (amount <= 0)
 		{
 			return;
 		}
 
-		bool silent = owner.Character is QueenCharacter && LocalContext.IsMe(owner);
+		int oldAmount = SoulLampResources.GetAmount(owner);
+		int newAmount = await SecondaryResourceCmd.Gain(owner, SoulLampResources.SoulLampId, amount);
 
-		SoulLampPower? existing = owner.Creature.GetPower<SoulLampPower>();
-		if (existing == null)
-		{
-			await PowerCmd.Apply<SoulLampPower>(choiceContext, owner.Creature, amount, owner.Creature, null, silent);
-		}
-		else if (existing.Amount <= 0)
-		{
-			// SoulLampPower uses -1 as the hidden "display 0" sentinel.
-			// When gaining Soul Lamp from this state, jump directly to gained amount.
-			await PowerCmd.ModifyAmount(choiceContext, existing, amount - existing.Amount, owner.Creature, null, silent);
-		}
-		else
-		{
-			await PowerCmd.ModifyAmount(choiceContext, existing, amount, owner.Creature, null, silent);
-		}
-
-		if (LocalContext.IsMe(owner))
+		if (newAmount > oldAmount && LocalContext.IsMe(owner))
 		{
 			PlaySoulLampGainSfx();
 		}

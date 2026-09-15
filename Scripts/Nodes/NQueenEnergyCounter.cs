@@ -14,7 +14,7 @@ using STS2RitsuLib.Settings;
 namespace ComicChess.TheQueen;
 
 /// <summary>
-/// 女王专用能量指示器：在能量球旁显示 <see cref="SoulLampPower"/> 层数。
+/// 女王专用能量指示器：在能量球旁显示魂灯次级资源数量。
 /// 场景根节点挂本脚本；Ritsu 走 <see cref="NEnergyCounter"/> 工厂时会因 <c>source is NEnergyCounter</c> 而保留子类实例。
 /// </summary>
 [GlobalClass]
@@ -106,7 +106,7 @@ public partial class NQueenEnergyCounter : NEnergyCounter
 		base._ExitTree();
 	}
 
-	/// <summary>由 <see cref="SoulLampPower"/> 等在魂灯层数变化时调用。</summary>
+	/// <summary>由魂灯次级资源变化时调用。</summary>
 	internal static void TryRefresh(Player player)
 	{
 		if (player.Character is not QueenCharacter)
@@ -137,8 +137,7 @@ public partial class NQueenEnergyCounter : NEnergyCounter
 			return;
 		}
 
-		SoulLampPower? lamp = player.Creature?.GetPower<SoulLampPower>();
-		int amount = lamp?.DisplayAmount ?? 0;
+		int amount = SoulLampResources.GetAmount(player);
 		ApplySoulLampDisplay(player, amount);
 	}
 

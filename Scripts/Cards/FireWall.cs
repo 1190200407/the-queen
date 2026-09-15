@@ -34,8 +34,7 @@ public sealed class FireWall : QueenCardModel
 		new CalculationExtraVar(4m),
 		new CalculatedBlockVar(ValueProp.Move).WithMultiplier(static (CardModel card, Creature? _) =>
 		{
-			SoulLampPower? lamp = card.Owner?.Creature?.GetPower<SoulLampPower>();
-			return lamp?.DisplayAmount ?? 0m;
+			return SoulLampResources.GetAmount(card.Owner);
 		}),
 	];
 

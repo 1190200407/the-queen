@@ -27,8 +27,7 @@ public sealed class Salvage : QueenCardModel
 	{
 		get
 		{
-			SoulLampPower? lamp = base.Owner?.Creature?.GetPower<SoulLampPower>();
-			if (lamp == null || lamp.Amount <= 0)
+			if (!SoulLampResources.HasAny(base.Owner))
 			{
 				return true;
 			}
@@ -54,8 +53,7 @@ public sealed class Salvage : QueenCardModel
 	{
 		await CardPileCmd.Draw(choiceContext, base.DynamicVars["Draw"].BaseValue, base.Owner);
 
-		SoulLampPower? lamp = base.Owner.Creature.GetPower<SoulLampPower>();
-		if (lamp == null || lamp.Amount <= 0)
+		if (!SoulLampResources.HasAny(base.Owner))
 		{
 			await CardPileCmd.Draw(choiceContext, base.DynamicVars["ExtraDraw"].BaseValue, base.Owner);
 			await QueenCardCmd.AddSoulLamp(choiceContext, base.Owner, 1);

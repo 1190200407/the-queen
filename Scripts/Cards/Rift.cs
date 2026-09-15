@@ -121,7 +121,6 @@ public sealed class Rift : QueenCardModel, ISoulLampEventListener
 
     private int GetOwnerSoulLampStacks()
     {
-        SoulLampPower? lamp = base.Owner?.Creature?.GetPower<SoulLampPower>();
-        return lamp?.DisplayAmount ?? 0;
+        return SoulLampResources.GetAmount(base.Owner);
     }
 }
