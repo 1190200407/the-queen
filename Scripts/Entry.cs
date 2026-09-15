@@ -15,7 +15,7 @@ namespace ComicChess.TheQueen;
 [ModInitializer("Init")]
 public class Entry
 {
-	public const string ModId = "sts2.comicchess.thequeen";
+	public const string ModId = "TheQueen";
 	public static readonly Logger Logger = RitsuLibFramework.CreateLogger(ModId);
 
 	// 魂灯免费出牌时，手牌描边高亮色。
