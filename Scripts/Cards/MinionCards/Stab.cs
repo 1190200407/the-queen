@@ -25,7 +25,7 @@ public sealed class Stab : LearnIntentCardModel
     private const decimal learnIntentDamage = 11m;
     private const decimal learnIntentStrengthLoss = 2m;
 
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [ModKeywordRegistry.GetCardKeyword(QueenKeyword.Fade)];
+    protected override IEnumerable<CardKeyword> AdditionalKeywords => [ModKeywordRegistry.GetCardKeyword(QueenKeyword.Fade)];
 
     public override int MaxUpgradeLevel => 0;
 

@@ -23,7 +23,7 @@ public sealed class PowerDance : LearnIntentCardModel
     private const bool shouldShowInCardLibrary = false;
 
     private const decimal learnIntentStrength = 2m;
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [ModKeywordRegistry.GetCardKeyword(QueenKeyword.Fade)];
+    protected override IEnumerable<CardKeyword> AdditionalKeywords => [ModKeywordRegistry.GetCardKeyword(QueenKeyword.Fade)];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [

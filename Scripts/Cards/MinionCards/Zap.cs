@@ -24,7 +24,7 @@ public sealed class Zap : LearnIntentCardModel
     private const bool shouldShowInCardLibrary = false;
     private const decimal learnIntentDamage = 14m;
 
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [ModKeywordRegistry.GetCardKeyword(QueenKeyword.Fade)];
+    protected override IEnumerable<CardKeyword> AdditionalKeywords => [ModKeywordRegistry.GetCardKeyword(QueenKeyword.Fade)];
 
     public override int MaxUpgradeLevel => 0;
 

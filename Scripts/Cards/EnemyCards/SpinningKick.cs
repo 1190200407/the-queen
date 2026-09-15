@@ -25,7 +25,7 @@ public sealed class SpinningKick : LearnIntentCardModel
     private const bool shouldShowInCardLibrary = true;
     internal override bool HasSelfBound => true;
 
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
+    protected override IEnumerable<CardKeyword> AdditionalKeywords => [CardKeyword.Exhaust];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [

@@ -14,8 +14,6 @@ public abstract class LearnIntentCardModel : QueenCardModel
 {
     private const float LearnCombineSpacingSeconds = 0.5f;
 
-    private AmalgamCompositeKey _compositeKey = AmalgamCompositeKey.None;
-
     private PlayerChoiceContext? _learnCombineSpacingContext;
 
     private int _learnCombineSpacingCount;
@@ -25,21 +23,7 @@ public abstract class LearnIntentCardModel : QueenCardModel
     {
     }
 
-    public virtual AmalgamCompositeKey CompositeKey
-    {
-        get => _compositeKey;
-        set
-        {
-            if (_compositeKey == value)
-            {
-                return;
-            }
-
-            AmalgamCompositeKey old = _compositeKey;
-            _compositeKey = value;
-            SyncCompositeKeyword(old, value);
-        }
-    }
+    public virtual AmalgamCompositeKey CompositeKey { get; set; } = AmalgamCompositeKey.None;
 
     protected override bool ShouldGlowGoldInternal =>
         (base.Owner?.Creature?.CombatState is { } combatState
@@ -47,6 +31,24 @@ public abstract class LearnIntentCardModel : QueenCardModel
             && amalgam.Creature.IsAlive
             && amalgam.HasAllTorchSlotsFilled
             && !amalgam.BlockActionFromSleep);
+
+    protected virtual IEnumerable<CardKeyword> AdditionalKeywords => [];
+
+    public override IEnumerable<CardKeyword> CanonicalKeywords
+    {
+        get
+        {
+            foreach (CardKeyword keyword in AdditionalKeywords)
+            {
+                yield return keyword;
+            }
+
+            if (CompositeKey != AmalgamCompositeKey.None)
+            {
+                yield return GetCompositeKeyword(CompositeKey);
+            }
+        }
+    }
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips
     {
@@ -122,26 +124,4 @@ public abstract class LearnIntentCardModel : QueenCardModel
 
     private static CardKeyword GetCompositeKeyword(AmalgamCompositeKey key) =>
         ModKeywordRegistry.GetCardKeyword(QueenKeyword.GetAmalgamCompositeKeywordId(key));
-
-    private void SyncCompositeKeyword(AmalgamCompositeKey oldKey, AmalgamCompositeKey newKey)
-    {
-        if (!IsMutable)
-        {
-            return;
-        }
-
-        if (oldKey != AmalgamCompositeKey.None)
-        {
-            RemoveKeyword(GetCompositeKeyword(oldKey));
-        }
-
-        if (newKey != AmalgamCompositeKey.None)
-        {
-            CardKeyword newKeyword = GetCompositeKeyword(newKey);
-            if (!Keywords.Contains(newKeyword))
-            {
-                AddKeyword(newKeyword);
-            }
-        }
-    }
 }

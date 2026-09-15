@@ -15,7 +15,7 @@ using STS2RitsuLib.Keywords;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>猛击：爪�?token，学习意图为单体伤害；魂缚、消逝�?/summary>
+/// <summary>猛击：爪�?token，学习意图为单体伤害；魂缚、消逝�?/summary>
 [RegisterCard(typeof(TokenCardPool))]
 public sealed class Slam : LearnIntentCardModel
 {
@@ -26,7 +26,7 @@ public sealed class Slam : LearnIntentCardModel
     private const bool shouldShowInCardLibrary = false;
     private const decimal learnIntentDamage = 16m;
 
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [ModKeywordRegistry.GetCardKeyword(QueenKeyword.Fade)];
+    protected override IEnumerable<CardKeyword> AdditionalKeywords => [ModKeywordRegistry.GetCardKeyword(QueenKeyword.Fade)];
 
     public override int MaxUpgradeLevel => 0;
 

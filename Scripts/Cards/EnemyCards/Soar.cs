@@ -26,7 +26,7 @@ public sealed class Soar : LearnIntentCardModel
     private const decimal soarStacks = 1m;
     private const string soarEntryId = "AMALGAM_SOAR_POWER";
 
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
+    protected override IEnumerable<CardKeyword> AdditionalKeywords => [CardKeyword.Exhaust];
 
     public override int MaxUpgradeLevel => 0;
 
