@@ -1,6 +1,8 @@
 {
     "soul_lamp.title":"魂灯",
     "soul_lamp.description":"魂灯を持っている間、[purple]魂縛[/purple]のカードは無料でプレイでき、[red]制限を無視[/red]する。[purple]魂縛[/purple]のカードをプレイすると[blue]1[/blue]消費する。",
+    "THE_QUEEN_SECONDARY_RESOURCE_SOUL_LAMP.title":"魂灯",
+    "THE_QUEEN_SECONDARY_RESOURCE_SOUL_LAMP.description":"魂灯を持っている間、[purple]魂縛[/purple]のカードは無料でプレイでき、[red]制限を無視[/red]する。[purple]魂縛[/purple]のカードをプレイすると[blue]1[/blue]消費する。",
     "binding_oath.title":"縛りの誓い",
     "binding_oath.description":"毎ターン、[purple]魂縛[/purple]のカードは[blue]1[/blue]枚だけプレイできる。ターン終了時に[purple]魂縛[/purple]は解除されない。",
     "QUEEN_SUMMON_DYNAMIC.description":"[gold]融合体[/gold]をHP[blue]{Summon}[/blue]で召喚する。\nすでに召喚されている場合、この戦闘中、最大HPを[blue]{Summon}[/blue]増加させる。",

@@ -1,6 +1,8 @@
 {
     "soul_lamp.title": "Душевный светильник",
     "soul_lamp.description": "Пока у вас есть Душевный светильник, карты [purple]Оковы[/purple] можно разыгрывать бесплатно и [red]игнорируя ограничения[/red]. Разыгрывание карты [purple]Оковы[/purple] расходует [blue]1[/blue].",
+    "THE_QUEEN_SECONDARY_RESOURCE_SOUL_LAMP.title": "Душевая лампа",
+    "THE_QUEEN_SECONDARY_RESOURCE_SOUL_LAMP.description": "Пока у вас есть «Лампа души», [фиолетовые]связанные[/фиолетовые] карты можно разыгрывать бесплатно и [красные]игнорировать ограничения[/red]. Разыгрывание [фиолетовой] связанной[/фиолетовой] карты расходует [синий]1[/синий].",
     "binding_oath.title": "Клятва оков",
     "binding_oath.description": "Каждый ход можно разыграть только [blue]1[/blue] карту [purple]Оковы[/purple]. [purple]Оковы[/purple] больше не снимаются в конце хода.",
     "QUEEN_SUMMON_DYNAMIC.description": "[gold]Призывает[/gold] [gold]Амальгаму[/gold] с [blue]{Summon}[/blue] ОЗ.\nЕсли она уже призвана, повышает её макс. ОЗ на [blue]{Summon}[/blue] в этом бою.",

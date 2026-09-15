@@ -64,6 +64,7 @@ public class Entry
 		ModTypeDiscoveryHub.RegisterModAssembly(ModId, assembly);
 
 		QueenModSettingsBootstrap.Register();
+		SoulLampResources.Register();
 
 		// Harmony 补丁；Apply 失败则整 mod 禁用。
 		var patcher = RitsuLibFramework.CreatePatcher(ModId, "main", "the-queen");

@@ -1,6 +1,8 @@
 {
     "soul_lamp.title":"Soul Lamp",
     "soul_lamp.description":"While you have Soul Lamp, [purple]Bound[/purple] cards can be played for free and [red]ignore restrictions[/red]. Playing a [purple]Bound[/purple] card consumes [blue]1[/blue].",
+    "THE_QUEEN_SECONDARY_RESOURCE_SOUL_LAMP.title":"Soul Lamp",
+    "THE_QUEEN_SECONDARY_RESOURCE_SOUL_LAMP.description":"While you have Soul Lamp, [purple]Bound[/purple] cards can be played for free and [red]ignore restrictions[/red]. Playing a [purple]Bound[/purple] card consumes [blue]1[/blue].",
     "binding_oath.title":"Binding Oath",
     "binding_oath.description":"You may only play [blue]1[/blue] [purple]Bound[/purple] card each turn. [purple]Bound[/purple] is no longer removed at end of turn.",
     "QUEEN_SUMMON_DYNAMIC.description":"Summon the [gold]Amalgam[/gold] with [blue]{Summon}[/blue] HP.\nIf already summoned, increase its Max HP by [blue]{Summon}[/blue] for this combat.",

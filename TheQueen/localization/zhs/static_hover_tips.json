@@ -1,6 +1,8 @@
 {
   "soul_lamp.title": "魂灯",
   "soul_lamp.description": "你可以消耗[blue]1[/blue]层[gold]无视限制[/gold]免费打出[blue]1[/blue]张带[purple]魂缚[/purple]的牌。",
+  "THE_QUEEN_SECONDARY_RESOURCE_SOUL_LAMP.title": "魂灯",
+  "THE_QUEEN_SECONDARY_RESOURCE_SOUL_LAMP.description": "持有魂灯时，带[purple]魂缚[/purple]的牌可以免费打出并[red]无视限制[/red]。打出带[purple]魂缚[/purple]的牌时消耗[blue]1[/blue]点。",
   "binding_oath.title": "魂缚誓约",
   "binding_oath.description": "每回合只能打出[blue]1[/blue]张[purple]魂缚[/purple]卡牌。回合结束时不再失去[purple]魂缚[/purple]。",
   "QUEEN_SUMMON_DYNAMIC.description": "以[blue]{Summon}[/blue]生命值召唤[gold]聚合体[/gold]。\n如果已经召唤,则在本场战斗中将其最大生命值提升[blue]{Summon}[/blue]点。",
