@@ -1,7 +1,9 @@
 using STS2RitsuLib;
 using STS2RitsuLib.Combat.SecondaryResources;
 using ComicChess.TheQueen;
+using Godot;
 using MegaCrit.Sts2.Core.Entities.Players;
+using STS2RitsuLib.Scaffolding.Godot.NodeAttachments;
 
 public static class SoulLampResources
 {
@@ -29,11 +31,24 @@ public static class SoulLampResources
             {
                 var style = new SecondaryResourceCounterStyle
                 {
+                    CounterSize = new Vector2(28f, 28f),
+                    IconSize = new Vector2(30f, 30f),
+                    FontSize = 16,
+                    OutlineSize = 5,
                     FormatAmount = (amount, _) => amount.ToString(),
+                    AmountLabelOffset = new Vector2(0, 2f),
+                    //rgb(19, 100, 62)
+                    OutlineColor = new Color(19f / 255f, 100f/ 255f, 62f / 225f)
+
                 };
                 return NSecondaryResourceCounter.Create(SoulLampDefinition, style);
             },
-            static ctx => ctx.Node.Refresh(ctx.Player));
+            static ctx => ctx.Node.Refresh(ctx.Player),
+            new NodeAttachmentOptions
+            {
+                Name = "SoulLampSecondaryResourceCounter",
+                InsertAfterName = "EnergyContainer",
+            });
     }
 
     public static int GetAmount(Player? player)
