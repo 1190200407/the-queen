@@ -34,7 +34,6 @@ public partial class NQueenSoulLampCounter : Control
 	public override void _Ready()
 	{
 		base._Ready();
-		ZIndex = 1;
 		Visible = false;
 
 		_soulLampLayer = GetNodeOrNull<Control>("%SoulLampLayer")
