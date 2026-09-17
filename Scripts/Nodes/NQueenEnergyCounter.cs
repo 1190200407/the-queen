@@ -171,7 +171,6 @@ public partial class NQueenEnergyCounter : NEnergyCounter
 
 		NQueenSoulLampCounter counter = scene.Instantiate<NQueenSoulLampCounter>(PackedScene.GenEditState.Disabled);
 		counter.Name = "SoulLampCounter";
-		counter.ZIndex = 1;
 		AddChild(counter);
 		return counter;
 	}
