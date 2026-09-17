@@ -1,77 +1,53 @@
 using System.Collections.Generic;
-using System.Reflection;
 using Godot;
-using MegaCrit.Sts2.Core.Assets;
 using MegaCrit.Sts2.addons.mega_text;
-using MegaCrit.Sts2.Core.Combat;
+using MegaCrit.Sts2.Core.Assets;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Helpers;
 using MegaCrit.Sts2.Core.HoverTips;
-using MegaCrit.Sts2.Core.Nodes.Combat;
 using MegaCrit.Sts2.Core.Nodes.HoverTips;
 using STS2RitsuLib.Settings;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>
-/// 女王专用能量指示器：在能量球旁显示 <see cref="SoulLampPower"/> 层数。
-/// 场景根节点挂本脚本；Ritsu 走 <see cref="NEnergyCounter"/> 工厂时会因 <c>source is NEnergyCounter</c> 而保留子类实例。
-/// </summary>
+/// <summary>魂灯能力的独立战斗计数器。</summary>
 [GlobalClass]
-public partial class NQueenEnergyCounter : NEnergyCounter
+public partial class NQueenSoulLampCounter : Control
 {
 	private const string SoulLampDarkenedMaterialPath = "res://materials/ui/energy_orb_dark.tres";
-	private const string SoulLampCounterScenePath = "res://TheQueen/scenes/ui/queen_soul_lamp_counter.tscn";
-
-	private static readonly FieldInfo PlayerField =
-		typeof(NEnergyCounter).GetField("_player", BindingFlags.Instance | BindingFlags.NonPublic)!;
-
-	private static NQueenEnergyCounter? _activeInstance;
 
 	private MegaLabel? _soulLampLabel;
 	private Control? _soulLampLayer;
-	private NQueenSoulLampCounter? _soulLampCounter;
 	private readonly List<TextureRect> _soulLampVisualLayers = [];
 	private Node2D? _soulLampFire;
 	private GpuParticles2D? _soulLampGainParticle;
 	private GpuParticles2D? _soulLampConstantParticle;
 	private IHoverTip? _soulLampHoverTip;
+	private Player? _boundPlayer;
 	private int _displayedSoulLampAmount = int.MinValue;
 	private bool _soulLampFireDesiredActive;
 	private bool _soulLampConstantDesiredActive;
 	private bool _soulLampVisualsLit = true;
 
-	/// <summary>本地战斗 UI 中当前活跃的女王能量指示器（战斗结束时会清空）。</summary>
-	internal static NQueenEnergyCounter? ActiveInstance => _activeInstance;
-
 	public override void _Ready()
 	{
 		base._Ready();
+		Visible = false;
+
 		_soulLampLayer = GetNodeOrNull<Control>("%SoulLampLayer")
 			?? GetNodeOrNull<Control>("SoulLampLayer");
 		_soulLampLabel = GetNodeOrNull<MegaLabel>("%SoulLampLabel")
 			?? GetNodeOrNull<MegaLabel>("SoulLampLayer/SoulLampLabel")
 			?? GetNodeOrNull<MegaLabel>("SoulLampLabel");
 
-		if (_soulLampLayer == null && _soulLampLabel == null)
-		{
-			_soulLampCounter = CreateSoulLampCounterFromScene();
-		}
-
-		if (_soulLampCounter != null)
-		{
-			RefreshSoulLampFromOwner();
-			return;
-		}
-
 		if (_soulLampLabel != null)
 		{
-			_soulLampLabel.MouseFilter = Control.MouseFilterEnum.Ignore;
+			_soulLampLabel.MouseFilter = MouseFilterEnum.Ignore;
 		}
 
 		if (_soulLampLayer != null)
 		{
-			_soulLampLayer.MouseFilter = Control.MouseFilterEnum.Stop;
+			_soulLampLayer.MouseFilter = MouseFilterEnum.Stop;
 			foreach (Node child in _soulLampLayer.GetChildren())
 			{
 				if (child is TextureRect textureRect)
@@ -88,92 +64,30 @@ public partial class NQueenEnergyCounter : NEnergyCounter
 				_soulLampGainParticle.OneShot = true;
 				_soulLampGainParticle.Emitting = false;
 			}
+
 			_soulLampHoverTip = HoverTipFactory.FromPower<SoulLampPower>();
-			_soulLampLayer.Connect(Control.SignalName.MouseEntered, Callable.From(OnSoulLampHovered));
-			_soulLampLayer.Connect(Control.SignalName.MouseExited, Callable.From(OnSoulLampUnhovered));
+			_soulLampLayer.Connect(SignalName.MouseEntered, Callable.From(OnSoulLampHovered));
+			_soulLampLayer.Connect(SignalName.MouseExited, Callable.From(OnSoulLampUnhovered));
 		}
 
 		ModSettingsBindingWriteEvents.SubscribeValueWrittenWhileNodeAlive(
 			this,
 			_ => ApplySoulLampVfxPresentation());
 		ApplySoulLampVfxPresentation();
-
-		RefreshSoulLampFromOwner();
+		Refresh(_boundPlayer);
 	}
 
-	public override void _EnterTree()
+	public void Refresh(Player? player)
 	{
-		base._EnterTree();
-		_activeInstance = this;
-		CombatManager.Instance.StateTracker.CombatStateChanged += OnCombatStateChangedForSoulLamp;
-	}
-
-	public override void _ExitTree()
-	{
-		CombatManager.Instance.StateTracker.CombatStateChanged -= OnCombatStateChangedForSoulLamp;
-		if (_activeInstance == this)
-		{
-			_activeInstance = null;
-		}
-
-		base._ExitTree();
-	}
-
-	/// <summary>由 <see cref="SoulLampPower"/> 等在魂灯层数变化时调用。</summary>
-	internal static void TryRefresh(Player player)
-	{
-		if (player.Character is not QueenCharacter)
-		{
-			return;
-		}
-
-		if (_activeInstance?.OwnerPlayer != player)
-		{
-			return;
-		}
-
-		_activeInstance.RefreshSoulLampFromOwner();
-	}
-
-	private Player? OwnerPlayer => PlayerField.GetValue(this) as Player;
-
-	private void OnCombatStateChangedForSoulLamp(CombatState _)
-	{
-		RefreshSoulLampFromOwner();
-	}
-
-	private void RefreshSoulLampFromOwner()
-	{
-		Player? player = OwnerPlayer;
+		_boundPlayer = player;
 		if (player == null)
 		{
-			return;
-		}
-
-		if (_soulLampCounter != null)
-		{
-			_soulLampCounter.Refresh(player);
+			Visible = false;
 			return;
 		}
 
 		SoulLampPower? lamp = player.Creature?.GetPower<SoulLampPower>();
-		int amount = lamp?.DisplayAmount ?? 0;
-		ApplySoulLampDisplay(player, amount);
-	}
-
-	private NQueenSoulLampCounter? CreateSoulLampCounterFromScene()
-	{
-		PackedScene? scene = ResourceLoader.Load<PackedScene>(SoulLampCounterScenePath);
-		if (scene == null)
-		{
-			return null;
-		}
-
-		NQueenSoulLampCounter counter = scene.Instantiate<NQueenSoulLampCounter>(PackedScene.GenEditState.Disabled);
-		counter.Name = "SoulLampCounter";
-		counter.ZIndex = 1;
-		AddChild(counter);
-		return counter;
+		ApplySoulLampDisplay(player, lamp?.DisplayAmount ?? 0);
 	}
 
 	private void ApplySoulLampDisplay(Player player, int amount)
@@ -183,6 +97,7 @@ public partial class NQueenEnergyCounter : NEnergyCounter
 			return;
 		}
 
+		Visible = true;
 		if (_soulLampLayer != null)
 		{
 			_soulLampLayer.Visible = true;
