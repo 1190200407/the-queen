@@ -63,7 +63,6 @@ public sealed class SoulLampSingleton : HookedSingletonModel, ISecondaryResource
 			return;
 		}
 
-		NQueenEnergyCounter.TryRefresh(context.Player);
 		await SoulLampHook.AfterAmountChanged(
 			context.CombatState,
 			new ThrowingPlayerChoiceContext(),

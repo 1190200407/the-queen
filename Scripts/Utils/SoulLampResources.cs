@@ -3,11 +3,13 @@ using STS2RitsuLib.Combat.SecondaryResources;
 using ComicChess.TheQueen;
 using Godot;
 using MegaCrit.Sts2.Core.Entities.Players;
+using MegaCrit.Sts2.Core.Nodes.Combat;
 using STS2RitsuLib.Scaffolding.Godot.NodeAttachments;
 
 public static class SoulLampResources
 {
     public const string SoulLampLocalId = "SoulLamp";
+    private const string SoulLampCombatCounterScenePath = "res://TheQueen/scenes/ui/queen_soul_lamp_counter.tscn";
 
     public static SecondaryResourceDefinition SoulLampDefinition { get; private set; } = null!;
     public static string SoulLampId { get; private set; } = string.Empty;
@@ -25,6 +27,20 @@ public static class SoulLampResources
             largeIconPath: "res://TheQueen/images/charui/soul_lamp.png"
         ));
         SoulLampId = SoulLampDefinition.Id;
+        registry.AlwaysShowInCombatUiForCharacter<QueenCharacter>(SoulLampDefinition.LocalId);
+        registry.RegisterCombatUi(
+            "soul_lamp_combat_counter",
+            static _ => ResourceLoader
+                .Load<PackedScene>(SoulLampCombatCounterScenePath)
+                .Instantiate<NQueenSoulLampCounter>(PackedScene.GenEditState.Disabled),
+            static ctx => ctx.Node.Refresh(ctx.Player, ctx.VisibleDefinitions),
+            new NodeAttachmentOptions
+            {
+                Name = "SoulLampCombatCounter",
+                AttachParentSelector = static parent =>
+                    parent is NCombatUi combatUi ? combatUi.EnergyCounterContainer : parent,
+                ChildIndex = 0,
+            });
         registry.RegisterMultiplayerPlayerStateUi(
             SoulLampDefinition.LocalId,
             static _ => 
