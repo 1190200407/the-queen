@@ -444,9 +444,9 @@
     "THE_QUEEN_CARD_SCHIZOPHRENIA.title": "Шизофрения",
     "THE_QUEEN_CARD_SCHIZOPHRENIA.description": "Примените {VulnerablePower:diff()} [gold]Уязвимый[/gold] и {WeakPower:diff()} [gold]Слабый[/gold]. Разделите [gold]Уязвимость[/gold] и [gold]Слабость[/gold] цели на 2 и разделите их заряды поровну.",
     "THE_QUEEN_CARD_UNKNOWN_SOUL.title": "Безымянная душа",
-    "THE_QUEEN_CARD_UNKNOWN_SOUL.description": "[gold]Призовите[/gold] [gold]Амальгаму[/gold] на {Summon:diff()}.",
+    "THE_QUEEN_CARD_UNKNOWN_SOUL.description": "Не добавляется в колоду.\nПри подборе добавьте в колоду 1 случайную обычную карту монстра.",
     "THE_QUEEN_CARD_UNKNOWN_SOUL_UNCOMMON.title": "Безымянная душа",
-    "THE_QUEEN_CARD_UNKNOWN_SOUL_UNCOMMON.description": "[gold]Призовите[/gold] [gold]Амальгаму[/gold] на {Summon:diff()}.",
+    "THE_QUEEN_CARD_UNKNOWN_SOUL_UNCOMMON.description": "Не добавляется в колоду.\nПри подборе добавьте в колоду 1 случайную необычную карту монстра.",
     "THE_QUEEN_CARD_UNKNOWN_SOUL_RARE.title": "Безымянная душа",
-    "THE_QUEEN_CARD_UNKNOWN_SOUL_RARE.description": "[gold]Призовите[/gold] [gold]Амальгаму[/gold] на {Summon:diff()}."
+    "THE_QUEEN_CARD_UNKNOWN_SOUL_RARE.description": "Не добавляется в колоду.\nПри подборе добавьте в колоду 1 случайную редкую карту монстра."
 }

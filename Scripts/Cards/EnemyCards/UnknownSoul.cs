@@ -1,66 +1,93 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using MegaCrit.Sts2.Core.Entities.Cards;
-using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Entities.Players;
+using MegaCrit.Sts2.Core.Factories;
+using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.CardPools;
-using STS2RitsuLib.Cards.DynamicVars;
+using MegaCrit.Sts2.Core.Rewards;
+using MegaCrit.Sts2.Core.Runs;
 using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace ComicChess.TheQueen;
 
-/// <summary>未登记怪物的普通战捕获占位：1 费消耗，召唤 5。</summary>
+/// <summary>未登记怪物的普通战捕获占位：拾起时替换为一张普通怪物卡。</summary>
 [RegisterCard(typeof(EnemyCardPool))]
 public sealed class UnknownSoul : UnknownSoulCardModel
 {
     public UnknownSoul()
-        : base(energyCost: 1, CardRarity.Common, summon: 5m)
+        : base(CardRarity.Common)
     {
     }
 }
 
-/// <summary>未登记怪物的精英战捕获占位：2 费消耗，召唤 15。</summary>
+/// <summary>未登记怪物的精英战捕获占位：拾起时替换为一张罕见怪物卡。</summary>
 [RegisterCard(typeof(EnemyCardPool))]
 public sealed class UnknownSoulUncommon : UnknownSoulCardModel
 {
     public UnknownSoulUncommon()
-        : base(energyCost: 2, CardRarity.Uncommon, summon: 15m)
+        : base(CardRarity.Uncommon)
     {
     }
 }
 
-/// <summary>未登记怪物的首领战捕获占位：3 费消耗，召唤 25。</summary>
+/// <summary>未登记怪物的首领战捕获占位：拾起时替换为一张稀有怪物卡。</summary>
 [RegisterCard(typeof(EnemyCardPool))]
 public sealed class UnknownSoulRare : UnknownSoulCardModel
 {
     public UnknownSoulRare()
-        : base(energyCost: 3, CardRarity.Rare, summon: 25m)
+        : base(CardRarity.Rare)
     {
     }
 }
 
 public abstract class UnknownSoulCardModel : QueenCardModel
 {
-    private readonly decimal _summon;
-
-    protected UnknownSoulCardModel(int energyCost, CardRarity rarity, decimal summon)
-        : base(energyCost, CardType.Skill, rarity, TargetType.Self, shouldShowInCardLibrary: false)
+    protected UnknownSoulCardModel(CardRarity rarity)
+        : base(-1, CardType.Skill, rarity, TargetType.Self, shouldShowInCardLibrary: false)
     {
-        _summon = summon;
     }
 
     public override int MaxUpgradeLevel => 0;
 
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
+    public override bool CanBeGeneratedInCombat => false;
 
-    protected override IEnumerable<DynamicVar> CanonicalVars =>
-    [
-        new SummonVar(_summon).WithSharedTooltip("QUEEN_SUMMON_DYNAMIC"),
-    ];
+    public override bool ShouldAddToDeck(CardModel card) => card is not UnknownSoulCardModel;
 
-    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    public override async Task AfterAddToDeckPrevented(CardModel card)
     {
-        _ = cardPlay;
-        await FriendlyAmalgamCmd.Summon(choiceContext, base.Owner, base.DynamicVars.Summon.BaseValue, this);
+        CardModel? replacement = CreateRandomMonsterCard(card.Owner, Rarity);
+        if (replacement != null)
+        {
+            await new SpecialCardReward(replacement, card.Owner).SelectUnsynchronized();
+        }
+    }
+
+    private static CardModel? CreateRandomMonsterCard(Player player, CardRarity rarity)
+    {
+        if (player.RunState is not { } runState)
+        {
+            return null;
+        }
+
+        CardPoolModel pool = ModelDb.CardPool<EnemyCardPool>();
+        List<CardModel> candidates = pool
+            .GetUnlockedCards(player.UnlockState, runState.CardMultiplayerConstraint)
+            .Where(card => card.Rarity == rarity && card.CanBeGeneratedInCombat)
+            .ToList();
+        if (candidates.Count == 0)
+        {
+            return null;
+        }
+
+        CardCreationOptions options = new CardCreationOptions(
+                [pool],
+                CardCreationSource.Other,
+                CardRarityOddsType.Uniform,
+                card => candidates.Any(candidate => candidate.Id == card.Id))
+            .WithFlags(CardCreationFlags.NoModifyHooks | CardCreationFlags.NoCardPoolModifications);
+
+        return CardFactory.CreateForReward(player, 1, options).FirstOrDefault()?.Card;
     }
 }
