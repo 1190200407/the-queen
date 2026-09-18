@@ -452,9 +452,9 @@
     "THE_QUEEN_CARD_SCHIZOPHRENIA.title":"Schizophrenia",
     "THE_QUEEN_CARD_SCHIZOPHRENIA.description":"Apply {VulnerablePower:diff()} [gold]Vulnerable[/gold] and {WeakPower:diff()} [gold]Weak[/gold]. Split the target's [gold]Vulnerable[/gold] and [gold]Weak[/gold] into 2 and divide their stacks evenly.",
     "THE_QUEEN_CARD_UNKNOWN_SOUL.title":"Unknown Soul",
-     "THE_QUEEN_CARD_UNKNOWN_SOUL.description":"[gold]Summon[/gold] {Summon:diff()}.\nDoes not add to your deck.\nWhen picked up, add 1 random Common Monster card to your deck.",
+    "THE_QUEEN_CARD_UNKNOWN_SOUL.description":"Does not add to your deck.\nWhen picked up, add 1 random Common Monster card to your deck.",
     "THE_QUEEN_CARD_UNKNOWN_SOUL_UNCOMMON.title":"Unknown Soul",
-     "THE_QUEEN_CARD_UNKNOWN_SOUL_UNCOMMON.description":"[gold]Summon[/gold] {Summon:diff()}.\nDoes not add to your deck.\nWhen picked up, add 1 random Uncommon Monster card to your deck.",
+    "THE_QUEEN_CARD_UNKNOWN_SOUL_UNCOMMON.description":"Does not add to your deck.\nWhen picked up, add 1 random Uncommon Monster card to your deck.",
     "THE_QUEEN_CARD_UNKNOWN_SOUL_RARE.title":"Unknown Soul",
-     "THE_QUEEN_CARD_UNKNOWN_SOUL_RARE.description":"[gold]Summon[/gold] {Summon:diff()}.\nDoes not add to your deck.\nWhen picked up, add 1 random Rare Monster card to your deck."
+    "THE_QUEEN_CARD_UNKNOWN_SOUL_RARE.description":"Does not add to your deck.\nWhen picked up, add 1 random Rare Monster card to your deck."
 }
