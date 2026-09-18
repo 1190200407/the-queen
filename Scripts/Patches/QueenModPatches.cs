@@ -46,6 +46,8 @@ internal sealed class QueenModPatches : IModPatches
 		patcher.RegisterPatch<WriggleMerchantPurchasePatch>();
 		patcher.RegisterPatch<PaperCutsPickupShouldAddToDeckPatch>();
 		patcher.RegisterPatch<PaperCutsMerchantPurchasePatch>();
+		patcher.RegisterPatch<UnknownSoulPickupShouldAddToDeckPatch>();
+		patcher.RegisterPatch<UnknownSoulMerchantPurchasePatch>();
 
 		// UI / 预览 / 表现（可选失败不关停 mod）
 		patcher.RegisterPatch<BoundDescriptionPreviewPatch>();

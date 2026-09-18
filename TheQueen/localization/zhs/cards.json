@@ -452,9 +452,9 @@
     "THE_QUEEN_CARD_SCHIZOPHRENIA.title":"精神分裂",
     "THE_QUEEN_CARD_SCHIZOPHRENIA.description":"给予{VulnerablePower:diff()}层[gold]易伤[/gold]与{WeakPower:diff()}层[gold]虚弱[/gold]。将目标身上的[gold]易伤[/gold]、[gold]虚弱[/gold]拆成2个并均分层数。",
     "THE_QUEEN_CARD_UNKNOWN_SOUL.title":"无名之魂",
-    "THE_QUEEN_CARD_UNKNOWN_SOUL.description":"[gold]召唤[/gold]{Summon:diff()}。",
+    "THE_QUEEN_CARD_UNKNOWN_SOUL.description":"[gold]召唤[/gold]{Summon:diff()}。\n不加入牌组。\n拾起时，将1张随机普通怪物卡牌加入牌组。",
     "THE_QUEEN_CARD_UNKNOWN_SOUL_UNCOMMON.title":"无名之魂",
-    "THE_QUEEN_CARD_UNKNOWN_SOUL_UNCOMMON.description":"[gold]召唤[/gold]{Summon:diff()}。",
+    "THE_QUEEN_CARD_UNKNOWN_SOUL_UNCOMMON.description":"[gold]召唤[/gold]{Summon:diff()}。\n不加入牌组。\n拾起时，将1张随机罕见怪物卡牌加入牌组。",
     "THE_QUEEN_CARD_UNKNOWN_SOUL_RARE.title":"无名之魂",
-    "THE_QUEEN_CARD_UNKNOWN_SOUL_RARE.description":"[gold]召唤[/gold]{Summon:diff()}。"
+    "THE_QUEEN_CARD_UNKNOWN_SOUL_RARE.description":"[gold]召唤[/gold]{Summon:diff()}。\n不加入牌组。\n拾起时，将1张随机稀有怪物卡牌加入牌组。"
 }

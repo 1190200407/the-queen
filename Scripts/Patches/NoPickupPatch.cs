@@ -181,3 +181,61 @@ internal sealed class PaperCutsMerchantPurchasePatch : IPatchMethod
 		return (success, goldSpent);
 	}
 }
+
+internal sealed class UnknownSoulPickupShouldAddToDeckPatch : IPatchMethod
+{
+	public static string PatchId => "thequeen_unknown_soul_should_add_to_deck";
+	public static string Description => "Unknown Soul: block deck add, route to card logic";
+	public static bool IsCritical => true;
+
+	public static ModPatchTarget[] GetTargets() =>
+	[
+		new(typeof(Hook), nameof(Hook.ShouldAddToDeck)),
+	];
+
+	public static void Postfix(ref bool __result, IRunState runState, CardModel card, ref AbstractModel? preventer)
+	{
+		_ = runState;
+		if (card is UnknownSoulCardModel)
+		{
+			__result = false;
+			preventer = card;
+		}
+	}
+}
+
+internal sealed class UnknownSoulMerchantPurchasePatch : IPatchMethod
+{
+	public static string PatchId => "thequeen_unknown_soul_merchant_purchase";
+	public static string Description => "Unknown Soul: allow merchant purchase without deck add";
+	public static bool IsCritical => true;
+
+	public static ModPatchTarget[] GetTargets() =>
+	[
+		new(typeof(MerchantCardEntry), "OnTryPurchase", new[] { typeof(MerchantInventory), typeof(bool) }),
+	];
+
+	public static void Postfix(ref Task<(bool, int)> __result, MerchantCardEntry __instance, bool ignoreCost)
+	{
+		__result = AdjustMerchantPurchaseAsync(__result, __instance, ignoreCost);
+	}
+
+	private static async Task<(bool, int)> AdjustMerchantPurchaseAsync(
+		Task<(bool, int)> original,
+		MerchantCardEntry __instance,
+		bool ignoreCost)
+	{
+		(bool success, int goldSpent) = await original.ConfigureAwait(false);
+		if (success)
+		{
+			return (success, goldSpent);
+		}
+
+		if (__instance.CreationResult?.Card is UnknownSoulCardModel)
+		{
+			return (true, ignoreCost ? 0 : __instance.Cost);
+		}
+
+		return (success, goldSpent);
+	}
+}
