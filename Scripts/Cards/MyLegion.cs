@@ -15,13 +15,13 @@ namespace ComicChess.TheQueen;
 [RegisterCard(typeof(QueenCardPool))]
 public sealed class MyLegion : QueenCardModel
 {
-	private const int energyCost = 2;
+	private const int energyCost = 1;
 	private const CardType type = CardType.Skill;
-	private const CardRarity rarity = CardRarity.Rare;
+	private const CardRarity rarity = CardRarity.Uncommon;
 	private const TargetType targetType = TargetType.Self;
 	private const bool shouldShowInCardLibrary = true;
 	public override CardMultiplayerConstraint MultiplayerConstraint => CardMultiplayerConstraint.MultiplayerOnly;
-	protected override IEnumerable<DynamicVar> CanonicalVars => [new IntVar("SoulLamp", 2)];
+	protected override IEnumerable<DynamicVar> CanonicalVars => [new IntVar("SoulLamp", 1)];
 
 	protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
 	[
